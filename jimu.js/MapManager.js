@@ -345,15 +345,15 @@ define([
           }
           break;
 
-        case "ChengDiDynamic".toLowerCase():
-          if (layerUrl.indexOf("http") < 0) {
-            layerUrl = this.appConfig.map.CADServiceUrl.replace(/{name}/i, layerUrl);
-          }
-          layer = new ChengDiDynamicMapServiceLayer(layerUrl);
-          if (layerLabel) {
-            layer.label = layerLabel;
-          }
-          break;
+        // case "ChengDiDynamic".toLowerCase():
+        //   if (layerUrl.indexOf("http") < 0) {
+        //     layerUrl = this.appConfig.map.CADServiceUrl.replace(/{name}/i, layerUrl);
+        //   }
+        //   layer = new ChengDiDynamicMapServiceLayer(layerUrl);
+        //   if (layerLabel) {
+        //     layer.label = layerLabel;
+        //   }
+        //   break;
 
         case "wms":
           layer = new WMSLayer(layerUrl);

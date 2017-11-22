@@ -22,7 +22,6 @@
       "right": 0,
       "bottom": 0
     },
-    "CADServiceUrl": "http://139.196.105.31:9001/Cad/Rest/{name}/MapServer",
     "basemaps": [
       {
         "label": "矢量图",
@@ -463,6 +462,11 @@
         "uri": "widgets/DynamicRendererLayer/Widget",
         "config": "configs/DynamicRendererLayer/config_DynamicRendererLayer_JiaoWei.json",
         "id": "DynamicRendererLayerWidget"
+      },
+      {
+        "uri": "widgets/CADSublayerList/Widget",
+        "config": "configs/CADSublayerList/config_CADSublayerList_www.json",
+        "id": "CADSublayerListWidget"
       }
     ]
   }
