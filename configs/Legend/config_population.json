@@ -1,0 +1,12 @@
+{
+  "legend":{
+    "arrangement": 0,
+    "autoUpdate": true,
+    "respectCurrentMapScale": true,
+    "layerInfos": [
+      {
+        "label": "行政区人口密度"
+      }
+    ]
+  }
+}

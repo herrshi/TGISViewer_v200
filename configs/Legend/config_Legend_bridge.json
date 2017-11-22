@@ -1,0 +1,19 @@
+{
+  "legend":{
+    "arrangement": 0,
+    "autoUpdate": true,
+    "respectCurrentMapScale": true,
+    "layerInfos": [
+
+      {
+        "label": "苏州河桥梁流量"
+      },
+      {
+        "label": "黄浦江桥梁流量"
+      },
+      {
+        "label": "桥隧线"
+      }
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "legend":{
+    "arrangement": 0,
+    "autoUpdate": true,
+    "respectCurrentMapScale": true,
+    "layerInfos": [
+      {
+        "label": "轨道交通换乘量"
+      }
+    ]
+  }
+}

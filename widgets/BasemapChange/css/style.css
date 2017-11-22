@@ -1,0 +1,56 @@
+.jimu-widget-BasemapChange{
+    width: 100%;
+    height: 100%;
+    min-width: 250px;
+    min-height: 150px;
+}
+
+.jimu-widget-BasemapChange .BasemapChange{
+   /* position:absolute;
+    right:100px;
+    top:30px;
+    width:380px;
+    height:280px;
+    z-Index:999;*/
+}
+
+.jimu-widget-BasemapChange .esriBasemapGalleryNode:hover{
+    color: #51B1FE;
+}
+
+.jimu-widget-BasemapChange .esriBasemapGalleryThumbnail {
+    border: 1px solid #fff;
+    margin: 1px;
+    -moz-box-shadow: 0px 0px 0px #000;
+    -webkit-box-shadow: 0px 0px 0px #000;
+    box-shadow:  0px 0px 7px #000;
+}
+.jimu-widget-BasemapChange .esriBasemapGallerySelectedNode{
+    /*background-color: #D9DDE0;*/
+    color: #51B1FE;
+}
+.jimu-widget-BasemapChange .esriBasemapGallerySelectedNode .esriBasemapGalleryLabelContainer{
+    /*background-color: #D9DDE0;*/
+}
+
+.jimu-widget-BasemapChange .esriBasemapGalleryThumbnail{
+    width: 84px;
+    height: 67px;
+}
+.jimu-widget-BasemapChange .esriBasemapGallerySelectedNode .esriBasemapGalleryThumbnail{
+    border-color: #51B1FE !important;
+}
+
+.jimu-widget-BasemapChange .esriBasemapGalleryNode {
+    width: 85px;
+    margin: 5px 10px 0 10px;
+}
+
+.jimu-rtl .jimu-widget-BasemapChange .esriBasemapGalleryNode {
+    float: right;
+}
+
+.jimu-widget-BasemapChange .esriBasemapGalleryThumbnail {
+    display: block;
+    margin: 1px auto;
+}

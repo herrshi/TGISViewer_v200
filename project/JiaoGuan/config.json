@@ -1,0 +1,255 @@
+﻿{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "QBB",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "DEVICESTATE",
+          "description": "诱导板",
+          "defaultSymbol": {
+            "url": "images/mapIcons/gray/4.png",
+            "height": 19,
+            "width": 16,
+            "yoffset": 13,
+            "type": "esriPMS"
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "0",
+              "symbol": {
+                "url": "images/mapIcons/yellow/4.png",
+                "height": 19,
+                "width": 16,
+                "yoffset": 13,
+                "type": "esriPMS"
+              }
+            },
+            {
+              "value": "1",
+              "symbol": {
+                "url": "images/mapIcons/green/4.png",
+                "height": 19,
+                "width": 16,
+                "yoffset": 13,
+                "type": "esriPMS"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "SXJ",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "DEVICESTATE",
+          "description": "摄像机",
+          "defaultSymbol": {
+            "url": "images/mapIcons/gray/5.png",
+            "height": 19,
+            "width": 16,
+            "yoffset": 13,
+            "type": "esriPMS"
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "0",
+              "symbol": {
+                "url": "images/mapIcons/yellow/5.png",
+                "height": 19,
+                "width": 16,
+                "yoffset": 13,
+                "type": "esriPMS"
+              }
+            },
+            {
+              "value": "1",
+              "symbol": {
+                "url": "images/mapIcons/green/5.png",
+                "height": 19,
+                "width": 16,
+                "yoffset": 13,
+                "type": "esriPMS"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "XHJ",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "DEVICESTATE",
+          "description": "信号机",
+          "defaultSymbol": {
+            "url": "images/mapIcons/gray/6.png",
+            "height": 19,
+            "width": 16,
+            "yoffset": 13,
+            "type": "esriPMS"
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "0",
+              "symbol": {
+                "url": "images/mapIcons/yellow/6.png",
+                "height": 19,
+                "width": 16,
+                "yoffset": 13,
+                "type": "esriPMS"
+              }
+            },
+            {
+              "value": "1",
+              "symbol": {
+                "url": "images/mapIcons/green/6.png",
+                "height": 19,
+                "width": 16,
+                "yoffset": 13,
+                "type": "esriPMS"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "KK",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/5",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "DEVICESTATE",
+          "description": "卡口",
+          "defaultSymbol": {
+            "url": "images/mapIcons/gray/1.png",
+            "height": 19,
+            "width": 16,
+            "yoffset": 13,
+            "type": "esriPMS"
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "0",
+              "symbol": {
+                "url": "images/mapIcons/yellow/1.png",
+                "height": 19,
+                "width": 16,
+                "yoffset": 13,
+                "type": "esriPMS"
+              }
+            },
+            {
+              "value": "1",
+              "symbol": {
+                "url": "images/mapIcons/green/1.png",
+                "height": 19,
+                "width": 16,
+                "yoffset": 13,
+                "type": "esriPMS"
+              }
+            }
+          ]
+        }
+      }
+
+
+    ],
+    "mapOptions": {
+      "extent": {
+        "xmin": 13510044,
+        "ymin": 3647099,
+        "xmax": 13546071,
+        "ymax": 3682159,
+        "spatialReference": {
+          "wkid": 102100
+        }
+      },
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "101.95.186.146:8997",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      }
+    ]
+  }
+}

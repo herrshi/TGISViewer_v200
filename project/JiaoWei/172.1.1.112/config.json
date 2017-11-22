@@ -1,0 +1,470 @@
+﻿{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "CADServiceUrl": "http://139.196.105.31:9001/Cad/Rest/{name}/MapServer",
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base/MapServer",
+        "type": "tiled",
+        "visible": true
+      },
+      {
+        "label": "地形图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_bw/MapServer",
+        "type": "tiled",
+        "visible": false
+      },
+      {
+        "label": "2005年",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_aerial_2005/MapServer",
+        "type": "tiled",
+        "visible": false
+      }
+    ],
+    "operationallayers": [
+
+      {
+        "label": "规划航道",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/WaterWay/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "title": "",
+              "content": "<b>${RefName}</b>"
+            }
+          }
+        }
+      },
+      {
+        "label": "轨道控制区",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Track_Control/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "道路",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Road/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "1": {
+            "infoTemplate": {
+              "title": "<b>国道</b>",
+              "content": "<b>${GQ_RN}-${NAME}</b><br><b>车道数: </b>${GQ_LANE}<br><b>宽度: </b>${GQ_WIDTH}米<br><b>材质: </b>${GQ_MATRL}<br><b>技术等级: </b>${GQ_RTEG}公路<br><b>所属区县: </b>${GQ_PAC}"
+            }
+          },
+          "2": {
+            "infoTemplate": {
+              "title": "<b>省道</b>",
+              "content": "<b>${GQ_RN}-${NAME}</b><br><b>车道数: </b>${GQ_LANE}<br><b>宽度: </b>${GQ_WIDTH}米<br><b>材质: </b>${GQ_MATRL}<br><b>技术等级: </b>${GQ_RTEG}公路<br><b>所属区县: </b>${GQ_PAC}"
+            }
+          },
+          "3": {
+            "infoTemplate": {
+              "title": "<b>城市主干道</b>",
+              "content": "<b>${GQ_NAME}</b><br><b>车道数: </b>${GQ_LANE}<br><b>宽度: </b>${GQ_WIDTH}米<br><b>所属区县: </b>${GQ_PAC}"
+            }
+          },
+          "4": {
+            "infoTemplate": {
+              "title": "<b>城市次干道</b>",
+              "content": "<b>${GQ_NAME}</b><br><b>车道数: </b>${GQ_LANE}<br><b>宽度: </b>${GQ_WIDTH}米<br><b>所属区县: </b>${GQ_PAC}"
+            }
+          },
+          "5": {
+            "infoTemplate": {
+              "title": "<b>城市支路</b>",
+              "content": "<b>${GQ_NAME}</b><br><b>车道数: </b>${GQ_LANE}<br><b>宽度: </b>${GQ_WIDTH}米<br><b>所属区县: </b>${GQ_PAC}"
+            }
+          },
+          "6": {
+            "infoTemplate": {
+              "title": "<b>快速路</b>",
+              "content": "<b>${GQ_NAME}</b><br><b>车道数: </b>${GQ_LANE}<br><b>宽度: </b>${GQ_WIDTH}米<br><b>所属区县: </b>${GQ_PAC}"
+            }
+          }
+        }
+      },
+      {
+        "label": "道路交通设施",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Road_App/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "9": {
+            "infoTemplate": {
+              "content": "<b>${Busname} - ${Updown}</b><br><b>起讫点: </b>${Startstation} - ${Endstation}<br><b>时间: </b>${Starting_time} - ${Ending_time}<br><b>发车间隔: </b>${Frequency}"
+            }
+          },
+          "11": {
+            "infoTemplate": {
+              "content": "<b>${SubwayName} - ${Name}</b>"
+            }
+          },
+          "12": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>经过线路: </b>${LINE_NAME}"
+            }
+          },
+          "13": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>时间: </b>${START_TIME}--${END_TIME}<br><b>公司: </b>${COMPANY}<br><b>长度: </b>${LENGTH}公里<br><b>发车间隔: </b>${INTERVAL}分钟"
+            }
+          }
+        }
+      },
+      {
+        "label": "航标",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Waterway_App/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "轮渡线",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Ferry_Route/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "码头",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Waterway_App_P/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "桥隧",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/MAP0512_BRIDGE_line/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "水系",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/River/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "水运交通设施",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Waterway_App_All/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "18": {
+            "infoTemplate": {
+              "content": "<b>${Name}</b><br><b>航道类型: </b>${航道类型}<br><b>位置: </b>${Address}<br><b>等级: </b>${Grade}"
+            }
+          },
+          "19": {
+            "infoTemplate": {
+              "content": "<b>${Name}</b><br><b>航道类型: </b>${航道类型}<br><b>位置: </b>${Address}<br><b>等级: </b>${Grade}"
+            }
+          }
+        }
+      },
+      {
+        "label": "铁轨",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Railway/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "机场控制区",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Airport/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "省道网规划",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Provincial_Road/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${GQ_RN}-${GQ_NAME}</b><br><b>类型: </b>${type_1}<br><b>技术等级: </b>${GQ_RTEG}公路<br><b>规划里程: </b>${规划里程}公里<br><b>起讫点: </b>${起讫点}"
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${GQ_RN}-${GQ_NAME}</b><br><b>类型: </b>${type_1}<br><b>技术等级: </b>${GQ_RTEG}公路<br><b>规划里程: </b>${规划里程}公里<br><b>起讫点: </b>${起讫点}"
+            }
+          },
+          "2": {
+            "infoTemplate": {
+              "content": "<b>${GQ_RN}-${GQ_NAME}</b><br><b>类型: </b>${type_1}<br><b>技术等级: </b>${GQ_RTEG}公路<br><b>规划里程: </b>${规划里程}公里<br><b>起讫点: </b>${起讫点}"
+            }
+          },
+          "3": {
+            "infoTemplate": {
+              "content": "<b>${GQ_RN}-${GQ_NAME}</b><br><b>类型: </b>${type_1}<br><b>技术等级: </b>${GQ_RTEG}公路<br><b>规划里程: </b>${规划里程}公里<br><b>起讫点: </b>${起讫点}"
+            }
+          }
+        }
+      },
+      {
+        "label": "港区规划",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/20170718_20/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>港区</b><br>${NAME}<br>${TYPE}"
+            }
+          }
+        }
+      },
+      {
+        "label": "十三五规划图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/135_Project/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "道路搜索",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_road/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "内河港区",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/neihegangqu/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>航道名称: </b>${航道名称}<br><b>码头等级: </b>${码头等级吨}吨<br><b>港区性质: </b>${港口性质}<br><b>所属区域: </b>${所属区域}<br><b>备注: </b>${备注}"
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>航道名称: </b>${航道名称}<br><b>码头等级: </b>${码头等级吨}吨<br><b>港区性质: </b>${港区性质}<br><b>所属区域: </b>${所属区域}<br><b>备注: </b>${备注}"
+            }
+          }
+        }
+      },
+      {
+        "label": "20号线一期工程",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Metro20FirstStage/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>里程: </b>${Mileage}米<br><b>点类型: </b>${PointType}<br><b>标高: </b>${Height}米"
+            }
+          }
+        }
+      },
+      {
+        "label": "中山南路地下道路",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ZSNL_UndergroundRoad/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>里程: </b>${里程}米<br><b>点类型: </b>${点类}<br><b>标高: </b>${标高}米"
+            }
+          }
+        }
+      },
+      {
+        "label": "公交枢纽",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/gongjiaoshuniu/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${name}</b><br><b>位置: </b>${location}<br><b>建设情况: </b>${建设情况}<br><b>类型: </b>${lx}-${XJJTFS}"
+            }
+          }
+        }
+      },
+      {
+        "label": "十三五公交枢纽",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/gongjiaoshuniu_135/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${name}</b><br><b>位置: </b>${location}<br><b>规划面积: </b>${ghmj_（平}平方米<br><b>建设情况: </b>${建设情况}<br><b>建设主体: </b>${建设主体}<br><b>总投资: </b>${总投资_万}万<br><b>类型: </b>${lx}-${XJJTFS}<br><b>备注: </b>${备注1}"
+            }
+          }
+        }
+      },
+      {
+        "label": "公交专用道",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/gongjiaoZYD/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${DLMC}(${QZLD})</b><br><b>时间段: </b>${SYSJD}<br><b>道路等级: </b>${DLDJ}<br><b>长度: </b>${Length}公里<br><b>车道数: </b>${JDCDS}"
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${DLMC}(${FW})</b><br><b>状态: </b>${ZT}"
+            }
+          }
+        }
+      },
+      {
+        "label": "骨干网道路深化规划",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Main_Road/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${编号} - ${路名}</b><br><b>起讫点: </b>${起讫点}<br><b>等级: </b>${等级} - ${type_1}<br><b>道路宽度: </b>${道路宽度KM}公里<br><b>隔离带宽度: </b>${隔离带宽度}米<br><b>红线宽度: </b>${红线宽度M}米"
+            }
+          }
+        }
+      },
+      {
+        "label": "宣桥段平面图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/XuanQiaoDuan/MapServer",
+        "type": "dynamic",
+        "visible": false
+      }
+    ],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false,
+      "scale": 64000,
+      "center": {"x": 0, "y": 0, "spatialReference": {"wkt": "PROJCS[\"shanghaicity\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",-3457147.81],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",121.2751921],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]"}}
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.1.1.112:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/CustomSwipe/Widget",
+        "version": "2.4",
+        "id": "CustomSwipeWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/RoadSearch/Widget",
+        "version": "2.4",
+        "id": "RoadSearchWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/CADGeoprocessor/Widget",
+        "version": "2.4",
+        "id": "CADGeoprocessorWidget"
+      },
+      {
+        "uri": "widgets/GeometrySearch/Widget",
+        "version": "2.4",
+        "name": "GeometrySearch",
+        "config": "configs/GeometrySearch/config_GeometrySearch.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "GeometrySearchWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config_Draw.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 10,
+          "width": "100%",
+	      "left":0,
+	      "right":0
+        },
+        "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/MultiSearch/Widget",
+        "config": "configs/MultiSearch/config_MultiSearch_JiaoWei.json",
+        "id": "MultiSearchWidget"
+      },
+      {
+        "uri": "widgets/DynamicRendererLayer/Widget",
+        "config": "configs/DynamicRendererLayer/config_DynamicRendererLayer_JiaoWei.json",
+        "id": "DynamicRendererLayerWidget"
+      }
+    ]
+  }
+}

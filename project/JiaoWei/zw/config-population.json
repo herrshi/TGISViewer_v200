@@ -1,0 +1,213 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "token": {
+      "needToken": true,
+      "tokenUrl": "http://map.smi.sh.cegn.cn/RemoteTokenServer",
+      "username": "shjtdepart",
+      "password": "shjt1703",
+      "expiration": 1440
+    },
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/BaseMap/MapServer?token={token}",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "行政区人口密度",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_County/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "infoTemplate": {
+          "title": "${FEATURENAME}",
+          "content": "<b>人口总量: </b>${PopTotal}万人<br><b>人口密度: </b>${PopDensity}人/平方公里"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255,255,255,255],
+              "width": 2
+            }
+          },
+          "visualVariables": [
+            {
+              "type": "colorInfo",
+              "field": "PopDensity",
+              "stops": [
+                {
+                  "value": 1000,
+                  "color": [218, 245, 254, 200]
+                },
+                {
+                  "value": 12162,
+                  "color": [163, 222, 208, 200]
+                },
+                {
+                  "value": 20000,
+                  "color": [43, 155, 82, 200]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "label": "行政区人口总量",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_County/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "infoTemplate": {
+          "title": "${FEATURENAME}",
+          "content": "<b>人口总量: </b>${PopTotal}万人<br><b>人口密度: </b>${PopDensity}人/平方公里"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255,255,255,255],
+              "width": 2
+            }
+          },
+          "visualVariables": [
+            {
+              "type": "colorInfo",
+              "field": "PopTotal",
+              "stops": [
+                {
+                  "value": 20,
+                  "color": [218, 245, 254, 200]
+                },
+                {
+                  "value": 550,
+                  "color": [43, 155, 82, 200]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false,
+      "scale": 500000,
+      "center": {"x": 0, "y": 0, "spatialReference": {"wkt": "PROJCS[\"shanghaicity\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",-3457147.81],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",121.2751921],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]"}}
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "122.144.195.126:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/Legend/Widget",
+        "config": "configs/Legend/config_Legend_population.json",
+        "position": {
+          "left": 15,
+          "bottom": 20,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "LegendWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/GeometrySearch/Widget",
+        "version": "2.4",
+        "name": "GeometrySearch",
+        "config": "configs/GeometrySearch/config_GeometrySearch.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "GeometrySearchWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config_Draw.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 10,
+          "width": "100%"
+        },
+        "id": "TopToolbarWidget"
+      }
+    ]
+  }
+}

@@ -1,0 +1,246 @@
+<div>
+  <div class="gis-tool-box">
+    <div class="gis-tool">
+      <div class="gis-tool-bg">
+        <table align="center" style="border-collapse: collapse">
+          <tr>
+            <td class="lbg"></td>
+            <td class="mbg">
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="放大"
+                        data-dojo-attach-point="btnZoomIn"
+                        data-dojo-attach-event="onclick:_onBtnZoomInClicked">
+                  <i class="fa fa-plus fa-lg"></i>
+                </button>
+              </span>
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="缩小"
+                        data-dojo-attach-point="btnZoomOut"
+                        data-dojo-attach-event="onclick:_onBtnZoomOutClicked">
+                  <i class="fa fa-minus fa-lg"></i>
+                </button>
+              </span>
+
+              <span>&nbsp;</span>
+
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="默认范围"
+                        data-dojo-attach-point="btnHome"
+                        data-dojo-attach-event="onclick:_onBtnHomeClicked">
+                  <i class="fa fa-home fa-lg"></i>
+                </button>
+              </span>
+
+              <span>&nbsp;</span>
+
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="上一视图"
+                        data-dojo-attach-point="btnPrevious"
+                        data-dojo-attach-event="onclick:_onBtnPreviousClicked">
+                  <i class="fa fa-arrow-circle-left fa-lg"></i>
+                </button>
+              </span>
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="下一视图"
+                        data-dojo-attach-point="btnNext"
+                        data-dojo-attach-event="onclick:_onBtnNextClicked">
+                  <i class="fa fa-arrow-circle-right fa-lg"></i>
+                </button>
+              </span>
+
+              <span>&nbsp;</span>
+
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="绘制"
+                        data-dojo-attach-point="btnWidgetDraw"
+                        data-dojo-attach-event="onclick:_onBtnWidgetDrawClicked">
+                  <i class="fa fa-pencil fa-lg"></i>
+                </button>
+              </span>
+
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="图形搜索"
+                        data-dojo-attach-point="btnWidgetGeometrySearch"
+                        data-dojo-attach-event="onclick:_onBtnWidgetGeometrySearchClicked">
+                  <i class="fa fa-search fa-lg"></i>
+                </button>
+              </span>
+
+              <span>&nbsp;</span>
+
+              <span>
+                <button class="btn btn-black btn-active" dataM-toggle="tooltip"
+                        data-placement="bottom" title="矢量图"
+                        data-dojo-attach-point="btnBaseMap"
+                        data-dojo-attach-event="onclick:_onBtnBaseMapClicked">
+                  <i class="fa fa-globe fa-lg"></i>
+                </button>
+              </span>
+
+              <div class="btn-group">
+                <button class="btn btn-black dropdown-toggle" data-toggle="dropdown" title="航拍图"
+                        data-dojo-attach-point="btnAerialMap">
+                  <i class="fa fa-object-group margin-right-5" style="font-size: 13px;"></i>
+                  <i class="fa fa-angle-down" style="margin-right: -4px;"></i>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-black" role="menu">
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMapNewestClicked">
+                      <i class="fa fa-picture-o"></i> 最新航空影像
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap1948Clicked">
+                      <i class="fa fa-picture-o"></i> 1948年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap1979Clicked">
+                      <i class="fa fa-picture-o"></i> 1979年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap1994Clicked">
+                      <i class="fa fa-picture-o"></i> 1994年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2005Clicked">
+                      <i class="fa fa-picture-o"></i> 2005年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2006Clicked">
+                      <i class="fa fa-picture-o"></i> 2006年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2008Clicked">
+                      <i class="fa fa-picture-o"></i> 2008年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2010Clicked">
+                      <i class="fa fa-picture-o"></i> 2010年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2011Clicked">
+                      <i class="fa fa-picture-o"></i> 2011年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap20121Clicked">
+                      <i class="fa fa-picture-o"></i> 2012年上半年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap20122Clicked">
+                      <i class="fa fa-picture-o"></i> 2012年下半年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2013Clicked">
+                      <i class="fa fa-picture-o"></i> 2013年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2014Clicked">
+                      <i class="fa fa-picture-o"></i> 2014年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2015Clicked">
+                      <i class="fa fa-picture-o"></i> 2015年
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnAerialMap2016Clicked">
+                      <i class="fa fa-picture-o"></i> 2016年
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="btn-group">
+                <button class="btn btn-black dropdown-toggle" data-toggle="dropdown" title="线划图"
+                        data-dojo-attach-point="btnTopoMap">
+                  <i class="fa fa-map margin-right-5" style="font-size: 13px;"></i>
+                  <i class="fa fa-angle-down" style="margin-right: -4px;"></i>
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-black" role="menu">
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnTopoMapNewestClicked">
+                      <i class="fa fa-picture-o"></i> 线划图
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnTopoMapNewestColorClicked">
+                      <i class="fa fa-picture-o"></i> 彩色线划图
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnTopoMapNewest10kClicked">
+                      <i class="fa fa-picture-o"></i> 线划图(中比例尺)
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnTopoMapNewest10kColorClicked">
+                      <i class="fa fa-picture-o"></i> 彩色线划图(中比例尺)
+                    </a>
+                  </li>
+                  <li>
+                    <a href="javascript:" data-dojo-attach-event="onclick:_onBtnTopoMapClicked">
+                      <i class="fa fa-picture-o"></i> 线划图(2016)
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+
+
+              <!--<span>-->
+                <!--<button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="地形图"-->
+                        <!--data-dojo-attach-point="btnTopoMap"-->
+                        <!--data-dojo-attach-event="onclick:_onBtnTopoMapClicked">-->
+                  <!--<i class="fa fa-map fa-lg"></i>-->
+                <!--</button>-->
+              <!--</span>-->
+
+              <span>&nbsp;</span>
+
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="保存"
+                        data-dojo-attach-point="btnSave"
+                        data-dojo-attach-event="onclick:_onBtnSaveClicked">
+                  <i class="fa fa-floppy-o fa-lg"></i>
+                </button>
+              </span>
+
+              <span>
+                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="打印"
+                        data-dojo-attach-point="btnPrint"
+                        data-dojo-attach-event="onclick:_onBtnPrintClicked">
+                  <i class="fa fa-print fa-lg"></i>
+                </button>
+              </span>
+
+              <span>&nbsp;</span>
+
+              <span>
+                <button class="btn btn-black" title="卷帘对比"
+                        data-dojo-attach-point="btnSwipe"
+                        data-dojo-attach-event="onclick:_onBtnSwipeClicked">卷帘
+                </button>
+              </span>
+            </td>
+            <td class="rbg"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

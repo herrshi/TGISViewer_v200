@@ -1,0 +1,237 @@
+﻿{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_base/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "发布段",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_fbd/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "CHANGZHOU.RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [178, 178, 178, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [23, 191, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 159, 25, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [242, 48, 48, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "可控摄像机",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/SheXiangJi-KeKong-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "不可控摄像机",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/SheXiangJi-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "情报板",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/QingBaoBan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "匝道灯",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/ZaDaoDeng-open.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "车检器",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/4",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/DuanMian-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      }
+
+
+    ],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.30.30.1:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      }
+    ]
+  }
+}

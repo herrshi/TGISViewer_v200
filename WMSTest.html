@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+  <title>Map with WMS</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/3.21/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" href="https://js.arcgis.com/3.21/esri/css/esri.css">
+  <style>
+    html, body, #map {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <script src="https://js.arcgis.com/3.21/"></script>
+
+  <script>
+    require([
+      "esri/map",
+      "esri/layers/WMSLayer",
+      "esri/config",
+      "esri/geometry/Point"
+    ], function (
+      Map,
+      WMSLayer,
+      esriConfig,
+      Point
+    ) {
+
+      esriConfig.defaults.io.proxyUrl = "http://localhost:8090/proxy/proxy.jsp";
+
+      var map = new Map('map');
+      var wmsLayer = new WMSLayer("http://172.16.20.2:8090/iserver/services/map-Data010/wms111/test2");
+      wmsLayer.setVisibleLayers(["0"]);
+      map.addLayer(wmsLayer);
+
+      var pt = new Point(-9000, -28000);
+      map.centerAt(pt);
+      console.log(map);
+    });
+  </script>
+</head>
+
+<body class="claro">
+  <div id="map"></div>
+</body>
+</html>

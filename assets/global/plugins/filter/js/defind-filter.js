@@ -1,0 +1,44 @@
+﻿ $(function(){
+                jfmObj = $('#jmf').jqMultipleFilter({
+                    data:[
+                        {
+                            type: 'select',
+                            field: 'hy', fieldText: '总规类型',
+                            items:[
+                                {item: 'gc', itemText: '省道网总体规划'},
+                                {item: 'gx', itemText: '城镇建设总体规划'},
+                            ],
+                            multiple: true
+                        },
+                        {
+                            type: 'select',
+                            field: 'hy', fieldText: '编制主体',
+                            items:[
+                                {item: 'gc', itemText: '交委'},
+                                {item: 'gx', itemText: '建设局'},
+                                {item: 'zl', itemText: '规土局'}
+                            ],
+                            multiple: true
+                        },
+                        {
+                            type: 'input',
+                            field: 'khmc', fieldText: '总规名称'
+                        },
+                        {
+                            type: 'select',
+                            field: 'lb', fieldText: '公开状态',
+                            items:[
+                                {item: 'itb', itemText: '公开'},
+                                {item: 'ith', itemText: '私密'},
+                            ]
+                        }
+                    ],
+                    /*default: {hy: 'gc', khmc: '上海电力', lb: 'itb'},*/
+                    onSelect: function(data, item, val){
+                        console.log(data, item, val);
+                    },
+                    onRemove: function(data, item){
+                        console.log(data, item);
+                    }
+                });
+            });

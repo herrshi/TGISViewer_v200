@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+  <title>TGISViewer Version 2.00</title>
+  <!--<link rel="shortcut icon" href="images/shortcut.ico">-->
+  <!-- BEGIN GLOBAL MANDATORY STYLES -->
+  <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
+  <link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+  <link href="assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <!-- END GLOBAL MANDATORY STYLES -->
+  <!-- BEGIN PAGE LEVEL PLUGINS -->
+  <link href="assets/global/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
+  <link href="assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
+   <!--END PAGE LEVEL PLUGINS -->
+  <!-- BEGIN THEME GLOBAL STYLES -->
+  <link href="assets/global/css/components.css" rel="stylesheet" id="style_components" type="text/css" />
+  <link href="assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
+  <!-- END THEME GLOBAL STYLES -->
+  <!-- BEGIN THEME LAYOUT STYLES -->
+  <link href="assets/layouts/css/layout.css" rel="stylesheet" type="text/css" />
+  <link href="assets/layouts/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color" />
+  <link href="assets/layouts/css/custom.css" rel="stylesheet" type="text/css" />
+  <!-- END THEME LAYOUT STYLES -->
+
+  <script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+  <script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+  <script src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+  <!-- END CORE PLUGINS -->
+  <!-- BEGIN PAGE LEVEL PLUGINS -->
+  <script src="assets/global/plugins/moment.min.js" type="text/javascript"></script>
+  <script src="assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+  <script src="assets/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
+  <script src="assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
+  <!-- END PAGE LEVEL PLUGINS -->
+  <!-- BEGIN THEME GLOBAL SCRIPTS -->
+  <script src="assets/global/js/app.js" type="text/javascript"></script>
+  <script src="assets/global/js/custom.js" type="text/javascript"></script>
+   <!--END THEME GLOBAL SCRIPTS -->
+
+  <script src="assets/global/plugins/fly/js/jquery.fly.js" type="text/javascript"></script>
+  <script src="assets/global/plugins/fly/js/defind-fly.js" type="text/javascript"></script>
+
+  <!-- BEGIN THEME GLOBAL SCRIPTS -->
+  <script src="assets/global/js/app.js" type="text/javascript"></script>
+  <script src="assets/global/js/custom.js" type="text/javascript"></script>
+  <!-- END THEME GLOBAL SCRIPTS -->
+  <!-- BEGIN THEME LAYOUT SCRIPTS -->
+  <script src="assets/layouts/js/layout.min.js" type="text/javascript"></script>
+  <script src="assets/layouts/js/demo.min.js" type="text/javascript"></script>
+  <!--<script src="http://172.16.0.2:18001/web-res/layer/layer.js" type="text/javascript"></script>-->
+  <!-- END THEME LAYOUT SCRIPTS -->
+
+  <style type="text/css">
+    *{box-sizing: border-box;}
+    body,html {
+      width:100%;
+      height:100%;
+      margin:0;
+      padding:0;
+      overflow:hidden;
+    }
+
+    #mapContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #testButtons {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      width: 200px;
+      height: 30px;
+      z-index: 99;
+      background: #ffffff;
+      color: #777777;
+      padding: 5px;
+      border: 2px solid #666666;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+  </style>
+
+</head>
+<body class="claro">
+
+  <div id="mapContainer"></div>
+
+
+  <div id="testButtons">
+    <button type="button" onclick="Test1ClickHandler()">Test1</button>
+    <button type="button" onclick="Test2ClickHandler()">Test2</button>
+    <button type="button" onclick="Test3ClickHandler()">Test3</button>
+  </div>
+
+  <script type="text/javascript" src="TGISAPI.js"></script>
+  <!--<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>-->
+
+  <script type="text/javascript">
+    var map = TMap.createNew({
+      apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
+      viewerUrl: "http://localhost:8090/TGISViewer_v200/",
+      config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/www/config.json"
+    }, "mapContainer", function () {
+//      map.setMapCenter({x: 0, y: 0});
+//      map.closeWidget("TopToolbarWidget");
+//      map.showLayer({label: "道路", ids: [3, 4]});
+
+//      map.startSwipe({
+//        swipeType: "vertical",
+//        referenceLayers: [
+//          {
+//            label: "水运交通设施",
+//            ids: [18]
+//          }
+//        ],
+//        swipeLayers: [
+//          {
+//            label: "规划航道",
+//            ids: [0]
+//          }
+//        ]
+//      });
+//      map.showLayer({label: "水运交通设施", ids: [18, 19]});
+//      map.showLayer({label: "行政区人口密度"});
+//      map.hideLayer({label: "行政区人口总量"});
+//      map.showLayer({label: "黄浦江桥梁流量"});
+//      map.showLayer({label: "黄浦江隧道流量"});
+//      map.hideLayer({label: "苏州河桥梁流量"});
+//      map.hideLayer({label: "苏州河隧道流量"});
+//      map.showLayer({label: "岸线"});
+      map.showRailwayStationFlow({flows: [{name: "上海南站", in: 12384, out: 29384}, {name: "上海西站", in: 2932, out: 298}, {name: "上海虹桥站", in: 239874, out: 987364}, {name: "上海站", in: 873978, out: 298479}]});
+    });
+  </script>
+
+  <script type="text/javascript">
+    function Test1ClickHandler() {
+//      map.showLayer({label: "道路", ids: [3]});
+//      map.showLayer({label: "十三五公交枢纽", ids: [0]});
+//      map.showLayer({label: "公交专用道", ids: [0,1]});
+//      map.showLayer({label: "内河港区"});
+//      map.convertCAD({
+//        cadFileName: "test.dwg",
+//        projectName: "project333",
+//        projectState: "constructing"
+//      }, function (result) {
+//        console.log(result);
+//      });
+
+//      map.openWidget("DrawWidget");
+
+//      map.showLayer({label: "地形图"});
+//      map.showLayer({label: "内河港区"});
+//      map.addLayer({label: "111", url: "http://128.64.151.222:6080/arcgis/rest/services/CADServices/project222_constructing/MapServer"});
+//      map.addLayer({label: "wmsTest", url: "http://172.16.20.2:8090/iserver/services/map-Data010/wms111/test2", type: "wms"});
+      map.addLayer({type: "ChengDiDynamic", url: "1543221173913809", label: "cad111"});
+
+//      map.addLines('{"lines":[{"id":"wx001","geometry":{"paths":[[[-5699, -3025],[-4937, -2720],[-1685, -1112]]]},"symbol":{"style":"solid","color":"#00FF00","alpha": 0.5, "width":8}}]}');
+
+//      map.geometrySearch({drawType: "polygon"});
+//      map.addSwipeLayer({layerType: "swipe", layer: {label: "db1", url: "http://172.16.20.2:6080/arcgis/rest/services/CADServices/p20170725110633_c20170725110633/MapServer"}})
+
+//      map.setMapCenter({x: 1702, y: -23821});
+//      map.setMapScale(8000);
+//      map.setMapLevel(1);
+//      map.setMapCenterAndLevel({x: 1702, y: -23821, level: 1});
+//      map.addPoints('{"points":[{"id":"pt001","type":"QBB","geometry":{"x":-5699,"y":-3025},"fields":{"DEVSTATE":"connect"},"symbol":{"type":"marker","size":12,"color":"#FF0000","alpha":0.5,"outline":{"color":"#FFFFFF","width":2}}},{"id":"pt002","type":"QBB","geometry":{"x":121.467,"y":31.222},"fields":{"DEVSTATE":"disconnect"},"symbol":{"type":"picture","url":"images/mapIcons/ChuZuChe.png","width":24,"height":35,"yoffset":17.5}},{"id":"pt003","type":"QBB","geometry":{"x":121.456,"y":31.262},"fields":{"DEVSTATE":"connect"},"symbol":{"type":"marker","color":"#FFFF00"}},{"id":"pt004","type":"QBB","geometry":{"x":121.443,"y":31.229},"fields":{"DEVSTATE":"unknown"},"symbol":{"type":"marker","color":"#0000FF"}}]}');
+
+//      map.findFeature({layerName: "道路搜索", ids: ["29786","30041", "30186", "30187", "30188", "30189", "30190", "30488", "30536", "30537", "30061", "30062", "30540", "30644", "30645", "30646"]});
+//      map.findFeature({layerName: "行政区人口密度", ids: ["310104"]});
+//      map.searchRoad({where: [{field: "district",value: ["金山区", "奉贤区"]}, {field: "tLevel",value: ["一级"]}]});
+//      map.searchRoad({where: [{field: "district",value: ["金山区", "奉贤区"]}, {field: "aLevel",value: ["G", "S"]}]}, function (results) {
+//      map.searchRoad({where: [{field: "tLevel",value: ["高速"]}]}, function (results) {
+//        console.log(results);
+//        for (var i = 0; i < results.length; i++) {
+//          console.log(results[i].name, results[i].id, results[i].district, results[i].length);
+//        }
+//      });
+//      map.searchRoad({where: [{field: "name",value: ["中山"]}]}, function (results) {
+//        console.log(results);
+//      });
+//      map.searchRoad({where: [{field: "material",value: ["沥混"]}]}, function (results) {
+//        console.log(results);
+//      });
+//      map.searchRoad({where: [{field: "cLevel",value: ["主干路"]}, {field: "ringRegion", value: ["inInner", "betweenInnerAndMiddle"]}]}, function (result) {
+//        console.log(result);
+//      });
+
+
+//      map.hideLayer({label: "行政区人口密度"});
+//      map.showLayer({label: "行政区人口总量"});
+//      map.hideLayer({label: "黄浦江桥梁流量"});
+//      map.hideLayer({label: "黄浦江隧道流量"});
+//      map.showLayer({label: "苏州河桥梁流量"});
+//      map.showLayer({label: "苏州河隧道流量"});
+
+//      map.getOverlays({clearOverlays: true}, function (results) {
+//        console.log(JSON.stringify(results));
+//      });
+
+//      map.multiSearch({text: "武宁路"}, function (results) {
+//        console.log(results);
+//
+//        map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
+//          console.log(results);
+//        });
+//
+//        map.showMultiSearchResult({featureIds: ["道路_0","道路_1","道路_2","道路_3","道路_4","道路_5","道路_6","道路_7"]});
+//      });
+
+//      map.deleteOverlays({types: ["CADPile"]});
+//      map.showDynamicRendererLayer({name: "IssuesectSpeed", defaultData: "40", datas: [{id: "NHZSB-WO->NHD&Y-WI", data: "10"}, {id: "HMHM-DO->HMHM-DI", data: "10"}, {id: "NBYC-DO->NBGZ-DI", data: "10"}, {id: "YIXYG-XI->YIXCZ-XO", data: "10"}]});
+    }
+
+    function Test2ClickHandler() {
+//      map.addSwipeLayer({layerType: "reference", layer: {label: "db2", url: "http://172.16.20.2:6080/arcgis/rest/services/CADServices/p20170725111146_c20170725111146/MapServer"}})
+//      map.stopSwipe();
+//      map.removeSwipeLayer({
+//        layerType: "reference",
+//        layer: {label: "道路", ids: [6]}
+//      });
+
+//      map.closeWidget("DrawWidget");
+//      map.hideLayer({label: "航道"});
+//      map.removeLayer({label: "111", url: "http://128.64.151.222:6080/arcgis/rest/services/CADServices/project222_constructing/MapServer"});
+
+//      map.deleteLines(["wx001"]);
+
+//      map.deleteAllPoints();
+
+//      map.findFeature({layerName: "searchRoad", names: ["中山北二路"], showResult: true, centerResult: true});
+//      map.addPolygons('{"polygons":[{"geometry":{"rings":[[[-1984.3789687579374,1680.1075268817203],[-1984.3789687579374,3188.2355431377528],[291.04224875116415,3188.2355431377528],[291.04224875116415,1680.1075268817203],[-1984.3789687579374,1680.1075268817203]]]},"symbol":{"color":[155,187,89],"alpha":0.5,"outline":{"color":[115,140,61],"width":1.5,"type":"esriSLS","style":"esriSLSSolid","marker":null},"type":"esriSFS","style":"esriSFSSolid"}}]}');
+//      map.addOverlays('{"overlays":[{"geometry":{"rings":[[[-4471.467276267886,-846.6683600033866],[-132.29193125052916,-1693.3367200067732],[-582.0844975023283,-3915.841165015665],[-5027.093387520108,-4762.509525019052],[-7990.432647531961,-1640.4199475065616],[-4471.467276267886,-846.6683600033866]]]},"symbol":{"color":[155,187,89,128],"outline":{"color":[115,140,61,255],"width":1.5,"type":"esriSLS","style":"esriSLSSolid","marker":null},"type":"esriSFS","style":"esriSFSSolid"}},{"geometry":{"paths":[[[5132.926932520535,-343.9590212513758],[4815.426297519265,-370.41740750148165],[3016.2560325120685,-1084.793836254339],[2381.2547625095285,-1455.2112437558208],[2222.5044450088935,-1957.9205825078316],[2407.7131487596344,-2540.00508001016],[3095.631191262386,-3227.9231225129115],[4206.883413766831,-3889.382778765559],[4762.509525019053,-4524.384048768099],[4788.967911269159,-5000.635001270004],[4550.842435018207,-5397.510795021592],[3095.631191262386,-5794.386588773179],[1428.7528575057186,-6058.970451274237],[1217.085767504872,-6058.970451274237]]]},"symbol":{"color":[79,129,189,255],"width":6.75,"type":"esriSLS","style":"esriSLSSolid","marker":null}}]}');
+//      map.addOverlays('{"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":-264.5838,"y":-978.9602},"symbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24}}]}');
+//      map.addOverlays('{"overlays":[{"type":"CADPile","geometry":{"x":-2306.4187,"y":3261.5966},"symbol":{"type":"marker","style":"circle","color":[255,128,128],"size":12},"fields":{"里程":"K0-2.082","点类型":"起点","标高":3.94}},{"type":"CADPile","geometry":{"x":-2224.4326,"y":3313.7568},"symbol":{"type":"marker","style":"circle","color":[255,128,128],"size":12},"fields":{"里程":"K0+95.475","点类型":"圆缓点","标高":4.03}},{"type":"CADPile","geometry":{"x":-2177.6508,"y":3331.3657},"symbol":{"type":"marker","style":"circle","color":[255,128,128],"size":12},"fields":{"里程":"K0+145.475","点类型":"","标高":2.01}}]}');
+
+//      map.highlightMultiSearchResult({featureId: "道路_0"});
+
+//      map.removeLayer({label: "cad111"});
+    }
+
+    function Test3ClickHandler() {
+//      map.addSwipeLayer({
+//        layerType: "swipe",
+//        layer: {label: "111", url: "http://128.64.151.222:6080/arcgis/rest/services/CADServices/p20170703144514_c20170703144514/MapServer"}
+//      });
+
+      map.clearMultiSearchResult();
+    }
+    
+    function compareCad() {
+      console.log("CompareCAD");
+    }
+    
+    function goBack() {
+      console.log("GoBack");
+    }
+
+    function showGisDeviceInfo(type, id) {
+      console.log(type, id);
+    }
+
+    function showGisDeviceDetailInfo(result) {
+      console.log(result);
+    }
+  </script>
+
+</body>
+</html>

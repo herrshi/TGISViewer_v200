@@ -1,0 +1,357 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_simple/MapServer",
+        "type": "tiled",
+        "visible": true
+      },
+      {
+        "label": "地形图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_bw/MapServer",
+        "type": "tiled",
+        "visible": false
+      },
+      {
+        "label": "航拍图2005",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_aerial_2005/MapServer",
+        "type": "tiled",
+        "visible": false
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "轨道交通线",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_Metro/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "Busname",
+          "defaultSymbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [110, 110, 110],
+            "width": 2
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "轨道交通1号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [208, 0, 43],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通2号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [151, 215, 0],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通3号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [255, 209, 0],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通4号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [95, 37, 159],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通5号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [172, 79, 198],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通6号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [215, 22, 213],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通7号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [255, 105, 0],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通8号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [0, 158, 219],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通9号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [113, 197, 232],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通10号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [193, 167, 226],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通11号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [118, 35, 47],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通12号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [0, 123, 95],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通13号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [239, 249, 107],
+                "width": 2
+              }
+            },
+            {
+              "value": "轨道交通16号线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [44, 213, 196],
+                "width": 2
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "轨道交通换乘量",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_Metro/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "infoTemplate": {
+          "title": "${FEATURENAME}",
+          "content": "<b>换乘客流: </b>${EXCHANGEVOLUMN}万人"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "color": [255, 0, 0, 200],
+            "outline": {
+              "color": [
+                255,
+                255,
+                255
+              ]
+            }
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "EXCHANGEVOLUMN",
+              "minDataValue": 10,
+              "maxDataValue": 40,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2000,
+                    "size": 16
+                  },
+                  {
+                    "value": 16000,
+                    "size": 16
+                  },
+                  {
+                    "value": 128000,
+                    "size": 8
+                  },
+                  {
+                    "value": 512000,
+                    "size": 4
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2000,
+                    "size": 64
+                  },
+                  {
+                    "value": 16000,
+                    "size": 64
+                  },
+                  {
+                    "value": 128000,
+                    "size": 32
+                  },
+                  {
+                    "value": 512000,
+                    "size": 16
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false,
+      "scale": 64000,
+      "center": {"x": 0, "y": 0, "spatialReference": {"wkt": "PROJCS[\"shanghaicity\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",-3457147.81],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",121.2751921],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]"}}
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.1.1.112:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/Legend/Widget",
+        "config": "configs/Legend/config_Legend_metro.json",
+        "position": {
+          "left": 15,
+          "bottom": 20,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "LegendWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/GeometrySearch/Widget",
+        "version": "2.4",
+        "name": "GeometrySearch",
+        "config": "configs/GeometrySearch/config_GeometrySearch.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "GeometrySearchWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config_Draw.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 10,
+          "width": "100%"
+        },
+        "id": "TopToolbarWidget"
+      }
+    ]
+  }
+}

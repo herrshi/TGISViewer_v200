@@ -1,0 +1,1 @@
+seajs.use('product/list/1.0.4/js/main.js');

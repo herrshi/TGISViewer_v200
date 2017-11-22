@@ -1,0 +1,6 @@
+{
+  "spatialReferences": [{"wkid": 102100}],
+  "decimalPlaces": 3,
+  "addSeparator": true,
+  "displayOrderLonLat": true
+}

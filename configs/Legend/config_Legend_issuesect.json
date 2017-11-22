@@ -1,0 +1,12 @@
+{
+  "legend":{
+    "arrangement": 0,
+    "autoUpdate": true,
+    "respectCurrentMapScale": false,
+    "layerInfos": [
+      {
+        "label": "地面实时指数"
+      }
+    ]
+  }
+}

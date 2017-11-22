@@ -1,0 +1,4 @@
+{
+  "railwayStationUrl": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_bus/MapServer/7",
+  "railwayStationNameField": "NAME"
+}
