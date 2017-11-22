@@ -18,7 +18,8 @@ define([
   "esri/symbols/PictureMarkerSymbol",
   "esri/renderers/SimpleRenderer",
   "esri/renderers/UniqueValueRenderer",
-  "esri/Color"
+  "esri/Color",
+  "esri/InfoTemplate"
 ], function (
   declare, 
   lang,
@@ -36,7 +37,8 @@ define([
   PictureMarkerSymbol,
   SimpleRenderer,
   UniqueValueRenderer,
-  Color
+  Color,
+  InfoTemplate
 ) {
   var _jimuMarkerStyleToEsriStyle = {
     "circle": SimpleMarkerSymbol.STYLE_CIRCLE,
@@ -289,16 +291,36 @@ define([
       this._deleteGraphicByGeometryType("polygon");
     },
 
+    _getInfoWindowContent: function (graphic, buttons) {
+      var content = "";
+      for (var fieldName in graphic.attributes) {
+        if (graphic.attributes.hasOwnProperty(fieldName)) {
+          content += "<b>" + fieldName + ": </b>" + graphic.attributes[fieldName] + "<br>";
+        }
+      }
+
+      if (buttons !== undefined) {
+        content += "<hr>";
+        array.forEach(buttons, function (buttonConfig) {
+          content += "<button type='button' class='btn btn-primary btn-xs' onclick='mapFeatureClicked(" + '"' + buttonConfig.type + '", "' + graphic.id + '"' + ")'>" + buttonConfig.label + "</button>  ";
+        });
+      }
+      return content;
+    },
+
     onTopicHandler_addOverlays: function (params) {
       var overlayParams = JSON.parse(params);
       var overlays = overlayParams.overlays;
 
-      array.forEach(overlays, function (overlayObj) {
+      var showPopup = overlayParams.showPopup === true;
+
+        array.forEach(overlays, function (overlayObj) {
         var id = overlayObj.id;
         var type = overlayObj.type;
         var fields = overlayObj.fields;
         var geometryObj = overlayObj.geometry;
-        var symbolObj = overlayObj.symbol;
+        var symbolObj = overlayObj.symbol || overlayParams.defaultSymbol;
+        var buttons = overlayObj.buttons || overlayParams.defaultButtons;
 
         var geometry = geometryJsonUtils.fromJson(geometryObj);
         if (this.map.spatialReference.isWebMercator()) {
@@ -323,6 +345,9 @@ define([
         var graphic = new Graphic(geometry, symbol, fields);
         graphic.id = id;
         graphic.type = type;
+        if (showPopup) {
+          graphic.infoTemplate = new InfoTemplate({content: this._getInfoWindowContent(graphic, buttons)});
+        }
 
         this.graphicsLayer.add(graphic);
       }, this);

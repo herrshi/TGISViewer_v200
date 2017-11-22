@@ -107,7 +107,7 @@
     var map = TMap.createNew({
       apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
       viewerUrl: "http://localhost:8090/TGISViewer_v200/",
-      config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/www/config.json"
+      config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-www.json"
     }, "mapContainer", function () {
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
@@ -160,7 +160,7 @@
 //      map.showLayer({label: "内河港区"});
 //      map.addLayer({label: "111", url: "http://128.64.151.222:6080/arcgis/rest/services/CADServices/project222_constructing/MapServer"});
 //      map.addLayer({label: "wmsTest", url: "http://172.16.20.2:8090/iserver/services/map-Data010/wms111/test2", type: "wms"});
-      map.addLayer({type: "ChengDiDynamic", url: "1725051784918855", label: "cad111"});
+//      map.addLayer({type: "ChengDiDynamic", url: "1725051784918855", label: "cad111"});
 
 //      map.addLines('{"lines":[{"id":"wx001","geometry":{"paths":[[[-5699, -3025],[-4937, -2720],[-1685, -1112]]]},"symbol":{"style":"solid","color":"#00FF00","alpha": 0.5, "width":8}}]}');
 
@@ -239,6 +239,7 @@
 //      map.addPolygons('{"polygons":[{"geometry":{"rings":[[[-1984.3789687579374,1680.1075268817203],[-1984.3789687579374,3188.2355431377528],[291.04224875116415,3188.2355431377528],[291.04224875116415,1680.1075268817203],[-1984.3789687579374,1680.1075268817203]]]},"symbol":{"color":[155,187,89],"alpha":0.5,"outline":{"color":[115,140,61],"width":1.5,"type":"esriSLS","style":"esriSLSSolid","marker":null},"type":"esriSFS","style":"esriSFSSolid"}}]}');
 //      map.addOverlays('{"overlays":[{"geometry":{"rings":[[[-4471.467276267886,-846.6683600033866],[-132.29193125052916,-1693.3367200067732],[-582.0844975023283,-3915.841165015665],[-5027.093387520108,-4762.509525019052],[-7990.432647531961,-1640.4199475065616],[-4471.467276267886,-846.6683600033866]]]},"symbol":{"color":[155,187,89,128],"outline":{"color":[115,140,61,255],"width":1.5,"type":"esriSLS","style":"esriSLSSolid","marker":null},"type":"esriSFS","style":"esriSFSSolid"}},{"geometry":{"paths":[[[5132.926932520535,-343.9590212513758],[4815.426297519265,-370.41740750148165],[3016.2560325120685,-1084.793836254339],[2381.2547625095285,-1455.2112437558208],[2222.5044450088935,-1957.9205825078316],[2407.7131487596344,-2540.00508001016],[3095.631191262386,-3227.9231225129115],[4206.883413766831,-3889.382778765559],[4762.509525019053,-4524.384048768099],[4788.967911269159,-5000.635001270004],[4550.842435018207,-5397.510795021592],[3095.631191262386,-5794.386588773179],[1428.7528575057186,-6058.970451274237],[1217.085767504872,-6058.970451274237]]]},"symbol":{"color":[79,129,189,255],"width":6.75,"type":"esriSLS","style":"esriSLSSolid","marker":null}}]}');
 //      map.addOverlays('{"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":-264.5838,"y":-978.9602},"symbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24}}]}');
+      map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""},"symbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24}}]}');
 //      map.addOverlays('{"overlays":[{"type":"CADPile","geometry":{"x":-2306.4187,"y":3261.5966},"symbol":{"type":"marker","style":"circle","color":[255,128,128],"size":12},"fields":{"里程":"K0-2.082","点类型":"起点","标高":3.94}},{"type":"CADPile","geometry":{"x":-2224.4326,"y":3313.7568},"symbol":{"type":"marker","style":"circle","color":[255,128,128],"size":12},"fields":{"里程":"K0+95.475","点类型":"圆缓点","标高":4.03}},{"type":"CADPile","geometry":{"x":-2177.6508,"y":3331.3657},"symbol":{"type":"marker","style":"circle","color":[255,128,128],"size":12},"fields":{"里程":"K0+145.475","点类型":"","标高":2.01}}]}');
 
 //      map.highlightMultiSearchResult({featureId: "道路_0"});
@@ -269,6 +270,10 @@
 
     function showGisDeviceDetailInfo(result) {
       console.log(result);
+    }
+
+    function mapFeatureClicked(type, id) {
+      console.log(type, id);
     }
   </script>
 

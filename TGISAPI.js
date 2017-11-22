@@ -486,7 +486,7 @@ var TMap = {
    * 在地图上添加点\线\面覆盖物
    * 一次添加多个覆盖物, 可以同时添加点\线\面
    * @param params: string, json字符串
-   *   overlays: [], required. 一次可以添加多个覆盖物, 且点\线\面可以同时叠加, 所以放在数组中. 数组中每个元素代表一个覆盖物. 每个元素包含下列属性:
+   *   overlays: [{}], required. 一次可以添加多个覆盖物, 且点\线\面可以同时叠加, 所以放在数组中. 数组中每个元素代表一个覆盖物. 每个元素包含下列属性:
    *     id: string, optional. 编号.
    *     type: string, optional. 类型.
    *     fields: object, optional. 业务属性.
@@ -494,8 +494,18 @@ var TMap = {
    *     geometry: object, required. 几何属性.
    *       参见addPoints/addLines/addPolygons的geometry属性.
    *     symbol: object, optional. 符号.
-   *       参见addPoints/addLines/addPolygons的symbol属性.
-   *       symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
+   *       会覆盖defaultSymbol.
+   *     buttons: [{}], optional. 弹出框的按钮.
+   *       会覆盖defaultButtons.
+   *  defaultSymbol: object, optional. 默认符号.
+   *    参见addPoints/addLines/addPolygons的symbol属性.
+   *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
+   *  showPopup: boolean, optional. 点击后是否显示弹出框.
+   *    默认为false.
+   *  defaultButtons: [{}], optional. 弹出框的默认按钮.
+   *    点击以后将调用js函数mapFeatureClicked(type, id)
+   *    label: string, required. 按钮文本.
+   *    type: string, required. js函数featureClicked的type参数.
    * */
   addOverlays: function (params) {
     require(["dojo/topic"], function (topic) {
