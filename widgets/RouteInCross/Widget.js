@@ -92,7 +92,7 @@ define([
       };
       this.echartsOverlay.setOption({
         series: [unSelectedCrossSeries]
-      })
+      });
     },
 
     _showPlaneLine: function () {
