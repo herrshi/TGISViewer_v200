@@ -116,14 +116,6 @@ var App = function() {
                 $(this).removeClass('on');
                 portlet.removeClass('portlet-fullscreen');
                 $('body').removeClass('page-portlet-fullscreen');
-               // parent.$(".page-header").show();
-// 				parent.$(".page-header-fixed .page-container").css("margin-top","68px");
-//				parent.$(".page-sidebar-wrapper").show();
-//				parent.$(".page-sidebar").css("top","68px");
-				$(".page-content-wrapper .page-content").css("margin-left","0");
-				//$(".main-right-frame").width($(window).width()-$(".page-sidebar").width());
-//						$(".main-right-frame").css("margin-left","100px");
-//						$(".main-right-frame").height($(window).height());
                 portlet.children('.portlet-body').css('height', 'auto');
             } else {
                 var height = App.getViewPort().height -
@@ -135,19 +127,6 @@ var App = function() {
                 portlet.addClass('portlet-fullscreen');
                 $('body').addClass('page-portlet-fullscreen');
                 portlet.children('.portlet-body').css('height', height);
-				
-				
-				$(".page-content-wrapper .page-content").css("margin-left","0");
-                //parent.$(".page-header").hide();
-// 				parent.$(".page-header-fixed .page-container").css("margin-top","0");
-//				parent.$(".page-sidebar-wrapper").hide();
-//				parent.$(".page-sidebar").css("top","0");
-//				parent.$(".main-right-frame").css("margin-left","0");
-//						parent.$(".main-right-frame").width($(window).width()+100);
-//						parent.$(".main-right-frame").css("margin-left","0");
-//						parent.$(".main-right-frame").height($(window).height());
-				
-				
             }
         });
 

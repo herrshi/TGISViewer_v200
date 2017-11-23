@@ -466,6 +466,10 @@
       {
         "uri": "widgets/CADSublayerList/Widget",
         "config": "configs/CADSublayerList/config_CADSublayerList_www.json",
+        "position": {
+          "left": 60,
+          "bottom": 5
+        },
         "id": "CADSublayerListWidget"
       }
     ]

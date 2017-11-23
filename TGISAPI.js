@@ -301,6 +301,31 @@ var TMap = {
       topic.publish("removeLayer", params);
     });
   },
+
+  /**
+   * 使用动态数据渲染静态图层, 事先配置好渲染器
+   * @param params: object, optional.
+   *   name: string, required.
+   *   defaultData: string/number, optional. 缺省的渲染数据值.
+   *     如果设置了缺省值, 本次datas中未覆盖到的元素将使用缺省值赋值, 否则不更改原有值.
+   *   datas: array of object. optional. 不传data时只显示图层.
+   *     id: string, required. 静态图层中地理要素编号.
+   *     data: string/number, required. 渲染用数据.
+   * */
+  showDynamicRendererLayer: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showDynamicRendererLayer", params);
+    });
+  },
+
+  /**
+   * 隐藏动态渲染图层
+   * */
+  hideDynamicRendererLayer: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideDynamicRendererLayer");
+    });
+  },
   /************************ Layer & Service END **************************/
 
   /************************ Overlay BEGIN **************************/
@@ -810,11 +835,10 @@ var TMap = {
 
 
   /************************ Special Interface BEGIN **************************/
-  //业务专用接口
   /**
    * 各火车站抵达出发的客流, 由各个车次的载客量相加而得.
    * @param params: object, required.
-   *   flows: array of object. required.
+   *   flows: [object], required.
    *     name: string, required. 火车站名
    *     in: int, required. 抵达客流.
    *     out: int, required. 出发客流.
@@ -826,27 +850,26 @@ var TMap = {
   },
 
   /**
-   * 使用动态数据渲染静态图层, 事先配置好渲染器
-   * @param params: object, optional.
-   *   name: string, required.
-   *   defaultData: string/number, optional. 缺省的渲染数据值.
-   *     如果设置了缺省值, 本次datas中未覆盖到的元素将使用缺省值赋值, 否则不更改原有值.
-   *   datas: array of object. optional. 不传data时只显示图层.
-   *     id: string, required. 静态图层中地理要素编号.
-   *     data: string/number, required. 渲染用数据.
+   * 开始轨迹回放
+   * @param params: object, required.
+   *   trackPoints: [object], required.
+   *     x: number, required. x坐标.
+   *     y: number, required. y坐标.
+   *     time: string, optional. 经过时间.
+   *   autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
+   *   loop: boolean, optional. 是否循环播放. 默认为true.
+   *   showTrackPoints: boolean, optional. 是否显示轨迹点. 默认为true.
    * */
-  showDynamicRendererLayer: function (params) {
+  startTrackPlayback: function (params) {
     require(["dojo/topic"], function (topic) {
-      topic.publish("showDynamicRendererLayer", params);
+      topic.publish("startTrackPlayback", params);
     });
   },
 
-  /**
-   * 隐藏发布段车速图层
-   * */
-  hideDynamicRendererLayer: function () {
+  /**停止轨迹回放, 并清除轨迹*/
+  stopTrackPlayback: function () {
     require(["dojo/topic"], function (topic) {
-      topic.publish("hideDynamicRendererLayer");
+      topic.publish("stopTrackPlayback");
     });
   }
 

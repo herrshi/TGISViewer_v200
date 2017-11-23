@@ -291,20 +291,26 @@ define([
       this._deleteGraphicByGeometryType("polygon");
     },
 
-    _getInfoWindowContent: function (graphic, buttons) {
+    /**根据graphic的属性生成弹出框*/
+    _getInfoWindowContent: function (graphic) {
       var content = "";
+      //键值对
       for (var fieldName in graphic.attributes) {
         if (graphic.attributes.hasOwnProperty(fieldName)) {
           content += "<b>" + fieldName + ": </b>" + graphic.attributes[fieldName] + "<br>";
         }
       }
+      //去掉最后的<br>
+      content = content.substring(0, content.lastIndexOf("<br>"));
 
-      if (buttons !== undefined) {
+      //按钮
+      if (graphic.buttons !== undefined) {
         content += "<hr>";
-        array.forEach(buttons, function (buttonConfig) {
+        array.forEach(graphic.buttons, function (buttonConfig) {
           content += "<button type='button' class='btn btn-primary btn-xs' onclick='mapFeatureClicked(" + '"' + buttonConfig.type + '", "' + graphic.id + '"' + ")'>" + buttonConfig.label + "</button>  ";
         });
       }
+
       return content;
     },
 
@@ -345,8 +351,9 @@ define([
         var graphic = new Graphic(geometry, symbol, fields);
         graphic.id = id;
         graphic.type = type;
+        graphic.buttons = buttons;
         if (showPopup) {
-          graphic.infoTemplate = new InfoTemplate({content: this._getInfoWindowContent(graphic, buttons)});
+          graphic.infoTemplate = new InfoTemplate({content: this._getInfoWindowContent(graphic)});
         }
 
         this.graphicsLayer.add(graphic);

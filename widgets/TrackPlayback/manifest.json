@@ -1,5 +1,5 @@
 {
-  "name": "CADSublayerList",
+  "name": "TrackPlayback",
   "platform": "HTML",
   "version": "2.4",
   "wabVersion": "2.4",
@@ -11,8 +11,8 @@
     "inPanel": false,
     "hasLocale": false,
     "hasStyle": false,
-    "hasConfig": true,
-    "hasUIFile": true,
+    "hasConfig": false,
+    "hasUIFile": false,
     "hasSettingPage": false,
     "keepConfigAfterMapSwitched": false,
     "supportMultiInstance": false

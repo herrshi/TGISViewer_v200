@@ -71,7 +71,7 @@ Page Header
       display: block;
       float: left; 
 	color: #fff;text-decoration:none}
-    .page-header.navbar .page-logo > a;hover {
+    .page-header.navbar .page-logo > a.hover {
 	color: #fff;
 	text-decoration:none;
 }
@@ -451,7 +451,7 @@ Page Header
     /* Page logo */
     /* Top menu */ }
     .page-boxed .page-header.navbar .page-logo {
-      width: 195px;}
+      width: 195px; }
     .page-boxed .page-header.navbar .top-menu .navbar-nav {
       margin-right: 20px; }
   /* Sidebar closed & logo hidden */
@@ -479,7 +479,7 @@ Page Header
     /* Top Menu */ }
     .page-header.navbar .page-logo {
       width: auto;
-      padding: 0 10px 0 10px; font-size: 20px; text-align: center;}
+      padding: 0 15px 0 10px; }
       .page-header.navbar .page-logo img {
         margin-left: 4px !important; }
     .page-header.navbar .menu-toggler.sidebar-toggler {
@@ -626,8 +626,10 @@ Page container
     display: table; }
   .page-container:after {
     clear: both; }
-  .page-header-fixed .page-container {
+.page-container {
     margin-top: 68px; }
+  /*.page-header-fixed .page-container {
+    margin-top: 68px; }*/
   .page-footer-fixed.page-footer-fixed-mobile .page-container {
     margin-bottom: 20px !important; }
 
@@ -1029,6 +1031,7 @@ Page sidebar
     width: 194px;
     z-index: 2000;
     position: absolute;
+	 left:-95px; top:78px;/*add by zhangping 0308*/
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     -ms-border-radius: 4px;
@@ -1148,9 +1151,9 @@ Page content
 /* Page title */
 .page-title {
   padding: 0px;
-  font-size: 22px;
+  font-size: 26px;
   letter-spacing: -1px;
-  line-height: 22px;
+  line-height: 26px;
   display: block;
   color: #666;
   margin: 0px 0px 20px 0px;
@@ -1197,7 +1200,7 @@ Page content
       .page-bar .page-breadcrumb > li > i {
         color: #aaa;
         font-size: 14px;
-        text-shadow: none;}
+        text-shadow: none; }
 .page-bar .page-breadcrumb > li > i.fa-circle  { font-size: 5px;
     margin: 0 5px;
     opacity: 0.4;
@@ -1250,10 +1253,6 @@ Page content
     background: #eef1f5; }
   .page-full-width .page-content {
     margin-left: 0px !important; }
-.page-content.subpage{ padding:20px 20px 0 20px; background: #f4f6f8;}
-.main-right-frame { margin-left:100px;}
-.sub-right-frame { margin-left:200px;}
-.sub-right-frame html { background:red;}
 
 @media (min-width: 992px) {
   /* 992px */
@@ -1262,16 +1261,16 @@ Page content
     float: left;
     width: 100%; }
     .page-content-wrapper .page-content {
-      /*margin-left: 100px;*/
+     /* margin-left: 100px;*/
       margin-top: 0px;
       min-height: 600px;
-      padding: 20px 20px 0 20px; background-color: #eef1f5; }
+      padding: 25px 20px 10px 20px; }
 	/*add by zhangping 0301*/
     .page-content-wrapper .page-content.subpage {
-      margin-left: 200px;
+      margin-left: 300px;
       margin-top: 0px;
       min-height: 600px;
-      padding: 20px 20px 0 20px; 
+      padding: 25px 20px 10px 20px; 
 	background: #f4f6f8;}
 	/*add by zhangping 0301*/
 	/*add by zhangping 0302*/
@@ -1283,7 +1282,8 @@ Page content
 	background: #f4f6f8;}
 	/*add by zhangping 0302*/
       .page-content-wrapper .page-content.no-min-height {
-        min-height: auto; }
+        /*min-height: auto; */
+      }
       .page-sidebar-fixed.page-sidebar-hover-on .page-content-wrapper .page-content {
         margin-left: 300px; }
 	/*add by zhangping 0301*/
@@ -1310,8 +1310,6 @@ Page content
 
 @media (max-width: 991px) {
   /* 991px */
-	
-	.main-right-frame { margin-left:0;}
   /* Boxed page container  */
   .page-boxed > .container {
     width: 100%;
@@ -1321,7 +1319,7 @@ Page content
   /* Page content */
   .page-content-wrapper .page-content {
     margin: 0px !important;
-    padding: 20px !important;
+    padding: 0 !important;
     min-height: 280px; } }
 
 @media (min-width: 768px) and (max-width: 991px) {
@@ -1943,7 +1941,3 @@ Page Loading
   .page-on-load > .clearfix {
     display: none;
     transition: all 2s; }
-
-/****** reset bootsrap *****/
-.row{ margin-left:-10px;margin-right:-10px;}
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 { padding:0 10px;}

@@ -1,6 +1,6 @@
 //飞出的效果
-$('.open-gismenu .fly').on('click', addAttention);
-function addAttention(event) {
+$('.open-gismenu .fly').on('click', addAttention1);
+function addAttention1(event) {
 var offset = $('.gis-selected .end').offset(), flyer = $('<img class="u-flyer2" src="../assets/global/plugins/fly/images/img-madal.png" />');
 flyer.fly({
     start: {
