@@ -274,7 +274,12 @@ jQuery(document).ready(function() {
 	
 		/*gis显示隐藏cad图层*/
 		$(".cad-selected-box").click(function(){
-			$(".selected-cad").show("slow");
+			$(".selected-cad .panel-body").hide();
+			$(".selected-cad").show("slow",function(){
+				$(document).resize();
+				$(".selected-cad .panel-body").fadeIn("fast");
+			});
+			
 		}); 
 		$(".close-selected-cad").click(function(){
 			$(".selected-cad").hide("slow");
@@ -290,10 +295,30 @@ jQuery(document).ready(function() {
 		});
 		/*选中子图层*/
 		/*全选所有图层*/
-		/*$(".tab-pane-allcheck a").click(function(){
+		$(".tab-pane-allcheck a").click( 
+		  function(){ 
+			if($(this).hasClass('active')){
+			$(this).removeClass('active');
+			$(this).parent().next(".tab-pane-checkbox").find("a").removeClass('active');
+			}else{ 
+			$(this).addClass('active');
+			$(this).parent().next(".tab-pane-checkbox").find("a").addClass('active');
+			} 
+		  } 
+		);
+	
+		/*$(".tab-pane-allcheck a").click( 
+		  function(){ 
+			if($(this).hasClass('active')){
+			$(this).removeClass('active');
+			$(".tab-pane-checkbox a").removeClass('active');
+			}else{ 
 			$(this).addClass('active');
 			$(".tab-pane-checkbox a").addClass('active');
-		});*/
+			} 
+		  } 
+		);*/
+		
 		/*全选所有图层*/
 	
 		/*gis隐藏弹出框*/
