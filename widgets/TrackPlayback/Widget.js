@@ -11,7 +11,9 @@ define([
   "esri/layers/GraphicsLayer",
   "esri/symbols/PictureMarkerSymbol",
   "esri/symbols/SimpleLineSymbol",
-  "esri/Color"
+  "esri/symbols/SimpleMarkerSymbol",
+  "esri/Color",
+  "esri/InfoTemplate"
 ], function (
   declare,
   lang,
@@ -25,16 +27,20 @@ define([
   GraphicsLayer,
   PictureMarkerSymbol,
   SimpleLineSymbol,
-  Color
+  SimpleMarkerSymbol,
+  Color,
+  InfoTemplate
 ) {
   return declare([BaseWidget], {
     name: "TrackPlayback",
 
-    echartsOverlay: null,
-    echartsInstance: null,
 
     movingPointLayer: null,
     movingPointSymbol: null,
+
+    trackPointLayer: null,
+    trackPointSymbol: null,
+
     trackLineLayer: null,
     trackLineSymbol: null,
 
@@ -47,13 +53,6 @@ define([
     postCreate: function () {
       this.inherited(arguments);
 
-      this.echartsOverlay = new ECharts3Layer(this.map, echarts);
-      var chartsContainer = this.echartsOverlay.getEchartsContainer();
-      this.echartsInstance = this.echartsOverlay.initECharts(chartsContainer);
-
-
-
-
       this.trackLineLayer = new GraphicsLayer();
       this.map.addLayer(this.trackLineLayer);
 
@@ -61,6 +60,21 @@ define([
         SimpleLineSymbol.STYLE_SOLID,
         new Color([48, 59, 88, 1]),
         4
+      );
+
+
+      this.trackPointLayer = new GraphicsLayer();
+      this.map.addLayer(this.trackPointLayer);
+
+      this.trackPointSymbol = new SimpleMarkerSymbol(
+        SimpleMarkerSymbol.STYLE_CIRCLE,
+        12,
+        new SimpleLineSymbol(
+          SimpleLineSymbol.STYLE_SOLID,
+          new Color([255,255,255]),
+          1
+        ),
+        new Color("53c7d4")
       );
 
       this.movingPointLayer = new GraphicsLayer();
@@ -85,30 +99,14 @@ define([
       if (typeof(this.movingFunction) !== undefined) {
         clearInterval(this.movingFunction);
       }
+      this.trackPointLayer.clear();
       this.trackLineLayer.clear();
       this.movingPointLayer.clear();
-      if (this.echartsOverlay) {
-        // this.echartsOverlay.setOption({
-        //   series: null
-        // });
-        this.echartsOverlay.setOption({});
-      }
     },
 
 
     onTopicHandler_startTrackPlayback: function (params) {
       this._clearData();
-
-      var option = {
-        tooltip: {
-          trigger: "item"
-        },
-        geo: {
-          map: "",
-          roam: true
-        }
-      };
-      this.echartsOverlay.setOption(option);
 
       var autoStart = params.autoStart !== false;
       this.loop = params.loop !== false;
@@ -118,28 +116,13 @@ define([
 
       //显示轨迹点
       if (showTrackPoints) {
-        this.echartsOverlay.setOption({
-          series: [
-            {
-              name: "轨迹点",
-              type: "scatter",
-              coordinateSystem: "geo",
-              data: this._convertPointData(this.trackPoints),
-              zlevel: 2,
-              symbolSize: 12,
-              tooltip: {
-                formatter: "{b}"
-              },
-              itemStyle: {
-                normal: {
-                  color: "#53c7d4",
-                  borderColor: "#fff",
-                  borderWidth: 1
-                }
-              }
-            }
-          ]
-        });
+        array.forEach(this.trackPoints, function (trackPoint) {
+          var point = new Point(trackPoint.x, trackPoint.y);
+          var graphic = new Graphic(point);
+          graphic.symbol = this.trackPointSymbol;
+          graphic.infoTemplate = new InfoTemplate({content: "<b>经过时间: </b>" + trackPoint.time});
+          this.trackPointLayer.add(graphic);
+        }, this);
       }
 
       //显示轨迹线

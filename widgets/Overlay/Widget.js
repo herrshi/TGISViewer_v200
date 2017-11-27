@@ -2,7 +2,7 @@
  * Created by herrshi on 2017/7/4.
  */
 define([
-  "dojo/_base/declare", 
+  "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/_base/array",
   "dojo/topic",
@@ -20,26 +20,24 @@ define([
   "esri/renderers/UniqueValueRenderer",
   "esri/Color",
   "esri/InfoTemplate"
-], function (
-  declare, 
-  lang,
-  array,
-  topic,
-  BaseWidget,
-  Graphic,
-  GraphicsLayer,
-  geometryJsonUtils,
-  WebMercatorUtils,
-  symbolJsonUtils,
-  SimpleLineSymbol,
-  SimpleFillSymbol,
-  SimpleMarkerSymbol,
-  PictureMarkerSymbol,
-  SimpleRenderer,
-  UniqueValueRenderer,
-  Color,
-  InfoTemplate
-) {
+], function (declare,
+             lang,
+             array,
+             topic,
+             BaseWidget,
+             Graphic,
+             GraphicsLayer,
+             geometryJsonUtils,
+             WebMercatorUtils,
+             symbolJsonUtils,
+             SimpleLineSymbol,
+             SimpleFillSymbol,
+             SimpleMarkerSymbol,
+             PictureMarkerSymbol,
+             SimpleRenderer,
+             UniqueValueRenderer,
+             Color,
+             InfoTemplate) {
   var _jimuMarkerStyleToEsriStyle = {
     "circle": SimpleMarkerSymbol.STYLE_CIRCLE,
     "cross": SimpleMarkerSymbol.STYLE_CROSS,
@@ -71,7 +69,7 @@ define([
   var clazz = declare([BaseWidget], {
     name: "Overlay",
     graphicsLayer: null,
-    
+
     postCreate: function () {
       this.inherited(arguments);
 
@@ -256,7 +254,7 @@ define([
       }, this);
 
     },
-    
+
     onTopicHandler_deleteAllPolylines: function () {
       this._deleteGraphicByGeometryType("polyline");
     },
@@ -320,13 +318,15 @@ define([
 
       var showPopup = overlayParams.showPopup === true;
 
-        array.forEach(overlays, function (overlayObj) {
+      array.forEach(overlays, function (overlayObj) {
         var id = overlayObj.id;
         var type = overlayObj.type;
         var fields = overlayObj.fields;
         var geometryObj = overlayObj.geometry;
         var symbolObj = overlayObj.symbol || overlayParams.defaultSymbol;
         var buttons = overlayObj.buttons || overlayParams.defaultButtons;
+
+        console.log(showPopup, buttons);
 
         var geometry = geometryJsonUtils.fromJson(geometryObj);
         if (this.map.spatialReference.isWebMercator()) {
@@ -380,8 +380,8 @@ define([
     }
 
   });
-  
+
   return clazz;
-  
-  
+
+
 });

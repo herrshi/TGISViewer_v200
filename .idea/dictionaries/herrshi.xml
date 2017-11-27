@@ -7,8 +7,11 @@
       <w>cfmstate</w>
       <w>cheng</w>
       <w>clevel</w>
+      <w>coord</w>
+      <w>coords</w>
       <w>deferreds</w>
       <w>dropdown</w>
+      <w>echarts</w>
       <w>featureid</w>
       <w>featurename</w>
       <w>guan</w>
@@ -33,6 +36,7 @@
       <w>wkid</w>
       <w>xiao</w>
       <w>zhou</w>
+      <w>zlevel</w>
     </words>
   </dictionary>
 </component>
