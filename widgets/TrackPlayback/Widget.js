@@ -38,6 +38,7 @@ define([
 
     trackPointLayer: null,
     trackPointSymbol: null,
+    highlightPointSymbol: null,
     startPointSymbol: null,
     endPointSymbol: null,
 
@@ -77,6 +78,17 @@ define([
         new Color("53c7d4")
       );
 
+      this.trackPointSymbol = new SimpleMarkerSymbol(
+        SimpleMarkerSymbol.STYLE_CIRCLE,
+        12,
+        new SimpleLineSymbol(
+          SimpleLineSymbol.STYLE_SOLID,
+          new Color([255,255,255]),
+          1
+        ),
+        new Color("ff0000")
+      );
+
       this.startPointSymbol = new PictureMarkerSymbol(window.path + "images/mapIcons/TianJin/GongJiao/bus_start.png", 26, 42);
       this.startPointSymbol.yoffset = 21;
 
@@ -101,10 +113,32 @@ define([
       this.movingPointLayer.clear();
     },
 
+    _getInfoWindowContent: function (graphic) {
+      var content = "";
+      //键值对
+      for (var fieldName in graphic.attributes) {
+        if (graphic.attributes.hasOwnProperty(fieldName)) {
+          content += "<b>" + fieldName + ": </b>" + graphic.attributes[fieldName] + "<br>";
+        }
+      }
+      //去掉最后的<br>
+      content = content.substring(0, content.lastIndexOf("<br>"));
+
+      //按钮
+      if (graphic.buttons !== undefined) {
+        content += "<hr>";
+        array.forEach(graphic.buttons, function (buttonConfig) {
+          content += "<button type='button' class='btn btn-primary btn-xs' onclick='mapFeatureClicked(" + '"' + buttonConfig.type + '", "' + graphic.id + '"' + ")'>" + buttonConfig.label + "</button>  ";
+        });
+      }
+
+      return content;
+    },
 
     onTopicHandler_startTrackPlayback: function (params) {
       this._clearData();
 
+      params = JSON.parse(params);
       var autoStart = params.autoStart !== false;
       this.loop = params.loop !== false;
       var showTrackPoints = params.showTrackPoints !== false;
@@ -127,8 +161,9 @@ define([
         array.forEach(this.trackPoints, function (trackPoint) {
           var point = new Point(trackPoint.x, trackPoint.y);
           var graphic = new Graphic(point);
-          graphic.symbol = this.trackPointSymbol;
-          graphic.infoTemplate = new InfoTemplate({content: "<b>经过时间: </b>" + trackPoint.time});
+          graphic.symbol = trackPoint.isHighlight === true ? this.highlightPointSymbol : this.trackPointSymbol;
+          graphic.attributes = trackPoint.fields;
+          graphic.infoTemplate = new InfoTemplate({content: this._getInfoWindowContent(graphic)});
           this.trackPointLayer.add(graphic);
         }, this);
       }
