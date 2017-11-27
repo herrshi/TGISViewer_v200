@@ -326,8 +326,6 @@ define([
         var symbolObj = overlayObj.symbol || overlayParams.defaultSymbol;
         var buttons = overlayObj.buttons || overlayParams.defaultButtons;
 
-        console.log(showPopup, buttons);
-
         var geometry = geometryJsonUtils.fromJson(geometryObj);
         if (this.map.spatialReference.isWebMercator()) {
           geometry = WebMercatorUtils.geographicToWebMercator(geometry);

@@ -4,7 +4,6 @@ define([
   "dojo/_base/array",
   "dojo/topic",
   "jimu/BaseWidget",
-  "jimu/CustomLayers/ECharts3Layer",
   "esri/graphic",
   "esri/geometry/Point",
   "esri/geometry/Polyline",
@@ -20,7 +19,6 @@ define([
   array,
   topic,
   BaseWidget,
-  ECharts3Layer,
   Graphic,
   Point,
   Polyline,
@@ -40,6 +38,8 @@ define([
 
     trackPointLayer: null,
     trackPointSymbol: null,
+    startPointSymbol: null,
+    endPointSymbol: null,
 
     trackLineLayer: null,
     trackLineSymbol: null,
@@ -77,6 +77,12 @@ define([
         new Color("53c7d4")
       );
 
+      this.startPointSymbol = new PictureMarkerSymbol(window.path + "images/mapIcons/TianJin/GongJiao/bus_start.png", 26, 42);
+      this.startPointSymbol.yoffset = 21;
+
+      this.endPointSymbol = new PictureMarkerSymbol(window.path + "images/mapIcons/TianJin/GongJiao/bus_end.png", 26, 42);
+      this.endPointSymbol.yoffset = 21;
+
       this.movingPointLayer = new GraphicsLayer();
       this.map.addLayer(this.movingPointLayer);
 
@@ -84,15 +90,6 @@ define([
 
       topic.subscribe("startTrackPlayback", lang.hitch(this, this.onTopicHandler_startTrackPlayback));
       topic.subscribe("stopTrackPlayback", lang.hitch(this, this.onTopicHandler_stopTrackPlayback));
-    },
-
-    _convertPointData: function (trackPoints) {
-      return array.map(trackPoints, function (trackPoint) {
-        return {
-          name: trackPoint.time,
-          value: [trackPoint.x, trackPoint.y]
-        };
-      });
     },
 
     _clearData: function () {
@@ -113,6 +110,17 @@ define([
       var showTrackPoints = params.showTrackPoints !== false;
 
       this.trackPoints = params.trackPoints;
+
+      //显示起点和终点
+      var startPoint = new Point(this.trackPoints[0].x, this.trackPoints[0].y);
+      var startGraphic = new Graphic(startPoint);
+      startGraphic.symbol = this.startPointSymbol;
+      this.trackPointLayer.add(startGraphic);
+
+      var endPoint = new Point(this.trackPoints[this.trackPoints.length - 1].x, this.trackPoints[this.trackPoints.length - 1].y);
+      var endGraphic = new Graphic(endPoint);
+      endGraphic.symbol = this.endPointSymbol;
+      this.trackPointLayer.add(endGraphic);
 
       //显示轨迹点
       if (showTrackPoints) {

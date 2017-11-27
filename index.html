@@ -78,7 +78,7 @@
     var map = TMap.createNew({
       apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
       viewerUrl: "http://localhost:8090/TGISViewer_v200/",
-      config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/www/config.json"
+      config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-www.json"
     }, "mapContainer", function () {
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
@@ -111,9 +111,7 @@
 //      map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
 //      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: ""}, {x: 104.002, y: 30.565, time: ""}, {x: 103.969, y: 30.56, time: ""}, {x: 103.907, y: 30.536, time: ""}]});
     });
-  </script>
 
-  <script type="text/javascript">
     function Test1ClickHandler() {
 //      map.showLayer({label: "道路", ids: [3]});
 //      map.showLayer({label: "十三五公交枢纽", ids: [0]});
@@ -190,8 +188,8 @@
 
 //      map.deleteOverlays({types: ["CADPile"]});
 //      map.showDynamicRendererLayer({name: "IssuesectSpeed", defaultData: "40", datas: [{id: "NHZSB-WO->NHD&Y-WI", data: "10"}, {id: "HMHM-DO->HMHM-DI", data: "10"}, {id: "NBYC-DO->NBGZ-DI", data: "10"}, {id: "YIXYG-XI->YIXCZ-XO", data: "10"}]});
-      map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
-//      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: "2017/11/24 08:00:00"}, {x: 104.002, y: 30.565, time: "2017/11/24 08:00:05"}, {x: 103.969, y: 30.56, time: "2017/11/24 08:00:10"}, {x: 103.907, y: 30.536, time: "2017/11/24 08:00:15"}], autoStart: true, loop: true, showTrackPoints: true});
+//      map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
+      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: "2017/11/24 08:00:00"}, {x: 104.002, y: 30.565, time: "2017/11/24 08:00:05"}, {x: 103.969, y: 30.56, time: "2017/11/24 08:00:10"}, {x: 103.907, y: 30.536, time: "2017/11/24 08:00:15"}], autoStart: true, loop: true, showTrackPoints: true});
     }
 
     function Test2ClickHandler() {
@@ -232,11 +230,11 @@
 
       map.clearMultiSearchResult();
     }
-    
+
     function compareCad() {
       console.log("CompareCAD");
     }
-    
+
     function goBack() {
       console.log("GoBack");
     }
@@ -251,6 +249,7 @@
 
     function mapFeatureClicked(type, id) {
       console.log(type, id);
+      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: ""}, {x: 104.002, y: 30.565, time: ""}, {x: 103.969, y: 30.56, time: ""}, {x: 103.907, y: 30.536, time: ""}]});
     }
   </script>
 
@@ -285,6 +284,45 @@
       $('[data-toggle="tooltip"]').tooltip();
     })
   </script>
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+      /*gis显示隐藏cad图层*/
+      $(".cad-selected-box").click(function(){
+        $(".selected-cad .panel-body").hide();
+        $(".selected-cad").show("slow",function(){
+          $(document).resize();
+          $(".selected-cad .panel-body").fadeIn("fast");
+        });
+
+      });
+      $(".close-selected-cad").click(function(){
+        $(".selected-cad").hide("slow");
+      });
+      /*gis显示隐藏cad图层*/
+      /*选中子图层*/
+      $(".tab-pane-checkbox a").click(function(){
+        if($(this).hasClass('active')){
+          $(this).removeClass('active');
+        }else{
+          $(this).addClass('active');
+        }
+      });
+      /*选中子图层*/
+      /*全选所有图层*/
+      $(".tab-pane-allcheck a").click(
+        function(){
+          if($(this).hasClass('active')){
+            $(this).removeClass('active');
+            $(this).parent().next(".tab-pane-checkbox").find("a").removeClass('active');
+          }else{
+            $(this).addClass('active');
+            $(this).parent().next(".tab-pane-checkbox").find("a").addClass('active');
+          }
+        }
+      );
+    });
+  </script>
+
 
 </body>
 </html>
