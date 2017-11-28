@@ -72,21 +72,21 @@ define([
         12,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          new Color([255,255,255]),
+          new Color("white"),
           1
         ),
-        new Color("53c7d4")
+        new Color("#53c7d4")
       );
 
-      this.trackPointSymbol = new SimpleMarkerSymbol(
+      this.highlightPointSymbol = new SimpleMarkerSymbol(
         SimpleMarkerSymbol.STYLE_CIRCLE,
-        12,
+        18,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          new Color([255,255,255]),
-          1
+          new Color("white"),
+          2
         ),
-        new Color("ff0000")
+        new Color("red")
       );
 
       this.startPointSymbol = new PictureMarkerSymbol(window.path + "images/mapIcons/TianJin/GongJiao/bus_start.png", 26, 42);
@@ -159,12 +159,16 @@ define([
       //显示轨迹点
       if (showTrackPoints) {
         array.forEach(this.trackPoints, function (trackPoint) {
+          console.log(trackPoint);
           var point = new Point(trackPoint.x, trackPoint.y);
           var graphic = new Graphic(point);
-          graphic.symbol = trackPoint.isHighlight === true ? this.highlightPointSymbol : this.trackPointSymbol;
+          graphic.symbol = (trackPoint.isHighlight === true ? this.highlightPointSymbol : this.trackPointSymbol);
           graphic.attributes = trackPoint.fields;
           graphic.infoTemplate = new InfoTemplate({content: this._getInfoWindowContent(graphic)});
           this.trackPointLayer.add(graphic);
+          if (trackPoint.isHighlight === true) {
+            graphic.getNode().setAttribute("data-enlarge", "highlight");
+          }
         }, this);
       }
 
