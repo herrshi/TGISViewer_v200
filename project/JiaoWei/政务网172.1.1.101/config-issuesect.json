@@ -39,91 +39,80 @@
     ],
     "operationallayers": [
       {
-        "label": "行政区人口密度",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_County/MapServer/0",
+        "label": "地面实时指数",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_indexRegion/MapServer/1",
         "type": "feature",
-        "visible": false,
+        "visible": true,
         "outFields": [
           "*"
         ],
         "infoTemplate": {
-          "title": "${FEATURENAME}",
-          "content": "<b>人口总量: </b>${PopTotal}万人<br><b>人口密度: </b>${PopDensity}人/平方公里"
+          "title": "${地面道路指数区域.名称}",
+          "content": "<b>当前指数: </b>${JIAOWEI.STAT_GRO_INDEX_DATA.FFLT_CUR_INDEX:NumberFormat(places:2)}<br><b>车速: </b>${JIAOWEI.STAT_GRO_INDEX_DATA.FSTR_REGIONSPEED:NumberFormat(places:2)}km/h"
         },
         "renderer": {
-          "type": "simple",
-          "symbol": {
+          "type": "uniqueValue",
+          "field1": "JIAOWEI.STAT_GRO_INDEX_DATA.FSTR_INDEX_STATUS",
+          "defaultLabel": "未知",
+          "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
+            "color": [110, 110, 110, 200],
             "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [255,255,255,255],
-              "width": 2
+              "color": [255, 255, 255, 255]
             }
           },
-          "visualVariables": [
+          "uniqueValueInfos": [
             {
-              "type": "colorInfo",
-              "field": "PopDensity",
-              "stops": [
-                {
-                  "value": 1000,
-                  "color": [218, 245, 254, 200]
-                },
-                {
-                  "value": 12162,
-                  "color": [163, 222, 208, 200]
-                },
-                {
-                  "value": 20000,
-                  "color": [43, 155, 82, 200]
+              "value": "1",
+              "label": "<30",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [61, 190, 0, 200],
+                "outline": {
+                  "color": [255, 255, 255, 255]
                 }
-              ]
+              }
+            },
+            {
+              "value": "2",
+              "label": "[30, 50)",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [198, 244, 102, 200],
+                "outline": {
+                  "color": [255, 255, 255, 255]
+                }
+              }
+            },
+            {
+              "value": "3",
+              "label": "[50, 70)",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [254, 254, 102, 200],
+                "outline": {
+                  "color": [255, 255, 255, 255]
+                }
+              }
+            },
+            {
+              "value": "4",
+              "label": ">=70",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [248, 102, 102, 200],
+                "outline": {
+                  "color": [255, 255, 255, 255]
+                }
+              }
             }
           ]
-        }
-      },
-      {
-        "label": "行政区人口总量",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_County/MapServer/0",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "infoTemplate": {
-          "title": "${FEATURENAME}",
-          "content": "<b>人口总量: </b>${PopTotal}万人<br><b>人口密度: </b>${PopDensity}人/平方公里"
-        },
-        "renderer": {
-          "type": "simple",
-          "symbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [255,255,255,255],
-              "width": 2
-            }
-          },
-          "visualVariables": [
-            {
-              "type": "colorInfo",
-              "field": "PopTotal",
-              "stops": [
-                {
-                  "value": 20,
-                  "color": [218, 245, 254, 200]
-                },
-                {
-                  "value": 550,
-                  "color": [43, 155, 82, 200]
-                }
-              ]
-            }
-          ]
+
         }
       }
     ],
@@ -131,12 +120,12 @@
       "logo": false,
       "nav": false,
       "slider": false,
-      "scale": 500000,
+      "scale": 100000,
       "center": {"x": 0, "y": 0, "spatialReference": {"wkt": "PROJCS[\"shanghaicity\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",-3457147.81],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",121.2751921],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]"}}
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "122.144.195.126:6080",
+  "gisServer": "10.0.88.51:8000",
   "widgetOnScreen": {
     "widgets": [
       {
@@ -151,7 +140,7 @@
       },
       {
         "uri": "widgets/Legend/Widget",
-        "config": "configs/Legend/config_Legend_population.json",
+        "config": "configs/Legend/config_Legend_issuesect.json",
         "position": {
           "left": 15,
           "bottom": 20,

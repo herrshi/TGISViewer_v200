@@ -356,6 +356,10 @@ define([
         compareCad();
 
       }
+    },
+
+    _onBtnHistoryClicked: function () {
+      showHistory();
     }
   });
 

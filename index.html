@@ -78,7 +78,7 @@
     var map = TMap.createNew({
       apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
       viewerUrl: "http://localhost:8090/TGISViewer_v200/",
-      config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-www.json"
+      config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     }, "mapContainer", function () {
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
@@ -237,6 +237,10 @@
 
     function goBack() {
       console.log("GoBack");
+    }
+
+    function showHistory() {
+      console.log("History");
     }
 
     function showGisDeviceInfo(type, id) {

@@ -655,7 +655,7 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "122.144.195.126:6080",
+  "gisServer": "10.0.88.51:8000",
   "widgetOnScreen": {
     "widgets": [
       {
