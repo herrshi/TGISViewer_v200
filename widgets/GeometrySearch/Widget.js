@@ -153,8 +153,8 @@ define([
       var drawGraphic = new Graphic(this.lastDrawGeometry, symbol);
       this.drawLayer.add(drawGraphic);
 
-      if (this.bufferDistance > 0) {
-        var bufferPolygon = this._doBuffer(this.lastDrawGeometry, this.bufferDistance);
+      if (this.txtBufferDistance.value > 0) {
+        var bufferPolygon = this._doBuffer(this.lastDrawGeometry, this.txtBufferDistance.value);
         this._geometrySearch(bufferPolygon);
       }
       else {
