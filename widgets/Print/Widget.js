@@ -23,11 +23,13 @@ define([
   var clazz = declare([BaseWidget], {
     name: "Print",
 
-    printingToolUrl: "http://{gisServer}/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+    // printingToolUrl: "http://{gisServer}/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
     printTask: null,
 
 
     postCreate: function () {
+      this.inherited(arguments);
+
       var printingToolUrl = "http://{gisServer}/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task";
       printingToolUrl = printingToolUrl.replace(/{gisServer}/i, this.appConfig.gisServer);
       this.printTask = new PrintTask(printingToolUrl);
@@ -54,6 +56,9 @@ define([
 
       this.printTask.execute(params, function(evt){
         window.open(evt.url,"_blank");
+        loading.destroy();
+      }, function (error) {
+        console.error(error);
         loading.destroy();
       });
     }

@@ -2,36 +2,36 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>TGISViewer Version 2.00</title>
   <!-- BEGIN GLOBAL MANDATORY STYLES -->
-  <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css"  rel="stylesheet" type="text/css" />
-  <link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-  <link href="assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+  <link href="assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
   <!-- END GLOBAL MANDATORY STYLES -->
   <!-- BEGIN PAGE LEVEL PLUGINS -->
-  <link href="assets/global/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
-  <link href="assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css" />
-  <link href="assets/global/plugins/bootstrap-tabdrop/css/tabdrop.css" rel="stylesheet" type="text/css" />
+  <link href="assets/global/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" type="text/css"/>
+  <link href="assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css" rel="stylesheet" type="text/css"/>
+  <link href="assets/global/plugins/bootstrap-tabdrop/css/tabdrop.css" rel="stylesheet" type="text/css"/>
   <!-- END PAGE LEVEL PLUGINS -->
   <!-- BEGIN THEME GLOBAL STYLES -->
-  <link href="assets/global/css/components.css" rel="stylesheet" type="text/css" />
-  <link href="assets/global/css/plugins.css" rel="stylesheet" type="text/css" />
+  <link href="assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+  <link href="assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
   <!-- END THEME GLOBAL STYLES -->
   <!-- BEGIN THEME LAYOUT STYLES -->
-  <link href="assets/layouts/css/layout.css" rel="stylesheet" type="text/css" />
-  <link href="assets/layouts/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color" />
-  <link href="assets/layouts/css/custom.css" rel="stylesheet" type="text/css" />
+  <link href="assets/layouts/css/layout.css" rel="stylesheet" type="text/css"/>
+  <link href="assets/layouts/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>
+  <link href="assets/layouts/css/custom.css" rel="stylesheet" type="text/css"/>
   <!-- END THEME LAYOUT STYLES -->
 
   <style type="text/css">
-    body,html {
-      width:100%;
-      height:100%;
-      margin:0;
-      padding:0;
-      overflow:hidden;
+    body, html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
     }
 
     #mapContainer {
@@ -62,27 +62,28 @@
 </head>
 <body class="claro page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 
-  <div id="mapContainer"></div>
+<div id="mapContainer"></div>
 
 
-  <div id="testButtons">
-    <button type="button" onclick="Test1ClickHandler()">Test1</button>
-    <button type="button" onclick="Test2ClickHandler()">Test2</button>
-    <button type="button" onclick="Test3ClickHandler()">Test3</button>
-  </div>
+<div id="testButtons">
+  <button type="button" onclick="Test1ClickHandler()">Test1</button>
+  <button type="button" onclick="Test2ClickHandler()">Test2</button>
+  <button type="button" onclick="Test3ClickHandler()">Test3</button>
+</div>
 
-  <script type="text/javascript" src="TGISAPI.js"></script>
-  <!--<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>-->
+<script type="text/javascript" src="TGISAPI.js"></script>
+<!--<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>-->
 
-  <script type="text/javascript">
-    var map = TMap.createNew({
-      apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
-      // apiUrl: "http://172.1.1.101:18001/web-gis/scripts/arcgis_js_api/library/3.21/3.21/",
-      viewerUrl: "http://localhost:8090/TGISViewer_v200/",
-      // viewerUrl: "http://172.1.1.101:18001/web-gis/scripts/TGISViewer2",
-      config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
-      // config: "http://172.1.1.101:18001/web-gis/scripts/TGISViewer2/config.json"
-    }, "mapContainer", function () {
+<script type="text/javascript">
+  var map = TMap.createNew({
+    apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
+    // apiUrl: "http://172.1.1.101:18001/web-gis/scripts/arcgis_js_api/library/3.21/3.21/",
+    viewerUrl: "http://localhost:8090/TGISViewer_v200/",
+    // viewerUrl: "http://172.1.1.101:18001/web-gis/scripts/TGISViewer2",
+    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-www.json"
+    // config: "http://172.1.1.101:18001/web-gis/scripts/TGISViewer2/config.json"
+  }, "mapContainer", function () {
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
 //      map.showLayer({label: "道路", ids: [3, 4]});
@@ -102,7 +103,7 @@
 //          }
 //        ]
 //      });
-     map.showLayer({label: "道路交通设施", ids: [12]});
+//      map.showLayer({label: "道路交通设施", ids: [12]});
 //      map.showLayer({label: "行政区人口密度"});
 //      map.hideLayer({label: "行政区人口总量"});
 //      map.showLayer({label: "黄浦江桥梁流量"});
@@ -113,9 +114,9 @@
 //      map.showRailwayStationFlow({flows: [{name: "上海南站", in: 12384, out: 29384}, {name: "上海西站", in: 2932, out: 298}, {name: "上海虹桥站", in: 239874, out: 987364}, {name: "上海站", in: 873978, out: 298479}]});
 //      map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
 //      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: ""}, {x: 104.002, y: 30.565, time: ""}, {x: 103.969, y: 30.56, time: ""}, {x: 103.907, y: 30.536, time: ""}]});
-    });
+  });
 
-    function Test1ClickHandler() {
+  function Test1ClickHandler() {
 //      map.showLayer({label: "道路", ids: [3]});
 //      map.showLayer({label: "十三五公交枢纽", ids: [0]});
 //      map.showLayer({label: "公交专用道", ids: [0,1]});
@@ -189,13 +190,22 @@
 //        map.showMultiSearchResult({featureIds: ["道路_0","道路_1","道路_2","道路_3","道路_4","道路_5","道路_6","道路_7"]});
 //      });
 
-//      map.deleteOverlays({types: ["CADPile"]});
-//      map.showDynamicRendererLayer({name: "IssuesectSpeed", defaultData: "40", datas: [{id: "NHZSB-WO->NHD&Y-WI", data: "10"}, {id: "HMHM-DO->HMHM-DI", data: "10"}, {id: "NBYC-DO->NBGZ-DI", data: "10"}, {id: "YIXYG-XI->YIXCZ-XO", data: "10"}]});
-//      map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
-      map.startTrackPlayback('{"trackPoints":[{"x": 104.023, "y": 30.577, "isHighlight": true, "fields": {"经过时间": "2017/11/24 08:00:00","编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}, {"x": 104.002, "y": 30.565, "fields":{"经过时间": "2017/11/24 08:00:05"}}, {"x": 103.969, "y": 30.56, "fields":{"经过时间": "2017/11/24 08:00:10"}}, {"x": 103.907, "y": 30.536, "fields":{"经过时间": "2017/11/24 08:00:15"}}], "autoStart": true, "loop": true, "showTrackPoints": true}');
-    }
+    // map.deleteOverlays({types: ["CADPile"]});
+    // map.showDynamicRendererLayer({
+    //   name: "IssuesectSpeed",
+    //   defaultData: "40",
+    //   datas: [
+    //     {id: "NHZSB-WO->NHD&Y-WI", data: "10"},
+    //     {id: "HMHM-DO->HMHM-DI", data: "10"},
+    //     {id: "NBYC-DO->NBGZ-DI",data: "10"},
+    //     {id: "YIXYG-XI->YIXCZ-XO", data: "10"}
+    //   ]
+    // });
+    map.addOverlays('{"showPopup":true,"autoPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
+    // map.startTrackPlayback('{"trackPoints":[{"y":30.572361378,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.968324303},{"y":30.587839189,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.939579349},{"y":30.587839189,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.939579349},{"y":30.599899517,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.934663829},{"y":30.5807029952938,"fields":{"经过时间":"2015-08-01 00:05:10"},"x":103.92919895599125}]}');
+  }
 
-    function Test2ClickHandler() {
+  function Test2ClickHandler() {
 //      map.addSwipeLayer({layerType: "reference", layer: {label: "db2", url: "http://172.16.20.2:6080/arcgis/rest/services/CADServices/p20170725111146_c20170725111146/MapServer"}})
 //      map.stopSwipe();
 //      map.removeSwipeLayer({
@@ -223,108 +233,114 @@
 //      map.removeLayer({label: "cad111"});
 //      map.stopTrackPlayback();
 //      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: "2017/11/24 08:00:00"}, {x: 104.002, y: 30.565, time: "2017/11/24 08:00:05"}], autoStart: true, loop: true, showTrackPoints: true});
-    }
+  }
 
-    function Test3ClickHandler() {
+  function Test3ClickHandler() {
 //      map.addSwipeLayer({
 //        layerType: "swipe",
 //        layer: {label: "111", url: "http://128.64.151.222:6080/arcgis/rest/services/CADServices/p20170703144514_c20170703144514/MapServer"}
 //      });
 
-      map.clearMultiSearchResult();
-    }
+    map.clearMultiSearchResult();
+  }
 
-    function compareCad() {
-      console.log("CompareCAD");
-    }
+  function compareCad() {
+    console.log("CompareCAD");
+  }
 
-    function goBack() {
-      console.log("GoBack");
-    }
+  function goBack() {
+    console.log("GoBack");
+  }
 
-    function showHistory() {
-      console.log("History");
-    }
+  function showHistory() {
+    console.log("History");
+  }
 
-    function showGisDeviceInfo(type, id) {
-      console.log(type, id);
-    }
+  function showGisDeviceInfo(type, id) {
+    console.log(type, id);
+  }
 
-    function showGisDeviceDetailInfo(result) {
-      console.log(result);
-    }
+  function showGisDeviceDetailInfo(result) {
+    console.log(result);
+  }
 
-    function mapFeatureClicked(type, id) {
-      console.log(type, id);
-      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: ""}, {x: 104.002, y: 30.565, time: ""}, {x: 103.969, y: 30.56, time: ""}, {x: 103.907, y: 30.536, time: ""}]});
-    }
-  </script>
-
-  <!-- BEGIN CORE PLUGINS -->
-  <script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-  <!-- END CORE PLUGINS -->
-
-  <!-- BEGIN PAGE LEVEL PLUGINS -->
-  <script src="assets/global/plugins/moment.min.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/horizontal-timeline/horozontal-timeline.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/fly/js/jquery.fly.min.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/fly/js/defind-fly.js" type="text/javascript"></script>
-  <script src="assets/global/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
-  <!-- END PAGE LEVEL PLUGINS -->
-
-  <!-- BEGIN THEME GLOBAL SCRIPTS -->
-  <script src="assets/global/js/app.js" type="text/javascript"></script>
-  <script src="assets/global/js/custom.js" type="text/javascript"></script>
-  <!-- END THEME GLOBAL SCRIPTS -->
-
-  <!-- BEGIN THEME LAYOUT SCRIPTS -->
-  <script src="assets/layouts/js/layout.min.js" type="text/javascript"></script>
-  <script src="assets/layouts/js/demo.min.js" type="text/javascript"></script>
-  <!-- END THEME LAYOUT SCRIPTS -->
-
-  <script type="text/javascript">
-    jQuery(document).ready(function() {
-      /*gis显示隐藏cad图层*/
-      $(".cad-selected-box").click(function(){
-        $(".selected-cad .panel-body").hide();
-        $(".selected-cad").show("slow",function(){
-          $(document).resize();
-          $(".selected-cad .panel-body").fadeIn("fast");
-        });
-
-      });
-      $(".close-selected-cad").click(function(){
-        $(".selected-cad").hide("slow");
-      });
-      /*gis显示隐藏cad图层*/
-      /*选中子图层*/
-      $(".tab-pane-checkbox a").click(function(){
-        if($(this).hasClass('active')){
-          $(this).removeClass('active');
-        }else{
-          $(this).addClass('active');
-        }
-      });
-      /*选中子图层*/
-      /*全选所有图层*/
-      $(".tab-pane-allcheck a").click(
-        function(){
-          if($(this).hasClass('active')){
-            $(this).removeClass('active');
-            $(this).parent().next(".tab-pane-checkbox").find("a").removeClass('active');
-          }else{
-            $(this).addClass('active');
-            $(this).parent().next(".tab-pane-checkbox").find("a").addClass('active');
-          }
-        }
-      );
+  function mapFeatureClicked(type, id) {
+    console.log(type, id);
+    map.startTrackPlayback({
+      trackPoints: [{x: 104.023, y: 30.577, time: ""}, {
+        x: 104.002,
+        y: 30.565,
+        time: ""
+      }, {x: 103.969, y: 30.56, time: ""}, {x: 103.907, y: 30.536, time: ""}]
     });
-  </script>
+  }
+</script>
+
+<!-- BEGIN CORE PLUGINS -->
+<script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="assets/global/plugins/moment.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
+<script src="assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
+<script src="assets/global/plugins/horizontal-timeline/horozontal-timeline.js" type="text/javascript"></script>
+<script src="assets/global/plugins/fly/js/jquery.fly.min.js" type="text/javascript"></script>
+<script src="assets/global/plugins/fly/js/defind-fly.js" type="text/javascript"></script>
+<script src="assets/global/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+
+<!-- BEGIN THEME GLOBAL SCRIPTS -->
+<script src="assets/global/js/app.js" type="text/javascript"></script>
+<script src="assets/global/js/custom.js" type="text/javascript"></script>
+<!-- END THEME GLOBAL SCRIPTS -->
+
+<!-- BEGIN THEME LAYOUT SCRIPTS -->
+<script src="assets/layouts/js/layout.min.js" type="text/javascript"></script>
+<script src="assets/layouts/js/demo.min.js" type="text/javascript"></script>
+<!-- END THEME LAYOUT SCRIPTS -->
+
+<script type="text/javascript">
+  jQuery(document).ready(function () {
+    /*gis显示隐藏cad图层*/
+    $(".cad-selected-box").click(function () {
+      $(".selected-cad .panel-body").hide();
+      $(".selected-cad").show("slow", function () {
+        $(document).resize();
+        $(".selected-cad .panel-body").fadeIn("fast");
+      });
+
+    });
+    $(".close-selected-cad").click(function () {
+      $(".selected-cad").hide("slow");
+    });
+    /*gis显示隐藏cad图层*/
+    /*选中子图层*/
+    $(".tab-pane-checkbox a").click(function () {
+      if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+      } else {
+        $(this).addClass('active');
+      }
+    });
+    /*选中子图层*/
+    /*全选所有图层*/
+    $(".tab-pane-allcheck a").click(
+      function () {
+        if ($(this).hasClass('active')) {
+          $(this).removeClass('active');
+          $(this).parent().next(".tab-pane-checkbox").find("a").removeClass('active');
+        } else {
+          $(this).addClass('active');
+          $(this).parent().next(".tab-pane-checkbox").find("a").addClass('active');
+        }
+      }
+    );
+  });
+</script>
 
 
 </body>

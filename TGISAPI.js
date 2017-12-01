@@ -525,12 +525,14 @@ var TMap = {
    *  defaultSymbol: object, optional. 默认符号.
    *    参见addPoints/addLines/addPolygons的symbol属性.
    *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
-   *  showPopup: boolean, optional. 点击后是否显示弹出框.
-   *    默认为false.
    *  defaultButtons: [{}], optional. 弹出框的默认按钮.
    *    点击以后将调用js函数mapFeatureClicked(type, id)
    *    label: string, required. 按钮文本.
    *    type: string, required. js函数featureClicked的type参数.
+   *  showPopup: boolean, optional. 点击后是否显示弹出框.
+   *    默认为false.
+   *  autoPopup: boolean, optional. 是否自动显示弹出框, 只添加一个覆盖物时有效.
+   *    默认为false.
    * */
   addOverlays: function (params) {
     require(["dojo/topic"], function (topic) {

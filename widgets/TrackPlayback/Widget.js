@@ -135,6 +135,17 @@ define([
       return content;
     },
 
+    /**检查轨迹点数据, 去掉重复数据*/
+    checkTrackPoints: function (trackPoints) {
+      for (var i = 1; i < trackPoints.length; i++) {
+        if (trackPoints[i-1].x === trackPoints[i].x && trackPoints[i-1].y === trackPoints[i].y) {
+          trackPoints.splice(i, 1);
+          i--;
+        }
+      }
+      return trackPoints;
+    },
+
     onTopicHandler_startTrackPlayback: function (params) {
       this._clearData();
 
@@ -143,7 +154,7 @@ define([
       this.loop = params.loop !== false;
       var showTrackPoints = params.showTrackPoints !== false;
 
-      this.trackPoints = params.trackPoints;
+      this.trackPoints = this.checkTrackPoints(params.trackPoints);
 
       //显示起点和终点
       var startPoint = new Point(this.trackPoints[0].x, this.trackPoints[0].y);

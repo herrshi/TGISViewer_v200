@@ -1,444 +1,471 @@
-path[data-highlight="highlight"],image[data-highlight="highlight"],circle[data-highlight='highlight']
-{
-    -webkit-animation:alphachange .6s linear 0s 6 alternate;
-    -moz-animation:alphachange .6s linear 0s  6 alternate;
-    -o-animation:alphachange .6s linear 0s  6 alternate;
-    -ms-animation:alphachange .6s linear 0s  6 alternate;
-    animation:alphachange .6s linear 0s  6 alternate;
+.esriPopup .action.zoomTo { display: none; }
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+path[data-highlight="highlight"], image[data-highlight="highlight"], circle[data-highlight='highlight'] {
+  -webkit-animation: alphachange .6s linear 0s 6 alternate;
+  -moz-animation: alphachange .6s linear 0s 6 alternate;
+  -o-animation: alphachange .6s linear 0s 6 alternate;
+  -ms-animation: alphachange .6s linear 0s 6 alternate;
+  animation: alphachange .6s linear 0s 6 alternate;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-path[data-enlarge="highlight"],image[data-enlarge="highlight"],circle[data-enlarge="highlight"]
-{
-    animation:alphachange 1s linear 0s  infinite normal;
-    -webkit-animation:alphachange 1s linear 0s infinite normal;
-    -moz-animation:alphachange 1s linear 0s  infinite normal;
-    -o-animation:alphachange 1s linear 0s  infinite normal;
-    -ms-animation:alphachange 1s linear 0s  infinite normal;
+path[data-enlarge="highlight"], image[data-enlarge="highlight"], circle[data-enlarge="highlight"] {
+  animation: alphachange 1s linear 0s infinite normal;
+  -webkit-animation: alphachange 1s linear 0s infinite normal;
+  -moz-animation: alphachange 1s linear 0s infinite normal;
+  -o-animation: alphachange 1s linear 0s infinite normal;
+  -ms-animation: alphachange 1s linear 0s infinite normal;
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 @-webkit-keyframes glow {
-    0% {
-        -webkit-box-shadow: 0 0 12px rgba(72, 106, 170, 0.5);
-        border-color: rgba(255, 0, 0, 0.5);
-    }
-    100% {
-        -webkit-box-shadow: 0 0 12px rgba(72, 106, 170, 1.0), 0 0 18px rgba(0, 140, 255, 1.0);
-        border-color: rgba(255, 0, 0, 1.0);
-    }
+  0% {
+    -webkit-box-shadow: 0 0 12px rgba(72, 106, 170, 0.5);
+    border-color: rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 12px rgba(72, 106, 170, 1.0), 0 0 18px rgba(0, 140, 255, 1.0);
+    border-color: rgba(255, 0, 0, 1.0);
+  }
 }
 
-circle[data-highlight='glow']
-{
-    animation:change 2s linear 0s 6 normal;
-    ms-animation:change 2s linear 0s 6 normal;
-    -webkit-animation:change 2s linear 0s 6 normal;
-    -moz-animation:change 2s linear 0s 6 normal;
-    -o-animation:change 2s linear 0s 6 normal;
+circle[data-highlight='glow'] {
+  animation: change 2s linear 0s 6 normal;
+  ms-animation: change 2s linear 0s 6 normal;
+  -webkit-animation: change 2s linear 0s 6 normal;
+  -moz-animation: change 2s linear 0s 6 normal;
+  -o-animation: change 2s linear 0s 6 normal;
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-@keyframes change
-{
-    from{
-        opacity: 0.999;
-        r:10
-    }
-    to{
-        opacity: 0.001;
-        r:40
-    }
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
-@-webkit-keyframes change
-{
-    from{
-        opacity: 0.999;
-        r:10
-    }
-    to{
-        opacity: 0.001;
-        r:50
-    }
+@keyframes change {
+  from {
+    opacity: 0.999;
+    r: 10
+  }
+  to {
+    opacity: 0.001;
+    r: 40
+  }
 }
 
-@-ms-keyframes change
-{
-    from{
-        opacity: 0.999;
-        r:10
-    }
-    to{
-        opacity: 0.001;
-        r:50
-    }
-}
-@-moz-keyframes change
-{
-    from{
-        opacity: 0.999;
-        r:10
-    }
-    to{
-        opacity: 0.001;
-        r:50
-    }
+@-webkit-keyframes change {
+  from {
+    opacity: 0.999;
+    r: 10
+  }
+  to {
+    opacity: 0.001;
+    r: 50
+  }
 }
 
-@-webkit-keyframes alphachange
-{
-    0%{opacity: .1;box-shadow: 20px 20px 10px #888888;  }
-    50% {opacity: .9;box-shadow: 20px 20px 10px #888888;}
-    100%{opacity: .1;box-shadow: 20px 20px 10px #888888;  }
+@-ms-keyframes change {
+  from {
+    opacity: 0.999;
+    r: 10
+  }
+  to {
+    opacity: 0.001;
+    r: 50
+  }
 }
 
-@-moz-keyframes alphachange
-{
-    0%{opacity: .1;box-shadow: 20px 20px 10px #888888;  }
-    50% {opacity: .9;box-shadow: 20px 20px 10px #888888;}
-    100%{opacity: .1;box-shadow: 20px 20px 10px #888888;  }
-}
-@-ms-keyframes alphachange
-{
-    0%{opacity: .1;box-shadow: 20px 20px 10px #888888;  }
-    50% {opacity: .9;box-shadow: 20px 20px 10px #888888;}
-    100%{opacity: .1;box-shadow: 20px 20px 10px #888888;  }
-}
-@keyframes alphachange
-{
-    0%{opacity: .1;box-shadow: 20px 20px 10px #888888;  }
-    50% {opacity: .9;box-shadow: 20px 20px 10px #888888;}
-    100%{opacity: .1;box-shadow: 20px 20px 10px #888888;  }
+@-moz-keyframes change {
+  from {
+    opacity: 0.999;
+    r: 10
+  }
+  to {
+    opacity: 0.001;
+    r: 50
+  }
 }
 
+@-webkit-keyframes alphachange {
+  0% {
+    opacity: .1;
+    box-shadow: 20px 20px 10px #888888;
+  }
+  50% {
+    opacity: .9;
+    box-shadow: 20px 20px 10px #888888;
+  }
+  100% {
+    opacity: .1;
+    box-shadow: 20px 20px 10px #888888;
+  }
+}
+
+@-moz-keyframes alphachange {
+  0% {
+    opacity: .1;
+    box-shadow: 20px 20px 10px #888888;
+  }
+  50% {
+    opacity: .9;
+    box-shadow: 20px 20px 10px #888888;
+  }
+  100% {
+    opacity: .1;
+    box-shadow: 20px 20px 10px #888888;
+  }
+}
+
+@-ms-keyframes alphachange {
+  0% {
+    opacity: .1;
+    box-shadow: 20px 20px 10px #888888;
+  }
+  50% {
+    opacity: .9;
+    box-shadow: 20px 20px 10px #888888;
+  }
+  100% {
+    opacity: .1;
+    box-shadow: 20px 20px 10px #888888;
+  }
+}
+
+@keyframes alphachange {
+  0% {
+    opacity: .1;
+    box-shadow: 20px 20px 10px #888888;
+  }
+  50% {
+    opacity: .9;
+    box-shadow: 20px 20px 10px #888888;
+  }
+  100% {
+    opacity: .1;
+    box-shadow: 20px 20px 10px #888888;
+  }
+}
 
 /*svg { fill: #369; }*/
 
 /*#basemapToggle{*/
-    /*position:absolute;*/
-    /*top: 15px;*/
-    /*left: 70px;*/
+/*position:absolute;*/
+/*top: 15px;*/
+/*left: 70px;*/
 /*}*/
 
 /*
 缩放至。在IE浏览器下出现的bug   ----关闭infowindow或者Popup 右上角的 关闭(close)和最大化(Maximize) 按钮--
 */
 /*.esriPopup .actionsPane .zoomTo {*/
-    /*display: none;*/
+/*display: none;*/
 /*}*/
 /*.esriPopup .titleButton.maximize {*/
-    /*display: none;*/
+/*display: none;*/
 /*}*/
 
 /*
 解决IE浏览器下存在的问题
 */
 /*.esriPopup {*/
-    /*position: absolute;*/
-    /*z-index: 40;*/
-    /*font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;*/
-    /*font-size: 12px;*/
-    /*border-radius: 5px;*/
-    /*-webkit-border-radius: 5px;*/
+/*position: absolute;*/
+/*z-index: 40;*/
+/*font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;*/
+/*font-size: 12px;*/
+/*border-radius: 5px;*/
+/*-webkit-border-radius: 5px;*/
 /*}*/
 /*.dj_rtl .esriPopup {*/
-    /*text-align: right;*/
+/*text-align: right;*/
 /*}*/
 /*.esriPopup .esriPopupWrapper {*/
-    /*box-shadow: 0 0 0.75em #777777;*/
-    /*-webkit-box-shadow: 0 0 0.75em #777777;*/
-    /*border-radius: 5px;*/
-    /*-webkit-border-radius: 5px;*/
+/*box-shadow: 0 0 0.75em #777777;*/
+/*-webkit-box-shadow: 0 0 0.75em #777777;*/
+/*border-radius: 5px;*/
+/*-webkit-border-radius: 5px;*/
 /*}*/
 /*.esriPopup .hidden {*/
-    /*display: none;*/
+/*display: none;*/
 /*}*/
 /*.esriPopup .sizer {*/
-    /*position: relative;*/
-    /*width: 270px;*/
-    /*z-index: 1;*/
+/*position: relative;*/
+/*width: 270px;*/
+/*z-index: 1;*/
 /*}*/
 /*.esriPopup a {*/
-    /*color: #336699;*/
-    /*text-decoration: underline;*/
+/*color: #336699;*/
+/*text-decoration: underline;*/
 /*}*/
 /*.esriPopup .titlePane {*/
-    /*background-color: #5D87C8;*/
-    /*color: #FFFFFF;*/
-    /*line-height: 20px;*/
-    /*padding-left: 6px;*/
-    /*border-radius: 5px 5px 0px 0px;*/
-    /*-webkit-border-radius: 5px 5px 0px 0px;*/
-    /*cursor: default;*/
+/*background-color: #5D87C8;*/
+/*color: #FFFFFF;*/
+/*line-height: 20px;*/
+/*padding-left: 6px;*/
+/*border-radius: 5px 5px 0px 0px;*/
+/*-webkit-border-radius: 5px 5px 0px 0px;*/
+/*cursor: default;*/
 /*}*/
 /*.dj_rtl .esriPopup .titlePane {*/
-    /*padding-left: 0;*/
-    /*padding-right: 6px;*/
+/*padding-left: 0;*/
+/*padding-right: 6px;*/
 /*}*/
 /*.esriPopup.blueTheme .titlePane {*/
-    /*background-color: #5491B8;*/
-    /*border-color: #777777;*/
+/*background-color: #5491B8;*/
+/*border-color: #777777;*/
 /*}*/
 /*.esriPopup .titlePane .spinner {*/
-    /*float: left;*/
-    /*margin-top: 2px;*/
-    /*margin-right: 4px;*/
-    /*cursor: pointer;*/
-    /*background: url("../images/ajax-loader.gif") no-repeat;*/
-    /*width: 16px;*/
-    /*height: 16px;*/
-    /*background-position: 0px 0px;*/
+/*float: left;*/
+/*margin-top: 2px;*/
+/*margin-right: 4px;*/
+/*cursor: pointer;*/
+/*background: url("../images/ajax-loader.gif") no-repeat;*/
+/*width: 16px;*/
+/*height: 16px;*/
+/*background-position: 0px 0px;*/
 /*}*/
 /*.dj_rtl .esriPopup .titlePane .spinner {*/
-    /*float: right;*/
-    /*margin-right: 0;*/
-    /*margin-left: 4px;*/
+/*float: right;*/
+/*margin-right: 0;*/
+/*margin-left: 4px;*/
 /*}*/
 
 /*.esriPopupHidden,.esriPopupHidden * {*/
-    /*visibility: hidden !important;*/
+/*visibility: hidden !important;*/
 /*}*/
 /*.dj_ie7 .esriPopup .titlePane .spinner.hidden,.dj_ie7 .esriPopup.blueTheme .titlePane .spinner.hidden {*/
-    /*background: none;*/
+/*background: none;*/
 /*}*/
 /*.dj_ie7 .esriPopup .titlePane .title {*/
-    /*background-color: #5D87C8;*/
+/*background-color: #5D87C8;*/
 /*}*/
 /*.dj_ie7 .esriPopup.blueTheme .titlePane .title {*/
-    /*background-color: #5491B8;*/
+/*background-color: #5491B8;*/
 /*}*/
 /*.esriPopup .titleButton {*/
-    /*position: absolute;*/
-    /*top: 2px;*/
-    /*cursor: pointer;*/
-    /*background: url("../images/popup.png") no-repeat;*/
+/*position: absolute;*/
+/*top: 2px;*/
+/*cursor: pointer;*/
+/*background: url("../images/popup.png") no-repeat;*/
 /*}*/
 /*.esriPopup .titleButton.prev {*/
-    /*right: 64px;*/
-    /*background-position: -29px 0;*/
-    /*width: 9px;*/
-    /*height: 17px;*/
+/*right: 64px;*/
+/*background-position: -29px 0;*/
+/*width: 9px;*/
+/*height: 17px;*/
 /*}*/
 /*.dj_rtl .esriPopup .titleButton.prev {*/
-    /*right: auto;*/
-    /*left: 64px;*/
-    /*background-position: -16px 0;*/
+/*right: auto;*/
+/*left: 64px;*/
+/*background-position: -16px 0;*/
 /*}*/
 /*.esriPopup .titleButton.next {*/
-    /*right: 46px;*/
-    /*background-position: -16px 0;*/
-    /*width: 9px;*/
-    /*height: 17px;*/
+/*right: 46px;*/
+/*background-position: -16px 0;*/
+/*width: 9px;*/
+/*height: 17px;*/
 /*}*/
 /*.dj_rtl .esriPopup .titleButton.next {*/
-    /*right: auto;*/
-    /*left: 46px;*/
-    /*background-position: -29px 0;*/
+/*right: auto;*/
+/*left: 46px;*/
+/*background-position: -29px 0;*/
 /*}*/
 /*.esriPopup .titleButton.maximize {*/
-    /*right: 22px;*/
-    /*background-position: -55px 0;*/
-    /*width: 11px;*/
-    /*height: 11px;*/
-    /*top: 5px;*/
+/*right: 22px;*/
+/*background-position: -55px 0;*/
+/*width: 11px;*/
+/*height: 11px;*/
+/*top: 5px;*/
 /*}*/
 /*.dj_rtl .esriPopup .titleButton.maximize {*/
-    /*right: auto;*/
-    /*left: 22px;*/
+/*right: auto;*/
+/*left: 22px;*/
 /*}*/
 /*.esriPopup .titleButton.restore {*/
-    /*right: 22px;*/
-    /*background-position: -42px -25px;*/
-    /*width: 11px;*/
-    /*height: 11px;*/
-    /*top: 5px;*/
+/*right: 22px;*/
+/*background-position: -42px -25px;*/
+/*width: 11px;*/
+/*height: 11px;*/
+/*top: 5px;*/
 /*}*/
 /*.dj_rtl .esriPopup .titleButton.restore {*/
-    /*right: auto;*/
-    /*left: 22px;*/
+/*right: auto;*/
+/*left: 22px;*/
 /*}*/
 /*.esriPopup .titleButton.close {*/
-    /*right: 3px;*/
-    /*background-position: 0 0;*/
-    /*width: 12px;*/
-    /*height: 17px;*/
+/*right: 3px;*/
+/*background-position: 0 0;*/
+/*width: 12px;*/
+/*height: 17px;*/
 /*}*/
 /*.dj_rtl .esriPopup .titleButton.close {*/
-    /*right: auto;*/
-    /*left: 3px;*/
+/*right: auto;*/
+/*left: 3px;*/
 /*}*/
 /*.dj_ie7 .esriPopup .titleButton.hidden {*/
-    /*background: none;*/
+/*background: none;*/
 /*}*/
 /*.esriPopup .contentPane {*/
-    /*position: relative;*/
-    /*max-height: 300px;*/
-    /*overflow: auto;*/
-    /*padding: 10px 6px 6px 10px;*/
-    /*background-color: #F7F7F7;*/
-    /*color: #333333;*/
+/*position: relative;*/
+/*max-height: 300px;*/
+/*overflow: auto;*/
+/*padding: 10px 6px 6px 10px;*/
+/*background-color: #F7F7F7;*/
+/*color: #333333;*/
 /*}*/
 /*.esriPopup .contentPane img {*/
-    /*image-orientation: from-image;*/
+/*image-orientation: from-image;*/
 /*}*/
 /*.esriPopup .actionsPane {*/
-    /*padding: 2px 10px 4px 10px;*/
-    /*background-color: #F7F7F7;*/
-    /*border-radius: 0px 0px 5px 5px;*/
-    /*-webkit-border-radius: 0px 0px 5px 5px;*/
-    /*position: relative;*/
+/*padding: 2px 10px 4px 10px;*/
+/*background-color: #F7F7F7;*/
+/*border-radius: 0px 0px 5px 5px;*/
+/*-webkit-border-radius: 0px 0px 5px 5px;*/
+/*position: relative;*/
 /*}*/
 /*.dj_ie11 .esriPopup .actionsPane {*/
-    /*border-top: 1px solid #f7f7f7;*/
+/*border-top: 1px solid #f7f7f7;*/
 /*}*/
 /*.esriPopup .actionsPane .action {*/
-    /*margin-right: 10px;*/
+/*margin-right: 10px;*/
 /*}*/
 /*.dj_rtl .esriPopup .actionsPane .action {*/
-    /*margin-right: 0;*/
-    /*margin-left: 10px;*/
+/*margin-right: 0;*/
+/*margin-left: 10px;*/
 /*}*/
 /*.esriPopup .pointer,.esriPopup .outerPointer {*/
-    /*background: #F7F7F7;*/
-    /*display: none;*/
-    /*height: 16px;*/
-    /*position: absolute;*/
-    /*width: 16px;*/
-    /*z-index: 0;*/
-    /*transform: rotate(45deg);*/
-    /*-moz-transform: rotate(45deg);*/
-    /*-ms-transform: rotate(45deg);*/
-    /*-o-transform: rotate(45deg);*/
-    /*-webkit-transform: rotate(45deg);*/
-    /*box-shadow: 0 0 0.75em #777777;*/
-    /*-webkit-box-shadow: 0 0 0.75em #777777;*/
+/*background: #F7F7F7;*/
+/*display: none;*/
+/*height: 16px;*/
+/*position: absolute;*/
+/*width: 16px;*/
+/*z-index: 0;*/
+/*transform: rotate(45deg);*/
+/*-moz-transform: rotate(45deg);*/
+/*-ms-transform: rotate(45deg);*/
+/*-o-transform: rotate(45deg);*/
+/*-webkit-transform: rotate(45deg);*/
+/*box-shadow: 0 0 0.75em #777777;*/
+/*-webkit-box-shadow: 0 0 0.75em #777777;*/
 /*}*/
 /*.dj_ie7 .esriPopup .pointer,.dj_ie7 .esriPopup .outerPointer {*/
-    /*z-index: -1;*/
+/*z-index: -1;*/
 /*}*/
 /*.esriPopup .pointer.top {*/
-    /*background: #444;*/
-    /*display: block;*/
-    /*left: 50%;*/
-    /*top: -8px;*/
-    /*margin-left: -8px;*/
+/*background: #444;*/
+/*display: block;*/
+/*left: 50%;*/
+/*top: -8px;*/
+/*margin-left: -8px;*/
 /*}*/
 /*.esriPopup.blueTheme .pointer.top {*/
-    /*display: block;*/
-    /*left: 50%;*/
-    /*top: -8px;*/
-    /*margin-left: -8px;*/
-    /*background: #5491B8;*/
+/*display: block;*/
+/*left: 50%;*/
+/*top: -8px;*/
+/*margin-left: -8px;*/
+/*background: #5491B8;*/
 /*}*/
 /*.esriPopup .pointer.bottom {*/
-    /*display: block;*/
-    /*left: 50%;*/
-    /*margin-left: -8px;*/
-    /*bottom: -7px;*/
+/*display: block;*/
+/*left: 50%;*/
+/*margin-left: -8px;*/
+/*bottom: -7px;*/
 /*}*/
 /*.esriPopup .outerPointer.right {*/
-    /*display: block;*/
-    /*right: 8px;*/
-    /*top: 50%;*/
-    /*margin-top: -8px;*/
+/*display: block;*/
+/*right: 8px;*/
+/*top: 50%;*/
+/*margin-top: -8px;*/
 /*}*/
 /*.esriPopup .outerPointer.left {*/
-    /*display: block;*/
-    /*left: 8px;*/
-    /*margin-top: -8px;*/
-    /*top: 50%;*/
+/*display: block;*/
+/*left: 8px;*/
+/*margin-top: -8px;*/
+/*top: 50%;*/
 /*}*/
 /*.esriPopup .pointer.topLeft {*/
-    /*background: #444;*/
-    /*display: block;*/
-    /*left: 6px;*/
-    /*top: -7px;*/
+/*background: #444;*/
+/*display: block;*/
+/*left: 6px;*/
+/*top: -7px;*/
 /*}*/
 /*.esriPopup.blueTheme .pointer.topLeft {*/
-    /*background: #5491B8;*/
-    /*display: block;*/
-    /*left: 5px;*/
-    /*top: -7px;*/
+/*background: #5491B8;*/
+/*display: block;*/
+/*left: 5px;*/
+/*top: -7px;*/
 /*}*/
 /*.esriPopup .pointer.topRight {*/
-    /*background: #444;*/
-    /*display: block;*/
-    /*right: 5px;*/
-    /*top: -7px;*/
+/*background: #444;*/
+/*display: block;*/
+/*right: 5px;*/
+/*top: -7px;*/
 /*}*/
 /*.esriPopup.blueTheme .pointer.topRight {*/
-    /*background: #5491B8;*/
-    /*display: block;*/
-    /*right: 5px;*/
-    /*top: -7px;*/
+/*background: #5491B8;*/
+/*display: block;*/
+/*right: 5px;*/
+/*top: -7px;*/
 /*}*/
 /*.esriPopup .pointer.bottomRight {*/
-    /*display: block;*/
-    /*right: 5px;*/
-    /*bottom: -7px;*/
+/*display: block;*/
+/*right: 5px;*/
+/*bottom: -7px;*/
 /*}*/
 /*.esriPopup .pointer.bottomLeft {*/
-    /*display: block;*/
-    /*left: 5px;*/
-    /*bottom: -7px;*/
+/*display: block;*/
+/*left: 5px;*/
+/*bottom: -7px;*/
 /*}*/
 /*.dj_ie7 .esriPopup .pointer.hidden {*/
-    /*background: none;*/
+/*background: none;*/
 /*}*/
 /*.dj_ie8 .esriPopup .pointer,.dj_ie8 .esriPopup .outerPointer {*/
-    /*-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865474, M12=-0.7071067811865476, M21=0.7071067811865476, M22=0.7071067811865474, SizingMethod='auto expand')";*/
+/*-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865474, M12=-0.7071067811865476, M21=0.7071067811865476, M22=0.7071067811865474, SizingMethod='auto expand')";*/
 /*}*/
 /*.dj_ie7 .esriPopup .pointer,.dj_ie7 .esriPopup .outerPointer {*/
-    /*filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865474, M12=-0.7071067811865476, M21=0.7071067811865476, M22=0.7071067811865474, SizingMethod='auto expand');*/
+/*filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.7071067811865474, M12=-0.7071067811865476, M21=0.7071067811865476, M22=0.7071067811865474, SizingMethod='auto expand');*/
 /*}*/
 /*.dj_ie7 .esriPopup .pointer.bottom,.dj_ie8 .esriPopup .pointer.bottom {*/
-    /*margin-left: -10px;*/
+/*margin-left: -10px;*/
 /*}*/
 /*.dj_ie7 .esriPopup .pointer.bottom {*/
-    /*margin-bottom: -2px;*/
+/*margin-bottom: -2px;*/
 /*}*/
 /*.dj_ie8 .esriPopup .pointer.bottom,.dj_ie8 .esriPopup .pointer.bottomLeft,.dj_ie8 .esriPopup .pointer.bottomRight {*/
-    /*margin-bottom: 2px;*/
+/*margin-bottom: 2px;*/
 /*}*/
 /*.dj_ie7 .esriPopup .pointer.bottomRight {*/
-    /*margin-left: 4px;*/
+/*margin-left: 4px;*/
 /*}*/
 /*.dj_ie8 .esriPopup .pointer.bottomRight {*/
-    /*margin-right: 2px;*/
+/*margin-right: 2px;*/
 /*}*/
 /*.dj_ie8 .esriPopup .pointer.bottomLeft {*/
-    /*margin-left: -4px;*/
+/*margin-left: -4px;*/
 /*}*/
 /*.dj_ie7 .esriPopup .outerPointer.left,.dj_ie8 .esriPopup .outerPointer.left {*/
-    /*left: 5px;*/
+/*left: 5px;*/
 /*}*/
 /*.dj_ie7 .esriPopup .outerPointer.right {*/
-    /*right: 5px;*/
+/*right: 5px;*/
 /*}*/
 /*.dj_ie8 .esriPopup .outerPointer.right {*/
-    /*right: 11px;*/
+/*right: 11px;*/
 /*}*/
 /*.dj_ie8 .esriPopup .pointer.topRight,.dj_ie8 .esriPopup .pointer.top,.dj_ie8 .esriPopup .pointer.topLeft {*/
-    /*top: -11px;*/
+/*top: -11px;*/
 /*}*/
 /*.dj_ie8 .esriPopup .pointer.topRight,.dj_ie8 .esriPopup .pointer.top {*/
-    /*right: 6px;*/
+/*right: 6px;*/
 /*}*/
 /*.dj_ie8 .esriPopup .pointer.topLeft {*/
-    /*left: 1px;*/
+/*left: 1px;*/
 /*}*/
-
-
 
 /*.map-coordinates{z-index:888;position: absolute; background: #ccc;right: 30px;bottom: 5px;width:230px;height:auto;overflow: hidden;text-align:center;}*/
 

@@ -5,6 +5,8 @@ define([
   "dojo/request/xhr",
   "dojo/Deferred",
   "dojo/query",
+  "dojo/NodeList-fx",
+  "dojo/dom-style",
   "jimu/BaseWidget",
   "jimu/CustomLayers/ChengDiDynamicMapServiceLayer",
   "assets/global/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js"
@@ -15,6 +17,8 @@ define([
   xhr,
   Deferred,
   query,
+  nodeListFx,
+  domStyle,
   BaseWidget,
   ChengDiDynamicMapServiceLayer
 ) {
@@ -30,40 +34,11 @@ define([
     },
 
     onOpen: function () {
-      /*gis显示隐藏cad图层*/
-      $(".cad-selected-box").click(function(){
-        $(".selected-cad .panel-body").hide();
-        $(".selected-cad").show("slow",function(){
-          $(document).resize();
-          $(".selected-cad .panel-body").fadeIn("fast");
-        });
+      query(".cad-selected-box").on("click", function () {
+        console.log(query(".selected-cad .panel-body"));
+        domStyle.set(query(".selected-cad .panel-body")[0], "display", "block");
 
       });
-      $(".close-selected-cad").click(function(){
-        $(".selected-cad").hide("slow");
-      });
-      /*gis显示隐藏cad图层*/
-      /*选中子图层*/
-      $(".tab-pane-checkbox a").click(function(){
-        if($(this).hasClass("active")){
-          $(this).removeClass("active");
-        }else{
-          $(this).addClass("active");
-        }
-      });
-      /*选中子图层*/
-      /*全选所有图层*/
-      $(".tab-pane-allcheck a").click(
-        function(){
-          if($(this).hasClass("active")){
-            $(this).removeClass("active");
-            $(this).parent().next(".tab-pane-checkbox").find("a").removeClass("active");
-          }else{
-            $(this).addClass("active");
-            $(this).parent().next(".tab-pane-checkbox").find("a").addClass("active");
-          }
-        }
-      );
     },
 
     /**

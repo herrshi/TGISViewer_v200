@@ -7,6 +7,7 @@ define([
   "dojo/_base/array",
   "dojo/topic",
   "jimu/BaseWidget",
+  "jimu/utils",
   "esri/graphic",
   "esri/layers/GraphicsLayer",
   "esri/geometry/jsonUtils",
@@ -25,6 +26,7 @@ define([
              array,
              topic,
              BaseWidget,
+             jimuUtils,
              Graphic,
              GraphicsLayer,
              geometryJsonUtils,
@@ -317,6 +319,7 @@ define([
       var overlays = overlayParams.overlays;
 
       var showPopup = overlayParams.showPopup === true;
+      var autoPopup = overlayParams.autoPopup === true;
 
       array.forEach(overlays, function (overlayObj) {
         var id = overlayObj.id;
@@ -352,6 +355,10 @@ define([
         graphic.buttons = buttons;
         if (showPopup) {
           graphic.infoTemplate = new InfoTemplate({content: this._getInfoWindowContent(graphic)});
+        }
+        if (autoPopup) {
+          this.map.infoWindow.setContent(this._getInfoWindowContent(graphic));
+          this.map.infoWindow.show(jimuUtils.getGeometryCenter(graphic.geometry));
         }
 
         this.graphicsLayer.add(graphic);
