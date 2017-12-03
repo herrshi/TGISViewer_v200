@@ -6,6 +6,7 @@ define([
   "dojo/Deferred",
   "dojo/query",
   "dojo/NodeList-fx",
+  "dojo/NodeList-dom",
   "dojo/dom-style",
   "jimu/BaseWidget",
   "jimu/CustomLayers/ChengDiDynamicMapServiceLayer",
@@ -18,6 +19,7 @@ define([
   Deferred,
   query,
   nodeListFx,
+  nodeListDom,
   domStyle,
   BaseWidget,
   ChengDiDynamicMapServiceLayer
@@ -35,9 +37,8 @@ define([
 
     onOpen: function () {
       query(".cad-selected-box").on("click", function () {
-        console.log(query(".selected-cad .panel-body"));
-        domStyle.set(query(".selected-cad .panel-body")[0], "display", "block");
-
+        // console.log(query(".selected-cad .panel-body"));
+        query(".selected-cad").style("display", "block");
       });
     },
 
