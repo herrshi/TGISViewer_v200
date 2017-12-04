@@ -46,9 +46,9 @@ define([
       template.layout = "MAP_ONLY";
       template.preserveScale = false;
       template.exportOptions = {
-        width: 1600,
-        height: 900,
-        dpi: 96
+        width: 2560,
+        height: 1440,
+        dpi: 150
       };
       var params = new PrintParameters();
       params.map = this.map;

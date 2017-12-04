@@ -105,9 +105,9 @@ define([
         sync: true
       }).then(lang.hitch(this, function (token) {
         this.appConfig.serviceToken = token.substr(0, token.length - 2);
-        console.log(this.appConfig.serviceToken.length, token.length);
+        console.log("token: " + this.appConfig.serviceToken);
       }), function (error) {
-        console.log(error);
+        console.error(error);
       });
 
       // xhr(tokenConfig.tokenUrl, {
