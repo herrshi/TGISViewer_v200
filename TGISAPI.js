@@ -855,6 +855,7 @@ var TMap = {
    * 开始轨迹回放
    * @param params: string, required.
    *   trackPoints: [object], required. 轨迹点列表.
+   *     id: string, required. 轨迹点id.
    *     x: number, required. x坐标.
    *     y: number, required. y坐标.
    *     isHighlight: boolean, optional. 是否需要高亮显示此轨迹点.

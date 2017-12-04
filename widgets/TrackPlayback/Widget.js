@@ -102,6 +102,7 @@ define([
 
       topic.subscribe("startTrackPlayback", lang.hitch(this, this.onTopicHandler_startTrackPlayback));
       topic.subscribe("stopTrackPlayback", lang.hitch(this, this.onTopicHandler_stopTrackPlayback));
+      topic.subscribe("findFeature", lang.hitch(this, this.onTopicHandler_findFeature));
     },
 
     _clearData: function () {
@@ -192,13 +193,16 @@ define([
       lineGraphic.symbol = this.trackLineSymbol;
       this.trackLineLayer.add(lineGraphic);
 
-      this.movingPointGraphic = new Graphic(new Point(this.trackPoints[0].x, this.trackPoints[0].y), this.movingPointSymbol);
-      this.movingPointLayer.add(this.movingPointGraphic);
+      //移动
       if (autoStart) {
+        this.movingPointLayer.clear();
+        this.movingPointGraphic = new Graphic(new Point(this.trackPoints[0].x, this.trackPoints[0].y), this.movingPointSymbol);
+        this.movingPointLayer.add(this.movingPointGraphic);
         this._movePoint(0, 1);
       }
     },
 
+    /**播放移动动画*/
     _movePoint: function(startIndex, endIndex) {
       var x1 = this.trackPoints[startIndex].x;
       var y1 = this.trackPoints[startIndex].y;
@@ -245,18 +249,19 @@ define([
 
     _calculateAngle: function (x1, y1, x2, y2) {
       var tan = Math.atan (Math.abs ((y2 - y1) / (x2 - x1))) * 180 / Math.PI + 90;
-      if (x2 > x1 && y2 > y1)//第一象限
-      {
+      //第一象限
+      if (x2 > x1 && y2 > y1) {
         return -tan + 180;
       }
-      else if (x2 > x1 && y2 < y1)//第二象限
-      {
+      //第二象限
+      else if (x2 > x1 && y2 < y1) {
         return tan;
       }
-      else if (x2 < x1 && y2 > y1)//第三象限
-      {
+      //第三象限
+      else if (x2 < x1 && y2 > y1) {
         return tan - 180;
       }
+      //第四象限
       else {
         return -tan;
       }
@@ -264,6 +269,12 @@ define([
 
     onTopicHandler_stopTrackPlayback: function () {
       this._clearData();
+    },
+    
+    onTopicHandler_findFeature: function (params) {
+      if (params.layerName.toLowerCase() === "trackPlayback".toLowerCase()) {
+
+      }
     }
 
 
