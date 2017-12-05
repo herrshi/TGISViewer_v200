@@ -29,7 +29,6 @@
       "right": 0,
       "bottom": 0
     },
-    "CADServiceUrl": "http://139.196.105.31:9001/Cad/Rest/{name}/MapServer",
     "basemaps": [
       {
         "label": "矢量图",
@@ -64,12 +63,6 @@
       {
         "label": "地形图",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_bw/MapServer",
-        "type": "tiled",
-        "visible": false
-      },
-      {
-        "label": "2005年",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_aerial_2005/MapServer",
         "type": "tiled",
         "visible": false
       },
@@ -534,7 +527,7 @@
       },
       {
         "label": "道路搜索",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_road_search/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_road/MapServer",
         "type": "dynamic",
         "visible": false
       },
@@ -747,6 +740,15 @@
         "uri": "widgets/MultiSearch/Widget",
         "config": "configs/MultiSearch/config_MultiSearch_JiaoWei.json",
         "id": "MultiSearchWidget"
+      },
+      {
+        "uri": "widgets/CADSublayerList/Widget",
+        "config": "configs/CADSublayerList/config_CADSublayerList_zw.json",
+        "position": {
+          "left": 60,
+          "bottom": 5
+        },
+        "id": "CADSublayerListWidget"
       }
     ]
   }

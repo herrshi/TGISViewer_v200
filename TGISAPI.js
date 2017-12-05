@@ -247,6 +247,17 @@ var TMap = {
       topic.publish("setMapExtent", params);
     });
   },
+
+  /**
+   * 将地图当前显示的内容保存为图片
+   * @param params, object, required.
+   *   width: number, optional. 图片宽度. 默认为2560.
+   *   height: number, optional. 图片高度. 默认为1440.
+   *   dpi: number, optional. 默认为96.
+   * */
+  exportMap: function (params) {
+
+  },
   /************************ Map Control END **************************/
 
   /************************ Layer & Service BEGIN **************************/

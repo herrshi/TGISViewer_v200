@@ -9,8 +9,7 @@ define([
   "dojo/NodeList-dom",
   "dojo/dom-style",
   "jimu/BaseWidget",
-  "jimu/CustomLayers/ChengDiDynamicMapServiceLayer",
-  "assets/global/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js"
+  "jimu/CustomLayers/ChengDiDynamicMapServiceLayer"
 ], function (
   declare,
   lang,

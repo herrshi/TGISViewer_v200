@@ -12,7 +12,7 @@
     "hasLocale": false,
     "hasStyle": false,
     "hasConfig": true,
-    "hasUIFile": true,
+    "hasUIFile": false,
     "hasSettingPage": false,
     "keepConfigAfterMapSwitched": false,
     "supportMultiInstance": false
