@@ -174,6 +174,7 @@ define([
           console.log(trackPoint);
           var point = new Point(trackPoint.x, trackPoint.y);
           var graphic = new Graphic(point);
+          graphic.id = trackPoint.id;
           graphic.symbol = (trackPoint.isHighlight === true ? this.highlightPointSymbol : this.trackPointSymbol);
           graphic.attributes = trackPoint.fields;
           graphic.infoTemplate = new InfoTemplate({content: this._getInfoWindowContent(graphic)});
@@ -211,7 +212,7 @@ define([
       //斜率
       var p = (y2 - y1) / (x2 - x1);
       //距离. 距离越小,位置越精确
-      var v = 0.001;
+      var v = 0.0005;
       this.movingFunction = setInterval(lang.hitch(this, function () {
         // this.startIndex = startIndex;
         // this.endIndex = endIndex;
@@ -244,7 +245,7 @@ define([
             this._movePoint(0, 1);
           }
         }
-      }), 50);
+      }), 20);
     },
 
     _calculateAngle: function (x1, y1, x2, y2) {
@@ -272,8 +273,19 @@ define([
     },
     
     onTopicHandler_findFeature: function (params) {
-      if (params.layerName.toLowerCase() === "trackPlayback".toLowerCase()) {
+      if (params.params.layerName.toLowerCase() === "trackPlayback".toLowerCase()) {
+        console.log(this.trackPointLayer.graphics);
+        array.forEach(this.trackPointLayer.graphics, function (trackPointGraphic) {
+          if (trackPointGraphic.id === params.params.ids[0]) {
+            this.map.centerAt(trackPointGraphic.geometry);
 
+            var node = trackPointGraphic.getNode();
+            node.setAttribute("data-highlight", "highlight");
+            setTimeout(function () {
+              node.setAttribute("data-highlight", "");
+            }, 5000);
+          }
+        }, this);
       }
     }
 
