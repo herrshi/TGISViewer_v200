@@ -251,12 +251,16 @@ var TMap = {
   /**
    * 将地图当前显示的内容保存为图片
    * @param params, object, required.
-   *   width: number, optional. 图片宽度. 默认为2560.
-   *   height: number, optional. 图片高度. 默认为1440.
+   *   width: number, optional. 图片宽度. 默认为当前地图div宽度.
+   *   height: number, optional. 图片高度. 默认为当前地图div高度.
    *   dpi: number, optional. 默认为96.
+   * @param callback, function, optional.
+   *   接受图片url的回调函数
    * */
-  exportMap: function (params) {
-
+  exportMap: function (params, callback) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("Print", {params: params, callback: callback});
+    });
   },
   /************************ Map Control END **************************/
 

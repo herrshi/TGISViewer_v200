@@ -22,8 +22,6 @@ define([
 ) {
   var clazz = declare([BaseWidget], {
     name: "Print",
-
-    // printingToolUrl: "http://{gisServer}/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
     printTask: null,
 
 
@@ -37,25 +35,37 @@ define([
       topic.subscribe("Print", lang.hitch(this, this.onTopicHandler_print));
     },
 
-    onTopicHandler_print: function () {
+    onTopicHandler_print: function (params) {
       var loading = new LoadingIndicator();
       loading.placeAt(window.jimuConfig.layoutId);
+
+
+      console.log(this.map.width, this.map.height);
+      var exportWidth = params && params.params.width ? params.params.width : this.map.width;
+      var exportHeight = params && params.params.height ? params.params.height : this.map.height;
+      var exportDpi = params && params.params.dpi ? params.params.dpi : 96;
 
       var template = new PrintTemplate();
       template.format = "png32";
       template.layout = "MAP_ONLY";
       template.preserveScale = false;
       template.exportOptions = {
-        width: 2560,
-        height: 1440,
-        dpi: 150
+        width: exportWidth,
+        height: exportHeight,
+        dpi: exportDpi
       };
-      var params = new PrintParameters();
-      params.map = this.map;
-      params.template = template;
+      var printParams = new PrintParameters();
+      printParams.map = this.map;
+      printParams.template = template;
 
-      this.printTask.execute(params, function(evt){
-        window.open(evt.url,"_blank");
+      this.printTask.execute(printParams, function(evt){
+        if (params && params.callback) {
+          params.callback(evt.url);
+        }
+        else {
+          window.open(evt.url,"_blank");
+        }
+
         loading.destroy();
       }, function (error) {
         console.error(error);

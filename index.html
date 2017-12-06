@@ -135,7 +135,7 @@
 //      map.showLayer({label: "内河港区"});
 //      map.addLayer({label: "111", url: "http://128.64.151.222:6080/arcgis/rest/services/CADServices/project222_constructing/MapServer"});
 //      map.addLayer({label: "wmsTest", url: "http://172.16.20.2:8090/iserver/services/map-Data010/wms111/test2", type: "wms"});
-//      map.addLayer({type: "ChengDiDynamic", url: "1334321645506627", label: "cad111", showSublayers: true});
+//      map.addLayer({type: "ChengDiDynamic", url: "16070555523454", label: "cad111"});
 
 //      map.addLines('{"lines":[{"id":"wx001","geometry":{"paths":[[[-5699, -3025],[-4937, -2720],[-1685, -1112]]]},"symbol":{"style":"solid","color":"#00FF00","alpha": 0.5, "width":8}}]}');
 
@@ -202,8 +202,13 @@
     //   ]
     // });
     // map.addOverlays('{"showPopup":true,"autoPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
-    map.startTrackPlayback('{"trackPoints":[{"id":"1","y":30.572361378,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.968324303},{"id":"2","y":30.587839189,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.939579349},{"id":"3","y":30.587839189,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.939579349},{"id":"4","y":30.599899517,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.934663829},{"id":"5","y":30.5807029952938,"fields":{"经过时间":"2015-08-01 00:05:10"},"x":103.92919895599125}]}');
+    // map.startTrackPlayback('{"trackPoints":[{"id":"1","y":30.572361378,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.968324303},{"id":"2","y":30.587839189,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.939579349},{"id":"3","y":30.587839189,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.939579349},{"id":"4","y":30.599899517,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.934663829},{"id":"5","y":30.5807029952938,"fields":{"经过时间":"2015-08-01 00:05:10"},"x":103.92919895599125}]}');
+
+    map.exportMap({}, function (url) {
+      console.log(url);
+    });
   }
+
 
   function Test2ClickHandler() {
 //      map.addSwipeLayer({layerType: "reference", layer: {label: "db2", url: "http://172.16.20.2:6080/arcgis/rest/services/CADServices/p20170725111146_c20170725111146/MapServer"}})
@@ -233,7 +238,9 @@
 //      map.removeLayer({label: "cad111"});
 //      map.stopTrackPlayback();
 //      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: "2017/11/24 08:00:00"}, {x: 104.002, y: 30.565, time: "2017/11/24 08:00:05"}], autoStart: true, loop: true, showTrackPoints: true});
-    map.findFeature({layerName: "trackPlayback", ids: ["1"]});
+//     map.findFeature({layerName: "trackPlayback", ids: ["1"]});
+
+    map.addLayer({type: "ChengDiDynamic", url: "16070555523454", label: "cad111"});
   }
 
   function Test3ClickHandler() {
