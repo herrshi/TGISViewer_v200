@@ -36,8 +36,13 @@ define([
 
     onOpen: function () {
       query(".cad-selected-box").on("click", function () {
-        // console.log(query(".selected-cad .panel-body"));
-        query(".selected-cad").style("display", "block");
+        query(".selected-cad").style("opacity", 0).style("display", "block");
+        query(".selected-cad").fadeIn({duration:500}).play();
+      });
+
+      query(".close-selected-cad").on("click", function () {
+        query(".selected-cad").fadeOut({duration:500}).play();
+        // query(".selected-cad").style("display", "none");
       });
     },
 
@@ -56,12 +61,26 @@ define([
       xhr(url + "?f=json", {
         handleAs: "json"
       }).then(function (data) {
-        def.resolve(data.layers);
+        if (data !== undefined && data !== null ) {
+          def.resolve(data.layers);
+        }
+        else {
+          def.reject("服务不存在");
+        }
+
       }, function (error) {
         def.reject(error);
       });
 
       return def;
+    },
+
+    _showSublayerInfo: function (layerLabel, sublayerInfos) {
+      //取消原先tab的激活状态
+      query(".nav-tabs li").removeClass("active");
+      //新增一个tab, 设置为激活状态
+      query(".nav-tabs").addContent("<li href='" + layerLabel + "' class='active'><a data-toggle='tab'>" + layerLabel + "</a></li>");
+      //新增子图层
     },
     
     onTopicHandler_addLayer: function (params) {
@@ -80,9 +99,9 @@ define([
           this._showWholeLayer(layerUrl, layerLabel);
         }
         else {
-          this._getSublayerInfo(layerUrl).then(function (sublayerInfos) {
-            console.log(sublayerInfos);
-          });
+          this._getSublayerInfo(layerUrl).then(lang.hitch(this, function (sublayerInfos) {
+            this._showSublayerInfo(layerLabel, sublayerInfos);
+          }));
         }
       }
 

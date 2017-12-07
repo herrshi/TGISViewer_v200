@@ -10,9 +10,9 @@
   "properties": {
     "inPanel": false,
     "hasLocale": false,
-    "hasStyle": false,
+    "hasStyle": true,
     "hasConfig": true,
-    "hasUIFile": false,
+    "hasUIFile": true,
     "hasSettingPage": false,
     "keepConfigAfterMapSwitched": false,
     "supportMultiInstance": false
