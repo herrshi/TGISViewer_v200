@@ -1,6 +1,7 @@
 define([
   "dojo/_base/declare",
   "dojo/_base/lang",
+  "dojo/_base/array",
   "dojo/topic",
   "dojo/request/xhr",
   "dojo/Deferred",
@@ -13,6 +14,7 @@ define([
 ], function (
   declare,
   lang,
+  array,
   topic,
   xhr,
   Deferred,
@@ -81,6 +83,9 @@ define([
       //新增一个tab, 设置为激活状态
       query(".nav-tabs").addContent("<li href='" + layerLabel + "' class='active'><a data-toggle='tab'>" + layerLabel + "</a></li>");
       //新增子图层
+      array.forEach(sublayerInfos, function (sublayerInfo) {
+        var layerName = sublayerInfo.name;
+      }, this);
     },
     
     onTopicHandler_addLayer: function (params) {
