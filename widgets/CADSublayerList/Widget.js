@@ -9,6 +9,7 @@ define([
   "dojo/NodeList-fx",
   "dojo/NodeList-dom",
   "dojo/dom-style",
+  "dojo/dom-class",
   "jimu/BaseWidget",
   "jimu/CustomLayers/ChengDiDynamicMapServiceLayer"
 ], function (
@@ -22,6 +23,7 @@ define([
   nodeListFx,
   nodeListDom,
   domStyle,
+  domClass,
   BaseWidget,
   ChengDiDynamicMapServiceLayer
 ) {
@@ -37,14 +39,20 @@ define([
     },
 
     onOpen: function () {
+      //隐藏按钮和面板
+      query(".cad-selected-box").style("opacity", 0).style("display", "block");
+      query(".selected-cad").style("opacity", 0).style("display", "block");
+
+      //cad按钮点击事件
       query(".cad-selected-box").on("click", function () {
-        query(".selected-cad").style("opacity", 0).style("display", "block");
         query(".selected-cad").fadeIn({duration:500}).play();
+        query(".cad-selected-box").fadeOut({duration:500}).play();
       });
 
+      //面板最小化点击事件
       query(".close-selected-cad").on("click", function () {
         query(".selected-cad").fadeOut({duration:500}).play();
-        // query(".selected-cad").style("display", "none");
+        query(".cad-selected-box").fadeIn({duration:500}).play();
       });
     },
 
@@ -77,15 +85,34 @@ define([
       return def;
     },
 
+    //chechBox点击事件
+    _addSublayerCheckBoxClickEvent: function () {
+      query(".tab-pane-checkbox a").on("click", function () {
+        domClass.toggle(this, "active");
+      });
+    },
+
     _showSublayerInfo: function (layerLabel, sublayerInfos) {
+      //显示子图层面板
+      query(".selected-cad").fadeIn({duration:500}).play();
+
       //取消原先tab的激活状态
       query(".nav-tabs li").removeClass("active");
+      //取消checkbox div的激活状态
+      query(".checkbox-height div").removeClass("active");
+
       //新增一个tab, 设置为激活状态
-      query(".nav-tabs").addContent("<li href='" + layerLabel + "' class='active'><a data-toggle='tab'>" + layerLabel + "</a></li>");
+      query(".nav-tabs").addContent("<li class='active'><a href='#" + layerLabel + "' data-toggle='tab'>" + layerLabel + "</a></li>");
+      //新增checkbox div
+      query(".checkbox-height").addContent("<div class='tab-pane active' id='" + layerLabel + "'><div class='row'><div class='col-xs-12 tab-pane-allcheck'><a href='javascript:;'><span class='btn btn-black'><i class='fa fa-check'></i></span><label>全选</label></a></div><div class='col-xs-12 tab-pane-checkbox'></div></div></div>");
+
       //新增子图层
       array.forEach(sublayerInfos, function (sublayerInfo) {
         var layerName = sublayerInfo.name;
+        query("#" + layerLabel + " .tab-pane-checkbox").addContent("<a href='javascript:;' class='active'><span class='btn btn-black'><i class='fa fa-check'></i></span><label>" + layerName + "</label></a>");
       }, this);
+
+      this._addSublayerCheckBoxClickEvent();
     },
     
     onTopicHandler_addLayer: function (params) {
