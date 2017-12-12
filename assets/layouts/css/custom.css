@@ -880,11 +880,48 @@ font-weight: 600;
 
 
 
+/*投影仪样式*/
+.btn.green:not(.btn-outline),.btn-success,.btn .btn-sm .green {background-color: #4276a4; border-color: #2d5f8b; color: #fff;}
+.btn.green:hover:not(.btn-outline),.btn-success:hover,.btn .btn-sm .green:hover{background-color: #14567a; border-color: #0e4665; color: #95c1de;}
+
+.btn-black,.btn-black-menu {
+  color: #fff;
+ font-size: 16px;
+  background-color: #263554;
+  border-color: #263554; }
+  .btn-black:focus, .btn-black.focus,.btn-black-menu:focus,.btn-black-menu.focus {
+    color: #fff;
+    background-color: #14567a;
+    border-color: #0e4665; }
+  .btn-black:hover,.btn-black-menu:hover {
+    color: #fff;
+    background-color: #14567a;
+    border-color: #0e4665; }
+  .btn-black:active, .btn-black.active,
+ .btn-black-menu:active, .btn-black-menu.active{
+    color: #fff;
+    background-color: #14567a;
+    border-color: #0e4665; }
+    .btn-black:active:hover, .btn-black:active:focus, .btn-black:active.focus, .btn-black.active:hover, .btn-black.active:focus, .btn-black.active.focus,
+.btn-black-menu:active:hover, .btn-black-menu:active:focus, .btn-black-menu:active.focus, .btn-black-menu.active:hover, .btn-black-menu.active:focus, .btn-black-menu.active.focus{
+      color: #fff;
+      background-color: #14567a;
+      border-color: #0e4665; }
+  .btn-black:active, .btn-black.active,
+  .btn-black-menu:active, .btn-black-menu.active{
+    background-image: none; }
+
+.gis-menu-list .portlet.light > .portlet-title > .caption > .caption-subject { font-size:16px;}
+.portlet > .portlet-title > .actions {font-size:16px;}
+.accordion .panel-black .panel-title .accordion-toggle { font-size:16px;}
+.feeds-gis li { font-size:16px;} 
+
+
 /*zhangping,2017-11-23*/
 /*CAD图层*/
 .cad-selected-box {position: absolute; left:130px; bottom:0; z-index: 999;}
 .cadselected-height { display: block; margin-top:-5px;}
-.selected-cad {position: absolute; bottom:60px; width:400px; z-index: 999; left:130px;display: none;}
+.selected-cad {position: absolute; bottom:60px; width:480px; z-index: 999; left:130px;display: block;}
 .checkbox-height {height: 324px; overflow:hidden; overflow-y: auto}
 .rselected-cad {position: absolute; bottom:60px; width:300px; z-index: 999; right:10px;display: block;}
 .selected-cad .portlet,.rselected-cad .portlet{ margin-bottom: 0;}
@@ -917,7 +954,7 @@ border-bottom: 8px solid #263554;
 border-left: 8px solid transparent;}
 /*图层选择*/
 .tab-pane-checkbox a,
-.tab-pane-allcheck a{min-width:70px; margin:0 15px 6px 0; display: inline-block;}
+.tab-pane-allcheck a{min-width:130px; margin:0 15px 6px 0; display: inline-block;}
 .tab-pane-checkbox a label,
 .tab-pane-allcheck a label { float: left;  margin:1px 0 0 2px;}
 .tab-pane-checkbox a,.tab-pane-checkbox a label,
@@ -937,5 +974,5 @@ border-left: 8px solid transparent;}
 .tab-pane-checkbox a.active .fa-check,
 .tab-pane-allcheck a.active .fa-check{display:inline-block;}
 /*全选*/
-.tab-pane-allcheck { border-bottom:solid 1px #4b5771; margin-bottom:10px; padding-bottom:6px; box-shadow: 0 0 1px rgb(255,255,255,0.2)}
+.tab-pane-allcheck { border-bottom:solid 1px #4b5771; margin-bottom:10px; padding-bottom:6px; /*box-shadow: 0 0 1px rgb(255,255,255,0.2)*/}
 .tab-pane-allcheck a{margin:0 15px 0 0; display:inline-block;min-width: 70px;}
