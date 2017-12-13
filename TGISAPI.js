@@ -543,7 +543,7 @@ var TMap = {
    *  defaultButtons: [{}], optional. 弹出框的默认按钮.
    *    点击以后将调用js函数mapFeatureClicked(type, id)
    *    label: string, required. 按钮文本.
-   *    type: string, required. js函数featureClicked的type参数.
+   *    type: string, required. js函数mapFeatureClicked的type参数.
    *  showPopup: boolean, optional. 点击后是否显示弹出框.
    *    默认为false.
    *  autoPopup: boolean, optional. 是否自动显示弹出框, 只添加一个覆盖物时有效.

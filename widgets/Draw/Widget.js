@@ -147,16 +147,13 @@ define([
         this._enableBtn(this.btnUndo, false);
         this._enableBtn(this.btnRedo, false);
         this._enableBtn(this.btnClear, false);
+        this._enableBtn(this.btnSave, false);
 
         topic.subscribe("getOverlays", lang.hitch(this, this.onTopicHandler_getOverlays));
       },
 
-      onTopicHandler_getOverlays: function (params) {
+      _handleGeometryData: function () {
         var results = [];
-
-        var clearOverlays = params.params.clearOverlays !== false;
-        var callback = params.callback;
-
         array.forEach(this._graphicsLayer.graphics, function (graphic) {
           var geometry = graphic.geometry.toJson();
           delete geometry.spatialReference;
@@ -174,6 +171,33 @@ define([
           });
 
         });
+        return results;
+      },
+
+      onTopicHandler_getOverlays: function (params) {
+
+        var clearOverlays = params.params.clearOverlays !== false;
+        var callback = params.callback;
+
+        var results = this._handleGeometryData();
+
+        // array.forEach(this._graphicsLayer.graphics, function (graphic) {
+        //   var geometry = graphic.geometry.toJson();
+        //   delete geometry.spatialReference;
+        //
+        //   var symbol = graphic.symbol.toJson();
+        //   if (symbol.type === "esriPMS") {
+        //     delete symbol.imageData;
+        //     symbol.width /= 0.75;
+        //     symbol.height /= 0.75;
+        //   }
+        //
+        //   results.push({
+        //     geometry: geometry,
+        //     symbol: symbol
+        //   });
+        //
+        // });
 
         if (clearOverlays) {
           this._graphicsLayer.clear();
@@ -837,6 +861,7 @@ define([
         this._enableBtn(this.btnRedo, this._undoManager.canRedo);
         var graphics = this._getAllGraphics();
         this._enableBtn(this.btnClear, graphics.length > 0);
+        this._enableBtn(this.btnSave, graphics.length > 0);
         this._syncGraphicsToLayers();
       },
 
@@ -924,6 +949,11 @@ define([
           this._pushDeleteOperation(graphics);
         }
         this._enableBtn(this.btnClear, false);
+        this._enableBtn(this.btnSave, false);
+      },
+
+      _onBtnSaveClicked: function () {
+        getOverlays(this._handleGeometryData());
       }
     });
   });

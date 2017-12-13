@@ -10,6 +10,7 @@ define([
   "dojo/NodeList-dom",
   "dojo/dom-style",
   "dojo/dom-class",
+  "dojo/dom-attr",
   "jimu/BaseWidget",
   "jimu/CustomLayers/ChengDiDynamicMapServiceLayer"
 ], function (
@@ -24,6 +25,7 @@ define([
   nodeListDom,
   domStyle,
   domClass,
+  domAttr,
   BaseWidget,
   ChengDiDynamicMapServiceLayer
 ) {
@@ -87,7 +89,18 @@ define([
 
     //全选按钮的点击事件
     _addSelectAllClickEvent: function () {
-      // query("");
+      query(".tab-pane-allcheck a").on("click", function () {
+        domClass.toggle(this, "active");
+
+        var layerLabel = domAttr.get(this, "data-layerLabel");
+        if (domClass.contains(this, "active")) {
+          query("#" + layerLabel + " a").addClass("active");
+        }
+        else {
+          query("#" + layerLabel + " a").removeClass("active");
+        }
+
+      });
     },
 
     //chechBox点击事件
@@ -109,12 +122,12 @@ define([
       //新增一个tab, 设置为激活状态
       query(".nav-tabs").addContent("<li class='active'><a href='#" + layerLabel + "' data-toggle='tab'>" + layerLabel + "</a></li>");
       //新增checkbox div
-      query(".checkbox-height").addContent("<div class='tab-pane active' id='" + layerLabel + "'><div class='row'><div class='col-xs-12 tab-pane-allcheck'><a href='javascript:;'><span class='btn btn-black'><i class='fa fa-check'></i></span><label>全选</label></a></div><div class='col-xs-12 tab-pane-checkbox'><div class='scroller' style='height:300px' data-rail-visible='1' data-rail-color='#263554' data-handle-color='#132854'></div></div></div></div>");
+      query(".checkbox-height").addContent("<div class='tab-pane active' id='" + layerLabel + "'><div class='row'><div class='col-xs-12 tab-pane-allcheck'><a class='active' data-layerLabel='" + layerLabel + "'><span class='btn btn-black'><i class='fa fa-check'></i></span><label>全选</label></a></div><div class='col-xs-12 tab-pane-checkbox'><div class='scroller' style='height:300px' data-rail-visible='1' data-rail-color='#263554' data-handle-color='#132854'></div></div></div></div>");
 
       //新增子图层
       array.forEach(sublayerInfos, function (sublayerInfo) {
         var layerName = sublayerInfo.name;
-        query("#" + layerLabel + " .scroller").addContent("<a href='javascript:;' class='active'><span class='btn btn-black'><i class='fa fa-check'></i></span><label>" + layerName + "</label></a>");
+        query("#" + layerLabel + " .scroller").addContent("<a class='active'><span class='btn btn-black'><i class='fa fa-check'></i></span><label>" + layerName + "</label></a>");
       }, this);
 
       this._addSelectAllClickEvent();
