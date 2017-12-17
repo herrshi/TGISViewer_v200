@@ -48,7 +48,7 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "192.168.0.91:6080",
+  "gisServer": "localhost:6080",
   "widgetOnScreen": {
     "widgets": [
       {
@@ -79,6 +79,11 @@
       {
         "uri": "widgets/TrackPlayback/Widget",
         "id": "TrackPlaybackWidget"
+      },
+      {
+        "uri": "widgets/RouteByCross/Widget",
+        "config": "configs/RouteByCross/config_RouteByCross_ShuangLiu.json",
+        "id": "RouteByCrossWidget"
       }
     ]
   }
