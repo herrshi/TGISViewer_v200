@@ -12,7 +12,8 @@ define([
   "dojo/dom-class",
   "dojo/dom-attr",
   "jimu/BaseWidget",
-  "jimu/CustomLayers/ChengDiDynamicMapServiceLayer"
+  "jimu/CustomLayers/ChengDiDynamicMapServiceLayer",
+  "esri/geometry/Extent"
 ], function (
   declare,
   lang,
@@ -27,7 +28,8 @@ define([
   domClass,
   domAttr,
   BaseWidget,
-  ChengDiDynamicMapServiceLayer
+  ChengDiDynamicMapServiceLayer,
+  Extent
 ) {
   return declare([BaseWidget], {
     name: "CADSublayerList",
@@ -61,13 +63,12 @@ define([
     /**
      * 不显示子图层选择框, 直接显示服务
      * */
-    _showWholeLayer: function (url, label) {
+    _showWholeLayer: function (url, label, extent) {
       var layer = new ChengDiDynamicMapServiceLayer(url);
       layer.label = label;
-      if (layer.loaded) {
-        console.log(layer.initialExtent);
-      }
       this.map.addLayer(layer);
+      this.map.setExtent(extent, true);
+      layer.getVisibleLayers();
     },
     
     _getSublayerInfo: function (url) {
@@ -149,14 +150,18 @@ define([
       }
 
       if (layerType !== undefined && layerType.toLowerCase() === "ChengDiDynamic".toLowerCase()) {
-        //显示子图层选择
-        if (showSublayers) {
-          this._getSublayerInfo(layerUrl).then(lang.hitch(this, function (layerData) {
-            this._showSublayerInfo(layerLabel, layerData.layers);
-          }));
-        }
+        //获取服务信息
+        this._getSublayerInfo(layerUrl).then(lang.hitch(this, function (layerInfo) {
+          //显示子图层面板
+          if (showSublayers) {
+            this._showSublayerInfo(layerLabel, layerInfo.layers);
+          }
 
-        this._showWholeLayer(layerUrl, layerLabel);
+          //显示服务
+          var extent = new Extent(layerInfo.initialExtent).expand(1.5);
+          extent.spatialReference = this.map.spatialReference;
+          this._showWholeLayer(layerUrl, layerLabel, extent);
+        }));
 
       }
 
