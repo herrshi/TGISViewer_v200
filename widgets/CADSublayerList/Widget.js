@@ -64,6 +64,9 @@ define([
     _showWholeLayer: function (url, label) {
       var layer = new ChengDiDynamicMapServiceLayer(url);
       layer.label = label;
+      if (layer.loaded) {
+        console.log(layer.initialExtent);
+      }
       this.map.addLayer(layer);
     },
     
@@ -74,7 +77,7 @@ define([
         handleAs: "json"
       }).then(function (data) {
         if (data !== undefined && data !== null ) {
-          def.resolve(data.layers);
+          def.resolve(data);
         }
         else {
           def.reject("服务不存在");
@@ -146,14 +149,15 @@ define([
       }
 
       if (layerType !== undefined && layerType.toLowerCase() === "ChengDiDynamic".toLowerCase()) {
-        if (!showSublayers) {
-          this._showWholeLayer(layerUrl, layerLabel);
-        }
-        else {
-          this._getSublayerInfo(layerUrl).then(lang.hitch(this, function (sublayerInfos) {
-            this._showSublayerInfo(layerLabel, sublayerInfos);
+        //显示子图层选择
+        if (showSublayers) {
+          this._getSublayerInfo(layerUrl).then(lang.hitch(this, function (layerData) {
+            this._showSublayerInfo(layerLabel, layerData.layers);
           }));
         }
+
+        this._showWholeLayer(layerUrl, layerLabel);
+
       }
 
     }

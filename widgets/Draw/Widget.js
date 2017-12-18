@@ -953,7 +953,9 @@ define([
       },
 
       _onBtnSaveClicked: function () {
-        getOverlays(this._handleGeometryData());
+        if (typeof getOverlays !== "undefined" && getOverlays instanceof Function) {
+          getOverlays(this._handleGeometryData());
+        }
       }
     });
   });
