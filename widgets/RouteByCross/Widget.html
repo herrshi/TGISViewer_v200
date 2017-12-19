@@ -2,9 +2,15 @@
   <div class="row">
     <div class="col-lg-6">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="输入路口名...">
+        <input type="text" class="form-control" placeholder="输入路口名..."
+               data-dojo-attach-point="txtSearchText"
+               data-dojo-attach-event="onkeypress:_onTxtSearchTextKeyPress">
         <span class="input-group-btn">
-        <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+        <button class="btn btn-default" type="button"
+                data-dojo-attach-point="btnSearchCross"
+                data-dojo-attach-event="onclick:_onBtnSearchCrossClick">
+          <i class="fa fa-search"></i>
+        </button>
       </span>
       </div><!-- /input-group -->
     </div><!-- /.col-lg-6 -->

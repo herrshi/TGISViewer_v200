@@ -7,6 +7,9 @@ define([
   "dojo/_base/lang",
   "dojo/_base/array",
   "dojo/dom-style",
+  "dojo/keys",
+  "dojo/query",
+  "dojo/dom-attr",
   "dijit/TooltipDialog",
   "dijit/popup",
   "jimu/BaseWidget",
@@ -17,13 +20,16 @@ define([
   lang,
   array,
   domStyle,
+  keys,
+  query,
+  domAttr,
   TooltipDialog,
   dijitPopup,
   BaseWidget,
   FeatureLayer,
   rendererJsonUtils
 ) {
-  var clazz = declare([BaseWidget], {
+  return declare([BaseWidget], {
     name: "RouteByCross",
     baseClass: "jimu-widget-RouteByCross",
 
@@ -31,6 +37,7 @@ define([
 
     tooltipDialog: null,
 
+    clickedGraphic: null,
     selectedCrossGraphic: [],
 
     postCreate: function () {
@@ -59,6 +66,7 @@ define([
     },
 
     _crossLayer_onMouseOver: function (event) {
+      //显示路口名称
       var content = "<b>" + event.graphic.attributes[this.config.crossNameField] + "</b>";
       this.tooltipDialog.setContent(content);
       domStyle.set(this.tooltipDialog.domNode, "opacity", 0.85);
@@ -74,12 +82,43 @@ define([
     },
 
     _crossLayer_onClick: function (event) {
+      //路口名称
       dijitPopup.close(this.tooltipDialog);
 
+      this.clickedGraphic = event.graphic,
+      this._showStartRouteConfirmPopup(event.graphic.geometry);
+    },
 
+    /**显示是否开始选择路径的确认框*/
+    _showStartRouteConfirmPopup: function (mapPoint) {
+      var content = "<b>是否开始选择路径?</b><hr>" +
+        "<button type='button' class='btn btn-primary btn-xs' id='btnStartSelectRoute' >确定</button>  " +
+        "<button type='button' class='btn btn-primary btn-xs' id='btnCancelSelectRoute' >取消</button>";
+      this.map.infoWindow.setContent(content);
+      this.map.infoWindow.show(mapPoint);
+
+      query("button#btnStartSelectRoute").on("click", lang.hitch(this, this._onBtnStartSelectRouteClick));
+      query("button#btnCancelSelectRoute").on("click", lang.hitch(this, this._onBtnCancelSelectRouteClick));
+    },
+
+    _onBtnStartSelectRouteClick: function (event) {
+
+    },
+
+    _onBtnCancelSelectRouteClick: function (event) {
+      this.map.infoWindow.hide();
+    },
+
+
+
+    _onBtnSearchCrossClick: function (event) {
+      console.log(this.txtSearchText.value);
+    },
+
+    _onTxtSearchTextKeyPress: function (event) {
+      if (event.keyCode === keys.ENTER && this.txtSearchText.value !== "") {
+        this._onBtnSearchCrossClicked(null);
+      }
     }
-
   });
-
-  return clazz;
 });
