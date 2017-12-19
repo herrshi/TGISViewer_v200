@@ -107,7 +107,7 @@ define([
       });
     },
 
-    //chechBox点击事件
+    //checkBox点击事件
     _addSublayerCheckBoxClickEvent: function () {
       query(".tab-pane-checkbox a").on("click", function () {
         domClass.toggle(this, "active");

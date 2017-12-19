@@ -83,7 +83,13 @@
       {
         "uri": "widgets/RouteByCross/Widget",
         "config": "configs/RouteByCross/config_RouteByCross_ShuangLiu.json",
-        "id": "RouteByCrossWidget"
+        "id": "RouteByCrossWidget",
+        "position": {
+          "left": 15,
+          "top": 5,
+          "width": 600,
+          "relativeTo": "map"
+        }
       }
     ]
   }
