@@ -2,13 +2,5 @@
   "crossLayer": "http://{gisServer}/arcgis/rest/services/ShuangLiu/ShuangLiu_cross/MapServer/0",
   "crossNameField": "SSLD",
   "crossIdField": "SSBH",
-  "crossRenderer": {
-    "type": "simple",
-    "symbol": {
-      "type": "esriPMS",
-      "url": "images/BlueSphere.png",
-      "width": 24,
-      "height": 24
-    }
-  }
+  "roadLayer": "http://{gisServer}/arcgis/rest/services/ShuangLiu/ShuangLiu_cross/MapServer/1"
 }
