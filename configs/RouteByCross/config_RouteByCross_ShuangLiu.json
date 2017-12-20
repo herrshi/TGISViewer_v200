@@ -2,5 +2,6 @@
   "crossLayer": "http://{gisServer}/arcgis/rest/services/ShuangLiu/ShuangLiu_cross/MapServer/0",
   "crossNameField": "SSLD",
   "crossIdField": "SSBH",
-  "roadLayer": "http://{gisServer}/arcgis/rest/services/ShuangLiu/ShuangLiu_cross/MapServer/1"
+  "roadLayer": "http://{gisServer}/arcgis/rest/services/ShuangLiu/ShuangLiu_cross/MapServer/1",
+  "roadIdField": "编号"
 }
