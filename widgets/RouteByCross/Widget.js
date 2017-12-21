@@ -18,6 +18,8 @@ define([
   "esri/layers/GraphicsLayer",
   "esri/symbols/PictureMarkerSymbol",
   "esri/symbols/SimpleLineSymbol",
+  "esri/symbols/TextSymbol",
+  "esri/symbols/Font",
   "esri/renderers/SimpleRenderer",
   "esri/tasks/query",
   "esri/tasks/QueryTask"
@@ -37,6 +39,8 @@ define([
   GraphicsLayer,
   PictureMarkerSymbol,
   SimpleLineSymbol,
+  TextSymbol,
+  Font,
   SimpleRenderer,
   Query,
   QueryTask
@@ -47,10 +51,10 @@ define([
 
     //初始显示所有路口, 保存路口的graphic
     crossLayer: null,
-    //初始显示所有的道路, 保存道路的graphic
-    roadLayer: null,
-    //显示组成路径的路口和发布段
-    routeLayer: null,
+    //显示组成路径的路口和道路
+    //路口和道路分开, 让道路显示在路口下面
+    routeCrossLayer: null,
+    routeRoadLayer: null,
 
     //未选\待选的路口symbol
     unSelectedCrossSymbol: null,
@@ -70,18 +74,21 @@ define([
     postCreate: function () {
       this.inherited(arguments);
 
-      this.unSelectedCrossSymbol = new PictureMarkerSymbol(window.path + "images/BlueSphere.png", 24, 24);
+      this.unSelectedCrossSymbol = new PictureMarkerSymbol(window.path + "images/BlueSphere.png", 32, 32);
       this.selectedCrossSymbol = new PictureMarkerSymbol(window.path + "images/RedSphere.png", 48, 48);
 
       this.unSelectedRoadSymbol = new SimpleLineSymbol( SimpleLineSymbol.STYLE_DASH, new Color([0, 0, 255]), 2);
       this.selectedRoadSymbol = new SimpleLineSymbol( SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 4);
 
-      this.routeLayer = new GraphicsLayer();
-      this.map.addLayer(this.routeLayer);
+      this.routeRoadLayer = new GraphicsLayer();
+      this.map.addLayer(this.routeRoadLayer);
+
+      this.routeCrossLayer = new GraphicsLayer();
+      this.routeCrossLayer.on("mouse-over", lang.hitch(this, this._routeCrossLayer_onMouseOver));
+      this.map.addLayer(this.routeCrossLayer);
 
       this._getAllCrossAndRoad().then(lang.hitch(this, function (queryResult) {
-        var roadGraphics = queryResult.features;
-        this._readCrossRoadTable(roadGraphics);
+        this._readCrossRoadTable(queryResult.features);
       }));
     },
 
@@ -146,6 +153,10 @@ define([
       this._showStartRouteConfirmPopup(event.graphic);
     },
 
+    _routeCrossLayer_onMouseOver: function (event) {
+
+    },
+
     _getCrossGraphic: function (id) {
       var filter = array.filter(this.crossLayer.graphics, function (graphic) {
         return graphic.attributes[this.config.crossIdField] === id;
@@ -176,11 +187,26 @@ define([
      * 选中一个路口以后, 显示这个路口的下游路口, 并显示路口之间的道路
      * */
     _selectCross: function (graphic) {
+      this.map.centerAt(graphic.geometry);
+
       //显示选中路口
       var selectedGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol);
       selectedGraphic.state = "selected";
-      this.routeLayer.add(selectedGraphic);
-      this.map.centerAt(graphic.geometry);
+      this.routeCrossLayer.add(selectedGraphic);
+      console.log(selectedGraphic);
+
+      //显示路口名
+      var labelGraphic = new Graphic(graphic.geometry);
+      labelGraphic.state = "selected";
+      var textSymbol = new TextSymbol(graphic.attributes[this.config.crossNameField]);
+      textSymbol.color = new Color("black");
+      textSymbol.haloColor = new Color("white");
+      textSymbol.haloSize = 2;
+      textSymbol.font = new Font("16px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_BOLDER);
+      textSymbol.yoffset = 15;
+      labelGraphic.symbol = textSymbol;
+      this.routeCrossLayer.add(labelGraphic);
+      console.log(labelGraphic);
 
       //显示下游路口和道路
       array.forEach(this.crossRoadTable, function (crossRoadObj) {
@@ -190,13 +216,14 @@ define([
           //不改变路口原始属性, 新建一个graphic
           var newCrossGraphic = new Graphic(crossGraphic.geometry, this.unSelectedCrossSymbol);
           newCrossGraphic.state = "unselected";
-          this.routeLayer.add(newCrossGraphic);
+          this.routeCrossLayer.add(newCrossGraphic);
+
           //路口之间的道路
           array.forEach(crossRoadObj.roadGraphics, function (roadGraphic) {
             //不改变道路原始属性, 新建一个graphic
             var newRoadGraphic = new Graphic(roadGraphic.geometry, this.unSelectedRoadSymbol);
             newRoadGraphic.state = "unselected";
-            this.routeLayer.add(newRoadGraphic);
+            this.routeRoadLayer.add(newRoadGraphic);
           }, this);
         }
       }, this);
@@ -216,10 +243,12 @@ define([
       this.map.infoWindow.hide();
     },
 
-
-
     _onBtnSearchCrossClick: function (event) {
-      console.log(this.txtSearchText.value);
+      if (this.txtSearchText.value === "") {
+        this.routeRoadLayer.clear();
+        this.routeCrossLayer.clear();
+        this.crossLayer.show();
+      }
     },
 
     _onTxtSearchTextKeyPress: function (event) {

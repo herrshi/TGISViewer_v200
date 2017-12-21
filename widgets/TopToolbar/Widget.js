@@ -7,6 +7,7 @@ define([
   "dojo/_base/html",
   "dojo/on",
   "dojo/topic",
+  "dojo/query",
   "jimu/BaseWidget",
   "esri/geometry/Extent",
   "esri/SpatialReference",
@@ -17,6 +18,7 @@ define([
   html,
   on,
   topic,
+  query,
   BaseWidget,
   Extent,
   SpatialReference,
@@ -58,6 +60,9 @@ define([
       this.navToolbar = new Navigation(this.map);
       this.own(on(this.navToolbar, "extent-history-change", lang.hitch(this, this._onMapExtentHistoryChange)));
       this._onMapExtentHistoryChange();
+
+      topic.subscribe("showTopToolbarButton", lang.hitch(this, this.topicHandler_onShowTopToolbarButton));
+      topic.subscribe("hideTopToolbarButton", lang.hitch(this, this.topicHandler_onHideTopToolbarButton));
     },
 
     startup: function () {
@@ -360,6 +365,13 @@ define([
 
     _onBtnHistoryClicked: function () {
       showHistory();
+    },
+
+    topicHandler_onShowTopToolbarButton: function (params) {
+      query("[title="+ params + "]").style("display", "block");
+    },
+    topicHandler_onHideTopToolbarButton: function (params) {
+      query("[title="+ params + "]").style("display", "none");
     }
   });
 

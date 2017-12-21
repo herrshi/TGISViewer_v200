@@ -892,6 +892,18 @@ var TMap = {
     require(["dojo/topic"], function (topic) {
       topic.publish("stopTrackPlayback");
     });
+  },
+  
+  showTopToolbarButton: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showTopToolbarButton", params);
+    });
+  },
+  
+  hideTopToolbarButton: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideTopToolbarButton", params);
+    });
   }
 
   /************************ Special Interface END **************************/
