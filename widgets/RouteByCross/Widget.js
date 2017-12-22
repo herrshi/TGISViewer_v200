@@ -125,7 +125,7 @@ define([
         array.forEach(allRows, function (row) {
           var rowCells = row.split(",");
           if (rowCells.length >= 3) {
-            //两个路口之间经过的道路id
+            //两个路口之间经过的道路id, 可能有多个，用/分隔
             var roadIds = rowCells[2].split("/");
             //获取每个道路的graphic
             var segmentRoadGraphics = [];
@@ -211,33 +211,61 @@ define([
     /**
      * 选中一个路口以后, 显示这个路口的下游路口作为候选路口, 并显示路口之间的道路
      * */
-    _selectCross: function (graphic) {
-      this.map.centerAt(graphic.geometry);
+    _selectCross: function (selectedCrossId) {
+      //第一个路口直接显示
+      if (this.selectedCrossGraphics.length === 0) {
+        var graphic = this._getCrossGraphic(selectedCrossId);
+        var selectedCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol, graphic.attributes);
+        selectedCrossGraphic.state = "selected";
+        this.routeCrossLayer.add(selectedCrossGraphic);
+        this.selectedCrossGraphics.push(selectedCrossGraphic);
+      }
+      //第二个路口开始要处理上一次候选路口和候选道路
+      else {
+        //上一个路口的id
+        var lastCrossId = this.selectedCrossGraphics[this.selectedCrossGraphics.length - 1].attributes[this.config.crossIdField];
 
-      //去掉候选的路口和道路
-      for (var i = 0; i < this.routeCrossLayer.graphics.length; i++) {
-        if (this.routeCrossLayer.graphics[i].state === "unselected") {
-          this.routeCrossLayer.remove(this.routeCrossLayer.graphics[i]);
-          i--;
+        //在候选路口中找到选中路口, 去掉其他路口
+        for (var i = 0; i < this.routeCrossLayer.graphics.length; i++) {
+          var crossGraphic = this.routeCrossLayer.graphics[i];
+          if (crossGraphic.state === "unselected") {
+            //将选中的候选路口改为选中路口
+            if (crossGraphic.attributes[this.config.crossIdField] === selectedCrossId) {
+              selectedCrossGraphic = crossGraphic;
+              selectedCrossGraphic.symbol = this.selectedCrossSymbol;
+              selectedCrossGraphic.state = "selected";
+              this.selectedCrossGraphics.push(selectedCrossGraphic);
+            }
+            //去掉其他的候选路口
+            else {
+              this.routeCrossLayer.remove(crossGraphic);
+              i--;
+            }
+          }
+        }
+
+        for (i = 0; i < this.routeRoadLayer.graphics.length; i++) {
+          var roadGraphic = this.routeRoadLayer.graphics[i];
+          if (roadGraphic.state === "unselected") {
+            //将选中路口和上一路口之间的道路改为选中道路
+            if (roadGraphic.startCrossId === lastCrossId && roadGraphic.endCrossId === selectedCrossId) {
+              roadGraphic.symbol = this.selectedRoadSymbol;
+              roadGraphic.state = "selected";
+            }
+            //去掉其他的候选道路
+            else {
+              this.routeRoadLayer.remove(roadGraphic);
+              i--;
+            }
+
+          }
         }
       }
-
-      for (i = 0; i < this.routeRoadLayer.graphics.length; i++) {
-        if (this.routeRoadLayer.graphics[i].state === "unselected") {
-          this.routeRoadLayer.remove(this.routeRoadLayer.graphics[i]);
-          i--;
-        }
-      }
-
-      //显示选中路口
-      var selectedCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol);
-      selectedCrossGraphic.state = "selected";
-      this.routeCrossLayer.add(selectedCrossGraphic);
 
       //显示选中路口的路口名
-      var labelGraphic = new Graphic(graphic.geometry);
+      var labelGraphic = new Graphic(selectedCrossGraphic.geometry);
       labelGraphic.state = "selected";
-      var textSymbol = new TextSymbol(graphic.attributes[this.config.crossNameField]);
+      var textSymbol = new TextSymbol(selectedCrossGraphic.attributes[this.config.crossNameField]);
       textSymbol.color = new Color("black");
       textSymbol.haloColor = new Color("white");
       textSymbol.haloSize = 2;
@@ -248,24 +276,33 @@ define([
 
       //显示下游路口和道路
       array.forEach(this.crossRoadTable, function (crossRoadObj) {
-        if (graphic.attributes[this.config.crossIdField] === crossRoadObj.startCrossId) {
-          //下游路口的原始graphic
-          var crossGraphic = this._getCrossGraphic(crossRoadObj.endCrossId);
-          //不改变路口原始属性, 新建一个graphic
-          var candidateCrossGraphic = new Graphic(crossGraphic.geometry, this.unSelectedCrossSymbol,
-            crossGraphic.attributes);
-          candidateCrossGraphic.state = "unselected";
-          this.routeCrossLayer.add(candidateCrossGraphic);
+        if (selectedCrossId === crossRoadObj.startCrossId) {
+          //第一个路口画出全部的下游路口
+          //后续的路口画下游路口时，不要显示上一个路口
+          if (this.selectedCrossGraphics.length === 1 || crossRoadObj.endCrossId !== lastCrossId) {
+            //下游路口的原始graphic
+            var crossGraphic = this._getCrossGraphic(crossRoadObj.endCrossId);
+            //不改变路口原始属性, 新建一个graphic
+            var candidateCrossGraphic = new Graphic(crossGraphic.geometry, this.unSelectedCrossSymbol,
+              crossGraphic.attributes);
+            candidateCrossGraphic.state = "unselected";
+            this.routeCrossLayer.add(candidateCrossGraphic);
 
-          //路口之间的道路
-          array.forEach(crossRoadObj.roadGraphics, function (roadGraphic) {
-            //不改变道路原始属性, 新建一个graphic
-            var newRoadGraphic = new Graphic(roadGraphic.geometry, this.unSelectedRoadSymbol);
-            newRoadGraphic.state = "unselected";
-            this.routeRoadLayer.add(newRoadGraphic);
-          }, this);
+            //此路口和候选路口之间的道路
+            array.forEach(crossRoadObj.roadGraphics, function (roadGraphic) {
+              //不改变道路原始属性, 新建一个graphic
+              var candidateRoadGraphic = new Graphic(roadGraphic.geometry, this.unSelectedRoadSymbol);
+              candidateRoadGraphic.startCrossId = selectedCrossId;
+              candidateRoadGraphic.endCrossId = crossRoadObj.endCrossId;
+              candidateRoadGraphic.state = "unselected";
+              this.routeRoadLayer.add(candidateRoadGraphic);
+            }, this);
+          }
         }
       }, this);
+
+      this.routeCrossLayer.refresh();
+      this.routeRoadLayer.refresh();
 
     },
 
@@ -274,8 +311,8 @@ define([
       this.map.infoWindow.hide();
 
       var crossId = domAttr.get(event.target, "data-crossId");
-      var graphic = this._getCrossGraphic(crossId);
-      this._selectCross(graphic);
+      // var graphic = this._getCrossGraphic(crossId);
+      this._selectCross(crossId);
     },
 
     _onBtnCancelSelectRouteClick: function (event) {
@@ -286,9 +323,8 @@ define([
       this.map.infoWindow.hide();
 
       var crossId = domAttr.get(event.target, "data-crossId");
-      var graphic = this._getCrossGraphic(crossId);
-      console.log(graphic);
-      this._selectCross(graphic);
+      // var graphic = this._getCrossGraphic(crossId);
+      this._selectCross(crossId);
     },
 
     _onBtnCancelAddCrossClick: function (event) {
@@ -299,6 +335,7 @@ define([
       if (this.txtSearchText.value === "") {
         this.routeRoadLayer.clear();
         this.routeCrossLayer.clear();
+        this.selectedCrossGraphics = [];
         this.crossLayer.show();
       }
     },
