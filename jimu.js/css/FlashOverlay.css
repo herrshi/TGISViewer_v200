@@ -1,4 +1,18 @@
-.esriPopup .action.zoomTo { display: none; }
+.esriPopup .action.zoomTo {
+  display: none;
+}
+
+.esriPopup .titleButton.maximize {
+  display: none;
+}
+
+.esriPopup .titleButton.close {
+  color: #ffffff;
+  opacity: 1;
+  background-image: url("./images/remove-icon-small-white.png") !important;
+  top: 6px;
+}
+
 
 path[data-highlight="highlight"], image[data-highlight="highlight"], circle[data-highlight='highlight'] {
   -webkit-animation: alphachange .6s linear 0s 6 alternate;

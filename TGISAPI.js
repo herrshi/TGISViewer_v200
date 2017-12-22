@@ -894,12 +894,22 @@ var TMap = {
     });
   },
   
+  /**
+   * 显示顶部工具栏的某个按钮
+   * @param params: string, required.
+   *   按钮名, button的title属性
+   * */
   showTopToolbarButton: function (params) {
     require(["dojo/topic"], function (topic) {
       topic.publish("showTopToolbarButton", params);
     });
   },
-  
+
+  /**
+   * 隐藏顶部工具栏的某个按钮
+   * @param params: string, required.
+   *   按钮名, button的title属性
+   * */
   hideTopToolbarButton: function (params) {
     require(["dojo/topic"], function (topic) {
       topic.publish("hideTopToolbarButton", params);

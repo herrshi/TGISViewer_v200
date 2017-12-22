@@ -171,41 +171,70 @@ define([
 
     /**显示是否开始选择路径的确认框*/
     _showFirstCrossConfirmPopup: function (graphic) {
-      var content = "<b>是否开始选择路径?</b><hr>" +
-        "<button type='button' class='btn btn-success btn-xs' id='btnStartSelectRoute' data-crossId='" + graphic.attributes[this.config.crossIdField] + "' ><i class='fa fa-check fa-fw'></i></button>  " +
-        "<button type='button' class='btn btn-danger btn-xs' id='btnCancelSelectRoute' ><i class='fa fa-times fa-fw'></i></button>";
+      var content = "<b>" + graphic.attributes[this.config.crossNameField] + "</b><hr>" +
+        //确定按钮
+        "<button type='button' class='btn btn-success btn-xs' id='btnStartSelectRoute' " +
+        "data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
+        "<i class='fa fa-check fa-fw'></i></button>  " +
+        //取消按钮
+        "<button type='button' class='btn btn-danger btn-xs' id='btnCancelSelectRoute' >" +
+        "<i class='fa fa-times fa-fw'></i></button>";
       this.map.infoWindow.setContent(content);
-      this.map.infoWindow.setTitle(graphic.attributes[this.config.crossNameField]);
+      this.map.infoWindow.setTitle("是否开始选择路径?");
       this.map.infoWindow.show(graphic.geometry);
 
       query("button#btnStartSelectRoute").on("click", lang.hitch(this, this._onBtnStartSelectRouteClick));
       query("button#btnCancelSelectRoute").on("click", lang.hitch(this, this._onBtnCancelSelectRouteClick));
     },
 
-    /**显示候选路口的待选择确认框*/
+    /**显示候选路口的选择确认框*/
     _showUnselectedCrossConfirmPopup: function (graphic) {
+      //候选路口才显示确认框
       if (graphic.state === "unselected") {
-        var content = "<b>是否添加此路口?</b><hr>" +
-          "<button type='button' class='btn btn-success btn-xs' id='btnAddCross' data-crossId='" + graphic.attributes[this.config.crossIdField] + "' ><i class='fa fa-check fa-fw'></i></button>  " +
-          "<button type='button' class='btn btn-danger btn-xs' id='btnCancelAddCross' ><i class='fa fa-times fa-fw'></i></button>";
+        var content = "<b>" + graphic.attributes[this.config.crossNameField] + "</b><hr>" +
+          //确定按钮
+          "<button type='button' class='btn btn-success btn-xs' id='btnAddCross' " +
+          "data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
+          "<i class='fa fa-check fa-fw'></i></button>  " +
+          //取消按钮
+          "<button type='button' class='btn btn-danger btn-xs' id='btnCancelAddCross' >" +
+          "<i class='fa fa-times fa-fw'></i></button>";
         this.map.infoWindow.setContent(content);
-        this.map.infoWindow.setTitle(graphic.attributes[this.config.crossNameField]);
+        this.map.infoWindow.setTitle("是否添加此路口?");
         this.map.infoWindow.show(graphic.geometry);
+
+        query("button#btnAddCross").on("click", lang.hitch(this, this._onBtnAddCrossClick));
+        query("button#btnCancelAddCross").on("click", lang.hitch(this, this._onBtnCancelAddCrossClick));
       }
     },
 
     /**
-     * 选中一个路口以后, 显示这个路口的下游路口, 并显示路口之间的道路
+     * 选中一个路口以后, 显示这个路口的下游路口作为候选路口, 并显示路口之间的道路
      * */
     _selectCross: function (graphic) {
       this.map.centerAt(graphic.geometry);
+
+      //去掉候选的路口和道路
+      for (var i = 0; i < this.routeCrossLayer.graphics.length; i++) {
+        if (this.routeCrossLayer.graphics[i].state === "unselected") {
+          this.routeCrossLayer.remove(this.routeCrossLayer.graphics[i]);
+          i--;
+        }
+      }
+
+      for (i = 0; i < this.routeRoadLayer.graphics.length; i++) {
+        if (this.routeRoadLayer.graphics[i].state === "unselected") {
+          this.routeRoadLayer.remove(this.routeRoadLayer.graphics[i]);
+          i--;
+        }
+      }
 
       //显示选中路口
       var selectedCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol);
       selectedCrossGraphic.state = "selected";
       this.routeCrossLayer.add(selectedCrossGraphic);
 
-      //显示路口名
+      //显示选中路口的路口名
       var labelGraphic = new Graphic(graphic.geometry);
       labelGraphic.state = "selected";
       var textSymbol = new TextSymbol(graphic.attributes[this.config.crossNameField]);
@@ -220,10 +249,11 @@ define([
       //显示下游路口和道路
       array.forEach(this.crossRoadTable, function (crossRoadObj) {
         if (graphic.attributes[this.config.crossIdField] === crossRoadObj.startCrossId) {
-          //下游的候选路口
+          //下游路口的原始graphic
           var crossGraphic = this._getCrossGraphic(crossRoadObj.endCrossId);
           //不改变路口原始属性, 新建一个graphic
-          var candidateCrossGraphic = new Graphic(crossGraphic.geometry, this.unSelectedCrossSymbol, crossGraphic.attributes);
+          var candidateCrossGraphic = new Graphic(crossGraphic.geometry, this.unSelectedCrossSymbol,
+            crossGraphic.attributes);
           candidateCrossGraphic.state = "unselected";
           this.routeCrossLayer.add(candidateCrossGraphic);
 
@@ -249,6 +279,19 @@ define([
     },
 
     _onBtnCancelSelectRouteClick: function (event) {
+      this.map.infoWindow.hide();
+    },
+
+    _onBtnAddCrossClick: function (event) {
+      this.map.infoWindow.hide();
+
+      var crossId = domAttr.get(event.target, "data-crossId");
+      var graphic = this._getCrossGraphic(crossId);
+      console.log(graphic);
+      this._selectCross(graphic);
+    },
+
+    _onBtnCancelAddCrossClick: function (event) {
       this.map.infoWindow.hide();
     },
 
