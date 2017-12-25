@@ -356,6 +356,58 @@
         "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/XuanQiaoDuan/MapServer",
         "type": "dynamic",
         "visible": false
+      },
+      {
+        "label": "宣桥段平面图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/XuanQiaoDuan/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "轨交规划",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/guijiaoGH/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${Busname} - ${Stationnam}</b>"
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${Busname}</b>"
+            }
+          }
+        }
+      },
+      {
+        "label": "轨交建设计划",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/guijiaoJSJH/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${Busname} - ${Bustype}</b>"
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${Busname} - ${Bustype}</b>"
+            }
+          },
+          "2": {
+            "infoTemplate": {
+              "content": "<b>${Busname} - ${Bustype}</b>"
+            }
+          },
+          "3": {
+            "infoTemplate": {
+              "content": "<b>${Busname} - ${Bustype}</b>"
+            }
+          }
+        }
       }
     ],
     "mapOptions": {
@@ -464,6 +516,15 @@
         "uri": "widgets/DynamicRendererLayer/Widget",
         "config": "configs/DynamicRendererLayer/config_DynamicRendererLayer_JiaoWei.json",
         "id": "DynamicRendererLayerWidget"
+      },
+      {
+        "uri": "widgets/CADSublayerList/Widget",
+        "config": "configs/CADSublayerList/config_CADSublayerList_www.json",
+        "position": {
+          "left": 60,
+          "bottom": 5
+        },
+        "id": "CADSublayerListWidget"
       }
     ]
   }
