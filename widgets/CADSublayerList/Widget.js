@@ -8,6 +8,7 @@ define([
   "dojo/query",
   "dojo/NodeList-fx",
   "dojo/NodeList-dom",
+  "dojo/NodeList-traverse",
   "dojo/dom-style",
   "dojo/dom-class",
   "dojo/dom-attr",
@@ -24,6 +25,7 @@ define([
   query,
   nodeListFx,
   nodeListDom,
+  nodeListTraverse,
   domStyle,
   domClass,
   domAttr,
@@ -60,6 +62,17 @@ define([
       });
     },
 
+    _getLayerByLabel: function (label) {
+      for (var i = 0; i < this.map.layerIds.length; i++) {
+        var layerId = this.map.layerIds[i];
+        var layer = this.map.getLayer(layerId);
+        if (layer.label === label) {
+          return layer;
+        }
+      }
+      return null;
+    },
+
     /**
      * 不显示子图层选择框, 直接显示服务
      * */
@@ -68,7 +81,6 @@ define([
       layer.label = label;
       this.map.addLayer(layer);
       this.map.setExtent(extent, true);
-      layer.getVisibleLayers();
     },
     
     _getSublayerInfo: function (url) {
@@ -110,7 +122,25 @@ define([
     //checkBox点击事件
     _addSublayerCheckBoxClickEvent: function () {
       query(".tab-pane-checkbox a").on("click", function () {
+        var sublayerNames = "";
+
         domClass.toggle(this, "active");
+        var layerLabel = domAttr.get(this, "data-layerLabel");
+        // var layer = this._getLayerByLabel(layerLabel);
+        // console.log(layer);
+        query("#" + layerLabel + " a").forEach(function (node) {
+          var sublayerName = domAttr.get(node, "data-sublayerName");
+          if (sublayerName !== null && domClass.contains(node, "active")) {
+            sublayerNames += sublayerName + ",";
+          }
+        });
+
+        sublayerNames = "layers=" + sublayerNames.substr(0, sublayerNames.length - 1);
+
+        xhr("http://139.196.105.31:9001/Cad/Rest/1335191609495389/MapServer/set", {
+          method: "POST",
+          data: sublayerNames
+        });
       });
     },
 
@@ -125,13 +155,34 @@ define([
 
       //新增一个tab, 设置为激活状态
       query(".nav-tabs").addContent("<li class='active'><a href='#" + layerLabel + "' data-toggle='tab'>" + layerLabel + "</a></li>");
-      //新增checkbox div
-      query(".checkbox-height").addContent("<div class='tab-pane active' id='" + layerLabel + "'><div class='row'><div class='col-xs-12 tab-pane-allcheck'><a class='active' data-layerLabel='" + layerLabel + "'><span class='btn btn-black'><i class='fa fa-check'></i></span><label>全选</label></a></div><div class='col-xs-12 tab-pane-checkbox'><div class='scroller' style='height:300px' data-rail-visible='1' data-rail-color='#263554' data-handle-color='#132854'></div></div></div></div>");
+      //新增checkbox div和全选checkbox
+      query(".checkbox-height").addContent(
+        "<div class='tab-pane active' id='" + layerLabel + "'>" +
+          "<div class='row'>" +
+            "<div class='col-xs-12 tab-pane-allcheck'>" +
+              "<a class='active' data-layerLabel='" + layerLabel + "'>" +
+                "<span class='btn btn-black'>" +
+                  "<i class='fa fa-check'></i>" +
+                "</span>" +
+                "<label>全选</label>" +
+              "</a>" +
+            "</div>" +
+            "<div class='col-xs-12 tab-pane-checkbox'>" +
+              "<div class='scroller' data-rail-visible='1' data-rail-color='#263554' data-handle-color='#132854'></div>" +
+            "</div>" +
+          "</div>" +
+        "</div>");
 
       //新增子图层
       array.forEach(sublayerInfos, function (sublayerInfo) {
-        var layerName = sublayerInfo.name;
-        query("#" + layerLabel + " .scroller").addContent("<a class='active'><span class='btn btn-black'><i class='fa fa-check'></i></span><label>" + layerName + "</label></a>");
+        var sublayerName = sublayerInfo.name;
+        query("#" + layerLabel + " .scroller").addContent(
+          "<a class='active' data-layerLabel='" + layerLabel + "' data-sublayerName='" + sublayerName + "'>" +
+            "<span class='btn btn-black'>" +
+              "<i class='fa fa-check'></i>" +
+            "</span>" +
+            "<label>" + sublayerName + "</label>" +
+          "</a>");
       }, this);
 
       this._addSelectAllClickEvent();

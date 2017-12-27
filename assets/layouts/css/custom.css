@@ -921,7 +921,7 @@ font-weight: 600;
 /*CAD图层*/
 .cad-selected-box {position: absolute; left:130px; bottom:0; z-index: 999;}
 .cadselected-height { display: block; margin-top:-5px;}
-.selected-cad {position: absolute; bottom:60px; width:480px; z-index: 999; left:130px;display: block;}
+.selected-cad {position: absolute; bottom:60px; width:500px; z-index: 999; left:130px;display: block;}
 .checkbox-height {height: 324px; overflow:hidden; overflow-y: auto}
 .rselected-cad {position: absolute; bottom:60px; width:300px; z-index: 999; right:10px;display: block;}
 .selected-cad .portlet,.rselected-cad .portlet{ margin-bottom: 0;}
