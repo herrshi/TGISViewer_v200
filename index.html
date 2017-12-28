@@ -75,18 +75,19 @@
 
 <script type="text/javascript">
   var map = TMap.createNew({
-    apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
-    // apiUrl: "http://172.1.1.101:18001/web-gis/scripts/arcgis_js_api/library/3.21/3.21/",
-    viewerUrl: "http://localhost:8090/TGISViewer_v200/",
-    // viewerUrl: "http://172.1.1.101:18001/web-gis/scripts/TGISViewer2",
-    config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    // apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
+    apiUrl: "http://128.64.151.238:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
+    // viewerUrl: "http://localhost:8090/TGISViewer_v200/",
+    viewerUrl: "http://128.64.151.238:18001/web-gis/scripts/TGISViewer2",
+    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-www.json"
-    // config: "http://172.1.1.101:18001/web-gis/scripts/TGISViewer2/config.json"
+    config: "http://128.64.151.238:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
-//      map.showLayer({label: "道路", ids: [3, 4]});
+     map.showLayer({label: "道路交通设施", ids: [29, 30, 31]});
 
 //      map.startSwipe({
 //        swipeType: "vertical",
@@ -205,9 +206,9 @@
     // map.addPolygons('{"polygons":[{"geometry":{"rings":[[[-1984.3789687579374,1680.1075268817203],[-1984.3789687579374,3188.2355431377528],[291.04224875116415,3188.2355431377528],[291.04224875116415,1680.1075268817203],[-1984.3789687579374,1680.1075268817203]]]},"symbol":{"color":[155,187,89],"alpha":0.5,"outline":{"color":[115,140,61],"width":1.5,"type":"esriSLS","style":"esriSLSSolid","marker":null},"type":"esriSFS","style":"esriSFSSolid"}}]}');
     // map.startTrackPlayback('{"trackPoints":[{"id":"1","y":30.572361378,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.968324303},{"id":"2","y":30.587839189,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.939579349},{"id":"3","y":30.587839189,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.939579349},{"id":"4","y":30.599899517,"fields":{"经过时间":"2015-08-01 00:02:50"},"x":103.934663829},{"id":"5","y":30.5807029952938,"fields":{"经过时间":"2015-08-01 00:05:10"},"x":103.92919895599125}]}');
 
-    // map.exportMap({}, function (url) {
-    //   console.log(url);
-    // });
+    map.exportMap({}, function (url) {
+      console.log(url);
+    });
 
     // map.addOverlays('{"showPopup":true,"defaultSymbol":{"type":"marker","style":"circle","color":"red","alpha":0.8,"size":8,"outline":{"color":"white"}},"overlays":[{"type":"CADPile","geometry":{"x":"-2306.4187","y":"3261.5966"},"fields":{"里程":"K0-2.082","点类型":"起点","标高":"3.94"},"symbol":{"type":"marker","style":"circle","color":"red","alpha":0.8,"size":12,"outline":{"color":"white"}}},{"type":"CADPile","geometry":{"x":"-2224.4326","y":"3313.7568"},"fields":{"里程":"K0+95.475","点类型":"圆缓点","标高":"4.03"}},{"type":"CADPile","geometry":{"x":"-2177.6508","y":"3331.3657"},"fields":{"里程":"K0+145.475","点类型":"","标高":"2.01"}}]}');
 
@@ -246,7 +247,7 @@
 //      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: "2017/11/24 08:00:00"}, {x: 104.002, y: 30.565, time: "2017/11/24 08:00:05"}], autoStart: true, loop: true, showTrackPoints: true});
 //     map.findFeature({layerName: "trackPlayback", ids: ["1"]});
 
-    map.addLayer({type: "ChengDiDynamic", url: "1335191609495389", label: "cad111", showSublayers: true});
+    map.addLayer({type: "ChengDiDynamic", url: "1602332107591116", label: "cad111", showSublayers: true});
     // map.deleteAllOverlays();
 
     // map.showTopToolbarButton("历史演变");
