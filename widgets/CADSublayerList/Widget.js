@@ -46,19 +46,43 @@ define([
 
     onOpen: function () {
       //隐藏按钮和面板
-      query(".cad-selected-box").style("opacity", 0).style("display", "block");
-      query(".selected-cad").style("opacity", 0).style("display", "block");
+      query(".cad-selected-box").style("opacity", 0).style("display", "none");
+      query(".selected-cad").style("opacity", 0).style("display", "none");
 
       //cad按钮点击事件
       query(".cad-selected-box").on("click", function () {
-        query(".selected-cad").fadeIn({duration:500}).play();
-        query(".cad-selected-box").fadeOut({duration:500}).play();
+        query(".cad-selected-box").fadeOut({
+          duration:500,
+          onEnd: function () {
+            query(".cad-selected-box").style("display", "none");
+
+
+            query(".selected-cad").fadeIn({
+              duration:500,
+              beforeBegin: function () {
+                query(".selected-cad").style("display", "block");
+              }
+            }).play();
+          }
+        }).play();
       });
 
       //面板最小化点击事件
       query(".close-selected-cad").on("click", function () {
-        query(".selected-cad").fadeOut({duration:500}).play();
-        query(".cad-selected-box").fadeIn({duration:500}).play();
+        query(".selected-cad").fadeOut({
+          duration:500,
+          onEnd: function () {
+            query(".selected-cad").style("display", "none");
+
+            query(".cad-selected-box").fadeIn({
+              duration:500,
+              beforeBegin: function () {
+                query(".cad-selected-box").style("display", "block");
+              }
+            }).play();
+          }
+        }).play();
+
       });
     },
 
@@ -137,6 +161,8 @@ define([
 
         sublayerNames = "layers=" + sublayerNames.substr(0, sublayerNames.length - 1);
 
+
+
         xhr("http://139.196.105.31:9001/Cad/Rest/1335191609495389/MapServer/set", {
           method: "POST",
           data: sublayerNames
@@ -146,6 +172,7 @@ define([
 
     _showSublayerInfo: function (layerLabel, sublayerInfos) {
       //显示子图层面板
+      query(".selected-cad").style("display", "block");
       query(".selected-cad").fadeIn({duration:500}).play();
 
       //取消原先tab的激活状态
@@ -177,7 +204,7 @@ define([
       array.forEach(sublayerInfos, function (sublayerInfo) {
         var sublayerName = sublayerInfo.name;
         query("#" + layerLabel + " .scroller").addContent(
-          "<a class='active' data-layerLabel='" + layerLabel + "' data-sublayerName='" + sublayerName + "'>" +
+          "<a class='active'  data-layerLabel='" + layerLabel + "' data-sublayerName='" + sublayerName + "'>" +
             "<span class='btn btn-black'>" +
               "<i class='fa fa-check'></i>" +
             "</span>" +

@@ -1,0 +1,172 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_simple/MapServer",
+        "type": "tiled",
+        "visible": true
+      },
+      {
+        "label": "地形图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_bw/MapServer",
+        "type": "tiled",
+        "visible": false
+      },
+      {
+        "label": "航拍图2005",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base_aerial_2005/MapServer",
+        "type": "tiled",
+        "visible": false
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "热点商圈客流",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_business_circle/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "infoTemplate": {
+          "title": "${热点商圈.REGIONNAME}",
+          "content": "<b>客流: </b>${JIAOWEI.STAT_PASS_FLOW_DC_RT.FINT_DENSITY}人"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "color": [0, 51, 153, 200],
+            "outline": {
+              "color": [
+                255,
+                255,
+                255
+              ]
+            }
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "JIAOWEI.STAT_PASS_FLOW_DC_RT.FINT_DENSITY",
+              "minDataValue": 1000,
+              "maxDataValue": 200000,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2000,
+                    "size": 16
+                  },
+                  {
+                    "value": 16000,
+                    "size": 16
+                  },
+                  {
+                    "value": 128000,
+                    "size": 8
+                  },
+                  {
+                    "value": 512000,
+                    "size": 4
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2000,
+                    "size": 64
+                  },
+                  {
+                    "value": 16000,
+                    "size": 64
+                  },
+                  {
+                    "value": 128000,
+                    "size": 32
+                  },
+                  {
+                    "value": 512000,
+                    "size": 16
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false,
+      "scale": 64000,
+      "center": {"x": 0, "y": 0, "spatialReference": {"wkt": "PROJCS[\"shanghaicity\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",-3457147.81],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",121.2751921],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]"}}
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "122.144.195.126:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/Legend/Widget",
+        "config": "configs/Legend/config_Legend_businessDistrict.json",
+        "position": {
+          "left": 15,
+          "bottom": 20,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "LegendWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      }
+    ]
+  }
+}

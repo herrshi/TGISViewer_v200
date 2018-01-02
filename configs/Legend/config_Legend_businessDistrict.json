@@ -1,0 +1,12 @@
+{
+  "legend":{
+    "arrangement": 0,
+    "autoUpdate": true,
+    "respectCurrentMapScale": true,
+    "layerInfos": [
+      {
+        "label": "热点商圈客流"
+      }
+    ]
+  }
+}

@@ -63,7 +63,7 @@ define([
           params.callback(evt.url);
         }
         else {
-          window.open(evt.url,"_blank");
+          window.open(evt.url, "_blank");
         }
 
         loading.destroy();
