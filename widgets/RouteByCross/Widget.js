@@ -366,7 +366,7 @@ define([
         where += this.config.crossNameField + " like '%" + crossName + "%' and ";
       }, this);
       where = where.substr(0, where.length - 5);
-      console.log(where);
+      this.crossLayer.setDefinitionExpression(where);
     },
 
     /**开始选择路口*/
@@ -411,12 +411,18 @@ define([
         this.routeRoadLayer.clear();
         this.routeCrossLayer.clear();
         this.selectedCrossGraphics = [];
+        this.crossLayer.setDefinitionExpression("1=1");
         this.crossLayer.show();
       }
       else {
         var searchText = this.txtSearchText.value;
         this._searchCross(searchText.split(" "));
       }
+    },
+
+    _onBtnClearSearchClick: function (event) {
+      this.txtSearchText.value = "";
+      this._onBtnSearchCrossClick(null);
     },
 
     _onTxtSearchTextKeyPress: function (event) {
