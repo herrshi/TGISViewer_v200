@@ -1,0 +1,6 @@
+{
+  "busLineUrl": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_bus/MapServer/1",
+  "busLineNameField": "Busname",
+  "metroLineUrl": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_Metro/MapServer/1",
+  "metroLineNameField": "Busname"
+}

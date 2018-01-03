@@ -914,8 +914,33 @@ var TMap = {
     require(["dojo/topic"], function (topic) {
       topic.publish("hideTopToolbarButton", params);
     });
-  }
+  },
 
+  /**
+   * 公交线路客运量
+   * @param params: object, required.
+   *   flows: [object], required.
+   *     lineName: 线路名称
+   *     flow: 客运量
+   * */
+  setBusLineFlow: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("setBusLineFlow", params);
+    });
+  },
+
+  /**
+   * 轨交线路客运量
+   * @param params: object, required.
+   *   flows: [object], required.
+   *     lineName: 线路名称
+   *     flow: 客运量
+   * */
+  setMetroLineFlow: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("setMetroLineFlow", params);
+    });
+  }
   /************************ Special Interface END **************************/
 
 };

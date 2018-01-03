@@ -1,3 +1,6 @@
+/**
+ * 火车站客流量
+ * */
 define([
   "dojo/_base/declare",
   "dojo/_base/lang",
@@ -60,6 +63,8 @@ define([
     minPieRadius: 40,
 
     postCreate: function () {
+      this.inherited(arguments);
+
       this.stationLayer = new GraphicsLayer();
       this.map.addLayer(this.stationLayer);
 
