@@ -352,6 +352,12 @@
         "type": "dynamic",
         "visible": false,
         "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "title": "<b>小路</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
           "1": {
             "infoTemplate": {
               "title": "<b>国道</b>",
@@ -387,6 +393,84 @@
               "title": "<b>快速路</b>",
               "content": "<b>${GQ_NAME}</b><br><b>车道数: </b>${GQ_LANE}<br><b>宽度: </b>${GQ_WIDTH}米<br><b>所属区县: </b>${GQ_PAC}"
             }
+          },
+          "7": {
+            "infoTemplate": {
+              "title": "<b>高速公路</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "9": {
+            "infoTemplate": {
+              "title": "<b>国道</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "11": {
+            "infoTemplate": {
+              "title": "<b>省道</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "13": {
+            "infoTemplate": {
+              "title": "<b>县道</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "14": {
+            "infoTemplate": {
+              "title": "<b>建筑中的县道</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "16": {
+            "infoTemplate": {
+              "title": "<b>建筑中的乡道</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "17": {
+            "infoTemplate": {
+              "title": "<b>专用公路</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "18": {
+            "infoTemplate": {
+              "title": "<b>匝道</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "19": {
+            "infoTemplate": {
+              "title": "<b>引道</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "20": {
+            "infoTemplate": {
+              "title": "<b>大车路、机耕路</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "21": {
+            "infoTemplate": {
+              "title": "<b>乡村路</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "22": {
+            "infoTemplate": {
+              "title": "<b>内部道路</b>",
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "23": {
+            "infoTemplate": {
+              "title": "<b>高架道路</b>",
+              "content": "<b>${NAME}</b>"
+            }
           }
         }
       },
@@ -396,24 +480,124 @@
         "type": "dynamic",
         "visible": false,
         "infoTemplates": {
-          "9": {
+          "8": {
             "infoTemplate": {
               "content": "<b>${Busname} - ${Updown}</b><br><b>起讫点: </b>${Startstation} - ${Endstation}<br><b>时间: </b>${Starting_time} - ${Ending_time}<br><b>发车间隔: </b>${Frequency}"
             }
           },
-          "11": {
+          "9": {
+            "infoTemplate": {
+              "content": "<b>${Name}</b><br><b>轨道名称: </b>${SubwayName}"
+            }
+          },
+          "10": {
             "infoTemplate": {
               "content": "<b>${SubwayName} - ${Name}</b>"
             }
           },
-          "12": {
+          "11": {
             "infoTemplate": {
               "content": "<b>${NAME}</b><br><b>经过线路: </b>${LINE_NAME}"
             }
           },
-          "13": {
+          "12": {
             "infoTemplate": {
               "content": "<b>${NAME}</b><br><b>时间: </b>${START_TIME}--${END_TIME}<br><b>公司: </b>${COMPANY}<br><b>长度: </b>${LENGTH}公里<br><b>发车间隔: </b>${INTERVAL}分钟"
+            }
+          },
+          "13": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>衔接交通方式: </b>${衔接交通方式}<br><b>衔接轨道线路名称: </b>${衔接轨道线路名称}<br><b>建设情况: </b>${建设情况}<br><b>对外交通方式: </b>${对外交通方式}"
+            }
+          },
+          "14": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>衔接交通方式: </b>${衔接交通方式}<br><b>衔接轨道线路名称: </b>${衔接轨道线路名称}<br><b>建设情况: </b>${建设情况}<br><b>对外交通方式: </b>${对外交通方式}"
+            }
+          },
+          "15": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "16": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "17": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "18": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "19": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "20": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "21": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "22": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "23": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "24": {
+            "infoTemplate": {
+              "content": "<b>${枢纽名称}</b><br><b>序号: </b>${序号}<br><b>区位: </b>${区位}<br><b>枢纽位置: </b>${枢纽位置}<br><b>轨道条数: </b>${轨道条数}<br><b>轨道线路名称: </b>${轨道线路名称}<br><b>P加R停车规模: </b>${P加R停车规模}<br><b>来源: </b>${来源}<br><b>建设情况: </b>${建设情况}"
+            }
+          },
+          "25": {
+            "infoTemplate": {
+              "content": "<b>${停车场名称}</b><br><b>序号: </b>${序号}<br><b>地址: </b>${地址}<br><b>停车模式: </b>${停车模式}<br><b>占地面积: </b>${占地面积}<br><b>建筑面积: </b>${建筑面积}<br><b>设计停车数: </b>${设计停车数}<br><b>实际停车数: </b>${实际停车数}<br><b>保养等级: </b>${保养等级}<br><b>停车场所属公司: </b>${停车场所属公司}<br><b>停车利用率: </b>${停车利用率}<br><b>场站服务公交企业: </b>${场站服务公交企业}<br><b>服务首末站数量: </b>${服务首末站数量}<br><b>直线空驶距离: </b>${直线空驶距离}千米<br><b>入驻线路数量: </b>${入驻线路数量}"
+            }
+          },
+          "26": {
+            "infoTemplate": {
+              "content": "<b>${停车场名称}</b><br><b>序号: </b>${序号}<br><b>地址: </b>${地址}<br><b>停车模式: </b>${停车模式}<br><b>占地面积: </b>${占地面积}<br><b>建筑面积: </b>${建筑面积}<br><b>设计停车数: </b>${设计停车数}<br><b>实际停车数: </b>${实际停车数}<br><b>保养等级: </b>${保养等级}<br><b>停车场所属公司: </b>${停车场所属公司}<br><b>停车利用率: </b>${停车利用率}<br><b>场站服务公交企业: </b>${场站服务公交企业}<br><b>服务首末站数量: </b>${服务首末站数量}<br><b>直线空驶距离: </b>${直线空驶距离}千米<br><b>入驻线路数量: </b>${入驻线路数量}"
+            }
+          },
+          "27": {
+            "infoTemplate": {
+              "content": "<b>${名称}</b><br><b>序号: </b>${序号}<br><b>简介: </b>${简介}"
+            }
+          },
+          "28": {
+            "infoTemplate": {
+              "content": "<b>${名称}</b><br><b>简介: </b>${简介}"
+            }
+          },
+          "29": {
+            "infoTemplate": {
+              "content": "<b>${名称}</b><br><b>序号: </b>${序号}"
+            }
+          },
+          "30": {
+            "infoTemplate": {
+              "content": "<b>${名称}</b>"
+            }
+          },
+          "31": {
+            "infoTemplate": {
+              "content": "<b>${名称}</b><br><b>所属站点: </b>${所属站点}<br><b>所属线路: </b>${所属线路}"
             }
           }
         }
@@ -428,7 +612,19 @@
         "label": "轮渡线",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Ferry_Route/MapServer",
         "type": "dynamic",
-        "visible": false
+        "visible": false,
+        "infoTemplates": {
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "2": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          }
+        }
       },
       {
         "label": "码头",
@@ -440,13 +636,157 @@
         "label": "桥隧",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/MAP0512_BRIDGE_line/MapServer",
         "type": "dynamic",
-        "visible": false
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "2": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "3": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "4": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "5": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "6": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "7": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "8": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "9": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "10": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "11": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "12": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "13": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "14": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "16": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "17": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "18": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "19": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          }
+        }
       },
       {
         "label": "水系",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/River/MapServer",
         "type": "dynamic",
-        "visible": false
+        "visible": false,
+        "infoTemplates": {
+          "11": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          },
+          "15": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          },
+          "18": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          },
+          "21": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          },
+          "22": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          },
+          "24": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          },
+          "25": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          },
+          "26": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          },
+          "28": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>水质: </b>${WATERQ}<br><b>种类: </b>${BREED}"
+            }
+          }
+        }
       },
       {
         "label": "水运交通设施",
@@ -470,7 +810,64 @@
         "label": "铁轨",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Railway/MapServer",
         "type": "dynamic",
-        "visible": false
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "2": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "3": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "5": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "6": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "8": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "9": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "10": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "11": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          },
+          "12": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b>"
+            }
+          }
+        }
       },
       {
         "label": "机场控制区",
