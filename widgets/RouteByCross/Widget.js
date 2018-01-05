@@ -118,33 +118,33 @@ define([
      * 包括一个路口的下游路口, 和下游路口之间经过了哪些道路
      * */
     _readCrossRoadTable: function (roadGraphics) {
-      xhr(window.path + "configs/RouteByCross/CrossRoad.csv", {
-        handleAs: "text"
+      xhr(window.path + "configs/RouteByCross/CrossRoad.txt", {
+        handleAs: "json"
       }).then(lang.hitch(this, function (data) {
-        var allRows = data.split(/\r?\n|\r/);
-        array.forEach(allRows, function (row) {
-          var rowCells = row.split(",");
-          if (rowCells.length >= 3) {
-            //两个路口之间经过的道路id, 可能有多个，用/分隔
-            var roadIds = rowCells[2].split("/");
-            //获取每个道路的graphic
-            var segmentRoadGraphics = [];
-            array.forEach(roadIds, function (roadId) {
-              for (var i = 0; i < roadGraphics.length; i++) {
-                if (roadGraphics[i].attributes[this.config.roadIdField] === roadId) {
-                  segmentRoadGraphics.push(roadGraphics[i]);
-                  break;
-                }
+        array.forEach(data.dataList, function (row) {
+          //起点路口id
+          var startCrossId = row.FSTR_STARTCROSSID;
+          //终点路口id
+          var endCrossId = row.FSTR_ENDCROSSID;
+          //途径道路id, /分隔
+          var roadIds = row.FSTR_ISSUEID.split("/");
+          //获取每个道路id的graphic
+          var segmentRoadGraphics = [];
+          array.forEach(roadIds, function (roadId) {
+            for (var i = 0; i < roadGraphics.length; i++) {
+              if (roadGraphics[i].attributes[this.config.roadIdField] === roadId) {
+                segmentRoadGraphics.push(roadGraphics[i]);
+                break;
               }
-            }, this);
+            }
+          }, this);
 
-            this.crossRoadTable.push({
-              startCrossId: rowCells[0],
-              endCrossId: rowCells[1],
-              roadIds: rowCells[2].split("/"),
-              roadGraphics: segmentRoadGraphics
-            });
-          }
+          this.crossRoadTable.push({
+            startCrossId: startCrossId,
+            endCrossId: endCrossId,
+            roadIds: roadIds,
+            roadGraphics: segmentRoadGraphics
+          });
         }, this);
       }));
     },
@@ -227,7 +227,7 @@ define([
         this.map.infoWindow.setTitle("是否重新选择后续路口?");
         this.map.infoWindow.show(graphic.geometry);
 
-        query("button#btnReselectCross").on("click", lang.hitch(this, this._onBtnReselectCrossClick));
+        // query("button#btnReselectCross").on("click", lang.hitch(this, this._onBtnReselectCrossClick));
         query("button#btnCancelReselectCross").on("click", lang.hitch(this, this._onBtnCancelReselectRouteClick));
       }
     },
@@ -347,15 +347,21 @@ define([
         }
       }
 
+      //去掉此路口后的选定路口
       var crossIndex;
       for (i = 0; i < this.selectedCrossGraphics.length; i++) {
-        if (this.routeCrossLayer.graphics[i].attributes[this.config.crossIdField] === crossId) {
+        if (this.selectedCrossGraphics[i].attributes[this.config.crossIdField] === crossId) {
           crossIndex = i;
           break;
         }
       }
-      for (i = crossIndex; i < this.selectedCrossGraphics.length; i++) {
-
+      for (i = crossIndex + 1; i < this.selectedCrossGraphics.length; i++) {
+        for (var j = 0; j < this.routeCrossLayer.graphics.length; j++) {
+          if (this.routeCrossLayer.graphics[j].attributes[this.config.crossIdField] === this.selectedCrossGraphics[i].attributes[this.config.crossIdField]) {
+            this.routeCrossLayer.remove(this.routeCrossLayer.graphics[j]);
+            j--;
+          }
+        }
       }
     },
 
