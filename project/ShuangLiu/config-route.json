@@ -25,7 +25,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/ShuangLiu/ShuangLiu_base/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/mapserver/smallmap/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -48,7 +48,7 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "localhost:6080",
+  "gisServer": "192.168.0.91:6080",
   "widgetOnScreen": {
     "widgets": [
       {
@@ -77,9 +77,15 @@
         "id": "OverlayWidget"
       },
       {
-        "uri": "widgets/TrackPlayback/Widget",
-        "id": "TrackPlaybackWidget"
-      }
+        "uri": "widgets/RouteByCross/Widget",
+        "config": "configs/RouteByCross/config_RouteByCross_ShuangLiu.json",
+        "id": "RouteByCrossWidget",
+        "position": {
+          "left": 15,
+          "top": 5,
+          "width": 600,
+          "relativeTo": "map"
+        }
       }
     ]
   }
