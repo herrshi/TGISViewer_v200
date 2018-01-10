@@ -323,7 +323,7 @@ define([
 
       array.forEach(overlays, function (overlayObj) {
         var id = overlayObj.id;
-        var type = overlayObj.type;
+        var type = overlayObj.type || overlayParams.defaultType;
         var fields = overlayObj.fields;
         var geometryObj = overlayObj.geometry;
         var symbolObj = overlayObj.symbol || overlayParams.defaultSymbol;
