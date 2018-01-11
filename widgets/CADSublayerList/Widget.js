@@ -150,8 +150,7 @@ define([
 
         domClass.toggle(this, "active");
         var layerLabel = domAttr.get(this, "data-layerLabel");
-        // var layer = this._getLayerByLabel(layerLabel);
-        // console.log(layer);
+        var layerUrl = domAttr.get(this, "data-layerUrl");
         query("#" + layerLabel + " a").forEach(function (node) {
           var sublayerName = domAttr.get(node, "data-sublayerName");
           if (sublayerName !== null && domClass.contains(node, "active")) {
@@ -161,16 +160,15 @@ define([
 
         sublayerNames = "layers=" + sublayerNames.substr(0, sublayerNames.length - 1);
 
-
-
-        xhr("http://139.196.105.31:9001/Cad/Rest/1335191609495389/MapServer/set", {
-          method: "POST",
-          data: sublayerNames
-        });
+        console.log(layerUrl + "/set");
+        // xhr("http://139.196.105.31:9001/Cad/Rest/1335191609495389/MapServer/set", {
+        //   method: "POST",
+        //   data: sublayerNames
+        // });
       });
     },
 
-    _showSublayerInfo: function (layerLabel, sublayerInfos) {
+    _showSublayerInfo: function (layerLabel, sublayerInfos, layerUrl) {
       //显示子图层面板
       query(".selected-cad").style("display", "block");
       query(".selected-cad").fadeIn({duration:500}).play();
@@ -204,7 +202,8 @@ define([
       array.forEach(sublayerInfos, function (sublayerInfo) {
         var sublayerName = sublayerInfo.name;
         query("#" + layerLabel + " .scroller").addContent(
-          "<a class='active'  data-layerLabel='" + layerLabel + "' data-sublayerName='" + sublayerName + "'>" +
+          "<a class='active'  data-layerLabel='" + layerLabel + "' data-layerUrl='" + layerUrl +
+          "' data-sublayerName='" + sublayerName + "'>" +
             "<span class='btn btn-black'>" +
               "<i class='fa fa-check'></i>" +
             "</span>" +
@@ -232,7 +231,7 @@ define([
         this._getSublayerInfo(layerUrl).then(lang.hitch(this, function (layerInfo) {
           //显示子图层面板
           if (showSublayers) {
-            this._showSublayerInfo(layerLabel, layerInfo.layers);
+            this._showSublayerInfo(layerLabel, layerInfo.layers, layerUrl);
           }
 
           //显示服务

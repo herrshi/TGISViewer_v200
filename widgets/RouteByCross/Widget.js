@@ -175,10 +175,12 @@ define([
         //确定按钮
         "<button type='button' class='btn btn-success btn-xs' id='btnStartSelectRoute' " +
         "data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
-        "<i class='fa fa-play fa-fw'></i>开始</button>  " +
+          "<i class='fa fa-play fa-fw'></i>开始" +
+        "</button>  " +
         //取消按钮
         "<button type='button' class='btn btn-warning btn-xs' id='btnCancelSelectRoute' >" +
-        "<i class='fa fa-times fa-fw'></i>取消</button>";
+          "<i class='fa fa-times fa-fw'></i>取消" +
+        "</button>";
       this.map.infoWindow.setContent(content);
       this.map.infoWindow.setTitle("是否开始选择路径?");
       this.map.infoWindow.show(graphic.geometry);
@@ -215,13 +217,16 @@ define([
           //确定按钮
           "<button type='button' class='btn btn-success btn-xs' id='btnReselectCross' " +
           "data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
-          "<i class='fa fa-undo fa-fw'></i>重选</button>  " +
+            "<i class='fa fa-undo fa-fw'></i>重选" +
+          "</button>  " +
           //取消按钮
           "<button type='button' class='btn btn-warning btn-xs' id='btnCancelReselectCross' >" +
-          "<i class='fa fa-times fa-fw'></i>取消</button>  " +
+            "<i class='fa fa-times fa-fw'></i>取消" +
+          "</button>  " +
           //停止按钮
           "<button type='button' class='btn btn-danger btn-xs' id='btnStopAddCross' >" +
-          "<i class='fa fa-stop fa-fw'></i>停止</button>";
+            "<i class='fa fa-stop fa-fw'></i>停止" +
+          "</button>";
 
         this.map.infoWindow.setContent(content);
         this.map.infoWindow.setTitle("是否重新选择后续路口?");
