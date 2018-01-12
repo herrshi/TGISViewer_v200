@@ -268,6 +268,9 @@ define([
               name: selectedCrossGraphic.attributes[this.config.crossNameField]
             }});
         }
+        else {
+          console.error("Function addCross() not found.");
+        }
       }
       //第二个路口开始要处理上一次候选路口和候选道路
       else {
@@ -322,6 +325,9 @@ define([
             },
             roads: selectedRoads
           });
+        }
+        else {
+          console.error("Function addCross() not found.");
         }
       }
 
@@ -458,6 +464,9 @@ define([
 
       if (typeof StopAddCross !== "undefined" && StopAddCross instanceof Function) {
         StopAddCross();
+      }
+      else {
+        console.error("Function StopAddCross() not found.");
       }
 
       this.map.infoWindow.hide();
