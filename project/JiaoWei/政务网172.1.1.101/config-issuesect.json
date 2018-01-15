@@ -48,11 +48,11 @@
         ],
         "infoTemplate": {
           "title": "${地面道路指数区域.名称}",
-          "content": "<b>当前指数: </b>${JIAOWEI.STAT_GRO_INDEX_DATA.FFLT_CUR_INDEX:NumberFormat(places:2)}<br><b>车速: </b>${JIAOWEI.STAT_GRO_INDEX_DATA.FSTR_REGIONSPEED:NumberFormat(places:2)}km/h"
+          "content": "<b>当前指数: </b>${SHJW.STAT_GRO_INDEX_DATA.FFLT_CUR_INDEX:NumberFormat(places:2)}<br><b>车速: </b>${SHJW.STAT_GRO_INDEX_DATA.FSTR_REGIONSPEED:NumberFormat(places:2)}km/h"
         },
         "renderer": {
           "type": "uniqueValue",
-          "field1": "JIAOWEI.STAT_GRO_INDEX_DATA.FSTR_INDEX_STATUS",
+          "field1": "SHJW.STAT_GRO_INDEX_DATA.FSTR_INDEX_STATUS",
           "defaultLabel": "未知",
           "defaultSymbol": {
             "type": "esriSFS",
@@ -108,6 +108,83 @@
                 "color": [248, 102, 102, 200],
                 "outline": {
                   "color": [255, 255, 255, 255]
+                }
+              }
+            }
+          ]
+
+        }
+      },
+      {
+        "label": "快速路实时指数",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_indexRegion/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "infoTemplate": {
+          "title": "${快速路指数区域.区域名称}",
+          "content": "<b>当前指数: </b>${SHJW.STAT_EXP_WAY_INDEX_RT.FFLT_CUR_INDEX:NumberFormat(places:2)}<br><b>车速: </b>${SHJW.STAT_EXP_WAY_INDEX_RT.FSTR_REGIONSPEED:NumberFormat(places:2)}km/h"
+        },
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "SHJW.STAT_EXP_WAY_INDEX_RT.FSTR_INDEX_STATUS",
+          "defaultLabel": "未知",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110, 200],
+            "outline": {
+              "color": [0, 0, 0]
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "1",
+              "label": "<30",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [61, 190, 0, 200],
+                "outline": {
+                  "color": [0, 0, 0]
+                }
+              }
+            },
+            {
+              "value": "2",
+              "label": "[30, 50)",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [198, 244, 102, 200],
+                "outline": {
+                  "color": [0, 0, 0]
+                }
+              }
+            },
+            {
+              "value": "3",
+              "label": "[50, 70)",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [254, 254, 102, 200],
+                "outline": {
+                  "color": [0, 0, 0]
+                }
+              }
+            },
+            {
+              "value": "4",
+              "label": ">=70",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [248, 102, 102, 200],
+                "outline": {
+                  "color": [0, 0, 0]
                 }
               }
             }

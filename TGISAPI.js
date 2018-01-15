@@ -262,6 +262,18 @@ var TMap = {
       topic.publish("Print", {params: params, callback: callback});
     });
   },
+
+  /**
+   * 开启双地图模式, 左右两边的地图联动
+   * @param params, object, required.
+   *   direction: string, optional. 双地图的排列方向. "horizontal"(水平) | "vertical"(垂直)
+   *     默认为horizontal
+   * */
+  startDoubleMap: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("startDoubleMap", params);
+    });
+  },
   /************************ Map Control END **************************/
 
   /************************ Layer & Service BEGIN **************************/
