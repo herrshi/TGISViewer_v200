@@ -269,9 +269,15 @@ var TMap = {
    *   direction: string, optional. 双地图的排列方向. "horizontal"(水平) | "vertical"(垂直)
    *     默认为horizontal
    * */
-  startDoubleMap: function (params) {
+  showDoubleMap: function (params) {
     require(["dojo/topic"], function (topic) {
-      topic.publish("startDoubleMap", params);
+      topic.publish("showDoubleMap", params);
+    });
+  },
+
+  hideDoubleMap: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideDoubleMap");
     });
   },
   /************************ Map Control END **************************/
