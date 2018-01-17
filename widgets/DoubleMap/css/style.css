@@ -9,16 +9,35 @@
   height: 100%;
 }
 
-.jimu-widget-doubleMap .leftBaseMap {
+.jimu-widget-doubleMap .leftBasemapButton {
   right: 20px;
   top: 10px;
   position: absolute;
   z-index: 999;
 }
 
-.jimu-widget-doubleMap .rightBaseMap {
+.jimu-widget-doubleMap .leftBasemapContainer {
+  width: 400px;
+  height: 380px;
+  top: 50px;
+  right: 20px;
+  position: absolute;
+  z-index: 999;
+  overflow: auto;
+}
+
+.jimu-widget-doubleMap .rightBasemapButton {
   left: 20px;
   top: 10px;
+  position: absolute;
+  z-index: 999;
+}
+
+.jimu-widget-doubleMap .rightBasemapContainer {
+  width: 400px;
+  height: 380px;
+  top: 50px;
+  left: 20px;
   position: absolute;
   z-index: 999;
 }

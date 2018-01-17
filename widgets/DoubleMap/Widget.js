@@ -6,7 +6,8 @@ define([
   "dojo/query",
   "dojo/on",
   "jimu/BaseWidget",
-  "esri/map"
+  "esri/map",
+  "esri/dijit/BasemapGallery"
 ], function (
   declare,
   lang,
@@ -15,7 +16,8 @@ define([
   query,
   on,
   BaseWidget,
-  Map
+  Map,
+  BasemapGallery
 ) {
   return declare([BaseWidget], {
     name: "DoubleMap",
@@ -34,6 +36,9 @@ define([
     },
 
     onOpen: function () {
+      console.log(this.map.basemapLayerIds);
+      console.log(this.map.layerIds);
+
       this.leftMap = new Map("leftMap", {
         center: [121, 31],
         slider:false,
@@ -41,6 +46,11 @@ define([
         zoom: 12,
         basemap: "topo"
       });
+      var leftBasemapGallery = new BasemapGallery({
+        showArcGISBasemaps: true,
+        map: this.leftMap
+      }, this.leftBasemapContainer);
+      leftBasemapGallery.startup();
 
       this.rightMap = new Map("rightMap", {
         center: [121, 31],
@@ -49,6 +59,11 @@ define([
         zoom: 12,
         basemap: "streets"
       });
+      var rightBasemapGallery = new BasemapGallery({
+        showArcGISBasemaps: true,
+        map: this.rightMap
+      }, this.rightBasemapContainer);
+      rightBasemapGallery.startup();
 
       this.leftMapEventSignal = this.leftMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
       this.rightMapEventSignal = this.rightMap.on("extent-change", lang.hitch(this, this._onRightMap_extentChange));
@@ -72,7 +87,6 @@ define([
 
     onTopicHandler_showDoubleMap: function (params) {
       //显示div
-      // query("." + this.baseClass).style("width", "100%").style("height", "100%").style("display", "block").style("z-index", 100);
       query("." + this.baseClass).style({
         "width": "100%",
         "height": "100%",

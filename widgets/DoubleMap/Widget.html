@@ -2,12 +2,24 @@
   <div class="row mapContainer" >
     <div class="col-md-6 panel panel-default mapContainer">
       <div class="panel-body mapContainer" id="leftMap">
-        <div class="leftBaseMap">底图切换</div>
+        <button class="btn btn-black leftBasemapButton" title="底图切换">
+          <i class="fa fa-object-group fa-lg"></i>
+        </button>
+
+        <div class="panel panel-default leftBasemapContainer">
+          <div class="panel-body" data-dojo-attach-point="leftBasemapContainer"></div>
+        </div>
       </div>
     </div>
     <div class="col-md-6 panel panel-default mapContainer">
       <div class="panel-body mapContainer" id="rightMap">
-        <div class="rightBaseMap">底图切换</div>
+        <button class="btn btn-black rightBasemapButton" title="底图切换">
+          <i class="fa fa-object-group fa-lg"></i>
+        </button>
+
+        <div class="panel panel-default rightBasemapContainer">
+          <div class="panel-body" data-dojo-attach-point="rightBasemapContainer"></div>
+        </div>
       </div>
     </div>
   </div>
