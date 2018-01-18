@@ -34,9 +34,6 @@ define([
     },
 
     onOpen: function () {
-      console.log(this.map.basemapLayerIds);
-      console.log(this.map.layerIds);
-
       this.leftMap = new Map("leftMap", {
         center: [121, 31],
         slider:false,
