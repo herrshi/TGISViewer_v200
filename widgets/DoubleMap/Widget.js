@@ -5,6 +5,7 @@ define([
   "dojo/topic",
   "dojo/query",
   "dojo/on",
+  "dojo/dom-construct",
   "jimu/BaseWidget",
   "esri/map"
 ], function (
@@ -14,6 +15,7 @@ define([
   topic,
   query,
   on,
+  domConstruct,
   BaseWidget,
   Map
 ) {
@@ -52,6 +54,15 @@ define([
 
       this.leftMapEventSignal = this.leftMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
       this.rightMapEventSignal = this.rightMap.on("extent-change", lang.hitch(this, this._onRightMap_extentChange));
+
+     this._addBasemapMenu(this.leftBasemapMenu, this.config.basemapLabels);
+     this._addBasemapMenu(this.rightBasemapMenu, this.config.basemapLabels);
+    },
+
+    _addBasemapMenu: function (parentNode, layerLabels) {
+      array.forEach(layerLabels, function (layerLabel) {
+        domConstruct.place("<li><a><i class='fa fa-picture-o'></i>" + layerLabel + "</a></li>", parentNode);
+      }, this);
     },
 
     _onLeftMap_extentChange: function (event) {
@@ -67,8 +78,6 @@ define([
         this.leftMapEventSignal = this.leftMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
       }));
     },
-
-
 
     onTopicHandler_showDoubleMap: function (params) {
       //显示div
