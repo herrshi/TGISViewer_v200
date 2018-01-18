@@ -1,26 +1,101 @@
 <div>
   <div class="row mapContainer" >
     <div class="col-md-6 panel panel-default mapContainer">
-      <div class="panel-body mapContainer" id="leftMap">
-        <button class="btn btn-black leftBasemapButton" title="底图切换">
-          <i class="fa fa-object-group fa-lg"></i>
+      <div class="panel-body mapContainer" id="leftMap"></div>
+
+      <div class="btn-group leftBasemapButton">
+        <button class="btn btn-black dropdown-toggle"
+                data-toggle="dropdown" title="底图切换">
+          <i class="fa fa-object-group margin-right-5" style="font-size: 13px;"></i>
+          <i class="fa fa-angle-down" style="margin-right: -4px;"></i>
         </button>
 
-        <div class="panel panel-default leftBasemapContainer">
-          <div class="panel-body" data-dojo-attach-point="leftBasemapContainer"></div>
-        </div>
+        <ul class="dropdown-menu dropdown-menu-black" role="menu">
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 最新航空影像
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 1948年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 1979年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 1994年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2005年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2006年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2008年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2010年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2011年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2012年上半年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2012年下半年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2013年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2014年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2015年
+            </a>
+          </li>
+          <li>
+            <a>
+              <i class="fa fa-picture-o"></i> 2016年
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
+
     <div class="col-md-6 panel panel-default mapContainer">
       <div class="panel-body mapContainer" id="rightMap">
         <button class="btn btn-black rightBasemapButton" title="底图切换">
-          <i class="fa fa-object-group fa-lg"></i>
+          <i class="fa fa-object-group margin-right-5" style="font-size: 13px;"></i>
+          <i class="fa fa-angle-down" style="margin-right: -4px;"></i>
         </button>
-
-        <div class="panel panel-default rightBasemapContainer">
-          <div class="panel-body" data-dojo-attach-point="rightBasemapContainer"></div>
-        </div>
-      </div>
     </div>
   </div>
 </div>

@@ -6,8 +6,7 @@ define([
   "dojo/query",
   "dojo/on",
   "jimu/BaseWidget",
-  "esri/map",
-  "esri/dijit/BasemapGallery"
+  "esri/map"
 ], function (
   declare,
   lang,
@@ -16,8 +15,7 @@ define([
   query,
   on,
   BaseWidget,
-  Map,
-  BasemapGallery
+  Map
 ) {
   return declare([BaseWidget], {
     name: "DoubleMap",
@@ -46,11 +44,6 @@ define([
         zoom: 12,
         basemap: "topo"
       });
-      var leftBasemapGallery = new BasemapGallery({
-        showArcGISBasemaps: true,
-        map: this.leftMap
-      }, this.leftBasemapContainer);
-      leftBasemapGallery.startup();
 
       this.rightMap = new Map("rightMap", {
         center: [121, 31],
@@ -59,11 +52,6 @@ define([
         zoom: 12,
         basemap: "streets"
       });
-      var rightBasemapGallery = new BasemapGallery({
-        showArcGISBasemaps: true,
-        map: this.rightMap
-      }, this.rightBasemapContainer);
-      rightBasemapGallery.startup();
 
       this.leftMapEventSignal = this.leftMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
       this.rightMapEventSignal = this.rightMap.on("extent-change", lang.hitch(this, this._onRightMap_extentChange));
