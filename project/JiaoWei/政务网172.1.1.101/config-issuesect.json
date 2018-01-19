@@ -48,11 +48,11 @@
         ],
         "infoTemplate": {
           "title": "${地面道路指数区域.名称}",
-          "content": "<b>当前指数: </b>${SHJW.STAT_GRO_INDEX_DATA.FFLT_CUR_INDEX:NumberFormat(places:2)}<br><b>车速: </b>${SHJW.STAT_GRO_INDEX_DATA.FSTR_REGIONSPEED:NumberFormat(places:2)}km/h"
+          "content": "<b>当前指数: </b>${SHJW.STAT_GRO_INDEX_DATA_RT.FFLT_CUR_INDEX:NumberFormat(places:2)}<br><b>车速: </b>${SHJW.STAT_GRO_INDEX_DATA_RT.FSTR_REGIONSPEED:NumberFormat(places:2)}km/h"
         },
         "renderer": {
           "type": "uniqueValue",
-          "field1": "SHJW.STAT_GRO_INDEX_DATA.FSTR_INDEX_STATUS",
+          "field1": "SHJW.STAT_GRO_INDEX_DATA_RT.FSTR_INDEX_STATUS",
           "defaultLabel": "未知",
           "defaultSymbol": {
             "type": "esriSFS",

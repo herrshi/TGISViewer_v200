@@ -7,7 +7,8 @@ define([
   "dojo/on",
   "dojo/dom-construct",
   "jimu/BaseWidget",
-  "esri/map"
+  "esri/map",
+  "esri/layers/ArcGISTiledMapServiceLayer"
 ], function (
   declare,
   lang,
@@ -37,19 +38,15 @@ define([
 
     onOpen: function () {
       this.leftMap = new Map("leftMap", {
-        center: [121, 31],
-        slider:false,
-        nav:false,
-        zoom: 12,
-        basemap: "topo"
+        slider: false,
+        nav: false,
+        logo: false
       });
 
       this.rightMap = new Map("rightMap", {
-        center: [121, 31],
-        slider:false,
-        nav:false,
-        zoom: 12,
-        basemap: "streets"
+        slider: false,
+        nav: false,
+        logo: false
       });
 
       this.leftMapEventSignal = this.leftMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
@@ -79,7 +76,19 @@ define([
       }));
     },
 
+    _createBasemap: function () {
+      array.forEach(this.appConfig.map.basemaps, function (basemapConfig) {
+
+      }, this);
+    },
+
     onTopicHandler_showDoubleMap: function (params) {
+      this._createBasemap();
+      //添加底图
+      this.leftMap.addLayer(this.map.getLayer(this.map.layerIds[0]));
+      this.map.getLayer(this.map.layerIds[1]).setVisibility(true);
+      this.rightMap.addLayer(this.map.getLayer(this.map.layerIds[1]));
+
       //显示div
       query("." + this.baseClass).style({
         "width": "100%",
@@ -91,7 +100,7 @@ define([
       // var direction = params ?  params.direction || "horizontal" : "horizontal";
 
     },
-    
+
     onTopicHandler_hideDoubleMap: function () {
       query("." + this.baseClass).style("display", "none");
     }
