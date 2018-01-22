@@ -18,7 +18,8 @@ define([
   on,
   domConstruct,
   BaseWidget,
-  Map
+  Map,
+  ArcGISTiledMapServiceLayer
 ) {
   return declare([BaseWidget], {
     name: "DoubleMap",
@@ -52,14 +53,7 @@ define([
       this.leftMapEventSignal = this.leftMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
       this.rightMapEventSignal = this.rightMap.on("extent-change", lang.hitch(this, this._onRightMap_extentChange));
 
-     this._addBasemapMenu(this.leftBasemapMenu, this.config.basemapLabels);
-     this._addBasemapMenu(this.rightBasemapMenu, this.config.basemapLabels);
-    },
-
-    _addBasemapMenu: function (parentNode, layerLabels) {
-      array.forEach(layerLabels, function (layerLabel) {
-        domConstruct.place("<li><a><i class='fa fa-picture-o'></i>" + layerLabel + "</a></li>", parentNode);
-      }, this);
+      this._createBasemap();
     },
 
     _onLeftMap_extentChange: function (event) {
@@ -77,18 +71,51 @@ define([
     },
 
     _createBasemap: function () {
-      array.forEach(this.appConfig.map.basemaps, function (basemapConfig) {
+      this.appConfig.map.basemaps.forEach(function (basemapConfig, index) {
+        var url = basemapConfig.url;
+        url = url.replace(/{gisServer}/i, this.appConfig.gisServer);
+        var type = basemapConfig.type;
+        if (type === "tiled") {
+          var leftLayer = new ArcGISTiledMapServiceLayer(url);
+          //底图默认不可见
+          leftLayer.setVisibility(false);
+          //底图名称加入菜单
+          domConstruct.place(
+            "<li>" +
+              "<a>" +
+                "<i class='fa fa-picture-o'></i>" +
+                basemapConfig.label +
+              "</a>" +
+            "</li>",
+            this.leftBasemapMenu);
 
+          var rightLayer = new ArcGISTiledMapServiceLayer(url);
+          rightLayer.setVisibility(false);
+          domConstruct.place(
+            "<li>" +
+              "<a>" +
+                "<i class='fa fa-picture-o'></i>" +
+                basemapConfig.label +
+              "</a>" +
+            "</li>",
+            this.rightBasemapMenu);
+
+          //左侧地图显示第一个底图
+          if (index === 0) {
+            leftLayer.setVisibility(true);
+          }
+          //右侧地图显示第二个底图
+          else if (index === 1) {
+            rightLayer.setVisibility(true);
+          }
+
+          this.leftMap.addLayer(leftLayer);
+          this.rightMap.addLayer(rightLayer);
+        }
       }, this);
     },
 
     onTopicHandler_showDoubleMap: function (params) {
-      this._createBasemap();
-      //添加底图
-      this.leftMap.addLayer(this.map.getLayer(this.map.layerIds[0]));
-      this.map.getLayer(this.map.layerIds[1]).setVisibility(true);
-      this.rightMap.addLayer(this.map.getLayer(this.map.layerIds[1]));
-
       //显示div
       query("." + this.baseClass).style({
         "width": "100%",
@@ -102,6 +129,7 @@ define([
     },
 
     onTopicHandler_hideDoubleMap: function () {
+      //隐藏div
       query("." + this.baseClass).style("display", "none");
     }
   });
