@@ -6,6 +6,7 @@ define([
   "dojo/query",
   "dojo/on",
   "dojo/dom-construct",
+  "dojox/NodeList/delegate",
   "jimu/BaseWidget",
   "esri/map",
   "esri/layers/ArcGISTiledMapServiceLayer"
@@ -17,6 +18,7 @@ define([
   query,
   on,
   domConstruct,
+  nodeListDelegate,
   BaseWidget,
   Map,
   ArcGISTiledMapServiceLayer
@@ -70,6 +72,8 @@ define([
       }));
     },
 
+
+
     _createBasemap: function () {
       this.appConfig.map.basemaps.forEach(function (basemapConfig, index) {
         var url = basemapConfig.url;
@@ -82,7 +86,7 @@ define([
           //底图名称加入菜单
           domConstruct.place(
             "<li>" +
-              "<a>" +
+              "<a data-dir='left'>" +
                 "<i class='fa fa-picture-o'></i>" +
                 basemapConfig.label +
               "</a>" +
@@ -93,7 +97,7 @@ define([
           rightLayer.setVisibility(false);
           domConstruct.place(
             "<li>" +
-              "<a>" +
+              "<a data-dir='right'>" +
                 "<i class='fa fa-picture-o'></i>" +
                 basemapConfig.label +
               "</a>" +
@@ -113,6 +117,11 @@ define([
           this.rightMap.addLayer(rightLayer);
         }
       }, this);
+
+      query(".dropdown-menu-black").delegate("a", "onclick", function (evt) {
+        console.log(evt.target);
+
+      });
     },
 
     onTopicHandler_showDoubleMap: function (params) {

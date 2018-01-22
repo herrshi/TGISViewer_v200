@@ -105,6 +105,7 @@ define([
       layer.label = label;
       this.map.addLayer(layer);
       this.map.setExtent(extent, true);
+      this.map.refresh();
     },
     
     _getSublayerInfo: function (url) {
