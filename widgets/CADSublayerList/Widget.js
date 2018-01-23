@@ -104,8 +104,8 @@ define([
       var layer = new ChengDiDynamicMapServiceLayer(url);
       layer.label = label;
       this.map.addLayer(layer);
-      this.map.setExtent(extent, true);
-      this.map.refresh();
+      this.map.setExtent(extent);
+      layer.refresh();
     },
     
     _getSublayerInfo: function (url) {

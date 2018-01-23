@@ -6,6 +6,7 @@ define([
   "dojo/query",
   "dojo/on",
   "dojo/dom-construct",
+  "dojo/dom-attr",
   "dojox/NodeList/delegate",
   "jimu/BaseWidget",
   "esri/map",
@@ -18,6 +19,7 @@ define([
   query,
   on,
   domConstruct,
+  domAttr,
   nodeListDelegate,
   BaseWidget,
   Map,
@@ -31,12 +33,15 @@ define([
     rightMap: null,
     leftMapEventSignal: null,
     rightMapEventSignal: null,
+    leftLayers: [],
+    rightLayers: [],
 
     postCreate: function () {
       this.inherited(arguments);
 
       topic.subscribe("showDoubleMap", lang.hitch(this, this.onTopicHandler_showDoubleMap));
       topic.subscribe("hideDoubleMap", lang.hitch(this, this.onTopicHandler_hideDoubleMap));
+      topic.subscribe("changeBasemapInDoubleMap", lang.hitch(this, this._onTopicHandler_basemapChangeInDoubleMap));
     },
 
     onOpen: function () {
@@ -55,6 +60,12 @@ define([
       this.leftMapEventSignal = this.leftMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
       this.rightMapEventSignal = this.rightMap.on("extent-change", lang.hitch(this, this._onRightMap_extentChange));
 
+      query(".dropdown-menu-black").delegate("a", "onclick", function (evt) {
+        var label = domAttr.get(evt.target, "data-label");
+        var dir = domAttr.get(evt.target, "data-dir");
+        topic.publish("changeBasemapInDoubleMap", {dir: dir, label: label});
+      });
+
       this._createBasemap();
     },
 
@@ -72,7 +83,18 @@ define([
       }));
     },
 
-
+    _onTopicHandler_basemapChangeInDoubleMap: function (params) {
+      if (params.dir === "left") {
+        this.leftLayers.forEach(function (leftLayer, index) {
+          leftLayer.setVisibility(leftLayer.label === params.label);
+        });
+      }
+      else if (params.dir === "right") {
+        this.rightLayers.forEach(function (rightLayer, index) {
+          rightLayer.setVisibility(rightLayer.label === params.label);
+        });
+      }
+    },
 
     _createBasemap: function () {
       this.appConfig.map.basemaps.forEach(function (basemapConfig, index) {
@@ -81,12 +103,13 @@ define([
         var type = basemapConfig.type;
         if (type === "tiled") {
           var leftLayer = new ArcGISTiledMapServiceLayer(url);
+          leftLayer.label = basemapConfig.label;
           //底图默认不可见
           leftLayer.setVisibility(false);
           //底图名称加入菜单
           domConstruct.place(
             "<li>" +
-              "<a data-dir='left'>" +
+              "<a data-dir='left' data-label='" + basemapConfig.label + "'>" +
                 "<i class='fa fa-picture-o'></i>" +
                 basemapConfig.label +
               "</a>" +
@@ -94,10 +117,11 @@ define([
             this.leftBasemapMenu);
 
           var rightLayer = new ArcGISTiledMapServiceLayer(url);
+          rightLayer.label = basemapConfig.label;
           rightLayer.setVisibility(false);
           domConstruct.place(
             "<li>" +
-              "<a data-dir='right'>" +
+              "<a data-dir='right' data-label='" + basemapConfig.label + "'>" +
                 "<i class='fa fa-picture-o'></i>" +
                 basemapConfig.label +
               "</a>" +
@@ -115,13 +139,11 @@ define([
 
           this.leftMap.addLayer(leftLayer);
           this.rightMap.addLayer(rightLayer);
+
+          this.leftLayers.push(leftLayer);
+          this.rightLayers.push(rightLayer);
         }
       }, this);
-
-      query(".dropdown-menu-black").delegate("a", "onclick", function (evt) {
-        console.log(evt.target);
-
-      });
     },
 
     onTopicHandler_showDoubleMap: function (params) {
