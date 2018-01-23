@@ -70,6 +70,7 @@ define([
     },
 
     _onLeftMap_extentChange: function (event) {
+      //先解除对右侧地图的事件监听, 防止死循环
       this.rightMapEventSignal.remove();
       this.rightMap.setExtent(event.extent).then(lang.hitch(this, function () {
         this.rightMapEventSignal = this.rightMap.on("extent-change", lang.hitch(this, this._onRightMap_extentChange));
@@ -77,6 +78,7 @@ define([
     },
 
     _onRightMap_extentChange: function (event) {
+      //先解除对左侧地图的事件监听, 防止死循环
       this.leftMapEventSignal.remove();
       this.leftMap.setExtent(event.extent).then(lang.hitch(this, function () {
         this.leftMapEventSignal = this.leftMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
@@ -100,6 +102,7 @@ define([
       this.appConfig.map.basemaps.forEach(function (basemapConfig, index) {
         var url = basemapConfig.url;
         url = url.replace(/{gisServer}/i, this.appConfig.gisServer);
+        url = url.replace(/{token}/i, window.serviceToken);
         var type = basemapConfig.type;
         if (type === "tiled") {
           var leftLayer = new ArcGISTiledMapServiceLayer(url);

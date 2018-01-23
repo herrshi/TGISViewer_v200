@@ -101,11 +101,11 @@ define([
      * 不显示子图层选择框, 直接显示服务
      * */
     _showWholeLayer: function (url, label, extent) {
-      var layer = new ChengDiDynamicMapServiceLayer(url);
-      layer.label = label;
-      this.map.addLayer(layer);
-      this.map.setExtent(extent);
-      layer.refresh();
+      this.map.setExtent(extent).then(lang.hitch(this, function () {
+        var layer = new ChengDiDynamicMapServiceLayer(url);
+        layer.label = label;
+        this.map.addLayer(layer);
+      }));
     },
     
     _getSublayerInfo: function (url) {
@@ -151,7 +151,6 @@ define([
 
         domClass.toggle(this, "active");
         var layerLabel = domAttr.get(this, "data-layerLabel");
-        var layerUrl = domAttr.get(this, "data-layerUrl");
         query("#" + layerLabel + " a").forEach(function (node) {
           var sublayerName = domAttr.get(node, "data-sublayerName");
           if (sublayerName !== null && domClass.contains(node, "active")) {
@@ -161,7 +160,7 @@ define([
 
         sublayerNames = "layers=" + sublayerNames.substr(0, sublayerNames.length - 1);
 
-        console.log(layerUrl + "/set");
+        // console.log(layerUrl + "/set");
         // xhr("http://139.196.105.31:9001/Cad/Rest/1335191609495389/MapServer/set", {
         //   method: "POST",
         //   data: sublayerNames
@@ -197,7 +196,8 @@ define([
               "<div class='scroller' data-rail-visible='1' data-rail-color='#263554' data-handle-color='#132854'></div>" +
             "</div>" +
           "</div>" +
-        "</div>");
+        "</div>"
+      );
 
       //新增子图层
       array.forEach(sublayerInfos, function (sublayerInfo) {

@@ -104,8 +104,8 @@ define([
         handleAs: "text",
         sync: true
       }).then(lang.hitch(this, function (token) {
-        this.appConfig.serviceToken = token.substr(0, token.length - 2);
-        console.log("token: " + this.appConfig.serviceToken);
+        window.serviceToken = token.substr(0, token.length - 2);
+        console.log("token: " + window.serviceToken);
       }), function (error) {
         console.error(error);
       });
@@ -557,7 +557,7 @@ define([
           }
         }
         layerConfig.url = layerConfig.url.replace(/{gisServer}/i, this.appConfig.gisServer);
-        layerConfig.url = layerConfig.url.replace(/{token}/i, this.appConfig.serviceToken);
+        layerConfig.url = layerConfig.url.replace(/{token}/i, window.serviceToken);
         if (layerConfig.infoTemplate) {
           infoTemplate = new InfoTemplate(layerConfig.infoTemplate.title,
             layerConfig.infoTemplate.content);
