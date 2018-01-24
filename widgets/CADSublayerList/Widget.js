@@ -160,6 +160,8 @@ define([
 
         sublayerNames = "layers=" + sublayerNames.substr(0, sublayerNames.length - 1);
 
+        topic.publish("CADSublayerList");
+
         // console.log(layerUrl + "/set");
         // xhr("http://139.196.105.31:9001/Cad/Rest/1335191609495389/MapServer/set", {
         //   method: "POST",
