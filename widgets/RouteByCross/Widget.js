@@ -6,6 +6,7 @@ define([
   "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/_base/array",
+  "dojo/topic",
   "dojo/keys",
   "dojo/query",
   "dojo/dom-attr",
@@ -27,6 +28,7 @@ define([
   declare,
   lang,
   array,
+  topic,
   keys,
   query,
   domAttr,
@@ -90,6 +92,8 @@ define([
       this._getAllCrossAndRoad().then(lang.hitch(this, function (queryResult) {
         this._readCrossRoadTable(queryResult.features);
       }));
+
+      topic.subscribe("clearRouteByCross", lang.hitch(this, this._onBtnClearSearchClick));
     },
 
     /**获取所有路口和道路的graphic*/
@@ -175,11 +179,13 @@ define([
         //确定按钮
         "<button type='button' class='btn btn-success btn-xs' id='btnStartSelectRoute' " +
         "data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
-          "<i class='fa fa-play fa-fw'></i>开始" +
+          "<i class='fa fa-play fa-fw'></i>" +
+          "开始" +
         "</button>  " +
         //取消按钮
         "<button type='button' class='btn btn-warning btn-xs' id='btnCancelSelectRoute' >" +
-          "<i class='fa fa-times fa-fw'></i>取消" +
+          "<i class='fa fa-times fa-fw'></i>" +
+          "取消" +
         "</button>";
       this.map.infoWindow.setContent(content);
       this.map.infoWindow.setTitle("是否开始选择路径?");
@@ -202,11 +208,13 @@ define([
         var content = "<b>" + graphic.attributes[this.config.crossNameField] + "</b><hr>" +
           //添加按钮
           "<button type='button' class='btn btn-success btn-xs' id='btnAddCross' data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
-            "<i class='fa fa-plus fa-fw'></i>添加" +
+            "<i class='fa fa-plus fa-fw'></i>" +
+            "添加" +
           "</button>  " +
           //关闭按钮
           "<button type='button' class='btn btn-warning btn-xs' id='btnCloseInfoWindow' >" +
-            "<i class='fa fa-times fa-fw'></i>关闭" +
+            "<i class='fa fa-times fa-fw'></i>" +
+            "关闭" +
           "</button>";
         this.map.infoWindow.setContent(content);
         this.map.infoWindow.setTitle("是否添加此路口?");
@@ -215,8 +223,8 @@ define([
         query("button#btnAddCross").on("click", lang.hitch(this, this._onBtnAddCrossClick));
         query("button#btnCloseInfoWindow").on("click", lang.hitch(this, this._onBtnCloseInfoWindowClick));
       }
-      //已选路口显示是否重新选择确认框
-      else if (graphic.state === "selected") {
+      //已选路口显示是否重新选择确认框, 同时用于显示路口名的graphic不响应mouseOver
+      else if (graphic.state === "selected" && graphic.symbol.type !== "textsymbol") {
         content = "<b>" + graphic.attributes[this.config.crossNameField] + "</b><hr>";
           //重选按钮
           // "<button type='button' class='btn btn-success btn-xs' id='btnReselectCross' data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
@@ -226,7 +234,8 @@ define([
         if (this.selectedCrossGraphics[this.selectedCrossGraphics.length - 1] === graphic) {
           content +=
             "<button type='button' class='btn btn-danger btn-xs' id='btnStopAddCross' >" +
-            "<i class='fa fa-stop fa-fw'></i>停止" +
+              "<i class='fa fa-stop fa-fw'></i>" +
+              "停止" +
             "</button>  ";
           this.map.infoWindow.setTitle("是否结束?");
         }
@@ -236,7 +245,8 @@ define([
         content +=
           //关闭按钮
           "<button type='button' class='btn btn-warning btn-xs' id='btnCloseInfoWindow' >" +
-            "<i class='fa fa-times fa-fw'></i>关闭" +
+            "<i class='fa fa-times fa-fw'></i>" +
+            "关闭" +
           "</button>  ";
 
         this.map.infoWindow.setContent(content);
@@ -295,6 +305,7 @@ define([
             }
           }
         }
+        this.routeCrossLayer.refresh();
 
         //处理候选道路
         var selectedRoads = [];
@@ -499,6 +510,11 @@ define([
       this.txtSearchText.value = "";
       this.map.infoWindow.hide();
       this._onBtnSearchCrossClick(null);
+
+      //通知页面清空结果
+      if (typeof clearRouteByCross !== "undefined" && clearRouteByCross instanceof Function) {
+        clearRouteByCross();
+      }
     },
 
     _onTxtSearchTextKeyPress: function (event) {

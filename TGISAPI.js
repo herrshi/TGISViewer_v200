@@ -911,6 +911,13 @@ var TMap = {
       topic.publish("stopTrackPlayback");
     });
   },
+
+  /**清除路线*/
+  clearRouteByCross: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("clearRouteByCross");
+    });
+  },
   
   /**
    * 显示顶部工具栏的某个按钮
