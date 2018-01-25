@@ -930,7 +930,6 @@
       },
       {
         "uri": "widgets/DoubleMap/Widget",
-        "config": "configs/DoubleMap/config_DoubleMap.json",
         "id": "DoubleMapWidget"
       }
     ]
