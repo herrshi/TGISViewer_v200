@@ -199,16 +199,6 @@
                 </ul>
               </div>
 
-
-
-              <!--<span>-->
-                <!--<button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="地形图"-->
-                        <!--data-dojo-attach-point="btnTopoMap"-->
-                        <!--data-dojo-attach-event="onclick:_onBtnTopoMapClicked">-->
-                  <!--<i class="fa fa-map fa-lg"></i>-->
-                <!--</button>-->
-              <!--</span>-->
-
               <span>&nbsp;</span>
 
               <span>
@@ -219,21 +209,45 @@
                 </button>
               </span>
 
-              <span>
-                <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="打印"
-                        data-dojo-attach-point="btnPrint"
-                        data-dojo-attach-event="onclick:_onBtnPrintClicked">
-                  <i class="fa fa-print fa-lg"></i>
-                </button>
-              </span>
+              <!--<span>-->
+                <!--<button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="打印"-->
+                        <!--data-dojo-attach-point="btnPrint"-->
+                        <!--data-dojo-attach-event="onclick:_onBtnPrintClicked">-->
+                  <!--<i class="fa fa-print fa-lg"></i>-->
+                <!--</button>-->
+              <!--</span>-->
 
               <span>&nbsp;</span>
 
-              <span>
-                <button class="btn btn-black" title="卷帘对比"
-                        data-dojo-attach-point="btnSwipe"
-                        data-dojo-attach-event="onclick:_onBtnSwipeClicked">卷帘
+              <div class="btn-group">
+                <button class="btn btn-black dropdown-toggle" data-toggle="dropdown" title="对比">
+                  <i class="fa fa-adjust margin-right-5" style="font-size: 13px;"></i>
+                  <i class="fa fa-angle-down" style="margin-right: -4px;"></i>
                 </button>
+
+                <ul class="dropdown-menu dropdown-menu-black" role="menu">
+                  <li>
+                    <a href="javascript:"
+                       data-dojo-attach-point="btnSwipe"
+                       data-dojo-attach-event="onclick:_onBtnSwipeClicked">
+                      卷帘对比
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="javascript:" data-dojo-attach-point="btnDoubleMap"
+                       data-dojo-attach-event="onclick:_onBtnDoubleMapClicked">
+                      双图对比
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <span>
+                <!--<button class="btn btn-black" title="卷帘对比"-->
+                        <!--data-dojo-attach-point="btnSwipe"-->
+                        <!--data-dojo-attach-event="onclick:_onBtnSwipeClicked">卷帘-->
+                <!--</button>-->
 
                 <button class="btn btn-black" data-toggle="tooltip" data-placement="bottom" title="历史演变"
                         data-dojo-attach-point="btnHistory"

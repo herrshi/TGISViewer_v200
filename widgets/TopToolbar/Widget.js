@@ -363,6 +363,17 @@ define([
       }
     },
 
+    _onBtnDoubleMapClicked: function () {
+      if (html.hasClass(this.btnDoubleMap, this._activeClass)) {
+        html.removeClass(this.btnDoubleMap, this._activeClass);
+        goBack();
+      }
+      else {
+        html.addClass(this.btnDoubleMap, this._activeClass);
+        doubleMap();
+      }
+    },
+
     _onBtnHistoryClicked: function () {
       showHistory();
     },

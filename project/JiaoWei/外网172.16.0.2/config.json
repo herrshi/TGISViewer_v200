@@ -797,6 +797,19 @@
             }
           }
         }
+      },
+      {
+        "label": "规划岸线",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_shoreline/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>类型: </b>${Layer}"
+            }
+          }
+        }
       }
     ],
     "mapOptions": {
