@@ -12,9 +12,11 @@ define([
   "dojo/dom-attr",
   "dojo/request/xhr",
   "dojo/Deferred",
+  "dojo/promise/all",
   "jimu/BaseWidget",
   "esri/Color",
   "esri/graphic",
+  "esri/geometry/jsonUtils",
   "esri/layers/FeatureLayer",
   "esri/layers/GraphicsLayer",
   "esri/symbols/PictureMarkerSymbol",
@@ -34,9 +36,11 @@ define([
   domAttr,
   xhr,
   Deferred,
+  all,
   BaseWidget,
   Color,
   Graphic,
+  geometryJsonUtils,
   FeatureLayer,
   GraphicsLayer,
   PictureMarkerSymbol,
@@ -71,7 +75,7 @@ define([
     crossRoadTable: [],
 
     selectedCrossGraphics: [],
-    roadGraphics: [],
+    crossGraphics: [],
 
     postCreate: function () {
       this.inherited(arguments);
@@ -82,6 +86,11 @@ define([
       this.candidateRoadSymbol = new SimpleLineSymbol( SimpleLineSymbol.STYLE_DASH, new Color([0, 0, 255]), 2);
       this.selectedRoadSymbol = new SimpleLineSymbol( SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 4);
 
+      this.crossLayer = new GraphicsLayer();
+      this.crossLayer.renderer = new SimpleRenderer(this.candidateCrossSymbol);
+      this.crossLayer.on("mouse-over", lang.hitch(this, this._crossLayer_onMouseOver));
+      this.map.addLayer(this.crossLayer);
+
       this.routeRoadLayer = new GraphicsLayer();
       this.map.addLayer(this.routeRoadLayer);
 
@@ -89,32 +98,70 @@ define([
       this.routeCrossLayer.on("mouse-over", lang.hitch(this, this._routeCrossLayer_onMouseOver));
       this.map.addLayer(this.routeCrossLayer);
 
-      this._getAllCrossAndRoad().then(lang.hitch(this, function (queryResult) {
-        this._readCrossRoadTable(queryResult.features);
-      }));
-
+      // this._getAllCrossAndRoad().then(lang.hitch(this, function (queryResult) {
+      //   this._readCrossRoadTable(queryResult.features);
+      // }));
+      this._getAllCrossAndRoad();
       topic.subscribe("clearRouteByCross", lang.hitch(this, this._onBtnClearSearchClick));
     },
 
     /**获取所有路口和道路的graphic*/
     _getAllCrossAndRoad: function () {
+      var defs = {
+        road: this._readJsonLayer(window.path + "configs/RouteByCross/Road.json"),
+        cross: this._readJsonLayer(window.path + "configs/RouteByCross/Cross.json")
+      };
+      all(defs).then(lang.hitch(this, function (results) {
+        var roadGraphics = results.road;
+        this._readCrossRoadTable(roadGraphics);
+
+        this.crossGraphics = results.cross;
+        array.forEach(this.crossGraphics, function (crossGraphic) {
+          this.crossLayer.add(crossGraphic);
+        }, this);
+
+      }));
       //需要显示全部路口, 所以路口的graphic放在featureLayer中
-      var url = this.config.crossLayer.replace(/{gisServer}/i, this.appConfig.gisServer);
-      this.crossLayer = new FeatureLayer(url, {
-        outFields: [this.config.crossNameField, this.config.crossIdField]
-      });
-      this.crossLayer.renderer = new SimpleRenderer(this.candidateCrossSymbol);
-      this.crossLayer.on("mouse-over", lang.hitch(this, this._crossLayer_onMouseOver));
-      this.map.addLayer(this.crossLayer);
+      // var url = this.config.crossLayer.replace(/{gisServer}/i, this.appConfig.gisServer);
+      // this.crossLayer = new FeatureLayer(url, {
+      //   outFields: [this.config.crossNameField, this.config.crossIdField]
+      // });
+      // this.crossLayer.renderer = new SimpleRenderer(this.candidateCrossSymbol);
+      // this.crossLayer.on("mouse-over", lang.hitch(this, this._crossLayer_onMouseOver));
+      // this.map.addLayer(this.crossLayer);
 
       //不需要显示全部道路, 所以道路的graphic使用Query获取
-      url = this.config.roadLayer.replace(/{gisServer}/i, this.appConfig.gisServer);
-      var queryTask = new QueryTask(url);
-      var query = new Query();
-      query.where = "1=1";
-      query.outFields = [this.config.roadIdField, this.config.roadNameField];
-      query.returnGeometry = true;
-      return queryTask.execute(query);
+      // url = this.config.roadLayer.replace(/{gisServer}/i, this.appConfig.gisServer);
+      // var queryTask = new QueryTask(url);
+      // var query = new Query();
+      // query.where = "1=1";
+      // query.outFields = [this.config.roadIdField, this.config.roadNameField];
+      // query.returnGeometry = true;
+      // return queryTask.execute(query);
+    },
+
+    _readJsonLayer: function (jsonFile) {
+      var def = new Deferred();
+
+      xhr(jsonFile, {
+        handleAs: "json"
+      }).then(lang.hitch(this, function (layerData) {
+        var features = layerData.features;
+        var graphics = [];
+        array.forEach(features, function (feautre) {
+          var geometry = geometryJsonUtils.fromJson(feautre.geometry);
+          var graphic = new Graphic(geometry);
+          graphic.attributes = feautre.attributes;
+          graphics.push(graphic);
+        });
+
+        def.resolve(graphics);
+      }), function (error) {
+        console.error(error);
+        def.reject(error);
+      });
+
+      return def;
     },
 
     /**
@@ -162,15 +209,15 @@ define([
     },
 
     _getCrossGraphic: function (id) {
-      var filter = array.filter(this.crossLayer.graphics, function (graphic) {
-        return graphic.attributes[this.config.crossIdField] === id;
-      }, this);
-      if (filter.length > 0) {
-        return filter[0];
+      for (var i = 0; i < this.crossGraphics.length; i++) {
+        var crossGraphic = this.crossGraphics[i];
+        if (crossGraphic.attributes[this.config.crossIdField] === id) {
+          return crossGraphic;
+        }
       }
-      else {
-        return null;
-      }
+
+      console.error("未找到路口: " + id);
+      return null;
     },
 
     /**显示是否开始选择路径的确认框*/
@@ -179,7 +226,7 @@ define([
         //确定按钮
         "<button type='button' class='btn btn-success btn-xs' id='btnStartSelectRoute' " +
         "data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
-          "<i class='fa fa-play fa-fw'></i>" +
+          "<i class='fa fa-play fa-fw' data-crossId='" + graphic.attributes[this.config.crossIdField] + "'></i>" +
           "开始" +
         "</button>  " +
         //取消按钮
@@ -207,8 +254,9 @@ define([
       if (graphic.state === "candidate") {
         var content = "<b>" + graphic.attributes[this.config.crossNameField] + "</b><hr>" +
           //添加按钮
-          "<button type='button' class='btn btn-success btn-xs' id='btnAddCross' data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
-            "<i class='fa fa-plus fa-fw'></i>" +
+          "<button type='button' class='btn btn-success btn-xs' id='btnAddCross' " +
+          "data-crossId='" + graphic.attributes[this.config.crossIdField] + "' >" +
+            "<i class='fa fa-plus fa-fw' data-crossId='" + graphic.attributes[this.config.crossIdField] + "'></i>" +
             "添加" +
           "</button>  " +
           //关闭按钮
@@ -262,10 +310,11 @@ define([
      * 选中一个路口以后, 显示这个路口的下游路口作为候选路口, 并显示路口之间的道路
      * */
     _selectCross: function (selectedCrossId) {
+      var selectedCrossGraphic;
       //第一个路口直接显示
       if (this.selectedCrossGraphics.length === 0) {
         var graphic = this._getCrossGraphic(selectedCrossId);
-        var selectedCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol, graphic.attributes);
+        selectedCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol, graphic.attributes);
         selectedCrossGraphic.state = "selected";
         this.routeCrossLayer.add(selectedCrossGraphic);
         this.selectedCrossGraphics.push(selectedCrossGraphic);
@@ -449,6 +498,9 @@ define([
       this.map.infoWindow.hide();
 
       var crossId = domAttr.get(event.target, "data-crossId");
+      if (crossId === null) {
+        console.log(event.target);
+      }
       this._selectCross(crossId);
     },
 

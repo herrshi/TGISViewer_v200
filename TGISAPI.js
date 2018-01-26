@@ -918,6 +918,13 @@ var TMap = {
       topic.publish("clearRouteByCross");
     });
   },
+
+  /**显示路线*/
+  showRouteByCross: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showRouteByCross", params);
+    });
+  },
   
   /**
    * 显示顶部工具栏的某个按钮
