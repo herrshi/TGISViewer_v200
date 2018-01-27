@@ -76,6 +76,7 @@ define([
 
     selectedCrossGraphics: [],
     crossGraphics: [],
+    roadGraphics: [],
 
     postCreate: function () {
       this.inherited(arguments);
@@ -98,11 +99,10 @@ define([
       this.routeCrossLayer.on("mouse-over", lang.hitch(this, this._routeCrossLayer_onMouseOver));
       this.map.addLayer(this.routeCrossLayer);
 
-      // this._getAllCrossAndRoad().then(lang.hitch(this, function (queryResult) {
-      //   this._readCrossRoadTable(queryResult.features);
-      // }));
       this._getAllCrossAndRoad();
+
       topic.subscribe("clearRouteByCross", lang.hitch(this, this._onBtnClearSearchClick));
+      topic.subscribe("showRouteByCross", lang.hitch(this, this.onTopicHandler_showRouteByCrossHandler));
     },
 
     /**获取所有路口和道路的graphic*/
@@ -112,8 +112,8 @@ define([
         cross: this._readJsonLayer(window.path + "configs/RouteByCross/Cross.json")
       };
       all(defs).then(lang.hitch(this, function (results) {
-        var roadGraphics = results.road;
-        this._readCrossRoadTable(roadGraphics);
+        this.roadGraphics = results.road;
+        this._readCrossRoadTable();
 
         this.crossGraphics = results.cross;
         array.forEach(this.crossGraphics, function (crossGraphic) {
@@ -121,23 +121,6 @@ define([
         }, this);
 
       }));
-      //需要显示全部路口, 所以路口的graphic放在featureLayer中
-      // var url = this.config.crossLayer.replace(/{gisServer}/i, this.appConfig.gisServer);
-      // this.crossLayer = new FeatureLayer(url, {
-      //   outFields: [this.config.crossNameField, this.config.crossIdField]
-      // });
-      // this.crossLayer.renderer = new SimpleRenderer(this.candidateCrossSymbol);
-      // this.crossLayer.on("mouse-over", lang.hitch(this, this._crossLayer_onMouseOver));
-      // this.map.addLayer(this.crossLayer);
-
-      //不需要显示全部道路, 所以道路的graphic使用Query获取
-      // url = this.config.roadLayer.replace(/{gisServer}/i, this.appConfig.gisServer);
-      // var queryTask = new QueryTask(url);
-      // var query = new Query();
-      // query.where = "1=1";
-      // query.outFields = [this.config.roadIdField, this.config.roadNameField];
-      // query.returnGeometry = true;
-      // return queryTask.execute(query);
     },
 
     _readJsonLayer: function (jsonFile) {
@@ -168,7 +151,7 @@ define([
      * 读取路口和道路的上下游关系表
      * 包括一个路口的下游路口, 和下游路口之间经过了哪些道路
      * */
-    _readCrossRoadTable: function (roadGraphics) {
+    _readCrossRoadTable: function () {
       xhr(window.path + "configs/RouteByCross/CrossRoad.txt", {
         handleAs: "json"
       }).then(lang.hitch(this, function (data) {
@@ -182,9 +165,9 @@ define([
           //获取每个道路id的graphic
           var segmentRoadGraphics = [];
           array.forEach(roadIds, function (roadId) {
-            for (var i = 0; i < roadGraphics.length; i++) {
-              if (roadGraphics[i].attributes[this.config.roadIdField] === roadId) {
-                segmentRoadGraphics.push(roadGraphics[i]);
+            for (var i = 0; i < this.roadGraphics.length; i++) {
+              if (this.roadGraphics[i].attributes[this.config.roadIdField] === roadId) {
+                segmentRoadGraphics.push(this.roadGraphics[i]);
                 break;
               }
             }
@@ -472,13 +455,6 @@ define([
 
     /**搜索路口*/
     _searchCross: function (crossNames) {
-      // var where = "";
-      // array.forEach(crossNames, function (crossName) {
-      //   where += this.config.crossNameField + " like '%" + crossName + "%' and ";
-      // }, this);
-      // where = where.substr(0, where.length - 5);
-      // this.crossLayer.setDefinitionExpression(where);
-
       for (var i = 0; i < this.crossLayer.graphics.length; i++) {
         var crossGraphic = this.crossLayer.graphics[i];
         var nameFound = true;
@@ -494,6 +470,13 @@ define([
         crossGraphic.visible = nameFound;
       }
       this.crossLayer.refresh();
+    },
+
+    onTopicHandler_showRouteByCrossHandler: function (params) {
+      var crossIds = params.crossIds;
+      var roadIds = params.roadIds;
+
+
     },
 
     /**开始选择路口*/
@@ -549,7 +532,6 @@ define([
       }
 
       this.map.infoWindow.hide();
-
     },
 
     /**重新选择路口*/
