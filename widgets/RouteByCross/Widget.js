@@ -472,12 +472,28 @@ define([
 
     /**搜索路口*/
     _searchCross: function (crossNames) {
-      var where = "";
-      array.forEach(crossNames, function (crossName) {
-        where += this.config.crossNameField + " like '%" + crossName + "%' and ";
-      }, this);
-      where = where.substr(0, where.length - 5);
-      this.crossLayer.setDefinitionExpression(where);
+      // var where = "";
+      // array.forEach(crossNames, function (crossName) {
+      //   where += this.config.crossNameField + " like '%" + crossName + "%' and ";
+      // }, this);
+      // where = where.substr(0, where.length - 5);
+      // this.crossLayer.setDefinitionExpression(where);
+
+      for (var i = 0; i < this.crossLayer.graphics.length; i++) {
+        var crossGraphic = this.crossLayer.graphics[i];
+        var nameFound = true;
+
+        for (var j = 0; j < crossNames.length; j++) {
+          var crossName = crossNames[j];
+          if (crossGraphic.attributes[this.config.crossNameField].indexOf(crossName) === -1) {
+            nameFound = false;
+            break;
+          }
+        }
+
+        crossGraphic.visible = nameFound;
+      }
+      this.crossLayer.refresh();
     },
 
     /**开始选择路口*/
@@ -545,12 +561,17 @@ define([
     // },
 
     _onBtnSearchCrossClick: function (event) {
+      this.map.infoWindow.hide();
+
       if (this.txtSearchText.value === "") {
         this.routeRoadLayer.clear();
         this.routeCrossLayer.clear();
         this.selectedCrossGraphics = [];
-        this.crossLayer.setDefinitionExpression("1=1");
-        this.crossLayer.show();
+        array.forEach(this.crossLayer.graphics, function (graphic) {
+          graphic.visible = true;
+        });
+        this.crossLayer.setVisibility(true);
+        this.crossLayer.refresh();
       }
       else {
         var searchText = this.txtSearchText.value;
@@ -566,6 +587,9 @@ define([
       //通知页面清空结果
       if (typeof clearRouteByCross !== "undefined" && clearRouteByCross instanceof Function) {
         clearRouteByCross();
+      }
+      else {
+        console.error("Function clearRouteByCross() not found.");
       }
     },
 
