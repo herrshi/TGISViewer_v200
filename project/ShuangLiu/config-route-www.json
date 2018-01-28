@@ -25,7 +25,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/ShuangLiu/ShuangLiu_base/MapServer",
+        "url": "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
         "type": "tiled",
         "visible": true
       }

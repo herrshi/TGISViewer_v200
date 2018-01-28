@@ -17,6 +17,7 @@ define([
   "esri/Color",
   "esri/graphic",
   "esri/geometry/jsonUtils",
+  "esri/geometry/webMercatorUtils",
   "esri/layers/FeatureLayer",
   "esri/layers/GraphicsLayer",
   "esri/symbols/PictureMarkerSymbol",
@@ -41,6 +42,7 @@ define([
   Color,
   Graphic,
   geometryJsonUtils,
+  webMercatorUtils,
   FeatureLayer,
   GraphicsLayer,
   PictureMarkerSymbol,
@@ -133,10 +135,13 @@ define([
         var graphics = [];
         array.forEach(features, function (feautre) {
           var geometry = geometryJsonUtils.fromJson(feautre.geometry);
+          // if (this.map.spatialReference.isWebMercator()) {
+          //   geometry = webMercatorUtils.geographicToWebMercator(geometry);
+          // }
           var graphic = new Graphic(geometry);
           graphic.attributes = feautre.attributes;
           graphics.push(graphic);
-        });
+        }, this);
 
         def.resolve(graphics);
       }), function (error) {
@@ -473,10 +478,43 @@ define([
     },
 
     onTopicHandler_showRouteByCrossHandler: function (params) {
+      this.crossLayer.hide();
+      this.routeCrossLayer.clear();
+      this.routeRoadLayer.clear();
+
       var crossIds = params.crossIds;
-      var roadIds = params.roadIds;
 
+      for (var i = 0; i < crossIds.length - 1; i++) {
+        var startCrossId = crossIds[i];
+        var endCrossId = crossIds[i + 1];
 
+        //显示路口
+        var graphic = this._getCrossGraphic(startCrossId);
+        var startCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol, graphic.attributes);
+        startCrossGraphic.state = "selected";
+        this.routeCrossLayer.add(startCrossGraphic);
+        if (i === crossIds.length - 2) {
+          graphic = this._getCrossGraphic(endCrossId);
+          var endCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol, graphic.attributes);
+          endCrossGraphic.state = "selected";
+          this.routeCrossLayer.add(endCrossGraphic);
+        }
+
+        //显示道路
+        for (var j = 0; j < this.crossRoadTable.length; j++) {
+          var crossRoadObj = this.crossRoadTable[j];
+          if (crossRoadObj.startCrossId === startCrossId && crossRoadObj.endCrossId === endCrossId) {
+            array.forEach(crossRoadObj.roadGraphics, function (roadGraphic) {
+              var newRoadGraphic = new Graphic(roadGraphic.geometry, this.selectedRoadSymbol);
+              newRoadGraphic.state = "selected";
+              this.routeRoadLayer.add(newRoadGraphic);
+            }, this);
+            break;
+          }
+        }
+      }
+
+      // this.routeCrossLayer.refresh();
     },
 
     /**开始选择路口*/
@@ -552,7 +590,7 @@ define([
         array.forEach(this.crossLayer.graphics, function (graphic) {
           graphic.visible = true;
         });
-        this.crossLayer.setVisibility(true);
+        this.crossLayer.show();
         this.crossLayer.refresh();
       }
       else {

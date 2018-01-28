@@ -923,7 +923,6 @@ var TMap = {
    * 显示路线
    * @param params: object, required.
    *   crossIds: [string], 路线经过的路口列表
-   *   roadIds: [string], 路线经过的道路id
    * */
   showRouteByCross: function (params) {
     require(["dojo/topic"], function (topic) {
