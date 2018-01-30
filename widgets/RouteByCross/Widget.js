@@ -109,20 +109,35 @@ define([
 
     /**获取所有路口和道路的graphic*/
     _getAllCrossAndRoad: function () {
-      var defs = {
-        road: this._readJsonLayer(window.path + "configs/RouteByCross/Road.json"),
-        cross: this._readJsonLayer(window.path + "configs/RouteByCross/Cross.json")
-      };
-      all(defs).then(lang.hitch(this, function (results) {
-        this.roadGraphics = results.road;
-        this._readCrossRoadTable();
-
-        this.crossGraphics = results.cross;
+      this._readJsonLayer(window.path + "configs/RouteByCross/Cross.json").then(lang.hitch(this, function (results) {
+        this.crossGraphics = results;
+        console.log("读取" + results.length + "个路口.");
         array.forEach(this.crossGraphics, function (crossGraphic) {
           this.crossLayer.add(crossGraphic);
         }, this);
-
       }));
+
+      this._readJsonLayer(window.path + "configs/RouteByCross/Road.json").then(lang.hitch(this, function (results) {
+        this.roadGraphics = results;
+        console.log("读取" + results.length + "条道路.");
+        this._readCrossRoadTable();
+      }));
+
+      // var defs = {
+      //   road: this._readJsonLayer(window.path + "configs/RouteByCross/Road.json"),
+      //   cross: this._readJsonLayer(window.path + "configs/RouteByCross/Cross.json")
+      // };
+      // all(defs).then(lang.hitch(this, function (results) {
+      //   console.log("读取" + results.cross.length + "个路口.");
+      //   console.log("读取" + results.road.length + "条道路.");
+      //   this.roadGraphics = results.road;
+      //   this._readCrossRoadTable();
+      //
+      //   this.crossGraphics = results.cross;
+      //   array.forEach(this.crossGraphics, function (crossGraphic) {
+      //     this.crossLayer.add(crossGraphic);
+      //   }, this);
+      // }));
     },
 
     _readJsonLayer: function (jsonFile) {

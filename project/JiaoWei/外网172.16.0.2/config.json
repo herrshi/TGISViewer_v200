@@ -69,13 +69,13 @@
         "type": "dynamic",
         "visible": false,
         "infoTemplates": {
-          "0": {
+         "0": {
             "infoTemplate": {
               "title": "<b>小路</b>",
               "content": "<b>${NAME}</b>"
             }
           },
-          "1": {
+		  "1": {
             "infoTemplate": {
               "title": "<b>国道</b>",
               "content": "<b>${GQ_RN}-${NAME}</b><br><b>车道数: </b>${GQ_LANE}<br><b>宽度: </b>${GQ_WIDTH}米<br><b>材质: </b>${GQ_MATRL}<br><b>技术等级: </b>${GQ_RTEG}公路<br><b>所属区县: </b>${GQ_PAC}"
@@ -315,6 +315,11 @@
           "31": {
             "infoTemplate": {
               "content": "<b>${名称}</b><br><b>所属站点: </b>${所属站点}<br><b>所属线路: </b>${所属线路}"
+            }
+          },
+          "32": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>位置: </b>${Location}<br><b>所属线路: </b>${Line}"
             }
           }
         }
@@ -927,10 +932,6 @@
           "bottom": 5
         },
         "id": "CADSublayerListWidget"
-      },
-      {
-        "uri": "widgets/DoubleMap/Widget",
-        "id": "DoubleMapWidget"
       }
     ]
   }
