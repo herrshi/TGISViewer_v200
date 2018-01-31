@@ -200,6 +200,15 @@ define([
             roadGraphics: segmentRoadGraphics
           });
         }, this);
+
+        //通知页面
+        if (typeof RouteByCrossInitFinish !== "undefined" && RouteByCrossInitFinish instanceof Function) {
+          console.log("RouteByCrossInitFinish");
+          RouteByCrossInitFinish();
+        }
+        else {
+          console.error("Function RouteByCrossInitFinish() not found.");
+        }
       }));
     },
 
@@ -505,12 +514,25 @@ define([
 
         //显示路口
         var graphic = this._getCrossGraphic(startCrossId);
-        var startCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol, graphic.attributes);
+        var startCrossGraphic = new Graphic(graphic.geometry);
+        var symbol;
+        if (i === 0) {
+          symbol = new PictureMarkerSymbol(window.path + "images/mapIcons/TianJin/GongJiao/bus_start.png", 26, 42);
+          symbol.yoffset = 21;
+        }
+        else {
+          symbol = this.selectedCrossSymbol;
+        }
+        startCrossGraphic.symbol = symbol;
+        startCrossGraphic.attributes = graphic.attributes;
         startCrossGraphic.state = "selected";
         this.routeCrossLayer.add(startCrossGraphic);
+
         if (i === crossIds.length - 2) {
           graphic = this._getCrossGraphic(endCrossId);
-          var endCrossGraphic = new Graphic(graphic.geometry, this.selectedCrossSymbol, graphic.attributes);
+          symbol = new PictureMarkerSymbol(window.path + "images/mapIcons/TianJin/GongJiao/bus_end.png", 26, 42);
+          symbol.yoffset = 21;
+          var endCrossGraphic = new Graphic(graphic.geometry, symbol, graphic.attributes);
           endCrossGraphic.state = "selected";
           this.routeCrossLayer.add(endCrossGraphic);
         }
