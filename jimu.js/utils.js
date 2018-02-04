@@ -837,6 +837,20 @@ define([
 
   };
 
+  mo.createLayer = function (layerConfig) {
+    var layerMap = {
+      "tiled": "esri/layers/ArcGISTiledMapServiceLayer",
+      "dynamic": "esri/layers/ArcGISDynamicMapServiceLayer",
+      "feature": "esri/layers/FeatureLayer",
+      "ChengDiDynamic": "jimu/CustomLayers/ChengDiDynamicMapServiceLayer"
+    };
+    
+    var type = layerConfig.type;
+    require([layerMap[type]], lang.hitch(this, function (layerClass) {
+      
+    }));
+  };
+
   mo.getRandomString = function() {
     var str = Math.random().toString();
     str = str.slice(2, str.length);

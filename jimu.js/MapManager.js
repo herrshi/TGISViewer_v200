@@ -578,6 +578,7 @@ define([
         // layer.id = layerConfig.label;
 
         //符号化
+        //在图片的url前加入项目地址
         var rendererJson = layerConfig.renderer;
         if (rendererJson) {
           var renderer = jsonUtils.fromJson(rendererJson);

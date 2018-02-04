@@ -932,6 +932,10 @@
           "bottom": 5
         },
         "id": "CADSublayerListWidget"
+      },
+      {
+        "uri": "widgets/DoubleMap/Widget",
+        "id": "DoubleMapWidget"
       }
     ]
   }

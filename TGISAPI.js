@@ -264,8 +264,8 @@ var TMap = {
   },
 
   /**
-   * 开启双地图模式, 左右两边的地图联动
-   * @param params, object, required.
+   * 开启双地图对比模式, 左右两边的地图联动
+   * @param params: object, required.
    *   direction: string, optional. 双地图的排列方向. "horizontal"(水平) | "vertical"(垂直)
    *     默认为horizontal
    * */
@@ -275,9 +275,29 @@ var TMap = {
     });
   },
 
+  /**关闭双地图对比模式*/
   hideDoubleMap: function () {
     require(["dojo/topic"], function (topic) {
       topic.publish("hideDoubleMap");
+    });
+  },
+
+  /**
+   * 双地图模式在左\右地图中新增图层
+   * 如果是已配置过的图层, 只需要layerLabel
+   * 如果是未配置过的图层, 需要layerType + layerUrl
+   * @param params: object, required.
+   *   mapIndex: string, required. 地图序号.
+   *     1代表左/上
+   *     2代表右/下
+   *   layerLabel: string, optional. config.json中的图层名称.
+   *   layerType: string, optional. 图层类型.
+   *     dynamic | ChengDiDynamic | feature, 默认为dynamic
+   *   layerUrl: string, optional. 图层地址.
+   * */
+  addDoubleMapLayer: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("addDoubleMapLayer", params);
     });
   },
   /************************ Map Control END **************************/
