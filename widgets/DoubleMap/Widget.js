@@ -59,9 +59,11 @@ define([
         logo: false
       });
 
-      this.firstMapEventSignal = this.firstMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
-      this.secondMapEventSignal = this.secondMap.on("extent-change", lang.hitch(this, this._onRightMap_extentChange));
+      //监听地图extent-change事件, 使另一个地图的extent与之联动
+      this.firstMapEventSignal = this.firstMap.on("extent-change", lang.hitch(this, this._onFirstMap_extentChange));
+      this.secondMapEventSignal = this.secondMap.on("extent-change", lang.hitch(this, this._onSecondMap_extentChange));
 
+      //底图列表的点击
       query(".dropdown-menu-black").delegate("a", "onclick", function (evt) {
         var label = domAttr.get(evt.target, "data-label");
         var dir = domAttr.get(evt.target, "data-dir");
@@ -71,31 +73,31 @@ define([
       this._createBasemap();
     },
 
-    _onLeftMap_extentChange: function (event) {
-      //先解除对右侧地图的事件监听, 防止死循环
+    _onFirstMap_extentChange: function (event) {
+      //先解除对其他地图的事件监听, 防止死循环
       this.secondMapEventSignal.remove();
       this.secondMap.setExtent(event.extent).then(lang.hitch(this, function () {
-        this.secondMapEventSignal = this.secondMap.on("extent-change", lang.hitch(this, this._onRightMap_extentChange));
+        this.secondMapEventSignal = this.secondMap.on("extent-change", lang.hitch(this, this._onSecondMap_extentChange));
       }));
     },
 
-    _onRightMap_extentChange: function (event) {
-      //先解除对左侧地图的事件监听, 防止死循环
+    _onSecondMap_extentChange: function (event) {
+      //先解除对其他地图的事件监听, 防止死循环
       this.firstMapEventSignal.remove();
       this.firstMap.setExtent(event.extent).then(lang.hitch(this, function () {
-        this.firstMapEventSignal = this.firstMap.on("extent-change", lang.hitch(this, this._onLeftMap_extentChange));
+        this.firstMapEventSignal = this.firstMap.on("extent-change", lang.hitch(this, this._onFirstMap_extentChange));
       }));
     },
 
     _onTopicHandler_basemapChangeInDoubleMap: function (params) {
-      if (params.dir === "left") {
-        this.firstLayers.forEach(function (leftLayer, index) {
-          leftLayer.setVisibility(leftLayer.label === params.label);
+      if (params.dir === "first") {
+        this.firstLayers.forEach(function (firstMapLayer, index) {
+          firstMapLayer.setVisibility(firstMapLayer.label === params.label);
         });
       }
-      else if (params.dir === "right") {
-        this.secondLayers.forEach(function (rightLayer, index) {
-          rightLayer.setVisibility(rightLayer.label === params.label);
+      else if (params.dir === "second") {
+        this.secondLayers.forEach(function (secondMapLayer, index) {
+          secondMapLayer.setVisibility(secondMapLayer.label === params.label);
         });
       }
     },
@@ -114,7 +116,7 @@ define([
           //底图名称加入菜单
           domConstruct.place(
             "<li>" +
-              "<a data-dir='left' data-label='" + basemapConfig.label + "'>" +
+              "<a data-dir='first' data-label='" + basemapConfig.label + "'>" +
                 "<i class='fa fa-picture-o'></i>" +
                 basemapConfig.label +
               "</a>" +
@@ -126,7 +128,7 @@ define([
           secondLayer.setVisibility(false);
           domConstruct.place(
             "<li>" +
-              "<a data-dir='right' data-label='" + basemapConfig.label + "'>" +
+              "<a data-dir='second' data-label='" + basemapConfig.label + "'>" +
                 "<i class='fa fa-picture-o'></i>" +
                 basemapConfig.label +
               "</a>" +
