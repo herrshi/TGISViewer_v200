@@ -284,16 +284,18 @@ var TMap = {
 
   /**
    * 双地图模式在左\右地图中新增图层
-   * 如果是已配置过的图层, 只需要layerLabel
-   * 如果是未配置过的图层, 需要layerType + layerUrl
+   * 如果是已配置过的图层, 需要label + ids
+   * 如果是未配置过的图层, 需要type + url
    * @param params: object, required.
    *   mapIndex: string, required. 地图序号.
    *     1代表左/上
    *     2代表右/下
-   *   layerLabel: string, optional. config.json中的图层名称.
-   *   layerType: string, optional. 图层类型.
+   *   label: string, optional. config.json中的服务名称.
+   *   ids: [int], optional. config.json中的图层序号.
+   *     不传则显示此服务中的所有图层.
+   *   type: string, optional. 图层类型.
    *     dynamic | ChengDiDynamic | feature, 默认为dynamic
-   *   layerUrl: string, optional. 图层地址.
+   *   url: string, optional. 图层地址.
    * */
   addDoubleMapLayer: function (params) {
     require(["dojo/topic"], function (topic) {

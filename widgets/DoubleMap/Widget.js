@@ -10,7 +10,8 @@ define([
   "dojox/NodeList/delegate",
   "jimu/BaseWidget",
   "esri/map",
-  "esri/layers/ArcGISTiledMapServiceLayer"
+  "esri/layers/ArcGISTiledMapServiceLayer",
+  "esri/layers/ArcGISDynamicMapServiceLayer"
 ], function (
   declare,
   lang,
@@ -23,7 +24,8 @@ define([
   nodeListDelegate,
   BaseWidget,
   Map,
-  ArcGISTiledMapServiceLayer
+  ArcGISTiledMapServiceLayer,
+  ArcGISDynamicMapServiceLayer
 ) {
   return declare([BaseWidget], {
     name: "DoubleMap",
@@ -159,21 +161,34 @@ define([
       }, this);
     },
 
-    _addLayerFromLabel: function (label, map) {
-      for (var i = 0; i < this.appConfig.operationallayers.length; i++) {
-        var layerConfig = this.appConfig.operationallayers[i];
-        if (layerConfig.label === label) {
-          var layerType = layerConfig.type;
+    _findLayerInMap: function (label, ids) {
+      var resultLayer;
+      //dynamic layers
+      for (var i = 0; i < this.map.layerIds.length; i++) {
+        var layer = this.map.getLayer(this.map.layerIds[i]);
+        if (layer.label === label) {
+          if (layer instanceof ArcGISDynamicMapServiceLayer) {
+            resultLayer = new ArcGISDynamicMapServiceLayer(layer.url);
+            resultLayer.label = layer.label;
+            resultLayer.infoTemplates = layer.infoTemplates;
 
-          break;
+            if (ids.length > 0) {
+              resultLayer.setVisibleLayers(ids);
+            }
+          }
+
+          return resultLayer;
         }
       }
+
+
     },
 
     onTopicHandler_addDoubleMapLayer: function (params) {
-      var layerLabel = params.layerLabel || "";
-      var layerType = params.layerType;
-      var layerUrl = params.layerUrl;
+      var label = params.label || "";
+      var ids = params.ids || [];
+      var type = params.type;
+      var url = params.url;
       var mapIndex = params.mapIndex;
 
       //确定加入到哪个地图中
@@ -192,8 +207,8 @@ define([
       }
 
       //配置过的图层
-      if (layerLabel !== "") {
-        this._addLayerFromLabel(layerLabel, map);
+      if (label !== "") {
+        map.addLayer(this._findLayerInMap(label, ids));
       }
 
     },

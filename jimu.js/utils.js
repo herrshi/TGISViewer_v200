@@ -11,6 +11,7 @@ define([
   "dojo/number",
   "dojo/i18n!dojo/cldr/nls/number",
   "esri/lang",
+  "esri/InfoTemplate",
   "esri/dijit/PopupTemplate",
   "esri/geometry/Point",
   "esri/geometry/Polygon"
@@ -27,6 +28,7 @@ define([
   dojoNumber,
   nlsBundle,
   esriLang,
+  InfoTemplate,
   PopupTemplate,
   Point,
   Polygon
@@ -835,20 +837,6 @@ define([
 
     }
 
-  };
-
-  mo.createLayer = function (layerConfig) {
-    var layerMap = {
-      "tiled": "esri/layers/ArcGISTiledMapServiceLayer",
-      "dynamic": "esri/layers/ArcGISDynamicMapServiceLayer",
-      "feature": "esri/layers/FeatureLayer",
-      "ChengDiDynamic": "jimu/CustomLayers/ChengDiDynamicMapServiceLayer"
-    };
-    
-    var type = layerConfig.type;
-    require([layerMap[type]], lang.hitch(this, function (layerClass) {
-      
-    }));
   };
 
   mo.getRandomString = function() {

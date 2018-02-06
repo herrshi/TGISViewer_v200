@@ -87,7 +87,7 @@
   }, "mapContainer", function () {
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
-     map.showLayer({label: "道路交通设施", ids: [27, 28]});
+//      map.showLayer({label: "道路交通设施", ids: [27, 28]});
 
 //      map.startSwipe({
 //        swipeType: "vertical",
@@ -118,7 +118,7 @@
 
     // map.setBusLineFlow({"flows":[{"lineName":"46路","flow":32572},{"lineName":"110路","flow":26783},{"lineName":"21路","flow":26394},{"lineName":"66路","flow":26304},{"lineName":"25路","flow":26252},{"lineName":null,"flow":24570},{"lineName":"94路","flow":23830},{"lineName":"112路","flow":23178},{"lineName":"23路","flow":19804},{"lineName":"44路","flow":19797},{"lineName":"116路","flow":18979},{"lineName":"55路","flow":18933},{"lineName":"63路","flow":18890},{"lineName":"6路","flow":18813},{"lineName":"92路B线","flow":18300},{"lineName":"89路","flow":18075},{"lineName":"13路","flow":18061},{"lineName":"28路","flow":17493},{"lineName":"91路","flow":17431},{"lineName":"67路","flow":17325},{"lineName":"156路","flow":16762},{"lineName":"141路","flow":16413},{"lineName":"90路","flow":16347},{"lineName":"37路","flow":16239},{"lineName":"45路","flow":16226},{"lineName":"50路区间","flow":15914},{"lineName":"64路","flow":15654},{"lineName":"41路","flow":15510},{"lineName":"135路","flow":15363},{"lineName":"85路","flow":15267},{"lineName":"18路","flow":15249},{"lineName":"76路","flow":15200},{"lineName":"78路","flow":15173},{"lineName":"56路","flow":14692},{"lineName":"95路","flow":14689},{"lineName":"118路","flow":14669},{"lineName":"49路","flow":14352},{"lineName":"88路","flow":14322},{"lineName":"59路","flow":14054},{"lineName":"123路","flow":13741},{"lineName":"20路","flow":13625},{"lineName":"19路","flow":13548},{"lineName":"54路","flow":13288},{"lineName":"700路","flow":12945},{"lineName":null,"flow":12827},{"lineName":"61路","flow":12771},{"lineName":"58路","flow":12758},{"lineName":"115路","flow":12752},{"lineName":"24路","flow":12738},{"lineName":"96路","flow":12661},{"lineName":"40路","flow":12646}]});
     // map.setMetroLineFlow({"flows":[{"lineName":"轨道交通2号线","flow":1629459},{"lineName":"轨道交通3号线","flow":562404},{"lineName":"轨道交通4号线","flow":880504},{"lineName":"轨道交通5号线","flow":153021},{"lineName":"轨道交通6号线","flow":467235},{"lineName":"轨道交通7号线","flow":852138},{"lineName":"轨道交通8号线","flow":1068409},{"lineName":"轨道交通9号线","flow":963229},{"lineName":"轨道交通10号线","flow":877611},{"lineName":"轨道交通11号线","flow":895319},{"lineName":"轨道交通12号线","flow":709396},{"lineName":"轨道交通13号线","flow":467170},{"lineName":"轨道交通16号线","flow":197220}]})
-    // map.showDoubleMap();
+    map.showDoubleMap();
 
   });
 
@@ -221,6 +221,7 @@
     // map.hideTopToolbarButton("历史演变");
 
     // map.showDoubleMap();
+    map.addDoubleMapLayer({mapIndex: "1", label: "道路交通设施", ids: [27, 28]});
 
     // map.showRouteByCross({crossIds:["51012211500109","51012200100102","51012200100112","51012200100123","51012200100134","51012212000438"]});
   }
