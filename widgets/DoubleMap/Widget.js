@@ -11,7 +11,8 @@ define([
   "jimu/BaseWidget",
   "esri/map",
   "esri/layers/ArcGISTiledMapServiceLayer",
-  "esri/layers/ArcGISDynamicMapServiceLayer"
+  "esri/layers/ArcGISDynamicMapServiceLayer",
+  "esri/layers/FeatureLayer"
 ], function (
   declare,
   lang,
@@ -25,7 +26,8 @@ define([
   BaseWidget,
   Map,
   ArcGISTiledMapServiceLayer,
-  ArcGISDynamicMapServiceLayer
+  ArcGISDynamicMapServiceLayer,
+  FeatureLayer
 ) {
   return declare([BaseWidget], {
     name: "DoubleMap",
@@ -166,29 +168,61 @@ define([
       //dynamic layers
       for (var i = 0; i < this.map.layerIds.length; i++) {
         var layer = this.map.getLayer(this.map.layerIds[i]);
-        if (layer.label === label) {
-          if (layer instanceof ArcGISDynamicMapServiceLayer) {
-            resultLayer = new ArcGISDynamicMapServiceLayer(layer.url);
-            resultLayer.label = layer.label;
-            resultLayer.infoTemplates = layer.infoTemplates;
+        if (layer.label === label && layer instanceof ArcGISDynamicMapServiceLayer) {
+          resultLayer = new ArcGISDynamicMapServiceLayer(layer.url);
+          resultLayer.label = layer.label;
+          resultLayer.infoTemplates = layer.infoTemplates;
 
-            if (ids.length > 0) {
-              resultLayer.setVisibleLayers(ids);
-            }
+          if (ids.length === 0) {
+            //获取服务中所有的layerId
+            layer.layerInfos.forEach(function (layerInfo) {
+              ids.push(layerInfo.id);
+              if (layerInfo.subLayerIds !== null) {
+                ids.push(layerInfo.subLayerIds);
+              }
+            });
           }
-
+          resultLayer.setVisibleLayers(ids);
           return resultLayer;
         }
       }
 
+      for (i = 0; i < this.map.graphicsLayerIds.length; i++) {
+        layer = this.map.getLayer(this.map.graphicsLayerIds[i]);
+        if (layer.label === label && layer instanceof  FeatureLayer) {
+          resultLayer = new FeatureLayer(layer.url);
+          resultLayer.label = layer.label;
+          resultLayer.infoTemplate = layer.infoTemplate;
+          resultLayer.renderer = layer.renderer;
+          resultLayer.refreshInterval = layer.refreshInterval;
+          resultLayer.outFields = layer.outFields;
+          resultLayer.opacity = layer.opacity;
+          return resultLayer;
+        }
+      }
+    },
 
+    _createLayer: function (type, url) {
+      var resultLayer;
+
+      switch (type) {
+        case "dynamic":
+          resultLayer = new ArcGISDynamicMapServiceLayer(url);
+          break;
+
+        case "ChengDiDynamic":
+
+          break;
+      }
+
+      return resultLayer;
     },
 
     onTopicHandler_addDoubleMapLayer: function (params) {
       var label = params.label || "";
       var ids = params.ids || [];
-      var type = params.type;
-      var url = params.url;
+      var type = params.type || "dynamic";
+      var url = params.url || "";
       var mapIndex = params.mapIndex;
 
       //确定加入到哪个地图中
@@ -206,9 +240,26 @@ define([
           map = this.firstMap;
       }
 
+      var layerToAdd;
       //配置过的图层
       if (label !== "") {
-        map.addLayer(this._findLayerInMap(label, ids));
+        layerToAdd = this._findLayerInMap(label, ids);
+        if (layerToAdd !== undefined) {
+          map.addLayer(layerToAdd);
+        }
+        else {
+          console.error("图层: " + label + " 未找到.");
+        }
+      }
+      //新增图层
+      else if (url !== "") {
+        layerToAdd = this._createLayer(type, url);
+        if (layerToAdd !== undefined) {
+          map.addLayer(layerToAdd);
+        }
+        else {
+          console.error("图层: " + label + " 未创建.");
+        }
       }
 
     },

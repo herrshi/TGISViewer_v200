@@ -974,6 +974,18 @@ var TMap = {
     });
   },
 
+  showTopToolbar: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showTopToolbar");
+    });
+  },
+
+  hideTopToolbar: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideTopToolbar");
+    });
+  },
+
   /**
    * 公交线路客运量
    * @param params: object, required.

@@ -118,8 +118,7 @@
 
     // map.setBusLineFlow({"flows":[{"lineName":"46路","flow":32572},{"lineName":"110路","flow":26783},{"lineName":"21路","flow":26394},{"lineName":"66路","flow":26304},{"lineName":"25路","flow":26252},{"lineName":null,"flow":24570},{"lineName":"94路","flow":23830},{"lineName":"112路","flow":23178},{"lineName":"23路","flow":19804},{"lineName":"44路","flow":19797},{"lineName":"116路","flow":18979},{"lineName":"55路","flow":18933},{"lineName":"63路","flow":18890},{"lineName":"6路","flow":18813},{"lineName":"92路B线","flow":18300},{"lineName":"89路","flow":18075},{"lineName":"13路","flow":18061},{"lineName":"28路","flow":17493},{"lineName":"91路","flow":17431},{"lineName":"67路","flow":17325},{"lineName":"156路","flow":16762},{"lineName":"141路","flow":16413},{"lineName":"90路","flow":16347},{"lineName":"37路","flow":16239},{"lineName":"45路","flow":16226},{"lineName":"50路区间","flow":15914},{"lineName":"64路","flow":15654},{"lineName":"41路","flow":15510},{"lineName":"135路","flow":15363},{"lineName":"85路","flow":15267},{"lineName":"18路","flow":15249},{"lineName":"76路","flow":15200},{"lineName":"78路","flow":15173},{"lineName":"56路","flow":14692},{"lineName":"95路","flow":14689},{"lineName":"118路","flow":14669},{"lineName":"49路","flow":14352},{"lineName":"88路","flow":14322},{"lineName":"59路","flow":14054},{"lineName":"123路","flow":13741},{"lineName":"20路","flow":13625},{"lineName":"19路","flow":13548},{"lineName":"54路","flow":13288},{"lineName":"700路","flow":12945},{"lineName":null,"flow":12827},{"lineName":"61路","flow":12771},{"lineName":"58路","flow":12758},{"lineName":"115路","flow":12752},{"lineName":"24路","flow":12738},{"lineName":"96路","flow":12661},{"lineName":"40路","flow":12646}]});
     // map.setMetroLineFlow({"flows":[{"lineName":"轨道交通2号线","flow":1629459},{"lineName":"轨道交通3号线","flow":562404},{"lineName":"轨道交通4号线","flow":880504},{"lineName":"轨道交通5号线","flow":153021},{"lineName":"轨道交通6号线","flow":467235},{"lineName":"轨道交通7号线","flow":852138},{"lineName":"轨道交通8号线","flow":1068409},{"lineName":"轨道交通9号线","flow":963229},{"lineName":"轨道交通10号线","flow":877611},{"lineName":"轨道交通11号线","flow":895319},{"lineName":"轨道交通12号线","flow":709396},{"lineName":"轨道交通13号线","flow":467170},{"lineName":"轨道交通16号线","flow":197220}]})
-    map.showDoubleMap();
-
+    // map.showDoubleMap();
   });
 
   function Test1ClickHandler() {
@@ -221,9 +220,11 @@
     // map.hideTopToolbarButton("历史演变");
 
     // map.showDoubleMap();
-    map.addDoubleMapLayer({mapIndex: "1", label: "道路交通设施", ids: [27, 28]});
+    // map.addDoubleMapLayer({mapIndex: "1", label: "道路交通设施", ids: []});
 
     // map.showRouteByCross({crossIds:["51012211500109","51012200100102","51012200100112","51012200100123","51012200100134","51012212000438"]});
+
+    map.hideTopToolbar();
   }
 
 
@@ -257,12 +258,14 @@
 //      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: "2017/11/24 08:00:00"}, {x: 104.002, y: 30.565, time: "2017/11/24 08:00:05"}], autoStart: true, loop: true, showTrackPoints: true});
 //     map.findFeature({layerName: "trackPlayback", ids: ["1"]});
 
-    map.addLayer({type: "ChengDiDynamic", url: "1721002017188357", label: "cad111", showSublayers: false});
+    // map.addLayer({type: "ChengDiDynamic", url: "1721002017188357", label: "cad111", showSublayers: false});
     // map.deleteAllOverlays();
 
     // map.showTopToolbarButton("历史演变");
 
     // map.hideDoubleMap();
+
+    map.showTopToolbar();
 
     // map.addOverlays('{"showPopup":true,"defaultSymbol":{"type":"marker","style":"circle","color":"red","alpha":0.8,"size":7,"outline":{"color":"white"}},"overlays":[{"type":"CADPile","geometry":{"x":"-2306.4187","y":"3261.5966"},"fields":{"里程":"-2.082","点类型":"起点","标高":"3.94"}},{"type":"CADPile","geometry":{"x":"-2224.4326","y":"3313.7568"},"fields":{"里程":"95.475","点类型":"圆缓点","标高":"4.03"}},{"type":"CADPile","geometry":{"x":"-2177.6508","y":"3331.3657"},"fields":{"里程":"145.475","点类型":"","标高":"2.01"}},{"type":"CADPile","geometry":{"x":"-2129.801","y":"3345.7508"},"fields":{"里程":"195.475","点类型":"缓圆点","标高":"-0.94"}},{"type":"CADPile","geometry":{"x":"-2017.1286","y":"3336.9739"},"fields":{"里程":"310.049","点类型":"圆缓点","标高":"-7.61"}},{"type":"CADPile","geometry":{"x":"-1972.0836","y":"3315.3527"},"fields":{"里程":"360.049","点类型":"缓直点","标高":"-9.16"}},{"type":"CADPile","geometry":{"x":"-1937.5042","y":"3298.0096"},"fields":{"里程":"396.957","点类型":"直缓点","标高":"-9.27"}},{"type":"CADPile","geometry":{"x":"-1895.0941","y":"3275.0431"},"fields":{"里程":"446.957","点类型":"缓圆点","标高":"-9.12"}},{"type":"CADPile","geometry":{"x":"-1771.4965","y":"3228.6583"},"fields":{"里程":"579.169","点类型":"圆缓点","标高":"-9.04"}},{"type":"CADPile","geometry":{"x":"-1722.9416","y":"3216.7361"},"fields":{"里程":"629.169","点类型":"缓直点","标高":"-9.19"}},{"type":"CADPile","geometry":{"x":"-1667.2311","y":"3203.758"},"fields":{"里程":"686.371","点类型":"直缓点","标高":"-9.36"}},{"type":"CADPile","geometry":{"x":"-1618.701","y":"3191.7397"},"fields":{"里程":"736.371","点类型":"缓圆点","标高":"-8.96"}},{"type":"CADPile","geometry":{"x":"-1570.8256","y":"3176.273"},"fields":{"里程":"786.697","点类型":"圆缓点","标高":"-6.9"}},{"type":"CADPile","geometry":{"x":"-1524.4368","y":"3157.6265"},"fields":{"里程":"836.697","点类型":"缓直点","标高":"-3.93"}},{"type":"CADPile","geometry":{"x":"-1367.898","y":"3092.1643"},"fields":{"里程":"1006.373","点类型":"直缓点","标高":"3.8"}},{"type":"CADPile","geometry":{"x":"-1335.8812","y":"3078.0379"},"fields":{"里程":"1041.373","点类型":"缓圆点","标高":"3.65"}},{"type":"CADPile","geometry":{"x":"-1306.1174","y":"3061.3372"},"fields":{"里程":"1075.52","点类型":"圆缓点","标高":"3.48"}},{"type":"CADPile","geometry":{"x":"-1277.3767","y":"3041.3723"},"fields":{"里程":"1110.52","点类型":"缓直点","标高":"3.35"}},{"type":"CADPile","geometry":{"x":"-1179.9088","y":"2970.8169"},"fields":{"里程":"1230.845","点类型":"终点","标高":"3.32"}}]}');
   }

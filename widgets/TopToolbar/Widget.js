@@ -8,6 +8,7 @@ define([
   "dojo/on",
   "dojo/topic",
   "dojo/query",
+  "dojo/dom-style",
   "jimu/BaseWidget",
   "esri/geometry/Extent",
   "esri/SpatialReference",
@@ -19,6 +20,7 @@ define([
   on,
   topic,
   query,
+  domStyle,
   BaseWidget,
   Extent,
   SpatialReference,
@@ -63,6 +65,8 @@ define([
 
       topic.subscribe("showTopToolbarButton", lang.hitch(this, this.topicHandler_onShowTopToolbarButton));
       topic.subscribe("hideTopToolbarButton", lang.hitch(this, this.topicHandler_onHideTopToolbarButton));
+      topic.subscribe("showTopToolbar", lang.hitch(this, this.topicHandler_onShowTopToolbar));
+      topic.subscribe("hideTopToolbar", lang.hitch(this, this.topicHandler_onHideTopToolbar));
     },
 
     startup: function () {
@@ -343,10 +347,9 @@ define([
 
     _onBtnSaveClicked: function () {
       topic.publish("Print");
-    },
-
-    _onBtnPrintClicked: function () {
-      topic.publish("Print");
+      if (typeof startPrint !== "undefined" && startPrint instanceof Function) {
+        startPrint();
+      }
     },
 
     _onBtnSwipeClicked: function () {
@@ -381,8 +384,17 @@ define([
     topicHandler_onShowTopToolbarButton: function (params) {
       query("[title="+ params + "]").style("display", "block");
     },
+
     topicHandler_onHideTopToolbarButton: function (params) {
       query("[title="+ params + "]").style("display", "none");
+    },
+
+    topicHandler_onShowTopToolbar: function () {
+      query("." + this.baseClass).style("display", "block");
+    },
+
+    topicHandler_onHideTopToolbar: function () {
+      query("." + this.baseClass).style("display", "none");
     }
   });
 
