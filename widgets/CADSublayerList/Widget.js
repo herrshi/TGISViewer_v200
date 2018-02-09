@@ -226,7 +226,7 @@ define([
       
       //如果传入的是cad服务名, 使用配置中的完整服务url替换
       if (layerUrl.indexOf("http") < 0) {
-        layerUrl = this.config.CADServiceUrl.replace(/{name}/i, layerUrl);
+        layerUrl = this.appConfig.CADServiceUrl.replace(/{name}/i, layerUrl);
       }
 
       if (layerType !== undefined && layerType.toLowerCase() === "ChengDiDynamic".toLowerCase()) {

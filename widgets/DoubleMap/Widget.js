@@ -12,7 +12,8 @@ define([
   "esri/map",
   "esri/layers/ArcGISTiledMapServiceLayer",
   "esri/layers/ArcGISDynamicMapServiceLayer",
-  "esri/layers/FeatureLayer"
+  "esri/layers/FeatureLayer",
+  "jimu/CustomLayers/ChengDiDynamicMapServiceLayer"
 ], function (
   declare,
   lang,
@@ -27,7 +28,8 @@ define([
   Map,
   ArcGISTiledMapServiceLayer,
   ArcGISDynamicMapServiceLayer,
-  FeatureLayer
+  FeatureLayer,
+  ChengDiDynamicMapServiceLayer
 ) {
   return declare([BaseWidget], {
     name: "DoubleMap",
@@ -211,7 +213,7 @@ define([
           break;
 
         case "ChengDiDynamic":
-
+          resultLayer = new ChengDiDynamicMapServiceLayer(url);
           break;
       }
 
