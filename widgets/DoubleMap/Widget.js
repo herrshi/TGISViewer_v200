@@ -48,6 +48,7 @@ define([
       topic.subscribe("showDoubleMap", lang.hitch(this, this.onTopicHandler_showDoubleMap));
       topic.subscribe("hideDoubleMap", lang.hitch(this, this.onTopicHandler_hideDoubleMap));
       topic.subscribe("addDoubleMapLayer", lang.hitch(this, this.onTopicHandler_addDoubleMapLayer));
+      topic.subscribe("removeDoubleMapLayer", lang.hitch(this, this.onTopicHandler_removeDoubleMapLayer));
 
       topic.subscribe("changeBasemapInDoubleMap", lang.hitch(this, this._onTopicHandler_basemapChangeInDoubleMap));
     },
@@ -204,7 +205,7 @@ define([
       }
     },
 
-    _createLayer: function (type, url) {
+    _createLayer: function (label, type, url) {
       var resultLayer;
 
       switch (type) {
@@ -213,11 +214,28 @@ define([
           break;
 
         case "ChengDiDynamic":
+          if (url.indexOf("http") < 0) {
+            url = this.appConfig.CADServiceUrl.replace(/{name}/i, url);
+          }
           resultLayer = new ChengDiDynamicMapServiceLayer(url);
           break;
       }
+      resultLayer.label = label;
 
       return resultLayer;
+    },
+
+    _getMap: function (mapIndex) {
+      switch (mapIndex) {
+        case "1":
+          return this.firstMap;
+
+        case "2":
+          return this.secondMap;
+
+        default:
+          return this.firstMap;
+      }
     },
 
     onTopicHandler_addDoubleMapLayer: function (params) {
@@ -228,42 +246,45 @@ define([
       var mapIndex = params.mapIndex;
 
       //确定加入到哪个地图中
-      var map;
-      switch (mapIndex) {
-        case "1":
-          map = this.firstMap;
-          break;
+      var map = this._getMap(mapIndex);
 
-        case "2":
-          map = this.secondMap;
-          break;
-
-        default:
-          map = this.firstMap;
-      }
-
-      var layerToAdd;
-      //配置过的图层
       if (label !== "") {
+        var layerToAdd;
+        //配置过的图层
         layerToAdd = this._findLayerInMap(label, ids);
         if (layerToAdd !== undefined) {
           map.addLayer(layerToAdd);
         }
+        //新增图层
         else {
-          console.error("图层: " + label + " 未找到.");
+          layerToAdd = this._createLayer(label, type, url);
+          if (layerToAdd !== undefined) {
+            map.addLayer(layerToAdd);
+          }
         }
       }
-      //新增图层
-      else if (url !== "") {
-        layerToAdd = this._createLayer(type, url);
-        if (layerToAdd !== undefined) {
-          map.addLayer(layerToAdd);
-        }
-        else {
-          console.error("图层: " + label + " 未创建.");
+    },
+
+    onTopicHandler_removeDoubleMapLayer: function (params) {
+      var label = params.label || "";
+      var mapIndex = params.mapIndex;
+
+      var map = this._getMap(mapIndex);
+      for (var i = 0; i < map.layerIds.length; i++) {
+        var layer = map.getLayer(map.layerIds[i]);
+        if (layer.label === label) {
+          map.removeLayer(layer);
+          return;
         }
       }
 
+      for (i = 0; i < this.map.graphicsLayerIds.length; i++) {
+        layer = map.getLayer(map.graphicsLayerIds[i]);
+        if (layer.label === label) {
+          map.removeLayer(layer);
+          return;
+        }
+      }
     },
 
     onTopicHandler_showDoubleMap: function (params) {

@@ -283,23 +283,39 @@ var TMap = {
   },
 
   /**
-   * 双地图模式在左\右地图中新增图层
-   * 如果是已配置过的图层, 需要label + ids
-   * 如果是未配置过的图层, 需要type + url
+   * 双地图模式在左\右地图中新增地图服务
+   * 如果是已配置的服务, 需要label + ids
+   * 如果是未配置的服务, 需要label + type + url
    * @param params: object, required.
    *   mapIndex: string, required. 地图序号.
    *     1代表左/上
    *     2代表右/下
-   *   label: string, optional. config.json中的服务名称.
+   *   label: string, required. 服务名称.
+   *     如果是已配置的服务, 是config.json中的服务名称
+   *     如果是未配置的服务, 需要指定一个服务名称用于删除.
    *   ids: [int], optional. config.json中的图层序号.
    *     不传则显示此服务中的所有图层.
-   *   type: string, optional. 图层类型.
+   *   type: string, optional. 服务类型.
    *     dynamic | ChengDiDynamic | feature, 默认为dynamic
-   *   url: string, optional. 图层地址.
+   *   url: string, optional. 服务地址.
    * */
   addDoubleMapLayer: function (params) {
     require(["dojo/topic"], function (topic) {
       topic.publish("addDoubleMapLayer", params);
+    });
+  },
+
+  /**
+   * 双地图模式中删除服务
+   * @param params: object, required.
+   *   mapIndex: string, required. 地图序号.
+   *     1代表左/上
+   *     2代表右/下
+   *   label: string, required. 服务名称.
+   * */
+  removeDoubleMapLayer: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("removeDoubleMapLayer", params);
     });
   },
   /************************ Map Control END **************************/

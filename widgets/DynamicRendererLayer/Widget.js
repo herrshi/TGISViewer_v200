@@ -27,11 +27,13 @@ define([
     rendererLayers: [],
 
     postCreate: function () {
-      this._readConfigs();
+      // this._readConfigs();
       topic.subscribe("showDynamicRendererLayer", lang.hitch(this, this.onTopicHandler_showDynamicRendererLayer));
     },
 
     _readConfigs: function () {
+      var def = new Deferred();
+
       array.forEach(this.config.dynamicRenderers, function (dynamicRenderer) {
         var rendererLayer = new GraphicsLayer();
         rendererLayer.setVisibility(false);
@@ -56,8 +58,12 @@ define([
               rendererLayer.add(feature);
             });
           });
+
+          def.resolve();
         }));
       }, this);
+
+      return def;
     },
     
     _queryFeatures: function (url, idField) {
@@ -82,7 +88,7 @@ define([
       return def;
     },
 
-    onTopicHandler_showDynamicRendererLayer: function (params) {
+    _setLayerData: function (params) {
       for (var i = 0; i < this.rendererLayers.length; i++) {
         var rendererLayer = this.rendererLayers[i];
 
@@ -103,7 +109,6 @@ define([
                 }
               }
 
-
               if (!found && params.defaultData !== undefined) {
                 graphic.attributes.data = params.defaultData;
               }
@@ -111,10 +116,23 @@ define([
           }
 
           rendererLayer.setVisibility(true);
-
+          rendererLayer.refresh();
           break;
         }
       }
+    },
+
+    onTopicHandler_showDynamicRendererLayer: function (params) {
+      if (this.rendererLayers.length === 0) {
+        this._readConfigs().then(lang.hitch(this, function () {
+          this._setLayerData(params);
+        }));
+      }
+      else {
+        this._setLayerData(params);
+      }
+
+
     }
   });
 
