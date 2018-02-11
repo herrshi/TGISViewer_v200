@@ -2,6 +2,7 @@
   "dynamicRenderers": [
     {
       "name": "IssuesectSpeed",
+      "label": "发布段车速",
       "layers": [
         {
           "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/KuaiSuLu_Issuesect/MapServer/0",

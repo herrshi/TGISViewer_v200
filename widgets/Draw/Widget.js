@@ -42,6 +42,7 @@ define([
     "esri/OperationBase",
     "esri/layers/GraphicsLayer",
     "esri/layers/FeatureLayer",
+    "esri/toolbars/edit",
     "jimu/dijit/ViewStack",
     "jimu/utils",
     "jimu/SpatialReference/wkidUtils",
@@ -55,7 +56,7 @@ define([
   function(declare, _WidgetsInTemplateMixin, BaseWidget, on, Deferred, html, lang, Color, array, domStyle, topic,
     esriConfig, Graphic, Polyline, Polygon, TextSymbol, Font, esriUnits, webMercatorUtils,
     geodesicUtils, GeometryService, AreasAndLengthsParameters, LengthsParameters, UndoManager,
-    OperationBase, GraphicsLayer, FeatureLayer, ViewStack, jimuUtils, wkidUtils, LayerInfos,
+    OperationBase, GraphicsLayer, FeatureLayer, Edit, ViewStack, jimuUtils, wkidUtils, LayerInfos,
     LoadingIndicator) {
     //custom operations
     var customOp = {};
@@ -113,6 +114,8 @@ define([
       _polygonLayer: null,
       _labelLayer: null,
 
+      _editToolbar: null,
+
       postMixInProperties: function(){
         this.inherited(arguments);
         this.config.isOperationalLayer = !!this.config.isOperationalLayer;
@@ -135,6 +138,8 @@ define([
         jimuUtils.combineRadioCheckBoxWithLabel(this.showMeasure, this.showMeasureLabel);
         this.drawBox.setMap(this.map);
 
+        this._editToolbar = new Edit(this.map);
+
         this.viewStack = new ViewStack({
           viewType: "dom",
           views: [this.pointSection, this.lineSection, this.polygonSection, this.textSection]
@@ -147,6 +152,7 @@ define([
         this._enableBtn(this.btnUndo, false);
         this._enableBtn(this.btnRedo, false);
         this._enableBtn(this.btnClear, false);
+        this._enableBtn(this.btnEdit, false);
         this._enableBtn(this.btnSave, false);
 
         topic.subscribe("getOverlays", lang.hitch(this, this.onTopicHandler_getOverlays));
@@ -179,32 +185,11 @@ define([
         var clearOverlays = params.params.clearOverlays !== false;
         var callback = params.callback;
 
-        var results = this._handleGeometryData();
-
-        // array.forEach(this._graphicsLayer.graphics, function (graphic) {
-        //   var geometry = graphic.geometry.toJson();
-        //   delete geometry.spatialReference;
-        //
-        //   var symbol = graphic.symbol.toJson();
-        //   if (symbol.type === "esriPMS") {
-        //     delete symbol.imageData;
-        //     symbol.width /= 0.75;
-        //     symbol.height /= 0.75;
-        //   }
-        //
-        //   results.push({
-        //     geometry: geometry,
-        //     symbol: symbol
-        //   });
-        //
-        // });
-
+        if (callback) {
+          callback(this._handleGeometryData());
+        }
         if (clearOverlays) {
           this._graphicsLayer.clear();
-        }
-
-        if (callback) {
-          callback(results);
         }
       },
 
@@ -861,6 +846,7 @@ define([
         this._enableBtn(this.btnRedo, this._undoManager.canRedo);
         var graphics = this._getAllGraphics();
         this._enableBtn(this.btnClear, graphics.length > 0);
+        this._enableBtn(this.btnEdit, graphics.length > 0);
         this._enableBtn(this.btnSave, graphics.length > 0);
         this._syncGraphicsToLayers();
       },
@@ -950,6 +936,13 @@ define([
         }
         this._enableBtn(this.btnClear, false);
         this._enableBtn(this.btnSave, false);
+      },
+
+      _onBtnEditClicked: function () {
+        this.drawBox.deactivate();
+        this._polygonLayer.on("click", lang.hitch(this, function (event) {
+          this._editToolbar.activate(Edit.MOVE | Edit.EDIT_VERTICES, event.graphic);
+        }));
       },
 
       _onBtnSaveClicked: function () {

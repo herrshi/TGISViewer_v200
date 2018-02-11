@@ -199,6 +199,11 @@
   "widgetOnScreen": {
     "widgets": [
       {
+        "uri": "widgets/DynamicRendererLayer/Widget",
+        "config": "configs/DynamicRendererLayer/config_DynamicRendererLayer_JiaoWei.json",
+        "id": "DynamicRendererLayerWidget"
+      },
+      {
         "uri": "widgets/Coordinate/Widget",
         "position": {
           "left": 15,
@@ -266,11 +271,6 @@
           "width": "100%"
         },
         "id": "TopToolbarWidget"
-      },
-      {
-        "uri": "widgets/DynamicRendererLayer/Widget",
-        "config": "configs/DynamicRendererLayer/config_DynamicRendererLayer_JiaoWei.json",
-        "id": "DynamicRendererLayerWidget"
       }
     ]
   }

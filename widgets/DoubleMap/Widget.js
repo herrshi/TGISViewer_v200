@@ -35,12 +35,12 @@ define([
     name: "DoubleMap",
     baseClass: "jimu-widget-doubleMap",
 
-    firstMap: null,
-    secondMap: null,
-    firstMapEventSignal: null,
-    secondMapEventSignal: null,
-    firstLayers: [],
-    secondLayers: [],
+    _firstMap: null,
+    _secondMap: null,
+    _firstMapEventSignal: null,
+    _secondMapEventSignal: null,
+    _firstLayers: [],
+    _secondLayers: [],
 
     postCreate: function () {
       this.inherited(arguments);
@@ -54,21 +54,21 @@ define([
     },
 
     onOpen: function () {
-      this.firstMap = new Map("firstMap", {
+      this._firstMap = new Map("firstMap", {
         slider: false,
         nav: false,
         logo: false
       });
 
-      this.secondMap = new Map("secondMap", {
+      this._secondMap = new Map("secondMap", {
         slider: false,
         nav: false,
         logo: false
       });
 
       //监听地图extent-change事件, 使另一个地图的extent与之联动
-      this.firstMapEventSignal = this.firstMap.on("extent-change", lang.hitch(this, this._onFirstMap_extentChange));
-      this.secondMapEventSignal = this.secondMap.on("extent-change", lang.hitch(this, this._onSecondMap_extentChange));
+      this._firstMapEventSignal = this._firstMap.on("extent-change", lang.hitch(this, this._onFirstMap_extentChange));
+      this._secondMapEventSignal = this._secondMap.on("extent-change", lang.hitch(this, this._onSecondMap_extentChange));
 
       //底图列表的点击
       query(".dropdown-menu-black").delegate("a", "onclick", function (evt) {
@@ -82,28 +82,28 @@ define([
 
     _onFirstMap_extentChange: function (event) {
       //先解除对其他地图的事件监听, 防止死循环
-      this.secondMapEventSignal.remove();
-      this.secondMap.setExtent(event.extent).then(lang.hitch(this, function () {
-        this.secondMapEventSignal = this.secondMap.on("extent-change", lang.hitch(this, this._onSecondMap_extentChange));
+      this._secondMapEventSignal.remove();
+      this._secondMap.setExtent(event.extent).then(lang.hitch(this, function () {
+        this._secondMapEventSignal = this._secondMap.on("extent-change", lang.hitch(this, this._onSecondMap_extentChange));
       }));
     },
 
     _onSecondMap_extentChange: function (event) {
       //先解除对其他地图的事件监听, 防止死循环
-      this.firstMapEventSignal.remove();
-      this.firstMap.setExtent(event.extent).then(lang.hitch(this, function () {
-        this.firstMapEventSignal = this.firstMap.on("extent-change", lang.hitch(this, this._onFirstMap_extentChange));
+      this._firstMapEventSignal.remove();
+      this._firstMap.setExtent(event.extent).then(lang.hitch(this, function () {
+        this._firstMapEventSignal = this._firstMap.on("extent-change", lang.hitch(this, this._onFirstMap_extentChange));
       }));
     },
 
     _onTopicHandler_basemapChangeInDoubleMap: function (params) {
       if (params.dir === "first") {
-        this.firstLayers.forEach(function (firstMapLayer, index) {
+        this._firstLayers.forEach(function (firstMapLayer, index) {
           firstMapLayer.setVisibility(firstMapLayer.label === params.label);
         });
       }
       else if (params.dir === "second") {
-        this.secondLayers.forEach(function (secondMapLayer, index) {
+        this._secondLayers.forEach(function (secondMapLayer, index) {
           secondMapLayer.setVisibility(secondMapLayer.label === params.label);
         });
       }
@@ -157,11 +157,11 @@ define([
             secondLayer.setVisibility(true);
           }
 
-          this.firstMap.addLayer(firstLayer);
-          this.secondMap.addLayer(secondLayer);
+          this._firstMap.addLayer(firstLayer);
+          this._secondMap.addLayer(secondLayer);
 
-          this.firstLayers.push(firstLayer);
-          this.secondLayers.push(secondLayer);
+          this._firstLayers.push(firstLayer);
+          this._secondLayers.push(secondLayer);
         }
       }, this);
     },
@@ -228,13 +228,13 @@ define([
     _getMap: function (mapIndex) {
       switch (mapIndex) {
         case "1":
-          return this.firstMap;
+          return this._firstMap;
 
         case "2":
-          return this.secondMap;
+          return this._secondMap;
 
         default:
-          return this.firstMap;
+          return this._firstMap;
       }
     },
 

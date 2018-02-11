@@ -24,12 +24,12 @@ define([
 ) {
   var clazz = declare([BaseWidget], {
     name: "CustomSwipe",
-    swipeWidget: null,
+    _swipeWidget: null,
 
-    swipeLayers: null,
-    referenceLayers: null,
+    _swipeLayers: null,
+    _referenceLayers: null,
     //记录从不可见改为可见的图层
-    visibilityChangedLayers: null,
+    _visibilityChangedLayers: null,
 
     postCreate: function () {
       this.inherited(arguments);
@@ -85,60 +85,60 @@ define([
     },
 
     onTopicHandler_startSwipe: function (params) {
-      this.swipeLayers = [];
-      this.referenceLayers = [];
-      this.visibilityChangedLayers = [];
+      this._swipeLayers = [];
+      this._referenceLayers = [];
+      this._visibilityChangedLayers = [];
 
       //参考图层要放在下方
-      if (params.referenceLayers) {
-        array.forEach(params.referenceLayers, function (referenceLayerObj) {
+      if (params._referenceLayers) {
+        array.forEach(params._referenceLayers, function (referenceLayerObj) {
           var referenceLayer = this._addLayerToMap(referenceLayerObj);
-          this.referenceLayers.push(referenceLayer);
+          this._referenceLayers.push(referenceLayer);
         }, this);
       }
 
       //对比图层要放在参考图层上方
-      if (params.swipeLayers) {
-        array.forEach(params.swipeLayers, function (swipeLayerObj) {
+      if (params._swipeLayers) {
+        array.forEach(params._swipeLayers, function (swipeLayerObj) {
           var swipeLayer = this._addLayerToMap(swipeLayerObj);
-          this.swipeLayers.push(swipeLayer);
+          this._swipeLayers.push(swipeLayer);
         }, this);
       }
 
-      if (this.swipeLayers.length === 0) {
+      if (this._swipeLayers.length === 0) {
         return;
       }
 
-      if (!this.swipeWidget) {
-        this.swipeWidget = new LayerSwipe({
+      if (!this._swipeWidget) {
+        this._swipeWidget = new LayerSwipe({
           type: params.swipeType || "vertical",
           map: this.map,
-          layers: this.swipeLayers
+          layers: this._swipeLayers
         }, domConstruct.create("div", {}, window.jimuConfig.mapId, "first"));
       }
       else {
-        this.swipeWidget.layers = this.swipeLayers;
+        this._swipeWidget.layers = this._swipeLayers;
       }
-      if (!this.swipeWidget.enabled) {
-        this.swipeWidget.enable();
+      if (!this._swipeWidget.enabled) {
+        this._swipeWidget.enable();
       }
-      this.swipeWidget.startup();
+      this._swipeWidget.startup();
     },
 
     onTopicHandler_stopSwipe: function () {
-      if (this.swipeWidget) {
+      if (this._swipeWidget) {
         //把map恢复到开始卷帘前的状态
         array.forEach(this.addedLayers, function (layer) {
           this.map.removeLayer(layer);
         }, this);
-        this.swipeLayers = [];
-        this.referenceLayers = [];
-        this.swipeWidget.disable();
+        this._swipeLayers = [];
+        this._referenceLayers = [];
+        this._swipeWidget.disable();
       }
     },
 
     onTopicHandler_addSwipeLayer: function (params) {
-      if (!this.swipeWidget) {
+      if (!this._swipeWidget) {
         return;
       }
 
@@ -147,7 +147,7 @@ define([
       var ids = params.layer.ids;
 
       if (layerType === "swipe") {
-        array.forEach(this.swipeLayers, function (swipeLayer) {
+        array.forEach(this._swipeLayers, function (swipeLayer) {
           //如果此图层已存在，就添加图层id
           if (swipeLayer.label === layerLabel) {
             swipeLayer.setVisibleLayers(swipeLayer.visibleLayers.concat(ids));
@@ -157,10 +157,10 @@ define([
 
         //此图层不存在就新增一个
         var swipeLayer = this._addLayerToMap(params.layer);
-        this.swipeLayers.push(swipeLayer);
+        this._swipeLayers.push(swipeLayer);
       }
       else if (layerType === "reference") {
-        array.forEach(this.referenceLayers, function (referenceLayer) {
+        array.forEach(this._referenceLayers, function (referenceLayer) {
           //如果此图层已存在，就添加图层id
           if (referenceLayer.label === layerLabel) {
             referenceLayer.setVisibleLayers(referenceLayer.visibleLayers.concat(ids));
@@ -179,7 +179,7 @@ define([
           }
         }
         this.map.reorderLayer(referenceLayer, i);
-        this.referenceLayers.push(referenceLayer);
+        this._referenceLayers.push(referenceLayer);
       }
     },
 
@@ -220,17 +220,17 @@ define([
     },
 
     onTopicHandler_removeSwipeLayer: function (params) {
-      if (!this.swipeWidget) {
+      if (!this._swipeWidget) {
         return;
       }
 
       var layerType = params.layerType.toLowerCase();
 
       if (layerType === "swipe") {
-        this._removeLayer(params.layer, this.swipeLayers);
+        this._removeLayer(params.layer, this._swipeLayers);
       }
       else if (layerType === "reference") {
-        this._removeLayer(params.layer, this.referenceLayers);
+        this._removeLayer(params.layer, this._referenceLayers);
       }
 
 

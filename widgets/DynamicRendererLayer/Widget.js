@@ -24,7 +24,7 @@ define([
   QueryTask
 ) {
   return declare([BaseWidget], {
-    rendererLayers: [],
+    _rendererLayers: [],
 
     postCreate: function () {
       // this._readConfigs();
@@ -39,8 +39,9 @@ define([
         rendererLayer.setVisibility(false);
         this.map.addLayer(rendererLayer);
         rendererLayer.id = dynamicRenderer.name;
+        rendererLayer.label = dynamicRenderer.label;
         rendererLayer.renderer = rendererJsonUtils.fromJson(dynamicRenderer.renderer);
-        this.rendererLayers.push(rendererLayer);
+        this._rendererLayers.push(rendererLayer);
 
         var defs = [];
         var layers = dynamicRenderer.layers;
@@ -89,8 +90,8 @@ define([
     },
 
     _setLayerData: function (params) {
-      for (var i = 0; i < this.rendererLayers.length; i++) {
-        var rendererLayer = this.rendererLayers[i];
+      for (var i = 0; i < this._rendererLayers.length; i++) {
+        var rendererLayer = this._rendererLayers[i];
 
         if (rendererLayer.id === params.name) {
           if (params.datas !== undefined || params.defaultData !== undefined) {
@@ -123,7 +124,7 @@ define([
     },
 
     onTopicHandler_showDynamicRendererLayer: function (params) {
-      if (this.rendererLayers.length === 0) {
+      if (this._rendererLayers.length === 0) {
         this._readConfigs().then(lang.hitch(this, function () {
           this._setLayerData(params);
         }));
