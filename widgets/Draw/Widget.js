@@ -325,6 +325,13 @@ define([
 
         //bind UndoManager events
         this.own(on(this._undoManager, "change", lang.hitch(this, this._onUndoManagerChanged)));
+
+        this.own(on(this._editToolbar, "graphic-move-stop", lang.hitch(this, this._onEditToolbarStop)));
+        this.own(on(this._editToolbar, "rotate-stop", lang.hitch(this, this._onEditToolbarStop)));
+        this.own(on(this._editToolbar, "scale-stop", lang.hitch(this, this._onEditToolbarStop)));
+        this.own(on(this._editToolbar, "vertex-add", lang.hitch(this, this._onEditToolbarStop)));
+        this.own(on(this._editToolbar, "vertex-delete", lang.hitch(this, this._onEditToolbarStop)));
+        this.own(on(this._editToolbar, "vertex-move-stop", lang.hitch(this, this._onEditToolbarStop)));
       },
 
       _onIconSelected:function(target, geotype, commontype){
@@ -938,11 +945,47 @@ define([
         this._enableBtn(this.btnSave, false);
       },
 
+      _layerEventSignals: [],
+
       _onBtnEditClicked: function () {
         this.drawBox.deactivate();
-        this._polygonLayer.on("click", lang.hitch(this, function (event) {
-          this._editToolbar.activate(Edit.MOVE | Edit.EDIT_VERTICES, event.graphic);
-        }));
+        if (this.btnEdit.innerHTML === "编辑") {
+          this.btnEdit.innerHTML = "停止";
+          //监听点击事件
+          this._layerEventSignals.push(
+            this._pointLayer.on("click", lang.hitch(this, function (event) {
+              this._editToolbar.activate(Edit.MOVE, event.graphic);
+            })),
+            this._polylineLayer.on("click", lang.hitch(this, function (event) {
+              this._editToolbar.activate(Edit.MOVE | Edit.ROTATE | Edit.SCALE | Edit.EDIT_VERTICES, event.graphic);
+            })),
+            this._polygonLayer.on("click", lang.hitch(this, function (event) {
+              this._editToolbar.activate(Edit.MOVE | Edit.ROTATE | Edit.SCALE | Edit.EDIT_VERTICES, event.graphic);
+            })),
+            this._labelLayer.on("click", lang.hitch(this, function (event) {
+              this._editToolbar.activate(Edit.MOVE | Edit.EDIT_TEXT, event.graphic);
+            }))
+          );
+        }
+        else if (this.btnEdit.innerHTML === "停止") {
+          this.btnEdit.innerHTML = "编辑";
+          this._editToolbar.deactivate();
+          //停止监听点击事件
+          array.forEach(this._layerEventSignals, function (signal) {
+            signal.remove();
+          });
+          this._layerEventSignals = [];
+        }
+
+      },
+
+      _onEditToolbarStop: function (event) {
+        var editGraphic = event.graphic;
+        array.forEach(this._getAllGraphics(), function (existGraphic) {
+          if (editGraphic.attributes.OBJECTID === existGraphic.attributes.OBJECTID) {
+            existGraphic.geometry = editGraphic.geometry;
+          }
+        });
       },
 
       _onBtnSaveClicked: function () {
