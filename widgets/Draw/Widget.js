@@ -326,12 +326,12 @@ define([
         //bind UndoManager events
         this.own(on(this._undoManager, "change", lang.hitch(this, this._onUndoManagerChanged)));
 
-        this.own(on(this._editToolbar, "graphic-move-stop", lang.hitch(this, this._onEditToolbarStop)));
-        this.own(on(this._editToolbar, "rotate-stop", lang.hitch(this, this._onEditToolbarStop)));
-        this.own(on(this._editToolbar, "scale-stop", lang.hitch(this, this._onEditToolbarStop)));
-        this.own(on(this._editToolbar, "vertex-add", lang.hitch(this, this._onEditToolbarStop)));
-        this.own(on(this._editToolbar, "vertex-delete", lang.hitch(this, this._onEditToolbarStop)));
-        this.own(on(this._editToolbar, "vertex-move-stop", lang.hitch(this, this._onEditToolbarStop)));
+        this.own(on(this._editToolbar, "graphic-move-stop", lang.hitch(this, this._onEditToolbar_stop)));
+        this.own(on(this._editToolbar, "rotate-stop", lang.hitch(this, this._onEditToolbar_stop)));
+        this.own(on(this._editToolbar, "scale-stop", lang.hitch(this, this._onEditToolbar_stop)));
+        this.own(on(this._editToolbar, "vertex-add", lang.hitch(this, this._onEditToolbar_stop)));
+        this.own(on(this._editToolbar, "vertex-delete", lang.hitch(this, this._onEditToolbar_stop)));
+        this.own(on(this._editToolbar, "vertex-move-stop", lang.hitch(this, this._onEditToolbar_stop)));
       },
 
       _onIconSelected:function(target, geotype, commontype){
@@ -951,19 +951,31 @@ define([
         this.drawBox.deactivate();
         if (this.btnEdit.innerHTML === "编辑") {
           this.btnEdit.innerHTML = "停止";
-          //监听点击事件
           this._layerEventSignals.push(
+            //监听graphic点击事件, 点击以后进入编辑状态
             this._pointLayer.on("click", lang.hitch(this, function (event) {
               this._editToolbar.activate(Edit.MOVE, event.graphic);
+              domStyle.set(event.graphic.getNode(), "cursor", "move");
+              event.stopPropagation();
             })),
             this._polylineLayer.on("click", lang.hitch(this, function (event) {
               this._editToolbar.activate(Edit.MOVE | Edit.ROTATE | Edit.SCALE | Edit.EDIT_VERTICES, event.graphic);
+              domStyle.set(event.graphic.getNode(), "cursor", "move");
+              event.stopPropagation();
             })),
             this._polygonLayer.on("click", lang.hitch(this, function (event) {
               this._editToolbar.activate(Edit.MOVE | Edit.ROTATE | Edit.SCALE | Edit.EDIT_VERTICES, event.graphic);
+              domStyle.set(event.graphic.getNode(), "cursor", "move");
+              event.stopPropagation();
             })),
             this._labelLayer.on("click", lang.hitch(this, function (event) {
               this._editToolbar.activate(Edit.MOVE | Edit.EDIT_TEXT, event.graphic);
+              domStyle.set(event.graphic.getNode(), "cursor", "move");
+              event.stopPropagation();
+            })),
+            //监听map点击事件, 点击以后退出编辑
+            this.map.on("click", lang.hitch(this, function (event) {
+              this._editToolbar.deactivate();
             }))
           );
         }
@@ -979,7 +991,7 @@ define([
 
       },
 
-      _onEditToolbarStop: function (event) {
+      _onEditToolbar_stop: function (event) {
         var editGraphic = event.graphic;
         array.forEach(this._getAllGraphics(), function (existGraphic) {
           if (editGraphic.attributes.OBJECTID === existGraphic.attributes.OBJECTID) {
