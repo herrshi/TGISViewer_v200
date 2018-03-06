@@ -945,6 +945,7 @@ define([
         this._enableBtn(this.btnSave, false);
       },
 
+      /**记录图层点击事件监听器, 用于解除监听*/
       _layerEventSignals: [],
 
       _onBtnEditClicked: function () {
