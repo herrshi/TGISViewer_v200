@@ -6,6 +6,7 @@ define([
   "dojo/Deferred",
   "dojo/promise/all",
   "jimu/BaseWidget",
+  "esri/Color",
   "esri/layers/GraphicsLayer",
   "esri/renderers/jsonUtils",
   "esri/tasks/query",
@@ -18,6 +19,7 @@ define([
   Deferred,
   all,
   BaseWidget,
+  Color,
   GraphicsLayer,
   rendererJsonUtils,
   Query,
@@ -32,6 +34,8 @@ define([
     },
 
     _readConfigs: function () {
+      this.map.setBackgroundColor(new Color(this.config.backgroundColor));
+
       var def = new Deferred();
 
       array.forEach(this.config.dynamicRenderers, function (dynamicRenderer) {

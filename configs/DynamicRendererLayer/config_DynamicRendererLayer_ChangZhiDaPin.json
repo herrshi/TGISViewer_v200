@@ -1,4 +1,5 @@
 {
+  "backgroundColor": [0, 0, 0],
   "dynamicRenderers": [
     {
       "name": "IssuesectState",
@@ -6,60 +7,48 @@
       "layers": [
         {
           "url": "http://{gisServer}/arcgis/rest/services/ChangZhi/ChangZhi_fbd/MapServer/5",
-          "idField": "FEATUREID"
+          "idField": "BM_CODE"
         }
       ],
       "renderer": {
-        "type": "classBreaks",
-        "field": "data",
+        "type": "uniqueValue",
+        "field1": "data",
         "defaultSymbol": {
-          "type": "esriSFS",
-          "style": "esriSFSSolid",
-          "color": [110, 110, 110, 200],
-          "outline": {
-            "color": [255, 255, 255, 255]
-          }
+          "type": "esriSLS",
+          "style": "esriSLSSolid",
+          "color": [110, 110, 110, 255],
+          "width": 2
         },
         "defaultLabel": "未知",
-        "minValue" : 0,
-        "classBreakInfos": [
+        "uniqueValueInfos": [
           {
-            "classMaxValue" : 19.99,
-            "label" : "堵塞",
-            "description" : "<=20km/h",
-            "symbol": {
-              "type": "esriSFS",
-              "style": "esriSFSSolid",
-              "color": [242, 48, 48, 200],
-              "outline": {
-                "color": [255, 255, 255, 255]
-              }
-            }
-          },
-          {
-            "classMaxValue" : 39.99,
-            "label" : "拥挤",
-            "description" : "[20km/h, 40km/h)",
-            "symbol": {
-              "type": "esriSFS",
-              "style": "esriSFSSolid",
-              "color": [255, 159, 25, 200],
-              "outline": {
-                "color": [255, 255, 255, 255]
-              }
-            }
-          },
-          {
-            "classMaxValue" : 200,
+            "value": "free",
             "label" : "畅通",
-            "description" : ">=40km/h",
             "symbol": {
-              "type": "esriSFS",
-              "style": "esriSFSSolid",
-              "color": [80, 191, 57, 200],
-              "outline": {
-                "color": [255, 255, 255, 255]
-              }
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [100, 210, 121, 255],
+              "width": 2
+            }
+          },
+          {
+            "value" : "crowd",
+            "label" : "拥挤",
+            "symbol": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [250, 207, 51, 255],
+              "width": 4
+            }
+          },
+          {
+            "value" : "jam",
+            "label" : "堵塞",
+            "symbol": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [222, 2, 0, 255],
+              "width": 4
             }
           }
         ]
