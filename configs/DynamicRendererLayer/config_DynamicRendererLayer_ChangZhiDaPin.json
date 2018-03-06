@@ -1,0 +1,69 @@
+{
+  "dynamicRenderers": [
+    {
+      "name": "IssuesectState",
+      "label": "发布段状态",
+      "layers": [
+        {
+          "url": "http://{gisServer}/arcgis/rest/services/ChangZhi/ChangZhi_fbd/MapServer/5",
+          "idField": "FEATUREID"
+        }
+      ],
+      "renderer": {
+        "type": "classBreaks",
+        "field": "data",
+        "defaultSymbol": {
+          "type": "esriSFS",
+          "style": "esriSFSSolid",
+          "color": [110, 110, 110, 200],
+          "outline": {
+            "color": [255, 255, 255, 255]
+          }
+        },
+        "defaultLabel": "未知",
+        "minValue" : 0,
+        "classBreakInfos": [
+          {
+            "classMaxValue" : 19.99,
+            "label" : "堵塞",
+            "description" : "<=20km/h",
+            "symbol": {
+              "type": "esriSFS",
+              "style": "esriSFSSolid",
+              "color": [242, 48, 48, 200],
+              "outline": {
+                "color": [255, 255, 255, 255]
+              }
+            }
+          },
+          {
+            "classMaxValue" : 39.99,
+            "label" : "拥挤",
+            "description" : "[20km/h, 40km/h)",
+            "symbol": {
+              "type": "esriSFS",
+              "style": "esriSFSSolid",
+              "color": [255, 159, 25, 200],
+              "outline": {
+                "color": [255, 255, 255, 255]
+              }
+            }
+          },
+          {
+            "classMaxValue" : 200,
+            "label" : "畅通",
+            "description" : ">=40km/h",
+            "symbol": {
+              "type": "esriSFS",
+              "style": "esriSFSSolid",
+              "color": [80, 191, 57, 200],
+              "outline": {
+                "color": [255, 255, 255, 255]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

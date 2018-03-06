@@ -1,0 +1,49 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+
+    ],
+    "operationallayers": [
+
+
+    ],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "128.64.151.220:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/DynamicRendererLayer/Widget",
+        "config": "configs/DynamicRendererLayer/config_DynamicRendererLayer_ChangZhiDaPin.json",
+        "id": "DynamicRendererLayerWidget"
+      }
+    ]
+  }
+}
