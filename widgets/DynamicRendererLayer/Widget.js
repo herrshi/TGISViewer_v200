@@ -7,6 +7,7 @@ define([
   "dojo/promise/all",
   "jimu/BaseWidget",
   "esri/Color",
+  "esri/InfoTemplate",
   "esri/layers/GraphicsLayer",
   "esri/renderers/jsonUtils",
   "esri/tasks/query",
@@ -20,6 +21,7 @@ define([
   all,
   BaseWidget,
   Color,
+  InfoTemplate,
   GraphicsLayer,
   rendererJsonUtils,
   Query,
@@ -27,10 +29,10 @@ define([
 ) {
   return declare([BaseWidget], {
     _rendererLayers: [],
+    _infoTemplates: {},
 
     postCreate: function () {
-      // this._readConfigs();
-      topic.subscribe("showDynamicRendererLayer", lang.hitch(this, this.onTopicHandler_showDynamicRendererLayer));
+      topic.subscribe("showDynamicRendererLayer", lang.hitch(this, this._onTopicHandler_showDynamicRendererLayer));
     },
 
     _readConfigs: function () {
@@ -61,6 +63,15 @@ define([
       rendererLayer.renderer = rendererJsonUtils.fromJson(dynamicRendererConfig.renderer);
       this._rendererLayers.push(rendererLayer);
 
+      var infoTemplate;
+      if (dynamicRendererConfig.infoTemplate !== undefined) {
+        infoTemplate = new InfoTemplate(dynamicRendererConfig.infoTemplate);
+        rendererLayer.on("mouse-over", lang.hitch(this, this._onRendererLayerHandler_mouseOver));
+        rendererLayer.on("mouse-out", lang.hitch(this, function () {
+          this.map.infoWindow.hide();
+        }));
+      }
+
       var queryFeatureDefs = [];
       var layers = dynamicRendererConfig.layers;
       array.forEach(layers, function (layerConfig) {
@@ -68,7 +79,7 @@ define([
         url = url.replace(/{gisServer}/i, this.appConfig.gisServer);
         var idField = layerConfig.idField || "FEATUREID";
 
-        queryFeatureDefs.push(this._queryFeatures(url, idField));
+        queryFeatureDefs.push(this._queryFeatures(url, idField, infoTemplate));
       }, this);
 
       all(queryFeatureDefs).then(function (defResults) {
@@ -84,7 +95,7 @@ define([
       return def;
     },
     
-    _queryFeatures: function (url, idField) {
+    _queryFeatures: function (url, idField, infoTemplate) {
       var def = new Deferred();
 
       var query = new Query();
@@ -97,6 +108,9 @@ define([
         var features = queryResults.features;
         array.forEach(features, function (feature) {
           feature.id = feature.attributes[idField];
+          if (infoTemplate !== undefined) {
+            feature.setInfoTemplate(infoTemplate);
+          }
         });
         def.resolve(features);
       }, function (error) {
@@ -142,7 +156,7 @@ define([
       }
     },
 
-    onTopicHandler_showDynamicRendererLayer: function (params) {
+    _onTopicHandler_showDynamicRendererLayer: function (params) {
       if (this._rendererLayers.length === 0) {
         this._readConfigs().then(lang.hitch(this, function () {
           this._setLayerData(params);
@@ -151,8 +165,13 @@ define([
       else {
         this._setLayerData(params);
       }
+    },
 
-
+    _onRendererLayerHandler_mouseOver: function (event) {
+      var graphic = event.graphic;
+      this.map.infoWindow.setContent(graphic.getContent());
+      this.map.infoWindow.setTitle(graphic.getTitle());
+      this.map.infoWindow.show(event.mapPoint, this.map.getInfoWindowAnchor(event.screenPoint));
     }
   });
 

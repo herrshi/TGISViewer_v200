@@ -10,6 +10,10 @@
           "idField": "BM_CODE"
         }
       ],
+      "infoTemplate": {
+        "title": "${PATHNAME}",
+        "content": "<b>状态: </b>${data}"
+      },
       "renderer": {
         "type": "uniqueValue",
         "field1": "data",
@@ -63,6 +67,10 @@
           "idField": "REGIONID"
         }
       ],
+      "infoTemplate": {
+        "title": "${REGIONNAME}",
+        "content": "<b>事故总量: </b>${data}件"
+      },
       "renderer": {
         "type": "classBreaks",
         "field": "data",
