@@ -23,7 +23,12 @@
       "bottom": 0
     },
     "basemaps": [
-
+      {
+        "label": "矢量图",
+        "url": "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
     ],
     "operationallayers": [
 
