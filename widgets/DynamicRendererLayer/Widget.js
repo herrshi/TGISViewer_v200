@@ -37,36 +37,49 @@ define([
       this.map.setBackgroundColor(new Color(this.config.backgroundColor));
 
       var def = new Deferred();
+      var readConfigDefs = [];
 
-      array.forEach(this.config.dynamicRenderers, function (dynamicRenderer) {
-        var rendererLayer = new GraphicsLayer();
-        rendererLayer.setVisibility(false);
-        this.map.addLayer(rendererLayer);
-        rendererLayer.id = dynamicRenderer.name;
-        rendererLayer.label = dynamicRenderer.label;
-        rendererLayer.renderer = rendererJsonUtils.fromJson(dynamicRenderer.renderer);
-        this._rendererLayers.push(rendererLayer);
-
-        var defs = [];
-        var layers = dynamicRenderer.layers;
-        array.forEach(layers, function (layerConfig) {
-          var url = layerConfig.url;
-          url = url.replace(/{gisServer}/i, this.appConfig.gisServer);
-          var idField = layerConfig.idField || "FEATUREID";
-
-          defs.push(this._queryFeatures(url, idField));
-        }, this);
-
-        all(defs).then(lang.hitch(this, function (defResults) {
-          array.forEach(defResults, function (defResult) {
-            array.forEach(defResult, function (feature) {
-              rendererLayer.add(feature);
-            });
-          });
-
-          def.resolve();
-        }));
+      array.forEach(this.config.dynamicRenderers, function (dynamicRendererConfig) {
+        readConfigDefs.push(this._readConfig(dynamicRendererConfig));
       }, this);
+
+      all(readConfigDefs).then(function () {
+        def.resolve();
+      });
+
+      return def;
+    },
+
+    _readConfig: function (dynamicRendererConfig) {
+      var def = new Deferred();
+
+      var rendererLayer = new GraphicsLayer();
+      rendererLayer.setVisibility(false);
+      this.map.addLayer(rendererLayer);
+      rendererLayer.id = dynamicRendererConfig.name;
+      rendererLayer.label = dynamicRendererConfig.label;
+      rendererLayer.renderer = rendererJsonUtils.fromJson(dynamicRendererConfig.renderer);
+      this._rendererLayers.push(rendererLayer);
+
+      var queryFeatureDefs = [];
+      var layers = dynamicRendererConfig.layers;
+      array.forEach(layers, function (layerConfig) {
+        var url = layerConfig.url;
+        url = url.replace(/{gisServer}/i, this.appConfig.gisServer);
+        var idField = layerConfig.idField || "FEATUREID";
+
+        queryFeatureDefs.push(this._queryFeatures(url, idField));
+      }, this);
+
+      all(queryFeatureDefs).then(function (defResults) {
+        array.forEach(defResults, function (defResult) {
+          array.forEach(defResult, function (feature) {
+            rendererLayer.add(feature);
+          });
+        });
+
+        def.resolve();
+      });
 
       return def;
     },
@@ -98,6 +111,7 @@ define([
         var rendererLayer = this._rendererLayers[i];
 
         if (rendererLayer.id === params.name) {
+          rendererLayer.setVisibility(true);
           if (params.datas !== undefined || params.defaultData !== undefined) {
             array.forEach(rendererLayer.graphics, function (graphic) {
               var found = false;
@@ -120,9 +134,10 @@ define([
             });
           }
 
-          rendererLayer.setVisibility(true);
           rendererLayer.refresh();
-          break;
+        }
+        else {
+          rendererLayer.setVisibility(false);
         }
       }
     },

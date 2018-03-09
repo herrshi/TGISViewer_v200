@@ -86,6 +86,27 @@
     config: "http://localhost:8090/TGISViewer_v200/project/ChangZhiDaPin/config-issuesect.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
+    map.showDynamicRendererLayer({
+      name: "IssuesectState",
+      defaultData: "free",
+      datas: [
+        {id: "FBD_27", data: "crowd"},
+        {id: "FBD_28", data: "crowd"},
+        {id: "FBD_29",data: "jam"},
+        {id: "FBD_30", data: "jam"}
+      ]
+    });
+    // map.showDynamicRendererLayer({
+    //   name: "AccidentsNumber",
+    //   defaultData: 40,
+    //   datas: [
+    //     {id: "B11", data: 22},
+    //     {id: "B13", data: 98},
+    //     {id: "B15",data: 46},
+    //     {id: "B12",data: 9},
+    //     {id: "B14", data: 19}
+    //   ]
+    // });
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
 //      map.showLayer({label: "道路交通设施", ids: [27, 28]});
@@ -213,13 +234,14 @@
     // });
 
     map.showDynamicRendererLayer({
-      name: "IssuesectState",
-      defaultData: "free",
+      name: "AccidentsNumber",
+      defaultData: 40,
       datas: [
-        {id: "FBD_27", data: "crowd"},
-        {id: "FBD_28", data: "crowd"},
-        {id: "FBD_29",data: "jam"},
-        {id: "FBD_30", data: "jam"}
+        {id: "B11", data: 22},
+        {id: "B13", data: 98},
+        {id: "B15",data: 46},
+        {id: "B12",data: 9},
+        {id: "B14", data: 19}
       ]
     });
     // map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
