@@ -820,7 +820,8 @@ var TMap = {
    * 搜索静态图层中的要素, 将结果高亮显示
    * @param params: object, required.
    *   layerName: string, required. 要搜索的图层名称
-   *     和config.json中layer的label一致.
+   *     搜索配置好的图层中的要素时, 和项目配置文件中layer的label一致.
+   *     搜索dynamicRendererLayer中的要素时, 和widget配置文件中的name一致
    *   ids: [string], optional. 要素id.
    *     可以搜索多个id.
    *     id和name为或的关系, 两个参数都存在时符合其一即可.

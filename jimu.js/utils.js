@@ -14,6 +14,7 @@ define([
   "esri/InfoTemplate",
   "esri/dijit/PopupTemplate",
   "esri/geometry/Point",
+  "esri/geometry/Extent",
   "esri/geometry/Polygon"
 ], function (
   lang,
@@ -31,6 +32,7 @@ define([
   InfoTemplate,
   PopupTemplate,
   Point,
+  Extent,
   Polygon
 ) {
   /* global ActiveXObject, testLoad */
@@ -837,6 +839,26 @@ define([
 
     }
 
+  };
+
+  mo.getGeometryExtent = function (geometry) {
+    var extent;
+    switch (geometry.type) {
+      case "point":
+        var extentDelta = 0.001;
+        extent = new Extent(geometry.x - extentDelta, geometry.y - extentDelta, geometry.x + extentDelta, geometry.y + extentDelta);
+        break;
+
+      case "polyline":
+      case "polygon":
+        extent = geometry.getExtent();
+        break;
+
+      case "extent":
+        extent = geometry;
+        break;
+    }
+    return extent;
   };
 
   mo.getRandomString = function() {

@@ -6,6 +6,7 @@ define([
   "dojo/Deferred",
   "dojo/promise/all",
   "jimu/BaseWidget",
+  "jimu/utils",
   "esri/Color",
   "esri/InfoTemplate",
   "esri/layers/GraphicsLayer",
@@ -20,6 +21,7 @@ define([
   Deferred,
   all,
   BaseWidget,
+  jimuUtils,
   Color,
   InfoTemplate,
   GraphicsLayer,
@@ -33,6 +35,7 @@ define([
 
     postCreate: function () {
       topic.subscribe("showDynamicRendererLayer", lang.hitch(this, this._onTopicHandler_showDynamicRendererLayer));
+      topic.subscribe("findFeature", lang.hitch(this, this._onTopicHandler_findFeature));
     },
 
     _readConfigs: function () {
@@ -172,6 +175,37 @@ define([
       this.map.infoWindow.setContent(graphic.getContent());
       this.map.infoWindow.setTitle(graphic.getTitle());
       this.map.infoWindow.show(event.mapPoint, this.map.getInfoWindowAnchor(event.screenPoint));
+    },
+
+    _onTopicHandler_findFeature: function (params) {
+      var layerName = params.params.layerName || "";
+      var ids = params.params.ids || "";
+
+      for (var i = 0 ; i < this._rendererLayers.length; i++) {
+        var rendererLayer = this._rendererLayers[i];
+        if (rendererLayer.id === layerName) {
+          array.forEach(ids, function (id) {
+            for (var j = 0; j < rendererLayer.graphics.length; j++) {
+              var graphic = rendererLayer.graphics[j];
+              if (graphic.id === id) {
+                //先用一个graphic定位, 后面再考虑多个geometry作union
+                var extent = jimuUtils.getGeometryExtent(graphic.geometry);
+                extent.setSpatialReference(this.map.spatialReference);
+                this.map.setExtent(extent);
+
+                //高亮
+                var node = graphic.getNode();
+                node.setAttribute("data-highlight", "highlight");
+                setTimeout(function () {
+                  node.setAttribute("data-highlight", "");
+                }, 5000);
+                break;
+              }
+            }
+          }, this);
+          break;
+        }
+      }
     }
   });
 
