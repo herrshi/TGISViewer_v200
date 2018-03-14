@@ -142,10 +142,11 @@ define([
             "</li>",
             this.rightBasemapMenu);
 
-          //如果只有一个底图, 两侧同时显示
+          //如果只有一个底图, 两侧同时显示, 并且不显示底图列表
           if (this.appConfig.map.basemaps.length === 1) {
             firstLayer.setVisibility(true);
             secondLayer.setVisibility(true);
+            query(".btn-group").style("display", "none");
           }
           //有多个底图时
           //左侧地图显示第一个底图

@@ -321,6 +321,16 @@
             "infoTemplate": {
               "content": "<b>${NAME}</b><br><b>位置: </b>${Location}<br><b>所属线路: </b>${Line}号线"
             }
+          },
+          "33": {
+            "infoTemplate": {
+              "content": "<b>${name}</b><br><b>等级: </b>${等级}<br><b>地址: </b>${address}<br><b>许可证号: </b>${许可证}<br><b>企业名称: </b>${company}<br><b>企业地址: </b>${c_address}<br><b>企业电话: </b>${telephony}"
+            }
+          },
+          "34": {
+            "infoTemplate": {
+              "content": "<b>${name}</b><br><b>等级: </b>${等级}<br><b>地址: </b>${address}<br><b>许可证号: </b>${许可证}<br><b>企业名称: </b>${company}<br><b>企业地址: </b>${c_address}<br><b>企业电话: </b>${telephony}"
+            }
           }
         }
       },

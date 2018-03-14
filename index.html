@@ -62,7 +62,9 @@
 </head>
 <body class="claro page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid">
 
-<div id="mapContainer"></div>
+<div id="mapContainer">
+
+</div>
 
 
 <div id="testButtons">
@@ -79,23 +81,23 @@
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
-    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/ChangZhiDaPin/config-issuesect.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/ChangZhiDaPin/config-issuesect.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
-    map.showDynamicRendererLayer({
-      name: "IssuesectState",
-      defaultData: "free",
-      datas: [
-        {id: "FBD_27", data: "crowd"},
-        {id: "FBD_28", data: "crowd"},
-        {id: "FBD_29",data: "jam"},
-        {id: "FBD_30", data: "jam"}
-      ]
-    });
+    // map.showDynamicRendererLayer({
+    //   name: "IssuesectState",
+    //   defaultData: "free",
+    //   datas: [
+    //     {id: "FBD_27", data: "crowd"},
+    //     {id: "FBD_28", data: "crowd"},
+    //     {id: "FBD_29",data: "jam"},
+    //     {id: "FBD_30", data: "jam"}
+    //   ]
+    // });
     // map.showDynamicRendererLayer({
     //   name: "AccidentsNumber",
     //   defaultData: 40,
@@ -109,7 +111,7 @@
     // });
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
-//      map.showLayer({label: "道路交通设施", ids: [27, 28]});
+     map.showLayer({label: "道路交通设施", ids: [33, 34]});
 
 //      map.startSwipe({
 //        swipeType: "vertical",
@@ -372,72 +374,6 @@
   function RouteByCrossInitFinish() {
     map.showRouteByCross({crossIds:["51012211500109","51012200100102","51012200100112","51012200100123","51012200100134","51012212000438"]});
   }
-</script>
-
-<!-- BEGIN CORE PLUGINS -->
-<script src="assets/global/plugins/jquery.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-<!-- END CORE PLUGINS -->
-
-<!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="assets/global/plugins/moment.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/bootstrap-select/js/bootstrap-select.js" type="text/javascript"></script>
-<script src="assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js" type="text/javascript"></script>
-<script src="assets/global/plugins/horizontal-timeline/horozontal-timeline.js" type="text/javascript"></script>
-<script src="assets/global/plugins/fly/js/jquery.fly.min.js" type="text/javascript"></script>
-<script src="assets/global/plugins/fly/js/defind-fly.js" type="text/javascript"></script>
-<script src="assets/global/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js" type="text/javascript"></script>
-<!-- END PAGE LEVEL PLUGINS -->
-
-<!-- BEGIN THEME GLOBAL SCRIPTS -->
-<script src="assets/global/js/app.js" type="text/javascript"></script>
-<script src="assets/global/js/custom.js" type="text/javascript"></script>
-<!-- END THEME GLOBAL SCRIPTS -->
-
-<!-- BEGIN THEME LAYOUT SCRIPTS -->
-<script src="assets/layouts/js/layout.min.js" type="text/javascript"></script>
-<script src="assets/layouts/js/demo.min.js" type="text/javascript"></script>
-<!-- END THEME LAYOUT SCRIPTS -->
-
-<script type="text/javascript">
-  jQuery(document).ready(function () {
-    /*gis显示隐藏cad图层*/
-    $(".cad-selected-box").click(function () {
-      $(".selected-cad .panel-body").hide();
-      $(".selected-cad").show("slow", function () {
-        $(document).resize();
-        $(".selected-cad .panel-body").fadeIn("fast");
-      });
-
-    });
-    $(".close-selected-cad").click(function () {
-      $(".selected-cad").hide("slow");
-    });
-    /*gis显示隐藏cad图层*/
-    /*选中子图层*/
-    $(".tab-pane-checkbox a").click(function () {
-      if ($(this).hasClass('active')) {
-        $(this).removeClass('active');
-      } else {
-        $(this).addClass('active');
-      }
-    });
-    /*选中子图层*/
-    /*全选所有图层*/
-    $(".tab-pane-allcheck a").click(
-      function () {
-        if ($(this).hasClass('active')) {
-          $(this).removeClass('active');
-          $(this).parent().next(".tab-pane-checkbox").find("a").removeClass('active');
-        } else {
-          $(this).addClass('active');
-          $(this).parent().next(".tab-pane-checkbox").find("a").addClass('active');
-        }
-      }
-    );
-  });
 </script>
 
 

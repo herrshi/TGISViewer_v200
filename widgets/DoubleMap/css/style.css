@@ -7,6 +7,7 @@
 
 .jimu-widget-doubleMap .mapContainer {
   height: 100%;
+  background-color: black;
 }
 
 .jimu-widget-doubleMap .leftBasemapButton {
