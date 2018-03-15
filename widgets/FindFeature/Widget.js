@@ -42,6 +42,7 @@ define([
     defaultPolygonSymbol: null,
 
     postCreate: function () {
+      this.inherited(arguments);
       this.resultLayer = new GraphicsLayer();
       this.map.addLayer(this.resultLayer);
 

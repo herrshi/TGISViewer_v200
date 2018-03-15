@@ -1,0 +1,60 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhi/ChangZhi_base_PurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+
+
+    ],
+    "mapOptions": {
+      "extent": {
+        "xmin": 113.033458436568177,
+        "ymin": 36.15411489447443,
+        "xmax": 113.14478315351427,
+        "ymax":36.24379083113165
+      },
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "128.64.151.220:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/OD/Widget",
+        "config": "configs/DynamicRendererLayer/config_DynamicRendererLayer_ChangZhiDaPin.json",
+        "id": "ODWidget"
+      }
+    ]
+  }
+}

@@ -34,6 +34,7 @@ define([
     _infoTemplates: {},
 
     postCreate: function () {
+      this.inherited(arguments);
       topic.subscribe("showDynamicRendererLayer", lang.hitch(this, this._onTopicHandler_showDynamicRendererLayer));
       topic.subscribe("findFeature", lang.hitch(this, this._onTopicHandler_findFeature));
     },

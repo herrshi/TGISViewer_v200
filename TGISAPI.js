@@ -73,9 +73,25 @@ var TMap = {
     flashCssLink.setAttribute("href", path + "jimu.js/css/FlashOverlay.css");
     document.head.appendChild(flashCssLink);
 
-    document.write("<script type=text/javascript src=" + path + "env.js></script>");
-    document.write("<script type=text/javascript src=" + path + "simpleLoader.js></script>");
-    document.write("<script type=text/javascript src=" + path + "init.js></script>");
+    var envScript = document.createElement("script");
+    envScript.setAttribute("type", "text/javascript");
+    envScript.setAttribute("src", path + "env.js");
+    document.body.appendChild(envScript);
+
+    var loaderScript = document.createElement("script");
+    loaderScript.setAttribute("type", "text/javascript");
+    loaderScript.setAttribute("src", path + "simpleLoader.js");
+    document.body.appendChild(loaderScript);
+
+    var initScript = document.createElement("script");
+    initScript.setAttribute("type", "text/javascript");
+    initScript.setAttribute("src", path + "init.js");
+    document.body.appendChild(initScript);
+
+
+    // document.write("<script type=text/javascript src=" + path + "env.js></script>");
+    // document.write("<script type=text/javascript src=" + path + "simpleLoader.js></script>");
+    // document.write("<script type=text/javascript src=" + path + "init.js></script>");
 
     // document.write("<script type=text/javascript src=" + path + "libs/EChartsInArcGIS.js>");
 
@@ -991,12 +1007,14 @@ var TMap = {
     });
   },
 
+  /**显示顶部工具栏*/
   showTopToolbar: function () {
     require(["dojo/topic"], function (topic) {
       topic.publish("showTopToolbar");
     });
   },
 
+  /**隐藏顶部工具栏*/
   hideTopToolbar: function () {
     require(["dojo/topic"], function (topic) {
       topic.publish("hideTopToolbar");
@@ -1007,8 +1025,8 @@ var TMap = {
    * 公交线路客运量
    * @param params: object, required.
    *   flows: [object], required.
-   *     lineName: 线路名称
-   *     flow: 客运量
+   *     lineName: string, required. 线路名称
+   *     flow: number, required. 客运量
    * */
   setBusLineFlow: function (params) {
     require(["dojo/topic"], function (topic) {
@@ -1026,6 +1044,21 @@ var TMap = {
   setMetroLineFlow: function (params) {
     require(["dojo/topic"], function (topic) {
       topic.publish("setMetroLineFlow", params);
+    });
+  },
+
+  /**
+   * 显示OD流量数据
+   * @param params: object, required.
+   *   type: string, required. 类型, "O" || "D"
+   *   startID: string, required. O分析时为O点ID, D分析时为D点ID
+   *   endFlows: [object]. required. O分析时为D点数据, D分析时为O点数据
+   *     ID: string, required. O分析时为D点ID, D分析时为O点ID
+   *     flow: number, required. O分析时为D点流量, D分析时为O点流量
+   * */
+  showOD: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showOD", params);
     });
   }
   /************************ Special Interface END **************************/
