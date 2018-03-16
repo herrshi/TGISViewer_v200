@@ -720,7 +720,7 @@ define([
           var lengthParams = new LengthsParameters();
           lengthParams.polylines = [geometry];
           lengthParams.lengthUnit = gsLengthUnit;
-          lengthParams.geodesic = true;
+          lengthParams.geodesic = false;
           this._gs.lengths(lengthParams).then(lang.hitch(this, function(result){
             if(!this.domNode){
               return;

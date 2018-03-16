@@ -35,7 +35,7 @@
 
     ],
     "mapOptions": {
-      "center": [113.1202, 36.1985],
+      "center": {"x": 113.1202, "y": 36.1985, "spatialReference": {"wkt": "GEOGCS[\"WGS84(DD)\",DATUM[\"WGS84\",SPHEROID[\"WGS84\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"degree\",0.0174532925199433]]"}},
       "scale": 72224,
       "logo": false,
       "nav": false,
