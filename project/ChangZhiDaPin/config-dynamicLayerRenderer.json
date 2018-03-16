@@ -35,15 +35,13 @@
 
     ],
     "mapOptions": {
-      "extent": {
-        "xmin": 113.033458436568177,
-        "ymin": 36.15411489447443,
-        "xmax": 113.14478315351427,
-        "ymax":36.24379083113165
-      },
+      "center": [113.1202, 36.1985],
+      "scale": 72224,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": false,
+      "isMapNavigation": false,
+      "isScrollWheel": false
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
