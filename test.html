@@ -3,87 +3,22 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-    <link rel="stylesheet" href="http://10.174.0.21/jsapi174/dijit/themes/claro/claro.css" />
-    <link rel="stylesheet" href="http://10.174.0.21/jsapi174/esri/css/esri.css" />
-    <script type="text/javascript" src="http://10.174.0.21/jsapi174/init.js"></script>
-    <script type="text/javascript">
+    <script src="assets/global/plugins/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="assets/global/plugins/bootstrap/css/bootstrap.css">
+    <script src="assets/global/plugins/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="assets/global/plugins/bootstrap-fileinput/css/fileinput.css">
+    <script src="assets/global/plugins/bootstrap-fileinput/js/fileinput.js"></script>
 
-        var map;
 
-        require([
-        "esri/map",
-        "esri/toolbars/navigation",
-        "dojo/on",
-        "dojo/parser",
-        "dijit/registry",
-        "dijit/Toolbar",
-        "dijit/form/Button",
-        "dojo/domReady!"
-        ],
-        function (Map, Navigation, on, parser, registry) {
-            parser.parse();
-            //重构DynamicMapServiceLayer类
-            dojo.declare("SuperDynamicMapServiceLayer", esri.layers.DynamicMapServiceLayer, {
-                constructor: function () {
-                    this.loaded = true;
-                    this.onLoad(this);
-                },
-                //重构方法“getImageUrl”         
-                getImageUrl: function (extent, width, height, callback) {
-                    var params = {
-                        dpi: 96,
-                        transparent: true,
-                        format: "png8",
-                        bbox: extent.xmin + "," + extent.ymin + "," + extent.xmax + "," + extent.ymax,
-                        bboxSR: "{\"wkt\":\"PROJCS[\"ShangHaiCity\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Gauss_Kruger\"],PARAMETER[\"False_Easting\",8.0],PARAMETER[\"False_Northing\",-3457143.04],PARAMETER[\"Central_Meridian\",121.4671519444444],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]\"}",
-                        imageSR: "{\"wkt\":\"PROJCS[\"ShangHaiCity\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Gauss_Kruger\"],PARAMETER[\"False_Easting\",8.0],PARAMETER[\"False_Northing\",-3457143.04],PARAMETER[\"Central_Meridian\",121.4671519444444],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]\"}",
-                        size: width + "," + height,
-                        f: "image"
-                    };
-                    var _url = "";
-                    //防止请求的arcgisserver的地址后面带参数，如token，要处理一下
-                    var indexW = this.url.indexOf("?");
-                    if (indexW == -1)
-                        indexW = this.url.length;
-                    var partF = this.url.substring(0, indexW);
-                    var partS = this.url.substring(indexW + 1, this.url.length);
-                    _url += partF + "/export?" + partS;
-                    if (partS.length > 0)
-                        _url += "&";
-                    callback(_url + dojo.objectToQuery(params)); //向后台发送请求
-                }
-            });
-
-            map = new esri.Map("map");
-
-            //加载基础服务
-            var url = "http://10.174.0.28/gxjh02/rest/services/JCDL/MapServer";
-            var layer = new esri.layers.ArcGISTiledMapServiceLayer(url);
-            map.addLayer(layer);
-
-            //加载规土服务
-            var url = "http://10.174.0.28:8081/proxy/gis/services/1/jtw_sjgl/37632430";
-            //var layer = new esri.layers.ArcGISDynamicMapServiceLayer(url);
-            var layer = new SuperDynamicMapServiceLayer(url);
-            map.addLayer(layer);
-        });
-    </script>
-    <style>
-        body {
-            margin: 0px;
-            padding: 0px;
-            overflow: hidden;
-        }
-        .map {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
-    </style>
 </head>
 <body>
-    <div id="map" class="map">
 
+    <div>
+        <input id="input-id" type="file" class="file">
     </div>
+
+<script>
+
+</script>
 </body>
 </html>

@@ -1,7 +1,10 @@
 define({
   "_widgetLabel": "绘图",
   "selectDrawMode": "选择绘制模式",
+  "selectCoordFile": "选择坐标文件",
   "clear": "清除",
+  "save": "保存",
+  "edit": "编辑",
   "point": "点",
   "line": "线",
   "polyline": "折线",

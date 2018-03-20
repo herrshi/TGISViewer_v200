@@ -20,43 +20,50 @@
       overflow:hidden;
     }
 
-    #mapContainer {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
+    #testButtons {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      width: 200px;
+      height: 30px;
+      z-index: 999;
+      background: #ffffff;
+      color: #777777;
+      padding: 5px;
+      border: 2px solid #666666;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      font-size: 12px;
     }
   </style>
 
 </head>
 <body class="claro">
 
+<div id="testButtons">
+  <button type="button" onclick="Test1ClickHandler()">Test1</button>
+</div>
+
 <div class="row" style="width: 100%; height: 100%">
   <div class="col-md-6 panel panel-default" style="height: 100%">
     <div class="panel-body" style="height: 100%">
-      <iframe src="index.html" style="width: 100%; height: 100%"></iframe>
+      <iframe id="mapFrame1" src="index.html" style="width: 100%; height: 100%"></iframe>
     </div>
   </div>
   <div class="col-md-6 panel panel-default" style="height: 100%">
     <div class="panel-body" style="height: 100%">
-      <iframe src="index1.html" style="width: 100%; height: 100%"></iframe>
+      <iframe id="mapFrame2" src="index1.html" style="width: 100%; height: 100%"></iframe>
     </div>
   </div>
 </div>
 
-
-
-
-<!--<script type="text/javascript" src="TGISAPI.js"></script>-->
-<!--<script type="text/javascript">-->
-  <!--var map = TMap.createNew({-->
-    <!--apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",-->
-    <!--viewerUrl: "http://localhost:8090/TGISViewer_v200/",-->
-    <!--config: "http://localhost:8090/TGISViewer_v200/project/ChangZhiDaPin/config-issuesect.json"-->
-  <!--}, "mapContainer", function () {-->
-
-  <!--});-->
-<!--</script>-->
+<script type="text/javascript">
+  function Test1ClickHandler() {
+    document.getElementById("mapFrame1").contentWindow.map.showOD({type: "O", startID: "B12", endFlows: [{ID: "B11", flow: 100},{ID: "B13", flow: 150},{ID: "B14", flow: 200},{ID: "B15", flow: 250},{ID: "B17", flow: 300},{ID: "B18", flow: 350}]});
+    document.getElementById("mapFrame2").contentWindow.map.showOD({type: "D", startID: "B12", endFlows: [{ID: "B11", flow: 100},{ID: "B13", flow: 150},{ID: "B14", flow: 200},{ID: "B15", flow: 250},{ID: "B17", flow: 300},{ID: "B18", flow: 350}]});
+  }
+</script>
 
 </body>
 </html>

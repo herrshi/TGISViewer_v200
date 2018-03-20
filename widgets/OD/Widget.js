@@ -5,14 +5,12 @@ define([
   "dojo/topic",
   "jimu/BaseWidget",
   "jimu/CustomLayers/ECharts3Layer"
-], function (
-  declare,
-  lang,
-  array,
-  topic,
-  BaseWidget,
-  ECharts3Layer
-) {
+], function (declare,
+             lang,
+             array,
+             topic,
+             BaseWidget,
+             ECharts3Layer) {
   return declare([BaseWidget], {
     _echartsOver: null,
 
@@ -38,25 +36,28 @@ define([
     },
 
     _onTopicHandler_showOD: function (params) {
+      this._echartsOver.setOption({});
+
       var type = params.type;
       var startID = params.startID;
       var startCoordinate = this.config.coordinateMap[startID];
 
       var color = type.toLowerCase() === "o" ? "#a6c84c" : "#ffa022";
 
-      var seriesData = [];
-      array.forEach(params.endFlows, function (endFlow) {
+      var seriesData = params.endFlows.map(lang.hitch(this, function (endFlow) {
         var endID = endFlow.ID;
         var endCoordinate = this.config.coordinateMap[endID];
         if (startCoordinate && endCoordinate) {
-          if (type.toLowerCase() === "o") {
-            seriesData.push([{coord: startCoordinate}, {coord: endCoordinate}]);
-          }
-          else {
-            seriesData.push([{coord: endCoordinate}, {coord: startCoordinate}]);
-          }
+          return (type.toLowerCase() === "o" ? [{coord: startCoordinate}, {coord: endCoordinate}] : [{coord: endCoordinate}, {coord: startCoordinate}]);
         }
-      }, this);
+      }));
+
+      var pointData = params.endFlows.map(lang.hitch(this, function (endFlow) {
+        return {
+          name: this.config.nameMap[endFlow.ID] + ":" + endFlow.flow,
+          value: this.config.coordinateMap[endFlow.ID].concat(endFlow.flow)
+        };
+      }));
 
       var series = [];
       series.push({
@@ -83,9 +84,9 @@ define([
         effect: {
           show: true,
           period: 6,
-          trailLength: 0,
-          symbol: this._planePath,
-          symbolSize: 15
+          trailLength: 0
+          // symbol: this._planePath,
+          // symbolSize: 15
         },
         lineStyle: {
           normal: {
@@ -115,12 +116,7 @@ define([
             color: color
           }
         },
-        data: params.endFlows.map(lang.hitch(this, function (endFlow) {
-          return {
-            name: this.config.nameMap[endFlow.ID] + ":" + endFlow.flow,
-            value: this.config.coordinateMap[endFlow.ID].concat(endFlow.flow)
-          };
-        })),
+        data: pointData,
         symbolSize: function (val) {
           return val[2] / 10;
         }
@@ -140,7 +136,7 @@ define([
               show: false
             }
           },
-          road: true,
+          roam: true,
           itemStyle: {
             normal: {
               areaColor: "#323c48",
