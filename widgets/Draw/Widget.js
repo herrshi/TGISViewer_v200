@@ -331,8 +331,6 @@ define([
         this.own(on(this._editToolbar, "vertex-add", lang.hitch(this, this._onEditToolbar_stop)));
         this.own(on(this._editToolbar, "vertex-delete", lang.hitch(this, this._onEditToolbar_stop)));
         this.own(on(this._editToolbar, "vertex-move-stop", lang.hitch(this, this._onEditToolbar_stop)));
-
-        this.own(on(this.coordFile, "change", lang.hitch(this, this._onCoordFileChanged)));
       },
 
       _onIconSelected:function(target, geotype, commontype){
@@ -1006,19 +1004,6 @@ define([
         if (typeof getOverlays !== "undefined" && getOverlays instanceof Function) {
           getOverlays(this._handleGeometryData());
         }
-      },
-      
-      _onCoordFileChanged: function (event) {
-        var file = event.target.files[0];
-
-        var reader = new FileReader();
-        reader.onloadend = function (event) {
-          if (event.target.readyState === FileReader.DONE) {
-            console.log(event.target.result);
-          }
-        };
-
-        reader.readAsText(file);
       }
     });
   });

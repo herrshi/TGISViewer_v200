@@ -894,7 +894,7 @@
         "uri": "widgets/GeometrySearch/Widget",
         "version": "2.4",
         "name": "GeometrySearch",
-        "config": "configs/GeometrySearch/config_GeometrySearch.json",
+        "config": "configs/GeometrySearch/config.json",
         "position": {
           "left": 15,
           "top": 190,
@@ -906,13 +906,24 @@
         "uri": "widgets/Draw/Widget",
         "version": "2.4",
         "name": "Draw",
-        "config": "configs/Draw/config_Draw.json",
+        "config": "configs/Draw/config.json",
         "position": {
           "left": 15,
           "top": 190,
           "relativeTo": "map"
         },
         "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/DrawByCoordinate/Widget",
+        "name": "DrawByCoordinate",
+        "config": "configs/DrawByCoordinate/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawByCoordinateWidget"
       },
       {
         "uri": "widgets/TopToolbar/Widget",
@@ -927,7 +938,7 @@
       },
       {
         "uri": "widgets/MultiSearch/Widget",
-        "config": "configs/MultiSearch/config_MultiSearch_JiaoWei.json",
+        "config": "configs/MultiSearch/config_JiaoWei.json",
         "id": "MultiSearchWidget"
       },
       {

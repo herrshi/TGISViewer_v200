@@ -49,7 +49,7 @@ define([
   Query,
   QueryTask
 ) {
-  var clazz = declare([BaseWidget], {
+  return declare([BaseWidget], {
     name: "GeometrySearch",
     baseClass: "jimu-widget-geometrySearch",
 
@@ -421,6 +421,4 @@ define([
       this.bufferLayer.clear();
     }
   });
-
-  return clazz;
 });

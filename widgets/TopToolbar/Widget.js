@@ -135,6 +135,8 @@ define([
       }
       else {
         html.addClass(this.btnWidgetDraw, this._activeClass);
+        html.removeClass(this.btnWidgetGeometrySearch, this._activeClass);
+        html.removeClass(this.btnWidgetDrawByCoordinate, this._activeClass);
         topic.publish("openWidget", "DrawWidget");
       }
     },
@@ -146,7 +148,22 @@ define([
       }
       else {
         html.addClass(this.btnWidgetGeometrySearch, this._activeClass);
+        html.removeClass(this.btnWidgetDraw, this._activeClass);
+        html.removeClass(this.btnWidgetDrawByCoordinate, this._activeClass);
         topic.publish("openWidget", "GeometrySearchWidget");
+      }
+    },
+
+    _onBtnWidgetDrawByCoordinateClick: function () {
+      if (html.hasClass(this.btnWidgetDrawByCoordinate, this._activeClass)) {
+        html.removeClass(this.btnWidgetDrawByCoordinate, this._activeClass);
+        topic.publish("closeWidget", "DrawByCoordinateWidget");
+      }
+      else {
+        html.addClass(this.btnWidgetDrawByCoordinate, this._activeClass);
+        html.removeClass(this.btnWidgetDraw, this._activeClass);
+        html.removeClass(this.btnWidgetGeometrySearch, this._activeClass);
+        topic.publish("openWidget", "DrawByCoordinateWidget");
       }
     },
 

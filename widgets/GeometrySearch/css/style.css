@@ -25,6 +25,7 @@
   background-position: center center;
   border: 1px solid #ccc;
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .jimu-widget-geometrySearch .draw-items .draw-item{
