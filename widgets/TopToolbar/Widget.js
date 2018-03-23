@@ -36,6 +36,7 @@ define([
     navToolbar: null,
 
     postCreate: function(){
+      this.inherited(arguments);
       //地图初始范围
       //配置: config.json的mapOptions.extent
       var configExtent = this.appConfig && this.appConfig.map &&

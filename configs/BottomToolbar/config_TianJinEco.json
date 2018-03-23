@@ -1,0 +1,30 @@
+{
+  "buttons": [
+    {
+      "label": "发布段",
+      "image": "images/buttons/FaBuDuan-white.png",
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["发布段"]
+        }
+      ]
+    },
+    {
+      "label": "摄像机",
+      "image": "images/buttons/SheXiangJi-white.png"
+    },
+    {
+      "label": "电子警察",
+      "image": "images/buttons/DiZiJingCha-white.png"
+    },
+    {
+      "label": "卡口",
+      "image": "images/buttons/KaKou-white.png"
+    },
+    {
+      "label": "信号机",
+      "image": "images/buttons/XinHaoJi-white.png"
+    }
+  ]
+}

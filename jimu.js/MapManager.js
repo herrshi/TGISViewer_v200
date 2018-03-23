@@ -147,7 +147,12 @@ define([
     _show2DMap: function () {
       var map = new Map(this.mapDivId, this._processMapOptions(this.appConfig.map.mapOptions));
       this._visitConfigMapLayers(this.appConfig, lang.hitch(this, function (layerConfig) {
-        this.createLayer(map, "2D", layerConfig);
+        try {
+          this.createLayer(map, "2D", layerConfig);
+        }
+        catch (err) {
+          console.error(err);
+        }
       }));
 
       this._publishMapEvent(map);

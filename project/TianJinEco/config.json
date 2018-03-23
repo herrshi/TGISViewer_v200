@@ -1,0 +1,121 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "token": {
+      "needToken": false,
+      "tokenUrl": "http://10.254.11.101:8399/arcgis/tokens",
+      "username": "szjg",
+      "password": "szjg",
+      "expiration": 1440
+    },
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://10.254.11.101:8399/arcgis/rest/services/SQEcoMap/MapServer?token={token}",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "发布段",
+        "url": "http://128.64.151.220:6080/arcgis/rest/services/TianJin/TianJinECO_fbd/MapServer",
+        "type": "dynamic",
+        "visible": true
+      }
+
+    ],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "localhost:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 10,
+          "width": "100%",
+          "left":0,
+          "right":0
+        },
+        "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/BottomToolbar/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_TianJinEco.json",
+        "position": {
+          "bottom": 10,
+          "width": "100%",
+          "left":0,
+          "right":0
+        },
+        "id": "BottomToolbarWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      }
+    ]
+  }
+}
