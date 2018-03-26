@@ -1,24 +1,45 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title></title>
-    <script src="assets/global/plugins/jquery-3.2.1.min.js"></script>
-    <link rel="stylesheet" href="assets/global/plugins/bootstrap/css/bootstrap.css">
-    <script src="assets/global/plugins/bootstrap/js/bootstrap.js"></script>
-    <link rel="stylesheet" href="assets/global/plugins/bootstrap-fileinput/css/fileinput.css">
-    <script src="assets/global/plugins/bootstrap-fileinput/js/fileinput.js"></script>
+﻿<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+        <title>Web tiled</title>
+        <link rel="stylesheet" href="https://js.arcgis.com/3.23/dijit/themes/nihilo/nihilo.css">
+        <link rel="stylesheet" href="https://js.arcgis.com/3.23/esri/css/esri.css">
 
+        <style>
+            html, body, #map {
+                height: 100%; width: 100%;
+                margin: 0; padding: 0;
+            }
+            body{
+                background-color: #fff; overflow:hidden;
+                font-family: sans-serif;
+            }
+        </style>
 
-</head>
-<body>
+        <script src="https://js.arcgis.com/3.23/"></script>
 
-    <div>
-        <input id="input-id" type="file" class="file">
-    </div>
+        <script>
+            var map;
+            require([
+              "esri/map",
+              "esri/layers/WebTiledLayer"
+            ], function (
+              Map,
+              WebTiledLayer
+            ) {
+                map = new Map("map", {
+                  center: [121, 31],
+                  zoom: 8
+                });
 
-<script>
+                var abcLayer = new WebTiledLayer("http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}");
+                map.addLayer(abcLayer);
+            })
+        </script>
+    </head>
 
-</script>
-</body>
+    <body class="nihilo">
+        <div id="map"></div>
+    </body>
 </html>

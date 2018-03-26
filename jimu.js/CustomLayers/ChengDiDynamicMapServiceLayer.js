@@ -40,10 +40,6 @@ define([
       }
 
       callback(_url + ioQuery.objectToQuery(params)); //向后台发送请求
-    },
-
-    getVisibleLayers: function () {
-      console.log(this);
     }
   });
 });

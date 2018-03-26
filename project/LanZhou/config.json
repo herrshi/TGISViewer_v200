@@ -1,0 +1,111 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+
+
+    ],
+    "mapOptions": {
+      "center": [103.862, 36.046],
+      "zoom": 13,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "128.64.151.220:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 10,
+          "width": "100%",
+          "left":0,
+          "right":0
+        },
+        "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/BottomToolbar/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_TianJinEco.json",
+        "position": {
+          "bottom": 10,
+          "width": "100%",
+          "left":0,
+          "right":0
+        },
+        "id": "BottomToolbarWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      }
+    ]
+  }
+}
