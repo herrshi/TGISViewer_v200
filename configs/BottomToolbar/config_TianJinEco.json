@@ -3,28 +3,48 @@
     {
       "label": "发布段",
       "image": "images/buttons/FaBuDuan-white.png",
+      "initEnable": true,
       "operations": [
         {
-          "opName": "changeLayer",
-          "opParam": ["发布段"]
+          "opName": "changeLayer"
         }
       ]
     },
     {
       "label": "摄像机",
-      "image": "images/buttons/SheXiangJi-white.png"
+      "image": "images/buttons/SheXiangJi-white.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
     },
     {
       "label": "电子警察",
-      "image": "images/buttons/DiZiJingCha-white.png"
+      "image": "images/buttons/DiZiJingCha-white.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
     },
     {
       "label": "卡口",
-      "image": "images/buttons/KaKou-white.png"
+      "image": "images/buttons/KaKou-white.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
     },
     {
       "label": "信号机",
-      "image": "images/buttons/XinHaoJi-white.png"
+      "image": "images/buttons/XinHaoJi-white.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
     }
   ]
 }

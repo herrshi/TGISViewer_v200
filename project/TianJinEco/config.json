@@ -32,7 +32,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://10.254.11.101:8399/arcgis/rest/services/SQEcoMap/MapServer?token={token}",
+        "url": "http://10.254.11.101:8399/arcgis/rest/services/SQEcoMap/MapServer?token=KLZax7MmSkjauuJXMcd_dZx4PHx09OtCz87Jc7s0y4gvbddifMsEKG-yVv_bwS3t",
         "type": "tiled",
         "visible": true
       }
@@ -40,20 +40,117 @@
     "operationallayers": [
       {
         "label": "发布段",
-        "url": "http://128.64.151.220:6080/arcgis/rest/services/TianJin/TianJinECO_fbd/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/TianJin/TianJinECO_fbd/MapServer",
         "type": "dynamic",
         "visible": true
+      },
+      {
+        "label": "摄像机",
+        "url": "http://{gisServer}/arcgis/rest/services/TianJin/TianJinECO_device/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/SheXiangJi-KeKong-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "电子警察",
+        "url": "http://{gisServer}/arcgis/rest/services/TianJin/TianJinECO_device/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/DianZiJingCha-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "卡口",
+        "url": "http://{gisServer}/arcgis/rest/services/TianJin/TianJinECO_device/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/KaKou-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "情报板",
+        "url": "http://{gisServer}/arcgis/rest/services/TianJin/TianJinECO_device/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/QingBaoBan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "信号机",
+        "url": "http://{gisServer}/arcgis/rest/services/TianJin/TianJinECO_device/MapServer/4",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/XinHaoJi-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
       }
 
     ],
     "mapOptions": {
+      "center": [117.745,39.139],
+      "scale": 35000,
       "logo": false,
       "nav": false,
       "slider": false
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "localhost:6080",
+  "gisServer": "128.64.151.220:6080",
   "widgetOnScreen": {
     "widgets": [
       {

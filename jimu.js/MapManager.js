@@ -185,7 +185,6 @@ define([
                 type = featureAttributes[fieldName];
               }
             }
-
           }
           if (type !== undefined && id !== undefined) {
             //只传type和id
@@ -216,8 +215,19 @@ define([
               identifyTask.execute(identifyParam).then(function (identifyResults) {
                 if (identifyResults.length > 0) {
                   var feature = identifyResults[0].feature;
-                  var id = feature.attributes.DEVICEID || feature.attributes.BM_CODE;
-                  var type = feature.attributes.DEVICETYPE;
+
+                  var id;
+                  var type;
+                  for (var fieldName in feature.attributes) {
+                    if (feature.attributes.hasOwnProperty(fieldName)) {
+                      if (fieldName.indexOf("DEVICEID") > -1 || fieldName.indexOf("BM_CODE") > -1 || fieldName.indexOf("FEATUREID") > -1) {
+                        id = feature.attributes[fieldName];
+                      }
+                      if (fieldName.indexOf("DEVICETYPE") > -1 || fieldName.indexOf("FEATURETYPE") > -1) {
+                        type = feature.attributes[fieldName];
+                      }
+                    }
+                  }
                   if (typeof showGisDeviceInfo !== "undefined" && showGisDeviceInfo instanceof Function) {
                     showGisDeviceInfo(type, id);
                   }
