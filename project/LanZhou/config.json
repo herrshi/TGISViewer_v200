@@ -78,18 +78,6 @@
         "id": "TopToolbarWidget"
       },
       {
-        "uri": "widgets/BottomToolbar/Widget",
-        "name": "BottomToolbar",
-        "config": "configs/BottomToolbar/config_TianJinEco.json",
-        "position": {
-          "bottom": 10,
-          "width": "100%",
-          "left":0,
-          "right":0
-        },
-        "id": "BottomToolbarWidget"
-      },
-      {
         "uri": "widgets/Draw/Widget",
         "version": "2.4",
         "name": "Draw",
