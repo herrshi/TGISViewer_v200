@@ -17,7 +17,7 @@
     "3D": false,
     "2D": true,
     "token": {
-      "needToken": false,
+      "needToken": true,
       "tokenUrl": "http://10.254.11.101:8399/arcgis/tokens",
       "username": "szjg",
       "password": "szjg",
@@ -32,7 +32,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://10.254.11.101:8399/arcgis/rest/services/SQEcoMap/MapServer?token=KLZax7MmSkjauuJXMcd_dZx4PHx09OtCz87Jc7s0y4gvbddifMsEKG-yVv_bwS3t",
+        "url": "http://10.254.11.101:8399/arcgis/rest/services/SQEcoMap/MapServer?token={token}",
         "type": "tiled",
         "visible": true
       }

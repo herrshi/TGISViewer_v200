@@ -20,6 +20,15 @@
       ]
     },
     {
+      "label": "情报板",
+      "image": "images/buttons/QingBaoBan-white.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
       "label": "电子警察",
       "image": "images/buttons/DiZiJingCha-white.png",
       "operations": [

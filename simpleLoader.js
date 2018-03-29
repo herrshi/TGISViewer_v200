@@ -11,29 +11,30 @@
    * */
   function loadResources(resources, onOneBeginLoad, onOneAfterLoad, onAfterLoad) {
     var loaded = [];
-    function _onOneAfterLoad(url){
+
+    function _onOneAfterLoad(url) {
       //避免同一个资源多次加载
-      if(checkHaveLoaded(url)){
+      if (checkHaveLoaded(url)) {
         return;
       }
       loaded.push(url);
-      if(onOneAfterLoad){
+      if (onOneAfterLoad) {
         onOneAfterLoad(url, loaded.length);
       }
-      if(loaded.length === resources.length){
-        if(onAfterLoad){
+      if (loaded.length === resources.length) {
+        if (onAfterLoad) {
           onAfterLoad();
         }
       }
     }
 
-    for(var i = 0; i < resources.length; i ++){
+    for (var i = 0; i < resources.length; i++) {
       loadResource(resources[i], onOneBeginLoad, _onOneAfterLoad);
     }
 
-    function checkHaveLoaded(url){
-      for(var i = 0; i < loaded.length; i ++){
-        if(loaded[i] === url){
+    function checkHaveLoaded(url) {
+      for (var i = 0; i < loaded.length; i++) {
+        if (loaded[i] === url) {
           return true;
         }
       }
@@ -45,7 +46,7 @@
   function getExtension(url) {
     url = url || "";
     var items = url.split("?")[0].split(".");
-    return items[items.length-1].toLowerCase();
+    return items[items.length - 1].toLowerCase();
   }
 
   /**加载单个url*/
@@ -55,7 +56,7 @@
     }
 
     var type = getExtension(url);
-    if(type.toLowerCase() === 'css') {
+    if (type.toLowerCase() === "css") {
       loadCss(url);
     } else {
       loadJs(url);
@@ -64,34 +65,34 @@
     function createElement(config) {
       var e = document.createElement(config.element);
       for (var i in config) {
-        if (i !== 'element' && i !== 'appendTo') {
+        if (i !== "element" && i !== "appendTo") {
           e[i] = config[i];
         }
       }
       var root = document.getElementsByTagName(config.appendTo)[0];
-      return (typeof root.appendChild(e) === 'object');
+      return (typeof root.appendChild(e) === "object");
     }
 
     function loadCss(url) {
       var result = createElement({
         element: "link",
-        rel: 'stylesheet',
-        type: 'text/css',
+        rel: "stylesheet",
+        type: "text/css",
         href: url,
-        onload: function(){
+        onload: function () {
           elementLoaded(url);
         },
-        appendTo: 'head'
+        appendTo: "head"
       });
 
-      //for the browser which doesn't fire load event
+      //for the browser which doesn"t fire load event
       //safari update documents.stylesheets when style is loaded.
-      var ti = setInterval(function() {
+      var ti = setInterval(function () {
         var styles = document.styleSheets;
-        for(var i = 0; i < styles.length; i ++){
+        for (var i = 0; i < styles.length; i++) {
           // console.log(styles[i].href);
-          if(styles[i].href &&
-            styles[i].href.substr(styles[i].href.indexOf(url), styles[i].href.length) === url){
+          if (styles[i].href &&
+            styles[i].href.substr(styles[i].href.indexOf(url), styles[i].href.length) === url) {
             clearInterval(ti);
             elementLoaded(url);
           }
@@ -103,28 +104,28 @@
 
     function loadJs(url) {
       var result = createElement({
-        element: 'script',
-        type: 'text/javascript',
-        onload: function(){
+        element: "script",
+        type: "text/javascript",
+        onload: function () {
           elementLoaded(url);
         },
-        onreadystatechange: function(){
+        onreadystatechange: function () {
           elementReadyStateChanged(url, this);
         },
         src: url,
-        appendTo: 'body'
+        appendTo: "body"
       });
       return (result);
     }
 
-    function elementLoaded(url){
-      if(onAfterLoad){
+    function elementLoaded(url) {
+      if (onAfterLoad) {
         onAfterLoad(url);
       }
     }
 
-    function elementReadyStateChanged(url, thisObj){
-      if (thisObj.readyState === 'loaded' || thisObj.readyState === 'complete') {
+    function elementReadyStateChanged(url, thisObj) {
+      if (thisObj.readyState === "loaded" || thisObj.readyState === "complete") {
         elementLoaded(url);
       }
     }
@@ -136,17 +137,17 @@
     success
   })
    ************/
-  function testLoad(testObj){
-    testObj.success = !!testObj.success? isArray(testObj.success)?
-      testObj.success: [testObj.success]: [];
-    testObj.failure = !!testObj.failure?
-      isArray(testObj.failure)? testObj.failure: [testObj.failure]: [];
+  function testLoad(testObj) {
+    testObj.success = !!testObj.success ? isArray(testObj.success) ?
+      testObj.success : [testObj.success] : [];
+    testObj.failure = !!testObj.failure ?
+      isArray(testObj.failure) ? testObj.failure : [testObj.failure] : [];
 
-    if(testObj.test && testObj.success.length > 0){
+    if (testObj.test && testObj.success.length > 0) {
       loadResources(testObj.success, null, null, testObj.callback);
-    }else if(!testObj.test && testObj.failure.length > 0){
+    } else if (!testObj.test && testObj.failure.length > 0) {
       loadResources(testObj.failure, null, null, testObj.callback);
-    }else{
+    } else {
       testObj.callback();
     }
   }
@@ -163,5 +164,5 @@
   global.loadResources = loadResources;
   global.loadResource = loadResource;
   global.testLoad = testLoad;
-  
+
 })(window);

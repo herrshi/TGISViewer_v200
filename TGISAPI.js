@@ -5,17 +5,15 @@
 document.body.className = "jimu-main-font";
 
 
-
-
 var
   //arcgis api所在的url
   apiUrl = null,
   //TGISViewer所在的url
   path = null;
-  //项目配置文件
-  projectConfig = null;
-  //全部加载完成以后的回调
-  loadFinishCallback= null;
+//项目配置文件
+projectConfig = null;
+//全部加载完成以后的回调
+loadFinishCallback = null;
 
 var TMap = {
   createNew: function (options, divId, callback) {
@@ -102,7 +100,7 @@ var TMap = {
 
 
     return TMap;
-    
+
     function addSlash(url) {
       if (url.substr(url.length - 1, url.length) !== "/") {
         url += "/";
@@ -112,7 +110,7 @@ var TMap = {
   },
 
   /************************ SWIPE BEGIN **************************/
-  
+
   /**
    * 开始卷帘图模式
    * @param params: object
@@ -199,7 +197,7 @@ var TMap = {
 
   /************************ WIDGET BEGIN **************************/
   /**
-   * 
+   *
    * */
   openWidget: function (widgetId) {
     require(["dojo/topic"], function (topic) {
@@ -984,7 +982,7 @@ var TMap = {
       topic.publish("showRouteByCross", params);
     });
   },
-  
+
   /**
    * 显示顶部工具栏的某个按钮
    * @param params: string, required.
