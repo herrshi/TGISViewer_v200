@@ -508,7 +508,7 @@ var TMap = {
    *     type: string, optional. 类型, 用于按类型批量删除.
    *     fields: object, optional. 业务属性.
    *       点击覆盖物以后会将fields回传, 或在弹出框中显示fields.
-   *     geometry: object, required. 几何属性.   *
+   *     geometry: object, required. 几何属性.
    *       paths : [
    *         [ [x11, y11], [x12, y12], ..., [x1n, y1n] ],
    *         [ [x21, y21], [x22, y22], ..., [x2n, y2n] ],
@@ -1020,6 +1020,42 @@ var TMap = {
   },
 
   /**
+   * 显示底部工具栏的某个按钮
+   * @param params: string, required.
+   *   按钮名, button的title属性
+   * */
+  showBottomToolbarButton: function(params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showBottomToolbarButton", params);
+    });
+  },
+
+  /**
+   * 隐藏底部工具栏的某个按钮
+   * @param params: string, required.
+   *   按钮名, button的title属性
+   * */
+  hideBottomToolbarButton: function(params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideBottomToolbarButton", params);
+    });
+  },
+
+  /**显示底部工具栏*/
+  showBottomToolbar: function() {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showBottomToolbar");
+    });
+  },
+
+  /**隐藏底部工具栏*/
+  hideBottomToolbar: function() {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideBottomToolbar");
+    });
+  },
+
+  /**
    * 公交线路客运量
    * @param params: object, required.
    *   flows: [object], required.
@@ -1050,8 +1086,14 @@ var TMap = {
    * @param params: object, required.
    *   type: string, required. 类型, "O" || "D"
    *   startID: string, required. O分析时为O点ID, D分析时为D点ID
+   *   startPoint: object, optional.
+   *     x: number
+   *     y: number
    *   endFlows: [object]. required. O分析时为D点数据, D分析时为O点数据
    *     ID: string, required. O分析时为D点ID, D分析时为O点ID
+   *     point: object, optional.
+   *       x: number
+   *       y: number
    *     flow: number, required. O分析时为D点流量, D分析时为O点流量
    * */
   showOD: function (params) {
