@@ -484,7 +484,7 @@ var TMap = {
    *       默认使用黑色圆形的标志符号
    *
    *  @sample
-   *    '{"point":[{"id":"pt001","type":"police","geometry":{"x":121.465,"y":31.226},"symbol":{"type":"marker","style":"circle","color":"#0000FF","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}},{"id":"pt002","type":"police","geometry":{"x":121.467,"y":31.222},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":1,"size":16,"outlineColor":"#FFFFFF"}},{"id":"pt003","type":"police","geometry":{"x":121.456,"y":31.262},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":1,"size":16,"outlineColor":"#FFFFFF"}}]}'
+   *    '{"points":[{"id":"pt001","type":"police","geometry":{"x":121.465,"y":31.226},"symbol":{"type":"marker","style":"circle","color":"#0000FF","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}},{"id":"pt002","type":"police","geometry":{"x":121.467,"y":31.222},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":1,"size":16,"outlineColor":"#FFFFFF"}},{"id":"pt003","type":"police","geometry":{"x":121.456,"y":31.262},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":1,"size":16,"outlineColor":"#FFFFFF"}}]}'
    *
    * */
   addPoints: function (params) {
@@ -665,6 +665,18 @@ var TMap = {
     });
   },
 
+  /**
+   * 不打开DrawWidget, 直接在地图上绘制覆盖物
+   * @param params: object, required.
+   *   drawType: string, required. 绘制类型
+   * @param callback: function, optional.
+   * */
+  startDrawOverlay: function(params, callback) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("startDrawOverlay", {params: params, callback: callback});
+    });
+  },
+
   /************************ Overlay END **************************/
 
   /************************ Search BEGIN **************************/
@@ -701,7 +713,7 @@ var TMap = {
    *     area: 面要素的面积, 平方米
    *     [{type: "快速路", id: "111", length: 183.12}]
    * @sample map.geometrySearch({drawType: "polygon"}, function(results){});
-   * @smaple map.geometrySearch({drawType: "polyline", bufferDistance: 100}, function(results){});
+   * @sample map.geometrySearch({drawType: "polyline", bufferDistance: 100}, function(results){});
    * */
   geometrySearch: function (params, callback) {
     require(["dojo/topic"], function (topic) {

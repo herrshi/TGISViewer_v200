@@ -103,6 +103,11 @@
         "uri": "widgets/Print/Widget",
         "version": "2.4",
         "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
       }
     ]
   }
