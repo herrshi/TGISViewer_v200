@@ -1,0 +1,35 @@
+.jimu-widget-BottomToolbarCircleButton {
+  position: relative;
+  left: -50%;
+}
+
+.jimu-widget-BottomToolbarCircleButton .popup_bottom_inner {
+  width: auto;
+  height: auto;
+  /*margin-bottom: 30px;*/
+}
+
+.jimu-widget-BottomToolbarCircleButton .nav_btn_button {
+  color: #fff;
+  font-size: 0.3rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-right: 12px;
+  line-height: 1.42857;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: rgba(70, 75, 87, 0.85);
+  box-shadow: 0 0 4px 1px rgba(74, 74, 74, 0.3);
+}
+
+.jimu-widget-BottomToolbarCircleButton .nav_btn_button:hover,
+.jimu-widget-BottomToolbarCircleButton .nav_btn .active {
+  color: #fff;
+  font-size: 0.3rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  line-height: 1.42857;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background: rgba(79, 119, 233, 0.85);
+}

@@ -165,26 +165,32 @@ define([
 
         //featureLayer或graphicsLayer
         //闪烁
-        if (graphic && graphic.attributes) {
+        if (graphic) {
           var node = graphic.getNode();
           node.setAttribute("data-highlight", "highlight");
           setTimeout(function () {
             node.setAttribute("data-highlight", "");
           }, 5000);
 
-          var featureAttributes = graphic.attributes;
           var id, type;
-          for (var fieldName in featureAttributes) {
-            //过滤掉prototype
-            if (featureAttributes.hasOwnProperty(fieldName)) {
-              //做join时，字段名会带上图层名，用indexOf来判断
-              if (fieldName.indexOf("DEVICEID") > -1 || fieldName.indexOf("BM_CODE") > -1 || fieldName.indexOf("FEATUREID") > -1) {
-                id = featureAttributes[fieldName];
-              }
-              if (fieldName.indexOf("DEVICETYPE") > -1 || fieldName.indexOf("FEATURETYPE") > -1) {
-                type = featureAttributes[fieldName];
+          if (graphic.attributes) {
+            var featureAttributes = graphic.attributes;
+            for (var fieldName in featureAttributes) {
+              //过滤掉prototype
+              if (featureAttributes.hasOwnProperty(fieldName)) {
+                //做join时，字段名会带上图层名，用indexOf来判断
+                if (fieldName.indexOf("DEVICEID") > -1 || fieldName.indexOf("BM_CODE") > -1 || fieldName.indexOf("FEATUREID") > -1) {
+                  id = featureAttributes[fieldName];
+                }
+                if (fieldName.indexOf("DEVICETYPE") > -1 || fieldName.indexOf("FEATURETYPE") > -1) {
+                  type = featureAttributes[fieldName];
+                }
               }
             }
+          }
+          else {
+            id = graphic.id;
+            type = graphic.type;
           }
           if (type !== undefined && id !== undefined) {
             //只传type和id
