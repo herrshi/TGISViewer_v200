@@ -15,6 +15,7 @@ td, th{
 @import url("dojo-override.css");
 @import url("spacing.css");
 @import url("sprite.css");
+@import url("animate.css");
 
 /* disable the blue color outline in chrome */
 *:focus{

@@ -1,8 +1,8 @@
 {
   "buttons": [
     {
-      "label": "发布段",
-      "image": "images/buttons/FaBuDuan-white.png",
+      "label": "home",
+      "fontClass": "fa fa-home",
       "initEnable": true,
       "operations": [
         {
@@ -12,7 +12,7 @@
     },
     {
       "label": "摄像机",
-      "image": "images/buttons/SheXiangJi-white.png",
+      "fontClass": "fa fa-video-camera",
       "operations": [
         {
           "opName": "changeLayer"
@@ -21,7 +21,15 @@
     },
     {
       "label": "情报板",
-      "image": "images/buttons/QingBaoBan-white.png",
+      "fontClass": "icon_qbb",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },{
+      "label": "船舶",
+      "fontClass": "fa fa-ship",
       "operations": [
         {
           "opName": "changeLayer"
@@ -29,26 +37,8 @@
       ]
     },
     {
-      "label": "电子警察",
-      "image": "images/buttons/DiZiJingCha-white.png",
-      "operations": [
-        {
-          "opName": "changeLayer"
-        }
-      ]
-    },
-    {
-      "label": "卡口",
-      "image": "images/buttons/KaKou-white.png",
-      "operations": [
-        {
-          "opName": "changeLayer"
-        }
-      ]
-    },
-    {
-      "label": "信号机",
-      "image": "images/buttons/XinHaoJi-white.png",
+      "label": "发布段",
+      "fontClass": "icon_fbd",
       "operations": [
         {
           "opName": "changeLayer"
