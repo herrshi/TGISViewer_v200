@@ -188,10 +188,8 @@ define([
               }
             }
           }
-          else {
-            id = graphic.id;
-            type = graphic.type;
-          }
+          id = id || graphic.id;
+          type = type || graphic.type;
           if (type !== undefined && id !== undefined) {
             //只传type和id
             if (typeof showGisDeviceInfo !== "undefined" && showGisDeviceInfo instanceof Function) {

@@ -50,10 +50,10 @@
     #testButtons {
       position: absolute;
       right: 20px;
-      top: 20px;
+      top: 100px;
       width: 200px;
       height: 30px;
-      z-index: 999;
+      z-index: 100;
       background: #ffffff;
       color: #777777;
       padding: 5px;
@@ -91,7 +91,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/ShangHaiHarbour/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/XinJiangNanShan/config.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -164,6 +164,7 @@
     // map.startDrawOverlay({drawType:"point"}, function (result) {
     //   console.log(result.x, result.y);
     // });
+    map.addPoints('{"points":[{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.40887797508348,"y":43.49521156331913},"id":"be557e9b-03e0-4809-a87f-a56195ac0bc0,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"10000002","gzsj":null,"levelMessage":"暂无异常"}},{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.4235618296279,"y":43.474032926957},"id":"948ab669-f01f-4eba-90ad-2952533c8915,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"T000001","gzsj":null,"levelMessage":"暂无异常"}}]}')
   });
 
   function Test1ClickHandler() {

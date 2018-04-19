@@ -3,7 +3,7 @@
     {
       "label": "home",
       "fontClass": "fa fa-home",
-      "initEnable": true,
+      "initEnable": false,
       "operations": [
         {
           "opName": "changeLayer"
@@ -24,10 +24,16 @@
       "fontClass": "icon_qbb",
       "operations": [
         {
-          "opName": "changeLayer"
+          "opName": "changeLayer",
+          "opParam": ["情报板"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["东南环情报板"]
         }
       ]
-    },{
+    },
+    {
       "label": "船舶",
       "fontClass": "fa fa-ship",
       "operations": [
