@@ -1,7 +1,7 @@
 var timeOut;
 
 class Item {
-  constructor(icon, backgroundColor) {
+  constructor(icon, backgroundColor, clickFunction) {
     this.$element = $(document.createElement("div"));
     this.icon = icon;
     this.$element.addClass("item");
@@ -21,6 +21,11 @@ class Item {
         }
       }, 10);
     });
+    console.log(clickFunction);
+    if (clickFunction) {
+      console.log(clickFunction);
+      this.$element.on("click", clickFunction);
+    }
   }
 
   moveTo(item) {
@@ -169,13 +174,14 @@ define([
 
     _createButtons: function() {
       var menu = new Menu("#myMenu");
-      console.log(menu);
       var item1 = new Item("list", "#325aa3");
-      var item2 = new Item("plus", "#5CD1FF");
-      var item3 = new Item("minus", "#5CD1FF");
-      var item4 = new Item("home", "#FF5C5C");
-      var item5 = new Item("arrow-circle-right", "#508bde");
-      var item6 = new Item("arrow-circle-left", "#508bde");
+      var item2 = new Item("plus", "#5CD1FF", lang.hitch(this, function () {
+        console.log(this.map);
+      }));
+      var item3 = new Item("minus", "#5CD1FF", this._onBtnZoomOutClicked);
+      var item4 = new Item("home", "#508bde");
+      var item5 = new Item("arrow-circle-left", "#508bde");
+      var item6 = new Item("arrow-circle-right", "#508bde");
       var item7 = new Item("pencil", "#ff9d5c");
       var item8 = new Item("floppy-o", "#ff9d5c");
 
@@ -187,12 +193,18 @@ define([
       menu.add(item4);
       menu.add(item3);
       menu.add(item2);
-
-      console.log(query(".item"));
     },
 
     onTopicHandler_showTopToolbar: function() {
       this._createButtons();
+    },
+
+    _onBtnZoomInClicked: function(){
+      this.map._extentUtil({ numLevels: 1});
+    },
+
+    _onBtnZoomOutClicked: function(){
+      this.map._extentUtil({ numLevels: -1});
     }
   });
 });
