@@ -25,7 +25,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://128.64.151.245:6080/arcgis/rest/services/ShangHai/ShangHai_base/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_base/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -109,7 +109,7 @@
     ],
     "mapOptions": {
       "center": [121.469, 31.228],
-      "zoom": 13,
+      "zoom": 1,
       "logo": false,
       "nav": false,
       "slider": false

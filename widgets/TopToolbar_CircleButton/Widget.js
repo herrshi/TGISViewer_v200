@@ -1,7 +1,7 @@
 var timeOut;
 
 class Item {
-  constructor(icon, backgroundColor, clickFunction) {
+  constructor(icon, backgroundColor) {
     this.$element = $(document.createElement("div"));
     this.icon = icon;
     this.$element.addClass("item");
@@ -21,11 +21,6 @@ class Item {
         }
       }, 10);
     });
-    console.log(clickFunction);
-    if (clickFunction) {
-      console.log(clickFunction);
-      this.$element.on("click", clickFunction);
-    }
   }
 
   moveTo(item) {
@@ -175,10 +170,8 @@ define([
     _createButtons: function() {
       var menu = new Menu("#myMenu");
       var item1 = new Item("list", "#325aa3");
-      var item2 = new Item("plus", "#5CD1FF", lang.hitch(this, function () {
-        console.log(this.map);
-      }));
-      var item3 = new Item("minus", "#5CD1FF", this._onBtnZoomOutClicked);
+      var item2 = new Item("plus", "#5CD1FF");
+      var item3 = new Item("minus", "#5CD1FF");
       var item4 = new Item("home", "#508bde");
       var item5 = new Item("arrow-circle-left", "#508bde");
       var item6 = new Item("arrow-circle-right", "#508bde");

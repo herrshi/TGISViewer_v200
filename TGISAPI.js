@@ -214,6 +214,19 @@ var TMap = {
 
   /************************ Map Control BEGIN **************************/
   /**
+   * 将地图坐标转换为屏幕坐标
+   * @param params: object
+   *   x: number, required.
+   *   y: number, required.
+   * @param callback: function
+   *   回调函数
+   * */
+  toScreen: function(params, callback) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("toScreen", {params: params, callback: callback});
+    });
+  },
+  /**
    * 设置地图中心点
    * @param params: object
    *   x: number, required.

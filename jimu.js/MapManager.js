@@ -58,7 +58,7 @@ define([
   ArcGISTiledMapServiceLayer,
   WMSLayer,
   WMSLayerInfo,
-  WebMercatorUtils,
+  webMercatorUtils,
   esriConfig,
   esriRequest
 ) {
@@ -85,6 +85,7 @@ define([
       topic.subscribe("setMapScale", lang.hitch(this, this.topicHandler_onSetMapScale));
       topic.subscribe("setMapLevel", lang.hitch(this, this.topicHandler_onSetMapLevel));
       topic.subscribe("setMapCenterAndLevel", lang.hitch(this, this.topicHandler_onSetMapCenterAndLevel));
+      topic.subscribe("toScreen", lang.hitch(this, this.topicHandler_onToScreen));
     },
 
     showMap: function () {
@@ -215,7 +216,7 @@ define([
               identifyParam.returnGeometry = true;
               identifyParam.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
               identifyParam.tolerance = 3;
-              identifyParam.geometry = (this.map.spatialReference.isWebMercator() ? WebMercatorUtils.webMercatorToGeographic(event.mapPoint) : event.mapPoint);
+              identifyParam.geometry = (this.map.spatialReference.isWebMercator() ? webMercatorUtils.webMercatorToGeographic(event.mapPoint) : event.mapPoint);
               identifyTask.execute(identifyParam).then(function (identifyResults) {
                 if (identifyResults.length > 0) {
                   var feature = identifyResults[0].feature;
@@ -461,6 +462,19 @@ define([
       if (!isNaN(x) && !isNaN(y) && !isNaN(level) && level >= 0){
         var centerPoint = new Point(params.x, params.y, this.map.spatialReference);
         this.map.centerAndZoom(centerPoint, level);
+      }
+    },
+
+    topicHandler_onToScreen: function(params) {
+      var x = params.params.x;
+      var y = params.params.y;
+      var point = new Point(x, y);
+      if (this.map.spatialReference.isWebMercator()) {
+        point = webMercatorUtils.geographicToWebMercator(point);
+      }
+      var screenPoint = this.map.toScreen(point);
+      if (params.callback) {
+        params.callback(screenPoint);
       }
     },
 
