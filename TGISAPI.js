@@ -76,10 +76,10 @@ var TMap = {
     envScript.setAttribute("src", path + "env.js");
     document.body.appendChild(envScript);
 
-    var loaderScript = document.createElement("script");
-    loaderScript.setAttribute("type", "text/javascript");
-    loaderScript.setAttribute("src", path + "simpleLoader.js");
-    document.body.appendChild(loaderScript);
+    // var loaderScript = document.createElement("script");
+    // loaderScript.setAttribute("type", "text/javascript");
+    // loaderScript.setAttribute("src", path + "simpleLoader.js");
+    // document.body.appendChild(loaderScript);
 
     var initScript = document.createElement("script");
     initScript.setAttribute("type", "text/javascript");

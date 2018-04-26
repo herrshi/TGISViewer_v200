@@ -32,6 +32,18 @@
     ],
     "operationallayers": [
       {
+        "label": "海图",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_sea/MapServer",
+        "type": "dynamic",
+        "visible": true
+      },
+      {
+        "label": "桥",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_feature/MapServer",
+        "type": "dynamic",
+        "visible": true
+      },
+      {
         "label": "发布段",
         "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_fbd/MapServer",
         "type": "dynamic",
@@ -45,10 +57,6 @@
         "outFields": [
           "*"
         ],
-        "infoTemplate": {
-          "title": "${DEVICEDESC}",
-          "content": "<b>位置: </b>${ROADNAME}<br><b>编号: </b>${DEVICEID}"
-        },
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -68,10 +76,6 @@
         "outFields": [
           "*"
         ],
-        "infoTemplate": {
-          "title": "${DEVICEDESC}",
-          "content": "<b>位置: </b>${ROADNAME}<br><b>编号: </b>${DEVICEID}"
-        },
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -91,10 +95,6 @@
         "outFields": [
           "*"
         ],
-        "infoTemplate": {
-          "title": "${DEVICEDESC}",
-          "content": "<b>位置: </b>${ROADNAME}<br><b>编号: </b>${DEVICEID}"
-        },
         "renderer": {
           "type": "simple",
           "symbol": {
