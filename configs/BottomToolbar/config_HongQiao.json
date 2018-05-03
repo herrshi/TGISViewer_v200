@@ -2,7 +2,7 @@
   "buttons": [
     {
       "label": "停车场",
-      "fontClass": "fa fa-video-camera",
+      "fontClass": "icon_parking",
       "operations": [
         {
           "opName": "changeLayer"
@@ -20,7 +20,7 @@
     },
     {
       "label": "停车诱导板",
-      "fontClass": "fa fa-ship",
+      "fontClass": "icon_qbb_parking",
       "operations": [
         {
           "opName": "changeLayer"

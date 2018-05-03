@@ -34,14 +34,14 @@ define([
     },
 
     _createButton: function() {
-      let buttonContainer = query(
+      var buttonContainer = query(
         "#BottomToolbarButtonContainer",
         this.domNode
       );
 
       this.config.buttons.forEach(
         lang.hitch(this, function(buttonObj) {
-          let buttonContent;
+          var buttonContent;
           if (buttonObj.image) {
             buttonContent = "<img src='" + window.path + buttonObj.image + "'>";
           } else if (buttonObj.fontClass) {
@@ -68,20 +68,20 @@ define([
     },
 
     onButton_click: function(event) {
-      let target = event.target;
+      var target = event.target;
 
       domClass.toggle(target, this._activeClass);
 
-      let label = domAttr.get(target, "title");
-      let enable = domClass.contains(target, this._activeClass);
-      let operations = domAttr.get(target, "data-operations");
+      var label = domAttr.get(target, "title");
+      var enable = domClass.contains(target, this._activeClass);
+      var operations = domAttr.get(target, "data-operations");
       if (operations !== "undefined") {
         operations = JSON.parse(operations);
         operations.forEach(
           lang.hitch(this, function(operation) {
             switch (operation.opName.toLowerCase()) {
               case "changeLayer".toLowerCase():
-                let layerName = operation.opParam
+                var layerName = operation.opParam
                   ? operation.opParam[0]
                   : label;
                 topic.publish("setLayerVisibility", {
@@ -106,7 +106,7 @@ define([
     },
 
     onArrow_click: function() {
-      let arrowNode = query(".popup_bottom_arrowUp")[0];
+      var arrowNode = query(".popup_bottom_arrowUp")[0];
       if (domClass.contains(arrowNode, "clicked")) {
         fx
           .animateProperty({
