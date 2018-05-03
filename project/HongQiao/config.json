@@ -87,12 +87,67 @@
         "label": "路况诱导板",
         "url": "http://{gisServer}/arcgis/rest/services/HongQiao/HongQiao_device/MapServer/1",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": [
           "*"
         ],
         "renderer": {
-          "type": "simple"
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/YangPu/LuKuangPai.png",
+            "width": 22.5,
+            "height": 18.75
+          }
+        }
+      },
+      {
+        "label": "停车诱导板",
+        "url": "http://{gisServer}/arcgis/rest/services/HongQiao/HongQiao_device/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "DEVTYPE",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/TingCheChang-grey.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "1",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/yiji.png",
+                "width": 37.5,
+                "height": 32.25
+              }
+            },
+            {
+              "value": "2",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/erji.png",
+                "width": 33,
+                "height": 27.75
+              }
+            },
+            {
+              "value": "3",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/sanji.png",
+                "width": 27,
+                "height": 23.25
+              }
+            }
+          ]
         }
       }
     ],

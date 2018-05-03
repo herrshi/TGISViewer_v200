@@ -1,19 +1,19 @@
-var timeOut;
+let timeOut;
 
 class Item {
   constructor(icon, backgroundColor) {
-    this.$element = $(document.createElement("div"));
+    this.baseElement = $(document.createElement("div"));
     this.icon = icon;
-    this.$element.addClass("item");
-    this.$element.css("background-color", backgroundColor);
-    var i = document.createElement("i");
+    this.baseElement.addClass("item");
+    this.baseElement.css("background-color", backgroundColor);
+    let i = document.createElement("i");
     $(i).addClass("fa fa-" + icon);
-    this.$element.append(i);
+    this.baseElement.append(i);
     this.prev = null;
     this.next = null;
     this.isMoving = false;
-    var element = this;
-    this.$element.on("mousemove", function() {
+    let element = this;
+    this.baseElement.on("mousemove", function() {
       clearTimeout(timeOut);
       timeOut = setTimeout(function() {
         if (element.next && element.isMoving) {
@@ -21,13 +21,16 @@ class Item {
         }
       }, 10);
     });
+    this.baseElement.on("click", function () {
+
+    });
   }
 
   moveTo(item) {
     anime({
-      targets: this.$element[0],
-      left: item.$element.css("left"),
-      top: item.$element.css("top"),
+      targets: this.baseElement[0],
+      left: item.baseElement.css("left"),
+      top: item.baseElement.css("top"),
       duration: 700,
       elasticity: 500
     });
@@ -38,9 +41,9 @@ class Item {
 
   updatePosition() {
     anime({
-      targets: this.$element[0],
-      left: this.prev.$element.css("left"),
-      top: this.prev.$element.css("top"),
+      targets: this.baseElement[0],
+      left: this.prev.baseElement.css("left"),
+      top: this.prev.baseElement.css("top"),
       duration: 200
     });
 
@@ -54,7 +57,7 @@ class Item {
 
 class Menu {
   constructor(menu) {
-    this.$element = $(menu);
+    this.baseElement = $(menu);
     this.size = 0;
     this.first = null;
     this.last = null;
@@ -64,18 +67,18 @@ class Menu {
   }
 
   add(item) {
-    var menu = this;
-    if (this.first == null) {
+    let menu = this;
+    if (this.first === null) {
       this.first = item;
       this.last = item;
-      this.first.$element.on("mouseup", function() {
+      this.first.baseElement.on("mouseup", function() {
         if (menu.first.isMoving) {
           menu.first.isMoving = false;
         } else {
           menu.click();
         }
       });
-      item.$element.draggable(
+      item.baseElement.draggable(
         {
           start: function() {
             menu.close();
@@ -101,20 +104,20 @@ class Menu {
       item.prev = this.last;
       this.last = item;
     }
-    this.$element.after(item.$element);
+    this.baseElement.after(item.baseElement);
   }
 
   open() {
     this.status = "open";
-    var current = this.first.next;
-    var iterator = 1;
-    var head = this.first;
-    var sens = head.$element.css("left") < head.$element.css("right") ? 1 : -1;
-    while (current != null) {
+    let current = this.first.next;
+    let iterator = 1;
+    let head = this.first;
+    let sens = head.baseElement.css("left") < head.baseElement.css("right") ? 1 : -1;
+    while (current !== null) {
       anime({
-        targets: current.$element[0],
-        left: parseInt(head.$element.css("left"), 10) + sens * (iterator * 50),
-        top: head.$element.css("top"),
+        targets: current.baseElement[0],
+        left: parseInt(head.baseElement.css("left"), 10) + sens * (iterator * 50),
+        top: head.baseElement.css("top"),
         duration: 500
       });
       iterator++;
@@ -124,14 +127,14 @@ class Menu {
 
   close() {
     this.status = "closed";
-    var current = this.first.next;
-    var head = this.first;
-    var iterator = 1;
-    while (current != null) {
+    let current = this.first.next;
+    let head = this.first;
+    let iterator = 1;
+    while (current !== null) {
       anime({
-        targets: current.$element[0],
-        left: head.$element.css("left"),
-        top: head.$element.css("top"),
+        targets: current.baseElement[0],
+        left: head.baseElement.css("left"),
+        top: head.baseElement.css("top"),
         duration: 500
       });
       iterator++;
@@ -170,15 +173,15 @@ define([
     },
 
     _createButtons: function() {
-      var menu = new Menu("#myMenu");
-      var item1 = new Item("list", "#325aa3");
-      var item2 = new Item("plus", "#5CD1FF");
-      var item3 = new Item("minus", "#5CD1FF");
-      var item4 = new Item("home", "#508bde");
-      var item5 = new Item("arrow-circle-left", "#508bde");
-      var item6 = new Item("arrow-circle-right", "#508bde");
-      var item7 = new Item("pencil", "#ff9d5c");
-      var item8 = new Item("floppy-o", "#ff9d5c");
+      let menu = new Menu("#myMenu");
+      let item1 = new Item("list", "#325aa3", this.map);
+      let item2 = new Item("plus", "#5CD1FF", this.map);
+      let item3 = new Item("minus", "#5CD1FF", this.map);
+      let item4 = new Item("home", "#508bde", this.map);
+      let item5 = new Item("arrow-circle-left", "#508bde", this.map);
+      let item6 = new Item("arrow-circle-right", "#508bde", this.map);
+      let item7 = new Item("pencil", "#ff9d5c", this.map);
+      let item8 = new Item("floppy-o", "#ff9d5c", this.map);
 
       menu.add(item1);
       menu.add(item8);

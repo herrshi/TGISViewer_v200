@@ -1,17 +1,7 @@
 {
   "buttons": [
     {
-      "label": "home",
-      "fontClass": "fa fa-home",
-      "initEnable": false,
-      "operations": [
-        {
-          "opName": "changeLayer"
-        }
-      ]
-    },
-    {
-      "label": "摄像机",
+      "label": "停车场",
       "fontClass": "fa fa-video-camera",
       "operations": [
         {
@@ -20,22 +10,8 @@
       ]
     },
     {
-      "label": "情报板",
+      "label": "路况诱导板",
       "fontClass": "icon_qbb",
-      "operations": [
-        {
-          "opName": "changeLayer",
-          "opParam": ["情报板"]
-        },
-        {
-          "opName": "changeLayer",
-          "opParam": ["东南环情报板"]
-        }
-      ]
-    },
-    {
-      "label": "船舶",
-      "fontClass": "fa fa-ship",
       "operations": [
         {
           "opName": "changeLayer"
@@ -43,8 +19,8 @@
       ]
     },
     {
-      "label": "发布段",
-      "fontClass": "icon_fbd",
+      "label": "停车诱导板",
+      "fontClass": "fa fa-ship",
       "operations": [
         {
           "opName": "changeLayer"
