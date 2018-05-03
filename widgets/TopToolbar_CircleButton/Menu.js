@@ -57,7 +57,6 @@ define([
         item.prev = this.last;
         this.last = item;
       }
-      console.log(item.baseElement, this.baseElement);
       domConstruct.place(item.baseElement, this.baseElement, "after");
     },
 

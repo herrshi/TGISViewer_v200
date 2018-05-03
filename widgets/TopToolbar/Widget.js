@@ -117,7 +117,6 @@ define([
     },
 
     _onBtnHomeClicked: function () {
-      console.log(this.initialExtent);
       this.map.setExtent(this.initialExtent);
     },
 

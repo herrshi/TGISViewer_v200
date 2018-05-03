@@ -156,13 +156,54 @@ define([
   "dojo/query",
   "jimu/BaseWidget",
   window.path + "widgets/TopToolbar_CircleButton/Menu.js",
-  window.path + "widgets/TopToolbar_CircleButton/MenuItem.js"
-], function(declare, lang, topic, query, BaseWidget, Menu, Item) {
+  window.path + "widgets/TopToolbar_CircleButton/MenuItem.js",
+  "esri/geometry/Extent",
+  "esri/SpatialReference",
+  "esri/toolbars/navigation"
+], function(
+  declare,
+  lang,
+  topic,
+  query,
+  BaseWidget,
+  Menu,
+  Item,
+  Extent,
+  SpatialReference,
+  Navigation
+) {
   return declare([BaseWidget], {
     baseClass: "jimu-widget-TopToolbarCircleButton",
 
+    initialExtent: null,
+    navToolbar: null,
+
     postCreate: function() {
       this.inherited(arguments);
+
+      //地图初始范围
+      //配置: config.json的mapOptions.extent
+      var configExtent =
+        this.appConfig &&
+        this.appConfig.map &&
+        this.appConfig.map.mapOptions &&
+        this.appConfig.map.mapOptions.extent;
+      if (configExtent) {
+        this.initialExtent = new Extent(
+          configExtent.xmin,
+          configExtent.ymin,
+          configExtent.xmax,
+          configExtent.ymax,
+          new SpatialReference(configExtent.spatialReference)
+        );
+      }
+      //config.json没有配置就用服务中的配置
+      else {
+        this.initialExtent = this.map._initialExtent || this.map.extent;
+      }
+
+      //初始化前进后退按钮
+      this.navToolbar = new Navigation(this.map);
 
       setTimeout(lang.hitch(this, this._createButtons), 500);
 
@@ -175,13 +216,41 @@ define([
     _createButtons: function() {
       var menu = new Menu(query("#myMenu")[0]);
       var item1 = new Item("list", "#325aa3");
-      var item2 = new Item("plus", "#5CD1FF", this._onBtnZoomInClicked);
-      var item3 = new Item("minus", "#5CD1FF");
-      var item4 = new Item("home", "#508bde");
-      var item5 = new Item("arrow-circle-left", "#508bde");
-      var item6 = new Item("arrow-circle-right", "#508bde");
-      var item7 = new Item("pencil", "#ff9d5c");
-      var item8 = new Item("floppy-o", "#ff9d5c");
+      var item2 = new Item(
+        "plus",
+        "#5CD1FF",
+        lang.hitch(this, this._onBtnZoomInClicked)
+      );
+      var item3 = new Item(
+        "minus",
+        "#5CD1FF",
+        lang.hitch(this, this._onBtnZoomOutClicked)
+      );
+      var item4 = new Item(
+        "home",
+        "#508bde",
+        lang.hitch(this, this._onBtnHomeClicked)
+      );
+      var item5 = new Item(
+        "arrow-circle-left",
+        "#508bde",
+        lang.hitch(this, this._onBtnPreviousClicked)
+      );
+      var item6 = new Item(
+        "arrow-circle-right",
+        "#508bde",
+        lang.hitch(this, this._onBtnNextClicked)
+      );
+      var item7 = new Item(
+        "pencil",
+        "#ff9d5c",
+        lang.hitch(this, this._onBtnWidgetDrawClicked)
+      );
+      var item8 = new Item(
+        "floppy-o",
+        "#ff9d5c",
+        lang.hitch(this, this._onBtnSaveClicked)
+      );
 
       menu.add(item1);
       menu.add(item8);
@@ -198,12 +267,34 @@ define([
     },
 
     _onBtnZoomInClicked: function() {
-      console.log(this.map);
       this.map._extentUtil({ numLevels: 1 });
     },
 
     _onBtnZoomOutClicked: function() {
       this.map._extentUtil({ numLevels: -1 });
+    },
+
+    _onBtnHomeClicked: function() {
+      this.map.setExtent(this.initialExtent);
+    },
+
+    _onBtnPreviousClicked: function() {
+      this.navToolbar.zoomToPrevExtent();
+    },
+
+    _onBtnNextClicked: function() {
+      this.navToolbar.zoomToNextExtent();
+    },
+
+    _onBtnWidgetDrawClicked: function() {
+      topic.publish("openWidget", "DrawWidget");
+    },
+
+    _onBtnSaveClicked: function() {
+      topic.publish("Print");
+      if (typeof startPrint !== "undefined" && startPrint instanceof Function) {
+        startPrint();
+      }
     }
   });
 });
