@@ -184,8 +184,8 @@ define([
 
     btnMapZoomIn: null,
     btnMapZoomOut: null,
-
-    _disabledClass: "item-disable",
+    btnMapPrev: null,
+    btnMapNext: null,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -210,11 +210,6 @@ define([
         this._initialExtent = this.map._initialExtent || this.map.extent;
       }
 
-      //初始化放大缩小按钮
-      this.own(on(this.map, "zoom-end", lang.hitch(this, this._onMapZoomEnd)));
-      // this._onMapZoomEnd();
-
-      //初始化前进后退按钮
       this._navToolbar = new Navigation(this.map);
 
       setTimeout(lang.hitch(this, this._createButtons), 500);
@@ -228,59 +223,77 @@ define([
     _createButtons: function() {
       var menu = new Menu(query("#myMenu")[0]);
       //打开工具栏的按钮
-      var btnToolbar = new Item("list", "#325aa3");
-      this.btnMapZoomIn = new Item(
-        "plus",
-        "#5CD1FF",
-        "放大",
-        lang.hitch(this, this._onBtnZoomInClicked)
-      );
-      this.btnMapZoomOut = new Item(
-        "minus",
-        "#5CD1FF",
-        "缩小",
-        lang.hitch(this, this._onBtnZoomOutClicked)
-      );
-      var btnMapHome = new Item(
-        "home",
-        "#508bde",
-        "初始视图",
-        lang.hitch(this, this._onBtnHomeClicked)
-      );
-      var btnMapPrev = new Item(
-        "arrow-circle-left",
-        "#508bde",
-        "上一视图",
-        lang.hitch(this, this._onBtnPreviousClicked)
-      );
-      var btnMapNext = new Item(
-        "arrow-circle-right",
-        "#508bde",
-        "下一视图",
-        lang.hitch(this, this._onBtnNextClicked)
-      );
-      var btnWidgetDraw = new Item(
-        "pencil",
-        "#ff9d5c",
-        "绘制",
-        lang.hitch(this, this._onBtnWidgetDrawClicked)
-      );
-      var btnWidgetSave = new Item(
-        "floppy-o",
-        "#ff9d5c",
-        "保存",
-        lang.hitch(this, this._onBtnSaveClicked)
-      );
+      var btnToolbar = new Item({
+        faIcon: "list",
+        backgroundColor: "#325aa3",
+        opacity: 1
+      });
+      this.btnMapZoomIn = new Item({
+        faIcon: "plus",
+        backgroundColor: "#5CD1FF",
+        title: "放大",
+        clickFunction: lang.hitch(this, this._onBtnZoomInClicked)
+      });
+      this.btnMapZoomOut = new Item({
+        faIcon: "minus",
+        backgroundColor: "#5CD1FF",
+        title: "缩小",
+        clickFunction: lang.hitch(this, this._onBtnZoomOutClicked)
+      });
+      var btnMapHome = new Item({
+        faIcon: "home",
+        backgroundColor: "#508bde",
+        title: "初始视图",
+        clickFunction: lang.hitch(this, this._onBtnHomeClicked)
+      });
+      this.btnMapPrev = new Item({
+        faIcon: "arrow-circle-left",
+        backgroundColor: "#508bde",
+        title: "上一视图",
+        clickFunction: lang.hitch(this, this._onBtnPreviousClicked)
+      });
+      this.btnMapNext = new Item({
+        faIcon: "arrow-circle-right",
+        backgroundColor: "#508bde",
+        title: "下一视图",
+        clickFunction: lang.hitch(this, this._onBtnNextClicked)
+      });
+      var btnWidgetDraw = new Item({
+        faIcon: "pencil",
+        backgroundColor: "#ff9d5c",
+        title: "绘制",
+        clickFunction: lang.hitch(this, this._onBtnWidgetDrawClicked)
+      });
+      var btnWidgetSave = new Item({
+        faIcon: "floppy-o",
+        backgroundColor: "#ff9d5c",
+        title: "保存",
+        clickFunction: lang.hitch(this, this._onBtnSaveClicked)
+      });
 
       //从右往左加入
       menu.add(btnToolbar);
       menu.add(btnWidgetSave);
       menu.add(btnWidgetDraw);
-      menu.add(btnMapNext);
-      menu.add(btnMapPrev);
+      menu.add(this.btnMapNext);
+      menu.add(this.btnMapPrev);
       menu.add(btnMapHome);
       menu.add(this.btnMapZoomOut);
       menu.add(this.btnMapZoomIn);
+
+      //初始化放大缩小按钮
+      this.own(on(this.map, "zoom-end", lang.hitch(this, this._onMapZoomEnd)));
+      this._onMapZoomEnd();
+
+      //初始化前进后退按钮
+      this.own(
+        on(
+          this._navToolbar,
+          "extent-history-change",
+          lang.hitch(this, this._onMapExtentHistoryChange)
+        )
+      );
+      this._onMapExtentHistoryChange();
     },
 
     onTopicHandler_showTopToolbar: function() {
@@ -334,6 +347,20 @@ define([
         if (disabledButton) {
           disabledButton.disable();
         }
+      }
+    },
+
+    _onMapExtentHistoryChange: function() {
+      if (this._navToolbar.isFirstExtent()) {
+        this.btnMapPrev.disable();
+      } else {
+        this.btnMapPrev.enable();
+      }
+
+      if (this._navToolbar.isLastExtent()) {
+        this.btnMapNext.disable();
+      } else {
+        this.btnMapNext.enable();
       }
     }
   });

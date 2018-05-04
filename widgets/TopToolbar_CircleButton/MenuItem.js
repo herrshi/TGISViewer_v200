@@ -15,18 +15,21 @@ define([
     timeout: null,
     backgroundColor: null,
 
-    constructor: function(icon, backgroundColor, title, clickFunction) {
-      this.backgroundColor = backgroundColor;
+    constructor: function(params) {
+      this.backgroundColor = params.backgroundColor;
 
       this.baseElement = domConstruct.create("div");
       domClass.add(this.baseElement, "item");
-      domStyle.set(this.baseElement, "background-color", backgroundColor);
-      if (title){
-        domAttr.set(this.baseElement, "title", title);
+      domStyle.set(this.baseElement, "background-color", params.backgroundColor);
+      if (params.title){
+        domAttr.set(this.baseElement, "title", params.title);
+      }
+      if (params.opacity) {
+        domStyle.set(this.baseElement, "opacity", params.opacity);
       }
 
       var i = domConstruct.create("i", null, this.baseElement);
-      domClass.add(i, "fa fa-" + icon);
+      domClass.add(i, "fa fa-" + params.faIcon);
 
       on(
         this.baseElement,
@@ -44,7 +47,7 @@ define([
         })
       );
 
-      on(this.baseElement, "click", clickFunction);
+      on(this.baseElement, "click", params.clickFunction);
     },
 
     enable: function() {
@@ -55,6 +58,10 @@ define([
     disable: function() {
       domStyle.set(this.baseElement, "background-color", "#7c828d");
       domStyle.set(this.baseElement, "cursor", "not-allowed");
+    },
+
+    active: function() {
+
     },
 
     moveTo: function(item) {
