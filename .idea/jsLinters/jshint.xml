@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="JSHintConfiguration" version="2.9.4" use-config-file="true" use-custom-config-file="true" custom-config-file-path="F:/Download/ESRI/Development/jsapi-resources-master/jshint/.jshintrc">
+  <component name="JSHintConfiguration" version="2.9.5" use-config-file="true" use-custom-config-file="true" custom-config-file-path="$USER_HOME$/Downloads/ESRI/jsapi-resources-master/jshint/.jshintrc">
     <option asi="false" />
     <option bitwise="true" />
     <option boss="false" />
@@ -11,14 +11,14 @@
     <option curly="true" />
     <option debug="false" />
     <option devel="false" />
-    <option dojo="false" />
+    <option dojo="true" />
     <option elision="false" />
     <option enforceall="false" />
     <option eqeqeq="true" />
     <option eqnull="false" />
     <option es3="false" />
     <option es5="false" />
-    <option esnext="false" />
+    <option esnext="true" />
     <option evil="false" />
     <option expr="false" />
     <option forin="true" />
@@ -67,7 +67,7 @@
     <option shelljs="false" />
     <option singleGroups="false" />
     <option smarttabs="false" />
-    <option strict="true" />
+    <option strict="false" />
     <option sub="false" />
     <option supernew="false" />
     <option trailing="false" />
