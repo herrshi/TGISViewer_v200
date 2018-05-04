@@ -32,8 +32,8 @@ define([
     _disabledClass: "btn-disable",
     _activeClass: "btn-active",
 
-    initialExtent: null,
-    navToolbar: null,
+    _initialExtent: null,
+    _navToolbar: null,
 
     postCreate: function(){
       this.inherited(arguments);
@@ -42,7 +42,7 @@ define([
       var configExtent = this.appConfig && this.appConfig.map &&
         this.appConfig.map.mapOptions && this.appConfig.map.mapOptions.extent;
       if (configExtent) {
-        this.initialExtent = new Extent(
+        this._initialExtent = new Extent(
           configExtent.xmin,
           configExtent.ymin,
           configExtent.xmax,
@@ -52,7 +52,7 @@ define([
       }
       //config.json没有配置就用服务中的配置
       else {
-        this.initialExtent = this.map._initialExtent || this.map.extent;
+        this._initialExtent = this.map._initialExtent || this.map.extent;
       }
 
       //初始化放大缩小按钮
@@ -60,8 +60,8 @@ define([
       this._onMapZoomEnd();
 
       //初始化前进后退按钮
-      this.navToolbar = new Navigation(this.map);
-      this.own(on(this.navToolbar, "extent-history-change", lang.hitch(this, this._onMapExtentHistoryChange)));
+      this._navToolbar = new Navigation(this.map);
+      this.own(on(this._navToolbar, "extent-history-change", lang.hitch(this, this._onMapExtentHistoryChange)));
       this._onMapExtentHistoryChange();
 
       topic.subscribe("showTopToolbarButton", lang.hitch(this, this.topicHandler_onShowTopToolbarButton));
@@ -95,13 +95,13 @@ define([
     },
 
     _onMapExtentHistoryChange: function () {
-      if(this.navToolbar.isFirstExtent()){
+      if(this._navToolbar.isFirstExtent()){
         html.addClass(this.btnPrevious, this._disabledClass);
       }else{
         html.removeClass(this.btnPrevious, this._disabledClass);
       }
 
-      if(this.navToolbar.isLastExtent()){
+      if(this._navToolbar.isLastExtent()){
         html.addClass(this.btnNext, this._disabledClass);
       }else{
         html.removeClass(this.btnNext, this._disabledClass);
@@ -117,15 +117,15 @@ define([
     },
 
     _onBtnHomeClicked: function () {
-      this.map.setExtent(this.initialExtent);
+      this.map.setExtent(this._initialExtent);
     },
 
     _onBtnPreviousClicked: function () {
-      this.navToolbar.zoomToPrevExtent();
+      this._navToolbar.zoomToPrevExtent();
     },
 
     _onBtnNextClicked: function () {
-      this.navToolbar.zoomToNextExtent();
+      this._navToolbar.zoomToNextExtent();
     },
 
     _onBtnWidgetDrawClicked: function () {

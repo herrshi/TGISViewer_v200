@@ -37,7 +37,7 @@ define([
         fullExtent = null,
         layerExtent;
       array.forEach(layers, function(layer) {
-        layerExtent = this._convertGeometryToMapSpatialRef(layer.initialExtent);
+        layerExtent = this._convertGeometryToMapSpatialRef(layer._initialExtent);
         if (fullExtent) {
           fullExtent = fullExtent.union(layerExtent);
         } else {

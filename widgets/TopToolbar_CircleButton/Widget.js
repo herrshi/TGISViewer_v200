@@ -154,6 +154,8 @@ define([
   "dojo/_base/lang",
   "dojo/topic",
   "dojo/query",
+  "dojo/on",
+  "dojo/dom-class",
   "jimu/BaseWidget",
   window.path + "widgets/TopToolbar_CircleButton/Menu.js",
   window.path + "widgets/TopToolbar_CircleButton/MenuItem.js",
@@ -165,6 +167,8 @@ define([
   lang,
   topic,
   query,
+  on,
+  domClass,
   BaseWidget,
   Menu,
   Item,
@@ -175,8 +179,13 @@ define([
   return declare([BaseWidget], {
     baseClass: "jimu-widget-TopToolbarCircleButton",
 
-    initialExtent: null,
-    navToolbar: null,
+    _initialExtent: null,
+    _navToolbar: null,
+
+    btnMapZoomIn: null,
+    btnMapZoomOut: null,
+
+    _disabledClass: "item-disable",
 
     postCreate: function() {
       this.inherited(arguments);
@@ -189,21 +198,24 @@ define([
         this.appConfig.map.mapOptions &&
         this.appConfig.map.mapOptions.extent;
       if (configExtent) {
-        this.initialExtent = new Extent(
+        this._initialExtent = new Extent(
           configExtent.xmin,
           configExtent.ymin,
           configExtent.xmax,
           configExtent.ymax,
           new SpatialReference(configExtent.spatialReference)
         );
-      }
-      //config.json没有配置就用服务中的配置
-      else {
-        this.initialExtent = this.map._initialExtent || this.map.extent;
+      } else {
+        //config.json没有配置就用服务中的配置
+        this._initialExtent = this.map._initialExtent || this.map.extent;
       }
 
+      //初始化放大缩小按钮
+      this.own(on(this.map, "zoom-end", lang.hitch(this, this._onMapZoomEnd)));
+      // this._onMapZoomEnd();
+
       //初始化前进后退按钮
-      this.navToolbar = new Navigation(this.map);
+      this._navToolbar = new Navigation(this.map);
 
       setTimeout(lang.hitch(this, this._createButtons), 500);
 
@@ -215,51 +227,60 @@ define([
 
     _createButtons: function() {
       var menu = new Menu(query("#myMenu")[0]);
-      var item1 = new Item("list", "#325aa3");
-      var item2 = new Item(
+      //打开工具栏的按钮
+      var btnToolbar = new Item("list", "#325aa3");
+      this.btnMapZoomIn = new Item(
         "plus",
         "#5CD1FF",
+        "放大",
         lang.hitch(this, this._onBtnZoomInClicked)
       );
-      var item3 = new Item(
+      this.btnMapZoomOut = new Item(
         "minus",
         "#5CD1FF",
+        "缩小",
         lang.hitch(this, this._onBtnZoomOutClicked)
       );
-      var item4 = new Item(
+      var btnMapHome = new Item(
         "home",
         "#508bde",
+        "初始视图",
         lang.hitch(this, this._onBtnHomeClicked)
       );
-      var item5 = new Item(
+      var btnMapPrev = new Item(
         "arrow-circle-left",
         "#508bde",
+        "上一视图",
         lang.hitch(this, this._onBtnPreviousClicked)
       );
-      var item6 = new Item(
+      var btnMapNext = new Item(
         "arrow-circle-right",
         "#508bde",
+        "下一视图",
         lang.hitch(this, this._onBtnNextClicked)
       );
-      var item7 = new Item(
+      var btnWidgetDraw = new Item(
         "pencil",
         "#ff9d5c",
+        "绘制",
         lang.hitch(this, this._onBtnWidgetDrawClicked)
       );
-      var item8 = new Item(
+      var btnWidgetSave = new Item(
         "floppy-o",
         "#ff9d5c",
+        "保存",
         lang.hitch(this, this._onBtnSaveClicked)
       );
 
-      menu.add(item1);
-      menu.add(item8);
-      menu.add(item7);
-      menu.add(item6);
-      menu.add(item5);
-      menu.add(item4);
-      menu.add(item3);
-      menu.add(item2);
+      //从右往左加入
+      menu.add(btnToolbar);
+      menu.add(btnWidgetSave);
+      menu.add(btnWidgetDraw);
+      menu.add(btnMapNext);
+      menu.add(btnMapPrev);
+      menu.add(btnMapHome);
+      menu.add(this.btnMapZoomOut);
+      menu.add(this.btnMapZoomIn);
     },
 
     onTopicHandler_showTopToolbar: function() {
@@ -275,15 +296,15 @@ define([
     },
 
     _onBtnHomeClicked: function() {
-      this.map.setExtent(this.initialExtent);
+      this.map.setExtent(this._initialExtent);
     },
 
     _onBtnPreviousClicked: function() {
-      this.navToolbar.zoomToPrevExtent();
+      this._navToolbar.zoomToPrevExtent();
     },
 
     _onBtnNextClicked: function() {
-      this.navToolbar.zoomToNextExtent();
+      this._navToolbar.zoomToNextExtent();
     },
 
     _onBtnWidgetDrawClicked: function() {
@@ -294,6 +315,25 @@ define([
       topic.publish("Print");
       if (typeof startPrint !== "undefined" && startPrint instanceof Function) {
         startPrint();
+      }
+    },
+
+    _onMapZoomEnd: function() {
+      this.btnMapZoomIn.enable();
+      this.btnMapZoomOut.enable();
+
+      var level = this.map.getLevel();
+      var disabledButton;
+      if (level > -1) {
+        if (level === this.map.getMaxZoom()) {
+          disabledButton = this.btnMapZoomIn;
+        } else if (level === this.map.getMinZoom()) {
+          disabledButton = this.btnMapZoomOut;
+        }
+
+        if (disabledButton) {
+          disabledButton.disable();
+        }
       }
     }
   });
