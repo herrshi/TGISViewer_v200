@@ -4,19 +4,26 @@ define([
   "dojo/on",
   "dojo/dom-construct",
   "dojo/dom-class",
-  "dojo/dom-style"
-], function(declare, lang, on, domConstruct, domClass, domStyle) {
+  "dojo/dom-style",
+  "dojo/dom-attr"
+], function(declare, lang, on, domConstruct, domClass, domStyle, domAttr) {
   return declare(null, {
     baseElement: null,
     prev: null,
     next: null,
     isMoving: null,
     timeout: null,
+    backgroundColor: null,
 
-    constructor: function(icon, backgroundColor, clickFunction) {
+    constructor: function(icon, backgroundColor, title, clickFunction) {
+      this.backgroundColor = backgroundColor;
+
       this.baseElement = domConstruct.create("div");
       domClass.add(this.baseElement, "item");
       domStyle.set(this.baseElement, "background-color", backgroundColor);
+      if (title){
+        domAttr.set(this.baseElement, "title", title);
+      }
 
       var i = domConstruct.create("i", null, this.baseElement);
       domClass.add(i, "fa fa-" + icon);
@@ -38,6 +45,16 @@ define([
       );
 
       on(this.baseElement, "click", clickFunction);
+    },
+
+    enable: function() {
+      domStyle.set(this.baseElement, "background-color", this.backgroundColor);
+      domStyle.set(this.baseElement, "cursor", "pointer");
+    },
+
+    disable: function() {
+      domStyle.set(this.baseElement, "background-color", "#7c828d");
+      domStyle.set(this.baseElement, "cursor", "not-allowed");
     },
 
     moveTo: function(item) {

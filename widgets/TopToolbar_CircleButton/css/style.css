@@ -19,9 +19,10 @@
   line-height: 40px;
   font-size: 18px;
   color: #fff;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .jimu-widget-TopToolbarCircleButton .item-disable {
-
+  cursor: not-allowed;
+  background-color: #444;
 }

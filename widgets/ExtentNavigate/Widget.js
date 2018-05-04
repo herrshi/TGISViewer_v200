@@ -18,7 +18,7 @@ define([
 ) {
   var clazz = declare([BaseWidget], {
     name: "ExtentNavigate",
-    navToolbar: null,
+    _navToolbar: null,
     
     baseClass: "jimu-widget-extent-navigate",
     _disabledClass: "jimu-state-disabled",
@@ -34,20 +34,20 @@ define([
       this.inherited(arguments);
       this.navToolbar = new Navigation(this.map);
 
-      this.own(on(this.navToolbar, "extent-history-change", lang.hitch(this, this._onExtentHistoryChange)));
+      this.own(on(this._navToolbar, "extent-history-change", lang.hitch(this, this._onExtentHistoryChange)));
       this.btnPrevious.title = this.nls.previousExtent;
       this.btnNext.title = this.nls.nextExtent;
       this._onExtentHistoryChange();
     },
 
     _onExtentHistoryChange: function () {
-      if(this.navToolbar.isFirstExtent()){
+      if(this._navToolbar.isFirstExtent()){
         html.addClass(this.btnPrevious, this._disabledClass);
       }else{
         html.removeClass(this.btnPrevious, this._disabledClass);
       }
 
-      if(this.navToolbar.isLastExtent()){
+      if(this._navToolbar.isLastExtent()){
         html.addClass(this.btnNext, this._disabledClass);
       }else{
         html.removeClass(this.btnNext, this._disabledClass);
@@ -55,11 +55,11 @@ define([
     },
 
     _onBtnPreviousClicked: function(){
-      this.navToolbar.zoomToPrevExtent();
+      this._navToolbar.zoomToPrevExtent();
     },
 
     _onBtnNextClicked: function(){
-      this.navToolbar.zoomToNextExtent();
+      this._navToolbar.zoomToNextExtent();
     },
 
     setPosition: function(position){
