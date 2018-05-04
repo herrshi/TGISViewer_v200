@@ -89,11 +89,11 @@
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
-    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/HongQiao/config.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/HongQiao/config.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -167,6 +167,7 @@
     //   console.log(result.x, result.y);
     // });
     // map.addPoints('{"points":[{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.40887797508348,"y":43.49521156331913},"id":"be557e9b-03e0-4809-a87f-a56195ac0bc0,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"10000002","gzsj":null,"levelMessage":"暂无异常"}},{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.4235618296279,"y":43.474032926957},"id":"948ab669-f01f-4eba-90ad-2952533c8915,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"T000001","gzsj":null,"levelMessage":"暂无异常"}}]}')
+    // map.hideTopToolbar();
   });
 
   function Test1ClickHandler() {
@@ -290,15 +291,15 @@
 
     // map.showRouteByCross({crossIds:["51012211500109","51012200100102","51012200100112","51012200100123","51012200100134","51012212000438"]});
 
-    // map.hideTopToolbar();
+    map.showTopToolbar();
     // map.hideBottomToolbar();
     // map.findFeature({layerName: "AccidentsNumber", ids: ["B11"]});
     // map.showOD({type: "O", startID: "B12", endFlows: [{ID: "B11", flow: 100},{ID: "B13", flow: 150},{ID: "B14", flow: 200},{ID: "B15", flow: 250},{ID: "B17", flow: 300},{ID: "B18", flow: 350}]});
 
     // map.findFeature({layerName: "SheBei", ids: ["948ab669-f01f-4eba-90ad-2952533c8915,1"]});
-    map.toScreen({x: 121.483, y: 31.222}, function (result) {
-      console.log(result);
-    });
+    // map.toScreen({x: 121.483, y: 31.222}, function (result) {
+    //   console.log(result);
+    // });
   }
 
 

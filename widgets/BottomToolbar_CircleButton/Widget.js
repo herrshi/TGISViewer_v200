@@ -70,6 +70,11 @@ define([
     onButton_click: function(event) {
       var target = event.target;
 
+      //chrome下点击button图标并不触发button
+      if (target.tagName === "IMG" || target.tagName === "I") {
+        target = target.parentNode;
+      }
+
       domClass.toggle(target, this._activeClass);
 
       var label = domAttr.get(target, "title");

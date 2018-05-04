@@ -216,7 +216,11 @@ define([
 
       topic.subscribe(
         "showTopToolbar",
-        lang.hitch(this, this.onTopicHandler_showTopToolbar)
+        lang.hitch(this, this.topicHandler_onShowTopToolbar)
+      );
+      topic.subscribe(
+        "hideTopToolbar",
+        lang.hitch(this, this.topicHandler_onHideTopToolbar)
       );
     },
 
@@ -296,8 +300,12 @@ define([
       this._onMapExtentHistoryChange();
     },
 
-    onTopicHandler_showTopToolbar: function() {
-      this._createButtons();
+    topicHandler_onShowTopToolbar: function() {
+      query("." + this.baseClass).style("display", "block");
+    },
+
+    topicHandler_onHideTopToolbar: function() {
+      query("." + this.baseClass).style("display", "none");
     },
 
     _onBtnZoomInClicked: function() {
