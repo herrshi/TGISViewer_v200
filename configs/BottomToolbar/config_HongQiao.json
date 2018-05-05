@@ -1,0 +1,31 @@
+{
+  "buttons": [
+    {
+      "label": "停车场",
+      "fontClass": "icon_parking",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "路况诱导板",
+      "fontClass": "icon_qbb",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "停车诱导板",
+      "fontClass": "icon_qbb_parking",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

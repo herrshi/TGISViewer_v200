@@ -1,5 +1,55 @@
 @charset "UTF-8";
 /* Cubic Bezier Transition */
+html {font-size: 625%; /*100 ÷ 16 × 100% = 625%*/}
+
+/* 超小屏幕（手机，大于等于 432px） */
+@media (max-width:479px) {
+  html { font-size: 325%; }
+}
+/* 超小屏幕（手机，大于等于 432px） */
+@media (min-width:479px) {
+  html { font-size: 325%; }
+}
+/* 小屏幕（平板，大于等于 768px） */
+@media (min-width:768px) {
+  html {font-size: 325%;}
+}
+
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+@media (min-width:992px) {
+  html {font-size: 325%;}
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1024px） */
+@media (min-width:1024px) {
+  html {font-size: 325%;}
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1280px） */
+@media (max-width:1280px) {
+  html {font-size: 325%;}
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1366px） */
+@media (min-width:1366px) {
+  html {font-size: 350%;}
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1440px） */
+@media (min-width:1440px) {
+  html {font-size: 360%;}
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1680px） */
+@media (min-width:1680px) {
+  html {font-size: 430%;}
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1920px） */
+@media (min-width:1920px) {
+  html {font-size: 500%;}
+}
+
 @media print {
   body {
     background-color: #fff !important; }

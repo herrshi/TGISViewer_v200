@@ -13,7 +13,7 @@ define([
   "esri/geometry/Extent",
   "esri/SpatialReference",
   "esri/toolbars/navigation"
-], function (
+], function(
   declare,
   lang,
   html,
@@ -32,17 +32,20 @@ define([
     _disabledClass: "btn-disable",
     _activeClass: "btn-active",
 
-    initialExtent: null,
-    navToolbar: null,
+    _initialExtent: null,
+    _navToolbar: null,
 
-    postCreate: function(){
+    postCreate: function() {
       this.inherited(arguments);
       //地图初始范围
       //配置: config.json的mapOptions.extent
-      var configExtent = this.appConfig && this.appConfig.map &&
-        this.appConfig.map.mapOptions && this.appConfig.map.mapOptions.extent;
+      var configExtent =
+        this.appConfig &&
+        this.appConfig.map &&
+        this.appConfig.map.mapOptions &&
+        this.appConfig.map.mapOptions.extent;
       if (configExtent) {
-        this.initialExtent = new Extent(
+        this._initialExtent = new Extent(
           configExtent.xmin,
           configExtent.ymin,
           configExtent.xmax,
@@ -52,7 +55,7 @@ define([
       }
       //config.json没有配置就用服务中的配置
       else {
-        this.initialExtent = this.map._initialExtent || this.map.extent;
+        this._initialExtent = this.map._initialExtent || this.map.extent;
       }
 
       //初始化放大缩小按钮
@@ -60,81 +63,95 @@ define([
       this._onMapZoomEnd();
 
       //初始化前进后退按钮
-      this.navToolbar = new Navigation(this.map);
-      this.own(on(this.navToolbar, "extent-history-change", lang.hitch(this, this._onMapExtentHistoryChange)));
+      this._navToolbar = new Navigation(this.map);
+      this.own(
+        on(
+          this._navToolbar,
+          "extent-history-change",
+          lang.hitch(this, this._onMapExtentHistoryChange)
+        )
+      );
       this._onMapExtentHistoryChange();
 
-      topic.subscribe("showTopToolbarButton", lang.hitch(this, this.topicHandler_onShowTopToolbarButton));
-      topic.subscribe("hideTopToolbarButton", lang.hitch(this, this.topicHandler_onHideTopToolbarButton));
-      topic.subscribe("showTopToolbar", lang.hitch(this, this.topicHandler_onShowTopToolbar));
-      topic.subscribe("hideTopToolbar", lang.hitch(this, this.topicHandler_onHideTopToolbar));
+      topic.subscribe(
+        "showTopToolbarButton",
+        lang.hitch(this, this.topicHandler_onShowTopToolbarButton)
+      );
+      topic.subscribe(
+        "hideTopToolbarButton",
+        lang.hitch(this, this.topicHandler_onHideTopToolbarButton)
+      );
+      topic.subscribe(
+        "showTopToolbar",
+        lang.hitch(this, this.topicHandler_onShowTopToolbar)
+      );
+      topic.subscribe(
+        "hideTopToolbar",
+        lang.hitch(this, this.topicHandler_onHideTopToolbar)
+      );
     },
 
-    startup: function () {
+    startup: function() {
       this.inherited(arguments);
-
-
     },
 
-    _onMapZoomEnd: function () {
+    _onMapZoomEnd: function() {
       html.removeClass(this.btnZoomIn, this._disabledClass);
       html.removeClass(this.btnZoomOut, this._disabledClass);
 
       var level = this.map.getLevel();
       var disabledButton = null;
-      if(level > -1){
-        if(level === this.map.getMaxZoom()){
+      if (level > -1) {
+        if (level === this.map.getMaxZoom()) {
           disabledButton = this.btnZoomIn;
-        }else if(level === this.map.getMinZoom()){
+        } else if (level === this.map.getMinZoom()) {
           disabledButton = this.btnZoomOut;
         }
       }
-      if(disabledButton){
+      if (disabledButton) {
         html.addClass(disabledButton, this._disabledClass);
       }
     },
 
-    _onMapExtentHistoryChange: function () {
-      if(this.navToolbar.isFirstExtent()){
+    _onMapExtentHistoryChange: function() {
+      if (this._navToolbar.isFirstExtent()) {
         html.addClass(this.btnPrevious, this._disabledClass);
-      }else{
+      } else {
         html.removeClass(this.btnPrevious, this._disabledClass);
       }
 
-      if(this.navToolbar.isLastExtent()){
+      if (this._navToolbar.isLastExtent()) {
         html.addClass(this.btnNext, this._disabledClass);
-      }else{
+      } else {
         html.removeClass(this.btnNext, this._disabledClass);
       }
     },
 
-    _onBtnZoomInClicked: function(){
-      this.map._extentUtil({ numLevels: 1});
+    _onBtnZoomInClicked: function() {
+      this.map._extentUtil({ numLevels: 1 });
     },
 
-    _onBtnZoomOutClicked: function(){
-      this.map._extentUtil({ numLevels: -1});
+    _onBtnZoomOutClicked: function() {
+      this.map._extentUtil({ numLevels: -1 });
     },
 
-    _onBtnHomeClicked: function () {
-      console.log(this.initialExtent);
-      this.map.setExtent(this.initialExtent);
+    _onBtnHomeClicked: function() {
+      this.map.setExtent(this._initialExtent);
     },
 
-    _onBtnPreviousClicked: function () {
-      this.navToolbar.zoomToPrevExtent();
+    _onBtnPreviousClicked: function() {
+      this._navToolbar.zoomToPrevExtent();
     },
 
-    _onBtnNextClicked: function () {
-      this.navToolbar.zoomToNextExtent();
+    _onBtnNextClicked: function() {
+      this._navToolbar.zoomToNextExtent();
     },
 
-    _onBtnWidgetDrawClicked: function () {
+    _onBtnWidgetDrawClicked: function() {
       if (html.hasClass(this.btnWidgetDraw, this._activeClass)) {
         html.removeClass(this.btnWidgetDraw, this._activeClass);
         topic.publish("closeWidget", "DrawWidget");
-      }
-      else {
+      } else {
         html.addClass(this.btnWidgetDraw, this._activeClass);
         html.removeClass(this.btnWidgetGeometrySearch, this._activeClass);
         html.removeClass(this.btnWidgetDrawByCoordinate, this._activeClass);
@@ -142,12 +159,11 @@ define([
       }
     },
 
-    _onBtnWidgetGeometrySearchClicked: function () {
+    _onBtnWidgetGeometrySearchClicked: function() {
       if (html.hasClass(this.btnWidgetGeometrySearch, this._activeClass)) {
         html.removeClass(this.btnWidgetGeometrySearch, this._activeClass);
         topic.publish("closeWidget", "GeometrySearchWidget");
-      }
-      else {
+      } else {
         html.addClass(this.btnWidgetGeometrySearch, this._activeClass);
         html.removeClass(this.btnWidgetDraw, this._activeClass);
         html.removeClass(this.btnWidgetDrawByCoordinate, this._activeClass);
@@ -155,12 +171,11 @@ define([
       }
     },
 
-    _onBtnWidgetDrawByCoordinateClick: function () {
+    _onBtnWidgetDrawByCoordinateClick: function() {
       if (html.hasClass(this.btnWidgetDrawByCoordinate, this._activeClass)) {
         html.removeClass(this.btnWidgetDrawByCoordinate, this._activeClass);
         topic.publish("closeWidget", "DrawByCoordinateWidget");
-      }
-      else {
+      } else {
         html.addClass(this.btnWidgetDrawByCoordinate, this._activeClass);
         html.removeClass(this.btnWidgetDraw, this._activeClass);
         html.removeClass(this.btnWidgetGeometrySearch, this._activeClass);
@@ -168,34 +183,51 @@ define([
       }
     },
 
-    _changeBaseMap: function (showLayer) {
-      topic.publish("setLayerVisibility", {label: "矢量图", visible: false});
-      topic.publish("setLayerVisibility", {label: "2005年", visible: false});
-      topic.publish("setLayerVisibility", {label: "最新航空影像", visible: false});
-      topic.publish("setLayerVisibility", {label: "1948年", visible: false});
-      topic.publish("setLayerVisibility", {label: "1979年", visible: false});
-      topic.publish("setLayerVisibility", {label: "1994年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2006年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2008年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2010年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2011年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2012年上半年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2012年下半年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2013年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2014年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2015年", visible: false});
-      topic.publish("setLayerVisibility", {label: "2016年", visible: false});
-      topic.publish("setLayerVisibility", {label: "地形图", visible: false});
-      topic.publish("setLayerVisibility", {label: "线划图", visible: false});
-      topic.publish("setLayerVisibility", {label: "彩色线划图", visible: false});
-      topic.publish("setLayerVisibility", {label: "线划图(中比例尺)", visible: false});
-      topic.publish("setLayerVisibility", {label: "彩色线划图(中比例尺)", visible: false});
+    _changeBaseMap: function(showLayer) {
+      topic.publish("setLayerVisibility", { label: "矢量图", visible: false });
+      topic.publish("setLayerVisibility", { label: "2005年", visible: false });
+      topic.publish("setLayerVisibility", {
+        label: "最新航空影像",
+        visible: false
+      });
+      topic.publish("setLayerVisibility", { label: "1948年", visible: false });
+      topic.publish("setLayerVisibility", { label: "1979年", visible: false });
+      topic.publish("setLayerVisibility", { label: "1994年", visible: false });
+      topic.publish("setLayerVisibility", { label: "2006年", visible: false });
+      topic.publish("setLayerVisibility", { label: "2008年", visible: false });
+      topic.publish("setLayerVisibility", { label: "2010年", visible: false });
+      topic.publish("setLayerVisibility", { label: "2011年", visible: false });
+      topic.publish("setLayerVisibility", {
+        label: "2012年上半年",
+        visible: false
+      });
+      topic.publish("setLayerVisibility", {
+        label: "2012年下半年",
+        visible: false
+      });
+      topic.publish("setLayerVisibility", { label: "2013年", visible: false });
+      topic.publish("setLayerVisibility", { label: "2014年", visible: false });
+      topic.publish("setLayerVisibility", { label: "2015年", visible: false });
+      topic.publish("setLayerVisibility", { label: "2016年", visible: false });
+      topic.publish("setLayerVisibility", { label: "地形图", visible: false });
+      topic.publish("setLayerVisibility", { label: "线划图", visible: false });
+      topic.publish("setLayerVisibility", {
+        label: "彩色线划图",
+        visible: false
+      });
+      topic.publish("setLayerVisibility", {
+        label: "线划图(中比例尺)",
+        visible: false
+      });
+      topic.publish("setLayerVisibility", {
+        label: "彩色线划图(中比例尺)",
+        visible: false
+      });
 
-
-      topic.publish("setLayerVisibility", {label: showLayer, visible: true});
+      topic.publish("setLayerVisibility", { label: showLayer, visible: true });
     },
 
-    _onBtnBaseMapClicked: function () {
+    _onBtnBaseMapClicked: function() {
       html.addClass(this.btnBaseMap, this._activeClass);
       html.removeClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -203,7 +235,7 @@ define([
       this._changeBaseMap("矢量图");
     },
 
-    _onBtnAerialMap2005Clicked: function () {
+    _onBtnAerialMap2005Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -211,7 +243,7 @@ define([
       this._changeBaseMap("2005年");
     },
 
-    _onBtnAerialMapNewestClicked: function () {
+    _onBtnAerialMapNewestClicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -219,7 +251,7 @@ define([
       this._changeBaseMap("最新航空影像");
     },
 
-    _onBtnAerialMap1948Clicked: function () {
+    _onBtnAerialMap1948Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -227,7 +259,7 @@ define([
       this._changeBaseMap("1948年");
     },
 
-    _onBtnAerialMap1979Clicked: function () {
+    _onBtnAerialMap1979Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -235,7 +267,7 @@ define([
       this._changeBaseMap("1979年");
     },
 
-    _onBtnAerialMap1994Clicked: function () {
+    _onBtnAerialMap1994Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -243,7 +275,7 @@ define([
       this._changeBaseMap("1994年");
     },
 
-    _onBtnAerialMap2006Clicked: function () {
+    _onBtnAerialMap2006Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -251,7 +283,7 @@ define([
       this._changeBaseMap("2006年");
     },
 
-    _onBtnAerialMap2008Clicked: function () {
+    _onBtnAerialMap2008Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -259,7 +291,7 @@ define([
       this._changeBaseMap("2008年");
     },
 
-    _onBtnAerialMap2010Clicked: function () {
+    _onBtnAerialMap2010Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -267,7 +299,7 @@ define([
       this._changeBaseMap("2010年");
     },
 
-    _onBtnAerialMap2011Clicked: function () {
+    _onBtnAerialMap2011Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -275,7 +307,7 @@ define([
       this._changeBaseMap("2011年");
     },
 
-    _onBtnAerialMap20121Clicked: function () {
+    _onBtnAerialMap20121Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -283,7 +315,7 @@ define([
       this._changeBaseMap("2012年上半年");
     },
 
-    _onBtnAerialMap20122Clicked: function () {
+    _onBtnAerialMap20122Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -291,7 +323,7 @@ define([
       this._changeBaseMap("2012年下半年");
     },
 
-    _onBtnAerialMap2013Clicked: function () {
+    _onBtnAerialMap2013Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -299,7 +331,7 @@ define([
       this._changeBaseMap("2013年");
     },
 
-    _onBtnAerialMap2014Clicked: function () {
+    _onBtnAerialMap2014Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -307,7 +339,7 @@ define([
       this._changeBaseMap("2014年");
     },
 
-    _onBtnAerialMap2015Clicked: function () {
+    _onBtnAerialMap2015Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -315,7 +347,7 @@ define([
       this._changeBaseMap("2015年");
     },
 
-    _onBtnAerialMap2016Clicked: function () {
+    _onBtnAerialMap2016Clicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.addClass(this.btnAerialMap, this._activeClass);
       html.removeClass(this.btnTopoMap, this._activeClass);
@@ -323,7 +355,7 @@ define([
       this._changeBaseMap("2016年");
     },
 
-    _onBtnTopoMapClicked: function () {
+    _onBtnTopoMapClicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.removeClass(this.btnAerialMap, this._activeClass);
       html.addClass(this.btnTopoMap, this._activeClass);
@@ -331,7 +363,7 @@ define([
       this._changeBaseMap("地形图");
     },
 
-    _onBtnTopoMapNewestClicked: function () {
+    _onBtnTopoMapNewestClicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.removeClass(this.btnAerialMap, this._activeClass);
       html.addClass(this.btnTopoMap, this._activeClass);
@@ -339,7 +371,7 @@ define([
       this._changeBaseMap("线划图");
     },
 
-    _onBtnTopoMapNewestColorClicked: function () {
+    _onBtnTopoMapNewestColorClicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.removeClass(this.btnAerialMap, this._activeClass);
       html.addClass(this.btnTopoMap, this._activeClass);
@@ -347,7 +379,7 @@ define([
       this._changeBaseMap("彩色线划图");
     },
 
-    _onBtnTopoMapNewest10kClicked: function () {
+    _onBtnTopoMapNewest10kClicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.removeClass(this.btnAerialMap, this._activeClass);
       html.addClass(this.btnTopoMap, this._activeClass);
@@ -355,7 +387,7 @@ define([
       this._changeBaseMap("线划图(中比例尺)");
     },
 
-    _onBtnTopoMapNewest10kColorClicked: function () {
+    _onBtnTopoMapNewest10kColorClicked: function() {
       html.removeClass(this.btnBaseMap, this._activeClass);
       html.removeClass(this.btnAerialMap, this._activeClass);
       html.addClass(this.btnTopoMap, this._activeClass);
@@ -363,57 +395,53 @@ define([
       this._changeBaseMap("彩色线划图(中比例尺)");
     },
 
-    _onBtnSaveClicked: function () {
+    _onBtnSaveClicked: function() {
       topic.publish("Print");
       if (typeof startPrint !== "undefined" && startPrint instanceof Function) {
         startPrint();
       }
     },
 
-    _onBtnSwipeClicked: function () {
+    _onBtnSwipeClicked: function() {
       if (html.hasClass(this.btnSwipe, this._activeClass)) {
         html.removeClass(this.btnSwipe, this._activeClass);
         // this.btnSwipe.innerHTML = "卷帘";
         goBack();
-      }
-      else {
+      } else {
         html.addClass(this.btnSwipe, this._activeClass);
         // this.btnSwipe.innerHTML = "返回";
         compareCad();
-
       }
     },
 
-    _onBtnDoubleMapClicked: function () {
+    _onBtnDoubleMapClicked: function() {
       if (html.hasClass(this.btnDoubleMap, this._activeClass)) {
         html.removeClass(this.btnDoubleMap, this._activeClass);
         goBack();
-      }
-      else {
+      } else {
         html.addClass(this.btnDoubleMap, this._activeClass);
         doubleMap();
       }
     },
 
-    _onBtnHistoryClicked: function () {
+    _onBtnHistoryClicked: function() {
       showHistory();
     },
 
-    topicHandler_onShowTopToolbarButton: function (params) {
-      query("[title="+ params + "]").style("display", "block");
+    topicHandler_onShowTopToolbarButton: function(params) {
+      query("[title=" + params + "]").style("display", "block");
     },
 
-    topicHandler_onHideTopToolbarButton: function (params) {
-      query("[title="+ params + "]").style("display", "none");
+    topicHandler_onHideTopToolbarButton: function(params) {
+      query("[title=" + params + "]").style("display", "none");
     },
 
-    topicHandler_onShowTopToolbar: function () {
+    topicHandler_onShowTopToolbar: function() {
       query("." + this.baseClass).style("display", "block");
     },
 
-    topicHandler_onHideTopToolbar: function () {
+    topicHandler_onHideTopToolbar: function() {
       query("." + this.baseClass).style("display", "none");
     }
   });
-
 });

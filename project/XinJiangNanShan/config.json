@@ -25,7 +25,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://172.30.50.151:6080/arcgis/rest/services/HROAD_BASEMAP/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/HROAD_BASEMAP/MapServer",
         "type": "dynamic",
         "visible": true
       }
@@ -41,7 +41,7 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "128.64.151.220:6080",
+  "gisServer": "172.30.50.151:6080",
   "widgetOnScreen": {
     "widgets": [
       {
@@ -103,6 +103,16 @@
         "uri": "widgets/Print/Widget",
         "version": "2.4",
         "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/DrawOverlay/Widget",
+        "version": "2.4",
+        "id": "DrawOverlayWidget"
       }
     ]
   }

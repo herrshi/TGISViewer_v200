@@ -596,7 +596,7 @@ define([
   };
 
   /**
-   * Repalce the placeholders in the obj Object properties with the props Object values,
+   * Replace the placeholders in the obj Object properties with the props Object values,
    * return the replaced object
    * The placeholder syntax is: ${prop}
    */

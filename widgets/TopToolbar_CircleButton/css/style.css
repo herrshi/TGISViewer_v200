@@ -1,0 +1,28 @@
+.jimu-widget-TopToolbarCircleButton {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  z-index: 99999;
+}
+
+.jimu-widget-TopToolbarCircleButton .item {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 40px;
+  height: 40px;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  line-height: 40px;
+  font-size: 18px;
+  color: #fff;
+  opacity: 0.6;
+}
+
+.jimu-widget-TopToolbarCircleButton .item:hover,
+.jimu-widget-TopToolbarCircleButton .item-active {
+  opacity: 1;
+}

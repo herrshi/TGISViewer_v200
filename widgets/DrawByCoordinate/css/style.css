@@ -1,96 +1,97 @@
-.jimu-widget-drawByCoordinate{
-    width: 100%;
-    height: 100%;
-    min-width: 250px;
-    min-height: 150px;
+.jimu-widget-drawByCoordinate {
+  width: 100%;
+  height: 100%;
+  min-width: 200px;
+  min-height: 60px;
 }
 
 .jimu-widget-drawByCoordinate .draw-items {
-    -ms-overflow-y:hidden;
-    overflow-y:hidden;
+  -ms-overflow-y: hidden;
+  overflow-y: hidden;
 }
 
 .jimu-widget-drawByCoordinate .draw-items > div {
-    float: left;
-    cursor: default;
+  float: left;
+  cursor: default;
 }
 
-.jimu-widget-drawByCoordinate .draw-items .draw-item, .jimu-widget-drawByCoordinate .drawings-clear{
-    width:40px;
-    height:40px;
-    background-repeat: no-repeat;
-    text-align: center;
-    margin-top: 7px;
-    margin-bottom: 7px;
-    background-position: center center;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    cursor: pointer;
+.jimu-widget-drawByCoordinate .draw-items .draw-item,
+.jimu-widget-drawByCoordinate .drawings-clear {
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  text-align: center;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  background-position: center center;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  cursor: pointer;
 }
 
-.jimu-widget-drawByCoordinate .draw-items .draw-item{
-    background-size: contain;
-    margin-right: 14px;
+.jimu-widget-drawByCoordinate .draw-items .draw-item {
+  background-size: contain;
+  margin-right: 14px;
 }
 
 /* css for DrawBox dijit */
-.jimu-widget-drawByCoordinate .draw-item.jimu-state-active{
-    background-color: #DDDDDD;
-    border: 2px solid #000000;
+.jimu-widget-drawByCoordinate .draw-item.jimu-state-active {
+  background-color: #dddddd;
+  border: 2px solid #000000;
 }
 /*.jimu-widget-drawByCoordinate.enabled .draw-item:hover{
   background-color: #c0c0c0;
 }*/
 
-.jimu-widget-drawByCoordinate .point-icon{
-    background-image: url(../images/draw_point.png);
+.jimu-widget-drawByCoordinate .point-icon {
+  background-image: url(../images/draw_point.png);
 }
 
-.jimu-widget-drawByCoordinate .line-icon{
-    background-image: url(../images/draw_line.png);
+.jimu-widget-drawByCoordinate .line-icon {
+  background-image: url(../images/draw_line.png);
 }
 
-.jimu-widget-drawByCoordinate .polyline-icon{
-    background-image: url(../images/draw_polyline.png);
+.jimu-widget-drawByCoordinate .polyline-icon {
+  background-image: url(../images/draw_polyline.png);
 }
 
-.jimu-widget-drawByCoordinate .freehand-polyline-icon{
-    background-image: url(../images/draw_freehand_polyline.png);
+.jimu-widget-drawByCoordinate .freehand-polyline-icon {
+  background-image: url(../images/draw_freehand_polyline.png);
 }
 
-.jimu-widget-drawByCoordinate .triangle-icon{
-    background-image: url(../images/draw_triangle.png);
+.jimu-widget-drawByCoordinate .triangle-icon {
+  background-image: url(../images/draw_triangle.png);
 }
 
-.jimu-widget-drawByCoordinate .extent-icon{
-    background-image: url(../images/draw_extent.png);
+.jimu-widget-drawByCoordinate .extent-icon {
+  background-image: url(../images/draw_extent.png);
 }
 
-.jimu-widget-drawByCoordinate .circle-icon{
-    background-image: url(../images/draw_circle.png);
+.jimu-widget-drawByCoordinate .circle-icon {
+  background-image: url(../images/draw_circle.png);
 }
 
-.jimu-widget-drawByCoordinate .ellipse-icon{
-    background-image: url(../images/draw_ellipse.png);
+.jimu-widget-drawByCoordinate .ellipse-icon {
+  background-image: url(../images/draw_ellipse.png);
 }
 
-.jimu-widget-drawByCoordinate .polygon-icon{
-    background-image: url(../images/draw_polygon.png);
+.jimu-widget-drawByCoordinate .polygon-icon {
+  background-image: url(../images/draw_polygon.png);
 }
 
-.jimu-widget-drawByCoordinate .freehand-polygon-icon{
-    background-image: url(../images/draw_freehand_polygon.png);
+.jimu-widget-drawByCoordinate .freehand-polygon-icon {
+  background-image: url(../images/draw_freehand_polygon.png);
 }
 
-.jimu-widget-drawByCoordinate .text-icon{
-    background-image: url(../images/draw_text.png);
+.jimu-widget-drawByCoordinate .text-icon {
+  background-image: url(../images/draw_text.png);
 }
 
-.jimu-widget-drawByCoordinate .drawings-clear{
-    background-image: url(../images/rubbish_bin_white.png);
-    background-color: #D0021B;
+.jimu-widget-drawByCoordinate .drawings-clear {
+  background-image: url(../images/rubbish_bin_white.png);
+  background-color: #d0021b;
 }
 
-.jimu-widget-drawByCoordinate.enabled .drawings-clear:hover{
-    background-color: #B60016;
+.jimu-widget-drawByCoordinate.enabled .drawings-clear:hover {
+  background-color: #b60016;
 }

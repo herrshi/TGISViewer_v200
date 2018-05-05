@@ -153,7 +153,7 @@ esriRequest, esriLang, LayerInfoFactory) {
 
     getExtent: function() {
       var extent = this.originOperLayer.layerObject.fullExtent ||
-        this.originOperLayer.layerObject.initialExtent;
+        this.originOperLayer.layerObject._initialExtent;
       return this._convertGeometryToMapSpatialRef(extent);
     },
 

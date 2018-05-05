@@ -12,6 +12,7 @@
   <!--<script src="assets/global/plugins/bootstrap-fileinput/js/fileinput.js"></script>-->
   <!-- BEGIN GLOBAL MANDATORY STYLES -->
   <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <script src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
   <!--<link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>-->
   <!--<link href="assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>-->
   <!-- END GLOBAL MANDATORY STYLES -->
@@ -50,10 +51,10 @@
     #testButtons {
       position: absolute;
       right: 20px;
-      top: 20px;
+      top: 100px;
       width: 200px;
       height: 30px;
-      z-index: 999;
+      z-index: 100;
       background: #ffffff;
       color: #777777;
       padding: 5px;
@@ -78,6 +79,7 @@
   <button type="button" onclick="Test2ClickHandler()">Test2</button>
   <button type="button" onclick="Test3ClickHandler()">Test3</button>
 </div>
+<script type="text/javascript" src="simpleLoader.js"></script>
 <script type="text/javascript" src="TGISAPI.js"></script>
 <!--<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>-->
 
@@ -87,11 +89,11 @@
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
-    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/XinJiangNanShan/config.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/HongQiao/config.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -144,19 +146,28 @@
 //      map.showLayer({label: "岸线"});
 //      map.showRailwayStationFlow({flows: [{name: "上海南站", in: 12384, out: 29384}, {name: "上海西站", in: 2932, out: 298}, {name: "上海虹桥站", in: 239874, out: 987364}, {name: "上海站", in: 873978, out: 298479}]});
 //      map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":103.913,"y":30.590},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
+//      map.addOverlays('{"showPopup":true,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":87.449,"y":43.492},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}');
+//      map.addPoints('{"points":[{"symbol":{"yoffset":13,"width":16,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":19},"geometry":{"x":87.4235618296279,"y":43.474032926957},"id":"948ab669-f01f-4eba-90ad-2952533c8915,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"T000001","gzsj":null,"levelMessage":"暂无异常"}}]}');
+//     map.addPoints('{"points":[{"id":"1400","type":"dutyPolice","geometry":{"x":117.75,"y":39.124},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}}]}');
 //      map.startTrackPlayback({trackPoints:[{x: 104.023, y: 30.577, time: ""}, {x: 104.002, y: 30.565, time: ""}, {x: 103.969, y: 30.56, time: ""}, {x: 103.907, y: 30.536, time: ""}]});
 
     // map.setBusLineFlow({"flows":[{"lineName":"46路","flow":32572},{"lineName":"110路","flow":26783},{"lineName":"21路","flow":26394},{"lineName":"66路","flow":26304},{"lineName":"25路","flow":26252},{"lineName":null,"flow":24570},{"lineName":"94路","flow":23830},{"lineName":"112路","flow":23178},{"lineName":"23路","flow":19804},{"lineName":"44路","flow":19797},{"lineName":"116路","flow":18979},{"lineName":"55路","flow":18933},{"lineName":"63路","flow":18890},{"lineName":"6路","flow":18813},{"lineName":"92路B线","flow":18300},{"lineName":"89路","flow":18075},{"lineName":"13路","flow":18061},{"lineName":"28路","flow":17493},{"lineName":"91路","flow":17431},{"lineName":"67路","flow":17325},{"lineName":"156路","flow":16762},{"lineName":"141路","flow":16413},{"lineName":"90路","flow":16347},{"lineName":"37路","flow":16239},{"lineName":"45路","flow":16226},{"lineName":"50路区间","flow":15914},{"lineName":"64路","flow":15654},{"lineName":"41路","flow":15510},{"lineName":"135路","flow":15363},{"lineName":"85路","flow":15267},{"lineName":"18路","flow":15249},{"lineName":"76路","flow":15200},{"lineName":"78路","flow":15173},{"lineName":"56路","flow":14692},{"lineName":"95路","flow":14689},{"lineName":"118路","flow":14669},{"lineName":"49路","flow":14352},{"lineName":"88路","flow":14322},{"lineName":"59路","flow":14054},{"lineName":"123路","flow":13741},{"lineName":"20路","flow":13625},{"lineName":"19路","flow":13548},{"lineName":"54路","flow":13288},{"lineName":"700路","flow":12945},{"lineName":null,"flow":12827},{"lineName":"61路","flow":12771},{"lineName":"58路","flow":12758},{"lineName":"115路","flow":12752},{"lineName":"24路","flow":12738},{"lineName":"96路","flow":12661},{"lineName":"40路","flow":12646}]});
     // map.setMetroLineFlow({"flows":[{"lineName":"轨道交通2号线","flow":1629459},{"lineName":"轨道交通3号线","flow":562404},{"lineName":"轨道交通4号线","flow":880504},{"lineName":"轨道交通5号线","flow":153021},{"lineName":"轨道交通6号线","flow":467235},{"lineName":"轨道交通7号线","flow":852138},{"lineName":"轨道交通8号线","flow":1068409},{"lineName":"轨道交通9号线","flow":963229},{"lineName":"轨道交通10号线","flow":877611},{"lineName":"轨道交通11号线","flow":895319},{"lineName":"轨道交通12号线","flow":709396},{"lineName":"轨道交通13号线","flow":467170},{"lineName":"轨道交通16号线","flow":197220}]})
     // map.showDoubleMap();
     // map.showOD({type: "O", startID: "B11", endFlows: [{ID: "B12", flow: 100},{ID: "B13", flow: 150},{ID: "B14", flow: 200},{ID: "B15", flow: 250},{ID: "B17", flow: 300},{ID: "B18", flow: 350}]});
-    map.hideTopToolbarButton("图形搜索");
-    map.hideTopToolbarButton("输入坐标");
-    map.hideTopToolbarButton("矢量图");
-    map.hideTopToolbarButton("航拍图");
-    map.hideTopToolbarButton("线划图");
-    map.hideTopToolbarButton("对比");
-    map.hideTopToolbarButton("历史演变");
+    // map.hideTopToolbarButton("图形搜索");
+    // map.hideTopToolbarButton("输入坐标");
+    // map.hideTopToolbarButton("矢量图");
+    // map.hideTopToolbarButton("航拍图");
+    // map.hideTopToolbarButton("线划图");
+    // map.hideTopToolbarButton("对比");
+    // map.hideTopToolbarButton("历史演变");
+
+    // map.startDrawOverlay({drawType:"point"}, function (result) {
+    //   console.log(result.x, result.y);
+    // });
+    // map.addPoints('{"points":[{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.40887797508348,"y":43.49521156331913},"id":"be557e9b-03e0-4809-a87f-a56195ac0bc0,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"10000002","gzsj":null,"levelMessage":"暂无异常"}},{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.4235618296279,"y":43.474032926957},"id":"948ab669-f01f-4eba-90ad-2952533c8915,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"T000001","gzsj":null,"levelMessage":"暂无异常"}}]}')
+    // map.hideTopToolbar();
   });
 
   function Test1ClickHandler() {
@@ -270,8 +281,9 @@
 
     // map.addOverlays('{"showPopup":true,"defaultSymbol":{"type":"marker","style":"circle","color":"red","alpha":0.8,"size":8,"outline":{"color":"white"}},"overlays":[{"type":"CADPile","geometry":{"x":"-2306.4187","y":"3261.5966"},"fields":{"里程":"K0-2.082","点类型":"起点","标高":"3.94"},"symbol":{"type":"marker","style":"circle","color":"red","alpha":0.8,"size":12,"outline":{"color":"white"}}},{"type":"CADPile","geometry":{"x":"-2224.4326","y":"3313.7568"},"fields":{"里程":"K0+95.475","点类型":"圆缓点","标高":"4.03"}},{"type":"CADPile","geometry":{"x":"-2177.6508","y":"3331.3657"},"fields":{"里程":"K0+145.475","点类型":"","标高":"2.01"}}]}');
 
-    // map.hideTopToolbarButton("卷帘对比");
-    // map.hideTopToolbarButton("历史演变");
+    // map.hideBottomToolbarButton("发布段");
+    // map.hideBottomToolbarButton("摄像机");
+    // map.hideTopToolbarButton("保存");
 
     // map.showDoubleMap();
     // map.addDoubleMapLayer({mapIndex: "1", label: "道路交通设施", ids: [27, 28]});
@@ -279,9 +291,15 @@
 
     // map.showRouteByCross({crossIds:["51012211500109","51012200100102","51012200100112","51012200100123","51012200100134","51012212000438"]});
 
-    // map.hideTopToolbar();
+    map.showTopToolbar();
+    // map.hideBottomToolbar();
     // map.findFeature({layerName: "AccidentsNumber", ids: ["B11"]});
-    map.showOD({type: "O", startID: "B12", endFlows: [{ID: "B11", flow: 100},{ID: "B13", flow: 150},{ID: "B14", flow: 200},{ID: "B15", flow: 250},{ID: "B17", flow: 300},{ID: "B18", flow: 350}]});
+    // map.showOD({type: "O", startID: "B12", endFlows: [{ID: "B11", flow: 100},{ID: "B13", flow: 150},{ID: "B14", flow: 200},{ID: "B15", flow: 250},{ID: "B17", flow: 300},{ID: "B18", flow: 350}]});
+
+    // map.findFeature({layerName: "SheBei", ids: ["948ab669-f01f-4eba-90ad-2952533c8915,1"]});
+    // map.toScreen({x: 121.483, y: 31.222}, function (result) {
+    //   console.log(result);
+    // });
   }
 
 
@@ -299,7 +317,7 @@
 
 //      map.deleteLines(["wx001"]);
 
-//      map.deleteAllPoints();
+     // map.deleteAllPoints();
 
 //      map.findFeature({layerName: "searchRoad", names: ["中山北二路"], showResult: true, centerResult: true});
 //      map.addPolygons('{"polygons":[{"geometry":{"rings":[[[-1984.3789687579374,1680.1075268817203],[-1984.3789687579374,3188.2355431377528],[291.04224875116415,3188.2355431377528],[291.04224875116415,1680.1075268817203],[-1984.3789687579374,1680.1075268817203]]]},"symbol":{"color":[155,187,89],"alpha":0.5,"outline":{"color":[115,140,61],"width":1.5,"type":"esriSLS","style":"esriSLSSolid","marker":null},"type":"esriSFS","style":"esriSFSSolid"}}]}');
@@ -326,8 +344,14 @@
 
     // map.addOverlays('{"showPopup":true,"defaultSymbol":{"type":"marker","style":"circle","color":"red","alpha":0.8,"size":7,"outline":{"color":"white"}},"overlays":[{"type":"CADPile","geometry":{"x":"-2306.4187","y":"3261.5966"},"fields":{"里程":"-2.082","点类型":"起点","标高":"3.94"}},{"type":"CADPile","geometry":{"x":"-2224.4326","y":"3313.7568"},"fields":{"里程":"95.475","点类型":"圆缓点","标高":"4.03"}},{"type":"CADPile","geometry":{"x":"-2177.6508","y":"3331.3657"},"fields":{"里程":"145.475","点类型":"","标高":"2.01"}},{"type":"CADPile","geometry":{"x":"-2129.801","y":"3345.7508"},"fields":{"里程":"195.475","点类型":"缓圆点","标高":"-0.94"}},{"type":"CADPile","geometry":{"x":"-2017.1286","y":"3336.9739"},"fields":{"里程":"310.049","点类型":"圆缓点","标高":"-7.61"}},{"type":"CADPile","geometry":{"x":"-1972.0836","y":"3315.3527"},"fields":{"里程":"360.049","点类型":"缓直点","标高":"-9.16"}},{"type":"CADPile","geometry":{"x":"-1937.5042","y":"3298.0096"},"fields":{"里程":"396.957","点类型":"直缓点","标高":"-9.27"}},{"type":"CADPile","geometry":{"x":"-1895.0941","y":"3275.0431"},"fields":{"里程":"446.957","点类型":"缓圆点","标高":"-9.12"}},{"type":"CADPile","geometry":{"x":"-1771.4965","y":"3228.6583"},"fields":{"里程":"579.169","点类型":"圆缓点","标高":"-9.04"}},{"type":"CADPile","geometry":{"x":"-1722.9416","y":"3216.7361"},"fields":{"里程":"629.169","点类型":"缓直点","标高":"-9.19"}},{"type":"CADPile","geometry":{"x":"-1667.2311","y":"3203.758"},"fields":{"里程":"686.371","点类型":"直缓点","标高":"-9.36"}},{"type":"CADPile","geometry":{"x":"-1618.701","y":"3191.7397"},"fields":{"里程":"736.371","点类型":"缓圆点","标高":"-8.96"}},{"type":"CADPile","geometry":{"x":"-1570.8256","y":"3176.273"},"fields":{"里程":"786.697","点类型":"圆缓点","标高":"-6.9"}},{"type":"CADPile","geometry":{"x":"-1524.4368","y":"3157.6265"},"fields":{"里程":"836.697","点类型":"缓直点","标高":"-3.93"}},{"type":"CADPile","geometry":{"x":"-1367.898","y":"3092.1643"},"fields":{"里程":"1006.373","点类型":"直缓点","标高":"3.8"}},{"type":"CADPile","geometry":{"x":"-1335.8812","y":"3078.0379"},"fields":{"里程":"1041.373","点类型":"缓圆点","标高":"3.65"}},{"type":"CADPile","geometry":{"x":"-1306.1174","y":"3061.3372"},"fields":{"里程":"1075.52","点类型":"圆缓点","标高":"3.48"}},{"type":"CADPile","geometry":{"x":"-1277.3767","y":"3041.3723"},"fields":{"里程":"1110.52","点类型":"缓直点","标高":"3.35"}},{"type":"CADPile","geometry":{"x":"-1179.9088","y":"2970.8169"},"fields":{"里程":"1230.845","点类型":"终点","标高":"3.32"}}]}');
 
-    map.removeDoubleMapLayer({mapIndex: "1", label: "道路交通设施"});
-    map.removeDoubleMapLayer({mapIndex: "2", label: "cad111"});
+    // map.removeDoubleMapLayer({mapIndex: "1", label: "道路交通设施"});
+    // map.removeDoubleMapLayer({mapIndex: "2", label: "cad111"});
+    // map.showTopToolbar();
+    // map.showBottomToolbar();
+    // map.showBottomToolbarButton("发布段");
+    // map.showBottomToolbarButton("摄像机");
+    // map.showTopToolbarButton("保存");
+
   }
 
   function Test3ClickHandler() {
