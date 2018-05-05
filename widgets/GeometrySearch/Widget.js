@@ -91,7 +91,7 @@ define([
       this.own(on(this.drawToolbar, "draw-complete", lang.hitch(this, this.onDrawToolBarHandler_drawComplete)));
 
       var drawItems = query(".draw-item", this.domNode);
-      this.own(drawItems.on("click", lang.hitch(this, this._onDrawItemClick)));
+      this.own(drawItems.on("click", lang.hitch(this, this._onDrawTypeItemClick)));
 
       var spinnerItems = query(".spinner-item", this.domNode);
       this.own(spinnerItems.on("click", lang.hitch(this, this._onSpinnerItemClick)));
@@ -371,7 +371,7 @@ define([
       this.onIconSelected(itemIcon, geotype, commontype);
     },
 
-    _onDrawItemClick: function (event) {
+    _onDrawTypeItemClick: function (event) {
       var target = event.target || event.srcElement;
       if(!html.hasClass(target, "draw-item")){
         return;

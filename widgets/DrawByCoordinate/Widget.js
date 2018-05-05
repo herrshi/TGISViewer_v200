@@ -6,7 +6,11 @@ define([
   "dojo/query",
   "jimu/BaseWidget",
   "esri/geometry/Point",
+  "esri/geometry/Polyline",
+  "esri/geometry/Polygon",
   "esri/symbols/PictureMarkerSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/symbols/SimpleFillSymbol",
   "esri/graphic",
   "esri/layers/GraphicsLayer",
   "esri/InfoTemplate"
@@ -18,7 +22,11 @@ define([
   query,
   BaseWidget,
   Point,
+  Polyline,
+  Polygon,
   PictureMarkerSymbol,
+  SimpleLineSymbol,
+  SimpleFillSymbol,
   Graphic,
   GraphicsLayer,
   InfoTemplate
@@ -31,10 +39,21 @@ define([
     _currentType: "point",
 
     _pointSymbol: null,
-    _graphicsLayer: null,
+    _lineSymbol: null,
+    _polygonSymbol: null,
+
+    _pointLayer: null,
+    _lineLayer: null,
+    _polygonLayer: null,
+
+    _xFieldNames: ["x", "longitude", "long"],
+    _yFieldNames: ["y", "latitude", "lat"],
 
     postCreate: function() {
       this.inherited(arguments);
+
+      // this._xFieldNames = ["x", "longitude", "long"];
+      // this._yFieldNames = ["y", "latitude", "lat"];
 
       this._pointSymbol = new PictureMarkerSymbol({
         height: 24,
@@ -48,13 +67,40 @@ define([
         url: window.path + "images/RedStickpin.png"
       });
 
-      this._graphicsLayer = new GraphicsLayer();
-      this.map.addLayer(this._graphicsLayer);
+      this._lineSymbol = new SimpleLineSymbol({
+        "type": "esriSLS",
+        "style": "esriSLSSolid",
+        "color": [0, 102, 255],
+        "width": 2
+      });
+
+      this._polygonSymbol = new SimpleFillSymbol({
+        "type": "esriSFS",
+        "style": "esriSFSSolid",
+        "color": [153, 194, 255, 150],
+        "outline": {
+          "type": "esriSLS",
+          "style": "esriSLSSolid",
+          "color": [0, 102, 255],
+          "width": 2
+        }
+      });
+
+      this._lineLayer = new GraphicsLayer();
+      this._lineLayer.setVisibility(false);
+      this.map.addLayer(this._lineLayer);
+
+      this._polygonLayer = new GraphicsLayer();
+      this._polygonLayer.setVisibility(false);
+      this.map.addLayer(this._polygonLayer);
+
+      this._pointLayer = new GraphicsLayer();
+      this.map.addLayer(this._pointLayer);
 
       this.own(
         query(".draw-item", this.domNode).on(
           "click",
-          lang.hitch(this, this._onDrawItemClick)
+          lang.hitch(this, this._onDrawTypeItemClick)
         )
       );
       this.own(
@@ -85,42 +131,58 @@ define([
       var header = columnArray[0];
       //获取经纬度字段名
       header.forEach(function(fieldName, index) {
-        if (
-          fieldName.toLowerCase() === "x" ||
-          fieldName.toLowerCase() === "longitude" ||
-          fieldName.toLowerCase() === "long"
-        ) {
+        if (this._xFieldNames.indexOf(fieldName.toLowerCase()) >= 0) {
           xFieldIndex = index;
-        } else if (
-          fieldName.toLowerCase() === "y" ||
-          fieldName.toLowerCase() === "latitude" ||
-          fieldName.toLowerCase() === "lat"
-        ) {
+        } else if (this._yFieldNames.indexOf(fieldName.toLowerCase()) >= 0) {
           yFieldIndex = index;
         }
-      });
+      }, this);
 
-      if (xFieldIndex && yFieldIndex) {
-        for (var i = 1; i < columnArray.length; i++) {
-          var x = columnArray[i][xFieldIndex];
-          var y = columnArray[i][yFieldIndex];
-          if (!isNaN(x) && !isNaN(y)) {
-            var point = new Point(x, y);
-            var graphic = new Graphic(point);
-            graphic.symbol = this._pointSymbol;
-            var attributes = {};
-            for (var j = 0; j < columnArray[i].length; j++) {
-              attributes[header[j]] = columnArray[i][j];
-            }
-            graphic.attributes = attributes;
-            graphic.infoTemplate = new InfoTemplate("属性", "${*}");
-            this._graphicsLayer.add(graphic);
-          }
-        }
+      if (xFieldIndex !== undefined && yFieldIndex !== undefined) {
+        this._drawItem(xFieldIndex, yFieldIndex, columnArray);
       }
     },
 
-    _onDrawItemClick: function(event) {
+    _drawItem: function(xFieldIndex, yFieldIndex, columnArray) {
+      var header = columnArray[0];
+      var path = [];
+      var ring = [];
+
+      for (var i = 1; i < columnArray.length; i++) {
+        var columnData = columnArray[i];
+        var x = columnData[xFieldIndex];
+        var y = columnData[yFieldIndex];
+        if (!isNaN(x) && !isNaN(y)) {
+          var pointGraphic = new Graphic(new Point(x, y));
+          pointGraphic.symbol = this._pointSymbol;
+          var attributes = {};
+          //将每行数据和第一行的字段名匹配, 组成object
+          for (var j = 0; j < columnData.length; j++) {
+            attributes[header[j]] = columnData[j];
+          }
+          pointGraphic.attributes = attributes;
+          pointGraphic.infoTemplate = new InfoTemplate("属性", "${*}");
+          this._pointLayer.add(pointGraphic);
+
+          path.push([x, y]);
+          ring.push([x, y]);
+        }
+      }
+
+      var lineGraphic = new Graphic(new Polyline([path]));
+      lineGraphic.symbol = this._lineSymbol;
+      this._lineLayer.add(lineGraphic);
+
+      //如果第一个点和最后一个点坐标不一致, 就加入一个点构成闭环
+      if (ring[0][0] !== ring[ring.length - 1][0] && ring[0][1] !== ring[ring.length - 1][1]) {
+        ring.push(ring[0]);
+      }
+      var polygonGraphic = new Graphic(new Polygon([ring]));
+      polygonGraphic.symbol = this._polygonSymbol;
+      this._polygonLayer.add(polygonGraphic);
+    },
+
+    _onDrawTypeItemClick: function(event) {
       var target = event.target || event.srcElement;
       if (!domClass.contains(target, this._activeClass)) {
         query(".draw-item", this.domNode).removeClass(this._activeClass);
@@ -128,16 +190,27 @@ define([
 
         if (domClass.contains(target, "point-icon")) {
           this._currentType = "point";
+          this._pointLayer.setVisibility(true);
+          this._lineLayer.setVisibility(false);
+          this._polygonLayer.setVisibility(false);
         } else if (domClass.contains(target, "polyline-icon")) {
           this._currentType = "polyline";
+          this._pointLayer.setVisibility(false);
+          this._lineLayer.setVisibility(true);
+          this._polygonLayer.setVisibility(false);
         } else if (domClass.contains(target, "polygon-icon")) {
           this._currentType = "polygon";
+          this._pointLayer.setVisibility(false);
+          this._lineLayer.setVisibility(false);
+          this._polygonLayer.setVisibility(true);
         }
       }
     },
 
     _onBtnClearClicked: function(event) {
-      this._graphicsLayer.clear();
+      this._pointLayer.clear();
+      this._lineLayer.clear();
+      this._polygonLayer.clear();
     }
   });
 });
