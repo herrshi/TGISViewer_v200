@@ -68,21 +68,21 @@ define([
       });
 
       this._lineSymbol = new SimpleLineSymbol({
-        "type": "esriSLS",
-        "style": "esriSLSSolid",
-        "color": [0, 102, 255],
-        "width": 2
+        type: "esriSLS",
+        style: "esriSLSSolid",
+        color: [0, 102, 255],
+        width: 2
       });
 
       this._polygonSymbol = new SimpleFillSymbol({
-        "type": "esriSFS",
-        "style": "esriSFSSolid",
-        "color": [153, 194, 255, 150],
-        "outline": {
-          "type": "esriSLS",
-          "style": "esriSLSSolid",
-          "color": [0, 102, 255],
-          "width": 2
+        type: "esriSFS",
+        style: "esriSFSSolid",
+        color: [153, 194, 255, 150],
+        outline: {
+          type: "esriSLS",
+          style: "esriSLSSolid",
+          color: [0, 102, 255],
+          width: 2
         }
       });
 
@@ -161,6 +161,7 @@ define([
             attributes[header[j]] = columnData[j];
           }
           pointGraphic.attributes = attributes;
+          //弹出框显示所有字段
           pointGraphic.infoTemplate = new InfoTemplate("属性", "${*}");
           this._pointLayer.add(pointGraphic);
 
@@ -174,7 +175,10 @@ define([
       this._lineLayer.add(lineGraphic);
 
       //如果第一个点和最后一个点坐标不一致, 就加入一个点构成闭环
-      if (ring[0][0] !== ring[ring.length - 1][0] && ring[0][1] !== ring[ring.length - 1][1]) {
+      if (
+        ring[0][0] !== ring[ring.length - 1][0] &&
+        ring[0][1] !== ring[ring.length - 1][1]
+      ) {
         ring.push(ring[0]);
       }
       var polygonGraphic = new Graphic(new Polygon([ring]));
