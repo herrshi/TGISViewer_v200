@@ -174,9 +174,9 @@ define([
       lineGraphic.symbol = this._lineSymbol;
       this._lineLayer.add(lineGraphic);
 
-      //如果第一个点和最后一个点坐标不一致, 就加入一个点构成闭环
+      //如果第一个点和最后一个点坐标不一致, 就在最后加入第一个点构成闭环
       if (
-        ring[0][0] !== ring[ring.length - 1][0] &&
+        ring[0][0] !== ring[ring.length - 1][0] ||
         ring[0][1] !== ring[ring.length - 1][1]
       ) {
         ring.push(ring[0]);
