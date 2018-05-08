@@ -190,15 +190,34 @@ define([
       return def;
     },
 
+    _doWebServiceTask: function(className, resourceConfig, searchText) {
+      var sr = "<?xml version='1.0' encoding='utf-8'?>" +
+        "<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/' xmlns:s='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>" +
+        "<SOAP-ENV:Body>"  +
+        "<tns:ASCH_AddressSearch xmlns:tns='http://tempuri.org/'>" +
+        "<tns:vSearch_word>" + searchText + "</tns:vSearch_word>" +
+        "<tns:vSearch_class></tns:vSearch_class>" +
+        "<tns:vSearch_region></tns:vSearch_region>" +
+        "<tns:vSearch_year></tns:vSearch_year>" +
+        "<tns:vResult_count>100</tns:vResult_count>" +
+        "</tns:ASCH_AddressSearch>" +
+        "</SOAP-ENV:Body>" +
+        "</SOAP-ENV:Envelope>";
+      console.log(sr);
+    },
+
     onTopicHandler_multiSearch: function(params) {
       var loading = new LoadingIndicator();
       loading.placeAt(window.jimuConfig.layoutId);
 
       var text = params.params.text;
+      if (text === undefined || text === "") {
+        return;
+      }
       var classes = params.params.classes;
       var callback = params.callback;
 
-      var defs = [];
+      var findTaskDefs = [];
       this.resultInClass = [];
       this.resultGraphics = [];
 
@@ -211,15 +230,16 @@ define([
             array.forEach(
               classResources,
               function(resourceConfig) {
-                if (
-                  resourceConfig.type.toLowerCase() ===
-                  "dynamicService".toLowerCase()
-                ) {
-                  if (text !== undefined && text !== "") {
-                    defs.push(
+                switch (resourceConfig.type.toLowerCase()) {
+                  case "dynamicService".toLowerCase():
+                    findTaskDefs.push(
                       this._doFindTask(className, resourceConfig, text)
                     );
-                  }
+                    break;
+
+                  case "webService".toLowerCase():
+                    this._doWebServiceTask(className, resourceConfig, text);
+                    break;
                 }
               },
               this
@@ -229,7 +249,7 @@ define([
         this
       );
 
-      all(defs).then(
+      all(findTaskDefs).then(
         lang.hitch(this, function(results) {
           //一个class可能有多个source, 将结果按照className合并
           array.forEach(

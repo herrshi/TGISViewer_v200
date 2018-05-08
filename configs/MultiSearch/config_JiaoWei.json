@@ -1,9 +1,6 @@
 {
   "classes": [
     {
-      "name": "address"
-    },
-    {
       "name": "road",
       "sources": [
         {
@@ -25,6 +22,10 @@
               "nameField": "NAME"
             }
           ]
+        },
+        {
+          "type": "webService",
+          "url": "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer"
         }
       ]
     },
