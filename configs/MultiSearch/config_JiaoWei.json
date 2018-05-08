@@ -1,12 +1,16 @@
 {
   "classes": [
     {
+      "name": "address"
+    },
+    {
       "name": "road",
       "sources": [
         {
           "type": "dynamicService",
-          "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_road/MapServer",
-          "searchFields": ["FEATURENAME","NAME"],
+          "url":
+            "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_road/MapServer",
+          "searchFields": ["FEATURENAME", "NAME"],
           "layerParams": [
             {
               "layerId": 0,
@@ -26,16 +30,15 @@
     },
     {
       "name": "waterway",
-      "sources": [
-
-      ]
+      "sources": []
     },
     {
       "name": "bus",
       "sources": [
         {
           "type": "dynamicService",
-          "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_bus/MapServer",
+          "url":
+            "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_bus/MapServer",
           "searchFields": ["Stationname", "Busname", "Name", "NAME"],
           "layerParams": [
             {
@@ -75,7 +78,8 @@
       "sources": [
         {
           "type": "dynamicService",
-          "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_metro/MapServer",
+          "url":
+            "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_metro/MapServer",
           "searchFields": ["Stationname", "Busname", "Name", "NAME"],
           "layerParams": [
             {
@@ -92,15 +96,11 @@
     },
     {
       "name": "harbour",
-      "sources": [
-
-      ]
+      "sources": []
     },
     {
       "name": "other",
-      "sources": [
-
-      ]
+      "sources": []
     }
   ]
 }
