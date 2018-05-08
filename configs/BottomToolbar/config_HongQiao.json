@@ -2,10 +2,12 @@
   "buttons": [
     {
       "label": "停车场",
+      "initEnable": true,
       "fontClass": "icon_parking",
       "operations": [
         {
-          "opName": "changeLayer"
+          "opName": "changeLayer",
+          "opParam": ["设备"]
         }
       ]
     },
