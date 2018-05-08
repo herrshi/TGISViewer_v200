@@ -17,36 +17,63 @@
     }
   </style>
 
-  <script src="https://js.arcgis.com/3.21/"></script>
 
   <script>
-    require([
-      "esri/map",
-      "esri/layers/WMSLayer",
-      "esri/config",
-      "esri/geometry/Point"
-    ], function (
-      Map,
-      WMSLayer,
-      esriConfig,
-      Point
-    ) {
+    function rad(d) {
+      return d * Math.PI / 180.0;
+    }
 
-      esriConfig.defaults.io.proxyUrl = "http://localhost:8090/proxy/proxy.jsp";
+    var EARTH_RADIUS = 6378.137;
 
-      var map = new Map('map');
-      var wmsLayer = new WMSLayer("http://172.16.20.2:8090/iserver/services/map-Data010/wms111/test2");
-      wmsLayer.setVisibleLayers(["0"]);
-      map.addLayer(wmsLayer);
+   function getDistance(lat1, lng1, lat2, lng2) {
+     var radLat1 = rad(lat1);
+     var radLat2 = rad(lat2);
+     var a = radLat1 - radLat2;
+     var b = rad(lng1) - rad(lng2);
+     var s =
+       2 *
+       Math.asin(
+         Math.sqrt(
+           Math.pow(Math.sin(a / 2), 2) +
+           Math.cos(radLat1) *
+           Math.cos(radLat2) *
+           Math.pow(Math.sin(b / 2), 2)
+         )
+       );
+     s = s * EARTH_RADIUS;
+     alert(s);
+     s = Math.round(s * 10000) / 10000;
+     return s;
+   }
 
-      var pt = new Point(-9000, -28000);
-      map.centerAt(pt);
-      console.log(map);
-    });
+    function calDis(){
+      var lat1 = document.getElementById( "lat1").value * 1;
+      var lat2 = document.getElementById( "lat2").value * 1;
+      var lng1 = document.getElementById( "lng1").value * 1;
+      var lng2 = document.getElementById( "lng2").value * 1;
+      var dis =  getDistance(lat1, lng1, lat2, lng2);
+      document.getElementById( "distance").value = dis;
+
+    }
   </script>
 </head>
 
 <body class="claro">
-  <div id="map"></div>
+<h2>经纬度距离计算</h2>
+<div class="panel">
+  <i class="corner"><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i></i>
+  <div class="cbody">
+    <div style="text-align:center;height:100px;">
+      <div style="text-align:left;float:left;margin-left:40px;">
+        A：纬度<input type="text" name="lat1" id="lat1" onkeyup="calDis()"> 经度<input type="text" name="lng1" id="lng1" onkeyup="calDis()"><br><br>
+        B：纬度<input type="text" name="lat2" id="lat2" onkeyup="calDis()">经度<input type="text" name="lng2" id="lng2" onkeyup="calDis()"><br><br>
+        A-B：距离=<input type="text" name="distance" id="distance"> Km
+      </div>
+      <div class="warning" id="warning"></div>
+    </div>
+
+  </div>
+  <i class="corner"><i class="l4"></i><i class="l3"></i><i class="l2"></i><i class="l5"></i></i>
+</div>
 </body>
 </html>
