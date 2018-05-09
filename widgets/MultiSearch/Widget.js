@@ -191,11 +191,31 @@ define([
     },
 
     _doWebServiceTask: function(className, resourceConfig, searchText) {
-      var sr = "<?xml version='1.0' encoding='utf-8'?>" +
+      var xhr = new XMLHttpRequest();
+      xhr.open(
+        "GET",
+        "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer?token=" +
+        "IUf39lATszf5dGFNhq9ieZ7V9oUNhnEEosmzw2w7PIbRXSK-ACgKClTWh0_0CgmV" +
+        "&wsdl=",
+        false
+      );
+      xhr.withCredentials = true;
+      xhr.send();
+
+      xhr.open(
+        "POST",
+        "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer",
+        true
+      );
+      //构造xml格式的soap消息
+      var data =
+        "<?xml version='1.0' encoding='utf-8'?>" +
         "<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/' xmlns:s='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>" +
-        "<SOAP-ENV:Body>"  +
+        "<SOAP-ENV:Body>" +
         "<tns:ASCH_AddressSearch xmlns:tns='http://tempuri.org/'>" +
-        "<tns:vSearch_word>" + searchText + "</tns:vSearch_word>" +
+        "<tns:vSearch_word>" +
+        searchText +
+        "</tns:vSearch_word>" +
         "<tns:vSearch_class></tns:vSearch_class>" +
         "<tns:vSearch_region></tns:vSearch_region>" +
         "<tns:vSearch_year></tns:vSearch_year>" +
@@ -203,7 +223,15 @@ define([
         "</tns:ASCH_AddressSearch>" +
         "</SOAP-ENV:Body>" +
         "</SOAP-ENV:Envelope>";
-      console.log(sr);
+      //设置RequestHeader中的Content-Type为text/xml;charset=utf-8
+      xhr.setRequestHeader("Content-Type", "text/xml;charset=utf-8");
+      xhr.onreadystatechange = function (ev) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(xhr.responseText);
+        }
+      };
+      xhr.send(data);
+
     },
 
     onTopicHandler_multiSearch: function(params) {
