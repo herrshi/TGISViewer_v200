@@ -8,6 +8,10 @@
         {
           "opName": "changeLayer",
           "opParam": ["设备"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["停车场"]
         }
       ]
     },
