@@ -1215,12 +1215,11 @@
       },
       {
         "uri": "widgets/MultiSearch/Widget",
-        "config": "configs/MultiSearch/config_MultiSearch_JiaoWei.json",
+        "config": "configs/MultiSearch/config_JiaoWei.json",
         "id": "MultiSearchWidget"
       },
       {
         "uri": "widgets/CADSublayerList/Widget",
-        "config": "configs/CADSublayerList/config_CADSublayerList_zw.json",
         "position": {
           "left": 60,
           "bottom": 5
