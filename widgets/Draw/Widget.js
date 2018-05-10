@@ -69,13 +69,13 @@ define([
 
       performUndo: function () {
         array.forEach(this._addedGraphics, lang.hitch(this, function(g){
-          this._pointLayer.remove(g);
+          this._graphicsLayer.remove(g);
         }));
       },
 
       performRedo: function () {
         array.forEach(this._addedGraphics, lang.hitch(this, function(g){
-          this._pointLayer.add(g);
+          this._graphicsLayer.add(g);
         }));
       }
     });
@@ -88,13 +88,13 @@ define([
 
       performUndo: function(){
         array.forEach(this._deletedGraphics, lang.hitch(this, function(g){
-          this._pointLayer.add(g);
+          this._graphicsLayer.add(g);
         }));
       },
 
       performRedo: function(){
         array.forEach(this._deletedGraphics, lang.hitch(this, function(g){
-          this._pointLayer.remove(g);
+          this._graphicsLayer.remove(g);
         }));
       }
     });
@@ -105,7 +105,7 @@ define([
       _gs: null,
       _defaultGsUrl: "//tasks.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer",
       _undoManager: null,
-      _pointLayer: null,
+      _graphicsLayer: null,
       _objectIdCounter: 1,
       _objectIdName: "OBJECTID",
       _objectIdType: "esriFieldTypeOID",
@@ -160,7 +160,7 @@ define([
 
       _handleGeometryData: function () {
         var results = [];
-        array.forEach(this._pointLayer.graphics, function (graphic) {
+        array.forEach(this._graphicsLayer.graphics, function (graphic) {
           var geometry = graphic.geometry.toJson();
           delete geometry.spatialReference;
 
@@ -181,6 +181,7 @@ define([
       },
 
       onTopicHandler_getOverlays: function (params) {
+
         var clearOverlays = params.params.clearOverlays !== false;
         var callback = params.callback;
 
@@ -188,12 +189,12 @@ define([
           callback(this._handleGeometryData());
         }
         if (clearOverlays) {
-          this._pointLayer.clear();
+          this._graphicsLayer.clear();
         }
       },
 
       _initLayers: function(){
-        this._pointLayer = new GraphicsLayer();
+        this._graphicsLayer = new GraphicsLayer();
 
         if(this.config.isOperationalLayer){
           var layerDefinition = {
@@ -794,10 +795,10 @@ define([
           this.drawBox.destroy();
           this.drawBox = null;
         }
-        if(this._pointLayer){
-          this._pointLayer.clear();
-          this.map.removeLayer(this._pointLayer);
-          this._pointLayer = null;
+        if(this._graphicsLayer){
+          this._graphicsLayer.clear();
+          this.map.removeLayer(this._graphicsLayer);
+          this._graphicsLayer = null;
         }
         if(this._pointLayer){
           this.map.removeLayer(this._pointLayer);
@@ -842,7 +843,7 @@ define([
 
       _getAllGraphics: function(){
         //return a new array
-        return array.map(this._pointLayer.graphics, lang.hitch(this, function(g){
+        return array.map(this._graphicsLayer.graphics, lang.hitch(this, function(g){
           return g;
         }));
       },
@@ -901,10 +902,10 @@ define([
           var attrs = g.attributes || {};
           attrs[this._objectIdName] = this._objectIdCounter++;
           g.setAttributes(attrs);
-          this._pointLayer.add(g);
+          this._graphicsLayer.add(g);
         }));
         var addOperation = new customOp.Add({
-          graphicsLayer: this._pointLayer,
+          graphicsLayer: this._graphicsLayer,
           addedGraphics: graphics
         });
         this._undoManager.add(addOperation);
@@ -912,7 +913,7 @@ define([
 
       _pushDeleteOperation: function(graphics){
         var deleteOperation = new customOp.Delete({
-          graphicsLayer: this._pointLayer,
+          graphicsLayer: this._graphicsLayer,
           deletedGraphics: graphics
         });
         this._undoManager.add(deleteOperation);
@@ -937,7 +938,7 @@ define([
       _onBtnClearClicked: function(){
         var graphics = this._getAllGraphics();
         if(graphics.length > 0){
-          this._pointLayer.clear();
+          this._graphicsLayer.clear();
           this._pushDeleteOperation(graphics);
         }
         this._enableBtn(this.btnClear, false);
