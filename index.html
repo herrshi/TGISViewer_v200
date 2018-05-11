@@ -89,11 +89,11 @@
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
-    config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config-publicTransportFlow.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    // config: "http://localhost:8090/TGISViewer_v200/project/HongQiao/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/HongQiao/config.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -234,15 +234,15 @@
 //        console.log(JSON.stringify(results));
 //      });
 
-     map.multiSearch({text: "武宁路"}, function (results) {
-       console.log(results);
-
-       map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
-         console.log(results);
-       });
-
-       map.showMultiSearchResult({featureIds: ["道路_0","道路_1","道路_2","道路_3","道路_4","道路_5","道路_6","道路_7"]});
-     });
+     // map.multiSearch({text: "武宁路"}, function (results) {
+     //   console.log(results);
+     //
+     //   map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
+     //     console.log(results);
+     //   });
+     //
+     //   map.showMultiSearchResult({featureIds: ["道路_0","道路_1","道路_2","道路_3","道路_4","道路_5","道路_6","道路_7"]});
+     // });
 
     // map.deleteOverlays({types: ["CADPile"]});
 
@@ -291,7 +291,7 @@
 
     // map.showRouteByCross({crossIds:["51012211500109","51012200100102","51012200100112","51012200100123","51012200100134","51012212000438"]});
 
-    map.showTopToolbar();
+    // map.showTopToolbar();
     // map.hideBottomToolbar();
     // map.findFeature({layerName: "AccidentsNumber", ids: ["B11"]});
     // map.showOD({type: "O", startID: "B12", endFlows: [{ID: "B11", flow: 100},{ID: "B13", flow: 150},{ID: "B14", flow: 200},{ID: "B15", flow: 250},{ID: "B17", flow: 300},{ID: "B18", flow: 350}]});
@@ -300,6 +300,8 @@
     // map.toScreen({x: 121.483, y: 31.222}, function (result) {
     //   console.log(result);
     // });
+
+    map.findFeature({layerName: "停车场", ids: ["P026"], centerResult: true});
   }
 
 

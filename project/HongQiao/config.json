@@ -38,6 +38,58 @@
         "visible": true
       },
       {
+        "label": "停车场",
+        "url": "http://{gisServer}/arcgis/rest/services/HongQiao/HongQiao_device/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "State",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/TingCheChang-grey.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "空闲",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/TingCheChang-blue.png",
+                "width": 16.5,
+                "height": 19.5,
+                "yoffset": 10
+              }
+            },
+            {
+              "value": "拥挤",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/TingCheChang-yellow.png",
+                "width": 16.5,
+                "height": 19.5,
+                "yoffset": 10
+              }
+            },
+            {
+              "value": "饱和",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/TingCheChang-red.png",
+                "width": 16.5,
+                "height": 19.5,
+                "yoffset": 10
+              }
+            }
+          ]
+        }
+      },
+      {
         "label": "路况诱导板",
         "url": "http://{gisServer}/arcgis/rest/services/HongQiao/HongQiao_device/MapServer/1",
         "type": "feature",
@@ -174,6 +226,11 @@
         "uri": "widgets/Print/Widget",
         "version": "2.4",
         "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
       }
     ]
   }
