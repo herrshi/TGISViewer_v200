@@ -212,7 +212,8 @@ define([
 
       xhr(
         "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer?token=" +
-          window.serviceToken,
+          // window.serviceToken,
+          "EM7efVQOZyS6hL7RH-pkI6VRguDXYyqqW8eX3N6CtDBO-ogwdiCvvnKZGwTGvnfqKBl6W5ifSwBPjWt2aAAGAQ..",
         {
           method: "POST",
           headers: {
@@ -223,7 +224,21 @@ define([
         }
       ).then(
         function(xmlData) {
-          console.log(xmlData);
+          var doc = xmlData.documentElement;
+          console.log(doc.getElementsByTagName("ROAD1"));
+          console.log(doc.getElementsByTagName("POINT_X"));
+          console.log(doc.getElementsByTagName("POINT_Y"));
+
+
+          //soap:body-->ASCH_AddressSearchResponse-->ASCH_AddressSearchResult-->DZ_Table-->diffgr:diffgram-->NewDataSet
+          var nodeLists = doc.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes;
+          nodeLists.forEach(function (node) {
+            var name = node.getElementsByTagName("ROAD1")[0].textContent;
+            var x = node.getElementsByTagName("POINT_X")[0].textContent;
+            var y = node.getElementsByTagName("POINT_Y")[0].textContent;
+            // console.log(name, x, y);
+          });
+
         },
         function(error) {
           console.log(error);
