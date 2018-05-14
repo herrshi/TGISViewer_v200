@@ -10,6 +10,7 @@ define([
   "dojo/Deferred",
   "dojo/promise/all",
   "dojo/dom-style",
+  "dojo/request/xhr",
   "dijit/TooltipDialog",
   "dijit/popup",
   "jimu/BaseWidget",
@@ -28,6 +29,7 @@ define([
   Deferred,
   all,
   domStyle,
+  xhr,
   TooltipDialog,
   dijitPopup,
   BaseWidget,
@@ -191,22 +193,6 @@ define([
     },
 
     _doWebServiceTask: function(className, resourceConfig, searchText) {
-      var xhr = new XMLHttpRequest();
-      xhr.open(
-        "GET",
-        "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer?token=" +
-        "IUf39lATszf5dGFNhq9ieZ7V9oUNhnEEosmzw2w7PIbRXSK-ACgKClTWh0_0CgmV" +
-        "&wsdl=",
-        false
-      );
-      xhr.withCredentials = true;
-      xhr.send();
-
-      xhr.open(
-        "POST",
-        "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer",
-        true
-      );
       //构造xml格式的soap消息
       var data =
         "<?xml version='1.0' encoding='utf-8'?>" +
@@ -223,15 +209,41 @@ define([
         "</tns:ASCH_AddressSearch>" +
         "</SOAP-ENV:Body>" +
         "</SOAP-ENV:Envelope>";
-      //设置RequestHeader中的Content-Type为text/xml;charset=utf-8
-      xhr.setRequestHeader("Content-Type", "text/xml;charset=utf-8");
-      xhr.onreadystatechange = function (ev) {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          console.log(xhr.responseText);
-        }
-      };
-      xhr.send(data);
 
+      xhr(
+        "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer?token=" +
+          // window.serviceToken,
+          "EM7efVQOZyS6hL7RH-pkI6VRguDXYyqqW8eX3N6CtDBO-ogwdiCvvnKZGwTGvnfqKBl6W5ifSwBPjWt2aAAGAQ..",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/xml;charset=utf-8"
+          },
+          handleAs: "xml",
+          data: data
+        }
+      ).then(
+        function(xmlData) {
+          var doc = xmlData.documentElement;
+          console.log(doc.getElementsByTagName("ROAD1"));
+          console.log(doc.getElementsByTagName("POINT_X"));
+          console.log(doc.getElementsByTagName("POINT_Y"));
+
+
+          //soap:body-->ASCH_AddressSearchResponse-->ASCH_AddressSearchResult-->DZ_Table-->diffgr:diffgram-->NewDataSet
+          var nodeLists = doc.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes;
+          nodeLists.forEach(function (node) {
+            var name = node.getElementsByTagName("ROAD1")[0].textContent;
+            var x = node.getElementsByTagName("POINT_X")[0].textContent;
+            var y = node.getElementsByTagName("POINT_Y")[0].textContent;
+            // console.log(name, x, y);
+          });
+
+        },
+        function(error) {
+          console.log(error);
+        }
+      );
     },
 
     onTopicHandler_multiSearch: function(params) {
