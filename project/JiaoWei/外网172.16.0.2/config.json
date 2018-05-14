@@ -938,7 +938,7 @@
       },
       {
         "uri": "widgets/MultiSearch/Widget",
-        "config": "configs/MultiSearch/config_JiaoWei.json",
+        "config": "configs/MultiSearch/config_JiaoWei_ww.json",
         "id": "MultiSearchWidget"
       },
       {
