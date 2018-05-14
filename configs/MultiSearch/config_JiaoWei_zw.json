@@ -4,26 +4,6 @@
       "name": "road",
       "sources": [
         {
-          "type": "dynamicService",
-          "url":
-            "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_road/MapServer",
-          "searchFields": ["FEATURENAME", "NAME"],
-          "layerParams": [
-            {
-              "layerId": 0,
-              "nameField": "FEATURENAME"
-            },
-            {
-              "layerId": 1,
-              "nameField": "NAME"
-            },
-            {
-              "layerId": 2,
-              "nameField": "NAME"
-            }
-          ]
-        },
-        {
           "type": "webService",
           "url": "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer"
         }
