@@ -17,6 +17,8 @@
       <w>renderers</w>
       <w>shuang</w>
       <w>textsymbol</w>
+      <w>xoffset</w>
+      <w>yoffset</w>
     </words>
   </dictionary>
 </component>
