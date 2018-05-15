@@ -1,0 +1,103 @@
+{
+  "classes": [
+    {
+      "name": "road",
+      "sources": [
+        {
+          "type": "dynamicService",
+          "url":
+            "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_road/MapServer",
+          "searchFields": ["FEATURENAME", "NAME"],
+          "layerParams": [
+            {
+              "layerId": 0,
+              "nameField": "FEATURENAME"
+            },
+            {
+              "layerId": 1,
+              "nameField": "NAME"
+            },
+            {
+              "layerId": 2,
+              "nameField": "NAME"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "waterway",
+      "sources": []
+    },
+    {
+      "name": "bus",
+      "sources": [
+        {
+          "type": "dynamicService",
+          "url":
+            "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_bus/MapServer",
+          "searchFields": ["Stationname", "Busname", "Name", "NAME"],
+          "layerParams": [
+            {
+              "layerId": 0,
+              "nameField": "Stationname"
+            },
+            {
+              "layerId": 1,
+              "nameField": "Busname"
+            },
+            {
+              "layerId": 2,
+              "nameField": "Name"
+            },
+            {
+              "layerId": 3,
+              "nameField": "Stationname"
+            },
+            {
+              "layerId": 4,
+              "nameField": "Busname"
+            },
+            {
+              "layerId": 5,
+              "nameField": "Stationname"
+            },
+            {
+              "layerId": 6,
+              "nameField": "NAME"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "metro",
+      "sources": [
+        {
+          "type": "dynamicService",
+          "url":
+            "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_search_metro/MapServer",
+          "searchFields": ["Stationname", "Busname", "Name", "NAME"],
+          "layerParams": [
+            {
+              "layerId": 0,
+              "nameField": "Stationname"
+            },
+            {
+              "layerId": 1,
+              "nameField": "Busname"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "harbour",
+      "sources": []
+    },
+    {
+      "name": "other",
+      "sources": []
+    }
+  ]
+}

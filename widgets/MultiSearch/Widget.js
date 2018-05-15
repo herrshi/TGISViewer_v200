@@ -16,6 +16,7 @@ define([
   "jimu/BaseWidget",
   "jimu/dijit/LoadingIndicator",
   "jimu/utils",
+  "esri/geometry/Point",
   "esri/graphic",
   "esri/layers/GraphicsLayer",
   "esri/symbols/PictureMarkerSymbol",
@@ -35,6 +36,7 @@ define([
   BaseWidget,
   LoadingIndicator,
   jimuUtils,
+  Point,
   Graphic,
   GraphicsLayer,
   PictureMarkerSymbol,
@@ -193,6 +195,9 @@ define([
     },
 
     _doWebServiceTask: function(className, resourceConfig, searchText) {
+      var def = new Deferred();
+      var features = [];
+
       //构造xml格式的soap消息
       var data =
         "<?xml version='1.0' encoding='utf-8'?>" +
@@ -212,8 +217,7 @@ define([
 
       xhr(
         "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/address_p/Transfer?token=" +
-          // window.serviceToken,
-          "EM7efVQOZyS6hL7RH-pkI6VRguDXYyqqW8eX3N6CtDBO-ogwdiCvvnKZGwTGvnfqKBl6W5ifSwBPjWt2aAAGAQ..",
+          window.serviceToken,
         {
           method: "POST",
           headers: {
@@ -223,27 +227,37 @@ define([
           data: data
         }
       ).then(
-        function(xmlData) {
+        lang.hitch(this, function(xmlData) {
           var doc = xmlData.documentElement;
-          console.log(doc.getElementsByTagName("ROAD1"));
-          console.log(doc.getElementsByTagName("POINT_X"));
-          console.log(doc.getElementsByTagName("POINT_Y"));
+          var nameList = doc.getElementsByTagName("ROAD1").length > 0 ? doc.getElementsByTagName("ROAD1") : doc.getElementsByTagName("ADDRESS");
+          console.log(nameList);
+          var xList = doc.getElementsByTagName("POINT_X");
+          var yList = doc.getElementsByTagName("POINT_Y");
+          var typeList = doc.getElementsByTagName("CLS");
 
+          for (var i = 0; i < nameList.length; i++) {
+            var name = nameList[i].textContent;
+            var x = xList[i].textContent;
+            var y = yList[i].textContent;
+            var type = typeList[i].textContent;
+            var id = type + "_" + i;
+            features.push({ id: id, name: name });
 
-          //soap:body-->ASCH_AddressSearchResponse-->ASCH_AddressSearchResult-->DZ_Table-->diffgr:diffgram-->NewDataSet
-          var nodeLists = doc.childNodes[0].childNodes[0].childNodes[0].childNodes[1].childNodes[1].childNodes[0].childNodes;
-          nodeLists.forEach(function (node) {
-            var name = node.getElementsByTagName("ROAD1")[0].textContent;
-            var x = node.getElementsByTagName("POINT_X")[0].textContent;
-            var y = node.getElementsByTagName("POINT_Y")[0].textContent;
-            // console.log(name, x, y);
-          });
-
-        },
+            var point = new Point(x, y);
+            var graphic = new Graphic(point);
+            graphic.id = id;
+            graphic.name = name;
+            this.resultGraphics.push(graphic);
+          }
+          def.resolve({ className: className, features: features });
+        }),
         function(error) {
-          console.log(error);
+          console.error(error);
+          def.reject(error);
         }
       );
+
+      return def;
     },
 
     onTopicHandler_multiSearch: function(params) {
@@ -278,7 +292,10 @@ define([
                     break;
 
                   case "webService".toLowerCase():
-                    this._doWebServiceTask(className, resourceConfig, text);
+                    findTaskDefs.push(
+                      this._doWebServiceTask(className, resourceConfig, text)
+                    );
+
                     break;
                 }
               },
