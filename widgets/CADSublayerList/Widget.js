@@ -238,7 +238,7 @@ define([
           }
 
           //显示服务
-          var extent = new Extent(layerInfo._initialExtent).expand(1.5);
+          var extent = new Extent(layerInfo.initialExtent).expand(1.5);
           extent.spatialReference = this.map.spatialReference;
           this._showWholeLayer(layerUrl, layerLabel, extent);
         }));

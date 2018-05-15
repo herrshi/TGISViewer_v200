@@ -1144,7 +1144,7 @@
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "10.0.88.51:8000",
-  "CADServiceUrl": "http://139.196.105.31:9001/Cad/Rest/{name}/MapServer",
+  "CADServiceUrl": "http://10.0.88.51:8000/Cad/Rest/{name}/MapServer",
   "widgetOnScreen": {
     "widgets": [
       {
