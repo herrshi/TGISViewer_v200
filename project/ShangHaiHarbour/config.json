@@ -24,8 +24,14 @@
     },
     "basemaps": [
       {
-        "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_base/MapServer",
+        "label": "天地图",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      },
+      {
+        "label": "海图",
+        "url": "http://220.180.238.9:6080/arcgis/rest/services/SeaMap/nauticalchart/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -108,8 +114,7 @@
       }
     ],
     "mapOptions": {
-      "center": [121.469, 31.228],
-      "zoom": 1,
+      "center": {"x":121.469,"y":31.228,"spatialReference":{"wkid":4326}},
       "logo": false,
       "nav": false,
       "slider": false
