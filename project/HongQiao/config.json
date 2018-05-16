@@ -45,6 +45,7 @@
         "outFields": [
           "*"
         ],
+        "mode": 0,
         "renderer": {
           "type": "uniqueValue",
           "field1": "State",
@@ -97,6 +98,7 @@
         "outFields": [
           "*"
         ],
+        "mode": 0,
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -115,6 +117,7 @@
         "outFields": [
           "*"
         ],
+        "mode": 0,
         "renderer": {
           "type": "uniqueValue",
           "field1": "DEVTYPE",

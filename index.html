@@ -89,11 +89,11 @@
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
-    config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    // config: "http://localhost:8090/TGISViewer_v200/project/ShangHaiHarbour/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/HongQiao/config.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -234,16 +234,16 @@
 //        console.log(JSON.stringify(results));
 //      });
 
-     map.multiSearch({text: "武宁路505"}, function (results) {
-       console.log(results);
-
-       map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
-         console.log(results);
-       });
-
-       // map.showMultiSearchResult({featureIds: ["道路_0","道路_1","道路_2","道路_3","道路_4","道路_5","道路_6","道路_7"]});
-       map.showMultiSearchResult({featureIds: ["道路_0","道路_1", "门牌_0"]});
-     });
+     // map.multiSearch({text: "武宁路505"}, function (results) {
+     //   console.log(results);
+     //
+     //   map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
+     //     console.log(results);
+     //   });
+     //
+     //   // map.showMultiSearchResult({featureIds: ["道路_0","道路_1","道路_2","道路_3","道路_4","道路_5","道路_6","道路_7"]});
+     //   map.showMultiSearchResult({featureIds: ["道路_0","道路_1", "门牌_0"]});
+     // });
 
     // map.deleteOverlays({types: ["CADPile"]});
 
@@ -302,7 +302,7 @@
     //   console.log(result);
     // });
 
-    // map.findFeature({layerName: "停车场", ids: ["P026"], centerResult: true});
+    map.findFeature({layerName: "停车场", ids: ["P026"], centerResult: true});
   }
 
 
