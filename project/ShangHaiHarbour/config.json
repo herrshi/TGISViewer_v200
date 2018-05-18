@@ -25,7 +25,7 @@
     "basemaps": [
       {
         "label": "天地图",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_base_mercator/MapServer",
         "type": "tiled",
         "visible": true
       },
@@ -37,12 +37,6 @@
       }
     ],
     "operationallayers": [
-      {
-        "label": "海图",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_sea/MapServer",
-        "type": "dynamic",
-        "visible": true
-      },
       {
         "label": "桥",
         "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_feature/MapServer",
