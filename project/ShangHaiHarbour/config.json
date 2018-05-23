@@ -24,7 +24,7 @@
     },
     "basemaps": [
       {
-        "label": "天地图",
+        "label": "路图",
         "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_base_mercator/MapServer",
         "type": "tiled",
         "visible": true
@@ -42,6 +42,12 @@
         "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_feature/MapServer",
         "type": "dynamic",
         "visible": true
+      },
+      {
+        "label": "海图矢量图",
+        "url": "http://220.180.238.9:6080/arcgis/rest/services/SampleWorldCities/MapServer/exts/MaritimeChartService/MapServer",
+        "type": "dynamic",
+        "visible": false
       },
       {
         "label": "发布段",
@@ -180,6 +186,11 @@
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/TrackPlayback/Widget",
+        "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
+        "id": "TrackPlaybackWidget"
       }
     ]
   }
