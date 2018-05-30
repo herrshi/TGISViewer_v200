@@ -147,6 +147,10 @@ define([
 
     _show2DMap: function () {
       var map = new Map(this.mapDivId, this._processMapOptions(this.appConfig.map.mapOptions));
+      //backgroundColor不在options中，需要代码
+      if (this.appConfig.map.mapOptions.backgroundColor) {
+        map.setBackgroundColor(this.appConfig.map.mapOptions.backgroundColor);
+      }
       this._visitConfigMapLayers(this.appConfig, lang.hitch(this, function (layerConfig) {
         try {
           this.createLayer(map, "2D", layerConfig);

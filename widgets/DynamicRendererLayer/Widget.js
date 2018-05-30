@@ -40,7 +40,7 @@ define([
     },
 
     _readConfigs: function () {
-      this.map.setBackgroundColor(new Color(this.config.backgroundColor));
+      // this.map.setBackgroundColor(new Color(this.config.backgroundColor));
 
       var def = new Deferred();
       var readConfigDefs = [];

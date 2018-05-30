@@ -27,7 +27,7 @@
         "label": "矢量图",
         "url": "http://{gisServer}/arcgis/rest/services/ChangZhi/ChangZhi_base_PurplishBlue/MapServer",
         "type": "tiled",
-        "visible": true
+        "visible": false
       }
     ],
     "operationallayers": [
@@ -41,7 +41,8 @@
       "nav": false,
       "slider": false,
       "isMapNavigation": false,
-      "isScrollWheel": false
+      "isScrollWheel": false,
+      "backgroundColor": [255, 0, 0]
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",

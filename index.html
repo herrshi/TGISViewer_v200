@@ -46,6 +46,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
+      background-color: #0c0c0c;
     }
 
     #testButtons {
@@ -81,7 +82,7 @@
 </div>
 <script type="text/javascript" src="simpleLoader.js"></script>
 <script type="text/javascript" src="TGISAPI.js"></script>
-<!--<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>-->
+<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>
 
 <script type="text/javascript">
   var map = TMap.createNew({
@@ -96,16 +97,16 @@
     config: "http://localhost:8090/TGISViewer_v200/project/ShangHaiHarbour/config.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
-    // map.showDynamicRendererLayer({
-    //   name: "IssuesectState",
-    //   defaultData: "free",
-    //   datas: [
-    //     {id: "FBD_27", data: "crowd"},
-    //     {id: "FBD_28", data: "crowd"},
-    //     {id: "FBD_29",data: "jam"},
-    //     {id: "FBD_30", data: "jam"}
-    //   ]
-    // });
+    map.showDynamicRendererLayer({
+      name: "IssuesectState",
+      defaultData: "free",
+      datas: [
+        {id: "FBD_27", data: "crowd"},
+        {id: "FBD_28", data: "crowd"},
+        {id: "FBD_29",data: "jam"},
+        {id: "FBD_30", data: "jam"}
+      ]
+    });
     // map.showDynamicRendererLayer({
     //   name: "AccidentsNumber",
     //   defaultData: 40,
