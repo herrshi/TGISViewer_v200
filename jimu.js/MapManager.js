@@ -216,7 +216,8 @@ define([
               identifyParam.returnGeometry = true;
               identifyParam.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;
               identifyParam.tolerance = 3;
-              identifyParam.geometry = (this.map.spatialReference.isWebMercator() ? webMercatorUtils.webMercatorToGeographic(event.mapPoint) : event.mapPoint);
+              identifyParam.geometry = event.mapPoint;
+              // identifyParam.geometry = (this.map.spatialReference.isWebMercator() ? webMercatorUtils.webMercatorToGeographic(event.mapPoint) : event.mapPoint);
               identifyTask.execute(identifyParam).then(function (identifyResults) {
                 if (identifyResults.length > 0) {
                   var feature = identifyResults[0].feature;

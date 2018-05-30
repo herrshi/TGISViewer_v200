@@ -1,0 +1,127 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>电子地图</title>
+  <link rel="stylesheet" href="http://localhost:8090/arcgis_js_api/library/3.22/3.22/esri/css/esri.css"/>
+  <link rel="stylesheet" href="http://localhost:8090/arcgis_js_api/library/3.22/3.22/dijit/themes/tundra/tundra.css"/>
+  <script type="text/javascript" src="http://localhost:8090/arcgis_js_api/library/3.22/3.22/init.js"></script>
+  <script type="text/javascript" src="assets/global/plugins/jquery-3.2.1.min.js"></script>
+  <style type="text/css">
+    html, body, #mapDiv {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+  </style>
+  <script type="text/javascript">
+    var map;
+    require([
+        "esri/map",
+      "esri/layers/ArcGISTiledMapServiceLayer",
+        "esri/layers/ArcGISDynamicMapServiceLayer",
+        "esri/Color",
+        "esri/tasks/FindTask",
+        "esri/tasks/FindParameters",
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/SimpleFillSymbol",
+        "esri/geometry/Extent",
+        "dojo/domReady!"
+      ], function (Map, ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer, eColor,FindTask, FindParameters, SimpleMarkerSymbol,
+                   SimpleLineSymbol, SimpleFillSymbol, Extent) {
+        map = new Map("mapDiv");
+        var basemap = new ArcGISTiledMapServiceLayer("http://220.180.238.9:6080/arcgis/rest/services/SeaMap/nauticalchart/MapServer");
+        map.addLayer(basemap);
+
+        //ENC WGS 84
+        var enc84 = new ArcGISDynamicMapServiceLayer("http://220.180.238.9:6080/arcgis/rest/services/SampleWorldCities/MapServer/exts/MaritimeChartService/MapServer");
+        // enc84.setVisibleLayers([2,4]);
+        map.addLayer(enc84);
+        dojo.connect(dojo.byId("x1"), "onclick", findNow);
+        function removeMap(){
+          map.removeLayer(enc84);
+          enc84.setVisibleLayers([2,4]);
+          map.addLayer(enc84);
+        }
+        //查找地图
+        function findNow() {
+          var findtask1 = new FindTask("http://220.180.238.9:6080/arcgis/rest/services/SampleWorldCities/MapServer/exts/MaritimeChartService/MapServer");
+          var fParam = new FindParameters();
+          fParam.returnGeometry = true;
+          fParam.searchFields = ["*"];
+          var findTxt = dojo.byId("ftxt").value;//要查询的属性值
+          fParam.searchText = findTxt;
+          findtask1.execute(fParam, getResult);
+        }
+
+        function getResult(results) {
+          dojo.forEach(results, function (result) {
+              setGrapic(result.feature);
+            }
+          );
+        }
+
+        function setGrapic(gra) {
+          //如果需要查看所有属性，可以参考下面的脚本
+          var attributes = gra.attributes;
+          var soundg = "";
+          var markerSym= new SimpleMarkerSymbol();//将查出的属性渲染后展示
+          var lineSym = new SimpleLineSymbol();
+          var fillSym = new SimpleFillSymbol();
+          var color = new eColor([255, 0, 0, 0.5]);
+          var outColor = new eColor([0, 255, 0, 0.5]);
+          markerSym.setColor(color);
+          markerSym.setSize(12);
+          markerSym.outline.setColor(outColor);
+          lineSym.setColor(color);
+          lineSym.setWidth(3);
+          fillSym.setColor(color);
+          fillSym.outline.setColor(outColor);
+          console.log(attributes, gra.geometry);
+          for (var attr in attributes) {
+            if (attr == "objectType") {
+              var oType = attributes[attr];
+              if (oType == "CBLSUB") {//当值相等时
+                //输出所有的属性
+                for (var attr in attributes) {
+                  soundg = soundg + attr + ":" + attributes[attr] + "   ";
+                }
+                //对点线面图形设置符号
+                if (gra.geometry.type == "point") {
+                  gra.symbol = pointSym;
+                } else if (gra.geometry.type == "polyline") {
+                  gra.symbol = lineSym;
+                } else if (gra.geometry.type == "polygon") {
+                  gra.symbol = fillSym ;
+                }
+                map.graphics.add(gra);
+
+              }
+            }
+          }
+          jumptoMap(gra);
+//绘制后跳转到地图位置
+        }
+        function jumptoMap(gra) {
+          if (gra.geometry.type == "point") {
+            map.centerAndZoom(gra.geometry);
+          } else {
+            map.setExtent(gra.geometry.getExtent());
+          }
+        }
+      }
+    );
+  </script>
+</head>
+
+<body>
+<div>
+  <input type="text" value="亚太2号光缆" id="ftxt"/>
+  //搜索图层要素中含有亚太的要素
+  <button id="x1">搜索</button>
+</div>
+<div id="mapDiv"></div>
+</body>

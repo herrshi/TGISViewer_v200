@@ -1001,6 +1001,24 @@
         }
       },
       {
+        "label": "铁路规划",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_Railway/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>${NAME}</b><br><b>类型: </b>${Type}"
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "content": "<b>${Layer}</b><br><b>类型: </b>${Type}"
+            }
+          }
+        }
+      },
+      {
         "label": "十三五公交枢纽",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/gongjiaoshuniu_135/MapServer",
         "type": "dynamic",

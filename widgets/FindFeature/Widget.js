@@ -150,6 +150,7 @@ define([
     },
 
     _findInGraphicsLayer: function(graphicsLayer, ids) {
+      console.log(graphicsLayer.mode, FeatureLayer.MODE_SNAPSHOT);
       graphicsLayer.graphics.forEach(function (graphic) {
         var attr = graphic.attributes;
         var id;
@@ -162,14 +163,16 @@ define([
         }
         if (ids.indexOf(id) >= 0) {
           if (this._showResult) {
-            var node = graphic.getNode();
-            node.setAttribute("data-highlight", "highlight");
-            setTimeout(function() {
-              node.setAttribute("data-highlight", "");
-            }, 5000);
-          }
-          if (this._centerResult) {
-            this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry));
+            if (this._centerResult) {
+              this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry)).then(function (value) {
+                var node = graphic.getNode();
+                node.setAttribute("data-highlight", "highlight");
+                setTimeout(function() {
+                  node.setAttribute("data-highlight", "");
+                }, 5000);
+              });
+            }
+
           }
         }
       }, this);

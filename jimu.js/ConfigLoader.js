@@ -11,7 +11,9 @@ define([
   "dojo/promise/all",
   "dojo/request/xhr",
   "jimu/WidgetManager",
-  "jimu/utils"
+  "jimu/utils",
+  "esri/config",
+  "esri/urlUtils"
 ], function (
   declare,
   lang,
@@ -22,7 +24,9 @@ define([
   all,
   xhr,
   WidgetManager,
-  jimuUtils
+  jimuUtils,
+  esriConfig,
+  esriUrlUtils
 ) {
   var instance = null, clazz;
 
@@ -69,12 +73,32 @@ define([
       this._processUrlParams(appConfig);
 
       this.addNeedValues(appConfig);
+      this.processProxy(appConfig);
 
       return appConfig;
     },
 
     addNeedValues: function(appConfig){
       this._addElementId(appConfig);
+    },
+
+    processProxy: function(appConfig){
+      esriConfig.defaults.io.alwaysUseProxy = appConfig.httpProxy &&
+        appConfig.httpProxy.useProxy && appConfig.httpProxy.alwaysUseProxy;
+      esriConfig.defaults.io.proxyUrl = "";
+      esriConfig.defaults.io.proxyRules = [];
+
+      if (appConfig.httpProxy && appConfig.httpProxy.useProxy && appConfig.httpProxy.url) {
+        esriConfig.defaults.io.proxyUrl = appConfig.httpProxy.url;
+        console.log("use proxy: " + esriConfig.defaults.io.proxyUrl);
+      }
+      if (appConfig.httpProxy && appConfig.httpProxy.useProxy && appConfig.httpProxy.rules) {
+        array.forEach(appConfig.httpProxy.rules, function(rule) {
+          esriUrlUtils.addProxyRule(rule);
+          // console.log(rule);
+          // esriConfig.defaults.io.proxyRules.push(rule);
+        });
+      }
     },
 
     showError: function(err){
