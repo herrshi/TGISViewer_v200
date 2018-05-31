@@ -89,8 +89,24 @@ define([
         lang.hitch(this, this.onTopicHandler_deleteOverlays)
       );
       topic.subscribe(
+        "showOverlays",
+        lang.hitch(this, this.onTopicHandler_showOverlays)
+      );
+      topic.subscribe(
+        "hideOverlays",
+        lang.hitch(this, this.onTopicHandler_hideOverlays)
+      );
+      topic.subscribe(
         "deleteAllOverlays",
         lang.hitch(this, this.onTopicHandler_deleteAllOverlays)
+      );
+      topic.subscribe(
+        "showAllOverlays",
+        lang.hitch(this, this.onTopicHandler_showAllOverlays)
+      );
+      topic.subscribe(
+        "hideAllOverlays",
+        lang.hitch(this, this.onTopicHandler_hideAllOverlays)
       );
 
       topic.subscribe(
@@ -462,14 +478,16 @@ define([
       var ids = params.ids || [];
       for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
         var graphic = this.graphicsLayer.graphics[i];
-        //只判断type
         if (
+          //只判断type
           (types.length > 0 &&
             ids.length === 0 &&
             array.indexOf(types, graphic.type) >= 0) ||
+          //只判断id
           (types.length === 0 &&
             ids.length > 0 &&
             array.indexOf(ids, graphic.id) >= 0) ||
+          //type和id都要判断
           (types.length > 0 &&
             ids.length > 0 &&
             array.indexOf(types, graphic.type) >= 0 &&
@@ -481,8 +499,68 @@ define([
       }
     },
 
+    onTopicHandler_showOverlays: function(params) {
+      var types = params.types || [];
+      var ids = params.ids || [];
+      for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+        var graphic = this.graphicsLayer.graphics[i];
+        if (
+          //只判断type
+          (types.length > 0 &&
+            ids.length === 0 &&
+            array.indexOf(types, graphic.type) >= 0) ||
+          //只判断id
+          (types.length === 0 &&
+            ids.length > 0 &&
+            array.indexOf(ids, graphic.id) >= 0) ||
+          //type和id都要判断
+          (types.length > 0 &&
+            ids.length > 0 &&
+            array.indexOf(types, graphic.type) >= 0 &&
+            array.indexOf(ids, graphic.id) >= 0)
+        ) {
+          graphic.visible = true;
+        }
+      }
+      this.graphicsLayer.refresh();
+    },
+
+    onTopicHandler_hideOverlays: function(params) {
+      var types = params.types || [];
+      var ids = params.ids || [];
+      for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+        var graphic = this.graphicsLayer.graphics[i];
+        if (
+          //只判断type
+          (types.length > 0 &&
+            ids.length === 0 &&
+            array.indexOf(types, graphic.type) >= 0) ||
+          //只判断id
+          (types.length === 0 &&
+            ids.length > 0 &&
+            array.indexOf(ids, graphic.id) >= 0) ||
+          //type和id都要判断
+          (types.length > 0 &&
+            ids.length > 0 &&
+            array.indexOf(types, graphic.type) >= 0 &&
+            array.indexOf(ids, graphic.id) >= 0)
+        ) {
+          graphic.visible = false;
+        }
+      }
+      this.graphicsLayer.refresh();
+    },
+
     onTopicHandler_deleteAllOverlays: function() {
       this.graphicsLayer.clear();
+    },
+
+    onTopicHandler_showAllOverlays: function() {
+      this.graphicsLayer.setVisibility(true);
+    },
+
+    onTopicHandler_hideAllOverlays: function() {
+      this.graphicsLayer.setVisibility(false);
     },
 
     onTopicHandler_findFeature: function(params) {

@@ -655,10 +655,44 @@ var TMap = {
     });
   },
 
+  /**
+   * 显示指定的覆盖物
+   * 参数同deleteOverlays
+   * */
+  showOverlays: function(params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showOverlays", params);
+    });
+  },
+
+  /**
+   * 隐藏指定的覆盖物
+   * 参数同deleteOverlays
+   * */
+  hideOverlays: function(params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideOverlays", params);
+    });
+  },
+
   /**删除所有覆盖物*/
   deleteAllOverlays: function () {
     require(["dojo/topic"], function (topic) {
       topic.publish("deleteAllOverlays");
+    });
+  },
+
+  /**显示所有覆盖物*/
+  showAllOverlays: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showAllOverlays");
+    });
+  },
+
+  /**隐藏所有覆盖物*/
+  hideAllOverlays: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideAllOverlays");
     });
   },
 

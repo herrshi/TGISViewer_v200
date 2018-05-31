@@ -97,16 +97,16 @@
     config: "http://localhost:8090/TGISViewer_v200/project/ShangHaiHarbour/config.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
-    map.showDynamicRendererLayer({
-      name: "IssuesectState",
-      defaultData: "free",
-      datas: [
-        {id: "FBD_27", data: "crowd"},
-        {id: "FBD_28", data: "crowd"},
-        {id: "FBD_29",data: "jam"},
-        {id: "FBD_30", data: "jam"}
-      ]
-    });
+    // map.showDynamicRendererLayer({
+    //   name: "IssuesectState",
+    //   defaultData: "free",
+    //   datas: [
+    //     {id: "FBD_27", data: "crowd"},
+    //     {id: "FBD_28", data: "crowd"},
+    //     {id: "FBD_29",data: "jam"},
+    //     {id: "FBD_30", data: "jam"}
+    //   ]
+    // });
     // map.showDynamicRendererLayer({
     //   name: "AccidentsNumber",
     //   defaultData: 40,
@@ -203,7 +203,7 @@
 //      map.setMapScale(8000);
 //      map.setMapLevel(1);
 //      map.setMapCenterAndLevel({x: 1702, y: -23821, level: 1});
-//      map.addPoints('{"points":[{"id":"pt001","type":"QBB","geometry":{"x":-5699,"y":-3025},"fields":{"DEVSTATE":"connect"},"symbol":{"type":"marker","size":12,"color":"#FF0000","alpha":0.5,"outline":{"color":"#FFFFFF","width":2}}},{"id":"pt002","type":"QBB","geometry":{"x":121.467,"y":31.222},"fields":{"DEVSTATE":"disconnect"},"symbol":{"type":"picture","url":"images/mapIcons/ChuZuChe.png","width":24,"height":35,"yoffset":17.5}},{"id":"pt003","type":"QBB","geometry":{"x":121.456,"y":31.262},"fields":{"DEVSTATE":"connect"},"symbol":{"type":"marker","color":"#FFFF00"}},{"id":"pt004","type":"QBB","geometry":{"x":121.443,"y":31.229},"fields":{"DEVSTATE":"unknown"},"symbol":{"type":"marker","color":"#0000FF"}}]}');
+     map.addPoints('{"points":[{"id":"pt001","type":"QBB","geometry":{"x":-5699,"y":-3025},"fields":{"DEVSTATE":"connect"},"symbol":{"type":"marker","size":12,"color":"#FF0000","alpha":0.5,"outline":{"color":"#FFFFFF","width":2}}},{"id":"pt002","type":"QBB","geometry":{"x":121.467,"y":31.222},"fields":{"DEVSTATE":"disconnect"},"symbol":{"type":"picture","url":"images/mapIcons/ChuZuChe.png","width":24,"height":35,"yoffset":17.5}},{"id":"pt003","type":"QBB","geometry":{"x":121.456,"y":31.262},"fields":{"DEVSTATE":"connect"},"symbol":{"type":"marker","color":"#FFFF00"}},{"id":"pt004","type":"QBB","geometry":{"x":121.443,"y":31.229},"fields":{"DEVSTATE":"unknown"},"symbol":{"type":"marker","color":"#0000FF"}}]}');
 
 //      map.findFeature({layerName: "道路搜索", ids: ["29786","30041", "30186", "30187", "30188", "30189", "30190", "30488", "30536", "30537", "30061", "30062", "30540", "30644", "30645", "30646"]});
 //      map.findFeature({layerName: "行政区人口密度", ids: ["310104"]});
@@ -358,7 +358,7 @@
     // map.showBottomToolbarButton("发布段");
     // map.showBottomToolbarButton("摄像机");
     // map.showTopToolbarButton("保存");
-
+    map.hideOverlays({types: ["QBB"]});
   }
 
   function Test3ClickHandler() {
@@ -368,6 +368,7 @@
 //      });
 
     // map.clearMultiSearchResult();
+    map.showOverlays({types: ["QBB"]});
 
   }
 
@@ -424,6 +425,10 @@
 
   function showOD(data) {
     map.showOD(data);
+  }
+
+  function onBottomButtonClick(type, state) {
+    console.log(type, state)
   }
 </script>
 

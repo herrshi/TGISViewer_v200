@@ -33,12 +33,12 @@
       ], function (Map, ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer, eColor,FindTask, FindParameters, SimpleMarkerSymbol,
                    SimpleLineSymbol, SimpleFillSymbol, Extent) {
         map = new Map("mapDiv");
-        var basemap = new ArcGISTiledMapServiceLayer("http://220.180.238.9:6080/arcgis/rest/services/SeaMap/nauticalchart/MapServer");
+        var basemap = new ArcGISTiledMapServiceLayer("http://172.30.30.1:6080/arcgis/rest/services/ShangHaiHarbour/ShangHai_base_mercator/MapServer");
         map.addLayer(basemap);
 
         //ENC WGS 84
         var enc84 = new ArcGISDynamicMapServiceLayer("http://220.180.238.9:6080/arcgis/rest/services/SampleWorldCities/MapServer/exts/MaritimeChartService/MapServer");
-        // enc84.setVisibleLayers([2,4]);
+        enc84.setVisibleLayers([2]);
         map.addLayer(enc84);
         dojo.connect(dojo.byId("x1"), "onclick", findNow);
         function removeMap(){
