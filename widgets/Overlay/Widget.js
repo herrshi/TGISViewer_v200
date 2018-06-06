@@ -456,9 +456,19 @@ define([
           graphic.type = type;
           graphic.buttons = buttons;
           if (showPopup) {
-            graphic.infoTemplate = new InfoTemplate({
-              content: this._getInfoWindowContent(graphic)
-            });
+            if (overlayParams.defaultInfoTemplate === undefined) {
+              graphic.infoTemplate = new InfoTemplate({
+                content: this._getInfoWindowContent(graphic)
+              });
+            } else {
+              var infoTemplate = new InfoTemplate();
+              infoTemplate.setTitle(overlayParams.defaultInfoTemplate.title);
+              infoTemplate.setContent(
+                overlayParams.defaultInfoTemplate.content
+              );
+              graphic.setInfoTemplate(infoTemplate);
+              //this.map.infoWindow.resize(200,90);
+            }
           }
           if (autoPopup) {
             this.map.infoWindow.setContent(this._getInfoWindowContent(graphic));
@@ -573,7 +583,7 @@ define([
           this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry));
           var node = graphic.getNode();
           node.setAttribute("data-highlight", "highlight");
-          setTimeout(function () {
+          setTimeout(function() {
             node.setAttribute("data-highlight", "");
           }, 5000);
         }

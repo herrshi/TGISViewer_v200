@@ -95,7 +95,9 @@ define([
       );
 
       if (this.config.symbol.startPoint) {
-        this.startPointSymbol = symbolJsonUtils.fromJson(this.config.symbol.startPoint);
+        this.startPointSymbol = symbolJsonUtils.fromJson(
+          this.config.symbol.startPoint
+        );
         if (this.startPointSymbol instanceof PictureMarkerSymbol) {
           this.startPointSymbol.url = window.path + this.startPointSymbol.url;
         }
@@ -111,7 +113,9 @@ define([
       }
 
       if (this.config.symbol.endPoint) {
-        this.endPointSymbol = symbolJsonUtils.fromJson(this.config.symbol.endPoint);
+        this.endPointSymbol = symbolJsonUtils.fromJson(
+          this.config.symbol.endPoint
+        );
         if (this.endPointSymbol instanceof PictureMarkerSymbol) {
           this.endPointSymbol.url = window.path + this.endPointSymbol.url;
         }
@@ -129,7 +133,9 @@ define([
       this.map.addLayer(this.movingPointLayer);
 
       if (this.config.symbol.movingPoint) {
-        this.movingPointSymbol = symbolJsonUtils.fromJson(this.config.symbol.movingPoint);
+        this.movingPointSymbol = symbolJsonUtils.fromJson(
+          this.config.symbol.movingPoint
+        );
         if (this.movingPointSymbol instanceof PictureMarkerSymbol) {
           this.movingPointSymbol.url = window.path + this.movingPointSymbol.url;
         }
@@ -255,7 +261,7 @@ define([
               point = webMercatorUtils.geographicToWebMercator(point);
             }
             var graphic = new Graphic(point);
-            if (trackPoint.id){
+            if (trackPoint.id) {
               graphic.id = trackPoint.id;
             }
             graphic.symbol =
@@ -263,11 +269,18 @@ define([
                 ? this.highlightPointSymbol
                 : this.trackPointSymbol;
             graphic.attributes = trackPoint.fields;
-            graphic.infoTemplate = new InfoTemplate({
-              content: this._getInfoWindowContent(graphic)
-            });
+            if (!params.defaultInfoTemplate) {
+              graphic.infoTemplate = new InfoTemplate({
+                content: this._getInfoWindowContent(graphic)
+              });
+            } else {
+              var infoTemplate = new InfoTemplate();
+              infoTemplate.setTitle(params.defaultInfoTemplate.title);
+              infoTemplate.setContent(params.defaultInfoTemplate.content);
+              graphic.setInfoTemplate(infoTemplate);
+            }
             this.trackPointLayer.add(graphic);
-            if (trackPoint.isHighlight === true) {
+            if (trackPoint.isHighlight === true && graphic.getNode()) {
               graphic.getNode().setAttribute("data-enlarge", "highlight");
             }
           },
