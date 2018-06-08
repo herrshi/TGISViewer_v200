@@ -294,12 +294,28 @@ define([
             geometry = WebMercatorUtils.geographicToWebMercator(geometry);
           }
           var symbol = this._getEsriPointSymbol(symbolObj);
-
-          var graphic = new Graphic(geometry, symbol, fields);
-          graphic.id = id;
-          graphic.type = type;
-
-          this.graphicsLayer.add(graphic);
+          var isExist = false;
+          for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+            var graphic = this.graphicsLayer.graphics[i];
+            if (
+              (id === undefined && type === graphic.type) ||
+              (type === undefined && id === graphic.id) ||
+              (id !== undefined &&
+                id === graphic.id &&
+                type !== undefined &&
+                type === graphic.type)
+            ) {
+              graphic.setGeometry(geometry);
+              isExist = true;
+              break;
+            }
+          }
+          if (!isExist) {
+            var graphic = new Graphic(geometry, symbol, fields);
+            graphic.id = id;
+            graphic.type = type;
+            this.graphicsLayer.add(graphic);
+          }
         },
         this
       );
@@ -329,11 +345,28 @@ define([
 
           var symbol = this._getESRILineSymbol(symbolObj);
 
-          var graphic = new Graphic(geometry, symbol, fields);
-          graphic.id = id;
-          graphic.type = type;
-
-          this.graphicsLayer.add(graphic);
+          var isExist = false;
+          for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+            var graphic = this.graphicsLayer.graphics[i];
+            if (
+              (id === undefined && type === graphic.type) ||
+              (type === undefined && id === graphic.id) ||
+              (id !== undefined &&
+                id === graphic.id &&
+                type !== undefined &&
+                type === graphic.type)
+            ) {
+              graphic.setGeometry(geometry);
+              isExist = true;
+              break;
+            }
+          }
+          if (!isExist) {
+            var graphic = new Graphic(geometry, symbol, fields);
+            graphic.id = id;
+            graphic.type = type;
+            this.graphicsLayer.add(graphic);
+          }
         },
         this
       );
@@ -363,11 +396,28 @@ define([
 
           var symbol = this._getESRIPolygonSymbol(symbolObj);
 
-          var graphic = new Graphic(geometry, symbol, fields);
-          graphic.id = id;
-          graphic.type = type;
-
-          this.graphicsLayer.add(graphic);
+          var isExist = false;
+          for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+            var graphic = this.graphicsLayer.graphics[i];
+            if (
+              (id === undefined && type === graphic.type) ||
+              (type === undefined && id === graphic.id) ||
+              (id !== undefined &&
+                id === graphic.id &&
+                type !== undefined &&
+                type === graphic.type)
+            ) {
+              graphic.setGeometry(geometry);
+              isExist = true;
+              break;
+            }
+          }
+          if (!isExist) {
+            var graphic = new Graphic(geometry, symbol, fields);
+            graphic.id = id;
+            graphic.type = type;
+            this.graphicsLayer.add(graphic);
+          }
         },
         this
       );
@@ -450,34 +500,46 @@ define([
               symbol = this._getESRIPolygonSymbol(symbolObj);
               break;
           }
-
-          var graphic = new Graphic(geometry, symbol, fields);
-          graphic.id = id;
-          graphic.type = type;
-          graphic.buttons = buttons;
-          if (showPopup) {
-            if (overlayParams.defaultInfoTemplate === undefined) {
-              graphic.infoTemplate = new InfoTemplate({
-                content: this._getInfoWindowContent(graphic)
-              });
-            } else {
-              var infoTemplate = new InfoTemplate();
-              infoTemplate.setTitle(overlayParams.defaultInfoTemplate.title);
-              infoTemplate.setContent(
-                overlayParams.defaultInfoTemplate.content
-              );
-              graphic.setInfoTemplate(infoTemplate);
-              //this.map.infoWindow.resize(200,90);
+          var isExist = false;
+          for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+            var graphic = this.graphicsLayer.graphics[i];
+            if (id !== undefined && id === graphic.id) {
+              graphic.setGeometry(geometry);
+              isExist = true;
+              break;
             }
           }
-          if (autoPopup) {
-            this.map.infoWindow.setContent(this._getInfoWindowContent(graphic));
-            this.map.infoWindow.show(
-              jimuUtils.getGeometryCenter(graphic.geometry)
-            );
-          }
+          if (!isExist) {
+            var graphic = new Graphic(geometry, symbol, fields);
+            graphic.id = id;
+            graphic.type = type;
+            graphic.buttons = buttons;
 
-          this.graphicsLayer.add(graphic);
+            if (showPopup) {
+              if (overlayParams.defaultInfoTemplate === undefined) {
+                graphic.infoTemplate = new InfoTemplate({
+                  content: this._getInfoWindowContent(graphic)
+                });
+              } else {
+                var infoTemplate = new InfoTemplate();
+                infoTemplate.setTitle(overlayParams.defaultInfoTemplate.title);
+                infoTemplate.setContent(
+                  overlayParams.defaultInfoTemplate.content
+                );
+                graphic.setInfoTemplate(infoTemplate);
+                //this.map.infoWindow.resize(200,90);
+              }
+            }
+            if (autoPopup) {
+              this.map.infoWindow.setContent(
+                this._getInfoWindowContent(graphic)
+              );
+              this.map.infoWindow.show(
+                jimuUtils.getGeometryCenter(graphic.geometry)
+              );
+            }
+            this.graphicsLayer.add(graphic);
+          }
         },
         this
       );
