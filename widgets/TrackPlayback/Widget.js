@@ -209,6 +209,10 @@ define([
 
     /**检查轨迹点数据, 去掉重复数据*/
     checkTrackPoints: function(trackPoints) {
+      trackPoints.forEach(function(trackPoint) {
+        trackPoint.x /= 600000;
+        trackPoint.y /= 600000;
+      });
       for (var i = 1; i < trackPoints.length; i++) {
         if (
           trackPoints[i - 1].x === trackPoints[i].x &&
@@ -268,7 +272,7 @@ define([
               trackPoint.isHighlight === true
                 ? this.highlightPointSymbol
                 : this.trackPointSymbol;
-            graphic.attributes = trackPoint.fields;
+            graphic.attributes = trackPoint;
             if (!params.defaultInfoTemplate) {
               graphic.infoTemplate = new InfoTemplate({
                 content: this._getInfoWindowContent(graphic)
@@ -317,7 +321,7 @@ define([
       var y2 = this.trackPoints[endIndex].y;
 
       var distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-      // console.log(distance1);
+      // console.log("distance: " + distance);
 
       //如果两点距离小于步进, 直接移动到下一个点
       if (distance <= this.stepLength * 2) {
@@ -332,6 +336,7 @@ define([
       } else {
         //斜率
         var p = (y2 - y1) / (x2 - x1);
+        // console.log("p: " + p);
         this.movingFunction = setInterval(
           lang.hitch(this, function() {
             // this.startIndex = startIndex;
@@ -342,33 +347,32 @@ define([
               if (x2 < x1) {
                 this.movingPointGraphic.geometry.x -=
                   1 / Math.sqrt(1 + p * p) * this.stepLength;
-                this.movingPointGraphic.geometry.y -=
-                  p / Math.sqrt(1 + p * p) * this.stepLength;
-                this.movingPointGraphic.symbol.angle = this._calculateAngle(
-                  x1,
-                  y1,
-                  x2,
-                  y2
-                );
               } else {
                 this.movingPointGraphic.geometry.x +=
                   1 / Math.sqrt(1 + p * p) * this.stepLength;
-                this.movingPointGraphic.geometry.y +=
-                  p / Math.sqrt(1 + p * p) * this.stepLength;
-                this.movingPointGraphic.symbol.angle = this._calculateAngle(
-                  x1,
-                  y1,
-                  x2,
-                  y2
-                );
               }
+
+              if (y2 < y1) {
+                this.movingPointGraphic.geometry.y -=
+                  Math.abs(p) / Math.sqrt(1 + p * p) * this.stepLength;
+              } else {
+                this.movingPointGraphic.geometry.y +=
+                  Math.abs(p) / Math.sqrt(1 + p * p) * this.stepLength;
+              }
+
+              this.movingPointGraphic.symbol.angle = this._calculateAngle(
+                x1,
+                y1,
+                x2,
+                y2
+              );
             }
             this.movingPointLayer.refresh();
             if (
-              Math.abs(this.movingPointGraphic.geometry.x - x2) <=
-                this.stepLength &&
-              Math.abs(this.movingPointGraphic.geometry.y - y2) <=
-                this.stepLength
+              Math.sqrt(
+                Math.pow(x2 - this.movingPointGraphic.geometry.x, 2) +
+                  Math.pow(y2 - this.movingPointGraphic.geometry.y, 2)
+              ) < this.stepLength
             ) {
               clearInterval(this.movingFunction);
               startIndex++;
