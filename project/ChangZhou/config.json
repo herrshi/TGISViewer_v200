@@ -1,4 +1,18 @@
 ﻿{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
   "map": {
     "3D": false,
     "2D": true,
@@ -11,7 +25,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://{serverip}/arcgis/rest/services/changzhou/ChangZhou_base/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_base/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -19,7 +33,7 @@
     "operationallayers": [
       {
         "label": "发布段",
-        "url": "http://{serverip}/arcgis/rest/services/changzhou/ChangZhou_fbd/MapServer/0",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_fbd/MapServer/0",
         "type": "feature",
         "visible": true,
         "outFields": [
@@ -27,11 +41,11 @@
         ],
         "renderer": {
           "type": "uniqueValue",
-          "field1": "CZDB.RT_ISSUESECT.FSTR_CFMSTATE",
+          "field1": "CHANGZHOU.RT_ISSUESECT.FSTR_CFMSTATE",
           "defaultSymbol": {
             "type": "esriSLS",
             "style": "esriSLSSolid",
-            "width": 3,
+            "width": 2,
             "color": [178, 178, 178, 255]
           },
           "uniqueValueInfos": [
@@ -65,10 +79,9 @@
           ]
         }
       },
-
       {
         "label": "可控摄像机",
-        "url": "http://{serverip}/arcgis/rest/services/changzhou/ChangZhou_device/MapServer/1",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/1",
         "type": "feature",
         "visible": false,
         "outFields": [
@@ -87,7 +100,7 @@
       },
       {
         "label": "不可控摄像机",
-        "url": "http://{serverip}/arcgis/rest/services/changzhou/ChangZhou_device/MapServer/2",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/2",
         "type": "feature",
         "visible": false,
         "outFields": [
@@ -104,189 +117,117 @@
           }
         }
       },
-
       {
         "label": "情报板",
-        "url": "http://{serverip}/arcgis/rest/services/changzhou/ChangZhou_device/MapServer/3",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/3",
         "type": "feature",
         "visible": false,
         "outFields": [
           "*"
         ],
         "renderer": {
-          "type": "uniqueValue",
-          "field1": "CZDB.RT_DEVCOMMSTATE.FSTR_STATE",
-          "description": "诱导板",
-          "defaultSymbol": {
-            "url": "images/mapIcons/QingBaoBan-grey.png",
-            "height": 19,
-            "width": 16,
-            "yoffset": 10,
-            "type": "esriPMS"
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "connect",
-              "symbol": {
-                "url": "images/mapIcons/QingBaoBan-blue.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            },
-            {
-              "value": "disconnect",
-              "symbol": {
-                "url": "images/mapIcons/QingBaoBan-red.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            },
-            {
-              "value": "malfunction",
-              "symbol": {
-                "url": "images/mapIcons/QingBaoBan-grey.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            }
-          ]
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/QingBaoBan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
         }
       },
-
       {
-        "label": "匝控",
-        "url": "http://{serverip}/arcgis/rest/services/changzhou/ChangZhou_device/MapServer/0",
+        "label": "匝道灯",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/0",
         "type": "feature",
         "visible": false,
         "outFields": [
           "*"
         ],
         "renderer": {
-          "type": "uniqueValue",
-          "field1": "CZDB.RT_RCLAMP_VW.FSTR_STATE",
-          "description": "匝控",
-          "defaultSymbol": {
-            "url": "images/mapIcons/ZaDao-grey.png",
-            "height": 19,
-            "width": 16,
-            "yoffset": 10,
-            "type": "esriPMS"
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "connect",
-              "symbol": {
-                "url": "images/mapIcons/ZaDao-blue.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            },
-            {
-              "value": "disconnect",
-              "symbol": {
-                "url": "images/mapIcons/ZaDao-red.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            },
-            {
-              "value": "malfunction",
-              "symbol": {
-                "url": "images/mapIcons/ZaDao-grey.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            }
-          ]
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/ZaDaoDeng-open.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
         }
       },
       {
         "label": "车检器",
-        "url": "http://{serverip}/arcgis/rest/services/changzhou/ChangZhou_device/MapServer/4",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/4",
         "type": "feature",
         "visible": false,
         "outFields": [
           "*"
         ],
         "renderer": {
-          "type": "uniqueValue",
-          "field1": "CZDB.RT_DEVCOMMSTATE.FSTR_STATE",
-          "description": "车检器",
-          "defaultSymbol": {
-            "url": "images/mapIcons/FaBuDuan-grey.png",
-            "height": 19,
-            "width": 16,
-            "yoffset": 10,
-            "type": "esriPMS"
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "disconnect",
-              "symbol": {
-                "url": "images/mapIcons/FaBuDuan-red.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            },
-            {
-              "value": "connect",
-              "symbol": {
-                "url": "images/mapIcons/FaBuDuan-blue.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            },
-            {
-              "value": "null",
-              "symbol": {
-                "url": "images/mapIcons/FaBuDuan-grey.png",
-                "height": 19,
-                "width": 16,
-                "yoffset": 10,
-                "type": "esriPMS"
-              }
-            }
-          ]
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/DuanMian-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "公里牌",
+        "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/5",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/FaultDevice-blue.png",
+            "width": 15,
+            "height": 15
+          }
         }
       }
     ],
-
     "mapOptions": {
-      "extent": {
-        "xmin": 13323390.858382761,
-        "ymin": 3725520.8233107664,
-        "xmax": 13378448.935971737,
-        "ymax": 3757721.5152640142,
-        "spatialReference": {
-          "wkid": 3857
-        }
-      },
       "logo": false,
       "nav": false,
-      "slider": false,
-      "centerPoint": "13352066.453,3731913.667",
-      "arcgisServerIP": "172.21.229.54:6080"
-    },
-    "geometryService": "http://172.21.229.54:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-    "navigation": "left",
-    "maxValue": 18,
-    "minValue": 11,
-    "startValue": 12
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.30.30.1:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      }
+    ]
   }
 }

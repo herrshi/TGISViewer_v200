@@ -209,10 +209,6 @@ define([
 
     /**检查轨迹点数据, 去掉重复数据*/
     checkTrackPoints: function(trackPoints) {
-      trackPoints.forEach(function(trackPoint) {
-        trackPoint.x /= 600000;
-        trackPoint.y /= 600000;
-      });
       for (var i = 1; i < trackPoints.length; i++) {
         if (
           trackPoints[i - 1].x === trackPoints[i].x &&
