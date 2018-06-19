@@ -1,0 +1,12 @@
+{
+  "identify": {
+    "url": "http://220.180.238.9:8090/OneMapServer/rest/services/SeaMap/MapServer"
+  },
+  "layers":[
+    {
+      "name": "航道",
+      "tiledUrl": "http://220.180.238.9:8090/OneMapServer/rest/services/channel/MapServer",
+      "objectTypes": ["TSSLPT"]
+    }
+  ]
+}

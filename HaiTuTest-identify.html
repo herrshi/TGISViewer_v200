@@ -62,10 +62,10 @@
         map.addLayer(new ArcGISTiledMapServiceLayer(parcelsURL,
             { opacity: 0.55 }));*/
       var parcelsURL = "http://220.180.238.9:8090/OneMapServer/rest/services/SeaMap/MapServer";
-      var layerL = new ArcGISDynamicMapServiceLayer(parcelsURL,
-        {opacity: 0.55});
-      layerL.setVisibility(false);
-      map.addLayer();
+      // var layerL = new ArcGISDynamicMapServiceLayer(parcelsURL,
+      //   {opacity: 0.55});
+      // layerL.setVisibility(false);
+      // map.addLayer();
       /*  var urlLayer=new ArcGISDynamicMapServiceLayer("http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer");
         map.addLayer();*/
       var urlport = new ArcGISTiledMapServiceLayer("http://220.180.238.9:8090/OneMapServer/rest/services/channel/MapServer");

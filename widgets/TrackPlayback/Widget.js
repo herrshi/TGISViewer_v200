@@ -268,7 +268,7 @@ define([
               trackPoint.isHighlight === true
                 ? this.highlightPointSymbol
                 : this.trackPointSymbol;
-            graphic.attributes = trackPoint;
+            graphic.attributes = trackPoint.fields;
             if (!params.defaultInfoTemplate) {
               graphic.infoTemplate = new InfoTemplate({
                 content: this._getInfoWindowContent(graphic)

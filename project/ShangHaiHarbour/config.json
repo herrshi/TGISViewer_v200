@@ -42,9 +42,9 @@
       {
         "label": "海图",
         "url":
-          "http://220.180.238.9:6080/arcgis/rest/services/seaMap/tiledSeaMap/MapServer",
+          "http://220.180.238.9:8090/OneMapServer/rest/services/SeaMapService/MapServer",
         "type": "tiled",
-        "visible": true
+        "visible": false
       }
     ],
     "operationallayers": [
@@ -58,7 +58,7 @@
       {
         "label": "海图矢量图",
         "url":
-          "http://220.180.238.9:6080/arcgis/rest/services/SampleWorldCities/MapServer/exts/MaritimeChartService/MapServer",
+          "http://220.180.238.9:8090/OneMapServer/rest/services/SeaMap/MapServer",
         "type": "dynamic",
         "visible": false
       },
@@ -197,6 +197,11 @@
         "uri": "widgets/TrackPlayback/Widget",
         "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
         "id": "TrackPlaybackWidget"
+      },
+      {
+        "uri": "widgets/SeaMapIdentify/Widget",
+        "config": "configs/SeaMapIdentify/config.json",
+        "id": "SeaMapIdentifyWidget"
       }
     ]
   }
