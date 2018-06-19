@@ -37,8 +37,8 @@
         map.addLayer(basemap);
 
         //ENC WGS 84
-        var enc84 = new ArcGISDynamicMapServiceLayer("http://220.180.238.9:6080/arcgis/rest/services/SampleWorldCities/MapServer/exts/MaritimeChartService/MapServer");
-        enc84.setVisibleLayers([2]);
+        var enc84 = new ArcGISDynamicMapServiceLayer("http://220.180.238.9:8090/OneMapServer/rest/services/MaritimeChartService121/MapServer");
+        enc84.setVisibleLayers([1]);
         map.addLayer(enc84);
         dojo.connect(dojo.byId("x1"), "onclick", findNow);
         function removeMap(){

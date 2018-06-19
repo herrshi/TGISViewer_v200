@@ -1,9 +1,13 @@
 {
   "httpProxy": {
-    "useProxy": true,
+    "useProxy": false,
     "rules": [
       {
         "urlPrefix": "http://220.180.238.9:6080",
+        "proxyUrl": "http://localhost:8090/proxy/proxy.jsp"
+      },
+      {
+        "urlPrefix": "http://220.180.238.9:8090",
         "proxyUrl": "http://localhost:8090/proxy/proxy.jsp"
       }
     ]
@@ -58,7 +62,7 @@
       {
         "label": "海图矢量图",
         "url":
-          "http://220.180.238.9:6080/arcgis/rest/services/SampleWorldCities/MapServer/exts/MaritimeChartService/MapServer",
+          "http://220.180.238.9:8090/OneMapServer/rest/services/MaritimeChartService121/MapServer",
         "type": "dynamic",
         "visible": false
       },
