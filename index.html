@@ -303,7 +303,7 @@
     // });
     // map.hideOverlays({types:["police"]});
     // map.addOverlays('{"overlays":[{"type":"police","id":"001","geometry":{"x":121.41,"y":31.22}}]}');
-    map.showLayer({"label": "航道"});
+    map.showLayer({"label": "锚地"});
   }
 
 
@@ -356,7 +356,8 @@
     // map.showBottomToolbarButton("发布段");
     // map.showBottomToolbarButton("摄像机");
     // map.showTopToolbarButton("保存");
-    map.showOverlays({types:["police"]});
+    // map.showOverlays({types:["police"]});
+    map.hideLayer({"label": "锚地"});
 
   }
 

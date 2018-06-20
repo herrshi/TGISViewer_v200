@@ -44,7 +44,7 @@
         "url":
           "http://220.180.238.9:8090/OneMapServer/rest/services/SeaMapService/MapServer",
         "type": "tiled",
-        "visible": false
+        "visible": true
       }
     ],
     "operationallayers": [

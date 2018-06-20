@@ -7,6 +7,16 @@
       "name": "航道",
       "tiledUrl": "http://220.180.238.9:8090/OneMapServer/rest/services/channel/MapServer",
       "objectTypes": ["TSSLPT"]
+    },
+    {
+      "name": "港口",
+      "tiledUrl": "http://220.180.238.9:8090/OneMapServer/rest/services/ahport/MapServer",
+      "objectTypes": ["*"]
+    },
+    {
+      "name": "锚地",
+      "tiledUrl": "http://220.180.238.9:8090/OneMapServer/rest/services/anchor/MapServer",
+      "objectTypes": ["ACHARE"]
     }
   ]
 }
