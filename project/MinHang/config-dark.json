@@ -1,4 +1,4 @@
-﻿{
+{
   "theme": {
     "name": "BillboardTheme",
     "styles": [
@@ -24,52 +24,52 @@
     },
     "basemaps": [
       {
-        "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/HROAD_BASEMAP/MapServer",
-        "type": "dynamic",
+        "label": "底图",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "type": "tiled",
         "visible": true
       }
     ],
     "operationallayers": [
       {
-        "label": "道路养护",
-        "url": "http://{gisServer}/arcgis/rest/services/HROAD_BASEMAP/MapServer/7",
+        "label": "发布段",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/MinHang/MinHang_fbd/MapServer/0",
         "type": "feature",
         "visible": true,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "simple",
           "symbol": {
-            "type": "esriSLS",
-            "color": [0, 0, 255, 255],
-            "width": 2
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [23, 191, 0, 255],
+            "outline": {
+              "color": [23, 191, 0, 255],
+              "width": 2
+            }
           }
         }
       }
-
     ],
     "mapOptions": {
+      "center": {
+        "x": 121.399,
+        "y": 31.108,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "scale": 144448,
       "logo": false,
       "nav": false,
       "slider": false
     }
   },
-  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "geometryService":
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "172.30.30.1:6080",
   "widgetOnScreen": {
     "widgets": [
-      {
-        "uri": "widgets/Coordinate/Widget",
-        "position": {
-          "left": 15,
-          "bottom": 5,
-          "relativeTo": "map"
-        },
-        "version": "2.4",
-        "id": "CoordinateWidget"
-      },
       {
         "uri": "widgets/OverviewMap/Widget",
         "position": {
@@ -81,27 +81,13 @@
         "id": "OverviewMapWidget"
       },
       {
-        "uri": "widgets/TopToolbar/Widget",
+        "uri": "widgets/TopToolbar_CircleButton/Widget",
         "name": "TopToolbar",
         "position": {
-          "top": 10,
-          "width": "100%",
-          "left":0,
-          "right":0
+          "top": 30,
+          "right": 50
         },
         "id": "TopToolbarWidget"
-      },
-      {
-        "uri": "widgets/BottomToolbar/Widget",
-        "name": "BottomToolbar",
-        "config": "configs/BottomToolbar/config_TianJinEco.json",
-        "position": {
-          "bottom": 10,
-          "width": "100%",
-          "left":0,
-          "right":0
-        },
-        "id": "BottomToolbarWidget"
       },
       {
         "uri": "widgets/Draw/Widget",
@@ -126,9 +112,9 @@
         "id": "OverlayWidget"
       },
       {
-        "uri": "widgets/DrawOverlay/Widget",
-        "version": "2.4",
-        "id": "DrawOverlayWidget"
+        "uri": "widgets/TrackPlayback/Widget",
+        "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
+        "id": "TrackPlaybackWidget"
       }
     ]
   }

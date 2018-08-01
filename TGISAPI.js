@@ -916,6 +916,39 @@ var TMap = {
   },
 
   /**
+   * 高亮图层要素, 在调用stopHighlightFeature前保持高亮.
+   * @param params: object, required.
+   *   layerName: string, required. 要搜索的图层名称
+   *     搜索配置好的图层中的要素时, 和项目配置文件中layer的label一致.
+   *     搜索dynamicRendererLayer中的要素时, 和widget配置文件中的name一致
+   *   ids: [string], optional. 要素id.
+   *     可以高亮多个id.
+   * */
+  startHighlightFeature: function(params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("startHighlightFeature", params);
+    });
+  },
+
+  /**
+   * 停止高亮图层要素.
+   * @param params: object, required.
+   *   layerName: string, required. 要搜索的图层名称
+   *     搜索配置好的图层中的要素时, 和项目配置文件中layer的label一致.
+   *     搜索dynamicRendererLayer中的要素时, 和widget配置文件中的name一致
+   *   ids: [string], optional. 要素id.
+   *     可以高亮多个id.
+   *     不传ids或者传空数组表示停止高亮所有要素
+   * */
+  stopHighlightFeature: function(params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("stopHighlightFeature", params);
+    });
+  },
+
+
+
+  /**
    * 在多个分类中进行搜索, 返回每个分类的记录数
    * @param params: object, required.
    *   text: string, required. 关键字

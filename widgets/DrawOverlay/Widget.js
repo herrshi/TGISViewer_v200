@@ -11,7 +11,8 @@ define([
   "esri/Color",
   "esri/graphic",
   "esri/geometry/Polygon",
-  "esri/layers/GraphicsLayer"
+  "esri/layers/GraphicsLayer",
+  "esri/geometry/webMercatorUtils"
 ], function(
   declare,
   lang,
@@ -25,7 +26,8 @@ define([
   Color,
   Graphic,
   Polygon,
-  GraphicsLayer
+  GraphicsLayer,
+  WebMercatorUtils
 ) {
   return declare([BaseWidget], {
     drawToolbar: null,
@@ -123,7 +125,10 @@ define([
       this.drawLayer.add(drawGraphic);
 
       if (this.drawCallback) {
-        this.drawCallback(this.lastDrawGeometry);
+        if (this.map.spatialReference.isWebMercator()) {
+          this.drawCallback(WebMercatorUtils.webMercatorToGeographic(this.lastDrawGeometry));
+        }
+
       }
     }
   });

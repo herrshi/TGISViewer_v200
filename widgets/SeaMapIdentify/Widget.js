@@ -93,20 +93,24 @@ define([
               lang.hitch(this, this._executeIdentifyTask)
             );
             //隐藏海图底图
-            topic.publish("setLayerVisibility", {"label": "海图", "visible": false});
+            //topic.publish("setLayerVisibility", {
+            //  label: "海图",
+            //  visible: false
+            //});
           } else if (!params.visible && this._objectTypes.length === 0) {
             //所有海图图层都隐藏时取消监听
             this._clickSignal.remove();
             this._clickSignal = null;
             //显示海图底图
-            topic.publish("setLayerVisibility", {"label": "海图", "visible": true});
+            //topic.publish("setLayerVisibility", {
+            //  label: "海图",
+            //  visible: true
+            //});
           }
 
           break;
         }
       }
-
-
     },
 
     _executeIdentifyTask: function(event) {
@@ -125,15 +129,64 @@ define([
             var feature = result.feature;
             var objectType = feature.attributes.objectType;
             if (this._objectTypes.indexOf(objectType) >= 0) {
-              //todo 每个类别的infoTemplate改为可配置，在config.json中新增配置项
-              feature.setInfoTemplate(new InfoTemplate("Attributes", "${*}"));
+              // 每个类别的infoTemplate改为可配置，在config.json中新增配置项
+              var isExist = false;
+              for (var i = 0; i < this.config.layers.length; i++) {
+                var layerItem = this.config.layers[i];
+                for (var j = 0; j < layerItem.objectTypes.length; j++) {
+                  if (layerItem.objectTypes[j] === objectType) {
+                    isExist = true;
+                    var infoTemplateItem;
+                    if (layerItem.infoTemplates !== undefined) {
+                      infoTemplateItem = layerItem.infoTemplates[j];
+                    }
+
+                    if (infoTemplateItem === undefined) {
+                      break;
+                    }
+                    //设置infoTemplate
+                    if (
+                      infoTemplateItem.title === "" ||
+                      infoTemplateItem.title === undefined
+                    ) {
+                      feature.setInfoTemplate(
+                        new InfoTemplate(
+                          null,
+                          infoTemplateItem.content
+                        ).setTitle(null)
+                      );
+                    } else {
+                      feature.setInfoTemplate(
+                        new InfoTemplate(
+                          infoTemplateItem.title,
+                          infoTemplateItem.content
+                        )
+                      );
+                    }
+                    break;
+                  }
+                }
+                if (isExist) {
+                  break;
+                }
+              }
               showFeatures.push(feature);
             }
           }, this);
 
           if (showFeatures.length > 0) {
+            var isShowInfo = false;
+            //只要有一个需要显示infoTemplate，则显示infoTemplate。
+            for (var i = 0; i < showFeatures.length; i++) {
+              if (showFeatures[0].infoTemplate !== undefined) {
+                isShowInfo = true;
+                break;
+              }
+            }
             this.map.infoWindow.setFeatures(showFeatures);
-            this.map.infoWindow.show(event.mapPoint);
+            if (isShowInfo) {
+              this.map.infoWindow.show(event.mapPoint);
+            }
           }
 
           this._loading.destroy();

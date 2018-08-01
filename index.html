@@ -234,15 +234,15 @@
 //        console.log(JSON.stringify(results));
 //      });
 
-//      map.multiSearch({text: "武宁路"}, function (results) {
-//        console.log(results);
-//
-//        map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
-//          console.log(results);
-//        });
-//
-//        map.showMultiSearchResult({featureIds: ["道路_0","道路_1","道路_2","道路_3","道路_4","道路_5","道路_6","道路_7"]});
-//      });
+     // map.multiSearch({text: "武宁路505号"}, function (results) {
+     //   console.log(results);
+     //
+     //   map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
+     //     console.log(results);
+     //   });
+     //
+     //   map.showMultiSearchResult({featureIds: ["门牌_武宁路505号_0"]});
+     // });
 
     // map.deleteOverlays({types: ["CADPile"]});
 
@@ -303,7 +303,10 @@
     // });
     // map.hideOverlays({types:["police"]});
     // map.addOverlays('{"overlays":[{"type":"police","id":"001","geometry":{"x":121.41,"y":31.22}}]}');
-    map.showLayer({"label": "锚地"});
+    // map.showLayer({"label": "锚地"});
+    map.startDrawOverlay({drawType: "point"}, function (data) {
+      console.log(data);
+    })
   }
 
 
@@ -357,7 +360,7 @@
     // map.showBottomToolbarButton("摄像机");
     // map.showTopToolbarButton("保存");
     // map.showOverlays({types:["police"]});
-    map.hideLayer({"label": "锚地"});
+    map.hideLayer({"label": "航道"});
 
   }
 

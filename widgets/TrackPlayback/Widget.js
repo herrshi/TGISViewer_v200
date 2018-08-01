@@ -275,7 +275,11 @@ define([
               });
             } else {
               var infoTemplate = new InfoTemplate();
-              infoTemplate.setTitle(params.defaultInfoTemplate.title);
+              infoTemplate.setTitle(
+                params.defaultInfoTemplate.title == ""
+                  ? null
+                  : params.defaultInfoTemplate.title
+              );
               infoTemplate.setContent(params.defaultInfoTemplate.content);
               graphic.setInfoTemplate(infoTemplate);
             }
@@ -342,18 +346,18 @@ define([
             } else {
               if (x2 < x1) {
                 this.movingPointGraphic.geometry.x -=
-                  1 / Math.sqrt(1 + p * p) * this.stepLength;
+                  (1 / Math.sqrt(1 + p * p)) * this.stepLength;
               } else {
                 this.movingPointGraphic.geometry.x +=
-                  1 / Math.sqrt(1 + p * p) * this.stepLength;
+                  (1 / Math.sqrt(1 + p * p)) * this.stepLength;
               }
 
               if (y2 < y1) {
                 this.movingPointGraphic.geometry.y -=
-                  Math.abs(p) / Math.sqrt(1 + p * p) * this.stepLength;
+                  (Math.abs(p) / Math.sqrt(1 + p * p)) * this.stepLength;
               } else {
                 this.movingPointGraphic.geometry.y +=
-                  Math.abs(p) / Math.sqrt(1 + p * p) * this.stepLength;
+                  (Math.abs(p) / Math.sqrt(1 + p * p)) * this.stepLength;
               }
 
               this.movingPointGraphic.symbol.angle = this._calculateAngle(
@@ -388,7 +392,8 @@ define([
     },
 
     _calculateAngle: function(x1, y1, x2, y2) {
-      var tan = Math.atan(Math.abs((y2 - y1) / (x2 - x1))) * 180 / Math.PI + 90;
+      var tan =
+        (Math.atan(Math.abs((y2 - y1) / (x2 - x1))) * 180) / Math.PI + 90;
       //第一象限
       if (x2 > x1 && y2 > y1) {
         return -tan + 180;
