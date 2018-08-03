@@ -165,9 +165,12 @@
         "y": 31.228,
         "spatialReference": { "wkid": 4326 }
       },
+      "zoom": 2,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": false,
+      "restrictExtent": true,
+      "fullExtent":{"xmin":119.801869,"ymin":30.147492,"xmax":122.919233,"ymax":32.05929}
     }
   },
   "geometryService":

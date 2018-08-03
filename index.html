@@ -304,9 +304,10 @@
     // map.hideOverlays({types:["police"]});
     // map.addOverlays('{"overlays":[{"type":"police","id":"001","geometry":{"x":121.41,"y":31.22}}]}');
     // map.showLayer({"label": "锚地"});
-    map.startDrawOverlay({drawType: "point"}, function (data) {
-      console.log(data);
-    })
+    // map.startDrawOverlay({drawType: "point"}, function (data) {
+    //   console.log(data);
+    // })
+    map.startHighlightFeature({"layerName": "发布段", "ids": ["CBCJ-NO->CBCJ-NI", "CBCJ-BO->CBCJ-BI"]})
   }
 
 

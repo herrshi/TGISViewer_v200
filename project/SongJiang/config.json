@@ -147,7 +147,8 @@
       "scale": 9028,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": false,
+      "restrictExtent": true
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",

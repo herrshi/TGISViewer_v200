@@ -31,6 +31,7 @@ define([
   "esri/geometry/webMercatorUtils",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleMarkerSymbol",
+  "esri/symbols/SimpleFillSymbol",
   "esri/config",
   "esri/request"
 ], function(
@@ -63,7 +64,7 @@ define([
   webMercatorUtils,
   SimpleLineSymbol,
   SimpleMarkerSymbol,
-  PictureMarkerSymbol,
+  SimpleFillSymbol,
   esriConfig,
   esriRequest
 ) {
@@ -74,7 +75,8 @@ define([
     appConfig: null,
     mapDivId: "",
     map: null,
-
+    currentExtent: null,
+    fullExtent: null,
     serviceToken: "",
 
     constructor: function(options, mapDivId) {
@@ -242,8 +244,8 @@ define([
                 if (defaultSymbol.type === "picturemarkersymbol") {
                   sms.setSize(
                     defaultSymbol.width > defaultSymbol.height
-                      ? defaultSymbol.width+4
-                      : defaultSymbol.height+4
+                      ? defaultSymbol.width + 4
+                      : defaultSymbol.height + 4
                   );
                 } else if (defaultSymbol.size !== undefined) {
                   sms.setSize(defaultSymbol.size + 4);
@@ -391,6 +393,72 @@ define([
         topic.publish("mapLoaded", this.map);
       }
       this._setMapClickEvent();
+
+      //限制地图范围。
+      if (this.appConfig.map.mapOptions.restrictExtent) {
+        this._restrictMapExtent();
+      }
+    },
+    _restrictMapExtent: function() {
+      this.map.on("zoom", lang.hitch(this, this._restrictMapStartExtent));
+      this.map.on("pan", lang.hitch(this, this._restrictMapStartExtent));
+      this.map.on("zoom-end", lang.hitch(this, this._restrictMapEndExtent));
+      this.map.on("pan-end", lang.hitch(this, this._restrictMapEndExtent));
+    },
+    _restrictMapStartExtent: function(evt) {
+      var currExtent = evt.extent;
+      if (!this.fullExtent) {
+        console.log(this.appConfig.map.mapOptions);
+        if (!this.appConfig.map.mapOptions.fullExtent) {
+          var layer;
+          for (var i = 0; i < this.map.layerIds.length; i++) {
+            layer = this.map.getLayer(this.map.layerIds[i]);
+            if (layer.label === this.appConfig.map.basemaps[0].label) {
+              break;
+            }
+          }
+          this.fullExtent = layer.fullExtent;
+        } else {
+          this.fullExtent = new Extent(
+            this.appConfig.map.mapOptions.fullExtent
+          );
+        }
+        //显示限制范围
+        var restrictGraphic = new Graphic(this.fullExtent);
+        restrictGraphic.symbol = new SimpleFillSymbol({
+          "type": "esriSFS",
+          "style": "esriSFSNull",
+          "color": [115,76,0,255],
+          "outline": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [255,0,0,255],
+            "width": 3
+          }
+        });
+        this.map.graphics.add(restrictGraphic);
+      }
+      if (this.fullExtent && this.fullExtent.contains(currExtent)) {
+        this.currentExtent = evt.extent;
+      }
+    },
+
+    _restrictMapEndExtent: function(evt) {
+      if (evt.delta) {
+        if (evt.delta.x === 0 && evt.delta.y === 0) {
+          return;
+        }
+      }
+      var currExtent = evt.extent;
+      var fullExtent = this.fullExtent;
+
+      if (!fullExtent.contains(currExtent)) {
+        if (this.currentExtent) {
+          this.map.setExtent(this.currentExtent);
+        } else {
+          this.map.setExtent(this.fullExtent);
+        }
+      }
     },
 
     setMapPosition: function(position) {

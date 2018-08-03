@@ -52,15 +52,6 @@
       ]
     },
     {
-      "label": "港口",
-      "fontClass": "fa fa-shirtsinbulk",
-      "operations": [
-        {
-          "opName": "changeLayer"
-        }
-      ]
-    },
-    {
       "label": "锚地",
       "fontClass": "icon_MaoDi",
       "operations": [
