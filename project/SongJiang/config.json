@@ -55,7 +55,39 @@
             "width": 22.5,
             "height": 18.75,
             "yoffset": 10
-          }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "空闲",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/TingCheChang-blue.png",
+                "width": 16.5,
+                "height": 19.5,
+                "yoffset": 10
+              }
+            },
+            {
+              "value": "拥挤",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/TingCheChang-yellow.png",
+                "width": 16.5,
+                "height": 19.5,
+                "yoffset": 10
+              }
+            },
+            {
+              "value": "饱和",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/TingCheChang-red.png",
+                "width": 16.5,
+                "height": 19.5,
+                "yoffset": 10
+              }
+            }
+          ]
         }
       },
       {

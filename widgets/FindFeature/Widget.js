@@ -241,6 +241,8 @@ define([
 
     onTopicHandler_startHighlightFeature: function(params) {
       //高亮
+      this.onTopicHandler_stopHighlightFeature({ layerName: params.layerName });
+
       this._startHighlightFeature(params);
     },
     _startHighlightFeature: function(params) {
@@ -353,7 +355,7 @@ define([
       //停止高亮
       var layerName = params.layerName || "";
       var ids = params.ids || "";
-
+      var removeGraphics = [];
       this.highlightLayer.graphics.forEach(function(graphic) {
         var attr = graphic.attributes;
         var id;
@@ -374,10 +376,13 @@ define([
             if (node) {
               node.setAttribute("data-highlight", "");
             }
-            this.highlightLayer.remove(graphic);
+            removeGraphics.push(graphic);
           }
         }
       }, this);
+      for (var i = 0; i < removeGraphics.length; i++) {
+        this.highlightLayer.remove(removeGraphics[i]);
+      }
     }
   });
 
