@@ -2,31 +2,15 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>TGISViewer Version 2.00</title>
-  <script src="assets/global/plugins/jquery-3.2.1.min.js"></script>
-  <link rel="stylesheet" href="assets/global/plugins/bootstrap/css/bootstrap.css">
-  <script src="assets/global/plugins/bootstrap/js/bootstrap.js"></script>
-  <!--<link rel="stylesheet" href="assets/global/plugins/bootstrap-fileinput/css/fileinput.css">-->
-  <!--<script src="assets/global/plugins/bootstrap-fileinput/js/fileinput.js"></script>-->
-  <!-- BEGIN GLOBAL MANDATORY STYLES -->
+  <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="libs/mdb/css/mdb.min.css" rel="stylesheet" type="text/css">
   <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-  <script src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-  <!--<link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>-->
-  <!--<link href="assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>-->
-  <!-- END GLOBAL MANDATORY STYLES -->
-  <!-- BEGIN PAGE LEVEL PLUGINS -->
-  <!--<link href="assets/global/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" type="text/css"/>-->
-  <!--<link href="assets/global/plugins/bootstrap-tabdrop/css/tabdrop.css" rel="stylesheet" type="text/css"/>-->
-  <!-- END PAGE LEVEL PLUGINS -->
-  <!-- BEGIN THEME GLOBAL STYLES -->
   <link href="assets/global/css/components.css" rel="stylesheet" type="text/css"/>
   <link href="assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
-  <!-- END THEME GLOBAL STYLES -->
-  <!-- BEGIN THEME LAYOUT STYLES -->
-  <link href="assets/layouts/css/layout.css" rel="stylesheet" type="text/css"/>
-  <!--<link href="assets/layouts/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>-->
+  <!--<link href="assets/layouts/css/layout.css" rel="stylesheet" type="text/css"/>-->
   <link href="assets/layouts/css/custom.css" rel="stylesheet" type="text/css"/>
   <!-- END THEME LAYOUT STYLES -->
 
@@ -88,12 +72,12 @@
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
-    config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ChangZhiDaPin/config-dynamicLayerRenderer.json"
-    // config: "http://localhost:8090/TGISViewer_v200/project/SongJiang/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/QingPu/config-GZXX.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -307,7 +291,8 @@
     // map.startDrawOverlay({drawType: "point"}, function (data) {
     //   console.log(data);
     // })
-    map.startHighlightFeature({"layerName": "发布段", "ids": ["CBCJ-NO->CBCJ-NI", "CBCJ-BO->CBCJ-BI"]})
+    // map.startHighlightFeature({"layerName": "发布段", "ids": ["CBCJ-NO->CBCJ-NI", "CBCJ-BO->CBCJ-BI"]})
+    map.findFeature({layerName: "指数区域", ids: ["1001"], centerResult: true});
   }
 
 
@@ -430,6 +415,11 @@
     map.showOD(data);
   }
 </script>
+
+<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>
 
 
 </body>

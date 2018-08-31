@@ -8,6 +8,9 @@ define([
   "dojo/on",
   "dojo/topic",
   "dojo/query",
+  "dojo/dom",
+  "dojo/dom-construct",
+  "dojo/dom-class",
   "dojo/dom-style",
   "jimu/BaseWidget",
   "esri/geometry/Extent",
@@ -20,6 +23,9 @@ define([
   on,
   topic,
   query,
+  dom,
+  domConstruct,
+  domClass,
   domStyle,
   BaseWidget,
   Extent,
@@ -93,6 +99,8 @@ define([
 
     startup: function() {
       this.inherited(arguments);
+
+      this.showCurrentScale();
     },
 
     _onMapZoomEnd: function() {
@@ -124,6 +132,11 @@ define([
         html.addClass(this.btnNext, this._disabledClass);
       } else {
         html.removeClass(this.btnNext, this._disabledClass);
+      }
+
+      if (query(".fa-scale").length > 0) {
+        var scale = this.map.getScale();
+        query(".fa-scale")[0].innerHTML = "1:" + scale.toString();
       }
     },
 
@@ -442,6 +455,27 @@ define([
 
     topicHandler_onHideTopToolbar: function() {
       query("." + this.baseClass).style("display", "none");
+    },
+    showCurrentScale: function() {
+      var scale = this.map.getScale();
+      query(".fa-scale")[0].innerHTML = "1:" + scale.toString();
+
+      var lods = this.map.__tileInfo.lods;
+
+      var ul = dom.byId("ul-lods");
+      for (var i = 0; i < lods.length; i++) {
+        var liscale = lods[i].scale;
+        var li = domConstruct.create("li", null, ul);
+        var a = domConstruct.create("a", { innerHTML: "1:" + liscale }, li);
+
+        on(a, "click", lang.hitch(this, this._onScaleClick));
+      }
+    },
+    _onScaleClick: function(event) {
+      query(".fa-scale")[0].innerHTML = event.target.innerHTML;
+
+      var scale = Number(event.target.innerHTML.toString().split(":")[1]);
+      this.map.setScale(scale);
     }
   });
 });

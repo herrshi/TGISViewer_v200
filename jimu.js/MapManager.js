@@ -33,7 +33,8 @@ define([
   "esri/symbols/SimpleMarkerSymbol",
   "esri/symbols/SimpleFillSymbol",
   "esri/config",
-  "esri/request"
+  "esri/request",
+  "esri/dijit/Scalebar"
 ], function(
   declare,
   lang,
@@ -66,7 +67,8 @@ define([
   SimpleMarkerSymbol,
   SimpleFillSymbol,
   esriConfig,
-  esriRequest
+  esriRequest,
+  Scalebar
 ) {
   var instance = null,
     clazz;
@@ -197,6 +199,13 @@ define([
         lang.hitch(this, function(layerConfig) {
           try {
             this.createLayer(map, "2D", layerConfig);
+
+            //显示scalebar
+            var scalebar = new Scalebar({
+              map: map,
+              scalebarUnit: "metric",
+              attachTo: "bottom-right"
+            });
           } catch (err) {
             console.error(err);
           }

@@ -33,11 +33,17 @@
     ],
     "operationallayers": [
       {
+        "label": "指数区域",
+        "url": "http://{gisServer}/arcgis/rest/services/MinHang/MinHang_indexRegion/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
         "label": "发布段",
         "url":
           "http://{gisServer}/arcgis/rest/services/MinHang/MinHang_fbd/MapServer/0",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": ["*"],
         "renderer": {
           "type": "simple",
@@ -120,6 +126,11 @@
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
       },
       {
         "uri": "widgets/TrackPlayback/Widget",

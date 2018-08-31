@@ -94,7 +94,7 @@ define([
       array.forEach(ids, function(id) {
         var findTask = new FindTask(url);
         var findParam = new FindParameters();
-        findParam.searchFields = ["FEATUREID"];
+        // findParam.searchFields = ["FEATUREID"];
         findParam.searchText = id;
         findParam.layerIds = [0];
         findParam.returnGeometry = true;
@@ -116,6 +116,26 @@ define([
                   }
 
                   this.resultLayer.add(graphic);
+
+                  // if (this._showResult) {
+                  //   var node = graphic.getNode();
+                  //   node.setAttribute("data-highlight", "highlight");
+                  //   setTimeout(function() {
+                  //     node.setAttribute("data-highlight", "");
+                  //   }, 5000);
+                  // }
+                  if (this._centerResult) {
+                    switch (graphic.geometry.type) {
+                      case "point":
+                        this.map.centerAt(graphic.geometry);
+                        break;
+
+                      case "polygon":
+                        this.map.setExtent(graphic.geometry.getExtent().expand(2));
+                        break;
+
+                    }
+                  }
                 },
                 this
               );
