@@ -8,22 +8,40 @@ define([
   "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/_base/event",
+  "dojo/dom-style",
+  "dijit/TooltipDialog",
+  "dijit/popup",
   "jimu/BaseWidget",
+  "esri/lang",
+  "esri/Color",
   "esri/layers/GraphicsLayer",
+  "esri/layers/FeatureLayer",
+  "esri/renderers/UniqueValueRenderer",
   "esri/graphic",
   "esri/symbols/SimpleMarkerSymbol",
   "esri/symbols/PictureMarkerSymbol",
+  "esri/symbols/Font",
+  "esri/symbols/TextSymbol",
   "esri/toolbars/edit",
   "esri/toolbars/draw"
 ], function(
   declare,
   lang,
   event,
+  domStyle,
+  TooltipDialog,
+  dijitPopup,
   BaseWidget,
+  esriLang,
+  Color,
   GraphicsLayer,
+  FeatureLayer,
+  UniqueValueRenderer,
   Graphic,
   SimpleMarkerSymbol,
   PictureMarkerSymbol,
+  Font,
+  TextSymbol,
   Edit,
   Draw
 ) {
@@ -38,19 +56,32 @@ define([
     //管制点图层
     _controlPointLayer: null,
     //管制点边框
-    //点击管制点时在图标外加上边框, 表示进去编辑状态
+    //点击管制点时在图标外加上边框, 表示进入编辑状态
     _controlPointOutlineSymbol: null,
     //管制点边框图层
     _controlPointOutlineLayer: null,
 
+    _controlLineLayer: null,
+    _controlLineDialog: null,
+
+    _hintSymbol: null,
+    _hintLayer: null,
+
     postCreate: function() {
       this.inherited(arguments);
 
+      this._initControlPoint();
+      this._initControlLine();
+
+      this._startAddControlPoint();
+    },
+
+    _initControlPoint: function() {
       this._controlPointSymbol = new PictureMarkerSymbol({
-        url: window.path + "images/mapIcons/ShiGong-orange.png",
-        width: 16.5,
-        height: 19.5,
-        yoffset: 10
+        url: window.path + "images/mapIcons/WuHu/YingJiShiJian-big-blue.png",
+        width: 28.5,
+        height: 42,
+        yoffset: 21
       });
 
       var squareSize =
@@ -63,7 +94,6 @@ define([
         style: "esriSMSSquare",
         size: squareSize,
         color: [255, 255, 255, 0],
-        // xoffset: this._controlPointSymbol.xoffset,
         yoffset: squareSize / 2,
         outline: {
           type: "esriSLS",
@@ -73,6 +103,24 @@ define([
         }
       });
 
+      this._hintSymbol = new TextSymbol("点击图标移动位置, 点击地图取消移动")
+        .setColor(new Color([0, 112, 255]))
+        .setHaloColor(new Color([255, 255, 255]))
+        .setHaloSize(1)
+        .setOffset(0, -20)
+        .setFont(
+          new Font(
+            "1em",
+            Font.STYLE_NORMAL,
+            Font.VARIANT_NORMAL,
+            Font.WEIGHT_BOLD,
+            "微软雅黑"
+          )
+        );
+
+      this._hintLayer = new GraphicsLayer();
+      this.map.addLayer(this._hintLayer);
+
       this._controlPointOutlineLayer = new GraphicsLayer();
       this.map.addLayer(this._controlPointOutlineLayer);
 
@@ -80,35 +128,91 @@ define([
       this.map.addLayer(this._controlPointLayer);
 
       this._drawToolbar = new Draw(this.map);
-      this._drawToolbar.on(
-        "draw-end",
-        lang.hitch(this, this._addDrawGraphicToMap)
-      );
+      this._drawToolbar.on("draw-end", lang.hitch(this, this.onDrawEnd));
 
       this._editToolbar = new Edit(this.map);
-      this._editToolbar.on("graphic-move", lang.hitch(this, this._moveGraphic));
-
-      this.map.on(
-        "click",
-        lang.hitch(this, function() {
-          this._controlPointOutlineLayer.clear();
-          this._editToolbar.deactivate();
-        })
+      this._editToolbar.on(
+        "graphic-move",
+        lang.hitch(this, this.onControlPointMove)
       );
+
       this._controlPointLayer.on(
         "click",
         lang.hitch(this, function(evt) {
           event.stop(evt);
-          this._editGraphic(evt.graphic);
+          this.onControlPointClick(evt.graphic);
         })
       );
+    },
 
-      this._startAddControlPoint();
+    _initControlLine: function() {
+      this._controlLineLayer = new FeatureLayer(
+        "http://172.30.30.1:6080/arcgis/rest/services/QingPu/QingPu_issue/MapServer/0",
+        {
+          outFields: ["*"],
+          mode: FeatureLayer.MODE_SNAPSHOT
+        }
+      );
+
+      var renderer = new UniqueValueRenderer({
+        type: "uniqueValue",
+        field1: "state",
+        defaultSymbol: {
+          color: [125, 125, 125, 64],
+          outline: {
+            color: [0, 122, 255, 255],
+            width: 1,
+            type: "esriSLS",
+            style: "esriSLSSolid"
+          },
+          type: "esriSFS",
+          style: "esriSFSSolid"
+        },
+        uniqueValueInfos: [
+          {
+            value: "selected",
+            symbol: {
+              color: [125, 125, 125, 64],
+              outline: {
+                color: [255, 0, 0, 255],
+                width: 2,
+                type: "esriSLS",
+                style: "esriSLSSolid"
+              },
+              type: "esriSFS",
+              style: "esriSFSSolid"
+            }
+          }
+        ]
+      });
+      this._controlLineLayer.setRenderer(renderer);
+      this._controlLineLayer.setVisibility(false);
+      // this._controlLineLayer.on(
+      //   "mouse-over",
+      //   lang.hitch(this, this.onControlLineMouseOver)
+      // );
+      // this._controlLineLayer.on(
+      //   "mouse-out",
+      //   lang.hitch(this, this.onControlLineMouseOut)
+      // );
+      this._controlLineLayer.on(
+        "click",
+        lang.hitch(this, this.onControlLineClick)
+      );
+      this.map.addLayer(this._controlLineLayer);
+
+      this._controlLineDialog = new TooltipDialog({
+        id: "tooltipDialog",
+        style:
+          "position: absolute; width: 250px; font: normal normal normal 10pt Helvetica;z-index:100"
+      });
+      this._controlLineDialog.startup();
     },
 
     startup: function() {
       $("#btnClear").on("click", lang.hitch(this, this.onBtnClearClick));
 
+      //切换管制点和管制路线
       $("input[type=radio][name=controlTypeRadioGroup]").on(
         "change",
         lang.hitch(this, function(event) {
@@ -124,23 +228,57 @@ define([
     /**
      * 开始新增管制点
      * */
+    _mapClickSignal: null,
+
     _startAddControlPoint: function() {
-      this.map.graphics.clear();
+      this._mapClickSignal = this.map.on(
+        "click",
+        lang.hitch(this, this.onMapClick)
+      );
+      this._controlPointLayer.clear();
+      this._controlPointOutlineLayer.clear();
+      this._hintLayer.clear();
       this._drawToolbar.activate(Draw.POINT);
+
+      this._controlLineLayer.setVisibility(false);
     },
 
     _startAddControlLine: function() {
-      this.map.graphics.clear();
+      this._mapClickSignal.remove();
+      this._controlPointLayer.clear();
+      this._controlPointOutlineLayer.clear();
+      this._hintLayer.clear();
       this._drawToolbar.deactivate();
+
+      this._controlLineLayer.setVisibility(true);
     },
 
-    _addDrawGraphicToMap: function(event) {
+    onDrawEnd: function(event) {
       var graphic = new Graphic(event.geometry, this._controlPointSymbol);
       this._controlPointLayer.add(graphic);
       this._drawToolbar.deactivate();
+
+      this._addControlPointHint(graphic.geometry);
     },
 
-    _editGraphic: function(graphic) {
+    /**可管制点图标增加文字说明, 提示用户可移动位置*/
+    _addControlPointHint: function(point) {
+      var hintGraphic = new Graphic(point, this._hintSymbol);
+      this._hintLayer.add(hintGraphic);
+    },
+
+    onMapClick: function() {
+      this._controlPointOutlineLayer.clear();
+      this._editToolbar.deactivate();
+
+      //恢复显示提示
+      this._controlPointLayer.graphics.forEach(function(graphic) {
+        this._addControlPointHint(graphic.geometry);
+      }, this);
+    },
+
+    onControlPointClick: function(graphic) {
+      //添加边框
       this._controlPointOutlineLayer.clear();
       var outlineGraphic = new Graphic(
         graphic.geometry,
@@ -148,12 +286,17 @@ define([
       );
       this._controlPointOutlineLayer.add(outlineGraphic);
 
+      //移动位置时不显示提示
+      this._hintLayer.clear();
+
       this._editToolbar.activate(Edit.MOVE, graphic);
     },
 
-    _moveGraphic: function(event) {
+    onControlPointMove: function(event) {
+      //移动边框
       this._controlPointOutlineLayer.clear();
 
+      //根据dx和dy计算新的边框位置
       var screenPoint = this.map.toScreen(event.graphic.geometry);
       screenPoint = screenPoint.offset(
         event.transform.dx + this._controlPointOutlineSymbol.xoffset,
@@ -165,6 +308,34 @@ define([
         this._controlPointOutlineSymbol
       );
       this._controlPointOutlineLayer.add(outlineGraphic);
+    },
+
+    onControlLineMouseOver: function(event) {
+      var graphic = event.graphic;
+      var t = "<b>${Name}</b>(${起点交叉路} - ${终点交叉路})";
+      var content = esriLang.substitute(graphic.attributes, t);
+      this._controlLineDialog.setContent(content);
+      domStyle.set(this._controlLineDialog.domNode, "opacity", 0.85);
+      dijitPopup.open({
+        popup: this._controlLineDialog,
+        x: event.pageX,
+        y: event.pageY
+      });
+    },
+
+    onControlLineMouseOut: function() {
+      dijitPopup.close(this._controlLineDialog);
+    },
+
+    onControlLineClick: function(evt) {
+      event.stop(evt);
+      var graphic = evt.graphic;
+      if (graphic.attributes.state !== "selected") {
+        graphic.attributes.state = "selected";
+      } else {
+        graphic.attributes.state = "";
+      }
+      this._controlLineLayer.redraw();
     },
 
     onBtnClearClick: function() {

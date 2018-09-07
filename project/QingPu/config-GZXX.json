@@ -25,32 +25,27 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_base_GD/MapServer",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_base_GD/MapServer",
         "type": "tiled",
         "visible": true
       }
     ],
-    "operationallayers": [
-
-
-
-    ],
+    "operationallayers": [],
     "mapOptions": {
-      "extent": {
-        "xmin": 121.083,
-        "ymin": 31.13,
-        "xmax": 121.165,
-        "ymax": 31.17,
-        "spatialReference": {
-          "wkid": 4326
-        }
+      "center": {
+        "x": 121.2915,
+        "y": 31.1842,
+        "spatialReference": { "wkid": 4326 }
       },
+      "scale": 18056,
       "logo": false,
       "nav": false,
       "slider": false
     }
   },
-  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "172.30.30.1:6080",
   "widgetOnScreen": {
     "widgets": [
