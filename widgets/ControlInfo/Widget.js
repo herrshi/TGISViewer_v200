@@ -22,6 +22,7 @@ define([
   "esri/symbols/PictureMarkerSymbol",
   "esri/symbols/Font",
   "esri/symbols/TextSymbol",
+  "esri/geometry/webMercatorUtils",
   "esri/toolbars/edit",
   "esri/toolbars/draw"
 ], function(
@@ -42,6 +43,7 @@ define([
   PictureMarkerSymbol,
   Font,
   TextSymbol,
+  webMercatorUtils,
   Edit,
   Draw
 ) {
@@ -51,8 +53,6 @@ define([
     _drawToolbar: null,
     _editToolbar: null,
 
-    //管制点图标
-    _controlPointSymbol: null,
     //管制点图层
     _controlPointLayer: null,
     //管制点边框
@@ -77,7 +77,7 @@ define([
     },
 
     _initControlPoint: function() {
-      this._controlPointSymbol = new PictureMarkerSymbol({
+      var defaultControlPointSymbol = new PictureMarkerSymbol({
         url: window.path + "images/mapIcons/WuHu/YingJiShiJian-big-blue.png",
         width: 28.5,
         height: 42,
@@ -86,8 +86,8 @@ define([
 
       var squareSize =
         Math.max(
-          this._controlPointSymbol.width,
-          this._controlPointSymbol.height
+          defaultControlPointSymbol.width,
+          defaultControlPointSymbol.height
         ) * 0.75;
       this._controlPointOutlineSymbol = new SimpleMarkerSymbol({
         type: "esriSMS",
@@ -101,6 +101,35 @@ define([
           color: [0, 112, 255, 255],
           width: 2
         }
+      });
+      var renderer = new UniqueValueRenderer({
+        type: "uniqueValue",
+        field1: "state",
+        defaultSymbol: defaultControlPointSymbol,
+        uniqueValueInfos: [
+          {
+            value: "new",
+            symbol: {
+              type: "esriPMS",
+              url:
+                window.path + "images/mapIcons/WuHu/YingJiShiJian-big-blue.png",
+              width: 28.5,
+              height: 42,
+              yoffset: 21
+            }
+          },
+          {
+            value: "exist",
+            symbol: {
+              type: "esriPMS",
+              url:
+                window.path + "images/mapIcons/WuHu/YingJiShiJian-big-red.png",
+              width: 28.5,
+              height: 42,
+              yoffset: 21
+            }
+          }
+        ]
       });
 
       this._hintSymbol = new TextSymbol("点击图标移动位置, 点击地图取消移动")
@@ -125,6 +154,7 @@ define([
       this.map.addLayer(this._controlPointOutlineLayer);
 
       this._controlPointLayer = new GraphicsLayer();
+      this._controlPointLayer.setRenderer(renderer);
       this.map.addLayer(this._controlPointLayer);
 
       this._drawToolbar = new Draw(this.map);
@@ -210,6 +240,19 @@ define([
     },
 
     startup: function() {
+      $("#pnlAddControl").on(
+        "shown.bs.collapse",
+        lang.hitch(this, this.onPanelAddControlClick)
+      );
+      $("#pnlShowControl").on(
+        "shown.bs.collapse",
+        lang.hitch(this, this.onPanelShowControlClick)
+      );
+
+      $("#btnSendControlInfo").on(
+        "click",
+        lang.hitch(this, this.onBtnSendControlInfoClick)
+      );
       $("#btnClear").on("click", lang.hitch(this, this.onBtnClearClick));
 
       //切换管制点和管制路线
@@ -223,6 +266,14 @@ define([
           }
         })
       );
+    },
+
+    onPanelAddControlClick: function() {
+      console.log("add");
+    },
+
+    onPanelShowControlClick: function() {
+      this._showControlInfo();
     },
 
     /**
@@ -254,7 +305,10 @@ define([
     },
 
     onDrawEnd: function(event) {
-      var graphic = new Graphic(event.geometry, this._controlPointSymbol);
+      var graphic = new Graphic(event.geometry);
+      graphic.attributes = {
+        state: "new"
+      };
       this._controlPointLayer.add(graphic);
       this._drawToolbar.deactivate();
 
@@ -346,6 +400,73 @@ define([
       }
 
       $("#txtControlDesc").val("");
+    },
+
+    onBtnSendControlInfoClick: function() {
+      var controlType;
+      var controlInfo = {};
+
+      if ($("#btnControlPoint").prop("checked")) {
+        controlType = "point";
+        var points = [];
+        this._controlPointLayer.graphics.forEach(function(graphic) {
+          if (graphic.attributes.state === "new") {
+            var point = graphic.geometry;
+            if (this.map.spatialReference.isWebMercator()) {
+              point = webMercatorUtils.webMercatorToGeographic(point);
+            }
+            points.push({
+              x: Number(point.x.toFixed(6)),
+              y: Number(point.y.toFixed(6))
+            });
+          }
+        }, this);
+        if (points.length === 0) {
+          toastr.warning("请选择管制点");
+          return;
+        }
+        controlInfo.points = points;
+      } else {
+        controlType = "line";
+        var ids = [];
+        this._controlLineLayer.graphics.forEach(function(graphic) {
+          if (graphic.attributes.state === "selected") {
+            ids.push(graphic.attributes.FEATUREID);
+          }
+        }, this);
+        if (ids.length === 0) {
+          toastr.warning("请选择管制路线");
+          return;
+        }
+        controlInfo.ids = ids;
+      }
+      controlInfo.type = controlType;
+      controlInfo.desc = $("#txtControlDesc").val();
+      console.log(controlInfo);
+    },
+
+    _showControlInfo: function() {
+      var controlInfoData = {
+        type: "point",
+        points: [{ x: 121.283217, y: 31.190441 }],
+        desc: "test"
+      };
+
+      switch (controlInfoData.type) {
+        case "point":
+          this._showExistControlPoint(controlInfoData);
+          break;
+
+        case "line":
+          this._showExistControlLine(controlInfoData);
+          break;
+      }
+    },
+
+    _showExistControlPoint: function(controlInfoData) {},
+
+    _showExistControlLine: function(controlInfoData) {
+
     }
   });
 });
