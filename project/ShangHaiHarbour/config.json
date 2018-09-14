@@ -35,7 +35,7 @@
       {
         "label": "陆图",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_base_mercator/MapServer",
+          "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
         "type": "tiled",
         "visible": true
       },
@@ -130,6 +130,7 @@
         "y": 31.228,
         "spatialReference": { "wkid": 4326 }
       },
+      "zoom": 12,
       "logo": false,
       "nav": false,
       "slider": false
