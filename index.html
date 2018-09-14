@@ -154,6 +154,25 @@
     // });
     // map.addPoints('{"points":[{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.40887797508348,"y":43.49521156331913},"id":"be557e9b-03e0-4809-a87f-a56195ac0bc0,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"10000002","gzsj":null,"levelMessage":"暂无异常"}},{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.4235618296279,"y":43.474032926957},"id":"948ab669-f01f-4eba-90ad-2952533c8915,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"T000001","gzsj":null,"levelMessage":"暂无异常"}}]}')
     // map.addOverlays('{"overlays":[{"type":"police","id":"001","geometry":{"x":121.31,"y":31.22},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}}]}');
+
+    // map.hideLayer({label: "停车场-点"});
+    // map.hideLayer({label: "停车场-面"});
+    // map.showMigrate({
+    //   sourceStationId: "2|29",
+    //   totalInFlow: 1348,
+    //   totalOutFlow: 2345,
+    //   inFlows: [
+    //     { stationId: "1|30", flow: 239 },
+    //     { stationId: "27|1", flow: 287 },
+    //     { stationId: "4|27", flow: 480 }
+    //   ],
+    //   outFlows: [
+    //     { stationId: "1|30", flow: 239 },
+    //     { stationId: "27|1", flow: 287 },
+    //     { stationId: "4|27", flow: 480 }
+    //   ]
+    // });
+
   });
 
   function Test1ClickHandler() {
@@ -294,7 +313,9 @@
     //   console.log(data);
     // })
     // map.startHighlightFeature({"layerName": "发布段", "ids": ["CBCJ-NO->CBCJ-NI", "CBCJ-BO->CBCJ-BI"]})
-    map.findFeature({layerName: "指数区域", ids: ["1001"], centerResult: true});
+    // map.findFeature({layerName: "指数区域", ids: ["1001"], centerResult: true});
+    map.findFeature({layerName: "停车场-点", ids:["P1"], centerResult: true});
+
   }
 
 
@@ -424,6 +445,7 @@
 <!--<script src="assets/global/plugins/bootstrap/js/bootstrap.js"></script>-->
 <script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>
+<script type="text/javascript" src="libs/echarts.source.js"></script>
 
 
 </body>

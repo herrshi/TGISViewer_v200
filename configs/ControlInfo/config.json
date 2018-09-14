@@ -1,0 +1,7 @@
+{
+  "url": {
+    "get": "http://128.64.130.30:13802/ydfb/trafficControlRest/getTrafficControlList",
+    "add": "http://128.64.130.30:13802/ydfb/trafficControlRest/addTrafficControl?fstrType={controlType}&fstrDesc={desc}&fstrContent={content}",
+    "delete": "http://128.64.130.30:13802/ydfb/trafficControlRest/delTrafficControl?fstrId={id}"
+  }
+}

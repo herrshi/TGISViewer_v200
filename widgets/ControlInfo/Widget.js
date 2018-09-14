@@ -20,8 +20,11 @@ define([
   "esri/graphic",
   "esri/symbols/SimpleMarkerSymbol",
   "esri/symbols/PictureMarkerSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/symbols/SimpleFillSymbol",
   "esri/symbols/Font",
   "esri/symbols/TextSymbol",
+  "esri/geometry/Point",
   "esri/geometry/webMercatorUtils",
   "esri/toolbars/edit",
   "esri/toolbars/draw"
@@ -41,8 +44,11 @@ define([
   Graphic,
   SimpleMarkerSymbol,
   PictureMarkerSymbol,
+  SimpleLineSymbol,
+  SimpleFillSymbol,
   Font,
   TextSymbol,
+  Point,
   webMercatorUtils,
   Edit,
   Draw
@@ -52,6 +58,13 @@ define([
 
     _drawToolbar: null,
     _editToolbar: null,
+
+    //现有管控信息
+    _existControlInfos: [],
+    //现有管控点\管控线路图层
+    _existControlLayer: null,
+    _existPointSymbol: null,
+    _existLineSymbol: null,
 
     //管制点图层
     _controlPointLayer: null,
@@ -70,6 +83,28 @@ define([
     postCreate: function() {
       this.inherited(arguments);
 
+      this._existControlLayer = new GraphicsLayer();
+      this.map.addLayer(this._existControlLayer);
+
+      this._existPointSymbol = new PictureMarkerSymbol({
+        type : "esriPMS",
+        url: window.path + "images/mapIcons/WuHu/YingJiShiJian-big-red.png",
+        width: 28.5,
+        height: 42,
+        yoffset: 21
+      });
+      this._existLineSymbol = new SimpleFillSymbol({
+        type: "esriSFS",
+        style: "esriSFSSolid",
+        color: [125, 125, 125, 64],
+        outline: {
+          type: "esriSLS",
+          style: "esriSLSSolid",
+          color: [255, 0, 0, 255],
+          width: 2
+        }
+      });
+
       this._initControlPoint();
       this._initControlLine();
 
@@ -78,6 +113,7 @@ define([
 
     _initControlPoint: function() {
       var defaultControlPointSymbol = new PictureMarkerSymbol({
+        type : "esriPMS",
         url: window.path + "images/mapIcons/WuHu/YingJiShiJian-big-blue.png",
         width: 28.5,
         height: 42,
@@ -119,11 +155,11 @@ define([
             }
           },
           {
-            value: "exist",
+            value: "edit",
             symbol: {
               type: "esriPMS",
               url:
-                window.path + "images/mapIcons/WuHu/YingJiShiJian-big-red.png",
+                window.path + "images/mapIcons/WuHu/YingJiShiJian-big-yellow.png",
               width: 28.5,
               height: 42,
               yoffset: 21
@@ -242,11 +278,11 @@ define([
     startup: function() {
       $("#pnlAddControl").on(
         "shown.bs.collapse",
-        lang.hitch(this, this.onPanelAddControlClick)
+        lang.hitch(this, this.onAddControlPanelActive)
       );
       $("#pnlShowControl").on(
         "shown.bs.collapse",
-        lang.hitch(this, this.onPanelShowControlClick)
+        lang.hitch(this, this.onShowControlPanelActive)
       );
 
       $("#btnSendControlInfo").on(
@@ -258,23 +294,44 @@ define([
       //切换管制点和管制路线
       $("input[type=radio][name=controlTypeRadioGroup]").on(
         "change",
-        lang.hitch(this, function(event) {
-          if (event.currentTarget.value === "controlPoint") {
+        lang.hitch(this, function() {
+          var radioValue = $("input[type=radio][name=controlTypeRadioGroup]:checked").val();
+          if (radioValue === "controlPoint") {
             this._startAddControlPoint();
-          } else {
+          } else if (radioValue === "controlLine") {
             this._startAddControlLine();
           }
         })
       );
+
+      //显示/隐藏现有管制
+      $("input[type=checkbox][id=chbShowExist]").on("change", lang.hitch(this, function () {
+        this._existControlLayer.setVisibility($("input[type=checkbox][id=chbShowExist]").is(":checked"));
+      }));
+
+      this._getExistControlInfo();
     },
 
-    onPanelAddControlClick: function() {
-      console.log("add");
+    onAddControlPanelActive: function() {
+      var radioValue = $("input[type=radio][name=controlTypeRadioGroup]:checked").val();
+      if (radioValue === "controlPoint") {
+        this._startAddControlPoint();
+      } else if (radioValue === "controlLine") {
+        this._startAddControlLine();
+      }
     },
 
-    onPanelShowControlClick: function() {
-      this._showControlInfo();
+    onShowControlPanelActive: function() {
+      this._mapClickSignal.remove();
+      this._controlPointLayer.clear();
+      this._controlPointOutlineLayer.clear();
+      this._hintLayer.clear();
+      this._drawToolbar.deactivate();
+
+      this._controlLineLayer.setVisibility(false);
     },
+
+    /************************ 新增管制 BEGIN **************************/
 
     /**
      * 开始新增管制点
@@ -325,6 +382,13 @@ define([
       this._controlPointOutlineLayer.clear();
       this._editToolbar.deactivate();
 
+      //恢复图标颜色
+      this._controlPointLayer.graphics.forEach(function (graphic) {
+        if (graphic.attributes.state === "edit") {
+          graphic.attributes.state = "new";
+        }
+      }, this);
+      this._controlPointLayer.redraw();
       //恢复显示提示
       this._controlPointLayer.graphics.forEach(function(graphic) {
         this._addControlPointHint(graphic.geometry);
@@ -332,6 +396,9 @@ define([
     },
 
     onControlPointClick: function(graphic) {
+      //图标换个颜色
+      graphic.attributes.state = "edit";
+      this._controlPointLayer.redraw();
       //添加边框
       this._controlPointOutlineLayer.clear();
       var outlineGraphic = new Graphic(
@@ -445,28 +512,75 @@ define([
       console.log(controlInfo);
     },
 
-    _showControlInfo: function() {
-      var controlInfoData = {
-        type: "point",
-        points: [{ x: 121.283217, y: 31.190441 }],
-        desc: "test"
-      };
+    /************************ 新增管制 END **************************/
 
-      switch (controlInfoData.type) {
-        case "point":
-          this._showExistControlPoint(controlInfoData);
-          break;
+    /************************ 现有管制 BEGIN **************************/
 
-        case "line":
-          this._showExistControlLine(controlInfoData);
-          break;
-      }
+    _getExistControlInfo: function() {
+      this._existControlInfos = [
+        {
+          type: "point",
+          id: "gz001",
+          points: [{ x: 121.283217, y: 31.190441 }],
+          desc: "test",
+          updateTime: "2018-09-11 14:50:00"
+        },
+        {
+          type: "point",
+          id: "gz002",
+          points: [{ x: 121.283417, y: 31.190641 }],
+          desc: "test",
+          updateTime: "2018-09-11 14:51:00"
+        },
+        {
+          type: "line",
+          id: "gz003",
+          ids: ["20180816001", "20180816002"],
+          desc: "test",
+          updateTime: "2018-09-11 14:52:00"
+        }
+      ];
+
+      this._showExistControlInfo();
     },
 
-    _showExistControlPoint: function(controlInfoData) {},
+    _showExistControlInfo: function() {
+      this._existControlInfos.forEach(function(controlInfo, i) {
+        //在table中显示信息
+        var content =
+          "<tr>" +
+            "<th scope='row'>" + (i + 1) + "</th>" +
+            "<td>" + controlInfo.updateTime + "</td>" +
+            "<td><a><i class='fa fa-times mx-1' title='删除'></i></a></td>" +
+          "</tr>";
+        $("#tblControlInfoList tbody").append(content);
 
-    _showExistControlLine: function(controlInfoData) {
+        //在地图上显示
+        switch (controlInfo.type) {
+          case "point":
+            this._showExistControlPoint(controlInfo);
+            break;
 
-    }
+          case "line":
+            this._showExistControlLine(controlInfo);
+            break;
+        }
+      }, this);
+    },
+
+    _showExistControlPoint: function(controlInfoData) {
+      controlInfoData.points.forEach(function (point) {
+        var graphic = new Graphic(new Point(point.x, point.y));
+        graphic.id = controlInfoData.id;
+        graphic.symbol = this._existPointSymbol;
+        graphic.attributes = {
+          desc: controlInfoData.desc
+        };
+        console.log(point);
+        this._existControlLayer.add(graphic);
+      }, this);
+    },
+
+    _showExistControlLine: function(controlInfoData) {}
   });
 });
