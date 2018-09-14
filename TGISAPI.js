@@ -631,6 +631,8 @@ var TMap = {
    *    默认为false.
    *  autoPopup: boolean, optional. 是否自动显示弹出框, 只添加一个覆盖物时有效.
    *    默认为false.
+   *  defaultInfoTemplate: object, optional.配置infoTemplate需要显示的内容
+   *    为空显示默认infoTemplate.
    * */
   addOverlays: function (params) {
     require(["dojo/topic"], function (topic) {
@@ -1008,6 +1010,8 @@ var TMap = {
    *   autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
    *   loop: boolean, optional. 是否循环播放. 默认为true.
    *   showTrackPoints: boolean, optional. 是否显示轨迹点. 默认为true.
+   *   defaultInfoTemplate: object, optional. 根据trackPoints中的fields配置infoTemplate需要显示的内容.
+   *    为空显示默认infoTemplate.
    * @sample
    *   {"trackPoints":[{"x": 104.023, "y": 30.577, "isHighlight": true, "fields": {"经过时间": "2017/11/24 08:00:00","编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}, {"x": 104.002, "y": 30.565, "fields":{"经过时间": "2017/11/24 08:00:05"}}, {"x": 103.969, "y": 30.56, "fields":{"经过时间": "2017/11/24 08:00:10"}}, {"x": 103.907, "y": 30.536, "fields":{"经过时间": "2017/11/24 08:00:15"}}], "autoStart": true, "loop": true, "showTrackPoints": true}
    * */

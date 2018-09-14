@@ -6,6 +6,7 @@ define([
   "dojo/_base/lang",
   "dojo/_base/array",
   "dojo/topic",
+  "dojo/dom-construct",
   "jimu/BaseWidget",
   "jimu/utils",
   "esri/graphic",
@@ -26,6 +27,7 @@ define([
   lang,
   array,
   topic,
+  domConstruct,
   BaseWidget,
   jimuUtils,
   Graphic,
@@ -294,12 +296,28 @@ define([
             geometry = WebMercatorUtils.geographicToWebMercator(geometry);
           }
           var symbol = this._getEsriPointSymbol(symbolObj);
-
-          var graphic = new Graphic(geometry, symbol, fields);
-          graphic.id = id;
-          graphic.type = type;
-
-          this.graphicsLayer.add(graphic);
+          var isExist = false;
+          for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+            var graphic = this.graphicsLayer.graphics[i];
+            if (
+              (id === undefined && type === graphic.type) ||
+              (type === undefined && id === graphic.id) ||
+              (id !== undefined &&
+                id === graphic.id &&
+                type !== undefined &&
+                type === graphic.type)
+            ) {
+              graphic.setGeometry(geometry);
+              isExist = true;
+              break;
+            }
+          }
+          if (!isExist) {
+            var graphic = new Graphic(geometry, symbol, fields);
+            graphic.id = id;
+            graphic.type = type;
+            this.graphicsLayer.add(graphic);
+          }
         },
         this
       );
@@ -329,11 +347,28 @@ define([
 
           var symbol = this._getESRILineSymbol(symbolObj);
 
-          var graphic = new Graphic(geometry, symbol, fields);
-          graphic.id = id;
-          graphic.type = type;
-
-          this.graphicsLayer.add(graphic);
+          var isExist = false;
+          for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+            var graphic = this.graphicsLayer.graphics[i];
+            if (
+              (id === undefined && type === graphic.type) ||
+              (type === undefined && id === graphic.id) ||
+              (id !== undefined &&
+                id === graphic.id &&
+                type !== undefined &&
+                type === graphic.type)
+            ) {
+              graphic.setGeometry(geometry);
+              isExist = true;
+              break;
+            }
+          }
+          if (!isExist) {
+            var graphic = new Graphic(geometry, symbol, fields);
+            graphic.id = id;
+            graphic.type = type;
+            this.graphicsLayer.add(graphic);
+          }
         },
         this
       );
@@ -363,11 +398,28 @@ define([
 
           var symbol = this._getESRIPolygonSymbol(symbolObj);
 
-          var graphic = new Graphic(geometry, symbol, fields);
-          graphic.id = id;
-          graphic.type = type;
-
-          this.graphicsLayer.add(graphic);
+          var isExist = false;
+          for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+            var graphic = this.graphicsLayer.graphics[i];
+            if (
+              (id === undefined && type === graphic.type) ||
+              (type === undefined && id === graphic.id) ||
+              (id !== undefined &&
+                id === graphic.id &&
+                type !== undefined &&
+                type === graphic.type)
+            ) {
+              graphic.setGeometry(geometry);
+              isExist = true;
+              break;
+            }
+          }
+          if (!isExist) {
+            var graphic = new Graphic(geometry, symbol, fields);
+            graphic.id = id;
+            graphic.type = type;
+            this.graphicsLayer.add(graphic);
+          }
         },
         this
       );
@@ -450,24 +502,46 @@ define([
               symbol = this._getESRIPolygonSymbol(symbolObj);
               break;
           }
-
-          var graphic = new Graphic(geometry, symbol, fields);
-          graphic.id = id;
-          graphic.type = type;
-          graphic.buttons = buttons;
-          if (showPopup) {
-            graphic.infoTemplate = new InfoTemplate({
-              content: this._getInfoWindowContent(graphic)
-            });
+          var isExist = false;
+          for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
+            var graphic = this.graphicsLayer.graphics[i];
+            if (id !== undefined && id === graphic.id) {
+              graphic.setGeometry(geometry);
+              isExist = true;
+              break;
+            }
           }
-          if (autoPopup) {
-            this.map.infoWindow.setContent(this._getInfoWindowContent(graphic));
-            this.map.infoWindow.show(
-              jimuUtils.getGeometryCenter(graphic.geometry)
-            );
-          }
+          if (!isExist) {
+            var graphic = new Graphic(geometry, symbol, fields);
+            graphic.id = id;
+            graphic.type = type;
+            graphic.buttons = buttons;
 
-          this.graphicsLayer.add(graphic);
+            if (showPopup) {
+              if (overlayParams.defaultInfoTemplate === undefined) {
+                graphic.infoTemplate = new InfoTemplate({
+                  content: this._getInfoWindowContent(graphic)
+                });
+              } else {
+                var infoTemplate = new InfoTemplate();
+                infoTemplate.setTitle(overlayParams.defaultInfoTemplate.title);
+                infoTemplate.setContent(
+                  overlayParams.defaultInfoTemplate.content
+                );
+                graphic.setInfoTemplate(infoTemplate);
+                //this.map.infoWindow.resize(200,90);
+              }
+            }
+            if (autoPopup) {
+              this.map.infoWindow.setContent(
+                this._getInfoWindowContent(graphic)
+              );
+              this.map.infoWindow.show(
+                jimuUtils.getGeometryCenter(graphic.geometry)
+              );
+            }
+            this.graphicsLayer.add(graphic);
+          }
         },
         this
       );
@@ -566,14 +640,53 @@ define([
     onTopicHandler_findFeature: function(params) {
       var layerName = params.params.layerName || "";
       var ids = params.params.ids || "";
-
+      var centerResult = params.params.centerResult || false;
+      var find_blackGraphic;
+      var find_blacknode;
       for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
         var graphic = this.graphicsLayer.graphics[i];
         if (graphic.type === layerName && graphic.id === ids[0]) {
-          this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry));
+          if (centerResult) {
+            this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry));
+          }
+          if (graphic.geometry.type === "point") {
+            var sms = new SimpleMarkerSymbol({
+              color: [0, 0, 0, 0],
+              size: 12,
+              type: "esriSMS",
+              style: "esriSMSSquare",
+              outline: {
+                color: [0, 0, 0, 255],
+                width: 1,
+                type: "esriSLS",
+                style: "esriSLSSolid"
+              }
+            });
+            //sms.setColor(new Color([0, 0, 0, 0]));
+            if (graphic.symbol.type === "picturemarkersymbol") {
+              sms.setSize(
+                graphic.symbol.width > graphic.symbol.height
+                  ? graphic.symbol.width + 4
+                  : graphic.symbol.height + 4
+              );
+            } else if (graphic.symbol.size !== undefined) {
+              sms.setSize(graphic.symbol.size + 4);
+            } else {
+              sms.setSize(16);
+            }
+            sms.setOffset(graphic.symbol.xoffset, graphic.symbol.yoffset);
+            find_blackGraphic = new Graphic(graphic.geometry, sms);
+            this.graphicsLayer.add(find_blackGraphic);
+            var find_blacknode = find_blackGraphic.getNode();
+            //find_blacknode.setAttribute("data-highlight", "highlight");
+          }
           var node = graphic.getNode();
           node.setAttribute("data-highlight", "highlight");
-          setTimeout(function () {
+          domConstruct.place(find_blacknode, node, "before"); // before/after
+          setTimeout(function() {
+            if (find_blackGraphic !== undefined) {
+              find_blackGraphic.getLayer().remove(find_blackGraphic);
+            }
             node.setAttribute("data-highlight", "");
           }, 5000);
         }
