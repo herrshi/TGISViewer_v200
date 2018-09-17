@@ -35,16 +35,16 @@
       {
         "label": "陆图",
         "url":
-          "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_base_mercator/MapServer",
         "type": "tiled",
         "visible": true
       },
       {
         "label": "海图",
         "url":
-          "http://220.180.238.9:8090/OneMapServer/rest/services/SeaMapService/MapServer",
-        "type": "tiled",
-        "visible": false
+          "http://180.168.99.215:8080/OneMapServer/rest/services/SHtile/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": true
       }
     ],
     "operationallayers": [
@@ -58,7 +58,42 @@
       {
         "label": "海图矢量图",
         "url":
-          "http://220.180.238.9:8090/OneMapServer/rest/services/SeaMap/MapServer",
+          "http://180.168.99.215:8080/OneMapServer/rest/services/SHdynamic/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "港口",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "锚地",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/anchor/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "航道",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/channel/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "码头",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "岸线",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/shoreline/MapServer?token={token}",
         "type": "dynamic",
         "visible": false
       },
@@ -130,10 +165,12 @@
         "y": 31.228,
         "spatialReference": { "wkid": 4326 }
       },
-      "zoom": 12,
+      "zoom": 2,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": false,
+      "restrictExtent": true,
+      "fullExtent":{"xmin":119.801869,"ymin":30.147492,"xmax":122.919233,"ymax":32.05929}
     }
   },
   "geometryService":
@@ -155,7 +192,7 @@
         "uri": "widgets/TopToolbar_CircleButton/Widget",
         "name": "TopToolbar",
         "position": {
-          "top": 30,
+          "top": 10,
           "right": 50
         },
         "id": "TopToolbarWidget"

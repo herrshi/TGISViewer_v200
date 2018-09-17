@@ -37,18 +37,6 @@
         "visible": true
       },
       {
-        "label": "线划图",
-        "url": "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/DLG_unicolor/MapServer?token={token}",
-        "type": "tiled",
-        "visible": false
-      },
-      {
-        "label": "彩色线划图",
-        "url": "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/DLG_fullcolor/MapServer?token={token}",
-        "type": "tiled",
-        "visible": false
-      },
-      {
         "label": "线划图(中比例尺)",
         "url": "http://map.smi.sh.cegn.cn/OneMapServer/rest/services/DLG_10k_unicolor/MapServer?token={token}",
         "type": "tiled",

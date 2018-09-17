@@ -570,7 +570,7 @@ define([
         try {
           widget.onClose();
         } catch (err) {
-          console.log(console.error("fail to close widget " + widget.name + ". " + err.stack));
+          console.error("fail to close widget " + widget.name + ". " + err.stack);
         }
       }
     },

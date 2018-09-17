@@ -466,7 +466,7 @@ define([
       return content;
     },
 
-    onTopicHandler_addOverlays: function(params) {
+    onTopicHandler_addOverlays: function(params, resolve, reject) {
       var overlayParams = JSON.parse(params);
       var overlays = overlayParams.overlays;
 
@@ -524,7 +524,11 @@ define([
                 });
               } else {
                 var infoTemplate = new InfoTemplate();
-                infoTemplate.setTitle(overlayParams.defaultInfoTemplate.title);
+                infoTemplate.setTitle(
+                  overlayParams.defaultInfoTemplate.title == ""
+                    ? null
+                    : overlayParams.defaultInfoTemplate.title
+                );
                 infoTemplate.setContent(
                   overlayParams.defaultInfoTemplate.content
                 );
@@ -545,6 +549,7 @@ define([
         },
         this
       );
+      resolve();
     },
 
     onTopicHandler_deleteOverlays: function(params) {

@@ -55,6 +55,7 @@
           var fParam = new FindParameters();
           fParam.returnGeometry = true;
           fParam.searchFields = ["*"];
+          fParam.layerIds = [0];
           var findTxt = dojo.byId("ftxt").value;//要查询的属性值
           fParam.searchText = findTxt;
           findtask1.execute(fParam, getResult);

@@ -32,6 +32,15 @@
           "opName": "changeLayer"
         }
       ]
+    },
+    {
+      "label": "发布段",
+      "fontClass": "icon_fbd",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
     }
   ]
 }

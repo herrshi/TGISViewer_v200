@@ -1,0 +1,5 @@
+{
+  "query": {
+    "url": "http://128.64.151.245:6080/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1"
+  }
+}

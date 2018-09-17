@@ -175,7 +175,7 @@ define([
                 ? filteredParam[0].nameField
                 : findResult.displayFieldName;
             var featureName = findResult.feature.attributes[nameField];
-            var featureId = findResult.layerName + "_" + i;
+            var featureId = findResult.layerName + "_" + featureName + "_" + i;
             findResult.feature.name = featureName;
             findResult.feature.id = featureId;
 
@@ -229,7 +229,10 @@ define([
       ).then(
         lang.hitch(this, function(xmlData) {
           var doc = xmlData.documentElement;
-          var nameList = doc.getElementsByTagName("ROAD1").length > 0 ? doc.getElementsByTagName("ROAD1") : doc.getElementsByTagName("ADDRESS");
+          var nameList =
+            doc.getElementsByTagName("ROAD1").length > 0
+              ? doc.getElementsByTagName("ROAD1")
+              : doc.getElementsByTagName("ADDRESS");
           console.log(nameList);
           var xList = doc.getElementsByTagName("POINT_X");
           var yList = doc.getElementsByTagName("POINT_Y");
@@ -240,7 +243,7 @@ define([
             var x = xList[i].textContent;
             var y = yList[i].textContent;
             var type = typeList[i].textContent;
-            var id = type + "_" + i;
+            var id = type + "_" + name + "_" + i;
             features.push({ id: id, name: name });
 
             var point = new Point(x, y);
@@ -265,9 +268,12 @@ define([
       loading.placeAt(window.jimuConfig.layoutId);
 
       var text = params.params.text;
+      var serachTexts;
       if (text === undefined || text === "") {
         return;
       }
+      serachTexts = text.replace("，", ",").split(",");
+
       var classes = params.params.classes;
       var callback = params.callback;
 
@@ -286,16 +292,27 @@ define([
               function(resourceConfig) {
                 switch (resourceConfig.type.toLowerCase()) {
                   case "dynamicService".toLowerCase():
-                    findTaskDefs.push(
-                      this._doFindTask(className, resourceConfig, text)
-                    );
+                    for (var i = 0; i < serachTexts.length; i++) {
+                      findTaskDefs.push(
+                        this._doFindTask(
+                          className,
+                          resourceConfig,
+                          serachTexts[i]
+                        )
+                      );
+                    }
                     break;
 
                   case "webService".toLowerCase():
-                    findTaskDefs.push(
-                      this._doWebServiceTask(className, resourceConfig, text)
-                    );
-
+                    for (var i = 0; i < serachTexts.length; i++) {
+                      findTaskDefs.push(
+                        this._doWebServiceTask(
+                          className,
+                          resourceConfig,
+                          serachTexts[i]
+                        )
+                      );
+                    }
                     break;
                 }
               },
@@ -320,7 +337,9 @@ define([
               if (currentResult.length === 0) {
                 this.resultInClass.push(result);
               } else {
-                currentResult[0].features.concat(result.features);
+                currentResult[0].features = currentResult[0].features.concat(
+                  result.features
+                );
               }
             },
             this
@@ -380,7 +399,6 @@ define([
       if (clearExists) {
         this.resultLayer.clear();
       }
-
       for (var i = 0; i < featureIds.length; i++) {
         var featureId = featureIds[i];
 
@@ -409,7 +427,6 @@ define([
             resultCenterGraphic.id = resultGraphic.id;
             resultCenterGraphic.name = resultGraphic.name;
             this.resultLayer.add(resultCenterGraphic);
-
             break;
           }
         }

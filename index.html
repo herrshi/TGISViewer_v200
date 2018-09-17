@@ -2,31 +2,16 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>TGISViewer Version 2.00</title>
-  <script src="assets/global/plugins/jquery-3.2.1.min.js"></script>
-  <link rel="stylesheet" href="assets/global/plugins/bootstrap/css/bootstrap.css">
-  <script src="assets/global/plugins/bootstrap/js/bootstrap.js"></script>
-  <!--<link rel="stylesheet" href="assets/global/plugins/bootstrap-fileinput/css/fileinput.css">-->
-  <!--<script src="assets/global/plugins/bootstrap-fileinput/js/fileinput.js"></script>-->
-  <!-- BEGIN GLOBAL MANDATORY STYLES -->
+  <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <!--<link rel="stylesheet" href="assets/global/plugins/bootstrap/css/bootstrap.css">-->
+  <link href="libs/mdb/css/mdb.min.css" rel="stylesheet" type="text/css">
   <link href="assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-  <script src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-  <!--<link href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>-->
-  <!--<link href="assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>-->
-  <!-- END GLOBAL MANDATORY STYLES -->
-  <!-- BEGIN PAGE LEVEL PLUGINS -->
-  <!--<link href="assets/global/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" type="text/css"/>-->
-  <!--<link href="assets/global/plugins/bootstrap-tabdrop/css/tabdrop.css" rel="stylesheet" type="text/css"/>-->
-  <!-- END PAGE LEVEL PLUGINS -->
-  <!-- BEGIN THEME GLOBAL STYLES -->
   <link href="assets/global/css/components.css" rel="stylesheet" type="text/css"/>
   <link href="assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
-  <!-- END THEME GLOBAL STYLES -->
-  <!-- BEGIN THEME LAYOUT STYLES -->
-  <link href="assets/layouts/css/layout.css" rel="stylesheet" type="text/css"/>
-  <!--<link href="assets/layouts/css/themes/darkblue.css" rel="stylesheet" type="text/css" id="style_color"/>-->
+  <!--<link href="assets/layouts/css/layout.css" rel="stylesheet" type="text/css"/>-->
   <link href="assets/layouts/css/custom.css" rel="stylesheet" type="text/css"/>
   <!-- END THEME LAYOUT STYLES -->
 
@@ -83,6 +68,7 @@
 <!--<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>-->
 
 <script type="text/javascript">
+
   var map = TMap.createNew({
     apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
@@ -93,7 +79,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ChangZhiDaPin/config-dynamicLayerRenderer.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/ShangHaiHarbour/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/QingPu/config-GZXX.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -168,6 +154,25 @@
     // });
     // map.addPoints('{"points":[{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.40887797508348,"y":43.49521156331913},"id":"be557e9b-03e0-4809-a87f-a56195ac0bc0,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"10000002","gzsj":null,"levelMessage":"暂无异常"}},{"symbol":{"yoffset":13,"width":25,"type":"picture","url":"http://172.30.30.12:18001/web-gis/scripts/TGISViewer_v200/images/mapIcons/blue/0.png","height":25},"geometry":{"x":87.4235618296279,"y":43.474032926957},"id":"948ab669-f01f-4eba-90ad-2952533c8915,1","type":"SheBei","fields":{"zcpp":"","hostname":"暂无设备名","issue":"未绑定监控","level":"blue/0.png-2","zcms":"资产描述","zcmc":"资产显示名称","zcbh":"T000001","gzsj":null,"levelMessage":"暂无异常"}}]}')
     // map.addOverlays('{"overlays":[{"type":"police","id":"001","geometry":{"x":121.31,"y":31.22},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}}]}');
+
+    // map.hideLayer({label: "停车场-点"});
+    // map.hideLayer({label: "停车场-面"});
+    // map.showMigrate({
+    //   sourceStationId: "2|29",
+    //   totalInFlow: 1348,
+    //   totalOutFlow: 2345,
+    //   inFlows: [
+    //     { stationId: "1|30", flow: 239 },
+    //     { stationId: "27|1", flow: 287 },
+    //     { stationId: "4|27", flow: 480 }
+    //   ],
+    //   outFlows: [
+    //     { stationId: "1|30", flow: 239 },
+    //     { stationId: "27|1", flow: 287 },
+    //     { stationId: "4|27", flow: 480 }
+    //   ]
+    // });
+
   });
 
   function Test1ClickHandler() {
@@ -234,15 +239,15 @@
 //        console.log(JSON.stringify(results));
 //      });
 
-//      map.multiSearch({text: "武宁路"}, function (results) {
-//        console.log(results);
-//
-//        map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
-//          console.log(results);
-//        });
-//
-//        map.showMultiSearchResult({featureIds: ["道路_0","道路_1","道路_2","道路_3","道路_4","道路_5","道路_6","道路_7"]});
-//      });
+     // map.multiSearch({text: "武宁路505号"}, function (results) {
+     //   console.log(results);
+     //
+     //   map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
+     //     console.log(results);
+     //   });
+     //
+     //   map.showMultiSearchResult({featureIds: ["门牌_武宁路505号_0"]});
+     // });
 
     // map.deleteOverlays({types: ["CADPile"]});
 
@@ -303,7 +308,14 @@
     // });
     // map.hideOverlays({types:["police"]});
     // map.addOverlays('{"overlays":[{"type":"police","id":"001","geometry":{"x":121.41,"y":31.22}}]}');
-    map.showLayer({"label": "航道"});
+    // map.showLayer({"label": "锚地"});
+    // map.startDrawOverlay({drawType: "point"}, function (data) {
+    //   console.log(data);
+    // })
+    // map.startHighlightFeature({"layerName": "发布段", "ids": ["CBCJ-NO->CBCJ-NI", "CBCJ-BO->CBCJ-BI"]})
+    // map.findFeature({layerName: "指数区域", ids: ["1001"], centerResult: true});
+    map.findFeature({layerName: "停车场-点", ids:["P1"], centerResult: true});
+
   }
 
 
@@ -356,7 +368,8 @@
     // map.showBottomToolbarButton("发布段");
     // map.showBottomToolbarButton("摄像机");
     // map.showTopToolbarButton("保存");
-    map.showOverlays({types:["police"]});
+    // map.showOverlays({types:["police"]});
+    map.hideLayer({"label": "航道"});
 
   }
 
@@ -425,6 +438,14 @@
     map.showOD(data);
   }
 </script>
+
+<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>
+<!--<script src="assets/global/plugins/bootstrap/js/bootstrap.js"></script>-->
+<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>
+<script type="text/javascript" src="libs/echarts.source.js"></script>
 
 
 </body>

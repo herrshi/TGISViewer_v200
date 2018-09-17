@@ -1,0 +1,46 @@
+{
+  "buttons": [
+    {
+      "label": "停车场",
+      "initEnable": true,
+      "fontClass": "icon_parking",
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["设备"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["停车场"]
+        }
+      ]
+    },
+    {
+      "label": "全彩屏",
+      "fontClass": "icon_qbb",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "诱导屏",
+      "fontClass": "icon_qbb_parking",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "摄像机",
+      "fontClass": "fa fa-video-camera",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

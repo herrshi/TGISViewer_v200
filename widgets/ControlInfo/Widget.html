@@ -1,0 +1,149 @@
+<div>
+  <div class="card">
+    <h4 class="card-header primary-color white-text">管制信息</h4>
+    <div class="card-body m-0 p-0">
+      <!--Accordion wrapper-->
+      <div class="accordion md-accordion accordion-blocks" id="accordionEx" role="tablist" aria-multiselectable="true">
+        <!--Accordion card-->
+        <div class="card">
+          <!--Card header-->
+          <div class="card-header" role="tab" id="head1">
+            <a data-toggle="collapse" data-parent="#accordionEx" href="#pnlAddControl" aria-expanded="true"
+               aria-controls="pnlAddControl">
+              <h5 class="mt-1 mb-0 blue-text">
+                <span>新增管制</span>
+                <i class="fa fa-angle-down rotate-icon"></i>
+              </h5>
+            </a>
+          </div>
+
+          <!-- Card body -->
+          <div id="pnlAddControl" class="collapse show" role="tabpanel" aria-labelledby="head1"
+               data-parent="#accordionEx">
+            <div class="card-body">
+              <!--Radio Group-->
+              <div class="pb-3">
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="btnControlPoint" name="controlTypeRadioGroup"
+                         value="controlPoint" checked>
+                  <label class="form-check-label" for="btnControlPoint">管制点</label>
+                </div>
+
+                <div class="form-check form-check-inline">
+                  <input type="radio" class="form-check-input" id="btnControlLine" name="controlTypeRadioGroup"
+                         value="controlLine">
+                  <label class="form-check-label" for="btnControlLine">管制路线</label>
+                </div>
+              </div>
+              <!--/Radio Group-->
+
+              <div class="form-group shadow-textarea pb-2">
+                <textarea class="form-control z-depth-1" id="txtControlDesc" rows="3" placeholder="请输入管制信息"></textarea>
+              </div>
+
+              <div class="d-flex justify-content-center">
+                <button id="btnSendControlInfo" type="button" class="btn btn-sm blue-gradient waves-effect"
+                        data-toggle="tooltip" data-placement="bottom" title="发送">
+                  <i class="fa fa-check fa-2x"></i>
+                </button>
+                <button id="btnClear" type="button" class="btn btn-sm blue-gradient waves-effect"
+                        data-toggle="tooltip" data-placement="bottom" title="取消">
+                  <i class="fa fa-ban fa-2x"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!--/Accordion card-->
+
+        <!--Accordion card-->
+        <div class="card">
+          <!--Card header-->
+          <div class="card-header" role="tab" id="header2">
+            <a data-toggle="collapse" data-parent="#accordionEx" href="#pnlShowControl" aria-expanded="true"
+               aria-controls="pnlShowControl">
+              <h5 class="mt-1 mb-0 blue-text">
+                <span>现有管制</span>
+                <i class="fa fa-angle-down rotate-icon"></i>
+              </h5>
+            </a>
+          </div>
+
+          <!--Card body-->
+          <div id="pnlShowControl" class="collapse" role="tabpanel" aria-labelledby="header2"
+               data-parent="#accordionEx">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <!--switch-->
+                <div class="switch">
+                  <label>
+                    隐藏
+                    <input id="chbShowExist" type="checkbox" checked>
+                    <span class="lever"></span> 显示
+                  </label>
+                </div>
+                <!--/switch-->
+
+                <button id="btnRefresh" type="button" class="btn btn-sm blue-gradient waves-effect"
+                        data-toggle="tooltip" data-placement="bottom" title="刷新">
+                  <i class="fa fa-refresh fa-2x"></i>
+                </button>
+              </div>
+
+              <!--Table responsive wrapper-->
+              <div class="table-wrapper-scroll-y">
+                <!--Table-->
+                <table id="tblControlInfoList" class="table table-hover mb-0">
+                  <!--Table head-->
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>创建时间</th>
+                    <th>操作</th>
+                  </tr>
+                  </thead>
+                  <!--/Table head-->
+
+                  <!--Table body-->
+                  <tbody>
+                  <!--<tr>-->
+                  <!--<th scope="row">1</th>-->
+                  <!--<td>2018-09-11 14:50:00</td>-->
+                  <!--<td>-->
+                  <!--<a><i class="fa fa-times mx-1"></i></a>-->
+                  <!--</td>-->
+                  <!--</tr>-->
+
+                  <!--<tr>-->
+                  <!--<th scope="row">2</th>-->
+                  <!--<td>2018-09-11 14:50:00</td>-->
+                  <!--<td>-->
+                  <!--<a><i class="fa fa-times mx-1"></i></a>-->
+                  <!--</td>-->
+                  <!--</tr>-->
+
+                  <!--<tr>-->
+                  <!--<th scope="row">3</th>-->
+                  <!--<td>2018-09-11 14:50:00</td>-->
+                  <!--<td>-->
+                  <!--<a><i class="fa fa-times mx-1"></i></a>-->
+                  <!--</td>-->
+                  <!--</tr>-->
+                  </tbody>
+                  <!--/Table body-->
+                </table>
+                <!--/Table-->
+              </div>
+              <!--/Table responsive wrapper-->
+
+            </div>
+          </div>
+
+        </div>
+        <!--/Accordion card-->
+      </div>
+      <!--/Accordion wrapper -->
+    </div>
+  </div>
+</div>
