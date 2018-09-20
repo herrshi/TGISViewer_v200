@@ -193,7 +193,7 @@ define([
     },
 
     _findInGraphicsLayer: function(graphicsLayer, ids) {
-      console.log(graphicsLayer.mode, FeatureLayer.MODE_SNAPSHOT);
+      // console.log(graphicsLayer.mode, FeatureLayer.MODE_SNAPSHOT);
       graphicsLayer.graphics.forEach(function(graphic) {
         var attr = graphic.attributes;
         var id;
@@ -205,6 +205,7 @@ define([
               fieldName.indexOf("FEATUREID") > -1
             ) {
               id = attr[fieldName];
+              console.log(id);
             }
           }
         }

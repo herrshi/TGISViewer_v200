@@ -11,7 +11,7 @@
     "inPanel": false,
     "hasLocale": false,
     "hasStyle": true,
-    "hasConfig": false,
+    "hasConfig": true,
     "hasUIFile": true,
     "hasSettingPage": false,
     "keepConfigAfterMapSwitched": false,

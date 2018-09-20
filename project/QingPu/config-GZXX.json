@@ -25,9 +25,8 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url":
-          "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_base_GD/MapServer",
-        "type": "tiled",
+        "url": "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
         "visible": true
       }
     ],
@@ -98,6 +97,7 @@
       {
         "uri": "widgets/ControlInfo/Widget",
         "name": "ControlInfo",
+        "config": "configs/ControlInfo/config.json",
         "position": {
           "top": 30,
           "left": 30,

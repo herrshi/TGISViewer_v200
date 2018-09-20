@@ -2,7 +2,8 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>TGISViewer Version 2.00</title>
   <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -54,7 +55,34 @@
 <body class="claro">
 
 <div id="mapContainer">
+  <!--Modal: modalConfirmDelete-->
+  <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+      <!--Content-->
+      <div class="modal-content text-center">
+        <!--Header-->
+        <div class="modal-header d-flex justify-content-center">
+          <p class="heading">是否删除?</p>
+        </div>
 
+        <!--Body-->
+        <div class="modal-body">
+
+          <i class="fa fa-times fa-4x animated rotateIn"></i>
+
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer flex-center">
+          <a type="button" class="btn btn-outline-danger" id="btnDeleteOK">是</a>
+          <a type="button" class="btn btn-danger waves-effect" data-dismiss="modal">否</a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+  <!--Modal: modalConfirmDelete-->
 </div>
 
 
@@ -172,6 +200,7 @@
     //     { stationId: "4|27", flow: 480 }
     //   ]
     // });
+    // map.findFeature({layerName: "停车场-点", ids: ["P8"], centerResult: true});
 
   });
 
@@ -239,15 +268,15 @@
 //        console.log(JSON.stringify(results));
 //      });
 
-     // map.multiSearch({text: "武宁路505号"}, function (results) {
-     //   console.log(results);
-     //
-     //   map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
-     //     console.log(results);
-     //   });
-     //
-     //   map.showMultiSearchResult({featureIds: ["门牌_武宁路505号_0"]});
-     // });
+    // map.multiSearch({text: "武宁路505号"}, function (results) {
+    //   console.log(results);
+    //
+    //   map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
+    //     console.log(results);
+    //   });
+    //
+    //   map.showMultiSearchResult({featureIds: ["门牌_武宁路505号_0"]});
+    // });
 
     // map.deleteOverlays({types: ["CADPile"]});
 
@@ -314,7 +343,7 @@
     // })
     // map.startHighlightFeature({"layerName": "发布段", "ids": ["CBCJ-NO->CBCJ-NI", "CBCJ-BO->CBCJ-BI"]})
     // map.findFeature({layerName: "指数区域", ids: ["1001"], centerResult: true});
-    map.findFeature({layerName: "停车场-点", ids:["P1"], centerResult: true});
+    map.findFeature({layerName: "停车场-点", ids: ["P1"], centerResult: true});
 
   }
 
@@ -443,7 +472,7 @@
 <script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>
 <script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>
 <!--<script src="assets/global/plugins/bootstrap/js/bootstrap.js"></script>-->
-<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!--<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>-->
 <script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>
 <script type="text/javascript" src="libs/echarts.source.js"></script>
 

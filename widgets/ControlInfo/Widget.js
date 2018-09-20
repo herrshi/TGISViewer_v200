@@ -18,6 +18,7 @@ define([
   "esri/layers/FeatureLayer",
   "esri/renderers/UniqueValueRenderer",
   "esri/graphic",
+  "esri/InfoTemplate",
   "esri/symbols/SimpleMarkerSymbol",
   "esri/symbols/PictureMarkerSymbol",
   "esri/symbols/SimpleLineSymbol",
@@ -42,6 +43,7 @@ define([
   FeatureLayer,
   UniqueValueRenderer,
   Graphic,
+  InfoTemplate,
   SimpleMarkerSymbol,
   PictureMarkerSymbol,
   SimpleLineSymbol,
@@ -87,7 +89,7 @@ define([
       this.map.addLayer(this._existControlLayer);
 
       this._existPointSymbol = new PictureMarkerSymbol({
-        type : "esriPMS",
+        type: "esriPMS",
         url: window.path + "images/mapIcons/WuHu/YingJiShiJian-big-red.png",
         width: 28.5,
         height: 42,
@@ -113,7 +115,7 @@ define([
 
     _initControlPoint: function() {
       var defaultControlPointSymbol = new PictureMarkerSymbol({
-        type : "esriPMS",
+        type: "esriPMS",
         url: window.path + "images/mapIcons/WuHu/YingJiShiJian-big-blue.png",
         width: 28.5,
         height: 42,
@@ -159,7 +161,8 @@ define([
             symbol: {
               type: "esriPMS",
               url:
-                window.path + "images/mapIcons/WuHu/YingJiShiJian-big-yellow.png",
+                window.path +
+                "images/mapIcons/WuHu/YingJiShiJian-big-yellow.png",
               width: 28.5,
               height: 42,
               yoffset: 21
@@ -276,6 +279,8 @@ define([
     },
 
     startup: function() {
+      $('[data-toggle="tooltip"]').tooltip();
+
       $("#pnlAddControl").on(
         "shown.bs.collapse",
         lang.hitch(this, this.onAddControlPanelActive)
@@ -295,7 +300,9 @@ define([
       $("input[type=radio][name=controlTypeRadioGroup]").on(
         "change",
         lang.hitch(this, function() {
-          var radioValue = $("input[type=radio][name=controlTypeRadioGroup]:checked").val();
+          var radioValue = $(
+            "input[type=radio][name=controlTypeRadioGroup]:checked"
+          ).val();
           if (radioValue === "controlPoint") {
             this._startAddControlPoint();
           } else if (radioValue === "controlLine") {
@@ -305,15 +312,22 @@ define([
       );
 
       //显示/隐藏现有管制
-      $("input[type=checkbox][id=chbShowExist]").on("change", lang.hitch(this, function () {
-        this._existControlLayer.setVisibility($("input[type=checkbox][id=chbShowExist]").is(":checked"));
-      }));
+      $("input[type=checkbox][id=chbShowExist]").on(
+        "change",
+        lang.hitch(this, function() {
+          this._existControlLayer.setVisibility(
+            $("input[type=checkbox][id=chbShowExist]").is(":checked")
+          );
+        })
+      );
 
       this._getExistControlInfo();
     },
 
     onAddControlPanelActive: function() {
-      var radioValue = $("input[type=radio][name=controlTypeRadioGroup]:checked").val();
+      var radioValue = $(
+        "input[type=radio][name=controlTypeRadioGroup]:checked"
+      ).val();
       if (radioValue === "controlPoint") {
         this._startAddControlPoint();
       } else if (radioValue === "controlLine") {
@@ -383,7 +397,7 @@ define([
       this._editToolbar.deactivate();
 
       //恢复图标颜色
-      this._controlPointLayer.graphics.forEach(function (graphic) {
+      this._controlPointLayer.graphics.forEach(function(graphic) {
         if (graphic.attributes.state === "edit") {
           graphic.attributes.state = "new";
         }
@@ -470,11 +484,12 @@ define([
     },
 
     onBtnSendControlInfoClick: function() {
-      var controlType;
+      var controlType = "";
+      var controlContent = "";
       var controlInfo = {};
 
       if ($("#btnControlPoint").prop("checked")) {
-        controlType = "point";
+        controlType = "0";
         var points = [];
         this._controlPointLayer.graphics.forEach(function(graphic) {
           if (graphic.attributes.state === "new") {
@@ -492,9 +507,9 @@ define([
           toastr.warning("请选择管制点");
           return;
         }
-        controlInfo.points = points;
+        controlInfo.content = JSON.stringify(points);
       } else {
-        controlType = "line";
+        controlType = "1";
         var ids = [];
         this._controlLineLayer.graphics.forEach(function(graphic) {
           if (graphic.attributes.state === "selected") {
@@ -505,82 +520,191 @@ define([
           toastr.warning("请选择管制路线");
           return;
         }
-        controlInfo.ids = ids;
+        controlInfo.content = JSON.stringify(ids);
       }
-      controlInfo.type = controlType;
+      controlInfo.controlType = controlType;
       controlInfo.desc = $("#txtControlDesc").val();
-      console.log(controlInfo);
+
+      var url = esriLang.substitute(controlInfo, this.config.url.add);
+      url = encodeURI(url);
+      $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        success: function(data) {
+          if (data.success === true) {
+            toastr.info("新增成功!");
+          } else {
+            toastr.error("新增失败!");
+          }
+        },
+        error: function(jqXHR, text) {
+          console.log(text);
+          toastr.error("新增失败!");
+        }
+      });
     },
 
     /************************ 新增管制 END **************************/
 
     /************************ 现有管制 BEGIN **************************/
 
+    /**通过rest获取现有管制信息*/
     _getExistControlInfo: function() {
-      this._existControlInfos = [
-        {
-          type: "point",
-          id: "gz001",
-          points: [{ x: 121.283217, y: 31.190441 }],
-          desc: "test",
-          updateTime: "2018-09-11 14:50:00"
-        },
-        {
-          type: "point",
-          id: "gz002",
-          points: [{ x: 121.283417, y: 31.190641 }],
-          desc: "test",
-          updateTime: "2018-09-11 14:51:00"
-        },
-        {
-          type: "line",
-          id: "gz003",
-          ids: ["20180816001", "20180816002"],
-          desc: "test",
-          updateTime: "2018-09-11 14:52:00"
+      //是否使用代理来避免跨域问题
+      var url = this.config.proxy.enable
+        ? this.config.proxy.url + "?" + this.config.url.get
+        : this.config.url.get;
+      $.ajax({
+        url: url,
+        type: "GET",
+        //jsonp可以不使用代理来解决跨域问题, 但需要服务端适配jsonp
+        dataType: this.config.proxy.enable ? "json" : "jsonp",
+        // jsonpCallback: "resultCallback",
+        success: lang.hitch(this, function(data) {
+          this._existControlInfos = data;
+          this._showExistControlInfo();
+        }),
+        error: function(jqXHR, textStatus) {
+          console.log(textStatus);
         }
-      ];
-
-      this._showExistControlInfo();
+      });
+      // this._existControlInfos = [
+      //   {
+      //     type: "point",
+      //     id: "gz001",
+      //     points: [{ x: 121.283217, y: 31.190441 }],
+      //     desc: "test",
+      //     updateTime: "2018-09-11 14:50:00"
+      //   },
+      //   {
+      //     type: "point",
+      //     id: "gz002",
+      //     points: [{ x: 121.283417, y: 31.190641 }],
+      //     desc: "test",
+      //     updateTime: "2018-09-11 14:51:00"
+      //   },
+      //   {
+      //     type: "line",
+      //     id: "gz003",
+      //     ids: ["20180816001", "20180816002"],
+      //     desc: "test",
+      //     updateTime: "2018-09-11 14:52:00"
+      //   }
+      // ];
+      //
+      // this._showExistControlInfo();
     },
 
     _showExistControlInfo: function() {
-      this._existControlInfos.forEach(function(controlInfo, i) {
+      $("#tblControlInfoList tbody").empty();
+
+      var index = 1;
+      this._existControlInfos.forEach(function(controlInfo) {
         //在table中显示信息
-        var content =
-          "<tr>" +
-            "<th scope='row'>" + (i + 1) + "</th>" +
-            "<td>" + controlInfo.updateTime + "</td>" +
-            "<td><a><i class='fa fa-times mx-1' title='删除'></i></a></td>" +
-          "</tr>";
-        $("#tblControlInfoList tbody").append(content);
+        if (this._checkControlInfo(controlInfo)) {
+          var content =
+            "<tr>" +
+              "<th scope='row'>" + index + "</th>" +
+              "<td>" + controlInfo.fstrDesc + "</td>" +
+              "<td>" +
+                "<a id='" + controlInfo.fstrId + "'>" +
+                  "<i class='fa fa-trash mx-1'></i>" +
+                "</a>" +
+            " </td>" +
+            "</tr>";
+          $("#tblControlInfoList tbody").append(content);
 
-        //在地图上显示
-        switch (controlInfo.type) {
-          case "point":
-            this._showExistControlPoint(controlInfo);
-            break;
+          //在地图上显示
+          switch (controlInfo.fstrType) {
+            case "0":
+              this._showExistControlPoint(controlInfo);
+              break;
 
-          case "line":
-            this._showExistControlLine(controlInfo);
-            break;
+            case "1":
+              // this._showExistControlLine(controlInfo);
+              break;
+          }
+
+          index += 1;
         }
       }, this);
+
+      //初始化新增的tooltip
+      $("[data-toggle='tooltip']").tooltip();
+      $("#tblControlInfoList tbody td a").on(
+        "click",
+        lang.hitch(this, this.onBtnDeleteControlClick)
+      );
+    },
+
+    _checkControlInfo: function(controlInfo) {
+      if (controlInfo.fstrState !== "0") {
+        return false;
+      }
+
+      var content = controlInfo.fstrContent;
+      try {
+        var contentData = JSON.parse(content);
+        return contentData instanceof Array;
+      } catch (e) {
+        return false;
+      }
     },
 
     _showExistControlPoint: function(controlInfoData) {
-      controlInfoData.points.forEach(function (point) {
+      var points = JSON.parse(controlInfoData.fstrContent);
+      points.forEach(function(point) {
         var graphic = new Graphic(new Point(point.x, point.y));
         graphic.id = controlInfoData.id;
         graphic.symbol = this._existPointSymbol;
         graphic.attributes = {
-          desc: controlInfoData.desc
+          createTime: controlInfoData.fdtCreateTime,
+          desc: controlInfoData.fstrDesc,
+          userId: controlInfoData.fstrCreateUserId
         };
-        console.log(point);
+
+        var infoTemplate = new InfoTemplate();
+        infoTemplate.setTitle("<b>${createTime}</b>");
+        infoTemplate.setContent(
+          "<b>创建人: </b>${userId}<br/>" + "<b>内容: </b>${desc}"
+        );
+        graphic.setInfoTemplate(infoTemplate);
+
         this._existControlLayer.add(graphic);
       }, this);
     },
 
-    _showExistControlLine: function(controlInfoData) {}
+    _showExistControlLine: function(controlInfoData) {},
+
+    onBtnDeleteControlClick: function(event) {
+      var controlId = event.currentTarget.id;
+      var confirmModal = $("#modalConfirmDelete");
+      confirmModal.on("show.bs.modal", lang.hitch(this, function () {
+        $("#btnDeleteOK").on("click", lang.hitch(this, function () {
+          this._deleteControl(controlId);
+        }));
+      }));
+
+      confirmModal.modal("show");
+    },
+
+    _deleteControl: function (id) {
+      var url = esriLang.substitute({id: id}, this.config.url.delete);
+      url = encodeURI(url);
+      $.ajax({
+        url: url,
+        type: "POST",
+        dataType: "json",
+        success: function(data) {
+          console.log(data);
+        },
+        error: function(jqXHR, text) {
+
+        }
+      });
+
+      $("#modalConfirmDelete").modal("hide");
+    }
   });
 });
