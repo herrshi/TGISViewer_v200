@@ -48,6 +48,7 @@ define([
     defaultHighlightSymbol: null,
 
     _showResult: true,
+    _showPopup: false,
     _centerResult: true,
 
     postCreate: function() {
@@ -222,6 +223,11 @@ define([
                   }, 5000);
                 });
             }
+
+            if (this._showPopup) {
+              this.map.infoWindow.setFeatures([graphic]);
+              this.map.infoWindow.show(jimuUtils.getGeometryCenter(graphic.geometry));
+            }
           }
         }
       }, this);
@@ -232,6 +238,7 @@ define([
       var ids = params.params.ids || "";
       this._showResult = params.params.showResult !== false;
       this._centerResult = params.params.centerResult === true;
+      this._showPopup = params.params.showPopup === true;
 
       if (layerName === "" || ids === "") {
         return;

@@ -25,8 +25,8 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
-        "type": "webTiled",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_base_GD/MapServer",
+        "type": "tiled",
         "visible": true
       }
     ],

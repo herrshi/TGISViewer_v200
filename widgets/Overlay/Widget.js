@@ -451,7 +451,7 @@ define([
         content += "<hr>";
         array.forEach(graphic.buttons, function(buttonConfig) {
           content +=
-            "<button type='button' class='btn btn-primary btn-xs' onclick='mapFeatureClicked(" +
+            "<button type='button' class='btn btn-primary btn-sm' onclick='mapFeatureClicked(" +
             '"' +
             buttonConfig.type +
             '", "' +

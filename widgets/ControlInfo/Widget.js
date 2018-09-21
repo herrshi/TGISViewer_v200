@@ -321,6 +321,8 @@ define([
         })
       );
 
+      $("#btnRefresh").on("click", lang.hitch(this, this._onBtnRefreshClick));
+
       this._getExistControlInfo();
     },
 
@@ -531,13 +533,18 @@ define([
         url: url,
         type: "POST",
         dataType: "json",
-        success: function(data) {
-          if (data.success === true) {
+        success: lang.hitch(this, function(data) {
+          console.log(data);
+          if (data.success === true || data.success === "true") {
             toastr.info("新增成功!");
+
+            this._controlPointLayer.clear();
+            this._controlPointOutlineLayer.clear();
+            this._getExistControlInfo();
           } else {
             toastr.error("新增失败!");
           }
-        },
+        }),
         error: function(jqXHR, text) {
           console.log(text);
           toastr.error("新增失败!");
@@ -598,6 +605,7 @@ define([
 
     _showExistControlInfo: function() {
       $("#tblControlInfoList tbody").empty();
+      this._existControlLayer.clear();
 
       var index = 1;
       this._existControlInfos.forEach(function(controlInfo) {
@@ -679,6 +687,7 @@ define([
 
     onBtnDeleteControlClick: function(event) {
       var controlId = event.currentTarget.id;
+      //显示删除确认框
       var confirmModal = $("#modalConfirmDelete");
       confirmModal.on("show.bs.modal", lang.hitch(this, function () {
         $("#btnDeleteOK").on("click", lang.hitch(this, function () {
@@ -697,14 +706,23 @@ define([
         type: "POST",
         dataType: "json",
         success: function(data) {
-          console.log(data);
+          if (data.success === true || data.success === "true") {
+            toastr.info("删除成功!");
+            this._getExistControlInfo();
+          } else {
+            toastr.error("删除失败!");
+          }
         },
         error: function(jqXHR, text) {
-
+          toastr.error("删除失败!");
         }
       });
 
       $("#modalConfirmDelete").modal("hide");
+    },
+
+    _onBtnRefreshClick: function () {
+      this._getExistControlInfo();
     }
   });
 });

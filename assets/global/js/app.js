@@ -91,7 +91,7 @@ var App = function() {
     // Handles portlet tools & actions
     var handlePortletTools = function() {
         // handle portlet remove
-        $('body').on('click', '.portlet > .portlet-title .remove', function(e) {
+        $('body').on('click', '.portlet > .portlet-title > .tools > a.remove', function(e) {
             e.preventDefault();
             var portlet = $(this).closest(".portlet");
 
@@ -100,10 +100,10 @@ var App = function() {
             }
 
             portlet.find('.portlet-title .fullscreen').tooltip('destroy');
-            portlet.find('.portlet-title .reload').tooltip('destroy');
-            portlet.find('.portlet-title .remove').tooltip('destroy');
-            portlet.find('.portlet-title .config').tooltip('destroy');
-            portlet.find('.portlet-title .collapse, .portlet > .portlet-title .expand').tooltip('destroy');
+            portlet.find('.portlet-title > .tools > .reload').tooltip('destroy');
+            portlet.find('.portlet-title > .tools > .remove').tooltip('destroy');
+            portlet.find('.portlet-title > .tools > .config').tooltip('destroy');
+            portlet.find('.portlet-title > .tools > .collapse, .portlet > .portlet-title > .tools > .expand').tooltip('destroy');
 
             portlet.remove();
         });
@@ -130,7 +130,7 @@ var App = function() {
             }
         });
 
-        $('body').on('click', '.portlet > .portlet-title .reload', function(e) {
+        $('body').on('click', '.portlet > .portlet-title > .tools > a.reload', function(e) {
             e.preventDefault();
             var el = $(this).closest(".portlet").children(".portlet-body");
             var url = $(this).attr("data-url");
@@ -153,7 +153,7 @@ var App = function() {
                     },
                     error: function(xhr, ajaxOptions, thrownError) {
                         App.unblockUI(el);
-                        var msg = '重新加载内容报错。请检查您的连接，再试一次。';
+                        var msg = 'Error on reloading the content. Please check your connection and try again.';
                         if (error == "toastr" && toastr) {
                             toastr.error(msg);
                         } else if (error == "notific8" && $.notific8) {
@@ -183,7 +183,7 @@ var App = function() {
         // load ajax data on page init
         $('.portlet .portlet-title a.reload[data-load="true"]').click();
 
-        $('body').on('click', '.portlet > .portlet-title .collapse, .portlet .portlet-title .expand', function(e) {
+        $('body').on('click', '.portlet > .portlet-title > .tools > .collapse, .portlet .portlet-title > .tools > .expand', function(e) {
             e.preventDefault();
             var el = $(this).closest(".portlet").children(".portlet-body");
             if ($(this).hasClass("collapse")) {
@@ -376,27 +376,27 @@ var App = function() {
         $('.portlet > .portlet-title .fullscreen').tooltip({
             trigger: 'hover',
             container: 'body',
-            title: '全屏'
+            title: 'Fullscreen'
         });
-        $('.portlet > .portlet-title .reload').tooltip({
+        $('.portlet > .portlet-title > .tools > .reload').tooltip({
             trigger: 'hover',
             container: 'body',
-            title: '重载'
+            title: 'Reload'
         });
-        $('.portlet > .portlet-title .remove').tooltip({
+        $('.portlet > .portlet-title > .tools > .remove').tooltip({
             trigger: 'hover',
             container: 'body',
-            title: '删除'
+            title: 'Remove'
         });
-        $('.portlet > .portlet-title .config').tooltip({
+        $('.portlet > .portlet-title > .tools > .config').tooltip({
             trigger: 'hover',
             container: 'body',
-            title: '设置'
+            title: 'Settings'
         });
-        $('.portlet > .portlet-title .collapse, .portlet > .portlet-title  .expand').tooltip({
+        $('.portlet > .portlet-title > .tools > .collapse, .portlet > .portlet-title > .tools > .expand').tooltip({
             trigger: 'hover',
             container: 'body',
-            title: '收缩'
+            title: 'Collapse/Expand'
         });
     };
 
