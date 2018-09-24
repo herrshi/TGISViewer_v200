@@ -604,7 +604,8 @@ define([
     },
 
     _showExistControlInfo: function() {
-      $("#tblControlInfoList tbody").empty();
+      var tableBody = $("#tblControlInfoList tbody");
+      tableBody.empty();
       this._existControlLayer.clear();
 
       var index = 1;
@@ -621,7 +622,7 @@ define([
                 "</a>" +
             " </td>" +
             "</tr>";
-          $("#tblControlInfoList tbody").append(content);
+          tableBody.append(content);
 
           //在地图上显示
           switch (controlInfo.fstrType) {

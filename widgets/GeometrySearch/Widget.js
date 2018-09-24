@@ -24,7 +24,7 @@ define([
   "esri/tasks/QueryTask",
   "dijit/form/NumberSpinner",
   "dojo/domReady!"
-], function (
+], function(
   declare,
   lang,
   array,
@@ -58,13 +58,30 @@ define([
     bufferLayer: null,
     lastDrawGeometry: null,
     searchGeometry: null,
-    drawPointSymbol: new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 10,
-      new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 1]), 1),
-      new Color([255, 0, 0, 1])),
-    drawLineSymbol: new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 1]), 1),
-    drawPolygonSymbol: new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-      new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([0, 0, 0, 1]), 1),
-      new Color([255, 0, 0, 0.5])),
+    drawPointSymbol: new SimpleMarkerSymbol(
+      SimpleMarkerSymbol.STYLE_CIRCLE,
+      10,
+      new SimpleLineSymbol(
+        SimpleLineSymbol.STYLE_SOLID,
+        new Color([0, 0, 0, 1]),
+        1
+      ),
+      new Color([255, 0, 0, 1])
+    ),
+    drawLineSymbol: new SimpleLineSymbol(
+      SimpleLineSymbol.STYLE_SOLID,
+      new Color([0, 0, 0, 1]),
+      1
+    ),
+    drawPolygonSymbol: new SimpleFillSymbol(
+      SimpleFillSymbol.STYLE_SOLID,
+      new SimpleLineSymbol(
+        SimpleLineSymbol.STYLE_SOLID,
+        new Color([0, 0, 0, 1]),
+        1
+      ),
+      new Color([255, 0, 0, 0.5])
+    ),
 
     bufferDistance: 0,
     bufferUnit: GeometryService.UNIT_METER,
@@ -73,12 +90,12 @@ define([
 
     loading: null,
 
-    postMixInProperties: function(){
+    postMixInProperties: function() {
       this.inherited(arguments);
       // this.nls = window.jimuNls.drawBox;
     },
 
-    postCreate: function () {
+    postCreate: function() {
       this.inherited(arguments);
 
       this.drawLayer = new GraphicsLayer();
@@ -88,25 +105,66 @@ define([
       this.map.addLayer(this.bufferLayer);
 
       this.drawToolbar = new Draw(this.map);
-      this.own(on(this.drawToolbar, "draw-complete", lang.hitch(this, this.onDrawToolBarHandler_drawComplete)));
+      this.own(
+        on(
+          this.drawToolbar,
+          "draw-complete",
+          lang.hitch(this, this.onDrawToolBarHandler_drawComplete)
+        )
+      );
 
       var drawItems = query(".draw-item", this.domNode);
-      this.own(drawItems.on("click", lang.hitch(this, this._onDrawTypeItemClick)));
+      this.own(
+        drawItems.on("click", lang.hitch(this, this._onDrawTypeItemClick))
+      );
 
       var spinnerItems = query(".spinner-item", this.domNode);
-      this.own(spinnerItems.on("click", lang.hitch(this, this._onSpinnerItemClick)));
+      this.own(
+        spinnerItems.on("click", lang.hitch(this, this._onSpinnerItemClick))
+      );
 
-      topic.subscribe("geometrySearch", lang.hitch(this, this.onTopicHandler_geometrySearch));
+      topic.subscribe(
+        "geometrySearch",
+        lang.hitch(this, this.onTopicHandler_geometrySearch)
+      );
     },
 
-    onClose: function () {
+    startup: function() {
+
+      //读取要查询的图层
+      this.config.searchLayer.forEach(function (layerInfo) {
+        var content =
+          "<li>" +
+            "<label class='radio-btn'>" +
+              "<input type='checkbox' value='" + layerInfo.url + "'> " +
+              layerInfo.label +
+            "</label>" +
+          "</li>";
+        $("#ulDropdown").prepend(content);
+      }, this);
+      $('.cq-dropdown').dropdownCheckboxes();
+
+      var trSearchLayer = $("#trSearchLayer");
+      $("input[type=radio][name=searchContent]").on("change", function () {
+        var radioValue = $(
+          "input[type=radio][name=searchContent]:checked"
+        ).val();
+        if (radioValue === "searchVisible") {
+          trSearchLayer.addClass("invisible");
+        } else {
+          trSearchLayer.removeClass("invisible");
+        }
+      })
+    },
+
+    onClose: function() {
       this.map.infoWindow.hide();
       this.drawLayer.clear();
       this.bufferLayer.clear();
       this.drawToolbar.deactivate();
     },
 
-    onTopicHandler_geometrySearch: function (params) {
+    onTopicHandler_geometrySearch: function(params) {
       var drawType = params.params.drawType;
       this.bufferDistance = params.params.bufferDistance || 0;
       this.searchResultCallback = params.callback;
@@ -114,7 +172,7 @@ define([
       this.drawToolbar.activate(drawType);
     },
 
-    onDrawToolBarHandler_drawComplete: function (event) {
+    onDrawToolBarHandler_drawComplete: function(event) {
       this.drawLayer.clear();
       this.bufferLayer.clear();
 
@@ -154,10 +212,12 @@ define([
       this.drawLayer.add(drawGraphic);
 
       if (this.txtBufferDistance.value > 0) {
-        var bufferPolygon = this._doBuffer(this.lastDrawGeometry, this.txtBufferDistance.value);
+        var bufferPolygon = this._doBuffer(
+          this.lastDrawGeometry,
+          this.txtBufferDistance.value
+        );
         this._geometrySearch(bufferPolygon);
-      }
-      else {
+      } else {
         if (this.lastDrawGeometry.type === "polygon") {
           this._geometrySearch(this.lastDrawGeometry);
         }
@@ -171,21 +231,25 @@ define([
       this.bufferLayer.clear();
       if (bufferDistance > 0) {
         //如果是 WGS-84或Web Mercator坐标系，使用geodesicBuffer。其他坐标系使用buffer
-        var bufferPolygon = (this.map.spatialReference.isWebMercator() || this.map.spatialReference.wkid === 4326) ?
-          GeometryEngine.geodesicBuffer(geometry, bufferDistance, this.bufferUnit) :
-          GeometryEngine.buffer(geometry, bufferDistance, this.bufferUnit);
+        var bufferPolygon =
+          this.map.spatialReference.isWebMercator() ||
+          this.map.spatialReference.wkid === 4326
+            ? GeometryEngine.geodesicBuffer(
+                geometry,
+                bufferDistance,
+                this.bufferUnit
+              )
+            : GeometryEngine.buffer(geometry, bufferDistance, this.bufferUnit);
 
         var bufferGraphic = new Graphic(bufferPolygon, this.drawPolygonSymbol);
         this.bufferLayer.add(bufferGraphic);
         return bufferPolygon;
-      }
-      else {
+      } else {
         return null;
       }
-
     },
 
-    _getVisibleLayer: function () {
+    _getVisibleLayer: function() {
       var results = [];
       for (var i = 0; i < this.map.layerIds.length; i++) {
         var layer = this.map.getLayer(this.map.layerIds[i]);
@@ -199,59 +263,88 @@ define([
                 name: layerInfo.name,
                 url: subLayerUrl
               };
-              if ((layerInfo.maxScale === 0 && layerInfo.minScale === 0) ||
-                (layerInfo.maxScale === 0 && layerInfo.minScale >= this.map.getScale()) ||
-                (layerInfo.minScale === 0 && layerInfo.maxScale <= this.map.getScale()) ||
-                (layerInfo.maxScale <= this.map.getScale() && this.map.getScale() <= layerInfo.minScale)) {
+              if (
+                (layerInfo.maxScale === 0 && layerInfo.minScale === 0) ||
+                (layerInfo.maxScale === 0 &&
+                  layerInfo.minScale >= this.map.getScale()) ||
+                (layerInfo.minScale === 0 &&
+                  layerInfo.maxScale <= this.map.getScale()) ||
+                (layerInfo.maxScale <= this.map.getScale() &&
+                  this.map.getScale() <= layerInfo.minScale)
+              ) {
                 results.push(subLayer);
               }
             }
-
           }
         }
       }
 
       return results;
     },
-    
-    _handleGeometrySearchResult: function (results) {
+
+    _handleGeometrySearchResult: function(results) {
       var resultList = [];
       for (var layerName in results) {
         if (results.hasOwnProperty(layerName)) {
           //graphicsLayer查询的返回
-          if (Object.prototype.toString.call(results[layerName]) === "[object Array]") {
-
+          if (
+            Object.prototype.toString.call(results[layerName]) ===
+            "[object Array]"
+          ) {
           }
           //图层查询的返回
           else {
             var features = results[layerName].features;
-            array.forEach(features, function (graphic) {
-              var deviceId = graphic.attributes.DEVICEID || graphic.attributes.BM_CODE || graphic.attributes.ID;
-              var resultObj = {
-                type: layerName,
-                id: deviceId
-              };
+            array.forEach(
+              features,
+              function(graphic) {
+                var deviceId =
+                  graphic.attributes.DEVICEID ||
+                  graphic.attributes.BM_CODE ||
+                  graphic.attributes.ID;
+                var resultObj = {
+                  type: layerName,
+                  id: deviceId
+                };
 
-              switch (graphic.geometry.type) {
-                //线图层计算长度
-                case "polyline":
-                  var length = (this.map.spatialReference.isWebMercator() || this.map.spatialReference.wkid === 4326 ?
-                    GeometryEngine.geodesicLength(graphic.geometry, this.bufferUnit) :
-                    GeometryEngine.planarLength(graphic.geometry, this.bufferUnit));
-                  resultObj.length = length;
-                  break;
+                switch (graphic.geometry.type) {
+                  //线图层计算长度
+                  case "polyline":
+                    var length =
+                      this.map.spatialReference.isWebMercator() ||
+                      this.map.spatialReference.wkid === 4326
+                        ? GeometryEngine.geodesicLength(
+                            graphic.geometry,
+                            this.bufferUnit
+                          )
+                        : GeometryEngine.planarLength(
+                            graphic.geometry,
+                            this.bufferUnit
+                          );
+                    resultObj.length = length;
+                    break;
 
-                //面图层计算面积
-                case "polygon":
-                case "extent":
-                  var area = (this.map.spatialReference.isWebMercator() || this.map.spatialReference.wkid === 4326 ?
-                    GeometryEngine.geodesicArea(graphic.geometry, this.bufferUnit) :
-                    GeometryEngine.planarArea(graphic.geometry, this.bufferUnit));
-                  resultObj.area = area;
-                  break;
-              }
-              resultList.push(resultObj);
-            }, this);
+                  //面图层计算面积
+                  case "polygon":
+                  case "extent":
+                    var area =
+                      this.map.spatialReference.isWebMercator() ||
+                      this.map.spatialReference.wkid === 4326
+                        ? GeometryEngine.geodesicArea(
+                            graphic.geometry,
+                            this.bufferUnit
+                          )
+                        : GeometryEngine.planarArea(
+                            graphic.geometry,
+                            this.bufferUnit
+                          );
+                    resultObj.area = area;
+                    break;
+                }
+                resultList.push(resultObj);
+              },
+              this
+            );
           }
         }
       }
@@ -263,13 +356,13 @@ define([
       this.loading.destroy();
     },
 
-    _showInfoWindow: function (resultList) {
+    _showInfoWindow: function(resultList) {
       console.log(resultList);
       var resultSummery = [];
-      array.forEach(resultList, function (result) {
+      array.forEach(resultList, function(result) {
         var found = false;
         var type = result.type;
-        array.forEach(resultSummery, function (summery) {
+        array.forEach(resultSummery, function(summery) {
           if (summery.type === type) {
             //线图层计算总长度
             if (result.hasOwnProperty("length")) {
@@ -293,15 +386,13 @@ define([
       });
 
       var content = "";
-      array.forEach(resultSummery, function (summery) {
+      array.forEach(resultSummery, function(summery) {
         content += "<b>" + summery.type + "</b>: ";
         if (summery.hasOwnProperty("length")) {
           content += parseInt(summery.length, 10) + "米";
-        }
-        else if (summery.hasOwnProperty("area")) {
+        } else if (summery.hasOwnProperty("area")) {
           content += parseInt(summery.area, 10) + "平方米";
-        }
-        else if (summery.hasOwnProperty("count")) {
+        } else if (summery.hasOwnProperty("count")) {
           content += summery.count + "个";
         }
         content += "<br>";
@@ -311,10 +402,9 @@ define([
 
       var polygon = this.searchGeometry;
       this.map.infoWindow.show(polygon.getCentroid());
-
     },
 
-    _geometrySearch: function (geometry) {
+    _geometrySearch: function(geometry) {
       if (geometry && geometry.type === "polygon") {
         this.searchGeometry = geometry;
 
@@ -323,7 +413,7 @@ define([
         this.loading.placeAt(window.jimuConfig.layoutId);
 
         var layersToQuery = this._getVisibleLayer();
-        array.forEach(layersToQuery, function (layerToQuery) {
+        array.forEach(layersToQuery, function(layerToQuery) {
           var queryTask = new QueryTask(layerToQuery.url);
           var query = new Query();
           query.outFields = ["*"];
@@ -333,36 +423,37 @@ define([
           executeObj[layerToQuery.name] = queryTask.execute(query);
         });
 
-        all(executeObj).then(lang.hitch(this, this._handleGeometrySearchResult), function () {
-          this.loading.destroy();
-        });
+        all(executeObj).then(
+          lang.hitch(this, this._handleGeometrySearchResult),
+          function() {
+            this.loading.destroy();
+          }
+        );
       }
-
     },
 
-    deactivate:function(){
+    deactivate: function() {
       query(".draw-item", this.domNode).removeClass("jimu-state-active");
-      if(this.drawToolbar){
+      if (this.drawToolbar) {
         this.drawToolbar.deactivate();
         this.emit("draw-deactivate");
       }
     },
 
-    _activate: function(itemIcon){
+    _activate: function(itemIcon) {
       var items = query(".draw-item", this.domNode);
       items.removeClass("jimu-state-active");
       html.addClass(itemIcon, "jimu-state-active");
       var geotype = itemIcon.getAttribute("data-geotype");
       var commontype = itemIcon.getAttribute("data-commontype");
       var tool = Draw[geotype];
-      if(geotype === "TEXT"){
+      if (geotype === "TEXT") {
         tool = Draw.POINT;
       }
 
       if (commontype === "point" || commontype === "polyline") {
         this.bufferDistance = this.txtBufferDistance.value = 100;
-      }
-      else if (commontype === "polygon"){
+      } else if (commontype === "polygon") {
         this.bufferDistance = this.txtBufferDistance.value = 0;
       }
 
@@ -371,29 +462,27 @@ define([
       this.onIconSelected(itemIcon, geotype, commontype);
     },
 
-    _onDrawTypeItemClick: function (event) {
+    _onDrawTypeItemClick: function(event) {
       var target = event.target || event.srcElement;
-      if(!html.hasClass(target, "draw-item")){
+      if (!html.hasClass(target, "draw-item")) {
         return;
       }
       var isSelected = html.hasClass(target, "jimu-state-active");
       //toggle tools on and off
-      if(isSelected) {
+      if (isSelected) {
         this.deactivate();
-      }
-      else {
+      } else {
         this._activate(target);
       }
     },
 
-    _onSpinnerItemClick: function (event) {
+    _onSpinnerItemClick: function(event) {
       var target = event.target || event.srcElement;
       var oldValue = this.txtBufferDistance.value,
         newValue = 0;
       if (target.getAttribute("data-dir") === "up") {
         newValue = parseInt(oldValue, 10) + 10;
-      }
-      else {
+      } else {
         newValue = parseInt(oldValue, 10) - 10;
         if (newValue < 0) {
           newValue = 0;
@@ -402,20 +491,26 @@ define([
 
       this.bufferDistance = this.txtBufferDistance.value = newValue;
 
-      var bufferPolygon = this._doBuffer(this.lastDrawGeometry, this.bufferDistance);
+      var bufferPolygon = this._doBuffer(
+        this.lastDrawGeometry,
+        this.bufferDistance
+      );
       this._geometrySearch(bufferPolygon);
     },
 
-    _onTxtBufferDistanceKeyDown: function (event) {
+    _onTxtBufferDistanceKeyDown: function(event) {
       if (event.keyCode === 13) {
         this.bufferDistance = this.txtBufferDistance.value;
 
-        var bufferPolygon = this._doBuffer(this.lastDrawGeometry, this.bufferDistance);
+        var bufferPolygon = this._doBuffer(
+          this.lastDrawGeometry,
+          this.bufferDistance
+        );
         this._geometrySearch(bufferPolygon);
       }
     },
 
-    _onBtnClearClicked: function () {
+    _onBtnClearClicked: function() {
       this.map.infoWindow.hide();
       this.drawLayer.clear();
       this.bufferLayer.clear();
