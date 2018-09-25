@@ -22,31 +22,102 @@
     </div>
   </div>
 
-  <table class="symbol-set-table" cellspacing="0">
+  <table class="symbol-set-table" style="border-collapse:separate; border-spacing: 0 15px;">
     <colgroup>
-      <col width="130px"/>
+      <col width="100px"/>
       <col width="auto"/>
     </colgroup>
     <tbody>
     <tr>
       <td>
-        <span>缓冲距离(米):</span>
+        <span><b>缓冲距离(米)</b>:</span>
       </td>
       <td>
         <div style="width: 100%">
           <div class="input-group number-spinner">
-				    <span class="input-group-btn">
-					    <button class="btn btn-default spinner-item" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
-				    </span>
+          <span class="input-group-btn">
+          <button class="btn btn-default spinner-item" data-dir="dwn"><span
+            class="glyphicon glyphicon-minus"></span></button>
+          </span>
             <input type="text" class="form-control text-center" value="0"
                    onkeyup="value=value.replace(/[^\d]/g,'')"
                    data-dojo-attach-point="txtBufferDistance"
                    data-dojo-attach-event="onkeydown:_onTxtBufferDistanceKeyDown">
             <span class="input-group-btn">
-					    <button class="btn btn-default spinner-item" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
-				    </span>
+          <button class="btn btn-default spinner-item" data-dir="up"><span
+            class="glyphicon glyphicon-plus"></span></button>
+          </span>
           </div>
         </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <span><b>搜索内容</b>:</span>
+      </td>
+      <td>
+        <div style="width: 100%">
+          <label class="radio-inline">
+            <input type="radio" name="searchContent" value="searchVisible" checked>
+            当前可见图层
+          </label>
+          <label class="radio-inline">
+            <input type="radio" name="searchContent" value="searchLayer">
+            选择图层
+          </label>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td></td>
+      <td>
+        <div id="trSearchLayer" class="invisible" style="width: 100%">
+          <div class="dropdown cq-dropdown" data-name='statuses'>
+            <button class="btn btn-info btn-sm dropdown-toggle" type="button" id="btnDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              选择要查询的图层
+              <span class="caret"></span>
+            </button>
+            <ul id="ulDropdown" class="dropdown-menu" aria-labelledby="btnDropdown">
+              <!--<li>-->
+                <!--<label class="radio-btn">-->
+                  <!--<input type="checkbox" value='jQuery'>-->
+                  <!--jQuery-->
+                <!--</label>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<label class="radio-btn">-->
+                  <!--<input type="checkbox" value='Bootstrap'>-->
+                  <!--Bootstrap-->
+                <!--</label>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<label class="radio-btn">-->
+                  <!--<input type="checkbox" value='HTML'>-->
+                  <!--HTML-->
+                <!--</label>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<label class="radio-btn">-->
+                  <!--<input type="checkbox" value='JavaScript' checked>-->
+                  <!--JavaScript-->
+                <!--</label>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<label class="radio-btn">-->
+                  <!--<input type="checkbox" value='CSS' checked>-->
+                  <!--CSS-->
+                <!--</label>-->
+              <!--</li>-->
+              <li class='text-center'>
+                <button type='button' class='btn btn-xs btn-danger clear close-dropdown' value='Clear'>清除</button>
+                <button type='button' class='btn btn-xs btn-success save' value='Save'>确定</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+
       </td>
     </tr>
 

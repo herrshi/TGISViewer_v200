@@ -1,4 +1,13 @@
 {
+  "httpProxy": {
+    "useProxy": true,
+    "rules": [
+      {
+        "urlPrefix": "http://220.180.238.9:6080",
+        "proxyUrl": "http://localhost:8090/proxy/proxy.jsp"
+      }
+    ]
+  },
   "theme": {
     "name": "BillboardTheme",
     "styles": [
@@ -24,45 +33,84 @@
     },
     "basemaps": [
       {
-        "label": "天地图",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "label": "陆图",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_base_mercator/MapServer",
         "type": "tiled",
         "visible": true
       },
       {
         "label": "海图",
-        "url": "http://220.180.238.9:6080/arcgis/rest/services/SeaMap/nauticalchart/MapServer",
-        "type": "tiled",
+        "url":
+          "http://180.168.99.215:8080/OneMapServer/rest/services/SHtile/MapServer?token={token}",
+        "type": "dynamic",
         "visible": true
       }
     ],
     "operationallayers": [
       {
-        "label": "海图",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_sea/MapServer",
+        "label": "桥",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_feature/MapServer",
         "type": "dynamic",
         "visible": true
       },
       {
-        "label": "桥",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_feature/MapServer",
+        "label": "海图矢量图",
+        "url":
+          "http://180.168.99.215:8080/OneMapServer/rest/services/SHdynamic/MapServer?token={token}",
         "type": "dynamic",
-        "visible": true
+        "visible": false
+      },
+      {
+        "label": "港口",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "锚地",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/anchor/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "航道",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/channel/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "码头",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "岸线",
+        "url":
+        "http://180.168.99.215:8080/OneMapServer/rest/services/shoreline/MapServer?token={token}",
+        "type": "dynamic",
+        "visible": false
       },
       {
         "label": "发布段",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_fbd/MapServer",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_fbd/MapServer",
         "type": "dynamic",
         "visible": false
       },
       {
         "label": "摄像机",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_device/MapServer/1",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_device/MapServer/1",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -76,12 +124,11 @@
       },
       {
         "label": "情报板",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_device/MapServer/3",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_device/MapServer/3",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -95,12 +142,11 @@
       },
       {
         "label": "东南环情报板",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_device/MapServer/4",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_device/MapServer/4",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -114,26 +160,24 @@
       }
     ],
     "mapOptions": {
-      "center": {"x":121.469,"y":31.228,"spatialReference":{"wkid":4326}},
+      "center": {
+        "x": 121.469,
+        "y": 31.228,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "zoom": 2,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": false,
+      "restrictExtent": true,
+      "fullExtent":{"xmin":119.801869,"ymin":30.147492,"xmax":122.919233,"ymax":32.05929}
     }
   },
-  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "172.30.30.1:6080",
   "widgetOnScreen": {
     "widgets": [
-      {
-        "uri": "widgets/Coordinate/Widget",
-        "position": {
-          "left": 15,
-          "bottom": 5,
-          "relativeTo": "map"
-        },
-        "version": "2.4",
-        "id": "CoordinateWidget"
-      },
       {
         "uri": "widgets/OverviewMap/Widget",
         "position": {
@@ -148,7 +192,7 @@
         "uri": "widgets/TopToolbar_CircleButton/Widget",
         "name": "TopToolbar",
         "position": {
-          "top": 30,
+          "top": 10,
           "right": 50
         },
         "id": "TopToolbarWidget"
@@ -160,8 +204,8 @@
         "position": {
           "bottom": 10,
           "width": "100%",
-          "left":0,
-          "right":0
+          "left": 0,
+          "right": 0
         },
         "id": "BottomToolbarWidget"
       },
@@ -186,6 +230,16 @@
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/TrackPlayback/Widget",
+        "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
+        "id": "TrackPlaybackWidget"
+      },
+      {
+        "uri": "widgets/SeaMapIdentify/Widget",
+        "config": "configs/SeaMapIdentify/config.json",
+        "id": "SeaMapIdentifyWidget"
       }
     ]
   }

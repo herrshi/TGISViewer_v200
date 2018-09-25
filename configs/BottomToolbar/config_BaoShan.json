@@ -1,0 +1,33 @@
+{
+  "buttons": [
+    {
+      "label": "发布段",
+      "initEnable": true,
+      "fontClass": "icon_fbd",
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["地面发布段"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["快速路发布段"]
+        }
+      ]
+    },
+    {
+      "label": "情报板",
+      "fontClass": "icon_qbb",
+      "operations": [
+
+      ]
+    },
+    {
+      "label": "摄像机",
+      "fontClass": "fa fa-camera",
+      "operations": [
+
+      ]
+    }
+  ]
+}

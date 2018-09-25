@@ -1,0 +1,11 @@
+{
+  "url": {
+    "get": "http://128.64.151.209:16011/ydfb/trafficControlRest/getTrafficControlList",
+    "add": "http://128.64.151.209:16011/ydfb/trafficControlRest/addTrafficControl?fstrType=${controlType}&fstrDesc=${desc}&fstrContent=${content}",
+    "delete": "http://128.64.151.209:16011/ydfb/trafficControlRest/delTrafficControl?fstrId=${id}"
+  },
+  "proxy": {
+    "enable": false,
+    "url": "http://localhost:8090/proxy/proxy.jsp"
+  }
+}

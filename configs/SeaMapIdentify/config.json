@@ -1,0 +1,33 @@
+{
+  "identify": {
+    "url": "http://180.168.99.215:8080/OneMapServer/rest/services/SHdynamic/MapServer?token={token}"
+  },
+  "layers":[
+    {
+      "name": "港口",
+      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
+      "objectTypes": ["BERTHS"]
+
+    },
+    {
+      "name": "锚地",
+      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/anchor/MapServer?token={token}",
+      "objectTypes": ["ACHARE","ACHBRT"]
+    },
+    {
+      "name": "航道",
+      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/channel/MapServer?token={token}",
+      "objectTypes": ["FAIRWY"]
+    },
+    {
+      "name": "码头",
+      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
+      "objectTypes": ["SLCONS"]
+    },
+    {
+      "name": "岸线",
+      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/shoreline/MapServer?token={token}",
+      "objectTypes": ["COALNE"]
+    }
+   ]
+}

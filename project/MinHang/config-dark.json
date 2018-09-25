@@ -1,0 +1,121 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "底图",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "发布段",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/MinHang/MinHang_fbd/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [23, 191, 0, 255],
+            "outline": {
+              "color": [23, 191, 0, 255],
+              "width": 2
+            }
+          }
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": {
+        "x": 121.399,
+        "y": 31.108,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "scale": 144448,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService":
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.30.30.1:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar_CircleButton/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 30,
+          "right": 50
+        },
+        "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/TrackPlayback/Widget",
+        "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
+        "id": "TrackPlaybackWidget"
+      }
+    ]
+  }
+}

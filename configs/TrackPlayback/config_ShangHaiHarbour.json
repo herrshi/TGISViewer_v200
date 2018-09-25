@@ -1,0 +1,24 @@
+{
+  "symbol": {
+    "startPoint": {
+      "type": "esriPMS",
+      "url": "images/mapIcons/TianJin/GongJiao/bus_start.png",
+      "width": 19.5,
+      "height": 31.5,
+      "yoffset": 15.75
+    },
+    "endPoint": {
+      "type": "esriPMS",
+      "url": "images/mapIcons/TianJin/GongJiao/bus_end.png",
+      "width": 19.5,
+      "height": 31.5,
+      "yoffset": 15.75
+    },
+    "movingPoint": {
+      "type": "esriPMS",
+      "url": "images/mapIcons/icon_ship_green02.png",
+      "width": 16.5,
+      "height": 43.5
+    }
+  }
+}

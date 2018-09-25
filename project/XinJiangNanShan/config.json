@@ -1,4 +1,4 @@
-{
+﻿{
   "theme": {
     "name": "BillboardTheme",
     "styles": [
@@ -31,7 +31,23 @@
       }
     ],
     "operationallayers": [
-
+      {
+        "label": "道路养护",
+        "url": "http://{gisServer}/arcgis/rest/services/HROAD_BASEMAP/MapServer/7",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSLS",
+            "color": [0, 0, 255, 255],
+            "width": 2
+          }
+        }
+      }
 
     ],
     "mapOptions": {
@@ -41,7 +57,7 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "172.30.50.151:6080",
+  "gisServer": "172.30.30.1:6080",
   "widgetOnScreen": {
     "widgets": [
       {

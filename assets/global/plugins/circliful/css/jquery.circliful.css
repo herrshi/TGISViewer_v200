@@ -1,0 +1,31 @@
+/* 代码整理：懒人之家 www.lanrenzhijia.com */
+body {
+	font-family: arial, verdana, sans-serif;
+	font-size: 12px;
+}
+.circliful {
+	position: relative;
+}
+.circle-text, .circle-info, .circle-text-half, .circle-info-half {
+	width: 100%;
+	position: absolute;
+	text-align: center;
+	display: inline-block;
+	margin-top:-4px;
+	color:#fff;
+}
+.circle-info, .circle-info-half {
+	color: #2183a7;
+	margin-top:10px;
+}
+.circliful .fa {
+	margin: -10px 3px 0 3px;
+	position: relative;
+	bottom: 4px;
+}
+	
+	.circlifu-inner-font{ position: absolute;/* left: 50%; top: 50%; margin-left: -30px; margin-top: -30px;*/ line-height: 30px; width:170px; margin-top:50px; text-align: center;}
+	.circlifu-inner-font .num{color: #fff; font-size:28px;}
+	.circlifu-inner-font .name{color: #2183a7; font-size:16px;}
+	.circlifu-inner{ width:50%; height:170px; float:left; text-align:center; position:relative;color: #2183a7;}
+/* 代码整理：懒人之家 www.lanrenzhijia.com */

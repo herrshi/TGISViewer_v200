@@ -1,0 +1,280 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/baoshan/XXZX_base/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "地面发布段",
+        "url": "http://{gisServer}/arcgis/rest/services/baoshan/baoshan_fbd/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "mode": 0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "STATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [115, 115, 115, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [110, 210, 121, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [250, 207, 53, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [222, 3, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "快速路发布段",
+        "url": "http://{gisServer}/arcgis/rest/services/baoshan/baoshan_fbd/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "mode": 0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "STATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [115, 115, 115, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [110, 210, 121, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [250, 207, 53, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [222, 3, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        },
+        "infoTemplate": {
+          "title": "<b>${DES}</b>",
+          "content": "<b>时速</b>: 10公里<br><b>拥堵距离</b>: 2.8公里<br><b>持续时间</b>: 90分钟<br><b>拥堵时间</b>: 05:09<br><b>拥堵原因</b>: 交通事故<hr><button type='button' class='btn btn-indigo btn-sm waves-effect'>事件回放</button>  <button type='button' class='btn btn-indigo btn-sm waves-effect'>处置</button>"
+        }
+      },
+      {
+        "label": "情报板",
+        "url": "http://{gisServer}/arcgis/rest/services/baoshan/baoshan_device/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "mode": 0,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/QingBaoBan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": {"x": -2825, "y": 10000, "spatialReference": {"wkid": 2385}},
+      "zoom": 3,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.30.30.1:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 15,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar_CircleButton/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 30,
+          "right": 50
+        },
+        "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/BottomToolbar_CircleButton/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_BaoShan.json",
+        "position": {
+          "bottom": 30,
+          "width": "100%",
+          "left":0,
+          "right":0,
+          "relativeTo": "map"
+        },
+        "id": "BottomToolbarWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      }
+    ]
+  }
+}

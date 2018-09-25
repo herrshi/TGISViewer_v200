@@ -50,6 +50,42 @@
           "opName": "changeLayer"
         }
       ]
+    },
+    {
+      "label": "锚地",
+      "fontClass": "icon_MaoDi",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "航道",
+      "fontClass": "icon_HangDao",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "码头",
+      "fontClass": "icon_MaTou",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "岸线",
+      "fontClass": "icon_AnXian",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
     }
   ]
 }

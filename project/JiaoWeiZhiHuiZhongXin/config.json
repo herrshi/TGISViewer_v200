@@ -1,0 +1,168 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url":
+          "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "停车场-面",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer",
+        "type": "dynamic",
+        "visible": true
+      },
+      {
+        "label": "停车场-点",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "CIIE.PARK_STATUS_VW.STATUS",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/icon_P_gray.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 17
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_yellow.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_pink.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "saturation",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_red.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            }
+          ]
+
+        }
+      },
+      {
+        "label": "国展中心",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/flower.png",
+            "width": 100,
+            "height": 100,
+            "angle": 25
+          }
+        }
+      },
+      {
+        "label": "地铁标注点",
+        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/TianJin/GongJiao/ChangZhan.png",
+            "width": 22,
+            "height": 26,
+            "angle": 0
+          }
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": {
+        "x": 121.297401,
+        "y": 31.191602,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "zoom": 15,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "128.64.151.245:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/Migrate/Widget",
+        "version": "2.4",
+        "config": "configs/Migrate/config.json",
+        "id": "MigrateWidget"
+      }
+    ]
+  }
+}

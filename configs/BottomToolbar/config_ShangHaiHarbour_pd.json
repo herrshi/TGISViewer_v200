@@ -1,0 +1,23 @@
+﻿{
+  "buttons": [
+        {
+      "label": "发布段",
+      "fontClass": "icon_fbd",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+,
+  {
+      "label": "摄像机",
+      "fontClass": "fa fa-video-camera",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

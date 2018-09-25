@@ -15,11 +15,23 @@
 
 
 path[data-highlight="highlight"], image[data-highlight="highlight"], circle[data-highlight='highlight'] {
-  -webkit-animation: alphachange .6s linear 0s 6 alternate;
+  -webkit-animation: alphachange .6s linear 0s  6 alternate;
   -moz-animation: alphachange .6s linear 0s 6 alternate;
   -o-animation: alphachange .6s linear 0s 6 alternate;
   -ms-animation: alphachange .6s linear 0s 6 alternate;
   animation: alphachange .6s linear 0s 6 alternate;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+path[data-highlight="always-highlight"], image[data-highlight="always-highlight"], circle[data-highlight='always-highlight'] {
+  -webkit-animation: alphachange .6s linear 0s  infinite alternate;
+  -moz-animation: alphachange .6s linear 0s infinite alternate;
+  -o-animation: alphachange .6s linear 0s infinite alternate;
+  -ms-animation: alphachange .6s linear 0s infinite alternate;
+  animation: alphachange .6s linear 0s infinite alternate;
 
   white-space: nowrap;
   text-overflow: ellipsis;

@@ -111,16 +111,16 @@ define([
       query("." + this.baseClass).style("display", "block");
     },
 
-    topicHandler_onHideBottomToolbar: function () {
+    topicHandler_onHideBottomToolbar: function() {
       query("." + this.baseClass).style("display", "none");
     },
 
-    topicHandler_onShowBottomToolbarButton: function (params) {
-      query("[title="+ params + "]").style("display", "block");
+    topicHandler_onShowBottomToolbarButton: function(params) {
+      query("[title=" + params + "]").style("display", "block");
     },
 
-    topicHandler_onHideBottomToolbarButton: function (params) {
-      query("[title="+ params + "]").style("display", "none");
+    topicHandler_onHideBottomToolbarButton: function(params) {
+      query("[title=" + params + "]").style("display", "none");
     }
   });
 });
