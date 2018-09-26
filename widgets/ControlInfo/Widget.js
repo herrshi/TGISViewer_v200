@@ -338,6 +338,15 @@ define([
       var selEventType = $("#selEventType");
 
       $.ajax({
+        url: this.config.url.getEventType,
+        type: "GET",
+        dataType: "jsonp",
+        success: lang.hitch(this, function (eventTypeList) {
+          this._eventTypeList = eventTypeList;
+        })
+      });
+
+      $.ajax({
         url: this.config.url.getInfoType,
         type: "GET",
         dataType: "jsonp",
@@ -346,34 +355,25 @@ define([
             var content = "<option value='" + infoType.fstrTypeId + "'>" + infoType.fstrTypeName + "</option>";
             selInfoType.append(content);
           });
-
-          //获取事件信息类型
-          selInfoType.on("change", lang.hitch(this, function () {
-            var infoTypeId = $("#selInfoType option:selected").val();
-            var eventTypeUrl = esriLang.substitute({infoTypeId: infoTypeId}, this.config.url.getEventType);
-            $.ajax({
-              url: eventTypeUrl,
-              type: "GET",
-              dataType: "jsonp",
-              success: function (eventTypeList) {
-                selEventType.empty();
-                eventTypeList.forEach(function (eventType) {
-                  var content = "<option value='" + eventType.fstrEvtTypeId + "'>" + eventType.fstrEvtTypeName + "</option>";
-                  selEventType.append(content);
-                });
-              },
-              error: function (jqXHR, textStatus) {
-                console.log(textStatus);
-              }
-            });
-          }));
-
-          selInfoType.trigger("change");
         }),
         error: function (jqXHR, textStatus) {
           console.log(textStatus);
         }
       });
+
+      selInfoType.on("change", lang.hitch(this, function () {
+        selEventType.empty();
+        var infoTypeId = $("#selInfoType option:checked").val();
+        console.log(infoTypeId);
+        this._eventTypeList.forEach(function (eventType) {
+          if (eventType.fstrTypeId === infoTypeId) {
+            console.log("--" + eventType.fstrEvtTypeId);
+            var content = "<option value='" + eventType.fstrEvtTypeId + "'>" + eventType.fstrEvtTypeName + "</option>";
+            selEventType.append(content);
+          }
+        }, this);
+        selEventType.material_select();
+      }));
     },
 
     onAddControlPanelActive: function () {

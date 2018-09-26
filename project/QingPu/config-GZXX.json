@@ -25,7 +25,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_base_GD/MapServer",
+        "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
         "type": "tiled",
         "visible": true
       }

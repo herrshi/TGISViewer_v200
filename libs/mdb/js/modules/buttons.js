@@ -1,27 +1,25 @@
-'use strict';
-
 (function ($) {
 
-  $(document).ready(function () {
+  $(document).ready(() => {
 
-    $.fn.reverse = [].reverse;
+    $(document).on('mouseenter', '.fixed-action-btn', function () {
 
-    $(document).on('mouseenter.fixedActionBtn', '.fixed-action-btn:not(.click-to-toggle)', function () {
-
-      var $this = $(this);
+      const $this = $(this);
       openFABMenu($this);
     });
 
-    $(document).on('mouseleave.fixedActionBtn', '.fixed-action-btn:not(.click-to-toggle)', function () {
+    $(document).on('mouseleave', '.fixed-action-btn', function () {
 
-      var $this = $(this);
+      const $this = $(this);
       closeFABMenu($this);
     });
 
-    $(document).on('click.fixedActionBtn', '.fixed-action-btn.click-to-toggle > a', function () {
+    $(document).on('click', '.fixed-action-btn > a', function () {
 
-      var $this = $(this);
-      var $menu = $this.parent();
+      const $this = $(this);
+      const $menu = $this.parent();
+
+      $menu.hasClass('active') ? openFABMenu($menu) : closeFABMenu($menu);
 
       if ($menu.hasClass('active')) {
 
@@ -34,43 +32,43 @@
   });
 
   $.fn.extend({
-    openFAB: function openFAB() {
+    openFAB() {
 
       openFABMenu($(this));
     },
-    closeFAB: function closeFAB() {
+    closeFAB() {
 
       closeFABMenu($(this));
     }
   });
 
-  var openFABMenu = function openFABMenu(btn) {
+  const openFABMenu = btn => {
 
-    var fab = btn;
+    const fab = btn;
     if (!fab.hasClass('active')) {
 
       fab.addClass('active');
-      var btnList = document.querySelectorAll('ul .btn-floating');
-      btnList.forEach(function (el) {
+      const btnList = document.querySelectorAll('ul .btn-floating');
+      btnList.forEach(el => {
 
         el.classList.add('shown');
       });
     }
   };
 
-  var closeFABMenu = function closeFABMenu(btn) {
+  const closeFABMenu = btn => {
 
-    var fab = btn;
+    const fab = btn;
 
     fab.removeClass('active');
-    var btnList = document.querySelectorAll('ul .btn-floating');
-    btnList.forEach(function (el) {
+    const btnList = document.querySelectorAll('ul .btn-floating');
+    btnList.forEach(el => {
 
       el.classList.remove('shown');
     });
   };
 
-  $('.fixed-action-btn').on('click', function (e) {
+  $('.fixed-action-btn > .btn-floating').on('click', e => {
 
     e.preventDefault();
     toggleFABMenu($('.fixed-action-btn'));
@@ -80,7 +78,7 @@
 
   function toggleFABMenu(btn) {
 
-    var elem = btn;
+    const elem = btn;
 
     if (elem.hasClass('active')) {
 

@@ -14,6 +14,7 @@
       .navbar-nav {
         .nav-item {
           .dropdown-menu a {
+            color: $black;
             &:hover,
             &:focus,
             &:active {
@@ -30,6 +31,31 @@
       &.double-nav {
         a {
           color: map-get($data, skin-text);
+        }
+      }
+      form {
+        .md-form {
+          .form-control {
+            color: map-get($data, skin-text);
+            font-weight: 300;
+            &::placeholder {
+              color: map-get($data, skin-text);
+            }
+          }
+        }
+      }
+      &.navbar-dark {
+        form {
+          .md-form {
+            .form-control {
+              @if $skin=="white" {
+                color: map-get($data, skin-navbar);
+                &::placeholder {
+                  color: map-get($data, skin-navbar);
+                }
+              }
+            }
+          }
         }
       }
     }

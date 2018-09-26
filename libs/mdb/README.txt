@@ -1,6 +1,6 @@
 Material Design for Bootstrap
 
-version: MDB Pro 4.5.9
+version: MDB Pro 4.5.11
 
 Documentation:
 https://mdbootstrap.com/

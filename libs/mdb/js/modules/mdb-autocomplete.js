@@ -1,13 +1,11 @@
-'use strict';
-
 $.fn.mdb_autocomplete = function (options) {
 
   // Default options
-  var defaults = {
+  const defaults = {
     data: {}
   };
 
-  var ENTER_CHAR_CODE = 13;
+  const ENTER_CHAR_CODE = 13;
 
   // Get options
   options = $.extend(defaults, options);
@@ -15,11 +13,11 @@ $.fn.mdb_autocomplete = function (options) {
   return this.each(function () {
 
     // text input
-    var $input = $(this);
-    var $autocomplete = void 0;
+    const $input = $(this);
+    let $autocomplete;
 
     // assign data from options
-    var data = options.data;
+    const data = options.data;
 
     if (Object.keys(data).length) {
 
@@ -28,22 +26,22 @@ $.fn.mdb_autocomplete = function (options) {
     }
 
     // Listen if key was pressed
-    $input.on('keyup', function (e) {
+    $input.on('keyup', e => {
 
       // get value from input
-      var q = $input.val();
+      const q = $input.val();
 
       $autocomplete.empty();
 
       // check if input isn't empty
       if (q.length) {
 
-        for (var item in data) {
+        for (const item in data) {
 
           // check if item contains value that we're looking for
           if (data[item].toLowerCase().indexOf(q.toLowerCase()) !== -1) {
 
-            var option = $('<li>' + data[item] + '</li>');
+            const option = $(`<li>${data[item]}</li>`);
 
             $autocomplete.append(option);
           }

@@ -1,12 +1,10 @@
-'use strict';
-
-$(document).ready(function () {
+$(document).ready(() => {
 
   $('body').attr('aria-busy', true);
 
-  $('#preloader-markup').load('mdb-addons/preloader.html', function () {
+  $('#preloader-markup').load('mdb-addons/preloader.html', () => {
 
-    $(window).on('load', function () {
+    $(window).on('load', () => {
 
       $('#mdb-preloader').fadeOut('slow');
       $('body').removeAttr('aria-busy');

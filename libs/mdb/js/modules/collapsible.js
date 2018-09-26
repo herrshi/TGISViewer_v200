@@ -1,10 +1,8 @@
-'use strict';
-
 (function ($) {
 
   $.fn.collapsible = function (options) {
 
-    var defaults = {
+    const defaults = {
       accordion: undefined
     };
 
@@ -27,7 +25,7 @@
           duration: 350,
           easing: 'easeOutQuart',
           queue: false,
-          complete: function complete() {
+          complete() {
 
             $(this).css('height', '');
           }
@@ -38,7 +36,7 @@
           duration: 350,
           easing: 'easeOutQuart',
           queue: false,
-          complete: function complete() {
+          complete() {
             $(this).css('height', '');
           }
         });
@@ -49,7 +47,7 @@
         duration: 350,
         easing: 'easeOutQuart',
         queue: false,
-        complete: function complete() {
+        complete() {
           $(this).css('height', '');
         }
       });
@@ -71,7 +69,7 @@
           duration: 350,
           easing: 'easeOutQuart',
           queue: false,
-          complete: function complete() {
+          complete() {
             $(this).css('height', '');
           }
         });
@@ -81,7 +79,7 @@
           duration: 350,
           easing: 'easeOutQuart',
           queue: false,
-          complete: function complete() {
+          complete() {
             $(this).css('height', '');
           }
         });
@@ -90,7 +88,7 @@
 
     function isChildrenOfPanelHeader(object) {
 
-      var panelHeader = getPanelHeader(object);
+      const panelHeader = getPanelHeader(object);
       return panelHeader.length > 0;
     }
 
@@ -101,11 +99,11 @@
 
     return this.each(function () {
 
-      var $this = $(this);
+      const $this = $(this);
 
-      var $panelHeaders = $(this).find('> li > .collapsible-header');
+      let $panelHeaders = $(this).find('> li > .collapsible-header');
 
-      var collapsibleType = $this.data('collapsible');
+      const collapsibleType = $this.data('collapsible');
 
       // Turn off any existing event handlers
       $this.off('click.collapse', '.collapsible-header');
@@ -114,9 +112,9 @@
       if (options.accordion || collapsibleType === 'accordion' || collapsibleType === undefined) {
 
         $panelHeaders = $this.find('> li > .collapsible-header');
-        $panelHeaders.on('click.collapse', function (e) {
+        $panelHeaders.on('click.collapse', e => {
 
-          var element = $(e.target);
+          let element = $(e.target);
 
           if (isChildrenOfPanelHeader(element)) {
 
@@ -132,9 +130,9 @@
 
         $panelHeaders.each(function () {
 
-          $(this).on('click.collapse', function (e) {
+          $(this).on('click.collapse', e => {
 
-            var element = $(e.target);
+            let element = $(e.target);
             if (isChildrenOfPanelHeader(element)) {
 
               element = getPanelHeader(element);
