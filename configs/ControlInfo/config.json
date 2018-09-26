@@ -1,8 +1,10 @@
 {
   "url": {
-    "get": "http://128.64.151.209:16011/ydfb/trafficControlRest/getTrafficControlList",
-    "add": "http://128.64.151.209:16011/ydfb/trafficControlRest/addTrafficControl?fstrType=${controlType}&fstrDesc=${desc}&fstrContent=${content}",
-    "delete": "http://128.64.151.209:16011/ydfb/trafficControlRest/delTrafficControl?fstrId=${id}"
+    "getControlList": "http://128.64.151.209:16011/traffic/trafficControlRest/getTrafficControlList",
+    "addControl": "http://128.64.151.209:16011/traffic/trafficControlRest/addTrafficControl?fstrType=${controlType}&fstrDesc=${desc}&fstrContent=${content}",
+    "deleteControl": "http://128.64.151.209:16011/traffic/trafficControlRest/delTrafficControl?fstrId=${id}",
+    "getInfoType": "http://128.64.151.209:16011/traffic/trafficBasicRest/getTrafficInfoTypeList",
+    "getEventType": "http://128.64.151.209:16011/traffic/trafficBasicRest/getTrafficEventTypeList?fstrInfoTypeId=${infoTypeId}"
   },
   "proxy": {
     "enable": false,

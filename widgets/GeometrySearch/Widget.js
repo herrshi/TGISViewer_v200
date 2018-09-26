@@ -13,6 +13,7 @@ define([
   "esri/symbols/SimpleMarkerSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleFillSymbol",
+  "esri/SpatialReference",
   "esri/Color",
   "esri/graphic",
   "esri/geometry/Polygon",
@@ -39,6 +40,7 @@ define([
   SimpleMarkerSymbol,
   SimpleLineSymbol,
   SimpleFillSymbol,
+  SpatialReference,
   Color,
   Graphic,
   Polygon,
@@ -130,22 +132,23 @@ define([
     },
 
     startup: function() {
-
       //读取要查询的图层
-      this.config.searchLayer.forEach(function (layerInfo) {
+      this.config.searchLayer.forEach(function(layerInfo) {
         var content =
           "<li>" +
-            "<label class='radio-btn'>" +
-              "<input type='checkbox' value='" + layerInfo.url + "'> " +
-              layerInfo.label +
-            "</label>" +
+          "<label class='radio-btn'>" +
+          "<input type='checkbox' value='" +
+          layerInfo.url +
+          "'> " +
+          layerInfo.label +
+          "</label>" +
           "</li>";
         $("#ulDropdown").prepend(content);
       }, this);
-      $('.cq-dropdown').dropdownCheckboxes();
+      $(".cq-dropdown").dropdownCheckboxes();
 
       var trSearchLayer = $("#trSearchLayer");
-      $("input[type=radio][name=searchContent]").on("change", function () {
+      $("input[type=radio][name=searchContent]").on("change", function() {
         var radioValue = $(
           "input[type=radio][name=searchContent]:checked"
         ).val();
@@ -154,7 +157,7 @@ define([
         } else {
           trSearchLayer.removeClass("invisible");
         }
-      })
+      });
     },
 
     onClose: function() {
@@ -279,6 +282,7 @@ define([
         }
       }
 
+      console.log(results);
       return results;
     },
 
@@ -310,35 +314,43 @@ define([
                 switch (graphic.geometry.type) {
                   //线图层计算长度
                   case "polyline":
-                    var length =
-                      this.map.spatialReference.isWebMercator() ||
-                      this.map.spatialReference.wkid === 4326
-                        ? GeometryEngine.geodesicLength(
-                            graphic.geometry,
-                            this.bufferUnit
-                          )
-                        : GeometryEngine.planarLength(
-                            graphic.geometry,
-                            this.bufferUnit
-                          );
-                    resultObj.length = length;
+                    try {
+                      var length =
+                        this.map.spatialReference.isWebMercator() ||
+                        this.map.spatialReference.wkid === 4326
+                          ? GeometryEngine.geodesicLength(
+                              graphic.geometry,
+                              this.bufferUnit
+                            )
+                          : GeometryEngine.planarLength(
+                              graphic.geometry,
+                              this.bufferUnit
+                            );
+                      resultObj.length = length;
+                    } catch (e) {
+                      //console.log(e);
+                    }
                     break;
 
                   //面图层计算面积
                   case "polygon":
                   case "extent":
-                    var area =
-                      this.map.spatialReference.isWebMercator() ||
-                      this.map.spatialReference.wkid === 4326
-                        ? GeometryEngine.geodesicArea(
-                            graphic.geometry,
-                            this.bufferUnit
-                          )
-                        : GeometryEngine.planarArea(
-                            graphic.geometry,
-                            this.bufferUnit
-                          );
-                    resultObj.area = area;
+                    try {
+                      var area =
+                        this.map.spatialReference.isWebMercator() ||
+                        this.map.spatialReference.wkid === 4326
+                          ? GeometryEngine.geodesicArea(
+                              graphic.geometry,
+                              this.bufferUnit
+                            )
+                          : GeometryEngine.planarArea(
+                              graphic.geometry,
+                              this.bufferUnit
+                            );
+                      resultObj.area = area;
+                    } catch (e) {
+                      //console.log(e);
+                    }
                     break;
                 }
                 resultList.push(resultObj);
@@ -412,7 +424,16 @@ define([
         this.loading = new LoadingIndicator();
         this.loading.placeAt(window.jimuConfig.layoutId);
 
-        var layersToQuery = this._getVisibleLayer();
+        var layersToQuery;
+        var radioValue = $(
+          "input[type=radio][name=searchContent]:checked"
+        ).val();
+        if (radioValue === "searchVisible") {
+          layersToQuery = this._getVisibleLayer();
+        } else {
+          layersToQuery = this._onSelectLayer();
+        }
+
         array.forEach(layersToQuery, function(layerToQuery) {
           var queryTask = new QueryTask(layerToQuery.url);
           var query = new Query();
@@ -514,6 +535,30 @@ define([
       this.map.infoWindow.hide();
       this.drawLayer.clear();
       this.bufferLayer.clear();
+    },
+    _onSelectLayer: function() {
+      var searchLayer_array = [];
+      var namelist = $("#btnDropdown").html();
+      for (var i = 0; i < this.config.searchLayer.length; i++) {
+        var layer = this.config.searchLayer[i];
+        if (namelist.indexOf(layer.label) > -1) {
+          searchLayer_array.push({ url: layer.url, name: layer.label });
+        }
+      }
+      return searchLayer_array;
+    },
+    _onSearchLayer: function() {
+      if (this.txtBufferDistance.value > 0) {
+        var bufferPolygon = this._doBuffer(
+          this.lastDrawGeometry,
+          this.txtBufferDistance.value
+        );
+        this._geometrySearch(bufferPolygon);
+      } else {
+        if (this.lastDrawGeometry.type === "polygon") {
+          this._geometrySearch(this.lastDrawGeometry);
+        }
+      }
     }
   });
 });

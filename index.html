@@ -6,16 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>TGISViewer Version 2.00</title>
-  <!--<link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet" type="text/css">-->
-  <!--<link href="libs/mdb/css/mdb.min.css" rel="stylesheet" type="text/css">-->
+  <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="libs/mdb/css/mdb.min.css" rel="stylesheet" type="text/css">
 
+
+  <!--<link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap/css/bootstrap.css"/>-->
+  <!--<link rel="stylesheet" type="text/css" href="assets/global/css/animate.css">-->
+  <!--<link rel="stylesheet" type="text/css" href="assets/layouts/css/layout.css"/>-->
+  <!--<link rel="stylesheet" type="text/css" href="assets/layouts/css/custom.css"/>-->
+  <!--<link rel="stylesheet" type="text/css" href="assets/global/css/plugins.css"/>-->
 
   <link rel="stylesheet" type="text/css" href="assets/global/plugins/font-awesome/css/font-awesome.min.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap/css/bootstrap.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/global/css/animate.css">
-  <link rel="stylesheet" type="text/css" href="assets/layouts/css/layout.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/layouts/css/custom.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/global/css/plugins.css"/>
   <link rel="stylesheet" type="text/css" href="libs/dropdownCheckbox/dropdownCheckboxes.min.css">
 
 
@@ -56,7 +57,7 @@
 </head>
 <body class="claro">
 
-<div id="mapContainer">
+<div id="mapContainer" style="background-color: #0c203a">
   <!--Modal: modalConfirmDelete-->
   <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
        aria-hidden="true">
@@ -84,7 +85,58 @@
       <!--/.Content-->
     </div>
   </div>
-  <!--Modal: modalConfirmDelete-->
+  <!--/Modal: modalConfirmDelete-->
+
+  <!--Modal: modalControlDetail-->
+  <div class="modal fade" id="modalControlDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">管制详细信息</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body mx-3">
+          <div class="md-form row">
+            <div class="col-12">
+              <select id="selInfoType" class="mdb-select md-form colorful-select dropdown-primary"></select>
+              <label for="selInfoType">信息分类类型</label>
+            </div>
+          </div>
+
+          <div class="md-form row">
+            <div class="col-6">
+              <select id="selEventType" class="mdb-select md-form colorful-select dropdown-primary"></select>
+              <label for="selEventType">事件信息类型</label>
+            </div>
+
+            <div class="col-6">
+              <select id="selSubEventType" class="mdb-select md-form colorful-select dropdown-primary"></select>
+              <label for="selSubEventType">事件信息子类型</label>
+            </div>
+          </div>
+
+          <div class="md-form">
+            <i class="fa fa-tag prefix grey-text"></i>
+            <input type="text" id="form32" class="form-control validate">
+            <label data-error="wrong" data-success="right" for="form32">Subject</label>
+          </div>
+
+          <div class="md-form">
+            <i class="fa fa-pencil prefix grey-text"></i>
+            <textarea type="text" id="form8" class="md-textarea form-control" rows="4"></textarea>
+            <label data-error="wrong" data-success="right" for="form8">Your message</label>
+          </div>
+
+        </div>
+        <div class="modal-footer d-flex justify-content-center">
+          <button class="btn btn-unique">Send <i class="fa fa-paper-plane-o ml-1"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/Modal: modalControlDetail-->
 </div>
 
 
@@ -104,12 +156,12 @@
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
-    config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ChangZhiDaPin/config-dynamicLayerRenderer.json"
-    // config: "http://localhost:8090/TGISViewer_v200/project/BaoShan/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/QingPu/config-GZXX.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -135,7 +187,7 @@
     // });
 //      map.setMapCenter({x: 0, y: 0});
 //      map.closeWidget("TopToolbarWidget");
-//      map.showLayer({label: "道路交通设施", ids: [33, 34]});
+//      map.showLayer({label: "码头", ids: [3, 1]});
 
 //      map.startSwipe({
 //        swipeType: "vertical",
@@ -475,23 +527,23 @@
   }
 </script>
 
-<script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/pause/Info-pause.js"></script>
-<script type="text/javascript" src="assets/global/js/app.min.js"></script>
-<script type="text/javascript" src="assets/layouts/js/html5_3d_animation.js"></script>
-<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/gis-tool/anime.js"></script>
-<script type="text/javascript" src="assets/global/plugins/gis-tool/index.js"></script>
+<!--<script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/pause/Info-pause.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/js/app.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/layouts/js/html5_3d_animation.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/anime.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/index.js"></script>-->
+
+<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>
+<script type="text/javascript" src="libs/echarts.source.js"></script>
+
 <script type="text/javascript" src="libs/dropdownCheckbox/dropdownCheckboxes.min.js"></script>
-
-
-<!--<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>-->
-<!--<script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>-->
-<!--<script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>-->
-<!--<script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>-->
-<!--<script type="text/javascript" src="libs/echarts.source.js"></script>-->
 
 
 </body>

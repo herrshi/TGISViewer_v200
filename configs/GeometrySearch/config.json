@@ -59,23 +59,23 @@
   "searchLayer": [
     {
       "label": "轨交站点",
-      "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Road_App/MapServer/10"
+      "url": "http://122.144.195.126:6080/arcgis/rest/services/JiaoWei/Road_App/MapServer/10"
     },
     {
       "label": "轨交线路",
-      "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Road_App/MapServer/8"
+      "url": "http://122.144.195.126:6080/arcgis/rest/services/JiaoWei/Road_App/MapServer/8"
     },
     {
       "label": "公交站点",
-      "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Road_App/MapServer/11"
+      "url": "http://122.144.195.126:6080/arcgis/rest/services/JiaoWei/Road_App/MapServer/11"
     },
     {
       "label": "公交线路",
-      "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Road_App/MapServer/12"
+      "url": "http://122.144.195.126:6080/arcgis/rest/services/JiaoWei/Road_App/MapServer/12"
     },
     {
       "label": "长途客运站",
-      "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/Road_App/MapServer/33"
+      "url": "http://122.144.195.126:6080/arcgis/rest/services/JiaoWei/Road_App/MapServer/33"
     }
   ]
 }
