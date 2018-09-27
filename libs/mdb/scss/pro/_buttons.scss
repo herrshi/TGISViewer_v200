@@ -70,7 +70,7 @@
       margin-bottom: $fixed-action-btn-li-margin-bottom;
       margin-left:auto;
       margin-right:auto;
-      z-index: -1;
+      z-index: 0;
     }
     a {
       &.btn-floating {
@@ -99,6 +99,6 @@ button, html [type="button"], [type="reset"], [type="submit"] {
 }
 
 // Gradient buttons
-@each $name, $val in $gradients-premium {
+@each $name, $val in $gradients {
   @include make-gradient-button($name, $val);
 }

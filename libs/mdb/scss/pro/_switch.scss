@@ -1,29 +1,38 @@
 // Switch
 .switch label {
   cursor: pointer;
+
   input[type=checkbox] {
     opacity: 0;
     @include switch-width-height(0, 0);
-    &:checked + .lever {
+
+    &:checked+.lever {
       background-color: map-get($switch-colors, "checked-lever-bg");
     }
-    &:checked + .lever:after {
+
+    &:checked+.lever:after {
       background-color: map-get($switch-colors, "bg");
       left: $switch-input-checkbox-checked-lever-after-left;
     }
-    &:checked:not(:disabled) ~ .lever:active:after {
+
+    &:checked:not(:disabled)~.lever:active:after {
       @include box-shadows($switch-lever-after-box-shadow-darker, $switch-lever-after-box-shadow-transp);
     }
-    &:not(:disabled) ~ .lever:active:after {
+
+    &:not(:disabled)~.lever:active:after {
       @include box-shadows($switch-lever-after-box-shadow-darker, $switch-lever-after-box-shadow-lighter);
     }
-    &:disabled + .lever {
+
+    &:disabled+.lever {
       cursor: default;
     }
-    &:disabled + .lever:after, &:disabled:checked + .lever:after {
+
+    &:disabled+.lever:after,
+    &:disabled:checked+.lever:after {
       background-color: $input-disabled-solid-color;
     }
   }
+
   .lever {
     content: "";
     display: inline-block;
@@ -35,6 +44,7 @@
     margin: $switch-lever-margin;
     @include switch-width-height(2.5rem, 0.9375rem);
     @include transition-main($switch-lever-after-transition-bg);
+
     &:after {
       content: "";
       position: absolute;

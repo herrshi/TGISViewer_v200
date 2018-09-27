@@ -182,5 +182,90 @@
         }
       }
     }
+    .btn-deep-purple-accent {
+      background-color: $deep-purple-accent-1;
+      margin-top: -65px;
+      i {
+        color: $black-base !important;
+      }
+    }
+    .btn-teal-accent {
+      background-color: $teal-accent-3;
+      margin-top: -65px;
+      i {
+        color: $black-base !important;
+      }
+    }
   }
+  &.colorful-card {
+    .indigo-accent-text {
+      color: $indigo-accent-4;
+    }
+    .btn-indigo-accent {
+      background-color: $indigo-accent-4;
+    }
+    .yellow-darken-text {
+      color: $yellow-darken-1;
+    }
+    .testimonial-card {
+      .avatar {
+        width: 55px;
+        margin-top: -30px;
+        border: 3px solid #fff;
+        img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    }
+    .brown-darken-text {
+      color: $brown-darken-4;
+    }
+    .btn-red-lighten {
+      background-color: $red-lighten-4;
+    }
+  }
+}
+.card-wrapper {
+  &.card-action {
+    min-height: 640px;
+    @media (max-width: 450px) {
+      min-height: 790px;
+    }
+  }
+}
+
+.card-form {
+  .md-form {
+    input[type=text],
+    input[type=email],
+    input[type=password] {
+      &:focus:not([readonly]) {
+        box-shadow: 0 1px 0 0 #fff;
+        border-bottom: 1px solid #fff;
+      }
+    }
+  }
+  .card-form-2 {
+    border-top-left-radius: 21px;
+    border-top-right-radius: 21px;
+    margin-top: -35px;
+    .form-check-input[type=checkbox].filled-in:checked+label:after,
+    label.btn input[type=checkbox].filled-in:checked+label:after {
+      background-color: $red-darken-1;
+      border: $checkbox-label-before-after-border-width solid $red-darken-1;
+    }
+    .btn-outline-red-accent {
+      border: 2px solid $red-darken-1;
+      background-color: transparent;
+      color: $red-darken-1;
+    }
+    .pink-accent-text {
+      color: $pink-accent-4
+    }
+  }
+}
+
+.z-depth-1-bottom {
+  box-shadow:  0 5px 5px -2px rgba(0, 0, 0, 0.16);
 }

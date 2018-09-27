@@ -1,33 +1,59 @@
-'use strict';
-
 (function ($) {
 
   $(document).on('click.card', '.card', function (e) {
 
-    var $reveal = $(this).find('.card-reveal');
+    const $reveal = $(this).find('.card-reveal');
 
     if ($reveal.length) {
 
-      var $clicked = $(e.target);
-      var isTitle = $clicked.is('.card-reveal .card-title');
-      var isTitleIcon = $clicked.is('.card-reveal .card-title i');
-      var isActivator = $clicked.is('.card .activator');
-      var isActivatorIcon = $clicked.is('.card .activator i');
+      const $clicked = $(e.target);
+      const isTitle = $clicked.is('.card-reveal .card-title');
+      const isTitleIcon = $clicked.is('.card-reveal .card-title i');
+      const isActivator = $clicked.is('.card .activator');
+      const isActivatorIcon = $clicked.is('.card .activator i');
 
+      // if (isTitle || isTitleIcon) {
+
+      //   $reveal.removeClass('show');
+      // } else if (isActivator || isActivatorIcon) {
+
+      //   $reveal.addClass('show');
+      // }
       if (isTitle || isTitleIcon) {
 
-        $reveal.removeClass('show');
+        // down
+        $(this).find('.card-reveal').velocity({
+          translateY: 0
+        }, {
+          duration: 225,
+          queue: false,
+          easing: 'easeInOutQuad',
+          complete: function complete() {
+            $(this).css({
+              display: 'none'
+            });
+          }
+        });
       } else if (isActivator || isActivatorIcon) {
 
-        $reveal.addClass('show');
+        // up
+        $(this).find('.card-reveal').css({
+          display: 'block'
+        }).velocity('stop', false).velocity({
+          translateY: '-100%'
+        }, {
+          duration: 300,
+          queue: false,
+          easing: 'easeInOutQuad'
+        });
       }
     }
   });
 
   $('.rotate-btn').on('click', function () {
 
-    var cardId = $(this).attr('data-card');
-    $('#' + cardId).toggleClass('flipped');
+    const cardId = $(this).attr('data-card');
+    $(`#${cardId}`).toggleClass('flipped');
   });
 
   $('.card-share > a').on('click', function (e) {

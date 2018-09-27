@@ -1,32 +1,30 @@
-'use strict';
-
 (function ($) {
 
-  var rangeWrapper = '.range-field';
-  var rangeType = 'input[type=range]';
-  var thumbHtml = '<span class="thumb"><span class="value"></span></span>';
-  var rangeMousedown = false;
-  var left = void 0;
+  const rangeWrapper = '.range-field';
+  const rangeType = 'input[type=range]:not(.custom-range)';
+  const thumbHtml = '<span class="thumb"><span class="value"></span></span>';
+  let rangeMousedown = false;
+  let left;
 
-  var addThumb = function addThumb() {
+  const addThumb = function () {
 
-    var $thumb = $(thumbHtml);
+    const $thumb = $(thumbHtml);
     $(rangeType).after($thumb);
   };
 
   $(document).on('change', rangeType, function () {
 
-    var $thumb = $(this);
-    var $thumbValue = $thumb.siblings('.thumb').find('.value');
+    const $thumb = $(this);
+    const $thumbValue = $thumb.siblings('.thumb').find('.value');
     $thumbValue.html($thumb.val());
   });
 
   $(document).on('input mousedown touchstart', rangeType, function (e) {
 
-    var $this = $(this);
-    var $thumb = $this.siblings('.thumb');
-    var width = $this.outerWidth();
-    var noThumb = !$thumb.length;
+    const $this = $(this);
+    const $thumb = $this.siblings('.thumb');
+    const width = $this.outerWidth();
+    const noThumb = !$thumb.length;
 
     if (noThumb) {
 
@@ -54,7 +52,7 @@
 
     if (e.type !== 'input') {
 
-      var isMobile = e.pageX === undefined || e.pageX === null;
+      const isMobile = e.pageX === undefined || e.pageX === null;
       if (isMobile) {
 
         left = e.originalEvent.touches[0].pageX - $(this).offset().left;
@@ -85,8 +83,8 @@
 
   $(document).on('mousemove touchmove', rangeWrapper, function (e) {
 
-    var $thumb = $(this).children('.thumb');
-    var left = void 0;
+    const $thumb = $(this).children('.thumb');
+    let left;
 
     if (rangeMousedown) {
 
@@ -103,7 +101,7 @@
         });
       }
 
-      var isMobile = e.pageX === undefined || e.pageX === null;
+      const isMobile = e.pageX === undefined || e.pageX === null;
       if (isMobile) {
 
         left = e.originalEvent.touches[0].pageX - $(this).offset().left;
@@ -112,7 +110,7 @@
         left = e.pageX - $(this).offset().left;
       }
 
-      var width = $(this).outerWidth();
+      const width = $(this).outerWidth();
       if (left < 0) {
 
         left = 0;
@@ -130,7 +128,7 @@
 
     if (!rangeMousedown) {
 
-      var $thumb = $(this).children('.thumb');
+      const $thumb = $(this).children('.thumb');
 
       if ($thumb.hasClass('active')) {
 

@@ -1,12 +1,10 @@
-'use strict';
-
 (function ($) {
 
   $.fn.characterCounter = function () {
 
     return this.each(function () {
 
-      var itHasLengthAttribute = $(this).attr('length') !== undefined;
+      const itHasLengthAttribute = $(this).attr('length') !== undefined;
 
       if (itHasLengthAttribute) {
 
@@ -21,18 +19,18 @@
 
   function updateCounter() {
 
-    var maxLength = Number($(this).attr('length'));
-    var actualLength = Number($(this).val().length);
-    var isValidLength = actualLength <= maxLength;
+    const maxLength = Number($(this).attr('length'));
+    const actualLength = Number($(this).val().length);
+    const isValidLength = actualLength <= maxLength;
 
-    $(this).parent().find('span[class="character-counter"]').html(actualLength + '/' + maxLength);
+    $(this).parent().find('span[class="character-counter"]').html(`${actualLength}/${maxLength}`);
 
     addInputStyle(isValidLength, $(this));
   }
 
   function addCounterElement($input) {
 
-    var $counterElement = $('<span/>').addClass('character-counter').css('float', 'right').css('font-size', '12px').css('height', 1);
+    const $counterElement = $('<span/>').addClass('character-counter').css('float', 'right').css('font-size', '12px').css('height', 1);
 
     $input.parent().append($counterElement);
   }
@@ -44,7 +42,7 @@
 
   function addInputStyle(isValidLength, $input) {
 
-    var inputHasInvalidClass = $input.hasClass('invalid');
+    const inputHasInvalidClass = $input.hasClass('invalid');
     if (isValidLength && inputHasInvalidClass) {
 
       $input.removeClass('invalid');
@@ -55,7 +53,7 @@
     }
   }
 
-  $(document).ready(function () {
+  $(document).ready(() => {
 
     $('input, textarea').characterCounter();
   });

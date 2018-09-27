@@ -9,7 +9,8 @@
   input {
     &.file-path {
       width: 100%;
-      height: $file-input-path;
+      // height: $file-input-path;
+      height: 36px;
     }
   }
   .btn {

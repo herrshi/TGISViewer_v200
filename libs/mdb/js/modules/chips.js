@@ -1,360 +1,356 @@
-'use strict';
-
 (function ($) {
 
-  $(document).ready(function () {
+      $(document).ready(() => {
 
-    $(document).on('click', '.chip .close', function () {
+            $(document).on('click', '.chip .close', function () {
 
-      var $this = $(this);
+                  const $this = $(this);
 
-      if ($this.closest('.chips').data('initialized')) {
-        return;
-      }
+                  if ($this.closest('.chips').data('initialized')) {
+                        return;
+                  }
 
-      $this.closest('.chip').remove();
-    });
-  });
-
-  $.fn.materialChip = function (options) {
-    var _this = this;
-
-    this.$el = $(this);
-    this.$document = $(document);
-
-    this.eventsHandled = false;
-
-    this.defaultOptions = {
-      data: [],
-      placeholder: '',
-      secondaryPlaceholder: ''
-    };
-
-    this.selectors = {
-      chips: '.chips',
-      chip: '.chip',
-      input: 'input',
-      delete: '.fa',
-      selectedChip: '.selected'
-    };
-
-    this.keyCodes = {
-      enter: 13,
-      backspace: 8,
-      delete: 46,
-      arrowLeft: 37,
-      arrowRight: 39
-    };
-
-    if (options === 'data') {
-      return this.$el.data('chips');
-    }
-
-    if (options === 'options') {
-      return this.$el.data('options');
-    }
-
-    this.$el.data('options', $.extend({}, this.defaultOptions, options));
-
-    this.init = function () {
-
-      _this.$el.each(function (index, element) {
-
-        var $this = $(element);
-        if ($this.data('initialized')) {
-          return;
-        }
-
-        var options = $this.data('options');
-        if (!options.data || !Array.isArray(options.data)) {
-          options.data = [];
-        }
-
-        $this.data('chips', options.data);
-        $this.data('index', index);
-        $this.data('initialized', true);
-
-        if (!$this.hasClass(_this.selectors.chips)) {
-          $this.addClass('chips');
-        }
-
-        _this.renderChips($this);
-      });
-    };
-
-    this.handleEvents = function () {
-      var _this2 = this;
-
-      this.$document.on('click', this.selectors.chips, function (e) {
-
-        $(e.target).find(_this2.selectors.input).focus();
+                  $this.closest('.chip').remove();
+            });
       });
 
-      this.$document.on('click', this.selectors.chip, function (e) {
+      $.fn.materialChip = function (options) {
 
-        $(_this2.selectors.chip).removeClass('selected');
-        $(e.target).addClass('selected');
-      });
+            this.$el = $(this);
+            this.$document = $(document);
 
-      this.$document.on('keydown', function (e) {
+            this.eventsHandled = false;
 
-        if ($(e.target).is('input, textarea')) {
-          return;
-        }
+            this.defaultOptions = {
+                  data: [],
+                  placeholder: '',
+                  secondaryPlaceholder: ''
+            };
 
-        var $selectedChip = _this2.$document.find(_this2.selectors.chip + _this2.selectors.selectedChip);
-        var $chipsWrapper = $selectedChip.closest(_this2.selectors.chips);
-        var siblingsLength = $selectedChip.siblings(_this2.selectors.chip).length;
+            this.selectors = {
+                  chips: '.chips',
+                  chip: '.chip',
+                  input: 'input',
+                  delete: '.fa',
+                  selectedChip: '.selected'
+            };
 
-        if (!$selectedChip.length) {
-          return;
-        }
+            this.keyCodes = {
+                  enter: 13,
+                  backspace: 8,
+                  delete: 46,
+                  arrowLeft: 37,
+                  arrowRight: 39
+            };
 
-        var backspacePressed = e.which === _this2.keyCodes.backspace;
-        var deletePressed = e.which === _this2.keyCodes.delete;
-        var leftArrowPressed = e.which === _this2.keyCodes.arrowLeft;
-        var rightArrowPressed = e.which === _this2.keyCodes.arrowRight;
+            if (options === 'data') {
+                  return this.$el.data('chips');
+            }
 
-        if (backspacePressed || deletePressed) {
+            if (options === 'options') {
+                  return this.$el.data('options');
+            }
 
-          e.preventDefault();
+            this.$el.data('options', $.extend({}, this.defaultOptions, options));
 
-          _this2.deleteSelectedChip($chipsWrapper, $selectedChip, siblingsLength);
-        } else if (leftArrowPressed) {
+            this.init = () => {
 
-          _this2.selectLeftChip($chipsWrapper, $selectedChip);
-        } else if (rightArrowPressed) {
+                  this.$el.each((index, element) => {
 
-          _this2.selectRightChip($chipsWrapper, $selectedChip, siblingsLength);
-        }
-      });
+                        const $this = $(element);
+                        if ($this.data('initialized')) {
+                              return;
+                        }
 
-      this.$document.on('focusin', this.selectors.chips + ' ' + this.selectors.input, function (e) {
+                        const options = $this.data('options');
+                        if (!options.data || !Array.isArray(options.data)) {
+                              options.data = [];
+                        }
 
-        $(e.target).closest(_this2.selectors.chips).addClass('focus');
-        $(_this2.selectors.chip).removeClass('selected');
-      });
+                        $this.data('chips', options.data);
+                        $this.data('index', index);
+                        $this.data('initialized', true);
 
-      this.$document.on('focusout', this.selectors.chips + ' ' + this.selectors.input, function (e) {
+                        if (!$this.hasClass(this.selectors.chips)) {
+                              $this.addClass('chips');
+                        }
 
-        $(e.target).closest(_this2.selectors.chips).removeClass('focus');
-      });
+                        this.renderChips($this);
+                  });
+            };
 
-      this.$document.on('keydown', this.selectors.chips + ' ' + this.selectors.input, function (e) {
+            this.handleEvents = function () {
 
-        var $target = $(e.target);
-        var $chipsWrapper = $target.closest(_this2.selectors.chips);
-        var chipsIndex = $chipsWrapper.data('index');
-        var chipsLength = $chipsWrapper.children(_this2.selectors.chip).length;
+                  this.$document.on('click', this.selectors.chips, e => {
 
-        var enterPressed = e.which === _this2.keyCodes.enter;
+                        $(e.target).find(this.selectors.input).focus();
+                  });
 
-        if (enterPressed) {
+                  this.$document.on('click', this.selectors.chip, e => {
 
-          e.preventDefault();
+                        $(this.selectors.chip).removeClass('selected');
+                        $(e.target).addClass('selected');
+                  });
 
-          _this2.addChip(chipsIndex, {
-            tag: $target.val()
-          }, $chipsWrapper);
+                  this.$document.on('keydown', e => {
 
-          $target.val('');
+                        if ($(e.target).is('input, textarea')) {
+                              return;
+                        }
 
-          return;
-        }
+                        const $selectedChip = this.$document.find(this.selectors.chip + this.selectors.selectedChip);
+                        const $chipsWrapper = $selectedChip.closest(this.selectors.chips);
+                        const siblingsLength = $selectedChip.siblings(this.selectors.chip).length;
 
-        var leftArrowOrDeletePressed = e.keyCode === _this2.keyCodes.arrowLeft || e.keyCode === _this2.keyCodes.delete;
-        var isValueEmpty = $target.val() === '';
+                        if (!$selectedChip.length) {
+                              return;
+                        }
 
-        if (leftArrowOrDeletePressed && isValueEmpty && chipsLength) {
+                        const backspacePressed = e.which === this.keyCodes.backspace;
+                        const deletePressed = e.which === this.keyCodes.delete;
+                        const leftArrowPressed = e.which === this.keyCodes.arrowLeft;
+                        const rightArrowPressed = e.which === this.keyCodes.arrowRight;
 
-          _this2.selectChip(chipsIndex, chipsLength - 1, $chipsWrapper);
+                        if (backspacePressed || deletePressed) {
 
-          $target.blur();
-        }
-      });
+                              e.preventDefault();
 
-      this.$document.on('click', this.selectors.chips + ' ' + this.selectors.delete, function (e) {
+                              this.deleteSelectedChip($chipsWrapper, $selectedChip, siblingsLength);
+                        } else if (leftArrowPressed) {
 
-        var $target = $(e.target);
-        var $chipsWrapper = $target.closest(_this2.selectors.chips);
-        var $chip = $target.closest(_this2.selectors.chip);
+                              this.selectLeftChip($chipsWrapper, $selectedChip);
+                        } else if (rightArrowPressed) {
 
-        e.stopPropagation();
+                              this.selectRightChip($chipsWrapper, $selectedChip, siblingsLength);
+                        }
+                  });
 
-        _this2.deleteChip($chipsWrapper.data('index'), $chip.index(), $chipsWrapper);
+                  this.$document.on('focusin', `${this.selectors.chips} ${this.selectors.input}`, e => {
 
-        $chipsWrapper.find('input').focus();
-      });
-    };
+                        $(e.target).closest(this.selectors.chips).addClass('focus');
+                        $(this.selectors.chip).removeClass('selected');
+                  });
 
-    this.deleteSelectedChip = function ($chipsWrapper, $selectedChip, siblingsLength) {
+                  this.$document.on('focusout', `${this.selectors.chips} ${this.selectors.input}`, e => {
 
-      var chipsIndex = $chipsWrapper.data('index');
-      var chipIndex = $selectedChip.index();
-      _this.deleteChip(chipsIndex, chipIndex, $chipsWrapper);
+                        $(e.target).closest(this.selectors.chips).removeClass('focus');
+                  });
 
-      var selectIndex = null;
+                  this.$document.on('keydown', `${this.selectors.chips} ${this.selectors.input}`, e => {
 
-      if (chipIndex < siblingsLength - 1) {
-        selectIndex = chipIndex;
-      } else if (chipIndex === siblingsLength || chipIndex === siblingsLength - 1) {
-        selectIndex = siblingsLength - 1;
-      }
+                        const $target = $(e.target);
+                        const $chipsWrapper = $target.closest(this.selectors.chips);
+                        const chipsIndex = $chipsWrapper.data('index');
+                        const chipsLength = $chipsWrapper.children(this.selectors.chip).length;
 
-      if (selectIndex < 0) {
-        selectIndex = null;
-      }
+                        const enterPressed = e.which === this.keyCodes.enter;
 
-      if (selectIndex !== null) {
-        _this.selectChip(chipsIndex, selectIndex, $chipsWrapper);
-      }
+                        if (enterPressed) {
 
-      if (!siblingsLength) {
-        $chipsWrapper.find('input').focus();
-      }
-    };
+                              e.preventDefault();
 
-    this.selectLeftChip = function ($chipsWrapper, $selectedChip) {
+                              this.addChip(chipsIndex, {
+                                    tag: $target.val()
+                              }, $chipsWrapper);
 
-      var chipIndex = $selectedChip.index() - 1;
-      if (chipIndex < 0) {
-        return;
-      }
+                              $target.val('');
 
-      $(_this.selectors.chip).removeClass('selected');
+                              return;
+                        }
 
-      _this.selectChip($chipsWrapper.data('index'), chipIndex, $chipsWrapper);
-    };
+                        const leftArrowOrDeletePressed = e.keyCode === this.keyCodes.arrowLeft || e.keyCode === this.keyCodes.delete;
+                        const isValueEmpty = $target.val() === '';
 
-    this.selectRightChip = function ($chipsWrapper, $selectedChip, siblingsLength) {
+                        if (leftArrowOrDeletePressed && isValueEmpty && chipsLength) {
 
-      var chipIndex = $selectedChip.index() + 1;
-      $(_this.selectors.chip).removeClass('selected');
-      if (chipIndex > siblingsLength) {
+                              this.selectChip(chipsIndex, chipsLength - 1, $chipsWrapper);
 
-        $chipsWrapper.find('input').focus();
-        return;
-      }
+                              $target.blur();
+                        }
+                  });
 
-      _this.selectChip($chipsWrapper.data('index'), chipIndex, $chipsWrapper);
-    };
+                  this.$document.on('click', `${this.selectors.chips} ${this.selectors.delete}`, e => {
 
-    this.renderChips = function ($chipsWrapper) {
+                        const $target = $(e.target);
+                        const $chipsWrapper = $target.closest(this.selectors.chips);
+                        const $chip = $target.closest(this.selectors.chip);
 
-      var html = '';
+                        e.stopPropagation();
 
-      $chipsWrapper.data('chips').forEach(function (elem) {
+                        this.deleteChip($chipsWrapper.data('index'), $chip.index(), $chipsWrapper);
 
-        html += _this.getSingleChipHtml(elem);
-      });
+                        $chipsWrapper.find('input').focus();
+                  });
+            };
 
-      html += '<input class="input" placeholder="">';
+            this.deleteSelectedChip = ($chipsWrapper, $selectedChip, siblingsLength) => {
 
-      $chipsWrapper.html(html);
+                  const chipsIndex = $chipsWrapper.data('index');
+                  const chipIndex = $selectedChip.index();
+                  this.deleteChip(chipsIndex, chipIndex, $chipsWrapper);
 
-      _this.setPlaceholder($chipsWrapper);
-    };
+                  let selectIndex = null;
 
-    this.getSingleChipHtml = function (elem) {
+                  if (chipIndex < siblingsLength - 1) {
+                        selectIndex = chipIndex;
+                  } else if (chipIndex === siblingsLength || chipIndex === siblingsLength - 1) {
+                        selectIndex = siblingsLength - 1;
+                  }
 
-      if (!elem.tag) {
-        return '';
-      }
+                  if (selectIndex < 0) {
+                        selectIndex = null;
+                  }
 
-      var html = '<div class="chip">' + elem.tag;
+                  if (selectIndex !== null) {
+                        this.selectChip(chipsIndex, selectIndex, $chipsWrapper);
+                  }
 
-      if (elem.image) {
-        html += ' <img src="' + elem.image + '"> ';
-      }
+                  if (!siblingsLength) {
+                        $chipsWrapper.find('input').focus();
+                  }
+            };
 
-      html += '<i class="close fa fa-times"></i>';
-      html += '</div>';
+            this.selectLeftChip = ($chipsWrapper, $selectedChip) => {
 
-      return html;
-    };
+                  const chipIndex = $selectedChip.index() - 1;
+                  if (chipIndex < 0) {
+                        return;
+                  }
 
-    this.setPlaceholder = function ($chips) {
+                  $(this.selectors.chip).removeClass('selected');
 
-      var options = $chips.data('options');
+                  this.selectChip($chipsWrapper.data('index'), chipIndex, $chipsWrapper);
+            };
 
-      if ($chips.data('chips').length && options.placeholder) {
+            this.selectRightChip = ($chipsWrapper, $selectedChip, siblingsLength) => {
 
-        $chips.find('input').prop('placeholder', options.placeholder);
-      } else if (!$chips.data('chips').length && options.secondaryPlaceholder) {
+                  const chipIndex = $selectedChip.index() + 1;
+                  $(this.selectors.chip).removeClass('selected');
+                  if (chipIndex > siblingsLength) {
 
-        $chips.find('input').prop('placeholder', options.secondaryPlaceholder);
-      }
-    };
+                        $chipsWrapper.find('input').focus();
+                        return;
+                  }
 
-    this.isValid = function ($chipsWrapper, elem) {
+                  this.selectChip($chipsWrapper.data('index'), chipIndex, $chipsWrapper);
+            };
 
-      var chips = $chipsWrapper.data('chips');
+            this.renderChips = $chipsWrapper => {
 
-      for (var i = 0; i < chips.length; i++) {
+                  let html = '';
 
-        if (chips[i].tag === elem.tag) {
+                  $chipsWrapper.data('chips').forEach(elem => {
 
-          return false;
-        }
-      }
+                        html += this.getSingleChipHtml(elem);
+                  });
 
-      return elem.tag !== '';
-    };
+                  html += '<input class="input" placeholder="">';
 
-    this.addChip = function (chipsIndex, elem, $chipsWrapper) {
+                  $chipsWrapper.html(html);
 
-      if (!_this.isValid($chipsWrapper, elem)) {
-        return;
-      }
+                  this.setPlaceholder($chipsWrapper);
+            };
 
-      var chipHtml = _this.getSingleChipHtml(elem);
+            this.getSingleChipHtml = function (elem) {
 
-      $chipsWrapper.data('chips').push(elem);
+                  if (!elem.tag) {
+                        return '';
+                  }
 
-      $(chipHtml).insertBefore($chipsWrapper.find('input'));
+                  let html = `<div class="chip">${elem.tag}`;
 
-      $chipsWrapper.trigger('chip.add', elem);
+                  if (elem.image) {
+                        html += ` <img src="${elem.image}"> `;
+                  }
 
-      _this.setPlaceholder($chipsWrapper);
-    };
+                  html += '<i class="close fa fa-times"></i>';
+                  html += '</div>';
 
-    this.deleteChip = function (chipsIndex, chipIndex, $chipsWrapper) {
+                  return html;
+            };
 
-      var chip = $chipsWrapper.data('chips')[chipIndex];
+            this.setPlaceholder = function ($chips) {
 
-      $chipsWrapper.find('.chip').eq(chipIndex).remove();
-      $chipsWrapper.data('chips').splice(chipIndex, 1);
-      $chipsWrapper.trigger('chip.delete', chip);
+                  const options = $chips.data('options');
 
-      _this.setPlaceholder($chipsWrapper);
-    };
+                  if ($chips.data('chips').length && options.placeholder) {
 
-    this.selectChip = function (chipsIndex, chipIndex, $chipsWrapper) {
+                        $chips.find('input').prop('placeholder', options.placeholder);
+                  } else if (!$chips.data('chips').length && options.secondaryPlaceholder) {
 
-      var $chip = $chipsWrapper.find('.chip').eq(chipIndex);
+                        $chips.find('input').prop('placeholder', options.secondaryPlaceholder);
+                  }
+            };
 
-      if ($chip && $chip.hasClass('selected') === false) {
+            this.isValid = function ($chipsWrapper, elem) {
 
-        $chip.addClass('selected');
-        $chipsWrapper.trigger('chip.select', $chipsWrapper.data('chips')[chipIndex]);
-      }
-    };
+                  const chips = $chipsWrapper.data('chips');
 
-    this.getChipsElement = function (index, $chipsWrapper) {
-      return $chipsWrapper.eq(index);
-    };
+                  for (let i = 0; i < chips.length; i++) {
 
-    this.init();
+                        if (chips[i].tag === elem.tag) {
 
-    if (!this.eventsHandled) {
+                              return false;
+                        }
+                  }
 
-      this.handleEvents();
-      this.eventsHandled = true;
-    }
+                  return elem.tag !== '';
+            };
 
-    return this;
-  };
+            this.addChip = (chipsIndex, elem, $chipsWrapper) => {
 
-  // Deprecated. To be deleted in future releases
-  $.fn.material_chip = $.fn.materialChip;
+                  if (!this.isValid($chipsWrapper, elem)) {
+                        return;
+                  }
+
+                  const chipHtml = this.getSingleChipHtml(elem);
+
+                  $chipsWrapper.data('chips').push(elem);
+
+                  $(chipHtml).insertBefore($chipsWrapper.find('input'));
+
+                  $chipsWrapper.trigger('chip.add', elem);
+
+                  this.setPlaceholder($chipsWrapper);
+            };
+
+            this.deleteChip = (chipsIndex, chipIndex, $chipsWrapper) => {
+
+                  const chip = $chipsWrapper.data('chips')[chipIndex];
+
+                  $chipsWrapper.find('.chip').eq(chipIndex).remove();
+                  $chipsWrapper.data('chips').splice(chipIndex, 1);
+                  $chipsWrapper.trigger('chip.delete', chip);
+
+                  this.setPlaceholder($chipsWrapper);
+            };
+
+            this.selectChip = (chipsIndex, chipIndex, $chipsWrapper) => {
+
+                  const $chip = $chipsWrapper.find('.chip').eq(chipIndex);
+
+                  if ($chip && $chip.hasClass('selected') === false) {
+
+                        $chip.addClass('selected');
+                        $chipsWrapper.trigger('chip.select', $chipsWrapper.data('chips')[chipIndex]);
+                  }
+            };
+
+            this.getChipsElement = (index, $chipsWrapper) => {
+                  return $chipsWrapper.eq(index);
+            };
+
+            this.init();
+
+            if (!this.eventsHandled) {
+
+                  this.handleEvents();
+                  this.eventsHandled = true;
+            }
+
+            return this;
+      };
+
+      // Deprecated. To be deleted in future releases
+      $.fn.material_chip = $.fn.materialChip;
 })(jQuery);
