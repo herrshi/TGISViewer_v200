@@ -41,7 +41,8 @@
       },
       {
         "label": "停车场-点",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
@@ -97,12 +98,12 @@
               }
             }
           ]
-
         }
       },
       {
         "label": "国展中心",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
@@ -113,25 +114,130 @@
             "url": "images/flower.png",
             "width": 100,
             "height": 100,
-            "angle": 25
-          }
+            "angle": 25,
+            "yoffset": -30,
+            "xoffset": 50
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "OBJECTID",
+              "minDataValue": 9028,
+              "maxDataValue": 288896,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 9028,
+                    "size": 300
+                  },
+                  {
+                    "value": 18056,
+                    "size": 150
+                  },
+                  {
+                    "value": 36112,
+                    "size": 80
+                  },
+                  {
+                    "value": 72224,
+                    "size": 40
+                  },
+                  {
+                    "value": 144448,
+                    "size": 16
+                  },
+                  {
+                    "value": 288896,
+                    "size": 8
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 9028,
+                    "size": 600
+                  },
+                  {
+                    "value": 18056,
+                    "size": 300
+                  },
+                  {
+                    "value": 36112,
+                    "size": 150
+                  },
+                  {
+                    "value": 72224,
+                    "size": 80
+                  },
+                  {
+                    "value": 144448,
+                    "size": 40
+                  },
+                  {
+                    "value": 288896,
+                    "size": 16
+                  }
+                ]
+              }
+            }
+          ]
         }
       },
       {
         "label": "地铁标注点",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
         "type": "feature",
+        "mode": 0,
         "visible": true,
         "outFields": ["*"],
         "renderer": {
-          "type": "simple",
-          "symbol": {
+          "type": "uniqueValue",
+          "field1": "CIIE.PARK_STATUS_VW.STATUS",
+          "defaultSymbol": {
             "type": "esriPMS",
-            "url": "images/mapIcons/TianJin/GongJiao/ChangZhan.png",
-            "width": 22,
-            "height": 26,
-            "angle": 0
-          }
+            "url": "images/mapIcons/green01.webp",
+            "width": 36,
+            "height": 36,
+            "yoffset": 0
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_green.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_yellow.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_red.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            }
+          ]
         }
       }
     ],
@@ -150,6 +256,10 @@
   "geometryService":
     "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "128.64.151.245:6080",
+  "httpProxy": {
+    "useProxy": true,
+    "url": "http://localhost:8090/proxy/proxy.ashx"
+  },
   "widgetOnScreen": {
     "widgets": [
       {

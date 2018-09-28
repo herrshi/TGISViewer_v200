@@ -344,20 +344,24 @@ define([
       all({
         infoType: this._getInfoType(),
         eventType: this._getEventType(),
-        subEventType: this._getSubEventType()
+        subEventType: this._getSubEventType(),
+        areaCode: this._getAreaCode()
       }).then(function (results) {
         console.log(results);
         var selInfoType = $("#selInfoType");
         var selEventType = $("#selEventType");
         var selSubEventType = $("#selSubEventType");
+        var selAreaCode = $("#selAreaCode");
 
         var infoTypeList = results.infoType;
         var eventTypeList = results.eventType;
         var subEventTypeList = results.subEventType;
+        var areaCodeList = results.areaCode;
 
         var infoTypeOption = "<option value='${fstrTypeId}'>${fstrTypeName}</option>";
         var eventTypeOption = "<option value='${fstrEvtTypeId}'>${fstrEvtTypeName}</option>";
         var subEventTypeOption = "<option value='${fstrEvtSubTypeId}'>${fstrEvtSubTypeName}</option>";
+        var areaCodeOption = "<option value='${fstrAreaCode}'>${fstrAreaName}</option>";
 
         //选择当前信息分类类型对应的事件信息类型
         selInfoType.on("change", function () {
@@ -370,27 +374,26 @@ define([
               selEventType.append(content);
             }
           });
+          selEventType.trigger("change");
         });
 
         //选择对应当前事件信息类型的子类型
         selEventType.on("change", function () {
           selSubEventType.empty();
-          console.log(selSubEventType);
 
           //子类型是可选项, 要加一条"无"的option
-          var contentNone = esriLang.substitute({fstrEvtSubTypeId: "0", fstrEvtSubTypeName: "无"});
+          var contentNone = "<option value='0'>无</option>";
           selSubEventType.append(contentNone);
 
           var eventTypeId = $("#selEventType option:checked").val();
-          console.log(eventTypeId);
           subEventTypeList.forEach(function (subEventType) {
-            console.log(subEventType.fstrEvtTypeId);
             if (subEventType.fstrEvtTypeId === eventTypeId) {
               var content = esriLang.substitute(subEventType, subEventTypeOption);
-              console.log(content);
               selSubEventType.append(content);
             }
           });
+
+          selSubEventType.material_select();
         });
 
         infoTypeList.forEach(function (infoType) {
@@ -398,8 +401,30 @@ define([
           selInfoType.append(content);
         });
 
+        areaCodeList.forEach(function (areaCode) {
+          var content = esriLang.substitute(areaCode, areaCodeOption);
+          selAreaCode.append(content);
+        });
+
         selInfoType.trigger("change");
       });
+    },
+
+    _getAreaCode: function() {
+      var def = new Deferred();
+      $.ajax({
+        url: this.config.url.getAreaCode,
+        type: "GET",
+        dataType: "jsonp",
+        success: function (areaCodeList) {
+          def.resolve(areaCodeList);
+        },
+        error: function (jqXHR, textStatus) {
+          def.reject(textStatus);
+        }
+      });
+
+      return def;
     },
 
     _getSubEventType: function() {
@@ -453,47 +478,6 @@ define([
       });
 
       return def;
-      // var selInfoType = $("#selInfoType");
-      // var selEventType = $("#selEventType");
-
-
-      // $.ajax({
-      //   url: this.config.url.getEventType,
-      //   type: "GET",
-      //   dataType: "jsonp",
-      //   success: lang.hitch(this, function (eventTypeList) {
-      //     this._eventTypeList = eventTypeList;
-      //   })
-      // });
-
-      // $.ajax({
-      //   url: this.config.url.getInfoType,
-      //   type: "GET",
-      //   dataType: "jsonp",
-      //   success: lang.hitch(this, function (infoTypeList) {
-      //     infoTypeList.forEach(function (infoType) {
-      //       var content = "<option value='" + infoType.fstrTypeId + "'>" + infoType.fstrTypeName + "</option>";
-      //       selInfoType.append(content);
-      //     });
-      //
-      //     selInfoType.on("change", lang.hitch(this, function () {
-      //       selEventType.empty();
-      //       var infoTypeId = $("#selInfoType option:checked").val();
-      //       this._eventTypeList.forEach(function (eventType) {
-      //         if (eventType.fstrTypeId === infoTypeId) {
-      //           var content = "<option value='" + eventType.fstrEvtTypeId + "'>" + eventType.fstrEvtTypeName + "</option>";
-      //           selEventType.append(content);
-      //         }
-      //       }, this);
-      //       // selEventType.material_select();
-      //     }));
-      //
-      //     selInfoType.trigger("change");
-      //   }),
-      //   error: function (jqXHR, textStatus) {
-      //     console.log(textStatus);
-      //   }
-      // });
     },
 
     onAddControlPanelActive: function () {
@@ -659,9 +643,9 @@ define([
       //显示删除确认框
       var detailModal = $("#modalControlDetail");
       detailModal.one("show.bs.modal", lang.hitch(this, function () {
-        // $("#btnDeleteOK").one("click", lang.hitch(this, function () {
-        //   this._deleteControl(controlId);
-        // }));
+        $("#btnSendDetail").one("click", lang.hitch(this, function () {
+          this._sendDetail();
+        }));
       }));
 
       detailModal.modal("show");
@@ -735,6 +719,9 @@ define([
       // });
     },
 
+    _sendDetail: function() {
+
+    },
     /************************ 新增管制 END **************************/
 
     /************************ 现有管制 BEGIN **************************/

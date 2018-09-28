@@ -1,0 +1,22 @@
+{
+  "buttons": [
+    {
+      "label": "情报板",
+      "image": "images/buttons/QingBaoBan-white.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "信号机",
+      "image": "images/buttons/XinHaoJi-white.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

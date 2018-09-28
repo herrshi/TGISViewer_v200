@@ -35,26 +35,26 @@
     height: 51px;
 }
 
-.jimu-widget-BottomToolbar .btn-black {
-    color: #fff;
-    background-color: #263554;
-    border-color: #263554;
-}
-.jimu-widget-BottomToolbar .btn-black:hover {
-    color: #fff;
-    background-color: #36c6d3;
-    border-color: #36c6d3;
-}
-.jimu-widget-BottomToolbar .btn-active,.btn-active:focus,.btn-active:hover,
-.btn-active:active,.btn-active:active:hover {
-    color: #fff;
-    background-color: #36c6d3;
-    border-color: #36c6d3;
-}
-.jimu-widget-BottomToolbar .btn-disable,.btn-disable:focus,.btn-disable:hover,
-.btn-disable:active,.btn-disable:active:hover {
-    cursor: not-allowed;
-    color: #7c828d;
-    background-color: #4c576d;
-    border-color: #4c576d;
-}
+/*.jimu-widget-BottomToolbar .btn-black {*/
+    /*color: #fff;*/
+    /*background-color: #263554;*/
+    /*border-color: #263554;*/
+/*}*/
+/*.jimu-widget-BottomToolbar .btn-black:hover {*/
+    /*color: #fff;*/
+    /*background-color: #36c6d3;*/
+    /*border-color: #36c6d3;*/
+/*}*/
+/*.jimu-widget-BottomToolbar .btn-active,.btn-active:focus,.btn-active:hover,*/
+/*.btn-active:active,.btn-active:active:hover {*/
+    /*color: #fff;*/
+    /*background-color: #36c6d3;*/
+    /*border-color: #36c6d3;*/
+/*}*/
+/*.jimu-widget-BottomToolbar .btn-disable,.btn-disable:focus,.btn-disable:hover,*/
+/*.btn-disable:active,.btn-disable:active:hover {*/
+    /*cursor: not-allowed;*/
+    /*color: #7c828d;*/
+    /*background-color: #4c576d;*/
+    /*border-color: #4c576d;*/
+/*}*/

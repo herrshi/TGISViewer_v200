@@ -31,10 +31,8 @@ define([
   "esri/geometry/webMercatorUtils",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleMarkerSymbol",
-  "esri/symbols/SimpleFillSymbol",
   "esri/config",
-  "esri/request",
-  "esri/dijit/Scalebar"
+  "esri/request"
 ], function(
   declare,
   lang,
@@ -65,10 +63,9 @@ define([
   webMercatorUtils,
   SimpleLineSymbol,
   SimpleMarkerSymbol,
-  SimpleFillSymbol,
+  PictureMarkerSymbol,
   esriConfig,
-  esriRequest,
-  Scalebar
+  esriRequest
 ) {
   var instance = null,
     clazz;
@@ -199,13 +196,6 @@ define([
         lang.hitch(this, function(layerConfig) {
           try {
             this.createLayer(map, "2D", layerConfig);
-
-            //显示scalebar
-            var scalebar = new Scalebar({
-              map: map,
-              scalebarUnit: "metric",
-              attachTo: "bottom-right"
-            });
           } catch (err) {
             console.error(err);
           }
@@ -415,40 +405,31 @@ define([
       this.map.on("pan-end", lang.hitch(this, this._restrictMapEndExtent));
     },
     _restrictMapStartExtent: function(evt) {
-      var currExtent = evt.extent;
+      var currExtent = evt.extent.spatialReference.isWebMercator()
+        ? webMercatorUtils.webMercatorToGeographic(evt.extent)
+        : evt.extent;
+
       if (!this.fullExtent) {
-        console.log(this.appConfig.map.mapOptions);
-        if (!this.appConfig.map.mapOptions.fullExtent) {
+        if (this.appConfig.map.mapOptions.fullExtent === undefined) {
           var layer;
           for (var i = 0; i < this.map.layerIds.length; i++) {
             layer = this.map.getLayer(this.map.layerIds[i]);
-            if (layer.label === this.appConfig.map.basemaps[0].label) {
+            if (layer.label == this.appConfig.map.basemaps[0].label) {
               break;
             }
           }
-          this.fullExtent = layer.fullExtent;
+
+          this.fullExtent = layer.fullExtent.spatialReference.isWebMercator()
+            ? webMercatorUtils.webMercatorToGeographic(evt.extent)
+            : layer.fullExtent;
         } else {
           this.fullExtent = new Extent(
             this.appConfig.map.mapOptions.fullExtent
           );
         }
-        //显示限制范围
-        var restrictGraphic = new Graphic(this.fullExtent);
-        restrictGraphic.symbol = new SimpleFillSymbol({
-          "type": "esriSFS",
-          "style": "esriSFSNull",
-          "color": [115,76,0,255],
-          "outline": {
-            "type": "esriSLS",
-            "style": "esriSLSSolid",
-            "color": [255,0,0,255],
-            "width": 3
-          }
-        });
-        this.map.graphics.add(restrictGraphic);
       }
       if (this.fullExtent && this.fullExtent.contains(currExtent)) {
-        this.currentExtent = evt.extent;
+        this.currentExtent = currExtent;
       }
     },
 
@@ -458,7 +439,9 @@ define([
           return;
         }
       }
-      var currExtent = evt.extent;
+      var currExtent = evt.extent.spatialReference.isWebMercator()
+        ? webMercatorUtils.webMercatorToGeographic(evt.extent)
+        : evt.extent;
       var fullExtent = this.fullExtent;
 
       if (!fullExtent.contains(currExtent)) {

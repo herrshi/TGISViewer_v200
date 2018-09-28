@@ -97,39 +97,95 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body mx-3">
+        <div class="modal-body mx-2">
           <div class="md-form row">
-            <div class="col-12">
+            <div class="col-4">
               <select id="selInfoType" class="mdb-select md-form colorful-select dropdown-primary"></select>
-              <label for="selInfoType" class="red-text">信息分类类型</label>
+              <label for="selInfoType">信息分类类型</label>
             </div>
-          </div>
 
-          <div class="md-form row">
-            <div class="col-6">
+            <div class="col-4">
               <select id="selEventType" class="mdb-select md-form colorful-select dropdown-primary"></select>
-              <label for="selEventType" class="red-text">事件信息类型</label>
+              <label for="selEventType">事件信息类型</label>
             </div>
 
-            <div class="col-6">
+            <div class="col-4">
               <select id="selSubEventType" class="mdb-select md-form colorful-select dropdown-primary"></select>
               <label for="selSubEventType">事件信息子类型</label>
             </div>
           </div>
 
-          <div class="md-form">
+          <div class="md-form row">
+            <div class="col-4">
+              <select id="selEventSource" class="mdb-select md-form colorful-select dropdown-primary">
+                <option value="0">默认</option>
+                <option value="1">视频解析</option>
+                <option value="2">交警手动录入</option>
+                <option value="3">警情交互</option>
+                <option value="4">高德</option>
+                <option value="5">接警平台</option>
+                <option value="6">scarts系统上报</option>
+                <option value="7">自主感知</option>
+                <option value="8">人工上报</option>
+              </select>
+              <label for="selEventSource">信息来源</label>
+            </div>
 
+            <div class="col-4">
+              <select id="selSystemSource" class="mdb-select md-form colorful-select dropdown-primary">
+                <option value="1">事件处置</option>
+                <option value="2">智能诱导</option>
+                <option value="1">设备运维</option>
+              </select>
+              <label for="selSystemSource">对接系统</label>
+            </div>
+
+            <div class="col-4">
+              <select id="selAreaCode" class="mdb-select md-form colorful-select dropdown-primary"></select>
+              <label for="selAreaCode">发生区域</label>
+            </div>
           </div>
 
-          <div class="md-form">
-            <i class="fa fa-pencil prefix grey-text"></i>
-            <textarea type="text" id="form8" class="md-textarea form-control" rows="4"></textarea>
-            <label data-error="wrong" data-success="right" for="form8">Your message</label>
+          <div class="md-form row">
+            <div class="col-4 md-form form-group">
+              <input type="text" id="txtRoadName" class="form-control" placeholder="道路名称">
+              <!--<label for="txtRoadName" class="red-text">道路名称</label>-->
+            </div>
+
+            <div class="col-8 md-form form-group">
+              <input type="text" id="txtAddress" class="form-control" placeholder="详细地址">
+            </div>
+          </div>
+
+          <div class="md-form row">
+            <div class="col-4 md-form form-group">
+              <input type="text" id="txtDirection" class="form-control" placeholder="事件方向">
+            </div>
+
+            <div class="col-8">
+              <select id="selBlockType" class="mdb-select md-form colorful-select dropdown-primary">
+                <option value="0">不阻断</option>
+                <option value="1">阻断</option>
+              </select>
+              <label for="selBlockType">是否阻断</label>
+            </div>
+          </div>
+
+          <div class="md-form row">
+            <div class="col-6">
+              <textarea type="text" id="txtDesc" class="md-textarea form-control" rows="2"></textarea>
+              <label data-error="wrong" data-success="right" for="txtDesc">事件描述</label>
+            </div>
+            <div class="col-6">
+              <textarea type="text" id="txtContent" class="md-textarea form-control" rows="2"></textarea>
+              <label data-error="wrong" data-success="right" for="txtContent">文案内容</label>
+            </div>
+
           </div>
 
         </div>
         <div class="modal-footer d-flex justify-content-center">
-          <button class="btn btn-unique">Send <i class="fa fa-paper-plane-o ml-1"></i></button>
+          <button id="btnSendDetail" class="btn btn-indigo">发送 <i class="fa fa-paper-plane-o ml-1"></i></button>
         </div>
       </div>
     </div>
@@ -528,18 +584,19 @@
 <!--<script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>-->
 <!--<script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>-->
 <!--<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/global/plugins/pause/Info-pause.js"></script>-->
-<!--<script type="text/javascript" src="assets/global/js/app.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/layouts/js/html5_3d_animation.js"></script>-->
-<!--<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/anime.js"></script>-->
-<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/index.js"></script>-->
 
 <script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>
 <script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="libs/mdb/js/mdb.js"></script>
 <script type="text/javascript" src="libs/echarts.source.js"></script>
+
+<!--<script type="text/javascript" src="assets/global/plugins/pause/Info-pause.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/js/app.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/layouts/js/html5_3d_animation.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/anime.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/index.js"></script>-->
 
 <script type="text/javascript" src="libs/dropdownCheckbox/dropdownCheckboxes.min.js"></script>
 

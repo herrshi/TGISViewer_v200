@@ -56,7 +56,47 @@ define([
 
     _markLineData: [],
     _markPointData: [],
-    //_ODData: [{"sourceStationId":"234","totalInFlow":1638,"totalOutFlow":1638,"inFlows":[{"stationId":"235","flow":556},{"stationId":"236","flow":546},{"stationId":"237","flow":536}],"outFlows":[{"stationId":"235","flow":556},{"stationId":"236","flow":546},{"stationId":"237","flow":536}]},{"sourceStationId":"235","totalInFlow":556,"totalOutFlow":556,"inFlows":[{"stationId":"234","flow":556}],"outFlows":[{"stationId":"234","flow":556}]},{"sourceStationId":"236","totalInFlow":546,"totalOutFlow":546,"inFlows":[{"stationId":"234","flow":546}],"outFlows":[{"stationId":"234","flow":546}]},{"sourceStationId":"237","totalInFlow":536,"totalOutFlow":536,"inFlows":[{"stationId":"234","flow":536}],"outFlows":[{"stationId":"234","flow":536}]}],
+    _FeatureId: null,
+    _Name: null,
+    /*
+      _ODData: [
+      {
+        sourceStationId: "235",
+        totalInFlow: 1638,
+        totalOutFlow: 1638,
+        inFlows: [
+          { stationId: "234", flow: 556 },
+          { stationId: "236", flow: 546 },
+          { stationId: "237", flow: 536 }
+        ],
+        outFlows: [
+          { stationId: "234", flow: 556 },
+          { stationId: "236", flow: 546 },
+          { stationId: "237", flow: 536 }
+        ]
+      },
+      {
+        sourceStationId: "234",
+        totalInFlow: 556,
+        totalOutFlow: 556,
+        inFlows: [{ stationId: "234", flow: 556 }],
+        outFlows: [{ stationId: "234", flow: 556 }]
+      },
+      {
+        sourceStationId: "236",
+        totalInFlow: 546,
+        totalOutFlow: 546,
+        inFlows: [{ stationId: "234", flow: 546 }],
+        outFlows: [{ stationId: "234", flow: 546 }]
+      },
+      {
+        sourceStationId: "237",
+        totalInFlow: 536,
+        totalOutFlow: 536,
+        inFlows: [{ stationId: "234", flow: 536 }],
+        outFlows: [{ stationId: "234", flow: 536 }]
+      }
+    ],*/
     _ODData: null,
     postCreate: function() {
       this.inherited(arguments);
@@ -64,6 +104,8 @@ define([
       this._initECharts();
       this.graphicsLayer = new GraphicsLayer();
       this.map.addLayer(this.graphicsLayer);
+      this._FeatureId = this.config.query.id;
+      this._Name = this.config.query.name;
 
       this.map.on("click", lang.hitch(this, this._SubLayerClick));
 
@@ -87,14 +129,14 @@ define([
           if (featureSet.features.length > 0) {
             graphic = featureSet.features[0];
             if (graphic) {
-              var id = graphic.attributes["地铁标注点.FEATUREID"];
+              var id = graphic.attributes[this._FeatureId];
               if (
                 typeof showSubInfo !== "undefined" &&
                 showSubInfo instanceof Function
               ) {
                 showSubInfo(
-                  graphic.attributes["地铁标注点.FEATUREID"],
-                  graphic.attributes["地铁标注点.Name"]
+                  graphic.attributes[this._FeatureId],
+                  graphic.attributes[this._Name]
                 );
               }
             }
@@ -109,34 +151,56 @@ define([
       );
       window.onresize = myChart.onresize;
     },
+
     //{"sourceStationId":"station1","totalInFlow":1348,"totalOutFlow":2345,"inFlows":[{"stationId":"station2","flow":239},{"stationId":"station3","flow":287},{"stationId":"station4","flow":480}],"outFlows":[{"stationId":"station2","flow":239},{"stationId":"station3","flow":287},{"stationId":"station4","flow":480}]}
     _onTopicHandler_showMigrate: function(params) {
       if (this._ODData) {
-        this._showMigrate(params);
+        this._selectODData(params);
       } else {
-        $.ajax({
-          type: "GET",
-          url: this.config.rest.url,
-          dataType: "json",
-          success: lang.hitch(this, function(res) {
-            this._ODData = res;
-            this._showMigrate(params);
-          })
-        });
+        if (
+          this.config.rest.type !== undefined &&
+          this.config.rest.type === "1"
+        ) {
+          $.ajax({
+            type: "POST",
+            url: this.config.rest.url,
+            dataType: "jsonp",
+            jsonpCallback: "callback",
+            success: lang.hitch(this, function(res) {
+              this._ODData = res;
+              this._selectODData(params);
+            })
+          });
+        } else {
+          $.ajax({
+            type: "GET",
+            url: this.config.rest.url,
+            dataType: "json",
+            success: lang.hitch(this, function(res) {
+              this._ODData = res;
+              this._selectODData(params);
+            })
+          });
+        }
       }
     },
-    _showMigrate: function(params) {
+    _selectODData: function(params) {
       var id = params || "";
       var data = null;
-      var ids = [];
       if (this._ODData) {
         for (var i = 0; i < this._ODData.length; i++) {
           if (this._ODData[i].sourceStationId == id) {
             data = this._ODData[i];
+            break;
           }
         }
       }
-      params = data;
+      if (data != null) {
+        this._showMigrate(data);
+      }
+    },
+    _showMigrate: function(params) {
+      var ids = [];
       this.graphicsLayer.clear();
       this._maxFlow =
         Number(params.totalInFlow) > Number(params.totalOutFlow)
@@ -190,11 +254,10 @@ define([
         lang.hitch(this, function(featureSet) {
           featureSet.features.forEach(function(graphic) {
             for (var j = 0; j < ids.length; j++) {
-              if (ids[j] === graphic.attributes["地铁标注点.FEATUREID"]) {
-                this._geoNameData[ids[j]] =
-                  graphic.attributes["地铁标注点.Name"];
+              if (ids[j] === graphic.attributes[this._FeatureId]) {
+                this._geoNameData[ids[j]] = graphic.attributes[this._Name];
                 var point = graphic.geometry;
-                this._geoCoordData[graphic.attributes["地铁标注点.Name"]] =
+                this._geoCoordData[graphic.attributes[this._Name]] =
                   graphic.geometry.points;
 
                 if (j == 0) {
@@ -218,7 +281,7 @@ define([
                     "Microsoft YaHei"
                   );
                   var textIn = new TextSymbol(
-                    graphic.attributes["地铁标注点.Name"] +
+                    graphic.attributes[this._Name] +
                       "进站总流量:" +
                       params.totalInFlow
                   )
@@ -228,7 +291,7 @@ define([
                     .setKerning(3)
                     .setFont(font);
                   var textOut = new TextSymbol(
-                    graphic.attributes["地铁标注点.Name"] +
+                    graphic.attributes[this._Name] +
                       "出站总流量:" +
                       params.totalOutFlow
                   )

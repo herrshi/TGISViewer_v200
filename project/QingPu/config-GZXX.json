@@ -25,12 +25,135 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_base_GD/MapServer",
         "type": "tiled",
         "visible": true
       }
     ],
-    "operationallayers": [],
+    "operationallayers": [
+      {
+        "label": "情报板",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_device/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/QingBaoBan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "信号机",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_device/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/XinHaoJi-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "国展中心",
+        "url":
+        "http://128.64.151.245:6080/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/flower.png",
+            "width": 100,
+            "height": 100,
+            "angle": 25,
+            "yoffset": -30,
+            "xoffset": 50
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "OBJECTID",
+              "minDataValue": 9028,
+              "maxDataValue": 288896,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 9028,
+                    "size": 300
+                  },
+                  {
+                    "value": 18056,
+                    "size": 150
+                  },
+                  {
+                    "value": 36112,
+                    "size": 80
+                  },
+                  {
+                    "value": 72224,
+                    "size": 40
+                  },
+                  {
+                    "value": 144448,
+                    "size": 16
+                  },
+                  {
+                    "value": 288896,
+                    "size": 8
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 9028,
+                    "size": 600
+                  },
+                  {
+                    "value": 18056,
+                    "size": 300
+                  },
+                  {
+                    "value": 36112,
+                    "size": 150
+                  },
+                  {
+                    "value": 72224,
+                    "size": 80
+                  },
+                  {
+                    "value": 144448,
+                    "size": 40
+                  },
+                  {
+                    "value": 288896,
+                    "size": 16
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
     "mapOptions": {
       "center": {
         "x": 121.2915,
@@ -76,6 +199,18 @@
           "right": 50
         },
         "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/BottomToolbar/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_QingPu.json",
+        "position": {
+          "bottom": 30,
+          "width": "100%",
+          "left": 0,
+          "right": 0
+        },
+        "id": "BottomToolbarWidget"
       },
       {
         "uri": "widgets/Draw/Widget",

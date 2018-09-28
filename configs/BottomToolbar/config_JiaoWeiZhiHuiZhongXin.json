@@ -1,0 +1,40 @@
+{
+  "buttons": [
+    {
+      "label": "收费站",
+      "fontClass": "icon_parking",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "摄像机",
+      "fontClass": "fa fa-video-camera",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "发布段",
+      "fontClass": "icon_fbd",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "情报板",
+      "fontClass": "icon_qbb",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

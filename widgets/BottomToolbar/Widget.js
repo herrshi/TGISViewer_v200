@@ -11,8 +11,8 @@ define([
   return declare([BaseWidget], {
     baseClass: "jimu-widget-BottomToolbar",
 
-    _disabledClass: "btn-disable",
-    _activeClass: "btn-active",
+    _disabledClass: "disable",
+    _activeClass: "active",
 
     postCreate: function() {
       this.inherited(arguments);
@@ -47,10 +47,10 @@ define([
         lang.hitch(this, function(buttonObj) {
           buttonContainer.addContent(
             "<span>" +
-              "<button class='btn btn-black " +
+              "<button data-toggle='button' aria-pressed='false' autocomplete='off' class='btn btn-sm btn-mdb-color"  +
               (!!buttonObj.initEnable ? this._activeClass : "") +
               "'" +
-              " style='margin-right: 3px' data-toggle='tooltip' data-placement='bottom' " +
+              " style='margin-right: 3px' data-toggle='tooltip' data-placement='top' " +
               " data-operations='" +
               JSON.stringify(buttonObj.operations) +
               "'" +
@@ -67,8 +67,10 @@ define([
         })
       );
 
+      $("[data-toggle='tooltip']").tooltip();
+
       this.own(
-        query(".btn-black", this.domNode).on(
+        query(".btn-mdb-color", this.domNode).on(
           "click",
           lang.hitch(this, this._onBottomButtonClick)
         )
@@ -81,10 +83,10 @@ define([
         target = target.parentNode;
       }
 
-      domClass.toggle(target, this._activeClass);
+      // domClass.toggle(target, this._activeClass);
 
       var label = domAttr.get(target, "title");
-      var enable = domClass.contains(target, this._activeClass);
+      var enable = !domClass.contains(target, this._activeClass);
 
       var operations = domAttr.get(target, "data-operations");
       if (operations !== "undefined") {
