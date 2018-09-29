@@ -299,11 +299,11 @@ define([
         lang.hitch(this, this.onShowControlPanelActive)
       );
 
-      $("#btnControlDetail").on(
+      $("#btnEditDetail").on(
         "click",
-        lang.hitch(this, this.onBtnControlDetail)
+        lang.hitch(this, this.onBtnEditDetail)
       );
-      $("#btnClear").on("click", lang.hitch(this, this.onBtnClearClick));
+      $("#btnCancelAdd").on("click", lang.hitch(this, this.onBtnCancelAddClick));
 
       //切换管制点和管制路线
       $("input[type=radio][name=controlTypeRadioGroup]").on(
@@ -540,6 +540,10 @@ define([
       this._drawToolbar.deactivate();
 
       this._addControlPointHint(graphic.geometry);
+
+      //地图上有点之后可以点击发送和取消按钮
+      $("#btnEditDetail").attr("disabled", false);
+      $("#btnCancelAdd").attr("disabled", false);
     },
 
     /**可管制点图标增加文字说明, 提示用户可移动位置*/
@@ -629,18 +633,23 @@ define([
       this._controlLineLayer.redraw();
     },
 
-    onBtnClearClick: function () {
+    onBtnCancelAddClick: function () {
       if ($("#btnControlPoint").prop("checked")) {
         this._startAddControlPoint();
       } else {
         this._startAddControlLine();
       }
 
-      $("#txtControlDesc").val("");
+      $("#btnEditDetail").attr("disabled", true);
+      $("#btnCancelAdd").attr("disabled", true);
     },
 
-    onBtnControlDetail: function () {
+    onBtnEditDetail: function () {
       //显示删除确认框
+      if ($("#btnControlPoint").prop("checked") && this._controlPointLayer.graphics.length === 0) {
+        toastr.error("请在地图上选择控制点");
+        return;
+      }
       var detailModal = $("#modalControlDetail");
       detailModal.one("show.bs.modal", lang.hitch(this, function () {
         $("#btnSendDetail").one("click", lang.hitch(this, function () {
@@ -649,78 +658,25 @@ define([
       }));
 
       detailModal.modal("show");
-      // var controlType = "";
-      // var controlInfo = {};
-      //
-      // if ($("#btnControlPoint").prop("checked")) {
-      //   controlType = "0";
-      //   var points = [];
-      //   this._controlPointLayer.graphics.forEach(function(graphic) {
-      //     if (graphic.attributes.state === "new") {
-      //       var point = graphic.geometry;
-      //       if (this.map.spatialReference.isWebMercator()) {
-      //         point = webMercatorUtils.webMercatorToGeographic(point);
-      //       }
-      //       points.push({
-      //         x: Number(point.x.toFixed(6)),
-      //         y: Number(point.y.toFixed(6))
-      //       });
-      //     }
-      //   }, this);
-      //   if (points.length === 0) {
-      //     toastr.warning("请选择管制点");
-      //     return;
-      //   }
-      //   controlInfo.content = JSON.stringify(points);
-      // } else {
-      //   controlType = "1";
-      //   var ids = [];
-      //   this._controlLineLayer.graphics.forEach(function(graphic) {
-      //     if (graphic.attributes.state === "selected") {
-      //       ids.push(graphic.attributes.FEATUREID);
-      //     }
-      //   }, this);
-      //   if (ids.length === 0) {
-      //     toastr.warning("请选择管制路线");
-      //     return;
-      //   }
-      //   controlInfo.content = JSON.stringify(ids);
-      // }
-      // controlInfo.controlType = controlType;
-      // controlInfo.desc = $("#txtControlDesc").val();
-      //
-      // var url = esriLang.substitute(controlInfo, this.config.url.addControl);
-      // url = encodeURI(url);
-      // $.ajax({
-      //   url: url,
-      //   type: "POST",
-      //   dataType: "json",
-      //   success: lang.hitch(this, function(data) {
-      //     console.log(data);
-      //     if (data.success === true || data.success === "true") {
-      //       toastr.info("新增成功!");
-      //
-      //       this._controlPointLayer.clear();
-      //       this._controlPointOutlineLayer.clear();
-      //       this._hintLayer.clear();
-      //       this._getExistControlInfo();
-      //
-      //       //显示管制列表panel
-      //       $("#pnlAddControl").removeClass("show");
-      //       $("#pnlShowControl").addClass("show");
-      //     } else {
-      //       toastr.error("新增失败!");
-      //     }
-      //   }),
-      //   error: function(jqXHR, text) {
-      //     console.log(text);
-      //     toastr.error("新增失败!");
-      //   }
-      // });
     },
 
     _sendDetail: function() {
+      var controlDetail = {
+        "info_type_id": $("#selInfoType option:checked").val(),  //信息分类类型
+        "evt_type_no": $("#selEventType option:checked").val(),  //事件信息类型
+        "sub_evt_type_no": $("#selSubEventType option:checked").val(),  //子事件信息类型
+        "copywriting_content": $("#txtContent").val(),  //文案内容
+        "evt_src_no": $("#selEventSource option:checked").val(),  //信息来源
+        "sys_src_no": $("#selSystemSource option:checked").val(),  //对接系统
+        "area_code": $("#selAreaCode option:checked").val(),  //事件发生区域
+        "position_road_name": $("#txtRoadName").val()  //事件发生道路名称
+      };
+      console.log(controlDetail);
+      //控制点
+      if ($("#btnControlPoint").prop("checked")) {
+        var point = this._controlPointLayer.graphics[0];
 
+      }
     },
     /************************ 新增管制 END **************************/
 

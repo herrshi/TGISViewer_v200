@@ -98,95 +98,111 @@
           </button>
         </div>
         <div class="modal-body mx-2">
-          <div class="md-form row">
-            <div class="col-4">
-              <select id="selInfoType" class="mdb-select md-form colorful-select dropdown-primary"></select>
-              <label for="selInfoType">信息分类类型</label>
+          <form>
+            <div class="md-form row">
+              <div class="col-4">
+                <select id="selInfoType" class="mdb-select md-form colorful-select dropdown-primary"></select>
+                <label for="selInfoType">信息分类类型</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selEventType" class="mdb-select md-form colorful-select dropdown-primary"></select>
+                <label for="selEventType">事件信息类型</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selSubEventType" class="mdb-select md-form colorful-select dropdown-primary"></select>
+                <label for="selSubEventType">事件信息子类型</label>
+              </div>
             </div>
 
-            <div class="col-4">
-              <select id="selEventType" class="mdb-select md-form colorful-select dropdown-primary"></select>
-              <label for="selEventType">事件信息类型</label>
+            <div class="md-form row">
+              <div class="col-4">
+                <select id="selEventSource" class="mdb-select md-form colorful-select dropdown-primary">
+                  <option value="0">默认</option>
+                  <option value="1">视频解析</option>
+                  <option value="2">交警手动录入</option>
+                  <option value="3">警情交互</option>
+                  <option value="4">高德</option>
+                  <option value="5">接警平台</option>
+                  <option value="6">scarts系统上报</option>
+                  <option value="7">自主感知</option>
+                  <option value="8">人工上报</option>
+                </select>
+                <label for="selEventSource">信息来源</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selSystemSource" class="mdb-select md-form colorful-select dropdown-primary">
+                  <option value="1">事件处置</option>
+                  <option value="2">智能诱导</option>
+                  <option value="1">设备运维</option>
+                </select>
+                <label for="selSystemSource">对接系统</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selAreaCode" class="mdb-select md-form colorful-select dropdown-primary"></select>
+                <label for="selAreaCode">发生区域</label>
+              </div>
             </div>
 
-            <div class="col-4">
-              <select id="selSubEventType" class="mdb-select md-form colorful-select dropdown-primary"></select>
-              <label for="selSubEventType">事件信息子类型</label>
-            </div>
-          </div>
+            <div class="md-form row">
+              <div class="col-4 md-form form-group">
+                <input type="text" id="txtDirection" class="form-control" placeholder="事件方向">
+              </div>
 
-          <div class="md-form row">
-            <div class="col-4">
-              <select id="selEventSource" class="mdb-select md-form colorful-select dropdown-primary">
-                <option value="0">默认</option>
-                <option value="1">视频解析</option>
-                <option value="2">交警手动录入</option>
-                <option value="3">警情交互</option>
-                <option value="4">高德</option>
-                <option value="5">接警平台</option>
-                <option value="6">scarts系统上报</option>
-                <option value="7">自主感知</option>
-                <option value="8">人工上报</option>
-              </select>
-              <label for="selEventSource">信息来源</label>
-            </div>
+              <div class="col-4">
+                <select id="selBlockType" class="mdb-select md-form colorful-select dropdown-primary">
+                  <option value="0">不阻断</option>
+                  <option value="1">阻断</option>
+                </select>
+                <label for="selBlockType">是否阻断</label>
+              </div>
 
-            <div class="col-4">
-              <select id="selSystemSource" class="mdb-select md-form colorful-select dropdown-primary">
-                <option value="1">事件处置</option>
-                <option value="2">智能诱导</option>
-                <option value="1">设备运维</option>
-              </select>
-              <label for="selSystemSource">对接系统</label>
+              <div class="col-4">
+                <select id="selLevel" class="mdb-select md-form colorful-select dropdown-primary">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+                <label for="selLevel">事件等级</label>
+              </div>
             </div>
 
-            <div class="col-4">
-              <select id="selAreaCode" class="mdb-select md-form colorful-select dropdown-primary"></select>
-              <label for="selAreaCode">发生区域</label>
-            </div>
-          </div>
+            <div class="md-form row">
+              <div class="col-4 md-form form-group">
+                <input type="text" id="txtRoadName" class="form-control" placeholder="道路名称" required>
+                <!--<label for="txtRoadName" class="red-text">道路名称</label>-->
+              </div>
 
-          <div class="md-form row">
-            <div class="col-4 md-form form-group">
-              <input type="text" id="txtRoadName" class="form-control" placeholder="道路名称">
-              <!--<label for="txtRoadName" class="red-text">道路名称</label>-->
-            </div>
-
-            <div class="col-8 md-form form-group">
-              <input type="text" id="txtAddress" class="form-control" placeholder="详细地址">
-            </div>
-          </div>
-
-          <div class="md-form row">
-            <div class="col-4 md-form form-group">
-              <input type="text" id="txtDirection" class="form-control" placeholder="事件方向">
+              <div class="col-8 md-form form-group">
+                <input type="text" id="txtAddress" class="form-control" placeholder="详细地址">
+              </div>
             </div>
 
-            <div class="col-8">
-              <select id="selBlockType" class="mdb-select md-form colorful-select dropdown-primary">
-                <option value="0">不阻断</option>
-                <option value="1">阻断</option>
-              </select>
-              <label for="selBlockType">是否阻断</label>
-            </div>
-          </div>
+            <div class="md-form row">
+              <div class="col-6">
+                <textarea type="text" id="txtDesc" class="md-textarea form-control" rows="2" required></textarea>
+                <label data-error="wrong" data-success="right" for="txtDesc">事件描述</label>
+              </div>
+              <div class="col-6">
+                <textarea type="text" id="txtContent" class="md-textarea form-control" rows="2"></textarea>
+                <label data-error="wrong" data-success="right" for="txtContent">文案内容</label>
+              </div>
 
-          <div class="md-form row">
-            <div class="col-6">
-              <textarea type="text" id="txtDesc" class="md-textarea form-control" rows="2"></textarea>
-              <label data-error="wrong" data-success="right" for="txtDesc">事件描述</label>
-            </div>
-            <div class="col-6">
-              <textarea type="text" id="txtContent" class="md-textarea form-control" rows="2"></textarea>
-              <label data-error="wrong" data-success="right" for="txtContent">文案内容</label>
             </div>
 
-          </div>
+            <div class="modal-footer d-flex justify-content-center">
+              <button id="btnSendDetail" class="btn btn-indigo" type="submit">
+                发送 <i class="fa fa-paper-plane-o ml-1"></i>
+              </button>
+            </div>
+          </form>
 
         </div>
-        <div class="modal-footer d-flex justify-content-center">
-          <button id="btnSendDetail" class="btn btn-indigo">发送 <i class="fa fa-paper-plane-o ml-1"></i></button>
-        </div>
+
       </div>
     </div>
   </div>
@@ -239,7 +255,7 @@
     //     {id: "B14", data: 19}
     //   ]
     // });
-//      map.setMapCenter({x: 0, y: 0});
+    //  map.setMapCenter({x: 121.3126144, y: 31.167236});
 //      map.closeWidget("TopToolbarWidget");
 //      map.showLayer({label: "码头", ids: [3, 1]});
 

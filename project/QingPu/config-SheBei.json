@@ -54,7 +54,7 @@
         "uri": "widgets/Coordinate/Widget",
         "position": {
           "left": 15,
-          "bottom": 5,
+          "bottom": 30,
           "relativeTo": "map"
         },
         "version": "2.4",
@@ -96,6 +96,11 @@
         "uri": "widgets/DrawOverlay/Widget",
         "version": "2.4",
         "id": "DrawOverlayWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
       }
     ]
   }
