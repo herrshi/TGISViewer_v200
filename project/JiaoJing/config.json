@@ -23,15 +23,50 @@
       "bottom": 0
     },
     "basemaps": [
-      {
-        "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/ShangHai_base/MapServer",
-        "type": "tiled",
-        "visible": true
-      }
+
     ],
     "operationallayers": [
+      {
+        "label": "快速路指数区域",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255, 255],
+              "width": 1
+            }
+          },
+          "visualVariables": [
+            {
+              "type": "colorInfo",
+              "field": "指数",
+              "minDataValue": 8.6,
+              "maxDataValue": 35,
+              "colors": [
+                [0, 255, 0, 100],
+                [255, 255, 0, 180],
+                [255, 0, 0, 255]
+              ]
+            },
+            {
+              "type": "opacityInfo",
+              "field": "指数",
+              "minDataValue": 8.6,
+              "maxDataValue": 35,
+              "opacityValues": [0.5, 1]
+            }
+          ]
+        }
 
+      }
     ],
     "mapOptions": {
       "logo": false,
@@ -40,14 +75,14 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "122.144.195.126:6080",
+  "gisServer": "128.64.151.245:6080",
   "widgetOnScreen": {
     "widgets": [
       {
         "uri": "widgets/Coordinate/Widget",
         "position": {
           "left": 15,
-          "bottom": 15,
+          "bottom": 30,
           "relativeTo": "map"
         },
         "version": "2.4",
