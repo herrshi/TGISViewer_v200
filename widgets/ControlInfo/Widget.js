@@ -290,6 +290,31 @@ define([
       $("[data-toggle='tooltip']").tooltip();
       $(".mdb-select").material_select();
 
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      //Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, lang.hitch(this, function(form) {
+        form.addEventListener('submit', lang.hitch(this, function(event) {
+          event.preventDefault();
+          // event.stopPropagation();
+
+          if (form.checkValidity() === true) {
+            $.ajax({
+              url: this.config.url.addControl,
+              type: "POST",
+              data: $("#formControlDetail").serialize(),
+              success: function (data) {
+                console.log(data);
+              },
+              error: function (jqXHR, textStatus) {
+                console.log(textStatus);
+              }
+            });
+          }
+          form.classList.add('was-validated');
+        }), false);
+      }));
+
       $("#pnlAddControl").on(
         "shown.bs.collapse",
         lang.hitch(this, this.onAddControlPanelActive)
@@ -652,7 +677,7 @@ define([
       }
       var detailModal = $("#modalControlDetail");
       detailModal.one("show.bs.modal", lang.hitch(this, function () {
-        $("#btnSendDetail").one("click", lang.hitch(this, function () {
+        $("#btnSendDetail").on("click", lang.hitch(this, function () {
           this._sendDetail();
         }));
       }));

@@ -309,9 +309,24 @@ define([
                 showGisDeviceDetailInfo({
                   type: type,
                   id: id,
+                  label:graphic.getLayer().label,
                   graphic: graphic
                 });
               }
+            }
+            else {
+                //传完整信息
+                if (
+                    typeof showGisDeviceDetailInfo !== "undefined" &&
+                    showGisDeviceDetailInfo instanceof Function
+                ) {
+                    showGisDeviceDetailInfo({
+                        type: type,
+                        id: id,
+                        label:graphic.getLayer().label,
+                        graphic: graphic
+                    });
+                }
             }
           }
           //dynamicLayer

@@ -28,7 +28,10 @@ define([
       div.style.width = map.width + "px";
       div.style.top = 0 + "px";
       div.style.left = 0 + "px";
-      map.__container.appendChild(div);
+      div.style.pointerEvents = "none";
+      //div.style.backgroundColor="rgba(255,255,255,0)";
+      //$( map.__container).prepend($(div));
+      this._map.__container.appendChild(div);
       this._init(map, ec);
     },
     _init: function(map, ec) {
@@ -62,9 +65,13 @@ define([
        * @public
        */
       self.geoCoord2Pixel = function(geoCoord) {
-        var point = new Point(geoCoord[0], geoCoord[1]);
-        var pos = self._map.toScreen(point);
-        return [pos.x, pos.y];
+        if (geoCoord != null && geoCoord != undefined && geoCoord.length > 0) {
+          var point = new Point(geoCoord[0], geoCoord[1]);
+          var pos = self._map.toScreen(point);
+          return [pos.x, pos.y];
+        } else {
+          return null;
+        }
       };
 
       /**
@@ -101,6 +108,7 @@ define([
             var data = markData.data;
             if (data && data.length) {
               for (var k = 0, len = data.length; k < len; k++) {
+
                 if (
                   !(data[k].name && this._geoCoord.hasOwnProperty(data[k].name))
                 ) {
@@ -234,6 +242,7 @@ define([
           var data = markPoint.data;
           if (data && data.length) {
             for (var k = 0, len = data.length; k < len; k++) {
+
               if (
                 !(data[k].name && this._geoCoord.hasOwnProperty(data[k].name))
               ) {
@@ -319,8 +328,10 @@ define([
       self._AddPos = function(obj, offsetx, offsety) {
         var coord = self._geoCoord[obj.name];
         var pos = self.geoCoord2Pixel(coord);
-        obj.x = pos[0] + offsetx * self._mapOffset[0];
-        obj.y = pos[1] + offsety * self._mapOffset[1];
+        if (pos != null) {
+          obj.x = pos[0] + offsetx * self._mapOffset[0];
+          obj.y = pos[1] + offsety * self._mapOffset[1];
+        }
       };
 
       /**

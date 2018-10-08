@@ -1194,12 +1194,8 @@ var TMap = {
   },
   /**
    * 显示迁移图数据
-   * @param params: object, required.
-   *   markPoint: object, required. markPoint data数据
-   *     name:string,地点
-   *   markLine: object, required. markLine data数据
-   *     start:string,开始点
-   *     end:string,结束点
+   * @param params: string, required.
+   *  sourceStationId值,站点id值
    * */
   showMigrate: function(params) {
     require(["dojo/topic"], function(topic) {

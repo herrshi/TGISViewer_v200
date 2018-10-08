@@ -1,7 +1,7 @@
 {
   "url": {
     "getControlList": "http://128.64.151.209:16011/traffic/trafficControlRest/getTrafficControlList",
-    "addControl": "http://128.64.151.209:16011/traffic/trafficControlRest/addTrafficControl?fstrType=${controlType}&fstrDesc=${desc}&fstrContent=${content}",
+    "addControl": "http://128.64.151.209:16011/traffic/trafficControlRest/addTrafficControl",
     "deleteControl": "http://128.64.151.209:16011/traffic/trafficControlRest/delTrafficControl?fstrId=${id}",
     "getInfoType": "http://128.64.151.209:16011/traffic/trafficBasicRest/getTrafficInfoTypeList",
     "getEventType": "http://128.64.151.209:16011/traffic/trafficBasicRest/getTrafficEventTypeList",

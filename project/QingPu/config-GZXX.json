@@ -25,7 +25,7 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_base_GD/MapServer",
+        "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -59,6 +59,23 @@
           "symbol": {
             "type": "esriPMS",
             "url": "images/mapIcons/XinHaoJi-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "摄像机",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_device/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/SheXiangJi-blue.png",
             "width": 16.5,
             "height": 19.5,
             "yoffset": 10
@@ -152,6 +169,73 @@
             }
           ]
         }
+      },
+      {
+        "label": "发布段",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_issue/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "mode": 0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "STATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [115, 115, 115, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [110, 210, 121, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [250, 207, 53, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [222, 3, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
       }
     ],
     "mapOptions": {
@@ -236,8 +320,6 @@
         "position": {
           "top": 30,
           "left": 30,
-          "width": "300px",
-          "height": "200px",
           "relativeTo": "map"
         },
         "id": "ControlInfoWidget"

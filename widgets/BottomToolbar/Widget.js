@@ -12,7 +12,8 @@ define([
     baseClass: "jimu-widget-BottomToolbar",
 
     _disabledClass: "disable",
-    _activeClass: "active",
+    _activeClass: "btn-active",
+    _inactiveClass: "btn-inactive",
 
     postCreate: function() {
       this.inherited(arguments);
@@ -46,23 +47,29 @@ define([
       this.config.buttons.forEach(
         lang.hitch(this, function(buttonObj) {
           buttonContainer.addContent(
-            "<span>" +
-              "<button data-toggle='button' aria-pressed='false' autocomplete='off' class='btn btn-sm btn-mdb-color"  +
-              (!!buttonObj.initEnable ? this._activeClass : "") +
-              "'" +
-              " style='margin-right: 3px' data-toggle='tooltip' data-placement='top' " +
-              " data-operations='" +
-              JSON.stringify(buttonObj.operations) +
-              "'" +
-              " title='" +
-              buttonObj.label +
-              "'>" +
-              "<img src='" +
-              window.path +
-              buttonObj.image +
-              "'>" +
-              "</button>" +
-              "</span>"
+            "<img style='cursor: pointer;' " +
+            "src='" + window.path + buttonObj.image + "' " +
+            "class='mr-2 " + (!!buttonObj.initEnable ? this._activeClass : this._inactiveClass) + "'" +
+            "title='" + buttonObj.label + "' " +
+            "data-toggle='tooltip' data-placement='top' " +
+            "data-operations='" + JSON.stringify(buttonObj.operations) + "'>"
+            // "<span>" +
+            //   "<button class='btn btn-sm btn-mdb-color"  +
+            //   (!!buttonObj.initEnable ? this._activeClass : "") +
+            //   "'" +
+            //   " style='margin-right: 3px' data-toggle='tooltip' data-placement='top' " +
+            //   " data-operations='" +
+            //   JSON.stringify(buttonObj.operations) +
+            //   "'" +
+            //   " title='" +
+            //   buttonObj.label +
+            //   "'>" +
+            //   "<img src='" +
+            //   window.path +
+            //   buttonObj.image +
+            //   "'>" +
+            //   "</button>" +
+            //   "</span>"
           );
         })
       );
@@ -70,7 +77,7 @@ define([
       $("[data-toggle='tooltip']").tooltip();
 
       this.own(
-        query(".btn-mdb-color", this.domNode).on(
+        query("img", this.domNode).on(
           "click",
           lang.hitch(this, this._onBottomButtonClick)
         )
@@ -79,14 +86,15 @@ define([
 
     _onBottomButtonClick: function(event) {
       var target = event.target;
-      if (target.tagName === "IMG") {
-        target = target.parentNode;
-      }
+      // if (target.tagName === "IMG") {
+      //   target = target.parentNode;
+      // }
 
-      // domClass.toggle(target, this._activeClass);
+      domClass.toggle(target, this._activeClass);
+      domClass.toggle(target, this._inactiveClass);
 
-      var label = domAttr.get(target, "title");
-      var enable = !domClass.contains(target, this._activeClass);
+      var label = domAttr.get(target, "title") || domAttr.get(target, "data-original-title");
+      var enable = domClass.contains(target, this._activeClass);
 
       var operations = domAttr.get(target, "data-operations");
       if (operations !== "undefined") {

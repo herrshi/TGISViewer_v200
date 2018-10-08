@@ -16,6 +16,7 @@
   "map": {
     "3D": false,
     "2D": true,
+    "showLabels":true,
     "position": {
       "left": 0,
       "top": 0,
@@ -26,7 +27,7 @@
       {
         "label": "矢量图",
         "url":
-          "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -48,7 +49,7 @@
         "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
-          "field1": "CIIE.PARK_STATUS_VW.STATUS",
+          "field1": "JWPT.PARK_STATUS_VW.STATUS",
           "defaultSymbol": {
             "type": "esriPMS",
             "url": "images/mapIcons/icon_P_gray.png",
@@ -107,6 +108,8 @@
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
+        "maxScale":18056,
+        "minScale":1155581,
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -114,9 +117,7 @@
             "url": "images/flower.png",
             "width": 100,
             "height": 100,
-            "angle": 25,
-            "yoffset": -30,
-            "xoffset": 50
+            "angle": 25
           },
           "visualVariables": [
             {
@@ -130,23 +131,23 @@
                 "stops": [
                   {
                     "value": 9028,
-                    "size": 300
+                    "size": 200
                   },
                   {
                     "value": 18056,
-                    "size": 150
+                    "size": 100
                   },
                   {
                     "value": 36112,
-                    "size": 80
+                    "size": 50
                   },
                   {
                     "value": 72224,
-                    "size": 40
+                    "size": 25
                   },
                   {
                     "value": 144448,
-                    "size": 16
+                    "size": 12
                   },
                   {
                     "value": 288896,
@@ -160,27 +161,27 @@
                 "stops": [
                   {
                     "value": 9028,
-                    "size": 600
+                    "size": 400
                   },
                   {
                     "value": 18056,
-                    "size": 300
+                    "size": 200
                   },
                   {
                     "value": 36112,
-                    "size": 150
+                    "size": 100
                   },
                   {
                     "value": 72224,
-                    "size": 80
+                    "size": 50
                   },
                   {
                     "value": 144448,
-                    "size": 40
+                    "size": 25
                   },
                   {
                     "value": 288896,
-                    "size": 16
+                    "size": 12
                   }
                 ]
               }
@@ -188,6 +189,13 @@
           ]
         }
       },
+      {
+        "label": "国展中心大",
+        "url":"http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Exhibition/MapServer",
+        "type": "dynamic",
+        "visible": true,
+        "minScale":9028
+      } ,
       {
         "label": "地铁标注点",
         "url":
@@ -198,10 +206,10 @@
         "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
-          "field1": "CIIE.PARK_STATUS_VW.STATUS",
+          "field1": "JWPT.PARK_STATUS_VW.STATUS",
           "defaultSymbol": {
             "type": "esriPMS",
-            "url": "images/mapIcons/green01.webp",
+            "url": "images/mapIcons/point_green.png",
             "width": 36,
             "height": 36,
             "yoffset": 0
@@ -243,11 +251,11 @@
     ],
     "mapOptions": {
       "center": {
-        "x": 121.297401,
-        "y": 31.191602,
+        "x": 121.312,
+        "y": 31.199,
         "spatialReference": { "wkid": 4326 }
       },
-      "zoom": 15,
+      "scale": 18056,
       "logo": false,
       "nav": false,
       "slider": false
@@ -257,8 +265,8 @@
     "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "128.64.151.245:6080",
   "httpProxy": {
-    "useProxy": true,
-    "url": "http://localhost:8090/proxy/proxy.ashx"
+    "useProxy": false,
+    "url": "http://10.31.214.203:15011:18021/web-gis/proxy.jsp"
   },
   "widgetOnScreen": {
     "widgets": [
