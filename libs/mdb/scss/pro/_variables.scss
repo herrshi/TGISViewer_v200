@@ -821,41 +821,6 @@ $picker-custom-materialize-styles:                        $autocomplete-margin-b
 // Default date picker
 $pickerweekday-padb-breakpoint:                           33.875em !default;
 
-// Steppers
-$stepper-li-a-padding:                                    $accordion-card-header-padding-x !default;
-$stepper-li-a-font-size:                                  .88rem !default;
-$stepper-li-a-circle-color:                               $white !default;
-$stepper-li-a-circle-border-radius:                       $border-radius-circle !default;
-$stepper-li-a-circle-bg:                                  rgba($black, .38) !default;
-$stepper-li-a-circle-width:                               $stepper-li-a-padding !default;
-$stepper-li-a-circle-height:                              $stepper-li-a-circle-width !default;
-$stepper-li-a-circle-line-height:                         $stepper-li-a-circle-width !default;
-$stepper-li-a-circle-mr:                                  $autocomplete-clear-top !default;
-$stepper-li-a-label-color:                                rgba($black, .87) !default;
-
-$stepper-horizontal-li-transition:                        .5s !default;
-$stepper-horizontal-li-a-label-mt:                        $card-reveal-title-i-right !default;
-$stepper-horizontal-li-after-margin:                      $autocomplete-clear-top !default;
-$stepper-horizontal-li-after-height:                      $autocomplete-margin-bottom !default;
-$stepper-horizontal-li-after-bgc:                         rgba($black, .1) !default;
-$stepper-horizontal-li-hover-bg:                          $datepicker-table-day-outfocus-hover-color !default;
-$stepper-horizontal-breakpoint:                           47.9375rem !default;
-$stepper-horizontal-small-li-a-label-mt:                  .2rem !default;
-$stepper-horizontal-small-li-after-width:                 $stepper-horizontal-li-after-height !default;
-$stepper-horizontal-small-li-after-height:                calc(100% - 40px) !default;
-$stepper-horizontal-small-li-after-left:                  2.19rem !default;
-$stepper-horizontal-small-li-after-top:                   $sidenav-padding-bottom !default;
-
-$stepper-vertical-li-a-label-mt:                          $stepper-horizontal-small-li-a-label-mt !default;
-$stepper-vertical-li-step-content-ml:                     3.13rem !default;
-$stepper-vertical-li-step-content-padding:                $material-select-wrapper-input-dropdown-margin !default;
-$stepper-vertical-li-step-content-p-font-size:            $stepper-li-a-font-size !default;
-$stepper-vertical-li-after-width:                         $stepper-horizontal-li-after-height !default;
-$stepper-vertical-li-after-height:                        $stepper-horizontal-small-li-after-height !default;
-$stepper-vertical-li-after-left:                          $stepper-horizontal-small-li-after-left !default;
-$stepper-vertical-li-after-top:                           3.44rem !default;
-$stepper-vertical-li-after-bgc:                           $stepper-horizontal-li-after-bgc !default;
-
 // Ecommerce components
 $collection-card-stripe-bottom:                           $form-header-mb !default;
 $collection-card-stripe-padding:                          $icons-sm-font-size !default;

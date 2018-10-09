@@ -209,7 +209,7 @@ var ie = (function() {
   }
 
   function setLocale() {
-    if (window.queryObject.locale) {
+    if (window.queryObject && window.queryObject.locale) {
       dojoConfig.locale = window.queryObject.locale.toLowerCase();
       window._setRTL(dojoConfig.locale);
       return;

@@ -23,7 +23,9 @@
       "bottom": 0
     },
     "basemaps": [
+      {
 
+      }
     ],
     "operationallayers": [
       {
@@ -48,19 +50,34 @@
             {
               "type": "colorInfo",
               "field": "指数",
-              "minDataValue": 8.6,
-              "maxDataValue": 35,
-              "colors": [
-                [0, 255, 0],
-                [255, 255, 0],
-                [255, 0, 0]
+              "stops": [
+                {
+                  "value": 30,
+                  "color": [2, 141, 11],
+                  "label": "畅通"
+                },
+                {
+                  "value": 50,
+                  "color": [0, 255, 0],
+                  "label": "较畅通"
+                },
+                {
+                  "value": 70,
+                  "color": [255, 255, 0],
+                  "label": "拥挤"
+                },
+                {
+                  "value": 100,
+                  "color": [209, 0, 0],
+                  "label": "严重拥堵"
+                }
               ]
             },
             {
               "type": "opacityInfo",
               "field": "指数",
-              "minDataValue": 8.6,
-              "maxDataValue": 35,
+              "minDataValue": 0,
+              "maxDataValue": 100,
               "opacityValues": [0.5, 1]
             }
           ]
