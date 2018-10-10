@@ -204,6 +204,9 @@ define([
 
       this._publishMapEvent(map);
       this._addDataLoadingOnMapUpdate(map);
+
+      //背景透明
+      $("#map").css("background-color", "rgba(0,0,0,0)");
     },
 
     _setMapClickEvent: function() {

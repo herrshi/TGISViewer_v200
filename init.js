@@ -215,20 +215,19 @@ var ie = (function() {
       return;
     }
 
-    if (allCookies.esri_auth) {
-      /*jshint -W061 */
+    if (allCookies && allCookies.esri_auth) {
       var userObj = eval("(" + unescape(allCookies.esri_auth) + ")");
       if (userObj.culture) {
         dojoConfig.locale = userObj.culture;
       }
     }
 
-    if (window.queryObject.mode) {
-      if (allCookies.wab_locale) {
+    if (window.queryObject && window.queryObject.mode) {
+      if (allCookies && allCookies.wab_locale) {
         dojoConfig.locale = allCookies.wab_locale;
       }
     } else {
-      if (allCookies.wab_app_locale) {
+      if (allCookies && allCookies.wab_app_locale) {
         dojoConfig.locale = allCookies.wab_app_locale;
       }
     }
