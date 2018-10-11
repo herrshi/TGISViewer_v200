@@ -234,15 +234,15 @@
 <script type="text/javascript">
 
   var map = TMap.createNew({
-    apiUrl: "http://localhost:8099/arcgis_js_api/library/3.22/3.22/",
+    apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
-    viewerUrl: "http://localhost:8099/TGISViewer_v200/",
+    viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-ksl.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/JiaoJing/config-ksl.json"
     // config: "http://localhost:8099/TGISViewer_v200/project/QingPu/config-GZXX.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
@@ -337,7 +337,8 @@
     //   ]
     // });
     // map.findFeature({layerName: "停车场-点", ids: ["P8"], centerResult: true});
-
+    map.hideLayer({label: "快速路指数区域实时"});
+    map.showLayer({label: "快速路发布段30分钟预测"});
   });
 
   function Test1ClickHandler() {
@@ -482,8 +483,8 @@
     // map.findFeature({layerName: "快速路发布段", ids: ["61234989003"], centerResult: true, showPopup: true});
 
     // map.addPoints('{"points":[{"id":"1","type":"SXJ","geometry":{"x":-2545.599,"y":13778.258},"symbol":{"type":"picture","url":"http://128.64.130.53:17000/web-gis/scripts/TGISViewer_v200/images/mapIcons/SheXiangJi-blue.png","height":26,"width":22,"yoffset":13}},{"id":"2","type":"SXJ","geometry":{"x":-30.994,"y":14438.659},"symbol":{"type":"picture","url":"http://128.64.130.53:17000/web-gis/scripts/TGISViewer_v200/images/mapIcons/SheXiangJi-blue.png","height":26,"width":22,"yoffset":13}}]}');
-    map.hideLayer({label: "快速路发布段实时"});
-    map.showLayer({label: "快速路指数区域实时"});
+    // map.hideLayer({label: "快速路发布段实时"});
+    // map.showLayer({label: "快速路指数区域实时"});
   }
 
 

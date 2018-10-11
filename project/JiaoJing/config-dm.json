@@ -155,7 +155,7 @@
       }
     ],
     "mapOptions": {
-      "scale": 125000,
+      "scale": 64000,
       "center": {
         "x": 0,
         "y": 0,
