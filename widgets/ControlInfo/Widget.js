@@ -290,30 +290,28 @@ define([
       $("[data-toggle='tooltip']").tooltip();
       $(".mdb-select").material_select();
 
-      // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var forms = document.getElementsByClassName('needs-validation');
-      //Loop over them and prevent submission
-      var validation = Array.prototype.filter.call(forms, lang.hitch(this, function(form) {
-        form.addEventListener('submit', lang.hitch(this, function(event) {
-          event.preventDefault();
-          // event.stopPropagation();
-
-          if (form.checkValidity() === true) {
-            $.ajax({
-              url: this.config.url.addControl,
-              type: "POST",
-              data: $("#formControlDetail").serialize(),
-              success: function (data) {
-                console.log(data);
-              },
-              error: function (jqXHR, textStatus) {
-                console.log(textStatus);
-              }
-            });
-          }
-          form.classList.add('was-validated');
-        }), false);
-      }));
+      // var forms = document.getElementsByClassName('needs-validation');
+      // var validation = Array.prototype.filter.call(forms, lang.hitch(this, function(form) {
+      //   form.addEventListener('submit', lang.hitch(this, function(event) {
+      //     event.preventDefault();
+      //     // event.stopPropagation();
+      //
+      //     if (form.checkValidity() === true) {
+      //       $.ajax({
+      //         url: this.config.url.addControl,
+      //         type: "POST",
+      //         data: $("#formControlDetail").serialize(),
+      //         success: function (data) {
+      //           console.log(data);
+      //         },
+      //         error: function (jqXHR, textStatus) {
+      //           console.log(textStatus);
+      //         }
+      //       });
+      //     }
+      //     form.classList.add('was-validated');
+      //   }), false);
+      // }));
 
       $("#pnlAddControl").on(
         "shown.bs.collapse",
@@ -762,32 +760,30 @@ define([
       var index = 1;
       this._existControlInfos.forEach(function (controlInfo) {
         //在table中显示信息
-        if (this._checkControlInfo(controlInfo)) {
-          var content =
-            "<tr>" +
-            "<th scope='row'>" + index + "</th>" +
-            "<td>" + controlInfo.fstrDesc + "</td>" +
-            "<td>" +
-            "<a id='" + controlInfo.fstrId + "'>" +
-            "<i class='fa fa-trash mx-1'></i>" +
-            "</a>" +
-            " </td>" +
-            "</tr>";
-          tableBody.append(content);
+        var content =
+          "<tr>" +
+          "<th scope='row'>" + index + "</th>" +
+          "<td>" + controlInfo.fstrEvtDesc + "</td>" +
+          "<td>" +
+          "<a id='" + controlInfo.fstrSrcEvtId + "'>" +
+          "<i class='fa fa-trash mx-1'></i>" +
+          "</a>" +
+          " </td>" +
+          "</tr>";
+        tableBody.append(content);
 
-          //在地图上显示
-          switch (controlInfo.fstrType) {
-            case "0":
-              this._showExistControlPoint(controlInfo);
-              break;
+        //在地图上显示
+        switch (controlInfo.fstrType) {
+          case "0":
+            this._showExistControlPoint(controlInfo);
+            break;
 
-            case "1":
-              // this._showExistControlLine(controlInfo);
-              break;
-          }
-
-          index += 1;
+          case "1":
+            // this._showExistControlLine(controlInfo);
+            break;
         }
+
+        index += 1;
       }, this);
 
       //初始化新增的tooltip
