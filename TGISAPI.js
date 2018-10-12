@@ -1201,6 +1201,23 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("showMigrate", params);
     });
+  },
+  /**
+   * 显示柱状图数据
+   * @param params: string, required.
+   *  sourceStationId值,站点id值
+   * */
+  showChartInfo: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showChartInfo", params);
+    });
+  },
+
+  /**
+   * 设置用户信息
+   * */
+  setUserInfo: function (params) {
+    window.userInfo = params;
   }
   /************************ Special Interface END **************************/
 };

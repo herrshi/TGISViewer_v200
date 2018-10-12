@@ -290,28 +290,18 @@ define([
       $("[data-toggle='tooltip']").tooltip();
       $(".mdb-select").material_select();
 
-      // var forms = document.getElementsByClassName('needs-validation');
-      // var validation = Array.prototype.filter.call(forms, lang.hitch(this, function(form) {
-      //   form.addEventListener('submit', lang.hitch(this, function(event) {
-      //     event.preventDefault();
-      //     // event.stopPropagation();
-      //
-      //     if (form.checkValidity() === true) {
-      //       $.ajax({
-      //         url: this.config.url.addControl,
-      //         type: "POST",
-      //         data: $("#formControlDetail").serialize(),
-      //         success: function (data) {
-      //           console.log(data);
-      //         },
-      //         error: function (jqXHR, textStatus) {
-      //           console.log(textStatus);
-      //         }
-      //       });
-      //     }
-      //     form.classList.add('was-validated');
-      //   }), false);
-      // }));
+      var forms = document.getElementsByClassName('needs-validation');
+      var validation = Array.prototype.filter.call(forms, lang.hitch(this, function(form) {
+        form.addEventListener('submit', lang.hitch(this, function(event) {
+          event.preventDefault();
+          // event.stopPropagation();
+
+          if (form.checkValidity() === true) {
+            this._sendDetail();
+          }
+          form.classList.add('was-validated');
+        }), false);
+      }));
 
       $("#pnlAddControl").on(
         "shown.bs.collapse",
@@ -674,11 +664,11 @@ define([
         return;
       }
       var detailModal = $("#modalControlDetail");
-      detailModal.one("show.bs.modal", lang.hitch(this, function () {
-        $("#btnSendDetail").on("click", lang.hitch(this, function () {
-          this._sendDetail();
-        }));
-      }));
+      // detailModal.one("show.bs.modal", lang.hitch(this, function () {
+      //   $("#btnSendDetail").on("click", lang.hitch(this, function () {
+      //     this._sendDetail();
+      //   }));
+      // }));
 
       detailModal.modal("show");
     },
@@ -692,14 +682,39 @@ define([
         "evt_src_no": $("#selEventSource option:checked").val(),  //信息来源
         "sys_src_no": $("#selSystemSource option:checked").val(),  //对接系统
         "area_code": $("#selAreaCode option:checked").val(),  //事件发生区域
-        "position_road_name": $("#txtRoadName").val()  //事件发生道路名称
+        "position_road_name": $("#txtRoadName").val(),  //事件发生道路名称
+        "position_addr": $("#txtAddress").val(),  //事件发生详细地址
+        "position_direction": $("#txtDirection").val(),  //事件方向
+        "position_locType": 2,  //坐标型位置
+        "level": $("#selLevel option:checked").val(),  //事件等级
+        "block_type": $("#selBlockType option:checked").val(),  //是否阻断
+        "publisher_name": window.userInfo.name,  //发布人姓名
+        "publisher_id": window.userInfo.id,  //发布人ID
+        "publisher_area_code": window.userInfo.code  //发布人所在辖区
       };
-      console.log(controlDetail);
+
       //控制点
       if ($("#btnControlPoint").prop("checked")) {
-        var point = this._controlPointLayer.graphics[0];
-
+        var point = this._controlPointLayer.graphics[0].geometry;
+        if (this.map.spatialReference.isWebMercator()) {
+          point = webMercatorUtils.webMercatorToGeographic(point);
+        }
+        controlDetail["position_loc"] = [point.x, point.y];
       }
+      var paramString = JSON.stringify(controlDetail);
+      $.ajax({
+        url: this.config.url.addControl + "?GisData=" + paramString,
+        type: "POST",
+        data: controlDetail,
+        success: lang.hitch(this, function (data) {
+          console.log(data)
+        }),
+        error: function (jqXHR, text) {
+          console.log(text);
+        }
+      });
+
+      console.log(controlDetail);
     },
     /************************ 新增管制 END **************************/
 

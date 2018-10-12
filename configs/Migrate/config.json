@@ -1,6 +1,6 @@
 {
   "query": {
-    "url": "http://10.31.214.201:6080/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
+    "url": "http://128.64.151.245:6080/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
     "id":"地铁标注点.FEATUREID",
     "name":"地铁标注点.Name"
   },

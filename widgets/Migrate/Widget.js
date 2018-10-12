@@ -53,51 +53,13 @@ define([
     _geoCoordData: {},
     _geoNameData: {},
     graphicsLayer: null,
-
     _markLineData: [],
     _markPointData: [],
     _FeatureId: null,
     _Name: null,
-    /*
-      _ODData: [
-      {
-        sourceStationId: "235",
-        totalInFlow: 1638,
-        totalOutFlow: 1638,
-        inFlows: [
-          { stationId: "234", flow: 556 },
-          { stationId: "236", flow: 546 },
-          { stationId: "237", flow: 536 }
-        ],
-        outFlows: [
-          { stationId: "234", flow: 556 },
-          { stationId: "236", flow: 546 },
-          { stationId: "237", flow: 536 }
-        ]
-      },
-      {
-        sourceStationId: "234",
-        totalInFlow: 556,
-        totalOutFlow: 556,
-        inFlows: [{ stationId: "234", flow: 556 }],
-        outFlows: [{ stationId: "234", flow: 556 }]
-      },
-      {
-        sourceStationId: "236",
-        totalInFlow: 546,
-        totalOutFlow: 546,
-        inFlows: [{ stationId: "234", flow: 546 }],
-        outFlows: [{ stationId: "234", flow: 546 }]
-      },
-      {
-        sourceStationId: "237",
-        totalInFlow: 536,
-        totalOutFlow: 536,
-        inFlows: [{ stationId: "234", flow: 536 }],
-        outFlows: [{ stationId: "234", flow: 536 }]
-      }
-    ],*/
     _ODData: null,
+    _inFlow: null,
+    _params: null,
     postCreate: function() {
       this.inherited(arguments);
 
@@ -113,6 +75,7 @@ define([
         "showMigrate",
         lang.hitch(this, this._onTopicHandler_showMigrate)
       );
+      setInterval(lang.hitch(this, this._selectData), 900000);
     },
     _SubLayerClick: function(event) {
       var graphic;
@@ -149,39 +112,46 @@ define([
       var myChart = this._echartsOver.initECharts(
         this._echartsOver.getEchartsContainer()
       );
-      window.onresize = myChart.onresize;
+      //window.onresize = myChart.onresize;
     },
-
-    //{"sourceStationId":"station1","totalInFlow":1348,"totalOutFlow":2345,"inFlows":[{"stationId":"station2","flow":239},{"stationId":"station3","flow":287},{"stationId":"station4","flow":480}],"outFlows":[{"stationId":"station2","flow":239},{"stationId":"station3","flow":287},{"stationId":"station4","flow":480}]}
     _onTopicHandler_showMigrate: function(params) {
+      if (params === undefined || params === "") {
+        this._hideMigrate();
+        return;
+      }
+      this._params = params;
       if (this._ODData) {
         this._selectODData(params);
       } else {
-        if (
-          this.config.rest.type !== undefined &&
-          this.config.rest.type === "1"
-        ) {
-          $.ajax({
-            type: "POST",
-            url: this.config.rest.url,
-            dataType: "jsonp",
-            jsonpCallback: "callback",
-            success: lang.hitch(this, function(res) {
-              this._ODData = res;
-              this._selectODData(params);
-            })
-          });
-        } else {
-          $.ajax({
-            type: "GET",
-            url: this.config.rest.url,
-            dataType: "json",
-            success: lang.hitch(this, function(res) {
-              this._ODData = res;
-              this._selectODData(params);
-            })
-          });
-        }
+        this._selectData();
+      }
+    },
+    _selectData: function() {
+      if (
+        this.config.rest.type !== undefined &&
+        this.config.rest.type === "1"
+      ) {
+        $.ajax({
+          type: "GET",
+          url: this.config.rest.url,
+          dataType: "jsonp",
+          jsonpCallback: "callBack",
+          jsonp: "callBack", //服务端用于接收callback调用的function名的参数
+          success: lang.hitch(this, function(res) {
+            this._ODData = res;
+            this._selectODData(this._params);
+          })
+        });
+      } else {
+        $.ajax({
+          type: "GET",
+          url: this.config.rest.url,
+          dataType: "json",
+          success: lang.hitch(this, function(res) {
+            this._ODData = res;
+            this._selectODData(this._params);
+          })
+        });
       }
     },
     _selectODData: function(params) {
@@ -206,6 +176,10 @@ define([
         Number(params.totalInFlow) > Number(params.totalOutFlow)
           ? Number(params.totalInFlow)
           : Number(params.totalOutFlow);
+      this._maxFlow = 4 * this._maxFlow;
+
+      this._inFlow = Number(params.totalInFlow);
+
       this._geoCoordData = {}; //各个点坐标
       this._geoNameData = {};
 
@@ -220,13 +194,13 @@ define([
         var inFlows = params.inFlows;
         for (var i = 0; i < inFlows.length; i++) {
           this._markLineData.push([
-            { name: params.sourceStationId },
-            { name: inFlows[i].stationId, value: inFlows[i].flow }
+            { name: params.sourceStationId, type: 1 },
+            { name: inFlows[i].stationId, value: inFlows[i].flow, type: 1 }
           ]);
-          this._markPointData.push({
-            name: inFlows[i].stationId,
-            value: Number(inFlows[i].flow)
-          });
+          //this._markPointData.push({
+          //  name: inFlows[i].stationId,
+          //  value: Number(inFlows[i].flow)
+          //});
           if (ids.indexOf(inFlows[i].stationId) < 0) {
             ids.push(inFlows[i].stationId);
           }
@@ -236,8 +210,8 @@ define([
         var outFlows = params.outFlows;
         for (var i = 0; i < outFlows.length; i++) {
           this._markLineData.push([
-            { name: outFlows[i].stationId },
-            { name: params.sourceStationId, value: outFlows[i].flow }
+            { name: outFlows[i].stationId, type: 0 },
+            { name: params.sourceStationId, value: outFlows[i].flow, type: 0 }
           ]);
           if (ids.indexOf(outFlows[i].stationId) < 0) {
             ids.push(outFlows[i].stationId);
@@ -258,12 +232,14 @@ define([
                 this._geoNameData[ids[j]] = graphic.attributes[this._Name];
                 var point = graphic.geometry;
                 this._geoCoordData[graphic.attributes[this._Name]] =
-                  graphic.geometry.points;
+                  graphic.geometry.type === "multipoint"
+                    ? graphic.geometry.points
+                    : [[graphic.geometry.x, graphic.geometry.y]];
 
                 if (j == 0) {
                   var sms = new SimpleMarkerSymbol(
                     SimpleMarkerSymbol.STYLE_PATH,
-                    220,
+                    240,
                     new SimpleLineSymbol(
                       SimpleLineSymbol.STYLE_SOLID,
                       new Color([26, 109, 134, 0.8]),
@@ -272,7 +248,7 @@ define([
                     new Color([26, 109, 134, 0.3])
                   );
                   sms.setOffset(-150, 60);
-                  sms.setPath("M0 0 H 220 V 60 H 0 Z");
+                  sms.setPath("M0 0 H 240 V 60 H 0 Z");
                   var font = new Font(
                     "12pt",
                     Font.STYLE_NORMAL,
@@ -280,9 +256,15 @@ define([
                     Font.WEIGHT_NORMAL,
                     "Microsoft YaHei"
                   );
+                  var str = "站";
+                  if (graphic.attributes[this._Name].indexOf("收费") > -1) {
+                    str = "沪";
+                  }
                   var textIn = new TextSymbol(
                     graphic.attributes[this._Name] +
-                      "进站总流量:" +
+                      "OD进" +
+                      str +
+                      "流量:" +
                       params.totalInFlow
                   )
                     .setColor(new Color([255, 255, 255]))
@@ -292,7 +274,9 @@ define([
                     .setFont(font);
                   var textOut = new TextSymbol(
                     graphic.attributes[this._Name] +
-                      "出站总流量:" +
+                      "OD出" +
+                      str +
+                      "流量:" +
                       params.totalOutFlow
                   )
                     .setColor(new Color([255, 255, 255]))
@@ -300,8 +284,12 @@ define([
                     .setOffset(-150, 40)
                     .setKerning(3)
                     .setFont(font);
-
-                  var pt = new Point(point.points[0]);
+                  var pt;
+                  if (graphic.geometry.type === "multipoint") {
+                    pt = new Point(point.points[0]);
+                  } else {
+                    pt = new Point([point.x, point.y]);
+                  }
 
                   this.graphicsLayer.add(new Graphic(pt, sms));
                   this.graphicsLayer.add(new Graphic(pt, textIn));
@@ -318,15 +306,39 @@ define([
       );
     },
     _setMigrateOption: function() {
+      var pointArr = [];
+      var nameArr = [];
+      var lineArr = [];
       for (var i = 0; i < this._markPointData.length; i++) {
         var pt = this._markPointData[i];
         pt.name = this._geoNameData[pt.name];
+        if (pt.name !== undefined) {
+          pointArr.push(pt);
+        }
       }
       for (var i = 0; i < this._markLineData.length; i++) {
         var line = this._markLineData[i];
         line[0].name = this._geoNameData[line[0].name];
         line[1].name = this._geoNameData[line[1].name];
+        if (line[0].name !== undefined && line[1].name !== undefined) {
+          lineArr.push(line);
+        }
       }
+      var r = 100;
+
+      if (this._inFlow < 5000) {
+        r = 50;
+      }
+      if (this._inFlow < 1000) {
+        r = 25;
+      }
+      if (this._inFlow < 100) {
+        r = 5;
+      }
+      if (this._inFlow < 20) {
+        r = 1;
+      }
+
       var option = {
         color: ["gold", "aqua", "lime"],
         title: {
@@ -383,13 +395,7 @@ define([
             type: "map",
             mapType: "none",
             data: [],
-            geoCoord: this
-              ._geoCoordData /*{
-                          station1: [121.321, 31.181],
-                          station2: [121.327, 31.1856],
-                          station3: [121.331, 31.189],
-                          station4: [121.336, 31.194]
-                      }*/,
+            geoCoord: this._geoCoordData,
             label: {
               normal: {
                 formatter: "{b}",
@@ -412,21 +418,38 @@ define([
               itemStyle: {
                 normal: {
                   borderWidth: 1,
+                  color: function(obj) {
+                    var d = obj.data;
+                    var color = "red";
+                    if (d[0].type == 1) {
+                      color = "#00ffff";
+                    } else {
+                      color = "#FFD700";
+                    }
+                    return color;
+                  },
                   lineStyle: {
                     type: "solid",
                     shadowBlur: 5
+                  },
+                  label: {
+                    show: true,
+                    position: "inside",
+                    formatter: function(a) {
+                      return a.value;
+                    }
                   },
                   emphasis: {
                     label: { position: "left" }
                   }
                 }
               },
-              data: this._markLineData
+              data: lineArr
             },
             markPoint: {
               symbol: "circle",
               symbolSize: function(v) {
-                return v / 50;
+                return v / r;
               },
               effect: {
                 show: true,
@@ -440,7 +463,7 @@ define([
                   label: { position: "top" }
                 }
               },
-              data: this._markPointData
+              data: pointArr
             }
           }
         ]
@@ -450,6 +473,11 @@ define([
     _chartLayerClick: function(event) {
       var dataIndex = event.dataIndex;
       console.log(event);
+    },
+    _hideMigrate: function() {
+      this._echartsOver._option = null;
+      this._echartsOver._ec.clear();
+      this.graphicsLayer.clear();
     }
   });
 });
