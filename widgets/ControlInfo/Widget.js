@@ -289,6 +289,24 @@ define([
     startup: function () {
       $("[data-toggle='tooltip']").tooltip();
       $(".mdb-select").material_select();
+      // $(".datepicker").pickadate({
+      //   monthsFull: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+      //   monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
+      //   weekdaysFull: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
+      //   weekdaysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
+      //   today: "今天",
+      //   clear: "清除",
+      //   close: "关闭",
+      //   labelMonthNext: "下个月",
+      //   labelMonthPrev: "上个月",
+      //   labelMonthSelect: "选择月份",
+      //   labelYearSelect: "选择年份",
+      //   format: "yyyy-mm-dd",
+      //   formatSubmit: "yyyy-mm-dd",
+      //   min: true
+      // });
+      // $(".timepicker").pickatime({});
+
 
       var forms = document.getElementsByClassName('needs-validation');
       var validation = Array.prototype.filter.call(forms, lang.hitch(this, function(form) {
@@ -360,7 +378,6 @@ define([
         subEventType: this._getSubEventType(),
         areaCode: this._getAreaCode()
       }).then(function (results) {
-        console.log(results);
         var selInfoType = $("#selInfoType");
         var selEventType = $("#selEventType");
         var selSubEventType = $("#selSubEventType");
@@ -674,6 +691,9 @@ define([
     },
 
     _sendDetail: function() {
+      var date = new Date();
+      var startDate = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / 1000;
+      var startTime = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
       var controlDetail = {
         "info_type_id": $("#selInfoType option:checked").val(),  //信息分类类型
         "evt_type_no": $("#selEventType option:checked").val(),  //事件信息类型
@@ -690,7 +710,15 @@ define([
         "block_type": $("#selBlockType option:checked").val(),  //是否阻断
         "publisher_name": window.userInfo.name,  //发布人姓名
         "publisher_id": window.userInfo.id,  //发布人ID
-        "publisher_area_code": window.userInfo.code  //发布人所在辖区
+        "publisher_area_code": window.userInfo.code,  //发布人所在辖区
+        "evt_desc": $("#txtDesc").val(),  //事件描述
+        "duration_day_sel": 0,  //持续时间 0-持续、1-循环
+        "duration_startDate": startDate,
+        "duration_startTime": startTime,
+        "duration_endDate": null,
+        "duration_endTime": null,
+        "duration_times": null,
+        "disposition": null
       };
 
       //控制点
@@ -699,22 +727,26 @@ define([
         if (this.map.spatialReference.isWebMercator()) {
           point = webMercatorUtils.webMercatorToGeographic(point);
         }
-        controlDetail["position_loc"] = [point.x, point.y];
+        controlDetail["position_loc"] = JSON.stringify([point.x.toFixed(6) + "," + point.y.toFixed(6)]);
       }
-      var paramString = JSON.stringify(controlDetail);
+      var paramData = {
+        // fstrType: controlDetail.position_locType,
+        // fstrDesc: controlDetail.evt_desc,
+        fstrContent: encodeURI(JSON.stringify(controlDetail))
+      };
+      var postUrl = encodeURI(this.config.url.addControl + "?fstrContent=" + JSON.stringify(controlDetail));
       $.ajax({
-        url: this.config.url.addControl + "?GisData=" + paramString,
+        url: postUrl,
         type: "POST",
-        data: controlDetail,
+        // data: paramData,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: lang.hitch(this, function (data) {
           console.log(data)
         }),
         error: function (jqXHR, text) {
-          console.log(text);
+          console.error("status: " + jqXHR.status + " " + jqXHR.responseText);
         }
       });
-
-      console.log(controlDetail);
     },
     /************************ 新增管制 END **************************/
 
@@ -774,31 +806,29 @@ define([
 
       var index = 1;
       this._existControlInfos.forEach(function (controlInfo) {
-        //在table中显示信息
-        var content =
-          "<tr>" +
-          "<th scope='row'>" + index + "</th>" +
-          "<td>" + controlInfo.fstrEvtDesc + "</td>" +
-          "<td>" +
-          "<a id='" + controlInfo.fstrSrcEvtId + "'>" +
-          "<i class='fa fa-trash mx-1'></i>" +
-          "</a>" +
-          " </td>" +
-          "</tr>";
-        tableBody.append(content);
+        if (this._checkControlInfo(controlInfo)) {
+          var gisData = JSON.parse(controlInfo.fstrGisData);
+          //在table中显示信息
+          var content =
+            "<tr>" +
+            "<th scope='row'>" + index + "</th>" +
+            "<td>" + controlInfo.fstrEvtDesc + "</td>" +
+            "<td>" +
+            "<a id='" + controlInfo.fstrSrcEvtId + "'>" +
+            "<i class='fa fa-trash mx-1'></i>" +
+            "</a>" +
+            " </td>" +
+            "</tr>";
+          tableBody.append(content);
 
-        //在地图上显示
-        switch (controlInfo.fstrType) {
-          case "0":
+          if (gisData.position_loc) {
             this._showExistControlPoint(controlInfo);
-            break;
+          } else if (gisData.position_locs) {
+            this._showExistControlLine(controlInfo);
+          }
 
-          case "1":
-            // this._showExistControlLine(controlInfo);
-            break;
+          index += 1;
         }
-
-        index += 1;
       }, this);
 
       //初始化新增的tooltip
@@ -811,40 +841,49 @@ define([
     },
 
     _checkControlInfo: function (controlInfo) {
-      if (controlInfo.fstrState !== "0") {
-        return false;
-      }
-
-      var content = controlInfo.fstrContent;
       try {
-        var contentData = JSON.parse(content);
-        return contentData instanceof Array;
+        var gisData = JSON.parse(controlInfo.fstrGisData);
+        if (gisData.position_loc) {
+          var loc = JSON.parse(gisData.position_loc.replace(/'/g, '"'));
+          if (loc instanceof Array && loc.length === 1) {
+            return true;
+          }
+        }
+
+        if (gisData.position_locs) {
+          var locs = JSON.parse(gisData.position_locs.replace(/'/g, '"'));
+          if (locs instanceof Array && locs.length >= 2) {
+            return true;
+          }
+        }
+
+        return false;
       } catch (e) {
         return false;
       }
     },
 
     _showExistControlPoint: function (controlInfoData) {
-      var points = JSON.parse(controlInfoData.fstrContent);
-      points.forEach(function (point) {
-        var graphic = new Graphic(new Point(point.x, point.y));
-        graphic.id = controlInfoData.id;
-        graphic.symbol = this._existPointSymbol;
-        graphic.attributes = {
-          createTime: controlInfoData.fdtCreateTime,
-          desc: controlInfoData.fstrDesc,
-          userId: controlInfoData.fstrCreateUserId
-        };
+      var gisData = JSON.parse(controlInfoData.fstrGisData);
+      var loc = JSON.parse(gisData.position_loc.replace(/'/g, '"'));
+      var point = loc[0].split(",");
+      var graphic = new Graphic(new Point(point[0], point[1]));
+      graphic.id = controlInfoData.fstrSrcEvtId;
+      graphic.symbol = this._existPointSymbol;
+      graphic.attributes = {
+        createTime: controlInfoData.fdtCreateTime,
+        desc: controlInfoData.fstrDesc,
+        userId: controlInfoData.fstrCreateUserId
+      };
 
-        var infoTemplate = new InfoTemplate();
-        infoTemplate.setTitle("<b>${createTime}</b>");
-        infoTemplate.setContent(
-          "<b>创建人: </b>${userId}<br/>" + "<b>内容: </b>${desc}"
-        );
-        graphic.setInfoTemplate(infoTemplate);
+      var infoTemplate = new InfoTemplate();
+      infoTemplate.setTitle("<b>${createTime}</b>");
+      infoTemplate.setContent(
+        "<b>创建人: </b>${userId}<br/>" + "<b>内容: </b>${desc}"
+      );
+      graphic.setInfoTemplate(infoTemplate);
 
-        this._existControlLayer.add(graphic);
-      }, this);
+      this._existControlLayer.add(graphic);
     },
 
     _showExistControlLine: function (controlInfoData) {
