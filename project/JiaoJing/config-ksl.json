@@ -32,559 +32,24 @@
     ],
     "operationallayers": [
       {
-        "label": "快速路发布段15分钟预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/10",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 250000,
-        "minScale": 500000,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_15M.FINT_STATUS",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 0
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "21",
-              "label": "畅通",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            },
-            {
-              "value": "22",
-              "label": "拥挤",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            },
-            {
-              "value": "23",
-              "label": "堵塞",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "label": "快速路发布段15分钟预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/10",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 64000,
-        "minScale": 125000,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_15M.FINT_STATUS",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 1
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "21",
-              "label": "畅通",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "22",
-              "label": "拥挤",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "23",
-              "label": "堵塞",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "label": "快速路发布段15分钟预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/11",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 16000,
-        "minScale": 32000,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_15M.FINT_STATUS",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 1
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "21",
-              "label": "畅通",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "22",
-              "label": "拥挤",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "23",
-              "label": "堵塞",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "label": "快速路发布段15分钟预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/13",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 250000,
-        "minScale": 500000,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_15M.FINT_STATUS",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 0
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "21",
-              "label": "畅通",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            },
-            {
-              "value": "22",
-              "label": "拥挤",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            },
-            {
-              "value": "23",
-              "label": "堵塞",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "label": "快速路发布段15分钟预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/13",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 64000,
-        "minScale": 125000,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_15M.FINT_STATUS",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 1
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "21",
-              "label": "畅通",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "22",
-              "label": "拥挤",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "23",
-              "label": "堵塞",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "label": "快速路发布段30分钟预测",
+        "label": "快速路发布段实时状态",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/0",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "maxScale": 250000,
-        "minScale": 500000,
+        "minScale": 1000000,
         "renderer": {
           "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_30M.FINT_STATUS",
+          "field1": "ZONGDUI.GJ_ISSUESECT_RTSTATE.FSTR_CFMSTATE",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 0
             }
           },
@@ -595,19 +60,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
+                "color": [79, 210, 125],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 0
                 }
               }
@@ -618,19 +75,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
+                "color": [255, 208, 69],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 0
                 }
               }
@@ -641,19 +90,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
+                "color": [232, 14, 14],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 0
                 }
               }
@@ -662,34 +103,24 @@
         }
       },
       {
-        "label": "快速路发布段30分钟预测",
+        "label": "快速路发布段实时状态",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/0",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "maxScale": 64000,
         "minScale": 125000,
         "renderer": {
           "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_30M.FINT_STATUS",
+          "field1": "ZONGDUI.GJ_ISSUESECT_RTSTATE.FSTR_CFMSTATE",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 1
             }
           },
@@ -700,19 +131,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
+                "color": [79, 210, 125],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -723,19 +146,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
+                "color": [255, 208, 69],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -746,19 +161,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
+                "color": [232, 14, 14],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -767,34 +174,24 @@
         }
       },
       {
-        "label": "快速路发布段30分钟预测",
+        "label": "快速路发布段实时状态",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/1",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 16000,
-        "minScale": 32000,
+        "outFields": ["*"],
+        "maxScale": 8000,
+        "minScale": 50000,
         "renderer": {
           "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_30M.FINT_STATUS",
+          "field1": "ZONGDUI.GJ_ISSUESECT_RTSTATE.FSTR_CFMSTATE",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 1
             }
           },
@@ -805,19 +202,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
+                "color": [79, 210, 125],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -828,19 +217,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
+                "color": [255, 208, 69],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -851,20 +232,298 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
+                "color": [232, 14, 14],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        "label": "快速路发布段15分钟预测",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/9",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "maxScale": 250000,
+        "minScale": 1000000,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_15M.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "21",
+              "label": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [79, 210, 125],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "22",
+              "label": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 208, 69],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "23",
+              "label": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 14, 14],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "快速路发布段15分钟预测",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/9",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "maxScale": 64000,
+        "minScale": 125000,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_15M.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "21",
+              "label": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [79, 210, 125],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "22",
+              "label": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 208, 69],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "23",
+              "label": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 14, 14],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "快速路发布段15分钟预测",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/10",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "maxScale": 8000,
+        "minScale": 50000,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_15M.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "21",
+              "label": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [79, 210, 125],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "22",
+              "label": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 208, 69],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "23",
+              "label": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 14, 14],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+
+      {
+        "label": "快速路发布段30分钟预测",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "maxScale": 250000,
+        "minScale": 1000000,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_30M.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "21",
+              "label": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [79, 210, 125],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "22",
+              "label": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 208, 69],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "23",
+              "label": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 14, 14],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 0
                 }
               }
             }
@@ -876,31 +535,21 @@
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/3",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 250000,
-        "minScale": 500000,
+        "outFields": ["*"],
+        "maxScale": 64000,
+        "minScale": 125000,
         "renderer": {
           "type": "uniqueValue",
           "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_30M.FINT_STATUS",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 0
+              "color": [255, 255, 255],
+              "width": 1
             }
           },
           "uniqueValueInfos": [
@@ -910,20 +559,12 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
+                "color": [79, 210, 125],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
+                  "color": [255, 255, 255],
+                  "width": 1
                 }
               }
             },
@@ -933,20 +574,12 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
+                "color": [255, 208, 69],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
+                  "color": [255, 255, 255],
+                  "width": 1
                 }
               }
             },
@@ -956,20 +589,12 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
+                "color": [232, 14, 14],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
+                  "color": [255, 255, 255],
+                  "width": 1
                 }
               }
             }
@@ -978,33 +603,23 @@
       },
       {
         "label": "快速路发布段30分钟预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/3",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/4",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 64000,
-        "minScale": 125000,
+        "outFields": ["*"],
+        "maxScale": 8000,
+        "minScale": 50000,
         "renderer": {
           "type": "uniqueValue",
           "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_30M.FINT_STATUS",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 1
             }
           },
@@ -1015,19 +630,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
+                "color": [79, 210, 125],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1038,19 +645,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
+                "color": [255, 208, 69],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1061,19 +660,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
+                "color": [232, 14, 14],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1081,35 +672,26 @@
           ]
         }
       },
+
       {
         "label": "快速路发布段1小时预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/5",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/6",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "maxScale": 250000,
-        "minScale": 500000,
+        "minScale": 1000000,
         "renderer": {
           "type": "uniqueValue",
           "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_1H.FINT_STATUS",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 0
             }
           },
@@ -1120,19 +702,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
+                "color": [79, 210, 125],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 0
                 }
               }
@@ -1143,19 +717,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
+                "color": [255, 208, 69],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 0
                 }
               }
@@ -1166,125 +732,12 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
+                "color": [232, 14, 14],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 0
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "label": "快速路发布段1小时预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/5",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 64000,
-        "minScale": 125000,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_1H.FINT_STATUS",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 1
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "21",
-              "label": "畅通",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "22",
-              "label": "拥挤",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "23",
-              "label": "堵塞",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
                 }
               }
             }
@@ -1296,219 +749,7 @@
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/6",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 16000,
-        "minScale": 32000,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_1H.FINT_STATUS",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 1
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "21",
-              "label": "畅通",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "22",
-              "label": "拥挤",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "23",
-              "label": "堵塞",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 1
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "label": "快速路发布段1小时预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/8",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
-        "maxScale": 250000,
-        "minScale": 500000,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_1H.FINT_STATUS",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
-              "width": 0
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "21",
-              "label": "畅通",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            },
-            {
-              "value": "22",
-              "label": "拥挤",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            },
-            {
-              "value": "23",
-              "label": "堵塞",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
-                  "width": 0
-                }
-              }
-            }
-          ]
-        }
-      },
-      {
-        "label": "快速路发布段1小时预测",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/8",
-        "type": "feature",
-        "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "maxScale": 64000,
         "minScale": 125000,
         "renderer": {
@@ -1517,19 +758,11 @@
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 1
             }
           },
@@ -1540,19 +773,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  79,
-                  210,
-                  125
-                ],
+                "color": [79, 210, 125],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1563,19 +788,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  208,
-                  69
-                ],
+                "color": [255, 208, 69],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1586,19 +803,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  232,
-                  14,
-                  14
-                ],
+                "color": [232, 14, 14],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1607,13 +816,83 @@
         }
       },
       {
+        "label": "快速路发布段1小时预测",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_issuesect/MapServer/7",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "maxScale": 8000,
+        "minScale": 50000,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.GJ_ISSUESECT_RTPF_1H.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "21",
+              "label": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [79, 210, 125],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "22",
+              "label": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 208, 69],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "23",
+              "label": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 14, 14],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+
+      {
         "label": "快速路指数区域实时",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/0",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "classBreaks",
           "field": "ZONGDUI.GJ_REGION_RTIND.FFLT_INDEX",
@@ -1626,20 +905,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  2,
-                  141,
-                  11,
-                  135
-                ],
+                "color": [2, 141, 11, 135],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1651,20 +921,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  0,
-                  255,
-                  0,
-                  175
-                ],
+                "color": [0, 255, 0, 175],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1676,20 +937,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  255,
-                  0,
-                  215
-                ],
+                "color": [255, 255, 0, 215],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1701,20 +953,65 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  0,
-                  0,
-                  255
-                ],
+                "color": [255, 0, 0, 255],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "快速路指数区域常发",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.GJ_REGION_YD_VW.YD_TYPE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "1",
+              "label": "准常发",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 208, 69],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "2",
+              "label": "常发",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 14, 14],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -1724,10 +1021,10 @@
       }
     ],
     "mapOptions": {
-      "scale": 64000,
+      "scale": 125000,
       "center": {
-        "x": 0,
-        "y": 0,
+        "x": 3000,
+        "y": 1000,
         "spatialReference": {
           "wkid": 2385
         }

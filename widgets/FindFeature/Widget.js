@@ -17,7 +17,7 @@ define([
   "esri/tasks/query",
   "esri/Color",
   "esri/graphic"
-], function(
+], function (
   declare,
   lang,
   array,
@@ -51,7 +51,7 @@ define([
     _showPopup: false,
     _centerResult: true,
 
-    postCreate: function() {
+    postCreate: function () {
       this.inherited(arguments);
       this.resultLayer = new GraphicsLayer();
       this.map.addLayer(this.resultLayer);
@@ -87,12 +87,12 @@ define([
       );
     },
 
-    _doFindTask: function(url, ids) {
+    _doFindTask: function (url, ids) {
       var deferredArray = [];
       var loading = new LoadingIndicator();
       loading.placeAt(window.jimuConfig.layoutId);
 
-      array.forEach(ids, function(id) {
+      array.forEach(ids, function (id) {
         var findTask = new FindTask(url);
         var findParam = new FindParameters();
         // findParam.searchFields = ["FEATUREID"];
@@ -102,13 +102,13 @@ define([
         deferredArray.push(findTask.execute(findParam));
       });
       all(deferredArray).then(
-        lang.hitch(this, function(results) {
+        lang.hitch(this, function (results) {
           array.forEach(
             results,
-            function(result) {
+            function (result) {
               array.forEach(
                 result,
-                function(findResult) {
+                function (findResult) {
                   var graphic = findResult.feature;
                   switch (graphic.geometry.type) {
                     case "polyline":
@@ -145,19 +145,19 @@ define([
           );
           loading.destroy();
         }),
-        function(error) {
+        function (error) {
           console.log(error);
           loading.destroy();
         }
       );
     },
 
-    _doQueryTaskOnFeatureLayer: function(url, ids) {
+    _doQueryTaskOnFeatureLayer: function (url, ids) {
       var loading = new LoadingIndicator();
       loading.placeAt(window.jimuConfig.layoutId);
 
       var where = "";
-      array.forEach(ids, function(id) {
+      array.forEach(ids, function (id) {
         where += "FEATUREID = '" + id + "' OR ";
       });
       //去掉最后的" OR "共四个字符
@@ -170,12 +170,12 @@ define([
       query.outFields = ["*"];
       queryTask.execute(
         query,
-        lang.hitch(this, function(featureSet) {
-          featureSet.features.forEach(function(graphic) {
+        lang.hitch(this, function (featureSet) {
+          featureSet.features.forEach(function (graphic) {
             if (this._showResult) {
               var node = graphic.getNode();
               node.setAttribute("data-highlight", "highlight");
-              setTimeout(function() {
+              setTimeout(function () {
                 node.setAttribute("data-highlight", "");
               }, 5000);
             }
@@ -186,16 +186,16 @@ define([
 
           loading.destroy();
         }),
-        function(error) {
+        function (error) {
           console.log(error);
           loading.destroy();
         }
       );
     },
 
-    _findInGraphicsLayer: function(graphicsLayer, ids) {
+    _findInGraphicsLayer: function (graphicsLayer, ids) {
       // console.log(graphicsLayer.mode, FeatureLayer.MODE_SNAPSHOT);
-      graphicsLayer.graphics.forEach(function(graphic) {
+      graphicsLayer.graphics.forEach(function (graphic) {
         var attr = graphic.attributes;
         var id;
         for (var fieldName in attr) {
@@ -206,7 +206,6 @@ define([
               fieldName.indexOf("FEATUREID") > -1
             ) {
               id = attr[fieldName];
-              console.log(id);
             }
           }
         }
@@ -215,10 +214,10 @@ define([
             if (this._centerResult) {
               this.map
                 .centerAt(jimuUtils.getGeometryCenter(graphic.geometry))
-                .then(function(value) {
+                .then(function (value) {
                   var node = graphic.getNode();
                   node.setAttribute("data-highlight", "highlight");
-                  setTimeout(function() {
+                  setTimeout(function () {
                     node.setAttribute("data-highlight", "");
                   }, 5000);
                 });
@@ -233,7 +232,7 @@ define([
       }, this);
     },
 
-    onTopicHandler_findFeature: function(params) {
+    onTopicHandler_findFeature: function (params) {
       var layerName = params.params.layerName || "";
       var ids = params.params.ids || "";
       this._showResult = params.params.showResult !== false;
@@ -267,13 +266,13 @@ define([
       }
     },
 
-    onTopicHandler_startHighlightFeature: function(params) {
+    onTopicHandler_startHighlightFeature: function (params) {
       //高亮
-      this.onTopicHandler_stopHighlightFeature({ layerName: params.layerName });
+      this.onTopicHandler_stopHighlightFeature({layerName: params.layerName});
 
       this._startHighlightFeature(params);
     },
-    _startHighlightFeature: function(params) {
+    _startHighlightFeature: function (params) {
       var layerName = params.layerName || "";
       var ids = params.ids || "";
 
@@ -303,10 +302,10 @@ define([
       }
     },
 
-    _doHighlightFindTask: function(url, ids, layerName) {
+    _doHighlightFindTask: function (url, ids, layerName) {
       var deferredArray = [];
 
-      array.forEach(ids, function(id) {
+      array.forEach(ids, function (id) {
         var findTask = new FindTask(url);
         var findParam = new FindParameters();
         findParam.searchFields = ["DEVICEID", "BM_CODE", "FEATUREID"];
@@ -316,13 +315,13 @@ define([
         deferredArray.push(findTask.execute(findParam));
       });
       all(deferredArray).then(
-        lang.hitch(this, function(results) {
+        lang.hitch(this, function (results) {
           array.forEach(
             results,
-            function(result) {
+            function (result) {
               array.forEach(
                 result,
-                function(findResult) {
+                function (findResult) {
                   var graphic = findResult.feature;
                   graphic.label = layerName;
                   graphic.id = findResult.value;
@@ -342,14 +341,14 @@ define([
             this
           );
         }),
-        function(error) {
+        function (error) {
           console.log(error);
         }
       );
     },
 
-    _findInHighlightGraphicsLayer: function(graphicsLayer, ids) {
-      graphicsLayer.graphics.forEach(function(graphic) {
+    _findInHighlightGraphicsLayer: function (graphicsLayer, ids) {
+      graphicsLayer.graphics.forEach(function (graphic) {
         var attr = graphic.attributes;
         var id;
         for (var fieldName in attr) {
@@ -379,12 +378,12 @@ define([
         }
       }, this);
     },
-    onTopicHandler_stopHighlightFeature: function(params) {
+    onTopicHandler_stopHighlightFeature: function (params) {
       //停止高亮
       var layerName = params.layerName || "";
       var ids = params.ids || "";
       var removeGraphics = [];
-      this.highlightLayer.graphics.forEach(function(graphic) {
+      this.highlightLayer.graphics.forEach(function (graphic) {
         var attr = graphic.attributes;
         var id;
         if (layerName === graphic.label) {

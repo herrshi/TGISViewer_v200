@@ -353,7 +353,9 @@
     //   ]
     // });
     // map.findFeature({layerName: "停车场-点", ids: ["P8"], centerResult: true});
-    map.showLayer({label: "地面指数区域1小时预测"});
+    map.showLayer({label: "快速路发布段15分钟预测"});
+    map.findFeature({layerName: "快速路发布段15分钟预测", ids: ["61632399006"], centerResult: true})
+
   });
 
   function Test1ClickHandler() {
@@ -499,8 +501,10 @@
 
     // map.addPoints('{"points":[{"id":"1","type":"SXJ","geometry":{"x":-2545.599,"y":13778.258},"symbol":{"type":"picture","url":"http://128.64.130.53:17000/web-gis/scripts/TGISViewer_v200/images/mapIcons/SheXiangJi-blue.png","height":26,"width":22,"yoffset":13}},{"id":"2","type":"SXJ","geometry":{"x":-30.994,"y":14438.659},"symbol":{"type":"picture","url":"http://128.64.130.53:17000/web-gis/scripts/TGISViewer_v200/images/mapIcons/SheXiangJi-blue.png","height":26,"width":22,"yoffset":13}}]}');
 
-    map.hideLayer({label: "快速路发布段15分钟预测"});
-    map.showLayer({label: "快速路发布段30分钟预测"});
+    // map.hideLayer({label: "快速路发布段15分钟预测"});
+    // map.showLayer({label: "快速路发布段30分钟预测"});
+    map.findFeature({layerName: "快速路发布段15分钟预测", ids: ["61632399006"], centerResult: true})
+
   }
 
 

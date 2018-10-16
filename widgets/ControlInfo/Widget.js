@@ -89,6 +89,7 @@ define([
     _infoTypeList: null,
     _eventTypeList: null,
     _subEventTypeList: null,
+    _areaCodeList: null,
 
     postCreate: function () {
       this.inherited(arguments);
@@ -363,8 +364,54 @@ define([
 
       $("#btnRefresh").on("click", lang.hitch(this, this._onBtnRefreshClick));
 
-      this._getSelectData();
-      this._getExistControlInfo();
+      this._getSelectData().then(lang.hitch(this, function () {
+        this._getExistControlInfo();
+      }));
+
+    },
+
+    _getInfoTypeNameById: function(id) {
+      var name = "";
+      this._infoTypeList.forEach(function (infoType) {
+        if (parseInt(infoType.fstrTypeId) === parseInt(id)) {
+          name = infoType.fstrTypeName;
+        }
+      });
+
+      return name;
+    },
+
+    _getEventTypeNameById: function(id) {
+      var name = "";
+      this._eventTypeList.forEach(function (eventType) {
+        if (parseInt(eventType.fstrEvtTypeId) === parseInt(id)) {
+          name = eventType.fstrEvtTypeName;
+        }
+      });
+
+      return name;
+    },
+
+    _getSubEventTypeNameById: function(id) {
+      var name = "";
+      this._subEventTypeList.forEach(function (subEventType) {
+        if (parseInt(subEventType.fstrEvtSubTypeId) === parseInt(id)) {
+          name = subEventType.fstrEvtSubTypeName;
+        }
+      });
+
+      return name;
+    },
+
+    _getAreaNameById: function(id) {
+      var name = "";
+      this._areaCodeList.forEach(function (areaCode) {
+        if (parseInt(areaCode.fstrAreaCode) === parseInt(id)) {
+          name = areaCode.fstrAreaName
+        }
+      });
+
+      return name;
     },
 
     /**
@@ -372,21 +419,23 @@ define([
      * 并添加到详细信息页面的select中
      * */
     _getSelectData: function() {
+      var def = new Deferred();
+
       all({
         infoType: this._getInfoType(),
         eventType: this._getEventType(),
         subEventType: this._getSubEventType(),
         areaCode: this._getAreaCode()
-      }).then(function (results) {
+      }).then(lang.hitch(this, function (results) {
         var selInfoType = $("#selInfoType");
         var selEventType = $("#selEventType");
         var selSubEventType = $("#selSubEventType");
         var selAreaCode = $("#selAreaCode");
 
-        var infoTypeList = results.infoType;
-        var eventTypeList = results.eventType;
-        var subEventTypeList = results.subEventType;
-        var areaCodeList = results.areaCode;
+        this._infoTypeList = results.infoType;
+        this._eventTypeList = results.eventType;
+        this._subEventTypeList = results.subEventType;
+        this._areaCodeList = results.areaCode;
 
         var infoTypeOption = "<option value='${fstrTypeId}'>${fstrTypeName}</option>";
         var eventTypeOption = "<option value='${fstrEvtTypeId}'>${fstrEvtTypeName}</option>";
@@ -394,21 +443,21 @@ define([
         var areaCodeOption = "<option value='${fstrAreaCode}'>${fstrAreaName}</option>";
 
         //选择当前信息分类类型对应的事件信息类型
-        selInfoType.on("change", function () {
+        selInfoType.on("change", lang.hitch(this, function () {
           selEventType.empty();
 
           var infoTypeId = $("#selInfoType option:checked").val();
-          eventTypeList.forEach(function (eventType) {
+          this._eventTypeList.forEach(function (eventType) {
             if (eventType.fstrTypeId === infoTypeId) {
               var content = esriLang.substitute(eventType, eventTypeOption);
               selEventType.append(content);
             }
           });
           selEventType.trigger("change");
-        });
+        }));
 
         //选择对应当前事件信息类型的子类型
-        selEventType.on("change", function () {
+        selEventType.on("change", lang.hitch(this, function () {
           selSubEventType.empty();
 
           //子类型是可选项, 要加一条"无"的option
@@ -416,7 +465,7 @@ define([
           selSubEventType.append(contentNone);
 
           var eventTypeId = $("#selEventType option:checked").val();
-          subEventTypeList.forEach(function (subEventType) {
+          this._subEventTypeList.forEach(function (subEventType) {
             if (subEventType.fstrEvtTypeId === eventTypeId) {
               var content = esriLang.substitute(subEventType, subEventTypeOption);
               selSubEventType.append(content);
@@ -424,20 +473,24 @@ define([
           });
 
           selSubEventType.material_select();
-        });
+        }));
 
-        infoTypeList.forEach(function (infoType) {
+        this._infoTypeList.forEach(function (infoType) {
           var content = esriLang.substitute(infoType, infoTypeOption);
           selInfoType.append(content);
         });
 
-        areaCodeList.forEach(function (areaCode) {
+        this._areaCodeList.forEach(function (areaCode) {
           var content = esriLang.substitute(areaCode, areaCodeOption);
           selAreaCode.append(content);
         });
 
         selInfoType.trigger("change");
-      });
+
+        def.resolve();
+      }));
+
+      return def;
     },
 
     _getAreaCode: function() {
@@ -763,40 +816,15 @@ define([
         type: "GET",
         //jsonp可以不使用代理来解决跨域问题, 但需要服务端适配jsonp
         dataType: this.config.proxy.enable ? "json" : "jsonp",
-        // jsonpCallback: "resultCallback",
         success: lang.hitch(this, function (data) {
           this._existControlInfos = data;
           this._showExistControlInfo();
         }),
         error: function (jqXHR, textStatus) {
-          console.log(textStatus);
+          console.error("status: " + jqXHR.status + " " + jqXHR.responseText);
+          toastr.error("获取现有管制信息失败!");
         }
       });
-      // this._existControlInfos = [
-      //   {
-      //     type: "point",
-      //     id: "gz001",
-      //     points: [{ x: 121.283217, y: 31.190441 }],
-      //     desc: "test",
-      //     updateTime: "2018-09-11 14:50:00"
-      //   },
-      //   {
-      //     type: "point",
-      //     id: "gz002",
-      //     points: [{ x: 121.283417, y: 31.190641 }],
-      //     desc: "test",
-      //     updateTime: "2018-09-11 14:51:00"
-      //   },
-      //   {
-      //     type: "line",
-      //     id: "gz003",
-      //     ids: ["20180816001", "20180816002"],
-      //     desc: "test",
-      //     updateTime: "2018-09-11 14:52:00"
-      //   }
-      // ];
-      //
-      // this._showExistControlInfo();
     },
 
     _showExistControlInfo: function () {
@@ -840,10 +868,12 @@ define([
       );
     },
 
+    /**检查管制信息中是否含有坐标数据*/
     _checkControlInfo: function (controlInfo) {
       try {
         var gisData = JSON.parse(controlInfo.fstrGisData);
         if (gisData.position_loc) {
+          //单引号替换为双引号, 防止json格式错误
           var loc = JSON.parse(gisData.position_loc.replace(/'/g, '"'));
           if (loc instanceof Array && loc.length === 1) {
             return true;
@@ -859,6 +889,7 @@ define([
 
         return false;
       } catch (e) {
+        console.error("json格式错误: " + controlInfo.fstrGisData);
         return false;
       }
     },
@@ -870,17 +901,44 @@ define([
       var graphic = new Graphic(new Point(point[0], point[1]));
       graphic.id = controlInfoData.fstrSrcEvtId;
       graphic.symbol = this._existPointSymbol;
-      graphic.attributes = {
-        createTime: controlInfoData.fdtCreateTime,
-        desc: controlInfoData.fstrDesc,
-        userId: controlInfoData.fstrCreateUserId
-      };
+
+      var gisData = JSON.parse(controlInfoData.fstrGisData);
+      //处理utc时间
+      graphic.attributes = gisData;
+
+      var content =
+        //信息分类类型
+        "<div class='input-group input-group-sm mb-1'>" +
+          "<div class='input-group-prepend'>" +
+            "<span class='input-group-text font-weight-bold text-primary' id='span_info_type_id'>信息分类类型</span>" +
+          "</div>" +
+          "<input type='text' class='form-control' aria-label='Small' aria-describedby='span_info_type_id' readonly " +
+                 "value='" + this._getInfoTypeNameById(gisData.info_type_id) + "'>" +
+        "</div>" +
+        //事件信息类型
+        "<div class='input-group input-group-sm mb-1'>" +
+          "<div class='input-group-prepend'>" +
+            "<span class='input-group-text font-weight-bold text-primary' id='span_evt_type_no'>事件信息类型</span>" +
+          "</div>" +
+          "<input type='text' class='form-control' aria-label='Small' aria-describedby='span_evt_type_no' readonly " +
+                 "value='" + this._getEventTypeNameById(gisData.evt_type_no) + "'>" +
+        "</div>";
+
+      //事件信息子类型
+      if (parseInt(gisData.sub_evt_type_no) !== 0) {
+        content +=
+          "<div class='input-group input-group-sm mb-1'>" +
+            "<div class='input-group-prepend'>" +
+              "<span class='input-group-text font-weight-bold text-primary' id='span_sub_evt_type_no'>事件信息子类型</span>" +
+            "</div>" +
+            "<input type='text' class='form-control' aria-label='Small' aria-describedby='span_sub_evt_type_no' readonly " +
+                   "value='" + this._getSubEventTypeNameById(gisData.sub_evt_type_no) + "'>" +
+          "</div>";
+      }
 
       var infoTemplate = new InfoTemplate();
-      infoTemplate.setTitle("<b>${createTime}</b>");
-      infoTemplate.setContent(
-        "<b>创建人: </b>${userId}<br/>" + "<b>内容: </b>${desc}"
-      );
+      infoTemplate.setTitle("<b>${position_road_name}</b>");
+      infoTemplate.setContent(content);
       graphic.setInfoTemplate(infoTemplate);
 
       this._existControlLayer.add(graphic);
