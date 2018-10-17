@@ -1,0 +1,44 @@
+{
+  "tooltips":[
+    {
+      "label": "地铁标注点",
+      "context": "${地铁标注点.Name}"
+    },
+    {
+      "label": "国展中心大",
+      "context": "${Name}"
+    },
+    {
+      "label": "主线发布段",
+      "context": "${地铁标注点.Name}"
+    },
+    {
+      "label": "匝道发布段",
+      "context": "${地铁标注点.Name}"
+    },
+    {
+      "label": "快速路",
+      "context": "${地铁标注点.Name}"
+    },
+    {
+      "label": "高速公路",
+      "context": "${地铁标注点.Name}"
+    },
+    {
+      "label": "收费站",
+      "context": "${地铁标注点.Name}"
+    },
+    {
+      "label": "情报板",
+      "context": "${地铁标注点.Name}"
+    },
+    {
+      "label": "摄像机",
+      "context": "${地铁标注点.Name}"
+    },
+    {
+      "label": "交通事故",
+      "context": "${地铁标注点.Name}"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+.MapText
+{
+    min-width:30px;
+    border-radius:4px;
+    position: absolute;
+    text-align:left;
+    color:#FFF;
+    padding:8px 15px 8px 15px;
+    line-height:14px;
+    font-size:12px;
+    pointer-events: none;
+}
+
+.TextDiv
+{
+    border:1.5px solid #2098A5;
+    background: #02243F;
+}
+.TextTriTop
+{
+    position:absolute;
+    width:10px;
+    height:10px;
+    z-index: -1;
+    background: #02243F;
+    border:1.5px solid #2098A5;
+    -webkit-transform: rotate(45deg);
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg); 	/* IE 9 */
+    -moz-transform:rotate(45deg); 	/* Firefox */
+    -webkit-transform:rotate(45deg); /* Safari 和 Chrome */
+    -o-transform:rotate(45deg); 	/* Opera */
+
+    border-left:none;border-top:none;
+    margin: auto;
+    margin-top:4px;
+    left: 0;right: 0;
+}
+.TextTriRight
+{
+    position:absolute;
+    width:10px;
+    height:10px;
+    z-index: -1;
+    background: #02243F;
+    border:1.5px solid #2098A5;
+    -webkit-transform: rotate(45deg);
+    transform:rotate(45deg);
+    -ms-transform:rotate(45deg); 	/* IE 9 */
+    -moz-transform:rotate(45deg); 	/* Firefox */
+    -webkit-transform:rotate(45deg); /* Safari 和 Chrome */
+    -o-transform:rotate(45deg); 	/* Opera */
+
+    border-right:none;border-top:none;
+    margin: auto;
+    margin-left:-21px;
+    top: 0;bottom: 0;
+}

@@ -100,7 +100,7 @@
         </div>
         <div class="modal-body mx-2">
           <form id="formControlDetail" class="needs-validation" novalidate>
-            <div class="md-form row">
+            <div class="md-form row mb-0">
               <div class="col-4">
                 <select id="selInfoType" name="info_type_id"
                         class="mdb-select md-form colorful-select dropdown-primary"></select>
@@ -120,7 +120,7 @@
               </div>
             </div>
 
-            <div class="md-form row">
+            <div class="md-form row mb-0">
               <div class="col-4">
                 <select id="selEventSource" name="evt_src_no"
                         class="mdb-select md-form colorful-select dropdown-primary">
@@ -154,12 +154,19 @@
               </div>
             </div>
 
-            <div class="md-form row">
-              <div class="col-4 md-form form-group">
-                <input type="text" id="txtDirection" name="position_direction" class="form-control"
-                       placeholder="事件方向">
-              </div>
+            <!--<div class="md-form row mb-0">-->
+              <!--<div class="col-6 md-form">-->
+                <!--<input placeholder="当前日期" type="text" id="input_StartDate" class="form-control datepicker">-->
+                <!--<label for="input_StartDate">事件发生日期</label>-->
+              <!--</div>-->
 
+              <!--<div class="col-6 md-form">-->
+                <!--<input placeholder="当前时间" type="text" id="input_StartTime" class="form-control timepicker">-->
+                <!--<label for="input_StartTime">事件发生时间</label>-->
+              <!--</div>-->
+            <!--</div>-->
+
+            <div class="md-form row mb-0">
               <div class="col-4">
                 <select id="selBlockType" name="block_type" class="mdb-select md-form colorful-select dropdown-primary">
                   <option value="0">不阻断</option>
@@ -177,9 +184,14 @@
                 </select>
                 <label for="selLevel">事件等级</label>
               </div>
+
+              <div class="col-4 md-form form-group">
+                <input type="text" id="txtDirection" name="position_direction" class="form-control"
+                       placeholder="事件方向">
+              </div>
             </div>
 
-            <div class="md-form row">
+            <div class="md-form row mb-0">
               <div class="col-4 md-form form-group">
                 <input type="text" id="txtRoadName" name="position_road_name" class="form-control" placeholder="道路名称"
                        required>
@@ -192,7 +204,7 @@
               </div>
             </div>
 
-            <div class="md-form row">
+            <div class="md-form row mb-0">
               <div class="col-6">
                 <textarea type="text" id="txtDesc" name="evt_desc" class="md-textarea form-control" rows="2" required></textarea>
                 <label data-error="wrong" data-success="right" for="txtDesc">事件描述</label>
@@ -206,7 +218,7 @@
             </div>
 
             <div class="modal-footer d-flex justify-content-center">
-              <button id="btnSendDetail" class="btn btn-indigo" type="submit">
+              <button id="btnSendDetail" class="btn btn-indigo">
                 发送 <i class="fa fa-paper-plane-o ml-1"></i>
               </button>
             </div>
@@ -233,7 +245,7 @@
 <script type="text/javascript">
 
   var map = TMap.createNew({
-    apiUrl: "https://js.arcgis.com/3.26/",
+    apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
@@ -241,10 +253,15 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
+    // config: "http://localhost:8090/TGISViewer_v200/project/JiaoJing/config-ksl.json"
     config: "http://localhost:8090/TGISViewer_v200/project/QingPu/config-GZXX.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
+    map.setUserInfo({
+      name: "et_brain_021",
+      id: "et_brain_021",
+      code: "31000"
+    });
     // map.showDynamicRendererLayer({
     //   name: "IssuesectState",
     //   defaultData: "free",
@@ -336,7 +353,9 @@
     //   ]
     // });
     // map.findFeature({layerName: "停车场-点", ids: ["P8"], centerResult: true});
-    map.showLayer({label: "地面指数区域1小时预测"});
+    map.showLayer({label: "快速路发布段15分钟预测"});
+    map.findFeature({layerName: "快速路发布段15分钟预测", ids: ["61632399006"], centerResult: true})
+
   });
 
   function Test1ClickHandler() {
@@ -482,8 +501,10 @@
 
     // map.addPoints('{"points":[{"id":"1","type":"SXJ","geometry":{"x":-2545.599,"y":13778.258},"symbol":{"type":"picture","url":"http://128.64.130.53:17000/web-gis/scripts/TGISViewer_v200/images/mapIcons/SheXiangJi-blue.png","height":26,"width":22,"yoffset":13}},{"id":"2","type":"SXJ","geometry":{"x":-30.994,"y":14438.659},"symbol":{"type":"picture","url":"http://128.64.130.53:17000/web-gis/scripts/TGISViewer_v200/images/mapIcons/SheXiangJi-blue.png","height":26,"width":22,"yoffset":13}}]}');
 
-    map.hideLayer({label: "快速路发布段15分钟预测"});
-    map.showLayer({label: "快速路发布段30分钟预测"});
+    // map.hideLayer({label: "快速路发布段15分钟预测"});
+    // map.showLayer({label: "快速路发布段30分钟预测"});
+    map.findFeature({layerName: "快速路发布段15分钟预测", ids: ["61632399006"], centerResult: true})
+
   }
 
 
