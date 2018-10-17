@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>TGISViewer Version 2.00</title>
-  <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="libs/mdb/css/mdb.min.css" rel="stylesheet" type="text/css">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet">
+  <link href="libs/mdb/css/mdb.min.css" rel="stylesheet">
 
 
   <!--<link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap/css/bootstrap.css"/>-->
@@ -16,7 +16,6 @@
   <!--<link rel="stylesheet" type="text/css" href="assets/layouts/css/custom.css"/>-->
   <!--<link rel="stylesheet" type="text/css" href="assets/global/css/plugins.css"/>-->
 
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/font-awesome/css/font-awesome.min.css"/>
   <!--<link rel="stylesheet" type="text/css" href="libs/dropdownCheckbox/dropdownCheckboxes.min.css">-->
 
 
@@ -234,16 +233,16 @@
 <script type="text/javascript">
 
   var map = TMap.createNew({
-    apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
+    apiUrl: "https://js.arcgis.com/3.26/",
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
-    viewerUrl: "http://localhost:8090/TGISViewer_v200/",
+    viewerUrl: "http://localhost:8099/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/外网172.16.0.2/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/内网128.64.151.238/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/JiaoJing/config-ksl.json"
-    // config: "http://localhost:8099/TGISViewer_v200/project/QingPu/config-GZXX.json"
+    // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
+    config: "http://localhost:8099/TGISViewer_v200/project/QingPu/config-GZXX.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     // map.showDynamicRendererLayer({
@@ -337,8 +336,7 @@
     //   ]
     // });
     // map.findFeature({layerName: "停车场-点", ids: ["P8"], centerResult: true});
-    map.hideLayer({label: "快速路指数区域实时"});
-    map.showLayer({label: "快速路发布段30分钟预测"});
+    map.showLayer({label: "地面指数区域1小时预测"});
   });
 
   function Test1ClickHandler() {
@@ -483,8 +481,9 @@
     // map.findFeature({layerName: "快速路发布段", ids: ["61234989003"], centerResult: true, showPopup: true});
 
     // map.addPoints('{"points":[{"id":"1","type":"SXJ","geometry":{"x":-2545.599,"y":13778.258},"symbol":{"type":"picture","url":"http://128.64.130.53:17000/web-gis/scripts/TGISViewer_v200/images/mapIcons/SheXiangJi-blue.png","height":26,"width":22,"yoffset":13}},{"id":"2","type":"SXJ","geometry":{"x":-30.994,"y":14438.659},"symbol":{"type":"picture","url":"http://128.64.130.53:17000/web-gis/scripts/TGISViewer_v200/images/mapIcons/SheXiangJi-blue.png","height":26,"width":22,"yoffset":13}}]}');
-    // map.hideLayer({label: "快速路发布段实时"});
-    // map.showLayer({label: "快速路指数区域实时"});
+
+    map.hideLayer({label: "快速路发布段15分钟预测"});
+    map.showLayer({label: "快速路发布段30分钟预测"});
   }
 
 
@@ -620,7 +619,7 @@
 <script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>
 <script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>
-<script type="text/javascript" src="libs/echarts.source.js"></script>
+<!--<script type="text/javascript" src="libs/echarts.source.js"></script>-->
 
 <!--<script type="text/javascript" src="assets/global/plugins/pause/Info-pause.js"></script>-->
 <!--<script type="text/javascript" src="assets/global/js/app.min.js"></script>-->
@@ -629,7 +628,7 @@
 <!--<script type="text/javascript" src="assets/global/plugins/gis-tool/anime.js"></script>-->
 <!--<script type="text/javascript" src="assets/global/plugins/gis-tool/index.js"></script>-->
 
-<script type="text/javascript" src="libs/dropdownCheckbox/dropdownCheckboxes.min.js"></script>
+<!--<script type="text/javascript" src="libs/dropdownCheckbox/dropdownCheckboxes.min.js"></script>-->
 
 
 </body>

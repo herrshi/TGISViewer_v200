@@ -4,23 +4,35 @@
       <w>arcgis</w>
       <w>basemap</w>
       <w>bustype</w>
+      <w>copywriting</w>
       <w>dijit</w>
       <w>dojox</w>
+      <w>duan</w>
       <w>esri</w>
+      <w>fint</w>
       <w>guijiao</w>
       <w>hong</w>
+      <w>infos</w>
+      <w>issuesect</w>
       <w>jimu</w>
+      <w>jing</w>
       <w>jsonp</w>
       <w>mousemove</w>
       <w>mouseup</w>
       <w>polyline</w>
       <w>qiao</w>
+      <w>qing</w>
       <w>renderers</w>
+      <w>rtpf</w>
+      <w>shan</w>
       <w>shang</w>
       <w>shuang</w>
+      <w>textarea</w>
       <w>textsymbol</w>
+      <w>xiang</w>
       <w>xoffset</w>
       <w>yoffset</w>
+      <w>zongdui</w>
     </words>
   </dictionary>
 </component>
