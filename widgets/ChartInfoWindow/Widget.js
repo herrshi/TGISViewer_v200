@@ -49,6 +49,10 @@ define([
     _results: null,
     colors: [[0, 255, 255], [255, 215, 0]],
     _timeInterval: null,
+    _stack: "nomal",
+    _selectID: null,
+    _idField: null,
+    _label: null,
     postCreate: function() {
       this.inherited(arguments);
 
@@ -56,14 +60,36 @@ define([
         "showChartInfo",
         lang.hitch(this, this._onTopicHandler_showChartInfo)
       );
+      this.map.on("click", lang.hitch(this, this._onChartLayerClick));
+    },
+    _onChartLayerClick: function(event) {
+      if (event.graphic) {
+        var label = event.graphic.getLayer().label;
+        if (
+          this._label !== null &&
+          this._idField !== null &&
+          this._label === label
+        ) {
+          var id = event.graphic.attributes[this._idField];
+          this._onTopicHandler_showChartInfo({ label: label, id: id });
+        } else {
+          this._onTopicHandler_showChartInfo("");
+        }
+      } else {
+        this._onTopicHandler_showChartInfo("");
+      }
     },
     _onTopicHandler_showChartInfo: function(params) {
-      var label = params || "";
-      if (label === "") {
+      //var label = params || "";
+      this.clearChart();
+      if (params === null || params === undefined || params === "") {
         this._clearInterval();
-        this.clearChart();
         return;
       }
+
+      var label = params.label || "";
+      this._label = label;
+      this._selectID = params.id || "";
 
       if (this._timeInterval) {
         this._clearInterval();
@@ -74,17 +100,17 @@ define([
         this.config.interval
       );
 
-      var queryUrl = "";
       for (var i = 0; i < this.config.chartinfos.length; i++) {
         var chartinfo = this.config.chartinfos[i];
         if (chartinfo.label === label) {
-          queryUrl = chartinfo.url;
+          this._queryUrl = chartinfo.url;
           this.chartField = chartinfo.fields;
+          this._stack = chartinfo.stacking;
+          this._idField = chartinfo.idField;
           break;
         }
       }
-      this._queryUrl = queryUrl;
-      this._selectData(queryUrl);
+      this._selectData(this._queryUrl);
     },
     _selectData: function(url) {
       var query = new Query();
@@ -100,10 +126,14 @@ define([
     },
     processResults: function(results) {
       this.clearChart();
-      var width = 80;
+      var width = 100;
       var height = 130;
       for (var i = 0; i < results.features.length; i++) {
-        if (results.features[i].attributes != null) {
+        if (
+          this._selectID === "*" ||
+          (this._selectID != "" &&
+            results.features[i].attributes[this._idField] == this._selectID)
+        ) {
           var nodeChart = null;
           nodeChart = domConstruct.create(
             "div",
@@ -123,7 +153,7 @@ define([
               var field = datafield[n];
               var data = {
                 color: this.getRgbaColor(n, alph),
-                y: results.features[i].attributes[field]
+                y: Number(results.features[i].attributes[field])
               };
               dataArr.push(data);
             }
@@ -153,7 +183,7 @@ define([
             plotOptions: {
               column: {
                 depth: 23, //纵深
-                stacking: "percent",
+                stacking: this._stack,
                 colorByPoint: true,
                 pointPadding: 0, //数据点之间的距离值
                 groupPadding: 0, //分组之间的距离值
@@ -174,7 +204,9 @@ define([
               title: {
                 enabled: false
               },
-              gridLineWidth: 0
+              gridLineWidth: 0,
+              min: 0, // 这个用来控制y轴的开始刻度（最小刻度），另外还有一个表示最大刻度的max属性
+              minRange: 1
             },
             xAxis: {
               labels: {
@@ -240,7 +272,7 @@ define([
         g = Math.floor(Math.random() * 256);
         b = Math.floor(Math.random() * 256);
       }
-      return "rgb(" + r + "," + g + "," + b + "," + a + ")"; //返回rgba(r,g,b,a)格式颜色
+      return "rgba(" + r + "," + g + "," + b + ", " + a + ")"; //返回rgba(r,g,b,a)格式颜色
     },
     clearChart: function() {
       if (this.chartData) {

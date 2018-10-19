@@ -1,44 +1,86 @@
 {
-  "tooltips":[
+  "tooltips": [
+    {
+      "label": "周边-地铁标注点",
+      "context":
+      "地铁线：${JWPT.RAILWAY_VOL_SATURATION.LINE_DESC}<br/>地铁站：${JWPT.RAILWAY_VOL_SATURATION.STATION_DESC}<br/>进站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_IN}<br/>出站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_OUT}<br/>状态：${JWPT.RAILWAY_VOL_SATURATION.STATUS}"
+    },
+    {
+      "label": "停车场-面",
+      "context": "停车场：${停车场.备注1}<br/>流量：${JWPT.PARK_STATUS_VW.PARK_VOLUME}<br/>状态：${JWPT.PARK_STATUS_VW.STATUS}"
+    },
     {
       "label": "地铁标注点",
-      "context": "${地铁标注点.Name}"
+      "context":
+      "地铁线：${JWPT.RAILWAY_VOL_SATURATION.LINE_DESC}<br/>地铁站：${JWPT.RAILWAY_VOL_SATURATION.STATION_DESC}<br/>进站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_IN}<br/>出站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_OUT}<br/>状态：${JWPT.RAILWAY_VOL_SATURATION.STATUS}"
+    },
+    {
+      "label": "巴士线路",
+      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+    },
+    {
+      "label": "国展中心",
+      "context": "客流：${JWPT.PAVILION_RTVOLUME_ALL_VW.FSTR_VOLUME}"
     },
     {
       "label": "国展中心大",
-      "context": "${Name}"
+      "context": "客流：${JWPT.PAVILION_RTVOLUME_ALL_VW.FSTR_VOLUME}"
+    },
+    {
+      "label": "国展中心图层",
+      "context": "名称：${Name}"
+    },
+    {
+      "label": "接驳线",
+      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+    },
+    {
+      "label": "停车场短驳线路",
+      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+    },
+    {
+      "label": "接驳公交专线",
+      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+    },
+    {
+      "label": "首日轨道交通接驳线",
+      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
     },
     {
       "label": "主线发布段",
-      "context": "${地铁标注点.Name}"
+      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}"
     },
     {
       "label": "匝道发布段",
-      "context": "${地铁标注点.Name}"
+      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}"
     },
     {
       "label": "快速路",
-      "context": "${地铁标注点.Name}"
+      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}"
     },
     {
       "label": "高速公路",
-      "context": "${地铁标注点.Name}"
+      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}"
     },
     {
       "label": "收费站",
-      "context": "${地铁标注点.Name}"
+      "context": "描述：${JWPT.JWPT_FACL_SGTLSTATION.FSTR_DESC}"
     },
     {
       "label": "情报板",
-      "context": "${地铁标注点.Name}"
+      "context": "描述：${JWPT.DEV_CONFIG.FSTR_DESC}"
     },
     {
       "label": "摄像机",
-      "context": "${地铁标注点.Name}"
+      "context": "描述：${JWPT.DEV_CONFIG.FSTR_DESC}"
     },
     {
       "label": "交通事故",
-      "context": "${地铁标注点.Name}"
+      "context": "描述：${JWPT.EVENT.DEVICEDESC}"
+    },
+    {
+      "label": "国展周边地面道路",
+      "context": "路名：${路名}<br/>状态 ：${状态}<br/>"
     }
   ]
 }

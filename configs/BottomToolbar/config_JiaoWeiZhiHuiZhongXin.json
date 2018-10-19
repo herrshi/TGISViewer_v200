@@ -2,7 +2,7 @@
   "buttons": [
     {
       "label": "收费站",
-      "fontClass": "icon_parking",
+      "fontClass": "icon_sfz",
       "operations": [
         {
           "opName": "changeLayer"
@@ -20,7 +20,34 @@
     },
     {
       "label": "发布段",
+      "initEnable": true,
       "fontClass": "icon_fbd",
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["快速路-段"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["主线发布段"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["匝道发布段"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["快速路"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["高速公路"]
+        }
+      ]
+    },
+    {
+      "label": "情报板",
+      "fontClass": "icon_qbb",
       "operations": [
         {
           "opName": "changeLayer"
@@ -28,8 +55,8 @@
       ]
     },
     {
-      "label": "情报板",
-      "fontClass": "icon_qbb",
+      "label": "交通事故",
+      "fontClass": "icon_ShiGu",
       "operations": [
         {
           "opName": "changeLayer"

@@ -2,6 +2,7 @@
   "buttons": [
     {
       "label": "情报板",
+      "initEnable": true,
       "image": "images/buttons/QingBaoBan.png",
       "operations": [
         {

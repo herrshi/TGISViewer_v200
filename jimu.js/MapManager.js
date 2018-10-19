@@ -26,6 +26,7 @@ define([
   "esri/tasks/IdentifyParameters",
   "esri/layers/ArcGISDynamicMapServiceLayer",
   "esri/layers/ArcGISTiledMapServiceLayer",
+  "esri/layers/FeatureLayer",
   "esri/layers/WMSLayer",
   "esri/layers/WMSLayerInfo",
   "esri/geometry/webMercatorUtils",
@@ -58,6 +59,7 @@ define([
   IdentifyParameters,
   ArcGISDynamicMapServiceLayer,
   ArcGISTiledMapServiceLayer,
+  FeatureLayer,
   WMSLayer,
   WMSLayerInfo,
   webMercatorUtils,
@@ -116,6 +118,7 @@ define([
         "setMapCenterAndLevel",
         lang.hitch(this, this.topicHandler_onSetMapCenterAndLevel)
       );
+      topic.subscribe("refreshMap", lang.hitch(this, this.topicHandler_onRefreshMap));
       topic.subscribe(
         "toScreen",
         lang.hitch(this, this.topicHandler_onToScreen)
@@ -648,6 +651,18 @@ define([
       }
     },
 
+    topicHandler_onRefreshMap: function(params) {
+      this.map.graphicsLayerIds.forEach(function (layerId) {
+        var layer = this.map.getLayer(layerId);
+        //不传label就刷新整个图层
+        if (params === undefined || params.labels === undefined || params.labels.length === 0) {
+          layer.refresh();
+        } else if (params.labels.indexOf(layer.label) >= 0) {
+          layer.refresh();
+        }
+      }, this);
+    },
+
     /**设置地图缩放比例*/
     topicHandler_onSetMapScale: function(scale) {
       if (!isNaN(scale) && scale > 0) {
@@ -906,6 +921,10 @@ define([
           }
 
           layer.setRenderer(renderer);
+        }
+        if (layerConfig.labelingInfo) {
+          //var lc = new LabelClass(layerConfig.labelingInfo);
+          layer.setLabelingInfo(layerConfig.labelingInfo);
         }
         map.addLayer(layer);
       }));

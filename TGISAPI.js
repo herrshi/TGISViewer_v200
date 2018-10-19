@@ -272,6 +272,17 @@ var TMap = {
   },
 
   /**
+   * 刷新地图
+   * @param params: object, optional, 不传参则刷新整个地图
+   *   labels: [string], required. 图层的配置名称
+   * */
+  refreshMap: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("refreshMap", params);
+    });
+  },
+
+  /**
    * 将地图当前显示的内容保存为图片
    * @param params, object, required.
    *   width: number, optional. 图片宽度. 默认为当前地图div宽度.
@@ -1204,12 +1215,27 @@ var TMap = {
   },
   /**
    * 显示柱状图数据
-   * @param params: string, required.
-   *  sourceStationId值,站点id值
+   * @param params: object, required.为""时,清除所有的柱状图
+   *   label: string, required. 需要显示柱状图的图层
+   *   id: string, required. 需要显示柱状图的点,为"*"时,显示所有点的柱状图
    * */
   showChartInfo: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showChartInfo", params);
+    });
+  },
+  /**
+   * 搜索静态图层中的要素, 将结果高亮显示,并显示自定义的tooltip
+   * @param params: object, required.
+   *   layerName: string, required. 要搜索的图层名称
+   *     搜索配置好的图层中的要素时, 和项目配置文件中layer的label一致.
+   *     搜索dynamicRendererLayer中的要素时, 和widget配置文件中的name一致
+   *   ids: [string], optional. 要素id.
+   *     可以搜索1个id.
+   * */
+  findAndToolTip: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("findAndToolTip", params);
     });
   },
 
