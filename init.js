@@ -49,7 +49,7 @@ var ie = (function() {
     setLocale();
 
     resources = resources.concat([
-      window.apiUrl + "dojo/resources/dojo.css",
+      // window.apiUrl + "dojo/resources/dojo.css",
       // window.apiUrl + "dijit/themes/claro/claro.css",
       window.apiUrl + "esri/css/esri.css",
       window.apiUrl + "dojox/layout/resources/ResizeHandle.css",

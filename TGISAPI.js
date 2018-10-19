@@ -8,13 +8,14 @@ var //arcgis api所在的url
   apiUrl = null,
   //TGISViewer所在的url
   path = null;
-//项目配置文件
-projectConfig = null;
-//全部加载完成以后的回调
-loadFinishCallback = null;
+  //项目配置文件
+  projectConfig = null;
+  //全部加载完成以后的回调
+  loadFinishCallback = null;
 
 var TMap = {
   createNew: function(options, divId, callback) {
+
     var mainLoadingDiv = document.createElement("div");
     mainLoadingDiv.id = "main-loading";
     mainLoadingDiv.style.width = "100%";

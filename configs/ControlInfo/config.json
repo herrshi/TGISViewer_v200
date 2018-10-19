@@ -11,5 +11,8 @@
   "proxy": {
     "enable": false,
     "url": "http://localhost:8090/proxy/proxy.jsp"
+  },
+  "mapService": {
+    "issuesect": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_issue/MapServer/0"
   }
 }

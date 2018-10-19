@@ -31,7 +31,7 @@ define([
   "esri/geometry/webMercatorUtils",
   "esri/toolbars/edit",
   "esri/toolbars/draw"
-], function (
+], function(
   declare,
   lang,
   event,
@@ -91,10 +91,11 @@ define([
     _subEventTypeList: null,
     _areaCodeList: null,
 
-    postCreate: function () {
+    postCreate: function() {
       this.inherited(arguments);
 
       this._existControlLayer = new GraphicsLayer();
+      this._existControlLayer.on("click", lang.hitch(this, this._onExistControlLayerClick))
       this.map.addLayer(this._existControlLayer);
 
       this._existPointSymbol = new PictureMarkerSymbol({
@@ -122,7 +123,7 @@ define([
       // this._startAddControlPoint();
     },
 
-    _initControlPoint: function () {
+    _initControlPoint: function() {
       var defaultControlPointSymbol = new PictureMarkerSymbol({
         type: "esriPMS",
         url: window.path + "images/mapIcons/WuHu/YingJiShiJian-big-blue.png",
@@ -216,21 +217,20 @@ define([
 
       this._controlPointLayer.on(
         "click",
-        lang.hitch(this, function (evt) {
+        lang.hitch(this, function(evt) {
           event.stop(evt);
           this.onControlPointClick(evt.graphic);
         })
       );
     },
 
-    _initControlLine: function () {
-      this._controlLineLayer = new FeatureLayer(
-        "http://172.30.30.1:6080/arcgis/rest/services/QingPu/QingPu_issue/MapServer/0",
-        {
-          outFields: ["*"],
-          mode: FeatureLayer.MODE_SNAPSHOT
-        }
-      );
+    _initControlLine: function() {
+      var issuesectLayerUrl = this.config.mapService.issuesect;
+      issuesectLayerUrl = issuesectLayerUrl.replace(/{gisServer}/i, this.appConfig.gisServer);
+      this._controlLineLayer = new FeatureLayer(issuesectLayerUrl, {
+        outFields: ["*"],
+        mode: FeatureLayer.MODE_SNAPSHOT
+      });
 
       var renderer = new UniqueValueRenderer({
         type: "uniqueValue",
@@ -287,40 +287,29 @@ define([
       this._controlLineDialog.startup();
     },
 
-    startup: function () {
+    startup: function() {
       $("[data-toggle='tooltip']").tooltip();
       $(".mdb-select").material_select();
-      // $(".datepicker").pickadate({
-      //   monthsFull: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-      //   monthsShort: ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"],
-      //   weekdaysFull: ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"],
-      //   weekdaysShort: ["周日", "周一", "周二", "周三", "周四", "周五", "周六"],
-      //   today: "今天",
-      //   clear: "清除",
-      //   close: "关闭",
-      //   labelMonthNext: "下个月",
-      //   labelMonthPrev: "上个月",
-      //   labelMonthSelect: "选择月份",
-      //   labelYearSelect: "选择年份",
-      //   format: "yyyy-mm-dd",
-      //   formatSubmit: "yyyy-mm-dd",
-      //   min: true
-      // });
-      // $(".timepicker").pickatime({});
 
+      var forms = document.getElementsByClassName("needs-validation");
+      var validation = Array.prototype.filter.call(
+        forms,
+        lang.hitch(this, function(form) {
+          form.addEventListener(
+            "submit",
+            lang.hitch(this, function(event) {
+              event.preventDefault();
+              // event.stopPropagation();
 
-      var forms = document.getElementsByClassName('needs-validation');
-      var validation = Array.prototype.filter.call(forms, lang.hitch(this, function(form) {
-        form.addEventListener('submit', lang.hitch(this, function(event) {
-          event.preventDefault();
-          // event.stopPropagation();
-
-          if (form.checkValidity() === true) {
-            this._sendDetail();
-          }
-          form.classList.add('was-validated');
-        }), false);
-      }));
+              if (form.checkValidity() === true) {
+                this._sendDetail();
+              }
+              form.classList.add("was-validated");
+            }),
+            false
+          );
+        })
+      );
 
       $("#pnlAddControl").on(
         "shown.bs.collapse",
@@ -331,16 +320,16 @@ define([
         lang.hitch(this, this.onShowControlPanelActive)
       );
 
-      $("#btnEditDetail").on(
+      $("#btnEditDetail").on("click", lang.hitch(this, this.onBtnEditDetail));
+      $("#btnCancelAdd").on(
         "click",
-        lang.hitch(this, this.onBtnEditDetail)
+        lang.hitch(this, this.onBtnCancelAddClick)
       );
-      $("#btnCancelAdd").on("click", lang.hitch(this, this.onBtnCancelAddClick));
 
       //切换管制点和管制路线
       $("input[type=radio][name=controlTypeRadioGroup]").on(
         "change",
-        lang.hitch(this, function () {
+        lang.hitch(this, function() {
           var radioValue = $(
             "input[type=radio][name=controlTypeRadioGroup]:checked"
           ).val();
@@ -355,7 +344,7 @@ define([
       //显示/隐藏现有管制
       $("input[type=checkbox][id=chbShowExist]").on(
         "change",
-        lang.hitch(this, function () {
+        lang.hitch(this, function() {
           this._existControlLayer.setVisibility(
             $("input[type=checkbox][id=chbShowExist]").is(":checked")
           );
@@ -364,15 +353,16 @@ define([
 
       $("#btnRefresh").on("click", lang.hitch(this, this._onBtnRefreshClick));
 
-      this._getSelectData().then(lang.hitch(this, function () {
-        this._getExistControlInfo();
-      }));
-
+      this._getSelectData().then(
+        lang.hitch(this, function() {
+          this._getExistControlInfo();
+        })
+      );
     },
 
     _getInfoTypeNameById: function(id) {
       var name = "";
-      this._infoTypeList.forEach(function (infoType) {
+      this._infoTypeList.forEach(function(infoType) {
         if (parseInt(infoType.fstrTypeId) === parseInt(id)) {
           name = infoType.fstrTypeName;
         }
@@ -383,7 +373,7 @@ define([
 
     _getEventTypeNameById: function(id) {
       var name = "";
-      this._eventTypeList.forEach(function (eventType) {
+      this._eventTypeList.forEach(function(eventType) {
         if (parseInt(eventType.fstrEvtTypeId) === parseInt(id)) {
           name = eventType.fstrEvtTypeName;
         }
@@ -394,7 +384,7 @@ define([
 
     _getSubEventTypeNameById: function(id) {
       var name = "";
-      this._subEventTypeList.forEach(function (subEventType) {
+      this._subEventTypeList.forEach(function(subEventType) {
         if (parseInt(subEventType.fstrEvtSubTypeId) === parseInt(id)) {
           name = subEventType.fstrEvtSubTypeName;
         }
@@ -405,9 +395,9 @@ define([
 
     _getAreaNameById: function(id) {
       var name = "";
-      this._areaCodeList.forEach(function (areaCode) {
+      this._areaCodeList.forEach(function(areaCode) {
         if (parseInt(areaCode.fstrAreaCode) === parseInt(id)) {
-          name = areaCode.fstrAreaName
+          name = areaCode.fstrAreaName;
         }
       });
 
@@ -426,69 +416,84 @@ define([
         eventType: this._getEventType(),
         subEventType: this._getSubEventType(),
         areaCode: this._getAreaCode()
-      }).then(lang.hitch(this, function (results) {
-        var selInfoType = $("#selInfoType");
-        var selEventType = $("#selEventType");
-        var selSubEventType = $("#selSubEventType");
-        var selAreaCode = $("#selAreaCode");
+      }).then(
+        lang.hitch(this, function(results) {
+          var selInfoType = $("#selInfoType");
+          var selEventType = $("#selEventType");
+          var selSubEventType = $("#selSubEventType");
+          var selAreaCode = $("#selAreaCode");
 
-        this._infoTypeList = results.infoType;
-        this._eventTypeList = results.eventType;
-        this._subEventTypeList = results.subEventType;
-        this._areaCodeList = results.areaCode;
+          this._infoTypeList = results.infoType;
+          this._eventTypeList = results.eventType;
+          this._subEventTypeList = results.subEventType;
+          this._areaCodeList = results.areaCode;
 
-        var infoTypeOption = "<option value='${fstrTypeId}'>${fstrTypeName}</option>";
-        var eventTypeOption = "<option value='${fstrEvtTypeId}'>${fstrEvtTypeName}</option>";
-        var subEventTypeOption = "<option value='${fstrEvtSubTypeId}'>${fstrEvtSubTypeName}</option>";
-        var areaCodeOption = "<option value='${fstrAreaCode}'>${fstrAreaName}</option>";
+          var infoTypeOption =
+            "<option value='${fstrTypeId}'>${fstrTypeName}</option>";
+          var eventTypeOption =
+            "<option value='${fstrEvtTypeId}'>${fstrEvtTypeName}</option>";
+          var subEventTypeOption =
+            "<option value='${fstrEvtSubTypeId}'>${fstrEvtSubTypeName}</option>";
+          var areaCodeOption =
+            "<option value='${fstrAreaCode}'>${fstrAreaName}</option>";
 
-        //选择当前信息分类类型对应的事件信息类型
-        selInfoType.on("change", lang.hitch(this, function () {
-          selEventType.empty();
+          //选择当前信息分类类型对应的事件信息类型
+          selInfoType.on(
+            "change",
+            lang.hitch(this, function() {
+              selEventType.empty();
 
-          var infoTypeId = $("#selInfoType option:checked").val();
-          this._eventTypeList.forEach(function (eventType) {
-            if (eventType.fstrTypeId === infoTypeId) {
-              var content = esriLang.substitute(eventType, eventTypeOption);
-              selEventType.append(content);
-            }
+              var infoTypeId = $("#selInfoType option:checked").val();
+              this._eventTypeList.forEach(function(eventType) {
+                if (eventType.fstrTypeId === infoTypeId) {
+                  var content = esriLang.substitute(eventType, eventTypeOption);
+                  selEventType.append(content);
+                }
+              });
+              selEventType.trigger("change");
+            })
+          );
+
+          //选择对应当前事件信息类型的子类型
+          selEventType.on(
+            "change",
+            lang.hitch(this, function() {
+              selSubEventType.empty();
+
+              //子类型是可选项, 要加一条"无"的option
+              var contentNone = "<option value='0'>无</option>";
+              selSubEventType.append(contentNone);
+
+              var eventTypeId = $("#selEventType option:checked").val();
+              this._subEventTypeList.forEach(function(subEventType) {
+                if (subEventType.fstrEvtTypeId === eventTypeId) {
+                  var content = esriLang.substitute(
+                    subEventType,
+                    subEventTypeOption
+                  );
+                  selSubEventType.append(content);
+                }
+              });
+
+              selSubEventType.material_select();
+            })
+          );
+
+          this._infoTypeList.forEach(function(infoType) {
+            var content = esriLang.substitute(infoType, infoTypeOption);
+            selInfoType.append(content);
           });
-          selEventType.trigger("change");
-        }));
 
-        //选择对应当前事件信息类型的子类型
-        selEventType.on("change", lang.hitch(this, function () {
-          selSubEventType.empty();
-
-          //子类型是可选项, 要加一条"无"的option
-          var contentNone = "<option value='0'>无</option>";
-          selSubEventType.append(contentNone);
-
-          var eventTypeId = $("#selEventType option:checked").val();
-          this._subEventTypeList.forEach(function (subEventType) {
-            if (subEventType.fstrEvtTypeId === eventTypeId) {
-              var content = esriLang.substitute(subEventType, subEventTypeOption);
-              selSubEventType.append(content);
-            }
+          this._areaCodeList.forEach(function(areaCode) {
+            var content = esriLang.substitute(areaCode, areaCodeOption);
+            selAreaCode.append(content);
           });
 
-          selSubEventType.material_select();
-        }));
+          selInfoType.trigger("change");
 
-        this._infoTypeList.forEach(function (infoType) {
-          var content = esriLang.substitute(infoType, infoTypeOption);
-          selInfoType.append(content);
-        });
-
-        this._areaCodeList.forEach(function (areaCode) {
-          var content = esriLang.substitute(areaCode, areaCodeOption);
-          selAreaCode.append(content);
-        });
-
-        selInfoType.trigger("change");
-
-        def.resolve();
-      }));
+          def.resolve();
+        })
+      );
 
       return def;
     },
@@ -499,10 +504,10 @@ define([
         url: this.config.url.getAreaCode,
         type: "GET",
         dataType: "jsonp",
-        success: function (areaCodeList) {
+        success: function(areaCodeList) {
           def.resolve(areaCodeList);
         },
-        error: function (jqXHR, textStatus) {
+        error: function(jqXHR, textStatus) {
           def.reject(textStatus);
         }
       });
@@ -516,10 +521,10 @@ define([
         url: this.config.url.getSubEventType,
         type: "GET",
         dataType: "jsonp",
-        success: function (eventTypeList) {
+        success: function(eventTypeList) {
           def.resolve(eventTypeList);
         },
-        error: function (jqXHR, textStatus) {
+        error: function(jqXHR, textStatus) {
           def.reject(textStatus);
         }
       });
@@ -534,10 +539,10 @@ define([
         url: this.config.url.getEventType,
         type: "GET",
         dataType: "jsonp",
-        success: function (eventTypeList) {
+        success: function(eventTypeList) {
           def.resolve(eventTypeList);
         },
-        error: function (jqXHR, textStatus) {
+        error: function(jqXHR, textStatus) {
           def.reject(textStatus);
         }
       });
@@ -546,16 +551,16 @@ define([
     },
 
     /**获取信息分类类型*/
-    _getInfoType: function () {
+    _getInfoType: function() {
       var def = new Deferred();
       $.ajax({
         url: this.config.url.getInfoType,
         type: "GET",
         dataType: "jsonp",
-        success: function (infoTypeList) {
+        success: function(infoTypeList) {
           def.resolve(infoTypeList);
         },
-        error: function (jqXHR, textStatus) {
+        error: function(jqXHR, textStatus) {
           def.reject(textStatus);
         }
       });
@@ -563,7 +568,7 @@ define([
       return def;
     },
 
-    onAddControlPanelActive: function () {
+    onAddControlPanelActive: function() {
       var radioValue = $(
         "input[type=radio][name=controlTypeRadioGroup]:checked"
       ).val();
@@ -574,7 +579,7 @@ define([
       }
     },
 
-    onShowControlPanelActive: function () {
+    onShowControlPanelActive: function() {
       this._mapClickSignal.remove();
       this._controlPointLayer.clear();
       this._controlPointOutlineLayer.clear();
@@ -591,7 +596,7 @@ define([
      * */
     _mapClickSignal: null,
 
-    _startAddControlPoint: function () {
+    _startAddControlPoint: function() {
       this._mapClickSignal = this.map.on(
         "click",
         lang.hitch(this, this.onMapClick)
@@ -604,7 +609,7 @@ define([
       this._controlLineLayer.setVisibility(false);
     },
 
-    _startAddControlLine: function () {
+    _startAddControlLine: function() {
       this._mapClickSignal.remove();
       this._controlPointLayer.clear();
       this._controlPointOutlineLayer.clear();
@@ -614,7 +619,7 @@ define([
       this._controlLineLayer.setVisibility(true);
     },
 
-    onDrawEnd: function (event) {
+    onDrawEnd: function(event) {
       var graphic = new Graphic(event.geometry);
       graphic.attributes = {
         state: "new"
@@ -630,29 +635,29 @@ define([
     },
 
     /**可管制点图标增加文字说明, 提示用户可移动位置*/
-    _addControlPointHint: function (point) {
+    _addControlPointHint: function(point) {
       var hintGraphic = new Graphic(point, this._hintSymbol);
       this._hintLayer.add(hintGraphic);
     },
 
-    onMapClick: function () {
+    onMapClick: function() {
       this._controlPointOutlineLayer.clear();
       this._editToolbar.deactivate();
 
       //恢复图标颜色
-      this._controlPointLayer.graphics.forEach(function (graphic) {
+      this._controlPointLayer.graphics.forEach(function(graphic) {
         if (graphic.attributes.state === "edit") {
           graphic.attributes.state = "new";
         }
       }, this);
       this._controlPointLayer.redraw();
       //恢复显示提示
-      this._controlPointLayer.graphics.forEach(function (graphic) {
+      this._controlPointLayer.graphics.forEach(function(graphic) {
         this._addControlPointHint(graphic.geometry);
       }, this);
     },
 
-    onControlPointClick: function (graphic) {
+    onControlPointClick: function(graphic) {
       //图标换个颜色
       graphic.attributes.state = "edit";
       this._controlPointLayer.redraw();
@@ -670,7 +675,7 @@ define([
       this._editToolbar.activate(Edit.MOVE, graphic);
     },
 
-    onControlPointMove: function (event) {
+    onControlPointMove: function(event) {
       //移动边框
       this._controlPointOutlineLayer.clear();
 
@@ -688,7 +693,7 @@ define([
       this._controlPointOutlineLayer.add(outlineGraphic);
     },
 
-    onControlLineMouseOver: function (event) {
+    onControlLineMouseOver: function(event) {
       var graphic = event.graphic;
       var t = "<b>${Name}</b>(${起点交叉路} - ${终点交叉路})";
       var content = esriLang.substitute(graphic.attributes, t);
@@ -701,11 +706,11 @@ define([
       });
     },
 
-    onControlLineMouseOut: function () {
+    onControlLineMouseOut: function() {
       dijitPopup.close(this._controlLineDialog);
     },
 
-    onControlLineClick: function (evt) {
+    onControlLineClick: function(evt) {
       event.stop(evt);
       var graphic = evt.graphic;
       if (graphic.attributes.state !== "selected") {
@@ -716,7 +721,7 @@ define([
       this._controlLineLayer.redraw();
     },
 
-    onBtnCancelAddClick: function () {
+    onBtnCancelAddClick: function() {
       if ($("#btnControlPoint").prop("checked")) {
         this._startAddControlPoint();
       } else {
@@ -727,51 +732,70 @@ define([
       $("#btnCancelAdd").attr("disabled", true);
     },
 
-    onBtnEditDetail: function () {
+    onBtnEditDetail: function() {
       //显示删除确认框
-      if ($("#btnControlPoint").prop("checked") && this._controlPointLayer.graphics.length === 0) {
+      if (
+        $("#btnControlPoint").prop("checked") &&
+        this._controlPointLayer.graphics.length === 0
+      ) {
         toastr.error("请在地图上选择控制点");
         return;
       }
-      var detailModal = $("#modalControlDetail");
-      // detailModal.one("show.bs.modal", lang.hitch(this, function () {
-      //   $("#btnSendDetail").on("click", lang.hitch(this, function () {
-      //     this._sendDetail();
-      //   }));
-      // }));
+      var detailModal = $("#modalEditControlDetail");
+      detailModal.one(
+        "show.bs.modal",
+        lang.hitch(this, function() {
+          $("#btnSendDetail").on(
+            "click",
+            lang.hitch(this, function() {
+              //提交按钮不在form内, 在form内生成一个按钮触发submit
+              var form = $("#formControlDetail");
+              var submitInput = $(
+                "<input type='submit' style='display: none' />"
+              );
+              form.append(submitInput);
+              submitInput.trigger("click");
+              submitInput.remove();
+            })
+          );
+        })
+      );
 
       detailModal.modal("show");
     },
 
     _sendDetail: function() {
       var date = new Date();
-      var startDate = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / 1000;
-      var startTime = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+      var startDate =
+        Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) /
+        1000;
+      var startTime =
+        date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
       var controlDetail = {
-        "info_type_id": $("#selInfoType option:checked").val(),  //信息分类类型
-        "evt_type_no": $("#selEventType option:checked").val(),  //事件信息类型
-        "sub_evt_type_no": $("#selSubEventType option:checked").val(),  //子事件信息类型
-        "copywriting_content": $("#txtContent").val(),  //文案内容
-        "evt_src_no": $("#selEventSource option:checked").val(),  //信息来源
-        "sys_src_no": $("#selSystemSource option:checked").val(),  //对接系统
-        "area_code": $("#selAreaCode option:checked").val(),  //事件发生区域
-        "position_road_name": $("#txtRoadName").val(),  //事件发生道路名称
-        "position_addr": $("#txtAddress").val(),  //事件发生详细地址
-        "position_direction": $("#txtDirection").val(),  //事件方向
-        "position_locType": 2,  //坐标型位置
-        "level": $("#selLevel option:checked").val(),  //事件等级
-        "block_type": $("#selBlockType option:checked").val(),  //是否阻断
-        "publisher_name": window.userInfo.name,  //发布人姓名
-        "publisher_id": window.userInfo.id,  //发布人ID
-        "publisher_area_code": window.userInfo.code,  //发布人所在辖区
-        "evt_desc": $("#txtDesc").val(),  //事件描述
-        "duration_day_sel": 0,  //持续时间 0-持续、1-循环
-        "duration_startDate": startDate,
-        "duration_startTime": startTime,
-        "duration_endDate": null,
-        "duration_endTime": null,
-        "duration_times": null,
-        "disposition": null
+        info_type_id: $("#selInfoType option:checked").val(), //信息分类类型
+        evt_type_no: $("#selEventType option:checked").val(), //事件信息类型
+        sub_evt_type_no: $("#selSubEventType option:checked").val(), //子事件信息类型
+        copywriting_content: $("#txtContent").val(), //文案内容
+        evt_src_no: $("#selEventSource option:checked").val(), //信息来源
+        sys_src_no: $("#selSystemSource option:checked").val(), //对接系统
+        area_code: $("#selAreaCode option:checked").val(), //事件发生区域
+        position_road_name: $("#txtRoadName").val(), //事件发生道路名称
+        position_addr: $("#txtAddress").val(), //事件发生详细地址
+        position_direction: $("#txtDirection").val(), //事件方向
+        position_locType: 2, //坐标型位置
+        level: $("#selLevel option:checked").val(), //事件等级
+        block_type: $("#selBlockType option:checked").val(), //是否阻断
+        publisher_name: window.userInfo.name, //发布人姓名
+        publisher_id: window.userInfo.id, //发布人ID
+        publisher_area_code: window.userInfo.code, //发布人所在辖区
+        evt_desc: $("#txtDesc").val(), //事件描述
+        duration_day_sel: 0, //持续时间 0-持续、1-循环
+        duration_startDate: startDate,
+        duration_startTime: startTime,
+        duration_endDate: null,
+        duration_endTime: null,
+        duration_times: null,
+        disposition: null
       };
 
       //控制点
@@ -780,33 +804,50 @@ define([
         if (this.map.spatialReference.isWebMercator()) {
           point = webMercatorUtils.webMercatorToGeographic(point);
         }
-        controlDetail["position_loc"] = JSON.stringify([point.x.toFixed(6) + "," + point.y.toFixed(6)]);
+        controlDetail["position_loc"] = JSON.stringify([
+          point.x.toFixed(6) + "," + point.y.toFixed(6)
+        ]);
       }
       var paramData = {
         // fstrType: controlDetail.position_locType,
         // fstrDesc: controlDetail.evt_desc,
         fstrContent: encodeURI(JSON.stringify(controlDetail))
       };
-      var postUrl = encodeURI(this.config.url.addControl + "?fstrContent=" + JSON.stringify(controlDetail));
+      var postUrl = encodeURI(
+        this.config.url.addControl +
+          "?fstrContent=" +
+          JSON.stringify(controlDetail)
+      );
       $.ajax({
         url: postUrl,
         type: "POST",
         // data: paramData,
-        contentType: "application/x-www-form-urlencoded; charset=utf-8",
-        success: lang.hitch(this, function (data) {
-          console.log(data)
+        dataType: "json",
+        // contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        success: lang.hitch(this, function(data) {
+          console.log(data, data.success);
+          if (data.success === true || data.success === "true") {
+            toastr.info("新增成功!");
+            this._getExistControlInfo();
+            $("#pnlShowControl").collapse("show");
+          } else {
+            toastr.error("新增失败!");
+          }
         }),
-        error: function (jqXHR, text) {
+        error: function(jqXHR, text) {
           console.error("status: " + jqXHR.status + " " + jqXHR.responseText);
+          toastr.error("新增失败!");
         }
       });
+
+      $("#modalEditControlDetail").modal("hide");
     },
     /************************ 新增管制 END **************************/
 
     /************************ 现有管制 BEGIN **************************/
 
     /**通过rest获取现有管制信息*/
-    _getExistControlInfo: function () {
+    _getExistControlInfo: function() {
       //是否使用代理来避免跨域问题
       var url = this.config.proxy.enable
         ? this.config.proxy.url + "?" + this.config.url.getControlList
@@ -816,36 +857,36 @@ define([
         type: "GET",
         //jsonp可以不使用代理来解决跨域问题, 但需要服务端适配jsonp
         dataType: this.config.proxy.enable ? "json" : "jsonp",
-        success: lang.hitch(this, function (data) {
+        success: lang.hitch(this, function(data) {
           this._existControlInfos = data;
           this._showExistControlInfo();
         }),
-        error: function (jqXHR, textStatus) {
+        error: function(jqXHR, textStatus) {
           console.error("status: " + jqXHR.status + " " + jqXHR.responseText);
           toastr.error("获取现有管制信息失败!");
         }
       });
     },
 
-    _showExistControlInfo: function () {
+    _showExistControlInfo: function() {
       var tableBody = $("#tblControlInfoList tbody");
       tableBody.empty();
       this._existControlLayer.clear();
 
       var index = 1;
-      this._existControlInfos.forEach(function (controlInfo) {
+      this._existControlInfos.forEach(function(controlInfo) {
         if (this._checkControlInfo(controlInfo)) {
           var gisData = JSON.parse(controlInfo.fstrGisData);
           //在table中显示信息
           var content =
             "<tr>" +
-            "<th scope='row'>" + index + "</th>" +
-            "<td>" + controlInfo.fstrEvtDesc + "</td>" +
-            "<td>" +
-            "<a id='" + controlInfo.fstrSrcEvtId + "'>" +
-            "<i class='fa fa-trash mx-1'></i>" +
-            "</a>" +
-            " </td>" +
+              "<th scope='row'>" + index + "</th>" +
+              "<td>" + controlInfo.fstrEvtDesc + "</td>" +
+              "<td>" +
+                "<a id='" + controlInfo.fstrSrcEvtId + "'>" +
+                  "<i class='fa fa-trash mx-1' title='删除' data-toggle='tooltip' data-placement='bottom'></i>" +
+                "</a>" +
+              " </td>" +
             "</tr>";
           tableBody.append(content);
 
@@ -869,7 +910,7 @@ define([
     },
 
     /**检查管制信息中是否含有坐标数据*/
-    _checkControlInfo: function (controlInfo) {
+    _checkControlInfo: function(controlInfo) {
       try {
         var gisData = JSON.parse(controlInfo.fstrGisData);
         if (gisData.position_loc) {
@@ -894,7 +935,7 @@ define([
       }
     },
 
-    _showExistControlPoint: function (controlInfoData) {
+    _showExistControlPoint: function(controlInfoData) {
       var gisData = JSON.parse(controlInfoData.fstrGisData);
       var loc = JSON.parse(gisData.position_loc.replace(/'/g, '"'));
       var point = loc[0].split(",");
@@ -906,68 +947,38 @@ define([
       //处理utc时间
       graphic.attributes = gisData;
 
-      var content =
-        //信息分类类型
-        "<div class='input-group input-group-sm mb-1'>" +
-          "<div class='input-group-prepend'>" +
-            "<span class='input-group-text font-weight-bold text-primary' id='span_info_type_id'>信息分类类型</span>" +
-          "</div>" +
-          "<input type='text' class='form-control' aria-label='Small' aria-describedby='span_info_type_id' readonly " +
-                 "value='" + this._getInfoTypeNameById(gisData.info_type_id) + "'>" +
-        "</div>" +
-        //事件信息类型
-        "<div class='input-group input-group-sm mb-1'>" +
-          "<div class='input-group-prepend'>" +
-            "<span class='input-group-text font-weight-bold text-primary' id='span_evt_type_no'>事件信息类型</span>" +
-          "</div>" +
-          "<input type='text' class='form-control' aria-label='Small' aria-describedby='span_evt_type_no' readonly " +
-                 "value='" + this._getEventTypeNameById(gisData.evt_type_no) + "'>" +
-        "</div>";
-
-      //事件信息子类型
-      if (parseInt(gisData.sub_evt_type_no) !== 0) {
-        content +=
-          "<div class='input-group input-group-sm mb-1'>" +
-            "<div class='input-group-prepend'>" +
-              "<span class='input-group-text font-weight-bold text-primary' id='span_sub_evt_type_no'>事件信息子类型</span>" +
-            "</div>" +
-            "<input type='text' class='form-control' aria-label='Small' aria-describedby='span_sub_evt_type_no' readonly " +
-                   "value='" + this._getSubEventTypeNameById(gisData.sub_evt_type_no) + "'>" +
-          "</div>";
-      }
-
-      var infoTemplate = new InfoTemplate();
-      infoTemplate.setTitle("<b>${position_road_name}</b>");
-      infoTemplate.setContent(content);
-      graphic.setInfoTemplate(infoTemplate);
-
       this._existControlLayer.add(graphic);
     },
 
-    _showExistControlLine: function (controlInfoData) {
-    },
+    _showExistControlLine: function(controlInfoData) {},
 
-    onBtnDeleteControlClick: function (event) {
+    onBtnDeleteControlClick: function(event) {
       var controlId = event.currentTarget.id;
       //显示删除确认框
       var confirmModal = $("#modalConfirmDelete");
-      confirmModal.one("show.bs.modal", lang.hitch(this, function () {
-        $("#btnDeleteOK").one("click", lang.hitch(this, function () {
-          this._deleteControl(controlId);
-        }));
-      }));
+      confirmModal.one(
+        "show.bs.modal",
+        lang.hitch(this, function() {
+          $("#btnDeleteOK").one(
+            "click",
+            lang.hitch(this, function() {
+              this._deleteControl(controlId);
+            })
+          );
+        })
+      );
 
       confirmModal.modal("show");
     },
 
-    _deleteControl: function (id) {
-      var url = esriLang.substitute({id: id}, this.config.url.deleteControl);
+    _deleteControl: function(id) {
+      var url = esriLang.substitute({ id: id }, this.config.url.deleteControl);
       url = encodeURI(url);
       $.ajax({
         url: url,
         type: "POST",
         dataType: "json",
-        success: lang.hitch(this, function (data) {
+        success: lang.hitch(this, function(data) {
           if (data.success === true || data.success === "true") {
             console.log(data);
             toastr.info("删除成功!");
@@ -976,7 +987,7 @@ define([
             toastr.error("删除失败!");
           }
         }),
-        error: function (jqXHR, text) {
+        error: function(jqXHR, text) {
           toastr.error("删除失败!");
         }
       });
@@ -987,8 +998,26 @@ define([
       confirmModal.modal("hide");
     },
 
-    _onBtnRefreshClick: function () {
+    _onBtnRefreshClick: function() {
       this._getExistControlInfo();
+    },
+
+    /**在modal中显示管制详情*/
+    _showControlDetail: function(id) {
+      var detailModal = $("#modalShowControlDetail");
+      detailModal.one(
+        "show.bs.modal",
+        lang.hitch(this, function() {
+
+        })
+      );
+
+      detailModal.modal("show");
+    },
+
+    _onExistControlLayerClick: function (event) {
+      this._showControlDetail(event.graphic.id);
+
     }
   });
 });

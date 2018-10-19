@@ -25,12 +25,18 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_base_GD/MapServer",
         "type": "tiled",
         "visible": true
       }
     ],
     "operationallayers": [
+      {
+        "label": "控制区",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_Control/MapServer",
+        "type": "dynamic",
+        "visible": true
+      },
       {
         "label": "情报板",
         "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_device/MapServer/2",
@@ -96,9 +102,7 @@
             "url": "images/flower.png",
             "width": 100,
             "height": 100,
-            "angle": 25,
-            "yoffset": -30,
-            "xoffset": 50
+            "angle": 25
           },
           "visualVariables": [
             {
@@ -112,7 +116,7 @@
                 "stops": [
                   {
                     "value": 9028,
-                    "size": 300
+                    "size": 0
                   },
                   {
                     "value": 18056,
@@ -142,7 +146,7 @@
                 "stops": [
                   {
                     "value": 9028,
-                    "size": 600
+                    "size": 0
                   },
                   {
                     "value": 18056,
