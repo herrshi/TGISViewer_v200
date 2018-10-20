@@ -6,9 +6,10 @@
     text-align:left;
     color:#FFF;
     padding:8px 15px 8px 15px;
-    line-height:14px;
-    font-size:12px;
+    line-height:30px;
+    font-size:18px;
     pointer-events: none;
+    z-index:999;
 }
 
 .TextDiv

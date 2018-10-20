@@ -35,7 +35,7 @@
         "label": "地面指数区域实时",
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/1",
         "type": "feature",
-        "visible": false,
+        "visible": true,
         "outFields": [
           "*"
         ],
@@ -538,21 +538,91 @@
         }
       },
       {
+        "label": "地面指数区域常发",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.DM_REGION_YD_VW.YD_TYPE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "1",
+              "label": "准常发",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 208, 69],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "2",
+              "label": "常发",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 14, 14],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
         "label": "地面指数区域名称",
-        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion_label/MapServer",
-        "type": "dynamic",
-        "visible": true
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion_label/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSNull",
+            "color": [232, 14, 14],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSNull",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          }
+        }
       }
     ],
     "mapOptions": {
-      "scale": 64000,
+      "scale": 125000,
       "center": {
-        "x": 0,
-        "y": 0,
+        "x": 3000,
+        "y": 3000,
         "spatialReference": {
           "wkid": 2385
         }
       },
+      "showLabels": true,
       "logo": false,
       "nav": false,
       "slider": false

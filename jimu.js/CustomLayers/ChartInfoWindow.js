@@ -22,7 +22,7 @@ define([
       this.domNode = b.create(
         "div",
         null,
-        j.map.root
+        j.map.__container
       );
       i.add(this.domNode, "myInfoWindow");
       c.hide(this.domNode);

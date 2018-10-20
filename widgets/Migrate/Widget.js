@@ -291,9 +291,9 @@ define([
                     pt = new Point([point.x, point.y]);
                   }
 
-                  this.graphicsLayer.add(new Graphic(pt, sms));
-                  this.graphicsLayer.add(new Graphic(pt, textIn));
-                  this.graphicsLayer.add(new Graphic(pt, textOut));
+                  //this.graphicsLayer.add(new Graphic(pt, sms));
+                    // this.graphicsLayer.add(new Graphic(pt, textIn));
+                  //this.graphicsLayer.add(new Graphic(pt, textOut));
                 }
               }
             }

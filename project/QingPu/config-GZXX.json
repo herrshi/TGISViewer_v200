@@ -41,17 +41,65 @@
         "label": "情报板",
         "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_device/MapServer/2",
         "type": "feature",
-        "visible": false,
+        "visible": true,
         "outFields": ["*"],
+        "mode": 0,
         "renderer": {
-          "type": "simple",
-          "symbol": {
+          "type": "uniqueValue",
+          "field1": "TYPE",
+          "defaultSymbol": {
             "type": "esriPMS",
-            "url": "images/mapIcons/QingBaoBan-blue.png",
-            "width": 16.5,
-            "height": 19.5,
-            "yoffset": 10
-          }
+            "url": "images/mapIcons/YangPu/QingBaoBan.png",
+            "width": 22.5,
+            "height": 18.75
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "一级交通诱导屏",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/YiJiPin.png",
+                "width": 37.5,
+                "height": 32.25
+              }
+            },
+            {
+              "value": "二级交通诱导屏",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/YiJiPin.png",
+                "width": 37.5,
+                "height": 32.25
+              }
+            },
+            {
+              "value": "三级交通诱导屏",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/ErJiPin.png",
+                "width": 33,
+                "height": 27.75
+              }
+            },
+            {
+              "value": "四级交通诱导屏",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/SanJiPin.png",
+                "width": 27,
+                "height": 23.25
+              }
+            },
+            {
+              "value": "西虹桥led屏",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/QingBaoBan.png",
+                "width": 22.5,
+                "height": 18.75
+              }
+            }
+          ]
         }
       },
       {
@@ -91,7 +139,7 @@
       {
         "label": "国展中心",
         "url":
-        "http://128.64.151.245:6080/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_device/MapServer/4",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
