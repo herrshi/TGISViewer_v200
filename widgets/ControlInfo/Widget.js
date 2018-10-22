@@ -28,6 +28,7 @@ define([
   "esri/symbols/Font",
   "esri/symbols/TextSymbol",
   "esri/geometry/Point",
+  "esri/geometry/Polyline",
   "esri/geometry/webMercatorUtils",
   "esri/toolbars/edit",
   "esri/toolbars/draw"
@@ -55,6 +56,7 @@ define([
   Font,
   TextSymbol,
   Point,
+  Polyline,
   webMercatorUtils,
   Edit,
   Draw
@@ -72,16 +74,15 @@ define([
     _existPointSymbol: null,
     _existLineSymbol: null,
 
-    //管制点图层
-    _controlPointLayer: null,
+    //新增管制点图层
+    _newControlPointLayer: null,
     //管制点边框
     //点击管制点时在图标外加上边框, 表示进入编辑状态
     _controlPointOutlineSymbol: null,
     //管制点边框图层
     _controlPointOutlineLayer: null,
 
-    _controlLineLayer: null,
-    _controlLineDialog: null,
+    _newControlLineLayer: null,
 
     _hintSymbol: null,
     _hintLayer: null,
@@ -105,16 +106,11 @@ define([
         height: 42,
         yoffset: 21
       });
-      this._existLineSymbol = new SimpleFillSymbol({
-        type: "esriSFS",
-        style: "esriSFSSolid",
-        color: [125, 125, 125, 64],
-        outline: {
-          type: "esriSLS",
-          style: "esriSLSSolid",
-          color: [255, 0, 0, 255],
-          width: 2
-        }
+      this._existLineSymbol = new SimpleLineSymbol({
+        type: "esriSLS",
+        style: "esriSLSSolid",
+        color: [255, 0, 0, 255],
+        width: 2
       });
 
       this._initControlPoint();
@@ -150,7 +146,7 @@ define([
           width: 2
         }
       });
-      var renderer = new UniqueValueRenderer({
+      var controlPointRenderer = new UniqueValueRenderer({
         type: "uniqueValue",
         field1: "state",
         defaultSymbol: defaultControlPointSymbol,
@@ -181,6 +177,31 @@ define([
         ]
       });
 
+      var controlLineRenderer = new UniqueValueRenderer({
+        type: "uniqueValue",
+        field1: "state",
+        uniqueValueInfos: [
+          {
+            value: "new",
+            symbol: {
+              type: "esriSLS",
+              style: "esriSLSSolid",
+              color: [0, 0, 255, 255],
+              width: 2
+            }
+          },
+          {
+            value: "edit",
+            symbol: {
+              type: "esriSLS",
+              style: "esriSLSSolid",
+              color: [255, 255, 0, 255],
+              width: 2
+            }
+          }
+        ]
+      });
+
       this._hintSymbol = new TextSymbol("点击图标移动位置, 点击地图取消移动")
         .setColor(new Color([0, 112, 255]))
         .setHaloColor(new Color([255, 255, 255]))
@@ -202,9 +223,13 @@ define([
       this._controlPointOutlineLayer = new GraphicsLayer();
       this.map.addLayer(this._controlPointOutlineLayer);
 
-      this._controlPointLayer = new GraphicsLayer();
-      this._controlPointLayer.setRenderer(renderer);
-      this.map.addLayer(this._controlPointLayer);
+      this._newControlPointLayer = new GraphicsLayer();
+      this._newControlPointLayer.setRenderer(controlPointRenderer);
+      this.map.addLayer(this._newControlPointLayer);
+
+      this._newControlLineLayer = new GraphicsLayer();
+      this._newControlLineLayer.setRenderer(controlLineRenderer);
+      this.map.addLayer(this._newControlLineLayer);
 
       this._drawToolbar = new Draw(this.map);
       this._drawToolbar.on("draw-end", lang.hitch(this, this.onDrawEnd));
@@ -215,7 +240,7 @@ define([
         lang.hitch(this, this.onControlPointMove)
       );
 
-      this._controlPointLayer.on(
+      this._newControlPointLayer.on(
         "click",
         lang.hitch(this, function (evt) {
           event.stop(evt);
@@ -225,67 +250,7 @@ define([
     },
 
     _initControlLine: function () {
-      var issuesectUrl = this.config.mapService.issuesect;
-      issuesectUrl = issuesectUrl.replace(/{gisServer}/i, this.appConfig.gisServer);
-      this._controlLineLayer = new FeatureLayer(issuesectUrl, {
-          outFields: ["*"],
-          mode: FeatureLayer.MODE_SNAPSHOT
-        }
-      );
 
-      var renderer = new UniqueValueRenderer({
-        type: "uniqueValue",
-        field1: "state",
-        defaultSymbol: {
-          color: [125, 125, 125, 64],
-          outline: {
-            color: [0, 122, 255, 255],
-            width: 1,
-            type: "esriSLS",
-            style: "esriSLSSolid"
-          },
-          type: "esriSFS",
-          style: "esriSFSSolid"
-        },
-        uniqueValueInfos: [
-          {
-            value: "selected",
-            symbol: {
-              color: [125, 125, 125, 64],
-              outline: {
-                color: [255, 0, 0, 255],
-                width: 2,
-                type: "esriSLS",
-                style: "esriSLSSolid"
-              },
-              type: "esriSFS",
-              style: "esriSFSSolid"
-            }
-          }
-        ]
-      });
-      this._controlLineLayer.setRenderer(renderer);
-      this._controlLineLayer.setVisibility(false);
-      // this._controlLineLayer.on(
-      //   "mouse-over",
-      //   lang.hitch(this, this.onControlLineMouseOver)
-      // );
-      // this._controlLineLayer.on(
-      //   "mouse-out",
-      //   lang.hitch(this, this.onControlLineMouseOut)
-      // );
-      this._controlLineLayer.on(
-        "click",
-        lang.hitch(this, this.onControlLineClick)
-      );
-      this.map.addLayer(this._controlLineLayer);
-
-      this._controlLineDialog = new TooltipDialog({
-        id: "tooltipDialog",
-        style:
-          "position: absolute; width: 250px; font: normal normal normal 10pt Helvetica;z-index:100"
-      });
-      this._controlLineDialog.startup();
     },
 
     startup: function () {
@@ -631,12 +596,12 @@ define([
 
     onShowControlPanelActive: function () {
       this._mapClickSignal.remove();
-      this._controlPointLayer.clear();
+      this._newControlPointLayer.clear();
       this._controlPointOutlineLayer.clear();
       this._hintLayer.clear();
       this._drawToolbar.deactivate();
 
-      this._controlLineLayer.setVisibility(false);
+      this._newControlLineLayer.setVisibility(false);
     },
 
     /************************ 新增管制 BEGIN **************************/
@@ -651,22 +616,22 @@ define([
         "click",
         lang.hitch(this, this.onMapClick)
       );
-      this._controlPointLayer.clear();
+      this._newControlPointLayer.clear();
       this._controlPointOutlineLayer.clear();
       this._hintLayer.clear();
       this._drawToolbar.activate(Draw.POINT);
 
-      this._controlLineLayer.setVisibility(false);
+      this._newControlLineLayer.setVisibility(false);
     },
 
     _startAddControlLine: function () {
       this._mapClickSignal.remove();
-      this._controlPointLayer.clear();
+      this._newControlPointLayer.clear();
       this._controlPointOutlineLayer.clear();
       this._hintLayer.clear();
-      this._drawToolbar.deactivate();
+      this._drawToolbar.activate(Draw.POLYLINE);
 
-      this._controlLineLayer.setVisibility(true);
+      this._newControlLineLayer.setVisibility(true);
     },
 
     onDrawEnd: function (event) {
@@ -674,10 +639,19 @@ define([
       graphic.attributes = {
         state: "new"
       };
-      this._controlPointLayer.add(graphic);
-      this._drawToolbar.deactivate();
 
-      this._addControlPointHint(graphic.geometry);
+      switch (event.geometry.type) {
+        case "point":
+          this._newControlPointLayer.add(graphic);
+          this._addControlPointHint(event.geometry);
+          break;
+
+        case "polyline":
+          this._newControlLineLayer.add(graphic);
+          break;
+      }
+
+      this._drawToolbar.deactivate();
 
       //地图上有点之后可以点击发送和取消按钮
       $("#btnEditDetail").attr("disabled", false);
@@ -695,14 +669,14 @@ define([
       this._editToolbar.deactivate();
 
       //恢复图标颜色
-      this._controlPointLayer.graphics.forEach(function (graphic) {
+      this._newControlPointLayer.graphics.forEach(function (graphic) {
         if (graphic.attributes.state === "edit") {
           graphic.attributes.state = "new";
         }
       }, this);
-      this._controlPointLayer.redraw();
+      this._newControlPointLayer.redraw();
       //恢复显示提示
-      this._controlPointLayer.graphics.forEach(function (graphic) {
+      this._newControlPointLayer.graphics.forEach(function (graphic) {
         this._addControlPointHint(graphic.geometry);
       }, this);
     },
@@ -710,7 +684,7 @@ define([
     onControlPointClick: function (graphic) {
       //图标换个颜色
       graphic.attributes.state = "edit";
-      this._controlPointLayer.redraw();
+      this._newControlPointLayer.redraw();
       //添加边框
       this._controlPointOutlineLayer.clear();
       var outlineGraphic = new Graphic(
@@ -743,34 +717,6 @@ define([
       this._controlPointOutlineLayer.add(outlineGraphic);
     },
 
-    onControlLineMouseOver: function (event) {
-      var graphic = event.graphic;
-      var t = "<b>${Name}</b>(${起点交叉路} - ${终点交叉路})";
-      var content = esriLang.substitute(graphic.attributes, t);
-      this._controlLineDialog.setContent(content);
-      domStyle.set(this._controlLineDialog.domNode, "opacity", 0.85);
-      dijitPopup.open({
-        popup: this._controlLineDialog,
-        x: event.pageX,
-        y: event.pageY
-      });
-    },
-
-    onControlLineMouseOut: function () {
-      dijitPopup.close(this._controlLineDialog);
-    },
-
-    onControlLineClick: function (evt) {
-      event.stop(evt);
-      var graphic = evt.graphic;
-      if (graphic.attributes.state !== "selected") {
-        graphic.attributes.state = "selected";
-      } else {
-        graphic.attributes.state = "";
-      }
-      this._controlLineLayer.redraw();
-    },
-
     onBtnCancelAddClick: function () {
       if ($("#btnControlPoint").prop("checked")) {
         this._startAddControlPoint();
@@ -783,13 +729,20 @@ define([
     },
 
     onBtnEditDetail: function () {
-      //显示删除确认框
-      if ($("#btnControlPoint").prop("checked") && this._controlPointLayer.graphics.length === 0) {
+      //确认地图上是否有新增的控制点和控制线
+      if ($("#btnControlPoint").prop("checked") && this._newControlPointLayer.graphics.length === 0) {
         toastr.error("请在地图上选择控制点");
         return;
       }
       var detailModal = $("#modalEditControlDetail");
       detailModal.one("show.bs.modal", lang.hitch(this, function () {
+        //清空
+        detailModal.find("#txtRoadName").val(" ");
+        detailModal.find("#txtAddress").val(" ");
+        detailModal.find("#txtDesc").val(" ");
+        detailModal.find("#txtContent").val(" ");
+
+
         $("#btnSendDetail").on("click", lang.hitch(this, function () {
           //提交按钮不在form内, 在form内生成一个按钮触发submit
           var form = $("#formEditControlDetail");
@@ -836,11 +789,20 @@ define([
 
       //控制点
       if ($("#btnControlPoint").prop("checked")) {
-        var point = this._controlPointLayer.graphics[0].geometry;
+        var point = this._newControlPointLayer.graphics[0].geometry;
         if (this.map.spatialReference.isWebMercator()) {
           point = webMercatorUtils.webMercatorToGeographic(point);
         }
         controlDetail["position_loc"] = JSON.stringify([point.x.toFixed(6) + "," + point.y.toFixed(6)]);
+      } else {
+        var line = this._newControlLineLayer.graphics[0].geometry;
+        if (this.map.spatialReference.isWebMercator()) {
+          line = webMercatorUtils.webMercatorToGeographic(line);
+        }
+        var locs = line.paths[0].map(function (pt) {
+          return [pt[0].toFixed(6) + "," + pt[1].toFixed(6)];
+        });
+        controlDetail["position_locs"] = JSON.stringify(locs);
       }
       var paramData = {
         // fstrType: controlDetail.position_locType,
@@ -853,15 +815,14 @@ define([
         type: "POST",
         // data: paramData,
         dataType: "json",
-        // contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: lang.hitch(this, function (data) {
-          console.log(data, data.success);
           if (data.success === true || data.success === "true") {
             toastr.info("新增成功!");
             this._getExistControlInfo();
             //切换到管制列表
-            $("#pnlShowControl")
+            $("#pnlShowControl").collapse("show");
           } else {
+            console.log(data);
             toastr.error("新增失败!");
           }
         }),
@@ -966,21 +927,44 @@ define([
       }
     },
 
+    _preZeroFill: function(num, size) {
+      return (new Array(size).join('0') + num).slice(-size);
+    },
+
+    _getLocalTimeFromUTC: function(date, time) {
+      var locateDate = new Date(date * 1000);
+      var hours = parseInt(time / 3600);
+      var minutes = parseInt((time - hours * 3600) / 60);
+      var seconds = time - hours * 3600 - minutes * 60;
+
+      return locateDate.toLocaleDateString() + " " +
+        this._preZeroFill(hours, 2) + ":" + this._preZeroFill(minutes, 2) + ":" + this._preZeroFill(seconds, 2);
+    },
+
     _showExistControlPoint: function (controlInfoData) {
       var gisData = JSON.parse(controlInfoData.fstrGisData);
       var loc = JSON.parse(gisData.position_loc.replace(/'/g, '"'));
       var point = loc[0].split(",");
+
       var graphic = new Graphic(new Point(point[0], point[1]));
       graphic.id = controlInfoData.fstrSrcEvtId;
       graphic.symbol = this._existPointSymbol;
-
-      var gisData = JSON.parse(controlInfoData.fstrGisData);
-      //处理utc时间
       graphic.attributes = gisData;
       this._existControlLayer.add(graphic);
     },
 
     _showExistControlLine: function (controlInfoData) {
+      var gisData = JSON.parse(controlInfoData.fstrGisData);
+      var locs = JSON.parse(gisData.position_locs.replace(/'/g, '"'));
+      var path = locs.map(function (loc) {
+        return loc[0].split(",");
+      });
+
+      var graphic = new Graphic(new Polyline([path]));
+      graphic.id = controlInfoData.fstrSrcEvtId;
+      graphic.symbol = this._existLineSymbol;
+      graphic.attributes = gisData;
+      this._existControlLayer.add(graphic);
     },
 
     _onExistControlLayerClick: function(event) {
@@ -994,8 +978,8 @@ define([
       }
       var detailModal = $("#modalShowControlDetail");
       detailModal.one("show.bs.modal", lang.hitch(this, function () {
-        detailModal.find("#input_publisher_name").val(gisData.publisher_name);
-        detailModal.find("#input_publisher_id").val(gisData.publisher_id);
+        detailModal.find("#input_publisher_name").val(gisData.publisher_name || " ");
+        detailModal.find("#input_publisher_id").val(gisData.publisher_id || " ");
         detailModal.find("#input_publisher_area_code").val(this._getAreaNameById(gisData.publisher_area_code));
 
         detailModal.find("#input_info_type").val(this._getInfoTypeNameById(gisData.info_type_id));
@@ -1009,12 +993,13 @@ define([
         detailModal.find("#input_block_type").val(this._getBlockTypeNameById(gisData.block_type));
         detailModal.find("#input_level").val(this._getLevelNameById(gisData.level));
         detailModal.find("#input_position_direction").val(gisData.position_direction !== undefined && gisData.position_direction !== "" ? gisData.position_direction : " ");
+        detailModal.find("#input_duration_start_time").val(this._getLocalTimeFromUTC(gisData.duration_startDate, gisData.duration_startTime));
 
-        detailModal.find("#input_position_road_name").val(gisData.position_road_name);
+        detailModal.find("#input_position_road_name").val(gisData.position_road_name || " ");
         detailModal.find("#input_position_addr").val(gisData.position_addr !== undefined && gisData.position_addr !== "" ? gisData.position_addr : " ")
 
-        detailModal.find("#text_evt_desc").val(gisData.evt_desc);
-        detailModal.find("#text_copywriting_content").val(gisData.copywriting_content);
+        detailModal.find("#text_evt_desc").val(gisData.evt_desc || " ");
+        detailModal.find("#text_copywriting_content").val(gisData.copywriting_content || " ");
       }));
       detailModal.modal("show");
     },
