@@ -35,6 +35,12 @@
 
     ],
     "mapOptions": {
+      "extent": {
+        "xmin": 116.928,
+        "ymin": 32.557,
+        "xmax": 117.093,
+        "ymax": 32.634
+      },
       "logo": false,
       "nav": false,
       "slider": false
@@ -63,6 +69,15 @@
         },
         "version": "2.4",
         "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar_CircleButton/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 30,
+          "right": 50
+        },
+        "id": "TopToolbarWidget"
       },
       {
         "uri": "widgets/Draw/Widget",

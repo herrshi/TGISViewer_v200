@@ -14,6 +14,7 @@ define([
   "dijit/TooltipDialog",
   "dijit/popup",
   "jimu/BaseWidget",
+  "jimu/utils",
   "esri/lang",
   "esri/Color",
   "esri/layers/GraphicsLayer",
@@ -42,6 +43,7 @@ define([
   TooltipDialog,
   dijitPopup,
   BaseWidget,
+  jimuUtils,
   esriLang,
   Color,
   GraphicsLayer,
@@ -871,14 +873,15 @@ define([
           var gisData = JSON.parse(controlInfo.fstrGisData);
           //在table中显示信息
           var content =
-            "<tr>" +
-            "<th scope='row'>" + index + "</th>" +
-            "<td>" + controlInfo.fstrEvtDesc + "</td>" +
-            "<td>" +
-            "<a id='" + controlInfo.fstrSrcEvtId + "'>" +
-            "<i class='fa fa-trash mx-1'></i>" +
-            "</a>" +
-            " </td>" +
+            "<tr id='" + controlInfo.fstrSrcEvtId + "' style='cursor: pointer'>" +
+              "<th scope='row'>" + index + "</th>" +
+              "<td>" + controlInfo.fstrEvtDesc + "</td>" +
+              "<td>" +
+                "<a id='" + controlInfo.fstrSrcEvtId + "'>" +
+                  "<i class='fa fa-trash mx-1' data-toggle='tooltip' title='删除'></i>" +
+                "</a>" +
+                "<i class='fa fa-stop-circle-o mx-1' data-toggle='tooltip' title='结束'></i>" +
+              " </td>" +
             "</tr>";
           tableBody.append(content);
 
@@ -894,11 +897,59 @@ define([
 
       //初始化新增的tooltip
       $("[data-toggle='tooltip']").tooltip();
+      //每条记录MouseOver
+      var listRow = $("#tblControlInfoList tbody tr");
+      listRow.on(
+        "mouseover",
+        lang.hitch(this, this._onControlInfoListMouseOver)
+      );
+      listRow.on(
+        "mouseout",
+        lang.hitch(this, this._onControlInfoListMouseOut)
+      );
+      listRow.on(
+        "click",
+        lang.hitch(this, this._onControlInfoListClick)
+      );
       //删除按钮
       $("#tblControlInfoList tbody td a").on(
         "click",
         lang.hitch(this, this.onBtnDeleteControlClick)
       );
+    },
+
+    _onControlInfoListMouseOver: function(event) {
+      var controlId = event.currentTarget.id;
+      this._existControlLayer.graphics.forEach(function (graphic) {
+        if (graphic.id === controlId) {
+          var center = jimuUtils.getGeometryCenter(graphic.geometry);
+          this.map.centerAt(center);
+          var node = graphic.getNode();
+          if (node) {
+            node.setAttribute("data-highlight", "highlight");
+            setTimeout(function() {
+              node.setAttribute("data-highlight", "");
+            }, 5000);
+          }
+        }
+      }, this);
+    },
+
+    _onControlInfoListMouseOut: function(event) {
+      var controlId = event.currentTarget.id;
+      this._existControlLayer.graphics.forEach(function (graphic) {
+        if (graphic.id === controlId) {
+          var node = graphic.getNode();
+          if (node) {
+            node.setAttribute("data-highlight", "");
+          }
+        }
+      }, this);
+    },
+
+    _onControlInfoListClick: function(event) {
+      var controlId = event.currentTarget.id;
+      this._showControlDetailModal(controlId);
     },
 
     /**检查管制信息中是否含有坐标数据*/
@@ -934,7 +985,7 @@ define([
     _getLocalTimeFromUTC: function(date, time) {
       var locateDate = new Date(date * 1000);
       var hours = parseInt(time / 3600);
-      var minutes = parseInt((time - hours * 3600) / 60);
+      var minutes = parseInt((time % 3600) / 60);
       var seconds = time - hours * 3600 - minutes * 60;
 
       return locateDate.toLocaleDateString() + " " +
@@ -967,8 +1018,7 @@ define([
       this._existControlLayer.add(graphic);
     },
 
-    _onExistControlLayerClick: function(event) {
-      var controlId = event.graphic.id;
+    _showControlDetailModal: function(controlId) {
       var gisData;
       for (var i = 0; i < this._existControlInfos.length; i++) {
         if (this._existControlInfos[i].fstrSrcEvtId === controlId) {
@@ -1002,6 +1052,11 @@ define([
         detailModal.find("#text_copywriting_content").val(gisData.copywriting_content || " ");
       }));
       detailModal.modal("show");
+    },
+
+    _onExistControlLayerClick: function(event) {
+      var controlId = event.graphic.id;
+      this._showControlDetailModal(controlId);
     },
 
     onBtnDeleteControlClick: function (event) {

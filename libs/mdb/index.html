@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -19,151 +19,14 @@
 <body>
 
   <!-- Start your project here-->
-  <div>
-    <!--Accordion wrapper-->
-    <div class="accordion" id="accordionParent" role="tablist" aria-multiselectable="true">
-      <!--Accordion card-->
-      <div class="card">
-        <!--Card header-->
-        <div class="card-header" role="tab" id="headingOne">
-          <a data-toggle="collapse" data-parent="#accordionParent" href="#collapseOne" aria-expanded="false"
-             aria-controls="collapseOne">
-            <h5 class="mb-0">
-              <span>管制信息</span>
-              <i class="fa fa-angle-down rotate-icon"></i>
-            </h5>
-          </a>
-        </div>
-        <!--/Card header-->
+  <div style="height: 100vh">
+    <div class="flex-center flex-column">
+      <h1 class="animated fadeIn mb-4">Material Design for Bootstrap</h1>
 
-        <!--Card body-->
-        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne"
-             data-parent="#accordionParent">
-          <div class="card-body">
-            <!--Accordion wrapper-->
-            <div class="accordion md-accordion accordion-blocks" id="accordionEx" role="tablist"
-                 aria-multiselectable="true">
-              <!--Accordion card-->
-              <div class="card">
-                <!--Card header-->
-                <div class="card-header" role="tab" id="header2">
-                  <a data-toggle="collapse" data-parent="#accordionEx" href="#pnlShowControl" aria-expanded="true"
-                     aria-controls="pnlShowControl">
-                    <h5 class="mt-1 mb-0 blue-text">
-                      <span>现有管制</span>
-                      <i class="fa fa-angle-down rotate-icon"></i>
-                    </h5>
-                  </a>
-                </div>
+      <h5 class="animated fadeIn mb-3">Thank you for using our product. We're glad you're with us.</h5>
 
-                <!--Card body-->
-                <div id="pnlShowControl" class="collapse show" role="tabpanel" aria-labelledby="header2"
-                     data-parent="#accordionEx">
-                  <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                      <!--switch-->
-                      <div class="switch">
-                        <label>
-                          隐藏
-                          <input id="chbShowExist" type="checkbox" checked>
-                          <span class="lever"></span> 显示
-                        </label>
-                      </div>
-                      <!--/switch-->
-
-                      <button id="btnRefresh" type="button" class="btn btn-sm blue-gradient waves-effect"
-                              data-toggle="tooltip" data-placement="bottom" title="刷新">
-                        <i class="fa fa-refresh fa-2x"></i>
-                      </button>
-                    </div>
-
-                    <!--Table responsive wrapper-->
-                    <div class="table-wrapper-scroll-y">
-                      <!--Table-->
-                      <table id="tblControlInfoList" class="table table-hover mb-0">
-                        <!--Table head-->
-                        <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>内容</th>
-                          <th>操作</th>
-                        </tr>
-                        </thead>
-                        <!--/Table head-->
-
-                        <!--Table body-->
-                        <tbody></tbody>
-                        <!--/Table body-->
-                      </table>
-                      <!--/Table-->
-                    </div>
-                    <!--/Table responsive wrapper-->
-
-                  </div>
-                </div>
-
-              </div>
-              <!--/Accordion card-->
-
-              <!--Accordion card-->
-              <div class="card">
-                <!--Card header-->
-                <div class="card-header" role="tab" id="head1">
-                  <a data-toggle="collapse" data-parent="#accordionEx" href="#pnlAddControl" aria-expanded="true"
-                     aria-controls="pnlAddControl">
-                    <h5 class="mt-1 mb-0 blue-text">
-                      <span>新增管制</span>
-                      <i class="fa fa-angle-down rotate-icon"></i>
-                    </h5>
-                  </a>
-                </div>
-
-                <!-- Card body -->
-                <div id="pnlAddControl" class="collapse" role="tabpanel" aria-labelledby="head1"
-                     data-parent="#accordionEx">
-                  <div class="card-body">
-
-                    <div>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="btnControlPoint" name="controlTypeRadioGroup"
-                               value="controlPoint" checked>
-                        <label class="form-check-label" for="btnControlPoint">管制点</label>
-                      </div>
-
-                      <div class="form-check form-check-inline">
-                        <input type="radio" class="form-check-input" id="btnControlLine" name="controlTypeRadioGroup"
-                               value="controlLine">
-                        <label class="form-check-label" for="btnControlLine">管制路线</label>
-                      </div>
-                    </div>
-
-                    <div class="d-flex justify-content-center">
-                      <button id="btnEditDetail" type="button" class="btn blue-gradient waves-effect"
-                              data-toggle="tooltip" data-placement="bottom" title="填写详细信息" disabled>
-                        详细 <i class="fa fa-pencil-square-o ml-1"></i>
-                      </button>
-
-                      <button id="btnCancelAdd" type="button" class="btn blue-gradient waves-effect"
-                              data-toggle="tooltip" data-placement="bottom" title="取消新增" disabled>
-                        取消 <i class="fa fa-times-circle-o ml-1"></i>
-                      </button>
-                    </div>
-
-
-                  </div>
-                </div>
-
-              </div>
-              <!--/Accordion card-->
-            </div>
-            <!--/Accordion wrapper -->
-          </div>
-        </div>
-        <!--/Card body-->
-      </div>
-      <!--/Accordion card-->
+      <p class="animated fadeIn text-muted">MDB Team</p>
     </div>
-    <!--/Accordion wrapper-->
   </div>
   <!-- /Start your project here-->
 

@@ -6,7 +6,7 @@ $('.smooth-scroll').on('click', 'a', function () {
 
   if (typeof elAttr !== typeof undefined && elAttr.indexOf('#') === 0) {
     let offset = $(this).attr('data-offset') ? $(this).attr('data-offset') : 0;
-    let setHash = $(this).closest('ul').attr('data-allow-hashes');
+    let setHash = $(this).parentsUntil('.smooth-scroll').last().parent().attr('data-allow-hashes');
     $('body,html').animate({
       scrollTop: $(elAttr).offset().top - offset
     }, SMOOTH_SCROLL_DURATION);

@@ -39,6 +39,10 @@
         "outFields": [
           "*"
         ],
+        "infoTemplate": {
+          "title": "${地面道路指数区域.名称}",
+          "content": "<b>编号: </b>${地面道路指数区域.BM_CODE}<br><b>实时指数: </b>${ZONGDUI.DM_REGION_RTIND.FFLT_INDEX}"
+        },
         "renderer": {
           "type": "classBreaks",
           "field": "ZONGDUI.DM_REGION_RTIND.FFLT_INDEX",
