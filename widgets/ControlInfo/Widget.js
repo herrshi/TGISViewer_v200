@@ -948,6 +948,10 @@ define([
     },
 
     _onControlInfoListClick: function(event) {
+      //点击后面的删除、停止按钮时不要响应
+      if (event.target.tagName === "A" || event.target.tagName === "I") {
+        return;
+      }
       var controlId = event.currentTarget.id;
       this._showControlDetailModal(controlId);
     },

@@ -32,6 +32,39 @@
       }
     ],
     "operationallayers": [
+      {
+        "label": "停车场",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/icon_P_yellow.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "高速公路出入口",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/FaultDevice-blue.png",
+            "width": 15,
+            "height": 15
+          }
+        }
+      }
     ],
     "mapOptions": {
       "center": {
@@ -42,7 +75,8 @@
       "scale": 72224,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": false,
+      "showLabels": true
     }
   },
   "geometryService":
