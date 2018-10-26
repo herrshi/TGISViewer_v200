@@ -51,7 +51,7 @@ define([
 
     graphics: [],
     //要素间距，单位pixel
-    graphicDistance: 3,
+    graphicGap: 3,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -59,11 +59,17 @@ define([
       this.graphicsLayer = new GraphicsLayer();
       this.map.addLayer(this.graphicsLayer);
 
-      topic.subscribe("addPoints", lang.hitch(this, this._onTopicHandler_addPoints));
-      this.map.on("zoom-end", lang.hitch(this, this._onMap_zoomEndHandler))
+      topic.subscribe("addOverlays", lang.hitch(this, this._onTopicHandler_addOverlays));
+      topic.subscribe("deleteAllPoints", lang.hitch(this, this._onTopicHandler_deleteAllPoints));
+      this.map.on("zoom-end", lang.hitch(this, this._onMapHandler_zoomEnd))
     },
 
-    _onTopicHandler_addPoints: function(params) {
+    _onTopicHandler_deleteAllPoints: function() {
+      this.graphicsLayer.clear();
+      this.graphics = [];
+    },
+
+    _onTopicHandler_addOverlays: function(params) {
       var overlayParams = JSON.parse(params);
       if (
         overlayParams.featureReduction &&
@@ -83,12 +89,12 @@ define([
           var buttons = overlayObj.buttons || overlayParams.defaultButtons;
 
           var geometry = geometryJsonUtils.fromJson(geometryObj);
-          if (this.map.spatialReference.isWebMercator()) {
-            geometry = webMercatorUtils.geographicToWebMercator(geometry);
-          }
           //抽稀显示只支持点
           if (geometry.type !== "point") {
             return;
+          }
+          if (this.map.spatialReference.isWebMercator()) {
+            geometry = webMercatorUtils.geographicToWebMercator(geometry);
           }
 
           var symbol = this._getEsriPointSymbol(symbolObj);
@@ -210,12 +216,7 @@ define([
           ? _jimuPolylineStyleToEsriStyle[symbolObj.style.toLowerCase()] ||
           SimpleLineSymbol.STYLE_SOLID
           : SimpleLineSymbol.STYLE_SOLID;
-        symbol.color = this._getESRIColor(symbolObj.color, symbolObj.alpha, [
-          0,
-          0,
-          0,
-          1
-        ]);
+        symbol.color = this._getESRIColor(symbolObj.color, symbolObj.alpha, [0, 0, 0, 1]);
         symbol.width = !isNaN(symbolObj.width) ? symbolObj.width : 2;
       } else {
         symbol = new SimpleLineSymbol(
@@ -235,11 +236,7 @@ define([
       for (var fieldName in graphic.attributes) {
         if (graphic.attributes.hasOwnProperty(fieldName)) {
           content +=
-            "<b>" +
-            fieldName +
-            ": </b>" +
-            graphic.attributes[fieldName] +
-            "<br>";
+            "<b>" + fieldName + ": </b>" + graphic.attributes[fieldName] + "<br>";
         }
       }
       //去掉最后的<br>
@@ -248,16 +245,11 @@ define([
       //按钮
       if (graphic.buttons !== undefined) {
         content += "<hr>";
-        array.forEach(graphic.buttons, function(buttonConfig) {
+        graphic.buttons.forEach(function(buttonConfig) {
           content +=
-            "<button type='button' class='btn btn-primary btn-sm' onclick='mapFeatureClicked(" +
-            '"' +
-            buttonConfig.type +
-            '", "' +
-            graphic.id +
-            '"' +
-            ")'>" +
-            buttonConfig.label +
+            "<button type='button' class='btn btn-primary btn-sm' " +
+              "onclick='mapFeatureClicked(" + '"' + buttonConfig.type + '", "' + graphic.id + '"' + ")'>" +
+              buttonConfig.label +
             "</button>  ";
         });
       }
@@ -267,33 +259,49 @@ define([
 
     /**
      * 要素点抽稀
-     * 地理坐标转换为屏幕坐标，若屏幕坐标间距离小于第一个点的图标大小+间距，则隐藏第二个点
+     * 地理坐标转换为屏幕坐标，若两个点的屏幕坐标间距离小于第一个点的图标大小+间距，则隐藏第二个点
      * */
     _reduceGraphics: function () {
       this.graphicsLayer.clear();
 
+      this.graphics.forEach(function (graphic) {
+        graphic.show = true;
+      });
+
       for (var i = 0; i < this.graphics.length - 1; i++) {
-        this.graphicsLayer.add(this.graphics[i]);
+        if (!this.graphics[i].show) {
+          continue;
+        }
+
         var point1 = this.graphics[i].geometry;
-        var pt1 = this.map.toScreen(point1);
+        var screenPoint1 = this.map.toScreen(point1);
 
         for (var j = i + 1; j < this.graphics.length; j++) {
+          if (!this.graphics[j].show) {
+            continue;
+          }
+
           var point2 = this.graphics[j].geometry;
-          var pt2 = this.map.toScreen(point2);
-          var dis = Math.sqrt((pt1.x - pt2.x) * (pt1.x - pt2.x) + (pt1.y - pt2.y) * (pt1.y - pt2.y));
+          var screenPoint2 = this.map.toScreen(point2);
+
+          var dis = Math.sqrt(Math.pow(screenPoint1.x - screenPoint2.x, 2) + Math.pow(screenPoint1.y - screenPoint2.y, 2));
           var symbol = this.graphics[i].symbol;
           if (symbol instanceof SimpleMarkerSymbol) {
-            //找到第一个距离之外的点，进行下一轮判断
-            if (dis >= (symbol.size + this.graphicDistance)) {
-              i = j - 1;
-              break;
-            }
+            this.graphics[j].show = (dis >= (symbol.size + this.graphicGap));
+          } else if (symbol instanceof PictureMarkerSymbol) {
+            this.graphics[j].show = (dis >= (Math.max(symbol.width, symbol.height) + this.graphicGap));
           }
         }
       }
+
+      this.graphics.forEach(function (graphic) {
+        if (graphic.show) {
+          this.graphicsLayer.add(graphic);
+        }
+      }, this);
     },
 
-    _onMap_zoomEndHandler: function (event) {
+    _onMapHandler_zoomEnd: function (event) {
       this._reduceGraphics();
     }
   });
