@@ -745,7 +745,7 @@ define([
         detailModal.find("#txtContent").val(" ");
 
 
-        $("#btnSendDetail").on("click", lang.hitch(this, function () {
+        $("#btnSendDetail").one("click", lang.hitch(this, function () {
           //提交按钮不在form内, 在form内生成一个按钮触发submit
           var form = $("#formEditControlDetail");
           var submitInput = $("<input type='submit' style='display: none' />");
@@ -758,11 +758,19 @@ define([
       detailModal.modal("show");
     },
 
+    _uuid: function() {
+      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c === "x" ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    },
+
     _sendDetail: function() {
       var date = new Date();
       var startDate = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()) / 1000;
       var startTime = date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
       var controlDetail = {
+        "src_evt_id": this._uuid(),
         "info_type_id": $("#selInfoType option:checked").val(),  //信息分类类型
         "evt_type_no": $("#selEventType option:checked").val(),  //事件信息类型
         "sub_evt_type_no": $("#selSubEventType option:checked").val(),  //子事件信息类型

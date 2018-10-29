@@ -832,6 +832,7 @@ define([
         "2D_tiandituimage": "TianDiTuLayer",
         "2D_tianditutrain": "TianDiTuLayer",
         "2D_ChengDiDynamic": "jimu/CustomLayers/ChengDiDynamicMapServiceLayer",
+        "2D_BDVec": "jimu/CustomLayers/BDVecLayer",
         "3D_tiled": "esri3d/layers/ArcGISTiledMapServiceLayer",
         "3D_dynamic": "esri3d/layers/ArcGISDynamicMapServiceLayer",
         "3D_image": "esri3d/layers/ArcGISImageServiceLayer",
@@ -891,7 +892,11 @@ define([
             );
           }
         } else {
-          layer = new LayerClass(layerConfig.url, options);
+          if (layerClassName === "2D_BDVec") {
+            layer = new LayerClass();
+          } else {
+            layer = new LayerClass(layerConfig.url, options);
+          }
         }
         layer.isOperationalLayer = layerConfig.isOperationalLayer;
         layer.label = layerConfig.label;
