@@ -54,7 +54,7 @@
           "visualVariables": [
             {
               "type": "sizeInfo",
-              "field": "OBJECTID",
+              "field": "国展中心.OBJECTID",
               "minDataValue": 9028,
               "maxDataValue": 288896,
               "minSize": {
@@ -123,19 +123,77 @@
       },
       {
         "label": "国展中心大",
-        "url":"http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Exhibition/MapServer",
-        "type": "dynamic",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
         "visible": true,
-        "minScale":9028
+        "outFields": ["*"],
+        "maxScale":0,
+        "minScale":9028,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/guozhanzhongxin.svg",
+            "width": 600,
+            "height": 600,
+            "angle": 30
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "国展中心.OBJECTID",
+              "minDataValue": 2257,
+              "maxDataValue": 9028,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 1800
+                  },
+                  {
+                    "value": 4514,
+                    "size": 900
+                  },
+                  {
+                    "value": 9028,
+                    "size": 450
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 2000
+                  },
+                  {
+                    "value": 4514,
+                    "size": 1000
+                  },
+                  {
+                    "value": 9028,
+                    "size": 500
+                  }
+                ]
+              }
+            }
+          ]
+        }
       }
     ],
     "mapOptions": {
       "center": {
         "x": 121.297401,
-        "y": 31.191602,
+        "y": 31.1940,
         "spatialReference": { "wkid": 4326 }
       },
-      "scale": 4514,
+      "backgroundColor": "#02182F",
+      "scale": 9028,
       "logo": false,
       "nav": false,
       "slider": false
@@ -143,7 +201,7 @@
   },
   "geometryService":
   "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "128.64.151.245:6080",
+  "gisServer": "10.31.214.201:6080",
   "httpProxy": {
     "useProxy": false,
     "url": "http://10.31.214.203:15011:18021/web-gis/proxy.jsp"
@@ -156,10 +214,10 @@
         "id": "FindFeatureWidget"
       },
       {
-        "uri": "widgets/Migrate/Widget",
+        "uri": "widgets/ToolTip/Widget",
         "version": "2.4",
-        "config": "configs/Migrate/config.json",
-        "id": "MigrateWidget"
+        "config": "configs/ToolTip/config.json",
+        "id": "ToolTipWidget"
       }
     ]
   }

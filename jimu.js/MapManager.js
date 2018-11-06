@@ -892,11 +892,7 @@ define([
             );
           }
         } else {
-          if (layerClassName === "2D_BDVec") {
-            layer = new LayerClass();
-          } else {
-            layer = new LayerClass(layerConfig.url, options);
-          }
+          layer = new LayerClass(layerConfig.url, options);
         }
         layer.isOperationalLayer = layerConfig.isOperationalLayer;
         layer.label = layerConfig.label;

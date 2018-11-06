@@ -33,11 +33,106 @@
     ],
     "operationallayers": [
       {
+        "label": "发布段",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/9",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "mode": 0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "STATE",
+          "defaultSymbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [110, 110, 110],
+            "width": 1
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [110, 210, 121],
+                "width": 2
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [250, 207, 53],
+                "width": 1
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [222, 3, 0],
+                "width": 1
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "发布段",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/10",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "mode": 0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "STATE",
+          "defaultSymbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [110, 110, 110],
+            "width": 1
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [110, 210, 121],
+                "width": 2
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [250, 207, 53],
+                "width": 1
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [222, 3, 0],
+                "width": 1
+              }
+            }
+          ]
+        }
+      },
+      {
         "label": "停车场",
         "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
+        "maxScale": 36112,
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -45,7 +140,48 @@
             "url": "images/mapIcons/icon_P_yellow.png",
             "width": 24,
             "height": 33,
-            "yoffset": 10
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "停车场",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/7",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "minScale": 18056,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110,110,110,100],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [110,110,110,255],
+              "width": 1
+            }
+          }
+        }
+      },
+      {
+        "label": "停车场",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/8",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "color": [0, 0, 0, 0],
+            "size": 10,
+            "outline": {
+              "color": [0, 0, 0, 0]
+            }
           }
         }
       },
@@ -62,6 +198,130 @@
             "url": "images/mapIcons/FaultDevice-blue.png",
             "width": 15,
             "height": 15
+          }
+        }
+      },
+      {
+        "label": "客流检测",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/FaBuDuan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "情报板",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "FEATURETYPE",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/QingBaoBan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "一级行车诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/YiJiPin.png",
+                "width": 37.5,
+                "height": 32.25
+              }
+            },
+            {
+              "value": "二级停车诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/ErJiPin.png",
+                "width": 33,
+                "height": 27.75
+              }
+            },
+            {
+              "value": "三级停车诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/SanJiPin.png",
+                "width": 27,
+                "height": 23.25
+              }
+            },
+            {
+              "value": "小型信息发布屏",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/LuKuangPai.png",
+                "width": 22.5,
+                "height": 18.75
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "卡口",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/4",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/KaKou-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "车检器",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/5",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/DuanMian-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "视频事件检测器",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/6",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/SheXiangJi-KeKong-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
           }
         }
       }

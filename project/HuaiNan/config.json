@@ -84,6 +84,11 @@
         "uri": "widgets/FindFeature/Widget",
         "version": "2.4",
         "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
       }
     ]
   }

@@ -33,6 +33,7 @@ define([
   "esri/tasks/FindTask",
   "esri/tasks/FindParameters",
   "esri/SpatialReference",
+  "esri/geometry/webMercatorUtils",
   "dojo/domReady!"
 ], function(
   declare,
@@ -68,7 +69,8 @@ define([
   QueryTask,
   FindTask,
   FindParameters,
-  SpatialReference
+  SpatialReference,
+  webMercatorUtils
 ) {
   return declare([BaseWidget], {
     _text: null,
@@ -86,12 +88,16 @@ define([
     _label: null,
     _hightlightLayer: null,
     _timeOut: null,
+    _timeOut2: null,
     _url: null,
     _showToolTip: true,
     _FindIds: [],
     _LayerScale: [],
     _queryId: null,
     _toolGra: null,
+    _selectcolor: null, //"red",[0,0,0,0]
+    _isexpand: null, //true,false
+    _scale: null, //"scales":[{"layerid":0,"scale":2257}]
     postCreate: function() {
       this.inherited(arguments);
       this.map.on("click", lang.hitch(this, this._onLayerClick));
@@ -107,16 +113,25 @@ define([
       this._mapPoint = null;
       this._FindIds = [];
       this._LayerScale = [];
-      if (this._node) {
-        domConstruct.destroy(this._node);
-      }
+      this.clear();
       var layerName = params.layerName || "";
       var texts = params.text || "";
 
       if (layerName === "" || texts === "") {
         return;
       }
+
       this._label = params.layerName;
+      var scales = [];
+      for (var i = 0; i < this.config.tooltips.length; i++) {
+        var tooltip = this.config.tooltips[i];
+        if (tooltip.label === this._label) {
+          this._isexpand = tooltip.isexpand;
+          this._selectcolor = tooltip.selectcolor;
+          scales = tooltip.scales;
+          break;
+        }
+      }
       //在DynamicService中查找
       for (var i = 0; i < this.map.layerIds.length; i++) {
         var layer = this.map.getLayer(this.map.layerIds[i]);
@@ -128,6 +143,8 @@ define([
           for (var i = 0; i < layer.layerInfos.length; i++) {
             var layeritem = layer.layerInfos[i];
             this._FindIds.push(layeritem.id);
+            this._scale = this.getScales(layeritem.id, scales);
+
             if (layeritem.parentLayerId == -1) {
               this._LayerScale.push({
                 minScale: layeritem.minScale,
@@ -159,6 +176,7 @@ define([
         layer = this.map.getLayer(this.map.graphicsLayerIds[i]);
         if (layer.label === layerName && layer instanceof FeatureLayer) {
           this._queryId = layer.layerId;
+          this._scale = this.getScales(layer.layerId, scales);
           this._LayerScale.push({
             minScale: layer.minScale,
             maxScale: layer.maxScale,
@@ -181,6 +199,7 @@ define([
         findParam.searchText = text;
         findParam.layerIds = layerids;
         findParam.returnGeometry = true;
+        findParam.contains = false;
         deferredArray.push(findTask.execute(findParam));
       });
       all(deferredArray).then(
@@ -192,7 +211,7 @@ define([
                 result,
                 function(findResult) {
                   var graphic = findResult.feature;
-                  this._queryFeature(graphic, findResult.layerId, true);
+                  this._queryFeature(graphic, findResult.layerId, true, 0);
                 },
                 this
               );
@@ -216,10 +235,14 @@ define([
             if (
               fieldName.indexOf("DEVICEID") > -1 ||
               fieldName.indexOf("BM_CODE") > -1 ||
+              fieldName.indexOf("SECTIONID") > -1 ||
               fieldName.indexOf("FEATUREID") > -1
             ) {
               id = attr[fieldName];
-              console.log(id);
+              //console.log(id);
+              if (ids.indexOf(id) >= 0) {
+                break;
+              }
             }
           }
         }
@@ -236,13 +259,22 @@ define([
       }
     },
     _onLayerClick: function(event) {
-      if (this._node) {
-        domConstruct.destroy(this._node);
-      }
+      $(".MapText").remove();
+
       this._mapPoint = event.mapPoint;
       if (event.graphic) {
         this._label = event.graphic.getLayer().label;
-        this.setContext(event.graphic);
+        this._url = event.graphic.getLayer().url;
+        if (
+          event.graphic.geometry.type == "point" ||
+          event.graphic.geometry.type == "multipoint"
+        ) {
+          this._queryFeature(event.graphic, -1, false, 0);
+        } else if (event.graphic.geometry.type == "polyline") {
+          this._queryFeature(new Graphic(event.mapPoint), -2, false, 12);
+        } else {
+          this._queryFeature(new Graphic(event.mapPoint), -3, false, 0);
+        }
       } else {
         array.forEach(
           this.map.layerIds,
@@ -276,7 +308,8 @@ define([
                     this._queryFeature(
                       feature,
                       identifyResults[0].layerId,
-                      false
+                      false,
+                      0
                     );
                   }
                 }),
@@ -290,15 +323,24 @@ define([
         );
       }
     },
-    _queryFeature: function(feature, layerid, isFind) {
+    _queryFeature: function(feature, layerid, isFind, rad) {
       this._queryId = layerid;
-      var queryTask = new QueryTask(this._url + "/" + layerid);
+      var url = layerid < 0 ? this._url : this._url + "/" + layerid;
+      var queryTask = new QueryTask(url);
       var query = new Query();
       query.outFields = ["*"];
       query.returnGeometry = true;
       query.geometry = feature.geometry;
-      //query.outSpatialReference=new SpatialReference({ "wkid": 3857 });
-      query.spatialRelationship = Query.SPATIAL_REL_WITHIN;
+      if (layerid == -2) {
+        query.geometry = new Circle(feature.geometry, { radius: rad });
+      }
+      if (layerid == -3) {
+        query.geometry = feature.geometry;
+      }
+      //query.outSpatialReference=new SpatialReference({ "wkid": 102100 });
+      //layerid小于0的时候,为点击弹出框
+      query.spatialRelationship =
+        layerid < 0 ? Query.SPATIAL_REL_INTERSECTS : Query.SPATIAL_REL_WITHIN; // Query.SPATIAL_REL_INTERSECTS;SPATIAL_REL_OVERLAPS;SPATIAL_REL_WITHIN
       queryTask.execute(
         query,
         lang.hitch(this, function(featureSet) {
@@ -320,26 +362,59 @@ define([
       for (var i = 0; i < this._LayerScale.length; i++) {
         var minscale = 0,
           maxscale = 0;
+        var curscale = this.map.getScale();
         if (id === this._LayerScale[i].id) {
           minscale = this._LayerScale[i].minScale;
           maxscale = this._LayerScale[i].maxScale;
 
-          var scale = minscale > maxscale ? minscale : maxscale;
-          var sc = 0;
+          var scale = 0;
+
           var lods = this.map.__tileInfo.lods;
-          if (scale > 0) {
-            for (var j = 0; j < lods.length; j++) {
-              if (scale > lods[j].scale) {
-                break;
+          var sc = 0;
+          if (this._scale > 0) {
+            sc = this._scale;
+          } else {
+            if (minscale == 0 && maxscale == 0) {
+              scale = 0;
+              sc = 0;
+            } else {
+              if (minscale > 0 && curscale < minscale) {
+                scale = curscale;
+                sc = curscale;
               } else {
-                sc = lods[j].scale;
+                scale = minscale;
+                for (var j = 0; j < lods.length; j++) {
+                  if (scale >= lods[j].scale) {
+                    sc = lods[j].scale;
+                    break;
+                  } else {
+                    sc = lods[j].scale;
+                  }
+                }
+              }
+              if (maxscale > 0) {
+                scale = maxscale;
+                for (var j = 0; j < lods.length; j++) {
+                  if (scale >= lods[j].scale) {
+                    break;
+                  } else {
+                    sc = lods[j].scale;
+                  }
+                }
               }
             }
           }
-          if (this._mapPoint == null) {
-            this._mapPoint = this.getCenter(graphic);
-          }
-          if (sc > 0) {
+
+          if (sc == 0 || this._isexpand) {
+            this.map.setExtent(graphic.geometry.getExtent().expand(1.5)).then(
+              lang.hitch(this, function() {
+                this.setContext(this._toolGra);
+              })
+            );
+          } else {
+            if (this._mapPoint == null) {
+              this._mapPoint = this.getCenter(graphic);
+            }
             this.map.setScale(sc).then(
               lang.hitch(this, function() {
                 this.map.centerAt(this._mapPoint).then(
@@ -349,12 +424,6 @@ define([
                 );
               })
             );
-          } else {
-            this.map.setExtent(graphic.geometry.getExtent().expand(2)).then(
-              lang.hitch(this, function() {
-                  this.setContext(this._toolGra);
-              })
-            );
           }
         }
       }
@@ -362,45 +431,6 @@ define([
     setContext: function(graphic) {
       if (this._mapPoint == null) {
         this._mapPoint = this.getCenter(graphic);
-      }
-      if (
-        graphic.geometry.type == "polyline" ||
-        graphic.geometry.type == "extent" ||
-        graphic.geometry.type == "polygon"
-      ) {
-        var selectionSymbol;
-        if (graphic.geometry.type == "polyline") {
-          selectionSymbol = new SimpleLineSymbol(
-            SimpleLineSymbol.STYLE_DASH,
-            new Color([0, 255, 255]),
-            5
-          );
-        } else {
-          selectionSymbol = new SimpleFillSymbol(
-            SimpleFillSymbol.STYLE_SOLID,
-            new SimpleLineSymbol(
-              SimpleLineSymbol.STYLE_DASH,
-              new Color([0, 255, 255]),
-              3
-            ),
-            new Color([0, 0, 0, 0])
-          );
-        }
-        var layer = this._hightlightLayer;
-        /*
-            if (this._timeOut) {
-              layer.clear();
-              clearTimeout(this._timeOut);
-            }
-            */
-        var hlGra = new Graphic(graphic.geometry, selectionSymbol);
-        this._hightlightLayer.add(hlGra);
-        var node = hlGra.getNode();
-        node.setAttribute("data-highlight", "highlight");
-
-        this._timeOut = setTimeout(function() {
-          layer.remove(hlGra);
-        }, 4000);
       }
       var label = this._label;
       var context;
@@ -431,7 +461,13 @@ define([
         ] =
           graphic.attributes[field] == null ? "" : graphic.attributes[field];
       }
-      var text = string.substitute(context, contextObj);
+      var text = "";
+      try {
+        text = string.substitute(context, contextObj);
+      } catch (e) {
+        text = context.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g, "");
+      }
+
       var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
       if (text.toString().indexOf("</") > -1) {
         this._node = text;
@@ -445,6 +481,59 @@ define([
             "'></div></div>"
         );
       }
+      var scolor = new Color([0, 255, 255]);
+      if (this._selectcolor === null || this._selectcolor === undefined) {
+      } else if (this._selectcolor == "red") {
+        scolor = new Color([255, 0, 0]);
+      } else {
+        scolor = new Color(this._selectcolor);
+      }
+      if (
+        graphic.geometry.type == "polyline" ||
+        graphic.geometry.type == "extent" ||
+        graphic.geometry.type == "polygon"
+      ) {
+        var selectionSymbol;
+        if (graphic.geometry.type == "polyline") {
+          selectionSymbol = new SimpleLineSymbol(
+            SimpleLineSymbol.STYLE_DASH,
+            scolor,
+            5
+          );
+        } else {
+          selectionSymbol = new SimpleFillSymbol(
+            SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(SimpleLineSymbol.STYLE_DASH, scolor, 3),
+            new Color([0, 0, 0, 0])
+          );
+        }
+        var layer = this._hightlightLayer;
+
+        if (this._timeOut) {
+          layer.clear();
+          this._clearTimeout(1);
+        }
+
+        if (this._timeOut2) {
+          //this.clear();
+          this._clearTimeout(2);
+        }
+        var hlGra = new Graphic(graphic.geometry, selectionSymbol);
+        this._hightlightLayer.add(hlGra);
+        var node = hlGra.getNode();
+        node.setAttribute("data-highlight", "highlight");
+
+        this._timeOut = setTimeout(function() {
+          layer.remove(hlGra);
+        }, 4000);
+        this._timeOut2 = setTimeout(
+          lang.hitch(this, function() {
+            $(".MapText").remove();
+          }),
+          10000
+        );
+      }
+
       this.init();
     },
     getCenter: function(gra) {
@@ -497,8 +586,8 @@ define([
     getScreentPoint: function() {
       var screenPoint;
       if (this._mapPoint) {
-        //screenPoint = this.map.toScreen(this._mapPoint);
-        screenPoint = screenUtils.toScreenPoint(
+        this._mapPoint=webMercatorUtils.geographicToWebMercator(this._mapPoint);
+        screenPoint = screenUtils.toScreenGeometry(
           this.map.extent,
           this.map.width,
           this.map.height,
@@ -571,7 +660,32 @@ define([
       }
     },
     clear: function() {
-      domConstruct.destroy(this._node);
+      $(".MapText").remove();
+    },
+    getScales: function(id, scales) {
+      var scale = 0;
+      if (scales) {
+        for (var i = 0; i < scales.length; i++) {
+          var item = scales[i];
+          if (item.layerid === id) {
+            scale = item.scale;
+            break;
+          }
+        }
+      } else {
+        scale = 0;
+      }
+      return scale;
+    },
+    _clearTimeout: function(a) {
+      console.log("clearTimeout");
+      if (a == 1) {
+        clearTimeout(this._timeOut);
+        this._timeOut = null;
+      } else if (a == 2) {
+        clearTimeout(this._timeOut2);
+        this._timeOut2 = null;
+      }
     },
     startup: function() {}
   });

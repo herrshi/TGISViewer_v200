@@ -7,5 +7,6 @@
   "rest": {
     "url": "http://10.31.214.203:15021/web-gis/proxy.jsp?http://10.31.214.203:15011/tcp-sa-railway-api/tcpSaRailwayRestService/getStationOdVolumeVoList",
     "type":"0"
-  }
+  },
+  "colorField":"JWPT.RAILWAY_VOL_SATURATION.STATUS"
 }

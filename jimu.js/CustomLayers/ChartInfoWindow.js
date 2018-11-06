@@ -13,17 +13,14 @@ define([
     map: {},
     chart: "",
     chartPoint: "",
-    width:0,
-    height:0,
-      offset:10,
+    width: 0,
+    height: 0,
+    xoffset: 15,
+    yoffset: 10,
     constructor: function(j) {
       a.mixin(this, j);
       isContentShowing = false;
-      this.domNode = b.create(
-        "div",
-        null,
-        j.map.__container
-      );
+      this.domNode = b.create("div", null, j.map.__container);
       i.add(this.domNode, "myInfoWindow");
       c.hide(this.domNode);
       this._content = b.create("div", { class: "content" }, this.domNode);
@@ -127,11 +124,11 @@ define([
       var n = "",
         m = "";
       if (this.align == "Center") {
-        n = k.x - l / 2 + "px";
-        m = k.y - j / 2-this.offset + "px";
+        n = k.x - l / 2 - this.xoffset + "px";
+        m = k.y - j / 2 - this.yoffset + "px";
       } else {
-        n = k.x - l / 2 + "px";
-        m = k.y - j-this.offset + "px";
+        n = k.x - l / 2 - this.xoffset + "px";
+        m = k.y - j - this.yoffset + "px";
       }
       f.set(this.domNode, { left: n, top: m });
     },

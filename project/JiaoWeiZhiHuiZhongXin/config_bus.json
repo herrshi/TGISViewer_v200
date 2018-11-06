@@ -16,6 +16,7 @@
   "map": {
     "3D": false,
     "2D": true,
+    "showLabels": true,
     "position": {
       "left": 0,
       "top": 0,
@@ -26,180 +27,21 @@
       {
         "label": "矢量图",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
         "type": "tiled",
         "visible": true
       }
     ],
     "operationallayers": [
       {
-        "label": "停车场-面",
-        "url":
-        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/0",
-        "type": "feature",
-        "visible": true,
-        "showLabels":true,
-        "outFields": ["*"],
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "停车场.FEATURETYPE",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [15, 49, 51, 255],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [110, 110, 110, 255],
-              "width": 0
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "持证停车场",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [15, 49, 51, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [110, 110, 110, 255],
-                  "width": 0
-                }
-              }
-            },
-            {
-              "value": "非预约备用停车场",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [34, 34, 68, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [110, 110, 110, 255],
-                  "width": 0
-                }
-              }
-            },
-            {
-              "value": "预约停车场",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [0, 34, 68, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [110, 110, 110, 255],
-                  "width": 0
-                }
-              }
-            }
-          ]
-        },
-        "labelingInfo": [{
-          "labelExpressionInfo": {"value": "{停车场.FEATUREID}"},
-          "useCodedValues":  true,
-          "labelPlacement": "always-horizontal",
-          "symbol": {
-            "type":"esriTS",
-            "rightToLeft":false,
-            "color":[178,178,178,255],
-            "verticalAlignment":"baseline",
-            "horizontalAlignment":"left",
-            "font":{
-              "family":"Microsoft YaHei",
-              "size":10,
-              "weight":"bold"
-            }
-          }
-        }]
-      },
-      {
-        "label": "地铁线",
-        "url":
-        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/2",
-        "type": "feature",
-        "showLabels":false,
-        "mode": 0,
-        "visible": true,
-        "outFields": ["*"]
-      },
-      {
-        "label": "停车场-点",
-        "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
-        "type": "feature",
-        "showLabels":false,
-        "visible": true,
-        "refreshInterval": 5,
-        "outFields": ["*"],
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "JWPT.PARK_STATUS_VW.STATUS",
-          "defaultSymbol": {
-            "type": "esriPMS",
-            "url": "images/mapIcons/icon_P_green.png",
-            "width": 24,
-            "height": 33,
-            "yoffset": 17
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "free",
-              "symbol": {
-                "type": "esriPMS",
-                "url": "images/mapIcons/icon_P_green.png",
-                "width": 24,
-                "height": 33,
-                "yoffset": 17
-              }
-            },
-            {
-              "value": "crowd",
-              "symbol": {
-                "type": "esriPMS",
-                "url": "images/mapIcons/icon_P_green.png",
-                "width": 24,
-                "height": 33,
-                "yoffset": 17
-              }
-            },
-            {
-              "value": "jam",
-              "symbol": {
-                "type": "esriPMS",
-                "url": "images/mapIcons/icon_P_green.png",
-                "width": 24,
-                "height": 33,
-                "yoffset": 17
-              }
-            },
-            {
-              "value": "saturation",
-              "symbol": {
-                "type": "esriPMS",
-                "url": "images/mapIcons/icon_P_green.png",
-                "width": 24,
-                "height": 33,
-                "yoffset": 17
-              }
-            }
-          ]
-        }
-      },
-      {
         "label": "国展中心",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
         "type": "feature",
         "visible": true,
-        "showLabels":false,
         "outFields": ["*"],
         "maxScale":18056,
-        "minScale":1155581,
+        "minScale":144448,
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -213,12 +55,20 @@
             {
               "type": "sizeInfo",
               "field": "国展中心.OBJECTID",
-              "minDataValue": 9028,
+              "minDataValue": 2257,
               "maxDataValue": 288896,
               "minSize": {
                 "type": "sizeInfo",
                 "expression": "view.scale",
                 "stops": [
+                  {
+                    "value": 2257,
+                    "size": 800
+                  },
+                  {
+                    "value": 4514,
+                    "size": 400
+                  },
                   {
                     "value": 9028,
                     "size": 200
@@ -249,6 +99,14 @@
                 "type": "sizeInfo",
                 "expression": "view.scale",
                 "stops": [
+                  {
+                    "value": 2257,
+                    "size": 1600
+                  },
+                  {
+                    "value": 4514,
+                    "size": 800
+                  },
                   {
                     "value": 9028,
                     "size": 400
@@ -496,81 +354,106 @@
         ]
       },
       {
-        "label": "地铁标注点",
+        "label": "巴士线路",
         "url":
-        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/10",
         "type": "feature",
-        "showLabels":false,
-        "mode": 0,
-        "refreshInterval": 5,
         "visible": true,
+        "showLabels": true,
+        "minScale":0,
+        "maxScale":0,
         "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
-          "field1": "JWPT.RAILWAY_VOL_SATURATION.STATUS",
+          "field1": "巴士线路.FEATURETYPE",
           "defaultSymbol": {
-            "type": "esriPMS",
-            "url": "images/mapIcons/point_green.png",
-            "width": 36,
-            "height": 36,
-            "yoffset": 0
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [110, 75, 195, 255],
+            "width": 2
           },
           "uniqueValueInfos": [
             {
-              "value": "free",
+              "value": "景区快线巴士",
               "symbol": {
-                "type": "esriPMS",
-                "url": "images/mapIcons/point_green.png",
-                "width": 36,
-                "height": 36,
-                "yoffset": 0
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [156, 28, 66, 255],
+                "width": 1
               }
             },
             {
-              "value": "crowd",
+              "value": "酒店穿梭巴士",
               "symbol": {
-                "type": "esriPMS",
-                "url": "images/mapIcons/point_yellow.png",
-                "width": 36,
-                "height": 36,
-                "yoffset": 0
-              }
-            },
-            {
-              "value": "jam",
-              "symbol": {
-                "type": "esriPMS",
-                "url": "images/mapIcons/point_red.png",
-                "width": 36,
-                "height": 36,
-                "yoffset": 0
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [23, 173, 168, 255],
+                "width": 1
               }
             }
           ]
-        }
+        },
+        "labelingInfo": [
+          {
+            "labelExpressionInfo": {
+              "value": "{巴士线路.FEATURENAME}"
+            },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [156, 28, 66, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "巴士线路.FEATURENAME = '景区快线巴士'"
+          },
+          {
+            "labelExpressionInfo": {
+              "value": "{巴士线路.FEATURENAME}"
+            },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [23, 173, 168, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "巴士线路.FEATURENAME = '酒店穿梭巴士'"
+          }
+        ]
       }
     ],
     "mapOptions": {
       "center": {
-        "x": 121.312,
-        "y": 31.199,
+        "x": 121.397401,
+        "y": 31.195602,
         "spatialReference": { "wkid": 4326 }
       },
       "backgroundColor": "#02182F",
-      "showLabels":true,
-      "scale": 18056,
+      "showLabels": true,
+      "scale": 144448,
       "logo": false,
       "nav": false,
       "slider": false
     }
   },
   "geometryService":
-    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "10.31.214.201:6080",
-  "httpProxy": {
-    "useProxy": false,
-    "url": "http://10.31.214.203:15011:18021/web-gis/proxy.jsp"
-  },
   "widgetOnScreen": {
     "widgets": [
       {
@@ -579,22 +462,10 @@
         "id": "FindFeatureWidget"
       },
       {
-        "uri": "widgets/Migrate/Widget",
-        "version": "2.4",
-        "config": "configs/Migrate/config.json",
-        "id": "MigrateWidget"
-      },
-      {
         "uri": "widgets/ToolTip/Widget",
         "version": "2.4",
         "config": "configs/ToolTip/config.json",
         "id": "ToolTipWidget"
-      },
-      {
-        "uri": "widgets/ChartInfoWindow/Widget",
-        "version": "2.4",
-        "config": "configs/ChartInfoWindow/config.json",
-        "id": "ChartInfoWindowWidget"
       }
     ]
   }
