@@ -33,6 +33,22 @@
     ],
     "operationallayers": [
       {
+        "label": "海昌海洋公园",
+        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/11",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/HaiChangOceanPark.png",
+            "width": 60,
+            "height": 36
+          }
+        }
+      },
+      {
         "label": "发布段",
         "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/9",
         "type": "feature",
@@ -189,7 +205,7 @@
         "label": "高速公路出入口",
         "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/1",
         "type": "feature",
-        "visible": false,
+        "visible": true,
         "outFields": ["*"],
         "renderer": {
           "type": "simple",
@@ -335,7 +351,8 @@
       "scale": 72224,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": false,
+      "showLabels": true
     }
   },
   "geometryService":
