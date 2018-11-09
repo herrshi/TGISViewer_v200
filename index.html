@@ -33,7 +33,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      background-color: #0c203a;
+      background-color: #ffffff;
     }
 
     #testButtons {
@@ -366,7 +366,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/LinGang/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/LinGang/config-dark.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     map.setUserInfo({
@@ -374,6 +374,7 @@
       id: "et_brain_021",
       code: "310000"
     });
+    // map.showLayer({label: "停车场"})
     // map.showDynamicRendererLayer({
     //   name: "IssuesectState",
     //   defaultData: "free",
@@ -471,6 +472,8 @@
   });
 
   function Test1ClickHandler() {
+    map.setMapCenterAndLevel({x: 121.907, y: 30.926, level: 8});
+    // map.findFeature({layerName: "停车场", ids: ["P0001"], centerResult: true});
 //      map.showLayer({label: "道路", ids: [3]});
 //      map.showLayer({label: "十三五公交枢纽", ids: [0]});
 //      map.showLayer({label: "公交专用道", ids: [0,1]});
@@ -747,7 +750,7 @@
 
 <script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>
 <script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!--<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
 
 <!--<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>-->
 <!--<script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>-->

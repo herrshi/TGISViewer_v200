@@ -32,7 +32,7 @@
     },
     {
       "label": "情报板",
-      "fontClass": "icon_tcyd",
+      "fontClass": "icon_qbb_parking",
       "operations": [
         {
           "opName": "changeLayer"
@@ -41,7 +41,7 @@
     },
     {
       "label": "卡口",
-      "fontClass": "icon_qbb",
+      "fontClass": "icon_KaKou",
       "operations": [
         {
           "opName": "changeLayer"
@@ -50,7 +50,7 @@
     },
     {
       "label": "车检器",
-      "fontClass": "fa fa-ship",
+      "fontClass": "icon_DuanMian",
       "operations": [
         {
           "opName": "changeLayer"

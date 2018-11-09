@@ -684,11 +684,20 @@ define([
       var level = params.level;
 
       if (!isNaN(x) && !isNaN(y) && !isNaN(level) && level >= 0) {
-        var centerPoint = new Point(
-          params.x,
-          params.y,
-          this.map.spatialReference
-        );
+        var centerPoint;
+        if (this.map.spatialReference.isWebMercator()) {
+          centerPoint = new Point(
+            params.x,
+            params.y
+          );
+        } else {
+          centerPoint = new Point(
+            params.x,
+            params.y,
+            this.map.spatialReference
+          );
+        }
+
         this.map.centerAndZoom(centerPoint, level);
       }
     },

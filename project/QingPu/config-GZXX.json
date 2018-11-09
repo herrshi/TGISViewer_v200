@@ -32,6 +32,12 @@
     ],
     "operationallayers": [
       {
+        "label": "控制区",
+        "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_Control/MapServer",
+        "type": "dynamic",
+        "visible": true
+      },
+      {
         "label": "情报板",
         "url": "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_device/MapServer/2",
         "type": "feature",

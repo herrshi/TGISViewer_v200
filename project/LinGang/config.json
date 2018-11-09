@@ -170,15 +170,10 @@
         "renderer": {
           "type": "simple",
           "symbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [110,110,110,100],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [110,110,110,255],
-              "width": 1
-            }
+            "type": "esriPMS",
+            "url": "images/parking.png",
+            "width": 363,
+            "height": 288
           }
         }
       },
@@ -417,6 +412,10 @@
         "uri": "widgets/TrackPlayback/Widget",
         "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
         "id": "TrackPlaybackWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "id": "FindFeatureWidget"
       }
     ]
   }
