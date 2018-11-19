@@ -236,7 +236,7 @@
         "id": "TopToolbarWidget"
       },
       {
-        "uri": "widgets/BottomToolbar_CircleButton/Widget",
+        "uri": "widgets/BottomToolbar/Widget",
         "name": "BottomToolbar",
         "config": "configs/BottomToolbar/config_BaoShan.json",
         "position": {
