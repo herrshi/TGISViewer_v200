@@ -49,8 +49,8 @@ var ie = (function() {
     setLocale();
 
     resources = resources.concat([
-      window.apiUrl + "dojo/resources/dojo.css",
-      window.apiUrl + "dijit/themes/claro/claro.css",
+      // window.apiUrl + "dojo/resources/dojo.css",
+      // window.apiUrl + "dijit/themes/claro/claro.css",
       window.apiUrl + "esri/css/esri.css",
       window.apiUrl + "dojox/layout/resources/ResizeHandle.css",
       window.path + "jimu.js/css/jimu-theme.css",
@@ -209,26 +209,25 @@ var ie = (function() {
   }
 
   function setLocale() {
-    if (window.queryObject.locale) {
+    if (window.queryObject && window.queryObject.locale) {
       dojoConfig.locale = window.queryObject.locale.toLowerCase();
       window._setRTL(dojoConfig.locale);
       return;
     }
 
-    if (allCookies.esri_auth) {
-      /*jshint -W061 */
+    if (allCookies && allCookies.esri_auth) {
       var userObj = eval("(" + unescape(allCookies.esri_auth) + ")");
       if (userObj.culture) {
         dojoConfig.locale = userObj.culture;
       }
     }
 
-    if (window.queryObject.mode) {
-      if (allCookies.wab_locale) {
+    if (window.queryObject && window.queryObject.mode) {
+      if (allCookies && allCookies.wab_locale) {
         dojoConfig.locale = allCookies.wab_locale;
       }
     } else {
-      if (allCookies.wab_app_locale) {
+      if (allCookies && allCookies.wab_app_locale) {
         dojoConfig.locale = allCookies.wab_app_locale;
       }
     }

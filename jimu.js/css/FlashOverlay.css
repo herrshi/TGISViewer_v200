@@ -14,7 +14,7 @@
 }
 
 
-path[data-highlight="highlight"], image[data-highlight="highlight"], circle[data-highlight='highlight'] {
+path[data-highlight="highlight"], g[data-highlight="highlight"],image[data-highlight="highlight"], circle[data-highlight='highlight'] {
   -webkit-animation: alphachange .6s linear 0s  6 alternate;
   -moz-animation: alphachange .6s linear 0s 6 alternate;
   -o-animation: alphachange .6s linear 0s 6 alternate;
@@ -26,7 +26,7 @@ path[data-highlight="highlight"], image[data-highlight="highlight"], circle[data
   overflow: hidden;
 }
 
-path[data-highlight="always-highlight"], image[data-highlight="always-highlight"], circle[data-highlight='always-highlight'] {
+path[data-highlight="always-highlight"], g[data-highlight="always-highlight"],image[data-highlight="always-highlight"], circle[data-highlight='always-highlight'] {
   -webkit-animation: alphachange .6s linear 0s  infinite alternate;
   -moz-animation: alphachange .6s linear 0s infinite alternate;
   -o-animation: alphachange .6s linear 0s infinite alternate;

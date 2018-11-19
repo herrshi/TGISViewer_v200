@@ -26,15 +26,14 @@ define([
   "esri/tasks/IdentifyParameters",
   "esri/layers/ArcGISDynamicMapServiceLayer",
   "esri/layers/ArcGISTiledMapServiceLayer",
+  "esri/layers/FeatureLayer",
   "esri/layers/WMSLayer",
   "esri/layers/WMSLayerInfo",
   "esri/geometry/webMercatorUtils",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleMarkerSymbol",
-  "esri/symbols/SimpleFillSymbol",
   "esri/config",
-  "esri/request",
-  "esri/dijit/Scalebar"
+  "esri/request"
 ], function(
   declare,
   lang,
@@ -60,15 +59,15 @@ define([
   IdentifyParameters,
   ArcGISDynamicMapServiceLayer,
   ArcGISTiledMapServiceLayer,
+  FeatureLayer,
   WMSLayer,
   WMSLayerInfo,
   webMercatorUtils,
   SimpleLineSymbol,
   SimpleMarkerSymbol,
-  SimpleFillSymbol,
+  PictureMarkerSymbol,
   esriConfig,
-  esriRequest,
-  Scalebar
+  esriRequest
 ) {
   var instance = null,
     clazz;
@@ -119,6 +118,7 @@ define([
         "setMapCenterAndLevel",
         lang.hitch(this, this.topicHandler_onSetMapCenterAndLevel)
       );
+      topic.subscribe("refreshMap", lang.hitch(this, this.topicHandler_onRefreshMap));
       topic.subscribe(
         "toScreen",
         lang.hitch(this, this.topicHandler_onToScreen)
@@ -199,13 +199,6 @@ define([
         lang.hitch(this, function(layerConfig) {
           try {
             this.createLayer(map, "2D", layerConfig);
-
-            //显示scalebar
-            var scalebar = new Scalebar({
-              map: map,
-              scalebarUnit: "metric",
-              attachTo: "bottom-right"
-            });
           } catch (err) {
             console.error(err);
           }
@@ -214,6 +207,9 @@ define([
 
       this._publishMapEvent(map);
       this._addDataLoadingOnMapUpdate(map);
+
+      //背景透明
+      $("#map").css("background-color", "rgba(0,0,0,0)");
     },
 
     _setMapClickEvent: function() {
@@ -319,9 +315,24 @@ define([
                 showGisDeviceDetailInfo({
                   type: type,
                   id: id,
+                  label:graphic.getLayer().label,
                   graphic: graphic
                 });
               }
+            }
+            else {
+                //传完整信息
+                if (
+                    typeof showGisDeviceDetailInfo !== "undefined" &&
+                    showGisDeviceDetailInfo instanceof Function
+                ) {
+                    showGisDeviceDetailInfo({
+                        type: type,
+                        id: id,
+                        label:graphic.getLayer().label,
+                        graphic: graphic
+                    });
+                }
             }
           }
           //dynamicLayer
@@ -415,40 +426,31 @@ define([
       this.map.on("pan-end", lang.hitch(this, this._restrictMapEndExtent));
     },
     _restrictMapStartExtent: function(evt) {
-      var currExtent = evt.extent;
+      var currExtent = evt.extent.spatialReference.isWebMercator()
+        ? webMercatorUtils.webMercatorToGeographic(evt.extent)
+        : evt.extent;
+
       if (!this.fullExtent) {
-        console.log(this.appConfig.map.mapOptions);
-        if (!this.appConfig.map.mapOptions.fullExtent) {
+        if (this.appConfig.map.mapOptions.fullExtent === undefined) {
           var layer;
           for (var i = 0; i < this.map.layerIds.length; i++) {
             layer = this.map.getLayer(this.map.layerIds[i]);
-            if (layer.label === this.appConfig.map.basemaps[0].label) {
+            if (layer.label == this.appConfig.map.basemaps[0].label) {
               break;
             }
           }
-          this.fullExtent = layer.fullExtent;
+
+          this.fullExtent = layer.fullExtent.spatialReference.isWebMercator()
+            ? webMercatorUtils.webMercatorToGeographic(evt.extent)
+            : layer.fullExtent;
         } else {
           this.fullExtent = new Extent(
             this.appConfig.map.mapOptions.fullExtent
           );
         }
-        //显示限制范围
-        var restrictGraphic = new Graphic(this.fullExtent);
-        restrictGraphic.symbol = new SimpleFillSymbol({
-          "type": "esriSFS",
-          "style": "esriSFSNull",
-          "color": [115,76,0,255],
-          "outline": {
-            "type": "esriSLS",
-            "style": "esriSLSSolid",
-            "color": [255,0,0,255],
-            "width": 3
-          }
-        });
-        this.map.graphics.add(restrictGraphic);
       }
       if (this.fullExtent && this.fullExtent.contains(currExtent)) {
-        this.currentExtent = evt.extent;
+        this.currentExtent = currExtent;
       }
     },
 
@@ -458,7 +460,9 @@ define([
           return;
         }
       }
-      var currExtent = evt.extent;
+      var currExtent = evt.extent.spatialReference.isWebMercator()
+        ? webMercatorUtils.webMercatorToGeographic(evt.extent)
+        : evt.extent;
       var fullExtent = this.fullExtent;
 
       if (!fullExtent.contains(currExtent)) {
@@ -641,11 +645,22 @@ define([
       if (!isNaN(params.x) && !isNaN(params.y)) {
         var centerPoint = new Point(
           params.x,
-          params.y,
-          this.map.spatialReference
+          params.y
         );
         this.map.centerAt(centerPoint);
       }
+    },
+
+    topicHandler_onRefreshMap: function(params) {
+      this.map.graphicsLayerIds.forEach(function (layerId) {
+        var layer = this.map.getLayer(layerId);
+        //不传label就刷新整个图层
+        if (params === undefined || params.labels === undefined || params.labels.length === 0) {
+          layer.refresh();
+        } else if (params.labels.indexOf(layer.label) >= 0) {
+          layer.refresh();
+        }
+      }, this);
     },
 
     /**设置地图缩放比例*/
@@ -669,11 +684,20 @@ define([
       var level = params.level;
 
       if (!isNaN(x) && !isNaN(y) && !isNaN(level) && level >= 0) {
-        var centerPoint = new Point(
-          params.x,
-          params.y,
-          this.map.spatialReference
-        );
+        var centerPoint;
+        if (this.map.spatialReference.isWebMercator()) {
+          centerPoint = new Point(
+            params.x,
+            params.y
+          );
+        } else {
+          centerPoint = new Point(
+            params.x,
+            params.y,
+            this.map.spatialReference
+          );
+        }
+
         this.map.centerAndZoom(centerPoint, level);
       }
     },
@@ -817,6 +841,7 @@ define([
         "2D_tiandituimage": "TianDiTuLayer",
         "2D_tianditutrain": "TianDiTuLayer",
         "2D_ChengDiDynamic": "jimu/CustomLayers/ChengDiDynamicMapServiceLayer",
+        "2D_BDVec": "jimu/CustomLayers/BDVecLayer",
         "3D_tiled": "esri3d/layers/ArcGISTiledMapServiceLayer",
         "3D_dynamic": "esri3d/layers/ArcGISDynamicMapServiceLayer",
         "3D_image": "esri3d/layers/ArcGISImageServiceLayer",
@@ -906,6 +931,10 @@ define([
           }
 
           layer.setRenderer(renderer);
+        }
+        if (layerConfig.labelingInfo) {
+          //var lc = new LabelClass(layerConfig.labelingInfo);
+          layer.setLabelingInfo(layerConfig.labelingInfo);
         }
         map.addLayer(layer);
       }));

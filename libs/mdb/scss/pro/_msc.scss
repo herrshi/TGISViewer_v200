@@ -71,14 +71,6 @@
   }
 }
 
-// Gradients Premium
-@each $name, $val in $gradients-premium {
-  @include make-gradient($name, $val);
-}
-@each $name, $val in $gradients-premium-rgba {
-  @include make-gradient-rgba($name, $val);
-}
-
 .collapse-content {
   table,
   p {

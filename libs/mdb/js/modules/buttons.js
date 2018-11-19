@@ -1,92 +1,75 @@
-'use strict';
+"use strict";
 
 (function ($) {
+  var _this = this;
 
   $(document).ready(function () {
-
-    $.fn.reverse = [].reverse;
-
-    $(document).on('mouseenter.fixedActionBtn', '.fixed-action-btn:not(.click-to-toggle)', function () {
-
-      var $this = $(this);
+    $(document).on('mouseenter', '.fixed-action-btn', function () {
+      let $this = $(this);
       openFABMenu($this);
     });
-
-    $(document).on('mouseleave.fixedActionBtn', '.fixed-action-btn:not(.click-to-toggle)', function () {
-
-      var $this = $(this);
+    $(document).on('mouseleave', '.fixed-action-btn', function () {
+      let $this = $(this);
       closeFABMenu($this);
     });
-
-    $(document).on('click.fixedActionBtn', '.fixed-action-btn.click-to-toggle > a', function () {
-
-      var $this = $(this);
-      var $menu = $this.parent();
+    $(document).on('click', '.fixed-action-btn > a', function () {
+      let $this = $(this);
+      let $menu = $this.parent();
+      $menu.hasClass('active') ? openFABMenu($menu) : closeFABMenu($menu);
 
       if ($menu.hasClass('active')) {
-
         closeFABMenu($menu);
       } else {
-
         openFABMenu($menu);
       }
     });
   });
-
   $.fn.extend({
-    openFAB: function openFAB() {
-
+    openFAB() {
       openFABMenu($(this));
     },
-    closeFAB: function closeFAB() {
 
+    closeFAB() {
       closeFABMenu($(this));
     }
+
   });
 
-  var openFABMenu = function openFABMenu(btn) {
+  let openFABMenu = function openFABMenu(btn) {
+    let fab = btn;
 
-    var fab = btn;
     if (!fab.hasClass('active')) {
-
       fab.addClass('active');
-      var btnList = document.querySelectorAll('ul .btn-floating');
+      let btnList = document.querySelectorAll('ul .btn-floating');
       btnList.forEach(function (el) {
-
         el.classList.add('shown');
       });
     }
   };
 
-  var closeFABMenu = function closeFABMenu(btn) {
-
-    var fab = btn;
-
+  let closeFABMenu = function closeFABMenu(btn) {
+    let fab = btn;
     fab.removeClass('active');
-    var btnList = document.querySelectorAll('ul .btn-floating');
+    let btnList = document.querySelectorAll('ul .btn-floating');
     btnList.forEach(function (el) {
-
       el.classList.remove('shown');
     });
   };
 
-  $('.fixed-action-btn').on('click', function (e) {
-
-    e.preventDefault();
-    toggleFABMenu($('.fixed-action-btn'));
-
-    return false;
+  $('.fixed-action-btn:not(.smooth-scroll) > .btn-floating').on('click', function (e) {
+    if (!$(_this).hasClass('smooth-scroll')) {
+      e.preventDefault();
+      toggleFABMenu($('.fixed-action-btn'));
+      return false;
+    }
   });
 
   function toggleFABMenu(btn) {
-
-    var elem = btn;
+    let elem = btn;
 
     if (elem.hasClass('active')) {
-
       closeFABMenu(elem);
     } else {
-
       openFABMenu(elem);
     }
   }

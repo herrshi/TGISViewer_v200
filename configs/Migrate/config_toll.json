@@ -1,0 +1,14 @@
+{
+  "query": {
+    "url":
+      "http://10.31.214.201:6080/arcgis/rest/services/ShangHai/ShangHai_shoufeizhan/MapServer/1",
+    "id": "FSTR_TLSTA",
+    "name": "FSTR_NAME"
+  },
+  "rest": {
+    "url":
+      "http://10.31.214.203:15011/roadnetwork/roadNetworkScreenRest/getRoadOd",
+    "type": "1"
+  },
+  "colorField": "JWPT.RAILWAY_VOL_SATURATION.STATUS"
+}

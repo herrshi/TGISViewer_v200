@@ -837,6 +837,9 @@ define([
       case "extent":
         return geometry.getCenter();
 
+      case "multipoint":
+        return geometry.getPoint(0);
+
     }
 
   };

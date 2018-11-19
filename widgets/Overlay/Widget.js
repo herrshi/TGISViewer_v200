@@ -468,6 +468,10 @@ define([
 
     onTopicHandler_addOverlays: function(params, resolve, reject) {
       var overlayParams = JSON.parse(params);
+      //需要抽稀的在ReductionOverlay中处理
+      if (overlayParams.featureReduction && !!overlayParams.featureReduction.enable) {
+        return;
+      }
       var overlays = overlayParams.overlays;
 
       var showPopup = overlayParams.showPopup === true;
@@ -525,7 +529,7 @@ define([
               } else {
                 var infoTemplate = new InfoTemplate();
                 infoTemplate.setTitle(
-                  overlayParams.defaultInfoTemplate.title == ""
+                  overlayParams.defaultInfoTemplate.title === ""
                     ? null
                     : overlayParams.defaultInfoTemplate.title
                 );

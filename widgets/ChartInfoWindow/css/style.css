@@ -1,0 +1,20 @@
+.myInfoWindow {
+    position: absolute;
+    pointer-events:none;
+    z-index: 100;
+    overflow: hidden;
+    font-size: 12px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+/*.dj_ie .myInfoWindow {*/
+/*border: 1px solid rgba(255, 255, 255, 0);*/
+/*}*/
+
+.myInfoWindow .content {
+    position: relative;
+    color:#002F2F;
+    overflow: hidden;
+    padding:2px 2px 2px 2px;
+    background-color: rgba(255, 255, 255, 0);
+}

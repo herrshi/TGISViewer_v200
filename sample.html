@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>TGISViewer Version 2.00</title>
+
+  <link rel="stylesheet" type="text/css" href="http://localhost:8090/traffic-survey/static/css/font-awesome/css/font-awesome.min.css"/>
+
+
+  <style type="text/css">
+    body, html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #mapContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #0c203a;
+    }
+  </style>
+
+</head>
+<body class="claro">
+
+<div id="mapContainer">
+
+</div>
+
+<script type="text/javascript" src="http://localhost:8090/traffic-survey/static/gis/TGISViewer_v200/simpleLoader.js"></script>
+<script type="text/javascript" src="http://localhost:8090/traffic-survey/static/gis/TGISViewer_v200/TGISAPI.js"></script>
+<!--<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>-->
+
+<script type="text/javascript">
+
+  var map = TMap.createNew({
+    apiUrl: "http://localhost:8090/traffic-survey/static/gis/arcgis_js_api",
+    viewerUrl: "http://localhost:8090/traffic-survey/static/gis/TGISViewer_v200/",
+    config: "http://localhost:8090/traffic-survey/static/gis/TGISViewer_v200/config.json"
+  }, "mapContainer", function () {
+    map.showLayer({label: "地面指数区域"});
+
+  });
+</script>
+
+<script type="text/javascript" src="http://localhost:8090/traffic-survey/static/jquery/jquery-3.2.1.min.js"></script>
+
+
+</body>
+</html>

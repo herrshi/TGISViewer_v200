@@ -1,48 +1,6 @@
 // Variables Pro
 $border-radius-rounded: 10em !default;
 
-// Gradients Premium
-$gradients-premium: () !default;
-$gradients-premium: map-merge((
-  "purple": (
-    "start": #ff6ec4,
-    "end": #7873f5
-  ),
-  "peach": (
-    "start": #FFD86F,
-    "end": #FC6262
-  ),
-  "aqua": (
-    "start": #2096ff,
-    "end": #05ffa3
-  ),
-  "blue": (
-    "start": #45cafc,
-    "end": $indigo-darken-2
-  ),
-), $gradients-premium);
-
-// Gradients Premium RGBA Version
-$gradients-premium-rgba: () !default;
-$gradients-premium-rgba: map-merge((
-  "purple": (
-    "start": rgba(255,110,196,.9),
-    "end": rgba(120,115,245,.9)
-  ),
-  "peach": (
-    "start": rgba(255,216,111,.9),
-    "end": rgba(252,98,98,.9)
-  ),
-  "aqua": (
-    "start": rgba(32,150,255,.9),
-    "end": rgba(5,255,163,.9)
-  ),
-  "blue": (
-    "start": rgba(69,202,252,.9),
-    "end": rgba(48,63,159,.9)
-  ),
-), $gradients-premium-rgba);
-
 // Accordion
 $accordion-card-header-padding-y:      1rem !default;
 $accordion-card-header-padding-x:      1.5rem !default;
@@ -863,41 +821,6 @@ $picker-custom-materialize-styles:                        $autocomplete-margin-b
 // Default date picker
 $pickerweekday-padb-breakpoint:                           33.875em !default;
 
-// Steppers
-$stepper-li-a-padding:                                    $accordion-card-header-padding-x !default;
-$stepper-li-a-font-size:                                  .88rem !default;
-$stepper-li-a-circle-color:                               $white !default;
-$stepper-li-a-circle-border-radius:                       $border-radius-circle !default;
-$stepper-li-a-circle-bg:                                  rgba($black, .38) !default;
-$stepper-li-a-circle-width:                               $stepper-li-a-padding !default;
-$stepper-li-a-circle-height:                              $stepper-li-a-circle-width !default;
-$stepper-li-a-circle-line-height:                         $stepper-li-a-circle-width !default;
-$stepper-li-a-circle-mr:                                  $autocomplete-clear-top !default;
-$stepper-li-a-label-color:                                rgba($black, .87) !default;
-
-$stepper-horizontal-li-transition:                        .5s !default;
-$stepper-horizontal-li-a-label-mt:                        $card-reveal-title-i-right !default;
-$stepper-horizontal-li-after-margin:                      $autocomplete-clear-top !default;
-$stepper-horizontal-li-after-height:                      $autocomplete-margin-bottom !default;
-$stepper-horizontal-li-after-bgc:                         rgba($black, .1) !default;
-$stepper-horizontal-li-hover-bg:                          $datepicker-table-day-outfocus-hover-color !default;
-$stepper-horizontal-breakpoint:                           47.9375rem !default;
-$stepper-horizontal-small-li-a-label-mt:                  .2rem !default;
-$stepper-horizontal-small-li-after-width:                 $stepper-horizontal-li-after-height !default;
-$stepper-horizontal-small-li-after-height:                calc(100% - 40px) !default;
-$stepper-horizontal-small-li-after-left:                  2.19rem !default;
-$stepper-horizontal-small-li-after-top:                   $sidenav-padding-bottom !default;
-
-$stepper-vertical-li-a-label-mt:                          $stepper-horizontal-small-li-a-label-mt !default;
-$stepper-vertical-li-step-content-ml:                     3.13rem !default;
-$stepper-vertical-li-step-content-padding:                $material-select-wrapper-input-dropdown-margin !default;
-$stepper-vertical-li-step-content-p-font-size:            $stepper-li-a-font-size !default;
-$stepper-vertical-li-after-width:                         $stepper-horizontal-li-after-height !default;
-$stepper-vertical-li-after-height:                        $stepper-horizontal-small-li-after-height !default;
-$stepper-vertical-li-after-left:                          $stepper-horizontal-small-li-after-left !default;
-$stepper-vertical-li-after-top:                           3.44rem !default;
-$stepper-vertical-li-after-bgc:                           $stepper-horizontal-li-after-bgc !default;
-
 // Ecommerce components
 $collection-card-stripe-bottom:                           $form-header-mb !default;
 $collection-card-stripe-padding:                          $icons-sm-font-size !default;
@@ -960,6 +883,7 @@ $pricing-card-version-padding:                          $accordion-card-header-p
 $pricing-card-version-bgc:                              $material-select-wrapper-input-dropdown-disabled-color !default;
 $pricing-card-striped-padding:                          $accordion-card-header-padding-y !default;
 $pricing-card-striped-li-border-bottom-color:           rgba($grey-lighten-3, .298039) !default;
+$pricing-card-striped-li-border-bottom-color-darker:    rgba($datepicker-color-mdb, .298039) !default;
 $pricing-card-striped-li-margin-bottom:                 $accordion-card-header-padding-y !default;
 $pricing-card-green-striped-li-border-color:          #33c28a !default;
 $pricing-card-orange-striped-li-border-color:         #e97d63 !default;
@@ -1116,10 +1040,11 @@ $checkbox-indeterminate-label-before-transform:         rotate(90deg) !default;
 $checkbox-filled-in-border-radius:                          $border-radius-base !default;
 $checkbox-filled-in-transition-border:                      border .25s !default;
 $checkbox-filled-in-transition-background-color:            background-color .25s !default;
-$checkbox-filled-in-transition-width:                       width .20s $card-front-back-transition !default;
-$checkbox-filled-in-transition-height:                      height .20s $card-front-back-transition !default;
-$checkbox-filled-in-transition-top:                         top .20s $card-front-back-transition !default;
-$checkbox-filled-in-transition-left:                        left .20s $card-front-back-transition !default;
+$checkbox-filled-in-transition-time-dot-one-second:         .1s !default;
+$checkbox-filled-in-transition-width:                       width .20s $checkbox-filled-in-transition-time-dot-one-second !default;
+$checkbox-filled-in-transition-height:                      height .20s $checkbox-filled-in-transition-time-dot-one-second!default;
+$checkbox-filled-in-transition-top:                         top .20s $checkbox-filled-in-transition-time-dot-one-second !default;
+$checkbox-filled-in-transition-left:                        left .20s $checkbox-filled-in-transition-time-dot-one-second !default;
 $checkbox-filled-in-unchecked-label-before-border-width:    $slider-runnable-track-height !default;
 $checkbox-filled-in-unchecked-label-before-left:            $slider-border-width !default;
 $checkbox-filled-in-unchecked-label-before-top:             $btn-floating-margin !default;

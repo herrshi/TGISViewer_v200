@@ -1,0 +1,697 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "底图",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/BackgroundMap/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "地面指数区域实时",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": [
+          "*"
+        ],
+        "infoTemplate": {
+          "title": "${地面道路指数区域.名称}",
+          "content": "<b>编号: </b>${地面道路指数区域.BM_CODE}<br><b>实时指数: </b>${ZONGDUI.DM_REGION_RTIND.FFLT_INDEX}"
+        },
+        "renderer": {
+          "type": "classBreaks",
+          "field": "ZONGDUI.DM_REGION_RTIND.FFLT_INDEX",
+          "minValue": 0.0,
+          "classBreakInfos": [
+            {
+              "classMaxValue": "29.999999",
+              "label": "0 -- 30",
+              "description": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  2,
+                  141,
+                  11,
+                  135
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "classMaxValue": "49.999999",
+              "label": "30 -- 50",
+              "description": "较畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  0,
+                  255,
+                  0,
+                  175
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "classMaxValue": "69.999999",
+              "label": "50 -- 70",
+              "description": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  255,
+                  255,
+                  0,
+                  215
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "classMaxValue": "99.999999",
+              "label": "70 -- 100",
+              "description": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  255,
+                  0,
+                  0,
+                  255
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "地面指数区域15分钟预测",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/4",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.DM_ISSUESECT_RTPF_15M.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [
+              110,
+              110,
+              110
+            ],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [
+                255,
+                255,
+                255
+              ],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": 0,
+              "label": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  2,
+                  141,
+                  11,
+                  135
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 1,
+              "label": "较畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  0,
+                  255,
+                  0,
+                  175
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 2,
+              "label": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  255,
+                  255,
+                  0,
+                  215
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 3,
+              "label": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  255,
+                  0,
+                  0,
+                  255
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "地面指数区域30分钟预测",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/5",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.DM_ISSUESECT_RTPF_30M.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [
+              110,
+              110,
+              110
+            ],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [
+                255,
+                255,
+                255
+              ],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": 0,
+              "label": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  2,
+                  141,
+                  11,
+                  135
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 1,
+              "label": "较畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  0,
+                  255,
+                  0,
+                  175
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 2,
+              "label": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  255,
+                  255,
+                  0,
+                  215
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 3,
+              "label": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  255,
+                  0,
+                  0,
+                  255
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "地面指数区域1小时预测",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/6",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.DM_ISSUESECT_RTPF_1H.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [
+              110,
+              110,
+              110
+            ],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [
+                255,
+                255,
+                255
+              ],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": 0,
+              "label": "畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  2,
+                  141,
+                  11,
+                  135
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 1,
+              "label": "较畅通",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  0,
+                  255,
+                  0,
+                  175
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 2,
+              "label": "拥挤",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  255,
+                  255,
+                  0,
+                  215
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": 3,
+              "label": "堵塞",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [
+                  255,
+                  0,
+                  0,
+                  255
+                ],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [
+                    255,
+                    255,
+                    255
+                  ],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "地面指数区域常发",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "ZONGDUI.DM_REGION_YD_VW.YD_TYPE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "1",
+              "label": "准常发",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 208, 69],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "2",
+              "label": "常发",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [232, 14, 14],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "地面指数区域名称",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion_label/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSNull",
+            "color": [232, 14, 14],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSNull",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          }
+        }
+      }
+    ],
+    "mapOptions": {
+      "scale": 125000,
+      "center": {
+        "x": 3000,
+        "y": 3000,
+        "spatialReference": {
+          "wkid": 2385
+        }
+      },
+      "showLabels": true,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "128.64.151.245:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 30,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar_CircleButton/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 30,
+          "right": 50
+        },
+        "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      }
+    ]
+  }
+}

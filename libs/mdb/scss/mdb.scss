@@ -1,6 +1,6 @@
 /*!
  * Material Design for Bootstrap 4
- * Version: MDB PRO 4.5.9
+ * Version: MDB PRO 4.5.13
  *
  *
  * Copyright: Material Design for Bootstrap
@@ -13,7 +13,7 @@
  *
  * Getting started: https://mdbootstrap.com/getting-started/
  *
- * Tutorials: https://mdbootstrap.com/bootstrap-tutorial/
+ * Tutorials: https://mdbootstrap.com/education/bootstrap/
  *
  * Templates: https://mdbootstrap.com/templates/
  *
@@ -45,7 +45,7 @@
 
 // FREE
 @import "free/animations-basic";
-@import "free/animations-extended";
+@import "free/modules/animations-extended/module";
 @import "free/buttons";
 @import "free/cards";
 @import "free/dropdowns";
@@ -62,7 +62,8 @@
 @import "free/tables";
 @import "free/switch";
 @import "free/depreciated";
-
+@import "free/steppers";
+@import "free/loader";
 // Free addons
 // @import "addons/datatables";
 
@@ -72,11 +73,10 @@
 @import "pro/social-buttons";
 @import "pro/tabs";
 @import "pro/cards-basic";
-@import "pro/cards-extended";
 @import "pro/dropdowns";
 @import "pro/navbars";
 @import "pro/scrollspy";
-@import "pro/lightbox";
+@import "pro/modules/lightbox/module";
 @import "pro/chips";
 @import "pro/msc";
 @import "pro/forms";
@@ -89,19 +89,18 @@
 @import "pro/input-group";
 @import "pro/autocomplete";
 @import "pro/accordion-basic";
-@import "pro/accordion-extended";
-@import "pro/parallax";
+@import "pro/modules/accordion-extended/module";
+@import "pro/modules/parallax/module";
 @import "pro/sidenav";
 @import "pro/ecommerce";
 @import "pro/carousels";
-@import "pro/steppers";
 @import "pro/blog";
 @import "pro/toasts";
 @import "pro/animations";
-@import "pro/charts";
+@import "pro/modules/charts/module";
 @import "pro/progress";
 @import "pro/scrollbar";
-@import "pro/megamenu";
+@import "pro/modules/megamenu/module";
 // Your custom skin
 @import "custom-skin";
 @import "pro/skins";
@@ -120,6 +119,12 @@
 @import "pro/sections/magazine";
 @import "pro/sections/pricing";
 @import "pro/sections/contacts";
+
+// Pro addons
+// @import "addons-pro/steppers";
+// @import "addons-pro/timeline";
+// @import "addons-pro/cards-extended";
+// @import "addons-pro/chat";
 
 // Your custom styles
 @import "custom-styles";

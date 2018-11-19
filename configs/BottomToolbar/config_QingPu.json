@@ -1,0 +1,45 @@
+{
+  "buttons": [
+    {
+      "label": "情报板",
+      "initEnable": true,
+      "image": "images/buttons/QingBaoBan.png",
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["情报板"]
+        }
+      ]
+    },
+    {
+      "label": "信号机",
+      "image": "images/buttons/XinHaoJi.png",
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["信号机"]
+        }
+      ]
+    },
+    {
+      "label": "摄像机",
+      "image": "images/buttons/SheXiangJi.png",
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["摄像机"]
+        }
+      ]
+    },
+    {
+      "label": "发布段",
+      "image": "images/buttons/FaBuDuan.png",
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["发布段"]
+        }
+      ]
+    }
+  ]
+}
