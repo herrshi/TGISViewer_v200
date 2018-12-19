@@ -6,15 +6,15 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>TGISViewer Version 2.00</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-  <!--<link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet">-->
-  <!--<link href="libs/mdb/css/mdb.min.css" rel="stylesheet">-->
+  <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet">
+  <link href="libs/mdb/css/mdb.min.css" rel="stylesheet">
 
 
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap/css/bootstrap.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/global/css/animate.css">
-  <link rel="stylesheet" type="text/css" href="assets/layouts/css/layout.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/layouts/css/custom.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/global/css/plugins.css"/>
+  <!--<link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap/css/bootstrap.css"/>-->
+  <!--<link rel="stylesheet" type="text/css" href="assets/global/css/animate.css">-->
+  <!--<link rel="stylesheet" type="text/css" href="assets/layouts/css/layout.css"/>-->
+  <!--<link rel="stylesheet" type="text/css" href="assets/layouts/css/custom.css"/>-->
+  <!--<link rel="stylesheet" type="text/css" href="assets/global/css/plugins.css"/>-->
 
   <!--<link rel="stylesheet" type="text/css" href="libs/dropdownCheckbox/dropdownCheckboxes.min.css">-->
 
@@ -366,7 +366,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/LinGang/config-dark.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/QingPu/config-GZXX.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     map.setUserInfo({
@@ -472,7 +472,9 @@
   });
 
   function Test1ClickHandler() {
-    map.setMapCenterAndLevel({x: 121.907, y: 30.926, level: 8});
+    map.addOverlays('{"showPopup":true,"defaultSymbol":{"type":"marker","style":"circle","color":"white","alpha":0.8,"size":8,"outline":{"color":"#145b7d","width":1}},"overlays":[{"id":"0pointId","type":"CADPile","geometry":{"x":"-14035.039505","y":"-4345.931068"},"fields":{"里程":"0","点类型":"起点","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"200pointId","type":"CADPile","geometry":{"x":"-14027.045862","y":"-4545.762992"},"fields":{"里程":"200","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"300pointId","type":"CADPile","geometry":{"x":"-14027.463116","y":"-4645.761142"},"fields":{"里程":"300","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"400pointId","type":"CADPile","geometry":{"x":"-14027.836604","y":"-4745.759061"},"fields":{"里程":"400","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"500pointId","type":"CADPile","geometry":{"x":"-14022.774527","y":"-4845.613274"},"fields":{"里程":"500","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"600pointId","type":"CADPile","geometry":{"x":"-14015.658555","y":"-4945.359767"},"fields":{"里程":"600","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"700pointId","type":"CADPile","geometry":{"x":"-14008.542582","y":"-5045.106261"},"fields":{"里程":"700","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"800pointId","type":"CADPile","geometry":{"x":"-14001.42661","y":"-5144.852754"},"fields":{"里程":"800","点类型":"","标高":"5.92","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"900pointId","type":"CADPile","geometry":{"x":"-13994.310637","y":"-5244.599247"},"fields":{"里程":"900","点类型":"","标高":"6.52","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"1000pointId","type":"CADPile","geometry":{"x":"-13987.48203","y":"-5344.364942"},"fields":{"里程":"1000","点类型":"","标高":"7.12","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}}]}');
+    map.addOverlays('{"showPopup":true,"defaultSymbol":{"style":"solid","color":"#228fbd","alpha":0.8,"width":9},"overlays":[{"id":"0","type":"GPS","geometry":{"paths":[[["-14035.039505","-4345.931068"],["-14027.045862","-4545.762992"],["-14027.463116","-4645.761142"],["-14027.836604","-4745.759061"],["-14022.774527","-4845.613274"],["-14015.658555","-4945.359767"],["-14008.542582","-5045.106261"],["-14001.42661","-5144.852754"],["-13994.310637","-5244.599247"],["-13987.48203","-5344.364942"]]]},"fields":{"线路名称":"22路","全长":"108公里","线路信息":"线路信息"}}]}');
+    // map.setMapCenterAndLevel({x: 121.907, y: 30.926, level: 8});
     // map.findFeature({layerName: "停车场", ids: ["P0001"], centerResult: true});
 //      map.showLayer({label: "道路", ids: [3]});
 //      map.showLayer({label: "十三五公交枢纽", ids: [0]});
@@ -748,22 +750,22 @@
   }
 </script>
 
-<script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!--<script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>-->
 <!--<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
 
-<!--<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>-->
-<!--<script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>-->
-<!--<script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>-->
-<!--<script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>-->
-<!--<script type="text/javascript" src="libs/echarts.source.js"></script>-->
+<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>
+<script type="text/javascript" src="libs/echarts.source.js"></script>
 
-<script type="text/javascript" src="assets/global/plugins/pause/Info-pause.js"></script>
-<script type="text/javascript" src="assets/global/js/app.min.js"></script>
-<script type="text/javascript" src="assets/layouts/js/html5_3d_animation.js"></script>
-<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/gis-tool/anime.js"></script>
-<script type="text/javascript" src="assets/global/plugins/gis-tool/index.js"></script>
+<!--<script type="text/javascript" src="assets/global/plugins/pause/Info-pause.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/js/app.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/layouts/js/html5_3d_animation.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/anime.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/index.js"></script>-->
 
 <!--<script type="text/javascript" src="libs/dropdownCheckbox/dropdownCheckboxes.min.js"></script>-->
 
