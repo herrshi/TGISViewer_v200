@@ -95,10 +95,6 @@ define([
 
       var label = domAttr.get(target, "title") || domAttr.get(target, "data-original-title");
       var enable = domClass.contains(target, this._activeClass);
-      //通知页面
-      if (typeof onBottomButtonClick !== "undefined" && onBottomButtonClick instanceof Function) {
-        onBottomButtonClick(label, enable);
-      }
 
       var operations = domAttr.get(target, "data-operations");
       if (operations !== "undefined") {

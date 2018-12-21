@@ -346,7 +346,7 @@ define([
 
   clazz.getInstance = function (urlParams) {
     if(instance === null) {
-      instance = new clazz(urlParams);m
+      instance = new clazz(urlParams);
     }else{
       if(urlParams){
         instance.urlParams = urlParams;

@@ -1,0 +1,40 @@
+[
+  {
+    "type": "scats",
+    "url":
+      "http://{gisServer}/arcgis/rest/services/QingPu/QingPu_device/MapServer/1",
+    "renderer": {
+      "type": "uniqueValue",
+      "field1": "Select",
+      "defaultSymbol": {
+        "type": "esriPMS",
+        "url": "images/mapIcons/XinHaoJi-blue.png",
+        "width": 16.5,
+        "height": 19.5,
+        "yoffset": 10
+      },
+      "uniqueValueInfos": [
+        {
+          "value": "select",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/XinHaoJi-red.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        },
+        {
+          "value": "lock",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/XinHaoJi-red-lock.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      ]
+    }
+  }
+]

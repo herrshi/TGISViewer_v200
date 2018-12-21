@@ -124,7 +124,7 @@
             return mod.exports;
         }
     }());
-    define('echarts/util/mapData/geoJson/ao_men_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/ao_men_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -146,7 +146,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/an_hui_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/an_hui_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -425,7 +425,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/bei_jing_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/bei_jing_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -711,7 +711,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/component/dataRange', ['require', './base', 'zrender/shape/Text', 'zrender/shape/Rectangle', '../util/shape/HandlePolygon', '../config', 'zrender/tool/util', 'zrender/tool/event', 'zrender/tool/area', 'zrender/tool/color', '../component'], function(require) {
+    define('echarts2/component/dataRange', ['require', './base', 'zrender/shape/Text', 'zrender/shape/Rectangle', '../util/shape/HandlePolygon', '../config', 'zrender/tool/util', 'zrender/tool/event', 'zrender/tool/area', 'zrender/tool/color', '../component'], function(require) {
         var Base = require('./base');
 
         // 图形依赖
@@ -2211,7 +2211,7 @@
 
         return DataRange;
     });
-    define('echarts/echarts', ['require', './config', 'zrender/tool/util', 'zrender/tool/event', 'zrender/tool/env', 'zrender', 'zrender/config', './chart/island', './component/toolbox', './component', './component/title', './component/tooltip', './component/legend', './util/ecData', './chart', 'zrender/tool/color', './component/timeline', 'zrender/shape/Image', 'zrender/loadingEffect/Bar', 'zrender/loadingEffect/Bubble', 'zrender/loadingEffect/DynamicLine', 'zrender/loadingEffect/Ring', 'zrender/loadingEffect/Spin', 'zrender/loadingEffect/Whirling', './theme/macarons', './theme/infographic'], function(require) {
+    define('echarts2/echarts2', ['require', './config', 'zrender/tool/util', 'zrender/tool/event', 'zrender/tool/env', 'zrender', 'zrender/config', './chart/island', './component/toolbox', './component', './component/title', './component/tooltip', './component/legend', './util/ecData', './chart', 'zrender/tool/color', './component/timeline', 'zrender/shape/Image', 'zrender/loadingEffect/Bar', 'zrender/loadingEffect/Bubble', 'zrender/loadingEffect/DynamicLine', 'zrender/loadingEffect/Ring', 'zrender/loadingEffect/Spin', 'zrender/loadingEffect/Whirling', './theme/macarons', './theme/infographic'], function(require) {
         var ecConfig = require('./config');
         var zrUtil = require('zrender/tool/util');
         var zrEvent = require('zrender/tool/event');
@@ -2221,7 +2221,7 @@
         var _canvasSupported = require('zrender/tool/env').canvasSupported;
         var _idBase = new Date() - 0;
         var _instances = {}; // ECharts实例map索引
-        var DOM_ATTRIBUTE_KEY = '_echarts_instance_';
+        var DOM_ATTRIBUTE_KEY = '_echarts2_instance_';
 
         self.version = '2.2.6';
         self.dependencies = {
@@ -2240,7 +2240,7 @@
 
             dom = dom instanceof Array ? dom[0] : dom;
 
-            // dom与echarts实例映射索引
+            // dom与echarts2实例映射索引
             var key = dom.getAttribute(DOM_ATTRIBUTE_KEY);
             if (!key) {
                 key = _idBase++;
@@ -2336,7 +2336,7 @@
         ];
 
         /**
-         * 对echarts的实例中的chartList属性成员，逐个进行方法调用，遍历顺序为逆序
+         * 对echarts2的实例中的chartList属性成员，逐个进行方法调用，遍历顺序为逆序
          * 由于在事件触发的默认行为处理中，多次用到相同逻辑，所以抽象了该方法
          * 由于所有的调用场景里，最多只有两个参数，基于性能和体积考虑，这里就不使用call或者apply了
          *
@@ -2377,7 +2377,7 @@
                     self._messageCenter.dispatchWithContext(type, eventPackage, that);
                     self._messageCenterOutSide.dispatchWithContext(type, eventPackage, that);
 
-                    // 如下注掉的代码，@see: https://github.com/ecomfe/echarts-discuss/issues/3
+                    // 如下注掉的代码，@see: https://github.com/ecomfe/echarts2-discuss/issues/3
                     // if (type != 'HOVER' && type != 'MOUSEOUT') {    // 频繁事件直接抛出
                     //     setTimeout(function(){
                     //         self._messageCenterOutSide.dispatchWithContext(
@@ -2444,10 +2444,10 @@
              * ECharts事件处理中心
              */
             __onevent: function(param) {
-                param.__echartsId = param.__echartsId || this.id;
+                param.__echarts2Id = param.__echarts2Id || this.id;
 
                 // 来自其他联动图表的事件
-                var fromMyself = (param.__echartsId === this.id);
+                var fromMyself = (param.__echarts2Id === this.id);
 
                 if (!this._curEventType) {
                     this._curEventType = param.type;
@@ -3694,7 +3694,7 @@
              * 联动事件响应
              */
             connectedEventHandler: function(param) {
-                if (param.__echartsId != this.id) {
+                if (param.__echarts2Id != this.id) {
                     // 来自其他联动图表的事件
                     this._onevent(param);
                 }
@@ -3859,7 +3859,7 @@
             },
 
             /**
-             * 清除已渲染内容 ，clear后echarts实例可用
+             * 清除已渲染内容 ，clear后echarts2实例可用
              */
             clear: function() {
                 this._disposeChartList();
@@ -3871,7 +3871,7 @@
             },
 
             /**
-             * 释放，dispose后echarts实例不可用
+             * 释放，dispose后echarts2实例不可用
              */
             dispose: function() {
                 var key = this.dom.getAttribute(DOM_ATTRIBUTE_KEY);
@@ -3889,7 +3889,7 @@
 
         return self;
     });
-    define('echarts/chart/map', ['require', './base', 'zrender/shape/Text', 'zrender/shape/Path', 'zrender/shape/Circle', 'zrender/shape/Rectangle', 'zrender/shape/Line', 'zrender/shape/Polygon', 'zrender/shape/Ellipse', 'zrender/shape/Image', '../component/dataRange', '../component/roamController', '../layer/heatmap', '../config', '../util/ecData', 'zrender/tool/util', 'zrender/config', 'zrender/tool/event', '../util/mapData/params', '../util/mapData/textFixed', '../util/mapData/geoCoord', '../util/projection/svg', '../util/projection/normal', '../chart'], function(require) {
+    define('echarts2/chart/map', ['require', './base', 'zrender/shape/Text', 'zrender/shape/Path', 'zrender/shape/Circle', 'zrender/shape/Rectangle', 'zrender/shape/Line', 'zrender/shape/Polygon', 'zrender/shape/Ellipse', 'zrender/shape/Image', '../component/dataRange', '../component/roamController', '../layer/heatmap', '../config', '../util/ecData', 'zrender/tool/util', 'zrender/config', 'zrender/tool/event', '../util/mapData/params', '../util/mapData/textFixed', '../util/mapData/geoCoord', '../util/projection/svg', '../util/projection/normal', '../chart'], function(require) {
         var ChartBase = require('./base');
 
         // 图形依赖
@@ -5521,7 +5521,7 @@
 
         return Map;
     });
-    define('echarts/util/mapData/geoJson/china_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/china_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -6047,7 +6047,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/chong_qing_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/chong_qing_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -6654,7 +6654,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/fu_jian_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/fu_jian_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -6796,7 +6796,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/gan_su_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/gan_su_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -7022,7 +7022,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/guang_dong_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/guang_dong_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -7345,7 +7345,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/guang_xi_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/guang_xi_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -7562,7 +7562,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/hai_nan_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/hai_nan_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -7839,7 +7839,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/gui_zhou_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/gui_zhou_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -8007,7 +8007,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/hei_long_jiang_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/hei_long_jiang_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -8209,7 +8209,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/he_bei_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/he_bei_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -8389,7 +8389,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/he_nan_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/he_nan_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -8651,7 +8651,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/jiang_su_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/jiang_su_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -8853,7 +8853,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/hu_nan_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/hu_nan_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -9071,7 +9071,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/jiang_xi_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/jiang_xi_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -9243,7 +9243,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/hu_bei_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/hu_bei_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -9514,7 +9514,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/ji_lin_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/ji_lin_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -9656,7 +9656,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/liao_ning_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/liao_ning_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -9873,7 +9873,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/nei_meng_gu_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/nei_meng_gu_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -10060,7 +10060,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/qing_hai_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/qing_hai_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -10195,7 +10195,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/ning_xia_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/ning_xia_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -10285,7 +10285,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/shang_hai_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/shang_hai_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -10577,7 +10577,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/shan_dong_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/shan_dong_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -10839,7 +10839,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/shan_xi_2_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/shan_xi_2_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -11011,7 +11011,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/si_chuan_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/si_chuan_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -11333,7 +11333,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/shan_xi_1_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/shan_xi_1_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -11490,7 +11490,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/tai_wan_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/tai_wan_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -11512,7 +11512,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/xi_zang_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/xi_zang_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -11624,7 +11624,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/xiang_gang_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/xiang_gang_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -11646,7 +11646,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/xin_jiang_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/xin_jiang_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -11950,7 +11950,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/yun_nan_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/yun_nan_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -12197,7 +12197,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/zhe_jiang_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/zhe_jiang_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -12369,7 +12369,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/util/mapData/geoJson/tian_jin_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/tian_jin_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "features": [{
@@ -12646,7 +12646,7 @@
             "UTF8Encoding": true
         };
     });
-    define('echarts/component/base', ['require', '../config', '../util/ecData', '../util/ecQuery', '../util/number', 'zrender/tool/util', 'zrender/tool/env'], function(require) {
+    define('echarts2/component/base', ['require', '../config', '../util/ecData', '../util/ecQuery', '../util/number', 'zrender/tool/util', 'zrender/tool/env'], function(require) {
         var ecConfig = require('../config');
         var ecData = require('../util/ecData');
         var ecQuery = require('../util/ecQuery');
@@ -13035,7 +13035,7 @@
         require('../tool/util').inherits(Text, Base);
         return Text;
     });
-    define('echarts/config', [], function() {
+    define('echarts2/config', [], function() {
         // 请原谅我这样写，这显然可以直接返回个对象，但那样的话outline就显示不出来了~~
         var config = {
             // 图表类型
@@ -13714,7 +13714,7 @@
         require('../tool/util').inherits(Rectangle, Base);
         return Rectangle;
     });
-    define('echarts/util/shape/HandlePolygon', ['require', 'zrender/shape/Base', 'zrender/shape/Polygon', 'zrender/tool/util'], function(require) {
+    define('echarts2/util/shape/HandlePolygon', ['require', 'zrender/shape/Base', 'zrender/shape/Polygon', 'zrender/tool/util'], function(require) {
         var Base = require('zrender/shape/Base');
         var PolygonShape = require('zrender/shape/Polygon');
         var zrUtil = require('zrender/tool/util');
@@ -13754,7 +13754,7 @@
 
         return HandlePolygon;
     });
-    define('echarts/util/mapData/geoJson/world_geo', [], function() {
+    define('echarts2/util/mapData/geoJson/world_geo', [], function() {
         return {
             "type": "FeatureCollection",
             "offset": {
@@ -18519,7 +18519,7 @@
 
         return detect(navigator.userAgent);
     });
-    define('echarts/component', [], function( /*require*/ ) { // component
+    define('echarts2/component', [], function( /*require*/ ) { // component
         var self = {};
 
         var _componentLibrary = {}; // echart组件库
@@ -19228,7 +19228,7 @@
         };
         return config;
     });
-    define('echarts/chart/island', ['require', './base', 'zrender/shape/Circle', '../config', '../util/ecData', 'zrender/tool/util', 'zrender/tool/event', 'zrender/tool/color', '../util/accMath', '../chart'], function(require) {
+    define('echarts2/chart/island', ['require', './base', 'zrender/shape/Circle', '../config', '../util/ecData', 'zrender/tool/util', 'zrender/tool/event', 'zrender/tool/color', '../util/accMath', '../chart'], function(require) {
         var ChartBase = require('./base');
 
         // 图形依赖
@@ -19465,7 +19465,7 @@
 
         return Island;
     });
-    define('echarts/component/toolbox', ['require', './base', 'zrender/shape/Line', 'zrender/shape/Image', 'zrender/shape/Rectangle', '../util/shape/Icon', '../config', 'zrender/tool/util', 'zrender/config', 'zrender/tool/event', './dataView', '../component'], function(require) {
+    define('echarts2/component/toolbox', ['require', './base', 'zrender/shape/Line', 'zrender/shape/Image', 'zrender/shape/Rectangle', '../util/shape/Icon', '../config', 'zrender/tool/util', 'zrender/config', 'zrender/tool/event', './dataView', '../component'], function(require) {
         var Base = require('./base');
 
         // 图形依赖
@@ -20318,7 +20318,7 @@
                 }
 
                 var downloadDiv = document.createElement('div');
-                downloadDiv.id = '__echarts_download_wrap__';
+                downloadDiv.id = '__echarts2_download_wrap__';
                 downloadDiv.style.cssText = 'position:fixed;' + 'z-index:99999;' + 'display:block;' + 'top:0;left:0;' + 'background-color:rgba(33,33,33,0.5);' + 'text-align:center;' + 'width:100%;' + 'height:100%;' + 'line-height:' + document.documentElement.clientHeight + 'px;';
 
                 var downloadLink = document.createElement('a');
@@ -20335,11 +20335,11 @@
                 downloadDiv = null;
 
                 setTimeout(function() {
-                    var _d = document.getElementById('__echarts_download_wrap__');
+                    var _d = document.getElementById('__echarts2_download_wrap__');
                     if (_d) {
                         _d.onclick = function() {
                             var d = document.getElementById(
-                                '__echarts_download_wrap__'
+                                '__echarts2_download_wrap__'
                             );
                             d.onclick = null;
                             d.innerHTML = '';
@@ -20638,7 +20638,7 @@
 
         return Toolbox;
     });
-    define('echarts/component/title', ['require', './base', 'zrender/shape/Text', 'zrender/shape/Rectangle', '../config', 'zrender/tool/util', 'zrender/tool/area', 'zrender/tool/color', '../component'], function(require) {
+    define('echarts2/component/title', ['require', './base', 'zrender/shape/Text', 'zrender/shape/Rectangle', '../config', 'zrender/tool/util', 'zrender/tool/area', 'zrender/tool/color', '../component'], function(require) {
         var Base = require('./base');
 
         // 图形依赖
@@ -20923,7 +20923,7 @@
 
         return Title;
     });
-    define('echarts/util/ecData', [], function() {
+    define('echarts2/util/ecData', [], function() {
         /**
          * 打包私有数据
          *
@@ -20943,7 +20943,7 @@
                 value = data.value == null ? data : data.value;
             }
 
-            shape._echartsData = {
+            shape._echarts2Data = {
                 '_series': series,
                 '_seriesIndex': seriesIndex,
                 '_data': data,
@@ -20953,7 +20953,7 @@
                 '_special': special,
                 '_special2': special2
             };
-            return shape._echartsData;
+            return shape._echarts2Data;
         }
 
         /**
@@ -20962,7 +20962,7 @@
          * @param {string} key
          */
         function get(shape, key) {
-            var data = shape._echartsData;
+            var data = shape._echarts2Data;
             if (!key) {
                 return data;
             }
@@ -20989,7 +20989,7 @@
          * @param {*} value
          */
         function set(shape, key, value) {
-            shape._echartsData = shape._echartsData || {};
+            shape._echarts2Data = shape._echarts2Data || {};
             switch (key) {
                 case 'series': // 当前系列值
                 case 'seriesIndex': // 系列数组位置索引
@@ -20999,7 +20999,7 @@
                 case 'value':
                 case 'special':
                 case 'special2':
-                    shape._echartsData['_' + key] = value;
+                    shape._echarts2Data['_' + key] = value;
                     break;
             }
         }
@@ -21010,15 +21010,15 @@
          * @param {shape} target 目标
          */
         function clone(source, target) {
-            target._echartsData = {
-                '_series': source._echartsData._series,
-                '_seriesIndex': source._echartsData._seriesIndex,
-                '_data': source._echartsData._data,
-                '_dataIndex': source._echartsData._dataIndex,
-                '_name': source._echartsData._name,
-                '_value': source._echartsData._value,
-                '_special': source._echartsData._special,
-                '_special2': source._echartsData._special2
+            target._echarts2Data = {
+                '_series': source._echarts2Data._series,
+                '_seriesIndex': source._echarts2Data._seriesIndex,
+                '_data': source._echarts2Data._data,
+                '_dataIndex': source._echarts2Data._dataIndex,
+                '_name': source._echarts2Data._name,
+                '_value': source._echarts2Data._value,
+                '_special': source._echarts2Data._special,
+                '_special2': source._echarts2Data._special2
             };
         }
 
@@ -21029,7 +21029,7 @@
             clone: clone
         };
     });
-    define('echarts/chart', [], function( /*require*/ ) { //chart
+    define('echarts2/chart', [], function( /*require*/ ) { //chart
         var self = {};
 
         var _chartLibrary = {}; //echart图表库
@@ -21054,7 +21054,7 @@
 
         return self;
     });
-    define('echarts/component/timeline', ['require', './base', 'zrender/shape/Rectangle', '../util/shape/Icon', '../util/shape/Chain', '../config', 'zrender/tool/util', 'zrender/tool/area', 'zrender/tool/event', '../component'], function(require) {
+    define('echarts2/component/timeline', ['require', './base', 'zrender/shape/Rectangle', '../util/shape/Icon', '../util/shape/Chain', '../config', 'zrender/tool/util', 'zrender/tool/area', 'zrender/tool/event', '../component'], function(require) {
         var Base = require('./base');
 
         // 图形依赖
@@ -21934,7 +21934,7 @@
 
         return Timeline;
     });
-    define('echarts/component/legend', ['require', './base', 'zrender/shape/Text', 'zrender/shape/Rectangle', 'zrender/shape/Sector', '../util/shape/Icon', '../util/shape/Candle', '../config', 'zrender/tool/util', 'zrender/tool/area', '../component'], function(require) {
+    define('echarts2/component/legend', ['require', './base', 'zrender/shape/Text', 'zrender/shape/Rectangle', 'zrender/shape/Sector', '../util/shape/Icon', '../util/shape/Candle', '../config', 'zrender/tool/util', 'zrender/tool/area', '../component'], function(require) {
         var Base = require('./base');
 
         // 图形依赖
@@ -23373,7 +23373,7 @@
 
         return Spin;
     });
-    define('echarts/component/tooltip', ['require', './base', '../util/shape/Cross', 'zrender/shape/Line', 'zrender/shape/Rectangle', '../config', '../util/ecData', 'zrender/config', 'zrender/tool/event', 'zrender/tool/area', 'zrender/tool/color', 'zrender/tool/util', 'zrender/shape/Base', '../component'], function(require) {
+    define('echarts2/component/tooltip', ['require', './base', '../util/shape/Cross', 'zrender/shape/Line', 'zrender/shape/Rectangle', '../config', '../util/ecData', 'zrender/config', 'zrender/tool/event', 'zrender/tool/area', 'zrender/tool/color', 'zrender/tool/util', 'zrender/shape/Base', '../component'], function(require) {
         var Base = require('./base');
 
         // 图形依赖
@@ -23483,7 +23483,7 @@
             this._tDom.onmouseout = function() {
                 self._mousein = false;
             };
-            this._tDom.className = 'echarts-tooltip';
+            this._tDom.className = 'echarts2-tooltip';
             this._tDom.style.position = 'absolute'; // 不是多余的，别删！
             this.hasAppend = false;
 
@@ -25242,7 +25242,7 @@
 
         return Whirling;
     });
-    define('echarts/theme/macarons', [], function() {
+    define('echarts2/theme/macarons', [], function() {
 
         var theme = {
             // 默认色板
@@ -25507,7 +25507,7 @@
 
         return theme;
     });
-    define('echarts/theme/infographic', [], function() {
+    define('echarts2/theme/infographic', [], function() {
 
         var theme = {
             // 默认色板
@@ -25812,7 +25812,7 @@
 
         return theme;
     });
-    define('echarts/chart/base', ['require', 'zrender/shape/Image', '../util/shape/Icon', '../util/shape/MarkLine', '../util/shape/Symbol', 'zrender/shape/Polyline', 'zrender/shape/ShapeBundle', '../config', '../util/ecData', '../util/ecAnimation', '../util/ecEffect', '../util/accMath', '../component/base', '../layout/EdgeBundling', 'zrender/tool/util', 'zrender/tool/area'], function(require) {
+    define('echarts2/chart/base', ['require', 'zrender/shape/Image', '../util/shape/Icon', '../util/shape/MarkLine', '../util/shape/Symbol', 'zrender/shape/Polyline', 'zrender/shape/ShapeBundle', '../config', '../util/ecData', '../util/ecAnimation', '../util/ecEffect', '../util/accMath', '../component/base', '../layout/EdgeBundling', 'zrender/tool/util', 'zrender/tool/area'], function(require) {
         // 图形依赖
         var ImageShape = require('zrender/shape/Image');
         var IconShape = require('../util/shape/Icon');
@@ -27111,7 +27111,7 @@
                             this.zr.delShape(lastShapeList[i].id); // 非关键元素直接删除
                         } else {
                             key += lastShapeList[i].type;
-                            // https://github.com/ecomfe/echarts/issues/1219#issuecomment-71987602
+                            // https://github.com/ecomfe/echarts2/issues/1219#issuecomment-71987602
                             // 响应中断可能产生的重复元素
                             if (oldMap[key]) {
                                 this.zr.delShape(lastShapeList[i].id);
@@ -28246,7 +28246,7 @@
         require('../tool/util').inherits(Polygon, Base);
         return Polygon;
     });
-    define('echarts/component/roamController', ['require', './base', 'zrender/shape/Rectangle', 'zrender/shape/Sector', 'zrender/shape/Circle', '../config', 'zrender/tool/util', 'zrender/tool/color', 'zrender/tool/event', '../component'], function(require) {
+    define('echarts2/component/roamController', ['require', './base', 'zrender/shape/Rectangle', 'zrender/shape/Sector', 'zrender/shape/Circle', '../config', 'zrender/tool/util', 'zrender/tool/color', 'zrender/tool/event', '../component'], function(require) {
         var Base = require('./base');
 
         // 图形依赖
@@ -28585,7 +28585,7 @@
 
         return RoamController;
     });
-    define('echarts/util/mapData/params', ['require'], function(require) {
+    define('echarts2/util/mapData/params', ['require'], function(require) {
         function decode(json) {
             if (!json.UTF8Encoding) {
                 return json;
@@ -29036,7 +29036,7 @@
             params: mapParams
         };
     });
-    define('echarts/layer/heatmap', ['require'], function(require) {
+    define('echarts2/layer/heatmap', ['require'], function(require) {
         var defaultOptions = {
             blurSize: 30,
 
@@ -29200,13 +29200,13 @@
 
         return Heatmap;
     });
-    define('echarts/util/mapData/geoCoord', [], function() {
+    define('echarts2/util/mapData/geoCoord', [], function() {
         return {
             'Russia': [100, 60],
             'United States of America': [-99, 38]
         };
     });
-    define('echarts/util/mapData/textFixed', [], function() {
+    define('echarts2/util/mapData/textFixed', [], function() {
         // fix = [xFixed, yFixed, scale]
         // textX += fix[0];
         // textY += fix[1];
@@ -29236,7 +29236,7 @@
             '渭南市': [0, 20]
         };
     });
-    define('echarts/util/projection/svg', ['require', 'zrender/shape/Path'], function(require) {
+    define('echarts2/util/projection/svg', ['require', 'zrender/shape/Path'], function(require) {
 
         var PathShape = require('zrender/shape/Path');
 
@@ -29482,7 +29482,7 @@
             geo2pos: geo2pos
         };
     });
-    define('echarts/util/projection/normal', [], function() {
+    define('echarts2/util/projection/normal', [], function() {
         function getBbox(json, specialArea) {
             specialArea = specialArea || {};
             if (!json.srcSize) {
@@ -29766,7 +29766,7 @@
             geo2pos: geo2pos
         };
     });
-    define('echarts/util/ecQuery', ['require', 'zrender/tool/util'], function(require) {
+    define('echarts2/util/ecQuery', ['require', 'zrender/tool/util'], function(require) {
         var zrUtil = require('zrender/tool/util');
 
         /**
@@ -29839,7 +29839,7 @@
             deepMerge: deepMerge
         };
     });
-    define('echarts/util/shape/Icon', ['require', 'zrender/tool/util', 'zrender/shape/Star', 'zrender/shape/Heart', 'zrender/shape/Droplet', 'zrender/shape/Image', 'zrender/shape/Base'], function(require) {
+    define('echarts2/util/shape/Icon', ['require', 'zrender/tool/util', 'zrender/shape/Star', 'zrender/shape/Heart', 'zrender/shape/Droplet', 'zrender/shape/Image', 'zrender/shape/Base'], function(require) {
         var zrUtil = require('zrender/tool/util');
 
         function _iconMark(ctx, style) {
@@ -30440,7 +30440,7 @@
 
         return Icon;
     });
-    define('echarts/util/number', [], function() {
+    define('echarts2/util/number', [], function() {
         function _trim(str) {
             return str.replace(/^\s+/, '').replace(/\s+$/, '');
         }
@@ -30523,7 +30523,7 @@
             getPrecision: getPrecision
         };
     });
-    define('echarts/util/shape/MarkLine', ['require', 'zrender/shape/Base', './Icon', 'zrender/shape/Line', 'zrender/shape/BezierCurve', 'zrender/tool/area', 'zrender/shape/util/dashedLineTo', 'zrender/tool/util', 'zrender/tool/curve'], function(require) {
+    define('echarts2/util/shape/MarkLine', ['require', 'zrender/shape/Base', './Icon', 'zrender/shape/Line', 'zrender/shape/BezierCurve', 'zrender/tool/area', 'zrender/shape/util/dashedLineTo', 'zrender/tool/util', 'zrender/tool/curve'], function(require) {
         var Base = require('zrender/shape/Base');
         var IconShape = require('./Icon');
         var LineShape = require('zrender/shape/Line');
@@ -30743,7 +30743,7 @@
 
         return MarkLine;
     });
-    define('echarts/util/shape/Symbol', ['require', 'zrender/shape/Base', 'zrender/shape/Polygon', 'zrender/tool/util', './normalIsCover'], function(require) {
+    define('echarts2/util/shape/Symbol', ['require', 'zrender/shape/Base', 'zrender/shape/Polygon', 'zrender/tool/util', './normalIsCover'], function(require) {
         var Base = require('zrender/shape/Base');
         var PolygonShape = require('zrender/shape/Polygon');
         var polygonInstance = new PolygonShape({});
@@ -31121,7 +31121,7 @@
         require('../tool/util').inherits(ShapeBundle, Base);
         return ShapeBundle;
     });
-    define('echarts/util/ecEffect', ['require', '../util/ecData', 'zrender/shape/Circle', 'zrender/shape/Image', 'zrender/tool/curve', '../util/shape/Icon', '../util/shape/Symbol', 'zrender/shape/ShapeBundle', 'zrender/shape/Polyline', 'zrender/tool/vector', 'zrender/tool/env'], function(require) {
+    define('echarts2/util/ecEffect', ['require', '../util/ecData', 'zrender/shape/Circle', 'zrender/shape/Image', 'zrender/tool/curve', '../util/shape/Icon', '../util/shape/Symbol', 'zrender/shape/ShapeBundle', 'zrender/shape/Polyline', 'zrender/tool/vector', 'zrender/tool/env'], function(require) {
         var ecData = require('../util/ecData');
 
         var CircleShape = require('zrender/shape/Circle');
@@ -31571,7 +31571,7 @@
             largeLine: largeLine
         };
     });
-    define('echarts/layout/EdgeBundling', ['require', '../data/KDTree', 'zrender/tool/vector'], function(require) {
+    define('echarts2/layout/EdgeBundling', ['require', '../data/KDTree', 'zrender/tool/vector'], function(require) {
 
         var KDTree = require('../data/KDTree');
         var vec2 = require('zrender/tool/vector');
@@ -31656,7 +31656,7 @@
 
         /**
          * @constructor
-         * @alias module:echarts/layout/EdgeBundling
+         * @alias module:echarts2/layout/EdgeBundling
          */
         function EdgeBundling() {
             this.maxNearestEdge = 6;
@@ -31969,7 +31969,7 @@
 
         return EdgeBundling;
     });
-    define('echarts/util/accMath', [], function() {
+    define('echarts2/util/accMath', [], function() {
         // 除法函数，用来得到精确的除法结果 
         // 说明：javascript的除法结果会有误差，在两个浮点数相除的时候会比较明显。这个函数返回较为精确的除法结果。 
         // 调用：accDiv(arg1,arg2) 
@@ -34791,7 +34791,7 @@
 
         return Eventful;
     });
-    define('echarts/util/ecAnimation', ['require', 'zrender/tool/util', 'zrender/tool/curve', 'zrender/shape/Polygon'], function(require) {
+    define('echarts2/util/ecAnimation', ['require', 'zrender/tool/util', 'zrender/tool/curve', 'zrender/shape/Polygon'], function(require) {
         var zrUtil = require('zrender/tool/util');
         var curveTool = require('zrender/tool/curve');
 
@@ -40430,7 +40430,7 @@
 
         return Clip;
     });
-    define('echarts/util/shape/normalIsCover', [], function() {
+    define('echarts2/util/shape/normalIsCover', [], function() {
         return function(x, y) {
             var originPos = this.transformCoordToLocal(x, y);
             x = originPos[0];
@@ -40780,7 +40780,7 @@
 
         return easing;
     });
-    define('echarts/data/KDTree', ['require', './quickSelect'], function(require) {
+    define('echarts2/data/KDTree', ['require', './quickSelect'], function(require) {
 
         var quickSelect = require('./quickSelect');
 
@@ -40794,7 +40794,7 @@
 
         /**
          * @constructor
-         * @alias module:echarts/data/KDTree
+         * @alias module:echarts2/data/KDTree
          * @param {Array} points List of points.
          * each point needs an array property to repesent the actual data
          * @param {Number} [dimension]
@@ -41015,7 +41015,7 @@
 
         return KDTree;
     });
-    define('echarts/data/quickSelect', ['require'], function(require) {
+    define('echarts2/data/quickSelect', ['require'], function(require) {
 
         function defaultCompareFunc(a, b) {
             return a - b;
@@ -41056,14 +41056,14 @@
         }
 
         /**
-         * @alias module:echarts/data/quickSelect
+         * @alias module:echarts2/data/quickSelect
          * @param {Array} list
          * @param {number} [left]
          * @param {number} [right]
          * @param {number} nth
          * @param {Function} [compareFunc]
          * @example
-         *     var quickSelect = require('echarts/data/quickSelect');
+         *     var quickSelect = require('echarts2/data/quickSelect');
          *     var list = [5, 2, 1, 4, 3]
          *     quickSelect(list, 3);
          *     quickSelect(list, 0, 3, 1, function (a, b) {return a - b});
@@ -41086,7 +41086,7 @@
 
         return quickSelect;
     });
-    define('echarts/component/dataView', ['require', './base', '../config', 'zrender/tool/util', '../component'], function(require) {
+    define('echarts2/component/dataView', ['require', './base', '../config', 'zrender/tool/util', '../component'], function(require) {
         var Base = require('./base');
 
         var ecConfig = require('../config');
@@ -41120,7 +41120,7 @@
             this._zrHeight = zr.getHeight();
             this._zrWidth = zr.getWidth();
 
-            this._tDom.className = 'echarts-dataview';
+            this._tDom.className = 'echarts2-dataview';
             this.hide();
             this.dom.firstChild.appendChild(this._tDom);
 
@@ -41547,7 +41547,7 @@
 
                 if (!clockWise) {
                     // 扇形默认是逆时针方向，Y轴向上
-                    // 这个跟arc的标准不一样，为了兼容echarts
+                    // 这个跟arc的标准不一样，为了兼容echarts2
                     startAngle = -startAngle;
                     endAngle = -endAngle;
                 }
@@ -41631,7 +41631,7 @@
         require('../tool/util').inherits(Sector, Base);
         return Sector;
     });
-    define('echarts/util/shape/Cross', ['require', 'zrender/shape/Base', 'zrender/shape/Line', 'zrender/tool/util', './normalIsCover'], function(require) {
+    define('echarts2/util/shape/Cross', ['require', 'zrender/shape/Base', 'zrender/shape/Line', 'zrender/tool/util', './normalIsCover'], function(require) {
         var Base = require('zrender/shape/Base');
         var LineShape = require('zrender/shape/Line');
         var zrUtil = require('zrender/tool/util');
@@ -41675,7 +41675,7 @@
 
         return Cross;
     });
-    define('echarts/util/shape/Candle', ['require', 'zrender/shape/Base', 'zrender/tool/util', './normalIsCover'], function(require) {
+    define('echarts2/util/shape/Candle', ['require', 'zrender/shape/Base', 'zrender/tool/util', './normalIsCover'], function(require) {
         var Base = require('zrender/shape/Base');
         var zrUtil = require('zrender/tool/util');
 
@@ -41926,7 +41926,7 @@
 
         return computeBoundingBox;
     });
-    define('echarts/util/shape/Chain', ['require', 'zrender/shape/Base', './Icon', 'zrender/shape/util/dashedLineTo', 'zrender/tool/util', 'zrender/tool/matrix'], function(require) {
+    define('echarts2/util/shape/Chain', ['require', 'zrender/shape/Base', './Icon', 'zrender/shape/util/dashedLineTo', 'zrender/tool/util', 'zrender/tool/matrix'], function(require) {
         var Base = require('zrender/shape/Base');
         var IconShape = require('./Icon');
 
@@ -42163,8 +42163,8 @@
     define('zrender', ['zrender/zrender'], function(zrender) {
         return zrender;
     });
-    define('echarts', ['echarts/echarts'], function(echarts) {
-        return echarts;
+    define('echarts2', ['echarts2/echarts2'], function(echarts2) {
+        return echarts2;
     });
 
     var zrender = require('zrender');
@@ -42182,22 +42182,22 @@
         Cip: require('zrender/animation/Clip'),
         easing: require('zrender/animation/easing')
     }
-    var echarts = require('echarts');
-    echarts.config = require('echarts/config');
+    var echarts2 = require('echarts2');
+    echarts2.config = require('echarts2/config');
 
 
-    echarts.util = {
+    echarts2.util = {
         mapData: {
-            params: require('echarts/util/mapData/params')
+            params: require('echarts2/util/mapData/params')
         }
     }
 
 
-    require("echarts/chart/map");
+    require("echarts2/chart/map");
 
-    _global['echarts'] = echarts;
+    _global['echarts2'] = echarts2;
     _global['zrender'] = zrender;
 
-    return echarts;
+    return echarts2;
 
 })(window);

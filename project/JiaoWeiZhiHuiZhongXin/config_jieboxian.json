@@ -518,7 +518,7 @@
         },
         "labelingInfo": [
           {
-            "labelExpressionInfo": { "value": "{短驳停车场.FEATUREID}" },
+            "labelExpressionInfo": { "value": "{短驳停车场.FEATURENAME}" },
             "useCodedValues": true,
             "labelPlacement": "always-horizontal",
             "symbol": {

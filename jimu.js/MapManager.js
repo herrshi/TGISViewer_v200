@@ -118,7 +118,10 @@ define([
         "setMapCenterAndLevel",
         lang.hitch(this, this.topicHandler_onSetMapCenterAndLevel)
       );
-      topic.subscribe("refreshMap", lang.hitch(this, this.topicHandler_onRefreshMap));
+      topic.subscribe(
+        "refreshMap",
+        lang.hitch(this, this.topicHandler_onRefreshMap)
+      );
       topic.subscribe(
         "toScreen",
         lang.hitch(this, this.topicHandler_onToScreen)
@@ -315,24 +318,39 @@ define([
                 showGisDeviceDetailInfo({
                   type: type,
                   id: id,
-                  label:graphic.getLayer().label,
-                  graphic: graphic
+                  label: graphic.getLayer().label,
+                  graphic: this.map.spatialReference.isWebMercator()
+                    ? new Graphic(
+                        webMercatorUtils.webMercatorToGeographic(
+                          graphic.geometry
+                        ),
+                        graphic.symbol,
+                        graphic.attributes
+                      )
+                    : graphic
                 });
               }
-            }
-            else {
-                //传完整信息
-                if (
-                    typeof showGisDeviceDetailInfo !== "undefined" &&
-                    showGisDeviceDetailInfo instanceof Function
-                ) {
-                    showGisDeviceDetailInfo({
-                        type: type,
-                        id: id,
-                        label:graphic.getLayer().label,
-                        graphic: graphic
-                    });
-                }
+            } else {
+              //传完整信息
+              if (
+                typeof showGisDeviceDetailInfo !== "undefined" &&
+                showGisDeviceDetailInfo instanceof Function
+              ) {
+                showGisDeviceDetailInfo({
+                  type: type,
+                  id: id,
+                  label: graphic.getLayer().label,
+                  graphic: this.map.spatialReference.isWebMercator()
+                    ? new Graphic(
+                        webMercatorUtils.webMercatorToGeographic(
+                          graphic.geometry
+                        ),
+                        graphic.symbol,
+                        graphic.attributes
+                      )
+                    : graphic
+                });
+              }
             }
           }
           //dynamicLayer
@@ -643,19 +661,20 @@ define([
     /**设置地图中心点*/
     topicHandler_onSetMapCenter: function(params) {
       if (!isNaN(params.x) && !isNaN(params.y)) {
-        var centerPoint = new Point(
-          params.x,
-          params.y
-        );
+        var centerPoint = new Point(params.x, params.y);
         this.map.centerAt(centerPoint);
       }
     },
 
     topicHandler_onRefreshMap: function(params) {
-      this.map.graphicsLayerIds.forEach(function (layerId) {
+      this.map.graphicsLayerIds.forEach(function(layerId) {
         var layer = this.map.getLayer(layerId);
         //不传label就刷新整个图层
-        if (params === undefined || params.labels === undefined || params.labels.length === 0) {
+        if (
+          params === undefined ||
+          params.labels === undefined ||
+          params.labels.length === 0
+        ) {
           layer.refresh();
         } else if (params.labels.indexOf(layer.label) >= 0) {
           layer.refresh();
@@ -686,10 +705,7 @@ define([
       if (!isNaN(x) && !isNaN(y) && !isNaN(level) && level >= 0) {
         var centerPoint;
         if (this.map.spatialReference.isWebMercator()) {
-          centerPoint = new Point(
-            params.x,
-            params.y
-          );
+          centerPoint = new Point(params.x, params.y);
         } else {
           centerPoint = new Point(
             params.x,

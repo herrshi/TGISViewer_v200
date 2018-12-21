@@ -35,97 +35,9 @@
       {
         "label": "接驳线",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer",
         "type": "dynamic",
         "visible": false
-      },
-      {
-        "label": "停车场-面",
-        "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/0",
-        "type": "feature",
-        "visible": true,
-        "showLabels": true,
-        "minScale": 18056,
-        "outFields": ["*"],
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "停车场.FEATURETYPE",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [15, 49, 51, 255],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [110, 110, 110, 255],
-              "width": 1
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "持证停车场",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [15, 49, 51, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [110, 110, 110, 255],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "非预约备用停车场",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [34, 34, 68, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [110, 110, 110, 255],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "预约停车场",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [0, 34, 68, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSSolid",
-                  "color": [110, 110, 110, 255],
-                  "width": 1
-                }
-              }
-            }
-          ]
-        },
-        "labelingInfo": [
-          {
-            "labelExpressionInfo": { "value": "{停车场.FEATUREID}" },
-            "useCodedValues": true,
-            "labelPlacement": "always-horizontal",
-            "symbol": {
-              "type": "esriTS",
-              "rightToLeft": false,
-              "color": [178, 178, 178, 255],
-              "verticalAlignment": "baseline",
-              "horizontalAlignment": "left",
-              "font": {
-                "family": "Microsoft YaHei",
-                "size": 10,
-                "weight": "bold"
-              }
-            }
-          }
-        ]
       },
       {
         "label": "常规公交线路",
@@ -483,6 +395,76 @@
         ]
       },
       {
+        "label": "停车场短驳面",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/3",
+        "type": "feature",
+        "visible": true,
+        "minScale": 18056,
+        "mode": 0,
+        "showLabels": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "停车场短驳面.FEATURENAME",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [0, 0, 0, 0],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSDash",
+              "color": [78, 78, 78, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "停车场短驳线路一",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 75, 75, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSDash",
+                  "color": [220, 30, 30, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "停车场短驳线路二",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [55, 190, 80, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSDash",
+                  "color": [37, 190, 95, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "停车场短驳线路三",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [165, 105, 245, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSDash",
+                  "color": [140, 90, 160, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
         "label": "短驳停车场",
         "url":
           "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/2",
@@ -609,9 +591,9 @@
         },
         "labelingInfo": [
           {
-            "labelExpressionInfo": { "value": "{短驳停车场.FEATUREID}" },
+            "labelExpressionInfo": { "value": "{短驳停车场.FEATURENAME}" },
             "useCodedValues": true,
-            "labelPlacement": "always-horizontal",
+            "labelPlacement": "always-above",
             "symbol": {
               "type": "esriTS",
               "rightToLeft": false,
@@ -626,76 +608,6 @@
             }
           }
         ]
-      },
-      {
-        "label": "停车场短驳面",
-        "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/3",
-        "type": "feature",
-        "visible": true,
-        "minScale": 18056,
-        "mode": 0,
-        "showLabels": true,
-        "outFields": ["*"],
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "停车场短驳面.FEATURENAME",
-          "defaultSymbol": {
-            "type": "esriSFS",
-            "style": "esriSFSSolid",
-            "color": [0, 0, 0, 0],
-            "outline": {
-              "type": "esriSLS",
-              "style": "esriSLSDash",
-              "color": [78, 78, 78, 255],
-              "width": 0
-            }
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "停车场短驳线路一",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [255, 75, 75, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSDash",
-                  "color": [220, 30, 30, 255],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "停车场短驳线路二",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [55, 190, 80, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSDash",
-                  "color": [37, 190, 95, 255],
-                  "width": 1
-                }
-              }
-            },
-            {
-              "value": "停车场短驳线路三",
-              "symbol": {
-                "type": "esriSFS",
-                "style": "esriSFSSolid",
-                "color": [165, 105, 245, 255],
-                "outline": {
-                  "type": "esriSLS",
-                  "style": "esriSLSDash",
-                  "color": [140, 90, 160, 255],
-                  "width": 1
-                }
-              }
-            }
-          ]
-        }
       },
       {
         "label": "停车场短驳线路",
@@ -1976,6 +1888,27 @@
               }
             }
           ]
+        }
+      },
+      {
+        "label": "快速路-段",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd/MapServer/4",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          }
         }
       },
       {

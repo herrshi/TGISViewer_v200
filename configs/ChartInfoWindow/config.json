@@ -1,0 +1,18 @@
+{
+  "chartinfos": [
+    {
+      "label": "地铁标注点",
+      "url":
+        "http://10.31.214.201:6080/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
+      "idField":"地铁标注点.FEATUREID",
+      "fields": [
+        {
+          "dataField": ["JWPT.RAILWAY_VOL_SATURATION.FINT_IN", "JWPT.RAILWAY_VOL_SATURATION.FINT_OUT"],
+          "alph": 1
+        }
+      ],
+      "stacking":"nomal"
+    }
+  ],
+  "interval": 900000
+}

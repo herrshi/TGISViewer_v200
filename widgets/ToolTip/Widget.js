@@ -74,7 +74,7 @@ define([
 ) {
   return declare([BaseWidget], {
     _text: null,
-    _node: null, ///todo,添加nodes
+    _node: null,
     _mapPoint: null,
     _layer: null,
     _width: null,
@@ -98,6 +98,9 @@ define([
     _selectcolor: null, //"red",[0,0,0,0]
     _isexpand: null, //true,false
     _scale: null, //"scales":[{"layerid":0,"scale":2257}]
+    _joinField: null, //判断关联字段,如果为空这不显示tooltip;
+    _first: true,
+    _isClick: true,
     postCreate: function() {
       this.inherited(arguments);
       this.map.on("click", lang.hitch(this, this._onLayerClick));
@@ -113,6 +116,7 @@ define([
       this._mapPoint = null;
       this._FindIds = [];
       this._LayerScale = [];
+      this._isClick = false;
       this.clear();
       var layerName = params.layerName || "";
       var texts = params.text || "";
@@ -128,6 +132,7 @@ define([
         if (tooltip.label === this._label) {
           this._isexpand = tooltip.isexpand;
           this._selectcolor = tooltip.selectcolor;
+          this._joinField = tooltip.joinfield;
           scales = tooltip.scales;
           break;
         }
@@ -211,7 +216,13 @@ define([
                 result,
                 function(findResult) {
                   var graphic = findResult.feature;
-                  this._queryFeature(graphic, findResult.layerId, true, 0);
+                  this._queryFeature(
+                    graphic,
+                    findResult.layerId,
+                    true,
+                    0,
+                    null
+                  );
                 },
                 this
               );
@@ -255,12 +266,16 @@ define([
     init: function() {
       if (this._mapPoint) {
         this.drawText();
-        this._onEvent();
+        if (this._first) {
+          this._first = false;
+          this._onEvent();
+        }
       }
     },
     _onLayerClick: function(event) {
       $(".MapText").remove();
-
+      this._node = null;
+      this._isClick = true;
       this._mapPoint = event.mapPoint;
       if (event.graphic) {
         this._label = event.graphic.getLayer().label;
@@ -269,11 +284,23 @@ define([
           event.graphic.geometry.type == "point" ||
           event.graphic.geometry.type == "multipoint"
         ) {
-          this._queryFeature(event.graphic, -1, false, 0);
+          this._queryFeature(event.graphic, -1, false, 0, event.graphic);
         } else if (event.graphic.geometry.type == "polyline") {
-          this._queryFeature(new Graphic(event.mapPoint), -2, false, 12);
+          this._queryFeature(
+            new Graphic(event.mapPoint),
+            -2,
+            false,
+            12,
+            event.graphic
+          );
         } else {
-          this._queryFeature(new Graphic(event.mapPoint), -3, false, 0);
+          this._queryFeature(
+            new Graphic(event.mapPoint),
+            -3,
+            false,
+            0,
+            event.graphic
+          );
         }
       } else {
         array.forEach(
@@ -309,7 +336,8 @@ define([
                       feature,
                       identifyResults[0].layerId,
                       false,
-                      0
+                      0,
+                      null
                     );
                   }
                 }),
@@ -323,7 +351,7 @@ define([
         );
       }
     },
-    _queryFeature: function(feature, layerid, isFind, rad) {
+    _queryFeature: function(feature, layerid, isFind, rad, gra) {
       this._queryId = layerid;
       var url = layerid < 0 ? this._url : this._url + "/" + layerid;
       var queryTask = new QueryTask(url);
@@ -351,6 +379,10 @@ define([
               this.setView(graphic);
             } else {
               this.setContext(graphic);
+            }
+          } else {
+            if (featureSet.features.length == 0 && gra != null && layerid < 0) {
+              this.setContext(gra);
             }
           }
         })
@@ -405,16 +437,20 @@ define([
             }
           }
 
+          if (this._mapPoint == null) {
+            this._mapPoint = this.getCenter(graphic);
+          }
           if (sc == 0 || this._isexpand) {
-            this.map.setExtent(graphic.geometry.getExtent().expand(1.5)).then(
+            this.map.setExtent(graphic.geometry.getExtent().expand(2)).then(
               lang.hitch(this, function() {
-                this.setContext(this._toolGra);
+                this.map.centerAt(this._mapPoint).then(
+                  lang.hitch(this, function() {
+                    this.setContext(this._toolGra);
+                  })
+                );
               })
             );
           } else {
-            if (this._mapPoint == null) {
-              this._mapPoint = this.getCenter(graphic);
-            }
             this.map.setScale(sc).then(
               lang.hitch(this, function() {
                 this.map.centerAt(this._mapPoint).then(
@@ -438,6 +474,7 @@ define([
         var tooltip = this.config.tooltips[i];
         if (tooltip.label === label) {
           context = tooltip.context;
+          this._joinField = tooltip.joinfield;
           if (tooltip.offsetx) {
             this._iconOffsetX = tooltip.offsetx;
           }
@@ -449,6 +486,11 @@ define([
       }
       if (context === undefined) {
         return;
+      }
+      if (this._isClick && this._joinField !== null && this._joinField !== undefined) {
+        if (graphic.attributes[this._joinField] == null) {
+          return;
+        }
       }
       context = context.replace(/\./g, "_");
       var contextObj = {};
@@ -528,7 +570,7 @@ define([
         }, 4000);
         this._timeOut2 = setTimeout(
           lang.hitch(this, function() {
-            $(".MapText").remove();
+            this.clear();
           }),
           10000
         );
@@ -557,6 +599,7 @@ define([
       this.map.on("pan", lang.hitch(this, this._panEvent));
       this.map.on("zoom-start", lang.hitch(this, this._zoomStartEvent));
       this.map.on("zoom-end", lang.hitch(this, this._zoomEvent));
+
       //on(this.map, "zoom", lang.hitch(this, this._zoomEvent));
     },
     _panEvent: function(e) {
@@ -573,7 +616,9 @@ define([
       this._hide();
     },
     _hide: function() {
-      domUtils.hide(this._node);
+      if (this._node) {
+        domUtils.hide(this._node);
+      }
     },
     show: function() {
       this._show();
@@ -586,13 +631,8 @@ define([
     getScreentPoint: function() {
       var screenPoint;
       if (this._mapPoint) {
-        this._mapPoint=webMercatorUtils.geographicToWebMercator(this._mapPoint);
-        screenPoint = screenUtils.toScreenGeometry(
-          this.map.extent,
-          this.map.width,
-          this.map.height,
-          this._mapPoint
-        );
+        //this._mapPoint=webMercatorUtils.geographicToWebMercator(this._mapPoint);
+        screenPoint = this.map.toScreen(this._mapPoint);
       }
       return screenPoint;
     },
@@ -640,13 +680,15 @@ define([
       }
     },
     panchangeText: function(e) {
-      var dx = e.delta.x;
-      var dy = e.delta.y;
-      var dd = this.getScreentPoint();
-      domStyle.set(this._node, {
-        left: dd.x + dx + this._offsetX + "px",
-        top: dd.y + dy + this._offsetY + "px"
-      });
+      if (this._node) {
+        var dx = e.delta.x;
+        var dy = e.delta.y;
+        var dd = this.getScreentPoint();
+        domStyle.set(this._node, {
+          left: dd.x + dx + this._offsetX + "px",
+          top: dd.y + dy + this._offsetY + "px"
+        });
+      }
     },
     zoomchangeText: function(e) {
       if (this._node) {
@@ -661,6 +703,8 @@ define([
     },
     clear: function() {
       $(".MapText").remove();
+      this._node = null;
+      domConstruct.destroy(this._node);
     },
     getScales: function(id, scales) {
       var scale = 0;

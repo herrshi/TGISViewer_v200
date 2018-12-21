@@ -26,7 +26,7 @@
       {
         "label": "矢量图",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -130,7 +130,7 @@
       {
         "label": "停车场-点",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
         "type": "feature",
         "showLabels":false,
         "mode": 0,
@@ -194,7 +194,7 @@
       {
         "label": "国展中心",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
         "type": "feature",
         "visible": true,
         "showLabels":false,
@@ -562,12 +562,11 @@
       "scale": 18056,
       "logo": false,
       "nav": false,
-      "slider": false,
-      "minScale":18056
+      "slider": false
     }
   },
   "geometryService":
-    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "10.31.214.201:6080",
   "httpProxy": {
     "useProxy": false,

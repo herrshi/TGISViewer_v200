@@ -26,7 +26,7 @@
       {
         "label": "底图",
         "url":
-        "http://{gisServer}/arcgis/rest/services/LinGang/ShangHai_base/MapServer",
+          "http://{gisServer}/arcgis/rest/services/LinGang/ShangHai_base/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -34,7 +34,8 @@
     "operationallayers": [
       {
         "label": "海昌海洋公园",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/11",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/11",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
@@ -50,93 +51,72 @@
       },
       {
         "label": "发布段",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/9",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/12",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
         "mode": 0,
+        "refreshInterval": 2,
+        "infoTemplate": {
+          "title": "${发布段.FEATURENAME}",
+          "content": "<b>编号</b>: ${发布段.FEATUREID}"
+        },
         "renderer": {
           "type": "uniqueValue",
-          "field1": "STATE",
+          "field1": "LGITS.RT_ISSUESECT.FSTR_CFMSTATE",
           "defaultSymbol": {
-            "type": "esriSLS",
-            "style": "esriSLSSolid",
-            "color": [110, 110, 110],
-            "width": 1
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "free",
-              "symbol": {
-                "type": "esriSLS",
-                "style": "esriSLSSolid",
-                "color": [110, 210, 121],
-                "width": 2
-              }
-            },
-            {
-              "value": "crowd",
-              "symbol": {
-                "type": "esriSLS",
-                "style": "esriSLSSolid",
-                "color": [250, 207, 53],
-                "width": 1
-              }
-            },
-            {
-              "value": "jam",
-              "symbol": {
-                "type": "esriSLS",
-                "style": "esriSLSSolid",
-                "color": [222, 3, 0],
-                "width": 1
-              }
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110, 150],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 1
             }
-          ]
-        }
-      },
-      {
-        "label": "发布段",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/10",
-        "type": "feature",
-        "visible": false,
-        "outFields": ["*"],
-        "mode": 0,
-        "renderer": {
-          "type": "uniqueValue",
-          "field1": "STATE",
-          "defaultSymbol": {
-            "type": "esriSLS",
-            "style": "esriSLSSolid",
-            "color": [110, 110, 110],
-            "width": 1
           },
           "uniqueValueInfos": [
             {
               "value": "free",
               "symbol": {
-                "type": "esriSLS",
-                "style": "esriSLSSolid",
-                "color": [110, 210, 121],
-                "width": 2
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [0, 178, 44, 175],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
               }
             },
             {
               "value": "crowd",
               "symbol": {
-                "type": "esriSLS",
-                "style": "esriSLSSolid",
-                "color": [250, 207, 53],
-                "width": 1
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 200, 0, 200],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
               }
             },
             {
               "value": "jam",
               "symbol": {
-                "type": "esriSLS",
-                "style": "esriSLSSolid",
-                "color": [222, 3, 0],
-                "width": 1
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [249, 0, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
               }
             }
           ]
@@ -144,7 +124,8 @@
       },
       {
         "label": "停车场",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -162,11 +143,32 @@
       },
       {
         "label": "停车场",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/7",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
         "minScale": 18056,
+        "maxScale": 9028,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/parking.png",
+            "width": 181.5,
+            "height": 144
+          }
+        }
+      },
+      {
+        "label": "停车场",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "minScale": 4514,
+        "maxScale": 2257,
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -179,7 +181,8 @@
       },
       {
         "label": "停车场",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/8",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/8",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -198,7 +201,8 @@
       },
       {
         "label": "高速公路出入口",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/1",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/1",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
@@ -214,7 +218,8 @@
       },
       {
         "label": "客流检测",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/2",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/2",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -231,7 +236,8 @@
       },
       {
         "label": "情报板",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/3",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/3",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -287,7 +293,8 @@
       },
       {
         "label": "卡口",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/4",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/4",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -304,7 +311,8 @@
       },
       {
         "label": "车检器",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/5",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/5",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -321,7 +329,8 @@
       },
       {
         "label": "视频事件检测器",
-        "url": "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/6",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/6",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -351,7 +360,7 @@
     }
   },
   "geometryService":
-  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "172.30.30.1:6080",
   "widgetOnScreen": {
     "widgets": [

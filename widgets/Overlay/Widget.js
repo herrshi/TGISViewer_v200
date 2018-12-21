@@ -553,7 +553,7 @@ define([
         },
         this
       );
-      // resolve();
+      resolve();
     },
 
     onTopicHandler_deleteOverlays: function(params) {

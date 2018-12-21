@@ -1,4 +1,4 @@
-﻿{
+{
   "theme": {
     "name": "BillboardTheme",
     "styles": [
@@ -71,36 +71,9 @@
         "id": "OverviewMapWidget"
       },
       {
-        "uri": "widgets/Draw/Widget",
-        "version": "2.4",
-        "name": "Draw",
-        "config": "configs/Draw/config.json",
-        "position": {
-          "left": 15,
-          "top": 190,
-          "relativeTo": "map"
-        },
-        "id": "DrawWidget"
-      },
-      {
-        "uri": "widgets/Print/Widget",
-        "version": "2.4",
-        "id": "PrintWidget"
-      },
-      {
-        "uri": "widgets/Overlay/Widget",
-        "version": "2.4",
-        "id": "OverlayWidget"
-      },
-      {
-        "uri": "widgets/DrawOverlay/Widget",
-        "version": "2.4",
-        "id": "DrawOverlayWidget"
-      },
-      {
-        "uri": "widgets/FindFeature/Widget",
-        "version": "2.4",
-        "id": "FindFeatureWidget"
+        "uri": "widgets/SelectFeature/Widget",
+        "id": "SelectFeatureWidget",
+        "config": "configs/SelectFeature/config-QingPu.json"
       }
     ]
   }
