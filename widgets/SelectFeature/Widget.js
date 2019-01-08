@@ -24,13 +24,26 @@ define([
       this.inherited(arguments);
 
       this.loadConfig();
-      topic.subscribe("selectFeature", lang.hitch(this, this.onTopicHandler_selectFeature));
-      topic.subscribe("showSelectedFeatures", lang.hitch(this, this.onTopicHandler_showSelectedFeatures));
+      topic.subscribe(
+        "selectFeature",
+        lang.hitch(this, this.onTopicHandler_selectFeature)
+      );
+      topic.subscribe(
+        "clearSelectedFeature",
+        lang.hitch(this, this.onTopicHandler_clearSelectedFeatures)
+      );
+      topic.subscribe(
+        "showSelectedFeatures",
+        lang.hitch(this, this.onTopicHandler_showSelectedFeatures)
+      );
     },
 
     loadConfig: function() {
       this.config.forEach(function(layerConfig) {
-        var layerUrl = layerConfig.url.replace(/{gisServer}/i, this.appConfig.gisServer);
+        var layerUrl = layerConfig.url.replace(
+          /{gisServer}/i,
+          this.appConfig.gisServer
+        );
         // layerUrl = layerUrl.replace("/{gisServer}/i", this.appConfig.gisServer);
         var layer = new FeatureLayer(layerUrl, {
           id: layerConfig.type,
@@ -64,19 +77,20 @@ define([
         this.layers.push(layer);
       }, this);
     },
-    
-    onLayerClick: function (event) {
+
+    onLayerClick: function(event) {
       var graphic = event.graphic;
       if (graphic.attributes.Select !== "select") {
         graphic.attributes.Select = "select";
         //通知页面
         var id = this.getId(graphic);
-        if (typeof getScatsPoints !== "undefined" &&
-          getScatsPoints instanceof Function) {
+        console.log(id);
+        if (
+          typeof getScatsPoints !== "undefined" &&
+          getScatsPoints instanceof Function
+        ) {
           getScatsPoints(id);
-
         }
-
       }
 
       graphic._layer.redraw();
@@ -84,7 +98,7 @@ define([
       event.stopPropagation();
     },
 
-    getId: function (graphic) {
+    getId: function(graphic) {
       var featureAttributes = graphic.attributes;
       for (var fieldName in featureAttributes) {
         if (featureAttributes.hasOwnProperty(fieldName)) {
@@ -116,12 +130,25 @@ define([
       }
     },
 
-    onTopicHandler_showSelectedFeatures: function (params) {
+    onTopicHandler_clearSelectedFeatures: function(params) {
+      var layer = this.getLayer(params.type);
+      if (layer) {
+        layer.graphics.forEach(function (graphic) {
+          if (this.getId(graphic) === params.id) {
+            graphic.attributes.Select = "";
+          }
+        }, this);
+
+        layer.redraw();
+      }
+    },
+
+    onTopicHandler_showSelectedFeatures: function(params) {
       var layer = this.getLayer(params.type);
       if (layer) {
         layer.setVisibility(true);
 
-        layer.graphics.forEach(function (graphic) {
+        layer.graphics.forEach(function(graphic) {
           var id = this.getId(graphic);
           var found = false;
           for (var i = 0; i < params.features.length; i++) {
@@ -140,7 +167,6 @@ define([
 
         layer.redraw();
       }
-
     }
   });
 });

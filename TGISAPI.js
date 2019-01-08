@@ -1253,6 +1253,12 @@ var TMap = {
     });
   },
 
+  clearSelectedFeature: function(params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("clearSelectedFeature", params);
+    });
+  },
+
   showSelectedFeatures: function (params) {
     require(["dojo/topic"], function (topic) {
       topic.publish("showSelectedFeatures", params);

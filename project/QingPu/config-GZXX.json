@@ -231,9 +231,10 @@
         "visible": false,
         "outFields": ["*"],
         "mode": 0,
+        "refreshInterval": 3,
         "renderer": {
           "type": "uniqueValue",
-          "field1": "STATE",
+          "field1": "QPITS.RT_ISSUESECT.FSTR_CFMSTATE",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
