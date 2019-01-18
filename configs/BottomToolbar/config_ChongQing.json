@@ -1,0 +1,53 @@
+{
+  "buttons": [
+    {
+      "label": "LED",
+      "fontClass": "icon_qbb",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "电子警察",
+      "fontClass": "fas fa-video",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "违停抓拍",
+      "fontClass": "fas fa-camera",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "车载抓拍",
+      "fontClass": "fas fa-bus"
+    },
+    {
+      "label": "信号机",
+      "fontClass": "fas fa-door-closed",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "RFID",
+      "fontClass": "fas fa-satellite-dish",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

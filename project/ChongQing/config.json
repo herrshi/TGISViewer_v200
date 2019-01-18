@@ -1,0 +1,211 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/ChongQing/ChongQing_base/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "LED",
+        "url": "http://{gisServer}/arcgis/rest/services/ChongQing/ChongQing_device/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "mode": 0,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/YangPu/LuKuangPai.png",
+            "width": 22.5,
+            "height": 18.75
+          }
+        }
+      },
+      {
+        "label": "电子警察",
+        "url": "http://{gisServer}/arcgis/rest/services/ChongQing/ChongQing_device/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "mode": 0,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/DianZiJingCha-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "违停抓拍",
+        "url": "http://{gisServer}/arcgis/rest/services/ChongQing/ChongQing_device/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "mode": 0,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/KaKou-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "信号机",
+        "url": "http://{gisServer}/arcgis/rest/services/ChongQing/ChongQing_device/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "mode": 0,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/XinHaoJi-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 9.75
+          }
+        }
+      },
+      {
+        "label": "RFID",
+        "url": "http://{gisServer}/arcgis/rest/services/ChongQing/ChongQing_device/MapServer/4",
+        "type": "feature",
+        "visible": false,
+        "outFields": [
+          "*"
+        ],
+        "mode": 0,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/WuHu/ShiPinJianCeQi-blue.png",
+            "width": 19.5,
+            "height": 28.5,
+            "yoffset": 14.25
+          }
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": [106.547, 29.567],
+      "scale": 36112,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.30.30.1:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar_CircleButton/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 30,
+          "right": 50
+        },
+        "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/BottomToolbar_CircleButton/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_ChongQing.json",
+        "position": {
+          "bottom": 10,
+          "width": "100%",
+          "left":0,
+          "right":0
+        },
+        "id": "BottomToolbarWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      }
+    ]
+  }
+}

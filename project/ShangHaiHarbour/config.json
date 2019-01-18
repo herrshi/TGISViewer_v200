@@ -65,35 +65,35 @@
       {
         "label": "港口",
         "url":
-        "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
+          "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
         "type": "dynamic",
         "visible": false
       },
       {
         "label": "锚地",
         "url":
-        "http://180.168.99.215:8080/OneMapServer/rest/services/anchor/MapServer?token={token}",
+          "http://180.168.99.215:8080/OneMapServer/rest/services/anchor/MapServer?token={token}",
         "type": "dynamic",
         "visible": false
       },
       {
         "label": "航道",
         "url":
-        "http://180.168.99.215:8080/OneMapServer/rest/services/channel/MapServer?token={token}",
+          "http://180.168.99.215:8080/OneMapServer/rest/services/channel/MapServer?token={token}",
         "type": "dynamic",
         "visible": false
       },
       {
         "label": "码头",
         "url":
-        "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
+          "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
         "type": "dynamic",
         "visible": false
       },
       {
         "label": "岸线",
         "url":
-        "http://180.168.99.215:8080/OneMapServer/rest/services/shoreline/MapServer?token={token}",
+          "http://180.168.99.215:8080/OneMapServer/rest/services/shoreline/MapServer?token={token}",
         "type": "dynamic",
         "visible": false
       },
@@ -103,6 +103,79 @@
           "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_fbd/MapServer",
         "type": "dynamic",
         "visible": false
+      },
+      {
+        "label": "轮渡线-定位",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_ferryroutes/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "轮渡线",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_ferryroutes/MapServer/2",
+        "type": "feature",
+        "mode": 0,
+        "visible": true,
+        "outFields": ["*"],
+        "infoTemplate":{
+          "title": "${title}",
+          "content":
+          "<b>名称</b>: ${GK.DEV_WHARF.FSTR_DESC}<br><b>状态</b>: ${GK.DEV_WHARF.FSTR_STATUS}<br>"
+        }
+      },
+      {
+        "label": "轮渡面",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_ferryroutes/MapServer/3",
+        "type": "feature",
+        "visible": true,
+        "mode": 0,
+        "outFields": ["*"],
+        "infoTemplate":{
+          "title": "${title}",
+          "content":
+          "<b>名称</b>: ${GK.DEV_WHARF.FSTR_DESC}<br><b>状态</b>: ${GK.DEV_WHARF.FSTR_STATUS}<br>"
+        }
+      },
+      {
+        "label": "渡口 ",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_ferryroutes/MapServer/0",
+        "type": "feature",
+        "mode": 0,
+        "visible": true,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "${title}",
+          "content":
+          "<b>名称</b>: ${FEATURENAME}<b>"
+        }
+      },
+      {
+        "label": "码头",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_ferryroutes/MapServer/1",
+        "type": "feature",
+        "mode": 0,
+        "visible": true,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "${title}",
+          "content":
+          "<b>名称</b>: ${FEATURENAME}<b>"
+        }
+      },
+      {
+        "label": "轮渡面标注",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_ferryroutes/MapServer/4",
+        "type": "feature",
+        "showLabel":true,
+        "visible": true,
+        "mode": 0,
+        "outFields": ["*"]
       },
       {
         "label": "摄像机",
@@ -165,17 +238,23 @@
         "y": 31.228,
         "spatialReference": { "wkid": 4326 }
       },
+      "showLabels":true,
       "zoom": 2,
       "logo": false,
       "nav": false,
       "slider": false,
       "restrictExtent": true,
-      "fullExtent":{"xmin":119.801869,"ymin":30.147492,"xmax":122.919233,"ymax":32.05929}
+      "fullExtent": {
+        "xmin": 119.801869,
+        "ymin": 30.147492,
+        "xmax": 122.919233,
+        "ymax": 32.05929
+      }
     }
   },
   "geometryService":
     "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "172.30.30.1:6080",
+  "gisServer": "10.31.214.197:6080",
   "widgetOnScreen": {
     "widgets": [
       {
@@ -235,6 +314,10 @@
         "uri": "widgets/TrackPlayback/Widget",
         "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
         "id": "TrackPlaybackWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "id": "FindFeatureWidget"
       },
       {
         "uri": "widgets/SeaMapIdentify/Widget",

@@ -5,6 +5,7 @@ define({
   "clear": "清除",
   "save": "保存",
   "edit": "编辑",
+  "delete": "删除",
   "point": "点",
   "line": "线",
   "polyline": "折线",
