@@ -33,7 +33,7 @@
     },
     {
       "label": "信号机",
-      "fontClass": "fas fa-door-closed",
+      "fontClass": "fas fa-traffic-light",
       "operations": [
         {
           "opName": "changeLayer"
