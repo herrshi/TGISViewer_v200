@@ -366,7 +366,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/JinShan/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/XuHui/config.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     map.setUserInfo({
@@ -374,8 +374,8 @@
       id: "et_brain_021",
       code: "310000"
     });
+    map.addPoints('{"points":[{"id":"pt001","type":"police","geometry":{"x":116.868981,"y":32.62236},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}}]}');
     // map.showSelectedFeatures({type: "scats", features: [{id: "11025"}, {id: "11023"}, {id: "11026", locked: true}]});
-map.selectFeature("scats");
     // map.showLayer({label: "停车场"})
     // map.showDynamicRendererLayer({
     //   name: "IssuesectState",
