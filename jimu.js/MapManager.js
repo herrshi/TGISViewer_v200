@@ -645,7 +645,8 @@ define([
       if (!isNaN(params.x) && !isNaN(params.y)) {
         var centerPoint = new Point(
           params.x,
-          params.y
+          params.y,
+          this.map.spatialReference
         );
         this.map.centerAt(centerPoint);
       }
