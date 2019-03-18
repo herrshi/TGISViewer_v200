@@ -1236,6 +1236,10 @@
       {
         "uri": "widgets/DoubleMap/Widget",
         "id": "DoubleMapWidget"
+      },
+      {
+        "uri": "widgets/ReductionOverlay/Widget",
+        "id": "ReductionOverlayWidget"
       }
     ]
   }

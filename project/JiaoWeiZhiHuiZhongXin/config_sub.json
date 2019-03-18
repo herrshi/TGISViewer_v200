@@ -1,0 +1,602 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "停车场-面",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "showLabels":true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "停车场.FEATURETYPE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [15, 49, 51, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [110, 110, 110, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "持证停车场",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [15, 49, 51, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [110, 110, 110, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "非预约备用停车场",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [34, 34, 68, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [110, 110, 110, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "预约停车场",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [0, 34, 68, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [110, 110, 110, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        },
+        "labelingInfo": [{
+          "labelExpressionInfo": {"value": "{停车场.FEATURENAME}"},
+          "useCodedValues":  true,
+          "labelPlacement": "always-horizontal",
+          "symbol": {
+            "type":"esriTS",
+            "rightToLeft":false,
+            "color":[178,178,178,255],
+            "verticalAlignment":"baseline",
+            "horizontalAlignment":"left",
+            "font":{
+              "family":"Microsoft YaHei",
+              "size":10,
+              "weight":"bold"
+            }
+          }
+        }]
+      },
+      {
+        "label": "地铁线",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/2",
+        "type": "feature",
+        "showLabels":false,
+        "mode": 0,
+        "visible": true,
+        "outFields": ["*"]
+      },
+      {
+        "label": "停车场-点",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
+        "type": "feature",
+        "showLabels":false,
+        "mode": 0,
+        "visible": true,
+        "refreshInterval": 5,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.PARK_STATUS_VW.STATUS",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/icon_P_green.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 17
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "saturation",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "国展中心",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "showLabels":false,
+        "outFields": ["*"],
+        "maxScale":18056,
+        "minScale":1155581,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/flower.png",
+            "width": 100,
+            "height": 100,
+            "angle": 25
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "国展中心.OBJECTID",
+              "minDataValue": 9028,
+              "maxDataValue": 288896,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 9028,
+                    "size": 200
+                  },
+                  {
+                    "value": 18056,
+                    "size": 100
+                  },
+                  {
+                    "value": 36112,
+                    "size": 50
+                  },
+                  {
+                    "value": 72224,
+                    "size": 25
+                  },
+                  {
+                    "value": 144448,
+                    "size": 12
+                  },
+                  {
+                    "value": 288896,
+                    "size": 8
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 9028,
+                    "size": 400
+                  },
+                  {
+                    "value": 18056,
+                    "size": 200
+                  },
+                  {
+                    "value": 36112,
+                    "size": 100
+                  },
+                  {
+                    "value": 72224,
+                    "size": 50
+                  },
+                  {
+                    "value": 144448,
+                    "size": 25
+                  },
+                  {
+                    "value": 288896,
+                    "size": 12
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "国展中心图层",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Exhibition/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "showLabels": true,
+        "outFields": ["*"],
+        "maxScale": 0,
+        "minScale": 18055,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "Type",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [205, 233, 247, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 0, 0, 0],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "底图",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [0, 25, 46, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "棕黄",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [176, 148, 126, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "浅棕",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [162, 116, 80, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "浅蓝",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [51, 107, 144, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "深棕",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [98, 57, 29, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "深红",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [55, 32, 40, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "深绿",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [64, 61, 28, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "深蓝",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [30, 37, 56, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "灰色",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [104, 104, 104, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "玫红",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [105, 57, 95, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "白色",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [104, 104, 104, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "绿色",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [130, 155, 63, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        },
+        "labelingInfo": [
+          {
+            "labelExpressionInfo": { "value": "{Name}" },
+            "useCodedValues": true,
+            "labelPlacement": "always-horizontal",
+            "minScale": 18056,
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [204, 204, 204, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "bold"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "label": "地铁标注点",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
+        "type": "feature",
+        "showLabels":false,
+        "mode": 0,
+        "refreshInterval": 5,
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.RAILWAY_VOL_SATURATION.STATUS",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/point_green.png",
+            "width": 36,
+            "height": 36,
+            "yoffset": 0
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_green.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_yellow.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_red.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": {
+        "x": 121.312,
+        "y": 31.199,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "backgroundColor": "#02182F",
+      "showLabels":true,
+      "scale": 18056,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService":
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "10.31.214.201:6080",
+  "httpProxy": {
+    "useProxy": false,
+    "url": "http://10.31.214.203:15011:18021/web-gis/proxy.jsp"
+  },
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/Migrate/Widget",
+        "version": "2.4",
+        "config": "configs/Migrate/config.json",
+        "id": "MigrateWidget"
+      },
+      {
+        "uri": "widgets/ToolTip/Widget",
+        "version": "2.4",
+        "config": "configs/ToolTip/config.json",
+        "id": "ToolTipWidget"
+      },
+      {
+        "uri": "widgets/ChartInfoWindow/Widget",
+        "version": "2.4",
+        "config": "configs/ChartInfoWindow/config.json",
+        "id": "ChartInfoWindowWidget"
+      }
+    ]
+  }
+}

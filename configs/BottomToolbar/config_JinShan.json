@@ -1,0 +1,22 @@
+{
+  "buttons": [
+    {
+      "label": "信号机",
+      "fontClass": "fas fa-traffic-light",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "诱导屏",
+      "fontClass": "icon_qbb",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

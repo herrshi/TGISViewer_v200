@@ -1245,6 +1245,25 @@ var TMap = {
    * */
   setUserInfo: function (params) {
     window.userInfo = params;
+  },
+
+  /***/
+  selectFeature: function (type) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("selectFeature", type);
+    });
+  },
+
+  clearSelectedFeature: function(params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("clearSelectedFeature", params);
+    });
+  },
+
+  showSelectedFeatures: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showSelectedFeatures", params);
+    });
   }
   /************************ Special Interface END **************************/
 };

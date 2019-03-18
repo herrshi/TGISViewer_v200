@@ -825,6 +825,19 @@
             }
           }
         }
+      },
+      {
+        "label": "停车场",
+        "url": "http://{gisServer}/arcgis/rest/services/JiaoWei/JiaoWei_parking/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "content": "<b>类型: </b>${Layer}"
+            }
+          }
+        }
       }
     ],
     "mapOptions": {
@@ -952,6 +965,10 @@
       {
         "uri": "widgets/DoubleMap/Widget",
         "id": "DoubleMapWidget"
+      },
+      {
+        "uri": "widgets/ReductionOverlay/Widget",
+        "id": "ReductionOverlayWidget"
       }
     ]
   }

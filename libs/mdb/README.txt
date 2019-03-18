@@ -1,6 +1,6 @@
 Material Design for Bootstrap
 
-version: MDB Pro 4.5.12
+version: MDB Pro 4.5.13
 
 Documentation:
 https://mdbootstrap.com/
@@ -9,7 +9,7 @@ Getting started:
 https://mdbootstrap.com/getting-started/
 
 Tutorials:
-MDB-Bootstrap: https://mdbootstrap.com/bootstrap-tutorial/
+MDB-Bootstrap: https://mdbootstrap.com/education/bootstrap/
 MDB-Wordpress: https://mdbootstrap.com/wordpress-tutorial/
 
 Templates:

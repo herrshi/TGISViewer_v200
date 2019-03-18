@@ -60,6 +60,8 @@ define([
     _ODData: null,
     _inFlow: null,
     _params: null,
+    _odColor: null,
+    _colorField: null,
     postCreate: function() {
       this.inherited(arguments);
 
@@ -68,6 +70,7 @@ define([
       this.map.addLayer(this.graphicsLayer);
       this._FeatureId = this.config.query.id;
       this._Name = this.config.query.name;
+      this._colorField = this.config.colorField;
 
       this.map.on("click", lang.hitch(this, this._SubLayerClick));
 
@@ -93,6 +96,7 @@ define([
             graphic = featureSet.features[0];
             if (graphic) {
               var id = graphic.attributes[this._FeatureId];
+              this._odColor = this.getColor(graphic);
               if (
                 typeof showSubInfo !== "undefined" &&
                 showSubInfo instanceof Function
@@ -235,7 +239,7 @@ define([
                   graphic.geometry.type === "multipoint"
                     ? graphic.geometry.points
                     : [[graphic.geometry.x, graphic.geometry.y]];
-
+                this._odColor = this.getColor(graphic);
                 if (j == 0) {
                   var sms = new SimpleMarkerSymbol(
                     SimpleMarkerSymbol.STYLE_PATH,
@@ -292,7 +296,7 @@ define([
                   }
 
                   //this.graphicsLayer.add(new Graphic(pt, sms));
-                    // this.graphicsLayer.add(new Graphic(pt, textIn));
+                  // this.graphicsLayer.add(new Graphic(pt, textIn));
                   //this.graphicsLayer.add(new Graphic(pt, textOut));
                 }
               }
@@ -433,7 +437,7 @@ define([
                     shadowBlur: 5
                   },
                   label: {
-                    show: true,
+                    show: false,
                     position: "inside",
                     formatter: function(a) {
                       return a.value;
@@ -449,7 +453,7 @@ define([
             markPoint: {
               symbol: "circle",
               symbolSize: function(v) {
-                return v / r;
+                return 10;
               },
               effect: {
                 show: true,
@@ -457,8 +461,10 @@ define([
               },
               itemStyle: {
                 normal: {
-                  label: { show: false }
+                  label: { show: false },
+                  color: this._odColor
                 },
+
                 emphasis: {
                   label: { position: "top" }
                 }
@@ -478,6 +484,19 @@ define([
       this._echartsOver._option = null;
       this._echartsOver._ec.clear();
       this.graphicsLayer.clear();
+    },
+    getColor: function(gra) {
+      var color = "aqua";
+      if (gra.attributes[this._colorField] === undefined) {
+        return color;
+      } else if (gra.attributes[this._colorField] === "crowd") {
+        color = "yellow";
+      } else if (gra.attributes[this._colorField] === "jam") {
+        color = "#ff3333";
+      } else if (gra.attributes[this._colorField] === "free") {
+        color = "aqua";
+      }
+      return color;
     }
   });
 });

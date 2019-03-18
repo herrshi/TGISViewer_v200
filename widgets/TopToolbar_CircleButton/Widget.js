@@ -263,13 +263,13 @@ define([
         clickFunction: lang.hitch(this, this._onBtnNextClicked)
       });
       var btnWidgetDraw = new Item({
-        faIcon: "pencil",
+        faIcon: "pencil-alt",
         backgroundColor: "#ff9d5c",
         title: "绘制",
         clickFunction: lang.hitch(this, this._onBtnWidgetDrawClicked)
       });
       var btnWidgetSave = new Item({
-        faIcon: "floppy-o",
+        faIcon: "save",
         backgroundColor: "#ff9d5c",
         title: "保存",
         clickFunction: lang.hitch(this, this._onBtnSaveClicked)

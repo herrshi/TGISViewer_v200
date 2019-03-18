@@ -100,13 +100,34 @@
         ],
         "mode": 0,
         "renderer": {
-          "type": "simple",
-          "symbol": {
+          "type": "uniqueValue",
+          "field1": "SJWEB.RT_DEVCOMMSTATE.FSTR_STATE",
+          "defaultSymbol": {
             "type": "esriPMS",
-            "url": "images/mapIcons/YangPu/LuKuangPai.png",
-            "width": 22.5,
-            "height": 18.75
-          }
+            "url": "images/mapIcons/LuKuang_green_2.png",
+            "width": 27,
+            "height": 23.25
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "connect",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/LuKuang_blue_2.png",
+                "width": 27,
+                "height": 23.25
+              }
+            },
+            {
+              "value": "disconnect",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/LuKuang_red_2.png",
+                "width": 27,
+                "height": 23.25
+              }
+            }
+          ]
         }
       },
       {
@@ -119,13 +140,54 @@
         ],
         "mode": 0,
         "renderer": {
-          "type": "simple",
-          "symbol": {
+          "type": "uniqueValue",
+          "field1": "SJWEB.RT_DEVCOMMSTATE.FSTR_STATE",
+          "field2": "诱导屏.DEVTYPE",
+          "fieldDelimiter": ",",
+          "defaultSymbol": {
             "type": "esriPMS",
-            "url": "images/mapIcons/TingCheChang-YDB.png",
-            "width": 60.75,
-            "height": 18.75
-          }
+            "url": "images/mapIcons/parking_green_2.png",
+            "width": 27,
+            "height": 23.25
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "connect,一级诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/parking_blue_3.png",
+                "width": 27,
+                "height": 23.25
+              }
+            },
+            {
+              "value": "disconnect,一级诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/parking_red_3.png",
+                "width": 33,
+                "height": 27.75
+              }
+            },
+            {
+              "value": "connect,二级诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/parking_blue_2.png",
+                "width": 33,
+                "height": 27.75
+              }
+            },
+            {
+              "value": "disconnect,二级诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/parking_red_2.png",
+                "width": 27,
+                "height": 23.25
+              }
+            }
+          ]
         }
       },
       {

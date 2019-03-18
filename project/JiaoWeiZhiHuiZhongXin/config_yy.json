@@ -1,0 +1,1246 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "showLabels":true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "国展中心",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "maxScale":0,
+        "minScale":144448,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/flower.png",
+            "width": 100,
+            "height": 100,
+            "angle": 25
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "国展中心.OBJECTID",
+              "minDataValue": 2257,
+              "maxDataValue": 288896,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 800
+                  },
+                  {
+                    "value": 4514,
+                    "size": 400
+                  },
+                  {
+                    "value": 9028,
+                    "size": 200
+                  },
+                  {
+                    "value": 18056,
+                    "size": 100
+                  },
+                  {
+                    "value": 36112,
+                    "size": 50
+                  },
+                  {
+                    "value": 72224,
+                    "size": 25
+                  },
+                  {
+                    "value": 144448,
+                    "size": 12
+                  },
+                  {
+                    "value": 288896,
+                    "size": 8
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 1600
+                  },
+                  {
+                    "value": 4514,
+                    "size": 800
+                  },
+                  {
+                    "value": 9028,
+                    "size": 400
+                  },
+                  {
+                    "value": 18056,
+                    "size": 200
+                  },
+                  {
+                    "value": 36112,
+                    "size": 100
+                  },
+                  {
+                    "value": 72224,
+                    "size": 50
+                  },
+                  {
+                    "value": 144448,
+                    "size": 25
+                  },
+                  {
+                    "value": 288896,
+                    "size": 12
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "国展周边地面道路",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_GZZX_dmfbd/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "maxScale": 0,
+        "minScale": 144448,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.HIST_FBD.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "1",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "2",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "3",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "鹰眼发布段0",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/morph_yy/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.JWPT_RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "鹰眼发布段1",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/morph_yy/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "mode": 0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.JWPT_RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "短驳停车场",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "minScale": 18056,
+        "showLabels": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "短驳停车场.备注",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [45, 20, 10, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 0, 0, 0],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "1",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [45, 20, 10, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "2",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [52, 52, 52, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "3",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [34, 34, 68, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "4",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [51, 34, 64, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "5",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [78, 78, 78, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "6",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [15, 49, 51, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "7",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [18, 41, 77, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 0, 0, 0],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        },
+        "labelingInfo": [
+          {
+            "labelExpressionInfo": { "value": "{短驳停车场.FEATUREID}" },
+            "useCodedValues": true,
+            "labelPlacement": "always-horizontal",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [178, 178, 178, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "bold"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "label": "停车场短驳面",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "minScale": 18056,
+        "showLabels": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "停车场短驳面.FEATURENAME",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [0, 0, 0, 0],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSDash",
+              "color": [78, 78, 78, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "停车场短驳线路一",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 75, 75, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSDash",
+                  "color": [220, 30, 30, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "停车场短驳线路二",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [55, 190, 80, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSDash",
+                  "color": [37, 190, 95, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "停车场短驳线路三",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [165, 105, 245, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSDash",
+                  "color": [140, 90, 160, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "停车场短驳线路",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "showLabels": true,
+        "minScale": 18056,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "停车场短驳线路.FEATURENAME",
+          "defaultSymbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [175, 65, 65, 255],
+            "width": 2
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "停车场短驳线路一",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [175, 65, 65, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "停车场短驳线路二",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [65, 175, 85, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "停车场短驳线路三",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [40, 140, 200, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "停车场短驳线路四",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [205, 135, 40, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "虹桥商务区核心区北部停车场短驳线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [100, 65, 175, 255],
+                "width": 2
+              }
+            }
+          ]
+        },
+        "labelingInfo": [
+          {
+            "labelExpressionInfo": { "value": "{停车场短驳线路.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [175, 65, 65, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "停车场短驳线路.FEATURENAME = '停车场短驳线路一'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{停车场短驳线路.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [65, 175, 85, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "停车场短驳线路.FEATURENAME = '停车场短驳线路二"
+          },
+          {
+            "labelExpressionInfo": { "value": "{停车场短驳线路.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [40, 140, 200, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "停车场短驳线路.FEATURENAME = '停车场短驳线路三'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{停车场短驳线路.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [205, 135, 40, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "停车场短驳线路.FEATURENAME = '停车场短驳线路四'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{停车场短驳线路.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [100, 65, 175, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where":
+            "停车场短驳线路.FEATURENAME = '虹桥商务区核心区北部停车场短驳线'"
+          }
+        ]
+      },
+      {
+        "label": "接驳公交专线",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/6",
+        "type": "feature",
+        "visible": false,
+        "maxScale": 18057,
+        "minScale": 0,
+        "showLabels": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "接驳公交专线.FEATURENAME",
+          "defaultSymbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [220, 100, 230, 255],
+            "width": 2
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "13号线金运路",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [220, 100, 230, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "9号线中春路",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [40, 155, 190, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "71路申昆路枢纽",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [205, 125, 40, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "12号线七莘路",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [175, 65, 65, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "71路延伸线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [37, 190, 95, 255],
+                "width": 2
+              }
+            }
+          ]
+        },
+        "labelingInfo": [
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [220, 100, 230, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线.FEATURENAME = '13号线金运路'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [40, 155, 190, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线.FEATURENAME = '9号线中春路'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [205, 125, 40, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线.FEATURENAME = '71路申昆路枢纽'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [175, 65, 65, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线.FEATURENAME = '12号线七莘路'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [37, 190, 95, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线.FEATURENAME = '71路延伸线'"
+          }
+        ]
+      },
+      {
+        "label": "首日轨道交通接驳线",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/8",
+        "type": "feature",
+        "visible": false,
+        "maxScale": 18057,
+        "minScale": 0,
+        "showLabels": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "首日轨道交通接驳线.FEATURENAME",
+          "defaultSymbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [110, 75, 195, 255],
+            "width": 2
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "A线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [110, 75, 195, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "B线",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [168, 168, 0, 255],
+                "width": 2
+              }
+            }
+          ]
+        },
+        "labelingInfo": [
+          {
+            "labelExpressionInfo": {
+              "value": "{首日轨道交通接驳线.FEATURENAME}"
+            },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [110, 75, 195, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "首日轨道交通接驳线.FEATURENAME = 'B线'"
+          },
+          {
+            "labelExpressionInfo": {
+              "value": "{首日轨道交通接驳线.FEATURENAME}"
+            },
+            "useCodedValues": true,
+            "labelPlacement": "above-along",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [168, 168, 0, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 10,
+                "weight": "nomal"
+              }
+            },
+            "where": "首日轨道交通接驳线.FEATURENAME = 'A线'"
+          }
+        ]
+      },
+      {
+        "label": "接驳公交专线点",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/5",
+        "type": "feature",
+        "visible": false,
+        "maxScale": 18057,
+        "minScale": 0,
+        "showLabels": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "接驳公交专线点.FEATURENAME",
+          "defaultSymbol": {
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "color": [220, 100, 230, 255],
+            "size": 8
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "金运路",
+              "symbol": {
+                "type": "esriSMS",
+                "style": "esriSMSCircle",
+                "color": [220, 100, 230, 255],
+                "size": 8
+              }
+            },
+            {
+              "value": "中春路",
+              "symbol": {
+                "type": "esriSMS",
+                "style": "esriSMSCircle",
+                "color": [40, 155, 190, 255],
+                "size": 8
+              }
+            },
+            {
+              "value": "71路",
+              "symbol": {
+                "type": "esriSMS",
+                "style": "esriSMSCircle",
+                "color": [205, 125, 40, 255],
+                "size": 8
+              }
+            },
+            {
+              "value": "七莘路",
+              "symbol": {
+                "type": "esriSMS",
+                "style": "esriSMSCircle",
+                "color": [175, 65, 65, 255],
+                "size": 8
+              }
+            },
+            {
+              "value": "黄坡北路",
+              "symbol": {
+                "type": "esriSMS",
+                "style": "esriSMSCircle",
+                "color": [37, 190, 95, 255],
+                "size": 8
+              }
+            },
+            {
+              "value": "P1上客点",
+              "symbol": {
+                "type": "esriSMS",
+                "style": "esriSMSCircle",
+                "color": [175, 65, 65, 255],
+                "size": 8
+              }
+            },
+            {
+              "value": "P6上客点",
+              "symbol": {
+                "type": "esriSMS",
+                "style": "esriSMSCircle",
+                "color": [175, 65, 65, 255],
+                "size": 8
+              }
+            }
+          ]
+        },
+        "labelingInfo": [
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线点.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-right",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [220, 100, 230, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线点.FEATURENAME = '金运路'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线点.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-right",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [40, 155, 190, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线点.FEATURENAME = '中春路'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线点.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-right",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [205, 125, 40, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线点.FEATURENAME = '71路'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线点.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-right",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [175, 65, 65, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线点.FEATURENAME = '七莘路'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线点.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-right",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [37, 190, 95, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线点.FEATURENAME = '黄坡北路'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线点.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-right",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [175, 65, 65, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线点.FEATURENAME = 'P1上客点'"
+          },
+          {
+            "labelExpressionInfo": { "value": "{接驳公交专线点.FEATURENAME}" },
+            "useCodedValues": true,
+            "labelPlacement": "above-right",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [175, 65, 65, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            },
+            "where": "接驳公交专线点.FEATURENAME = 'P6上下客点'"
+          }
+        ]
+      },
+      {
+        "label": "首日轨道交通接驳点",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_jieboxian/MapServer/7",
+        "type": "feature",
+        "visible": false,
+        "maxScale": 18057,
+        "minScale": 0,
+        "showLabels": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "首日轨道交通接驳点.FEATURENAME",
+          "defaultSymbol": {
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "color": [25, 75, 105, 255],
+            "outline": {
+              "color": [255, 214, 138, 255],
+              "width": 1
+            },
+            "size": 8
+          }
+        },
+        "labelingInfo": [
+          {
+            "labelExpressionInfo": {
+              "value": "{首日轨道交通接驳点.FEATURENAME}"
+            },
+            "useCodedValues": true,
+            "labelPlacement": "above-right",
+            "symbol": {
+              "type": "esriTS",
+              "rightToLeft": false,
+              "color": [204, 204, 204, 255],
+              "verticalAlignment": "bottom",
+              "horizontalAlignment": "left",
+              "font": {
+                "family": "Microsoft YaHei",
+                "size": 12,
+                "weight": "nomal"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "mapOptions": {
+      "center": {
+        "x": 121.297401,
+        "y": 31.0540,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "backgroundColor": "#02182F",
+      "scale": 577791,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService":
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "10.31.214.201:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      }
+    ]
+  }
+}

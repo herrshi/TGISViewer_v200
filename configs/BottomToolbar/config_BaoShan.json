@@ -3,7 +3,7 @@
     {
       "label": "发布段",
       "initEnable": true,
-      "fontClass": "icon_fbd",
+      "image": "images/buttons/FaBuDuan-white.png",
       "operations": [
         {
           "opName": "changeLayer",
@@ -17,16 +17,20 @@
     },
     {
       "label": "情报板",
-      "fontClass": "icon_qbb",
+      "image": "images/buttons/QingBaoBan-white.png",
       "operations": [
-
+        {
+          "opName": "changeLayer"
+        }
       ]
     },
     {
       "label": "摄像机",
-      "fontClass": "fa fa-camera",
+      "image": "images/buttons/SheXiangJi-white.png",
       "operations": [
-
+        {
+          "opName": "changeLayer"
+        }
       ]
     }
   ]

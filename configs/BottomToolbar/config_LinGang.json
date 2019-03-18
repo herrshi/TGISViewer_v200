@@ -1,0 +1,70 @@
+{
+  "buttons": [
+    {
+      "label": "发布段",
+      "fontClass": "icon_fbd",
+      "initEnable": false,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "停车场",
+      "fontClass": "icon_parking",
+      "initEnable": false,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "客流检测",
+      "fontClass": "icon_HangDao",
+      "initEnable": false,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "情报板",
+      "fontClass": "icon_qbb_parking",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "卡口",
+      "fontClass": "icon_KaKou",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "车检器",
+      "fontClass": "icon_DuanMian",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "视频事件检测器",
+      "fontClass": "fa fa-video-camera",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 /*!
  * Material Design for Bootstrap 4
- * Version: MDB Pro 4.5.12
+ * Version: MDB Pro 4.5.13
  *
  *
  * Copyright: Material Design for Bootstrap
@@ -16186,7 +16186,7 @@ $('.smooth-scroll').on('click', 'a', function () {
 
   if (typeof elAttr !== typeof undefined && elAttr.indexOf('#') === 0) {
     let offset = $(this).attr('data-offset') ? $(this).attr('data-offset') : 0;
-    let setHash = $(this).closest('ul').attr('data-allow-hashes');
+    let setHash = $(this).parentsUntil('.smooth-scroll').last().parent().attr('data-allow-hashes');
     $('body,html').animate({
       scrollTop: $(elAttr).offset().top - offset
     }, SMOOTH_SCROLL_DURATION);
@@ -19315,6 +19315,12 @@ if (typeof define === 'function' && define.amd) {
 
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 (function ($) {
   let MENU_WIDTH = 240;
   let SN_BREAKPOINT = 1440;
@@ -19325,8 +19331,12 @@ if (typeof define === 'function' && define.amd) {
   let MENU_RIGHT_MAX_BORDER = 0.5;
   let MENU_VELOCITY_OFFSET = 10;
 
-  class SideNav {
-    constructor(element, options) {
+  let SideNav =
+  /*#__PURE__*/
+  function () {
+    function SideNav(element, options) {
+      _classCallCheck(this, SideNav);
+
       this.defaults = {
         MENU_WIDTH,
         edge: 'left',
@@ -19343,333 +19353,356 @@ if (typeof define === 'function' && define.amd) {
       this.init();
     }
 
-    init() {
-      this.setMenuWidth();
-      this.setMenuTranslation();
-      this.closeOnClick();
-      this.openOnClick();
-      this.bindTouchEvents();
-    }
-
-    bindTouchEvents() {
-      var _this = this;
-
-      this.$dragTarget.on('click', function () {
-        _this.removeMenu();
-      });
-      this.$dragTarget.hammer({
-        prevent_default: false
-      }).bind('pan', this.panEventHandler.bind(this)).bind('panend', this.panendEventHandler.bind(this));
-    }
-
-    panEventHandler(e) {
-      if (e.gesture.pointerType !== 'touch') {
-        return;
+    _createClass(SideNav, [{
+      key: "init",
+      value: function init() {
+        this.setMenuWidth();
+        this.setMenuTranslation();
+        this.closeOnClick();
+        this.openOnClick();
+        this.bindTouchEvents();
       }
+    }, {
+      key: "bindTouchEvents",
+      value: function bindTouchEvents() {
+        var _this = this;
 
-      let touchX = e.gesture.center.x;
-      this.disableScrolling();
-      let overlayExists = this.$sidenavOverlay.length !== 0;
+        this.$dragTarget.on('click', function () {
+          _this.removeMenu();
+        });
+        this.$dragTarget.hammer({
+          prevent_default: false
+        }).bind('pan', this.panEventHandler.bind(this)).bind('panend', this.panendEventHandler.bind(this));
+      }
+    }, {
+      key: "panEventHandler",
+      value: function panEventHandler(e) {
+        if (e.gesture.pointerType !== 'touch') {
+          return;
+        }
 
-      if (!overlayExists) {
-        this.buildSidenavOverlay();
-      } // Keep within boundaries
+        let touchX = e.gesture.center.x;
+        this.disableScrolling();
+        let overlayExists = this.$sidenavOverlay.length !== 0;
+
+        if (!overlayExists) {
+          this.buildSidenavOverlay();
+        } // Keep within boundaries
 
 
-      if (this.options.edge === 'left') {
-        if (touchX > this.options.MENU_WIDTH) {
-          touchX = this.options.MENU_WIDTH;
-        } else if (touchX < 0) {
-          touchX = 0;
+        if (this.options.edge === 'left') {
+          if (touchX > this.options.MENU_WIDTH) {
+            touchX = this.options.MENU_WIDTH;
+          } else if (touchX < 0) {
+            touchX = 0;
+          }
+        }
+
+        this.translateSidenavX(touchX);
+        this.updateOverlayOpacity(touchX);
+      }
+    }, {
+      key: "translateSidenavX",
+      value: function translateSidenavX(touchX) {
+        if (this.options.edge === 'left') {
+          let isRightDirection = touchX >= this.options.MENU_WIDTH / MENU_WIDTH_HALF;
+          this.menuOut = isRightDirection;
+          this.$menu.css('transform', `translateX(${touchX - this.options.MENU_WIDTH}px)`);
+        } else {
+          let isLeftDirection = touchX < window.innerWidth - this.options.MENU_WIDTH / MENU_WIDTH_HALF;
+          this.menuOut = isLeftDirection;
+          let rightPos = touchX - this.options.MENU_WIDTH / MENU_WIDTH_HALF;
+
+          if (rightPos < 0) {
+            rightPos = 0;
+          }
+
+          this.$menu.css('transform', `translateX(${rightPos}px)`);
         }
       }
+    }, {
+      key: "updateOverlayOpacity",
+      value: function updateOverlayOpacity(touchX) {
+        let overlayPercentage;
 
-      this.translateSidenavX(touchX);
-      this.updateOverlayOpacity(touchX);
-    }
+        if (this.options.edge === 'left') {
+          overlayPercentage = touchX / this.options.MENU_WIDTH;
+        } else {
+          overlayPercentage = Math.abs((touchX - window.innerWidth) / this.options.MENU_WIDTH);
+        }
 
-    translateSidenavX(touchX) {
-      if (this.options.edge === 'left') {
-        let isRightDirection = touchX >= this.options.MENU_WIDTH / MENU_WIDTH_HALF;
-        this.menuOut = isRightDirection;
-        this.$menu.css('transform', `translateX(${touchX - this.options.MENU_WIDTH}px)`);
-      } else {
-        let isLeftDirection = touchX < window.innerWidth - this.options.MENU_WIDTH / MENU_WIDTH_HALF;
-        this.menuOut = isLeftDirection;
+        this.$sidenavOverlay.velocity({
+          opacity: overlayPercentage
+        }, {
+          duration: 10,
+          queue: false,
+          easing: 'easeOutQuad'
+        });
+      }
+    }, {
+      key: "buildSidenavOverlay",
+      value: function buildSidenavOverlay() {
+        var _this2 = this;
+
+        this.$sidenavOverlay = $('<div id="sidenav-overlay"></div>');
+        this.$sidenavOverlay.css('opacity', 0).on('click', function () {
+          _this2.removeMenu();
+        });
+        this.$body.append(this.$sidenavOverlay);
+      }
+    }, {
+      key: "disableScrolling",
+      value: function disableScrolling() {
+        let oldWidth = this.$body.innerWidth();
+        this.$body.css('overflow', 'hidden');
+        this.$body.width(oldWidth);
+      }
+    }, {
+      key: "panendEventHandler",
+      value: function panendEventHandler(e) {
+        if (e.gesture.pointerType !== 'touch') {
+          return;
+        }
+
+        let velocityX = e.gesture.velocityX;
+        let touchX = e.gesture.center.x;
+        let leftPos = touchX - this.options.MENU_WIDTH;
         let rightPos = touchX - this.options.MENU_WIDTH / MENU_WIDTH_HALF;
+
+        if (leftPos > 0) {
+          leftPos = 0;
+        }
 
         if (rightPos < 0) {
           rightPos = 0;
         }
 
-        this.$menu.css('transform', `translateX(${rightPos}px)`);
-      }
-    }
-
-    updateOverlayOpacity(touchX) {
-      let overlayPercentage;
-
-      if (this.options.edge === 'left') {
-        overlayPercentage = touchX / this.options.MENU_WIDTH;
-      } else {
-        overlayPercentage = Math.abs((touchX - window.innerWidth) / this.options.MENU_WIDTH);
-      }
-
-      this.$sidenavOverlay.velocity({
-        opacity: overlayPercentage
-      }, {
-        duration: 10,
-        queue: false,
-        easing: 'easeOutQuad'
-      });
-    }
-
-    buildSidenavOverlay() {
-      var _this2 = this;
-
-      this.$sidenavOverlay = $('<div id="sidenav-overlay"></div>');
-      this.$sidenavOverlay.css('opacity', 0).on('click', function () {
-        _this2.removeMenu();
-      });
-      this.$body.append(this.$sidenavOverlay);
-    }
-
-    disableScrolling() {
-      let oldWidth = this.$body.innerWidth();
-      this.$body.css('overflow', 'hidden');
-      this.$body.width(oldWidth);
-    }
-
-    panendEventHandler(e) {
-      if (e.gesture.pointerType !== 'touch') {
-        return;
-      }
-
-      let velocityX = e.gesture.velocityX;
-      let touchX = e.gesture.center.x;
-      let leftPos = touchX - this.options.MENU_WIDTH;
-      let rightPos = touchX - this.options.MENU_WIDTH / MENU_WIDTH_HALF;
-
-      if (leftPos > 0) {
-        leftPos = 0;
-      }
-
-      if (rightPos < 0) {
-        rightPos = 0;
-      }
-
-      if (this.options.edge === 'left') {
-        // If velocityX <= 0.3 then the user is flinging the menu closed so ignore this.menuOut
-        if (this.menuOut && velocityX <= MENU_LEFT_MIN_BORDER || velocityX < MENU_LEFT_MAX_BORDER) {
-          if (leftPos !== 0) {
-            this.translateMenuX([0, leftPos], '300');
-          }
-
-          this.showSidenavOverlay();
-        } else if (!this.menuOut || velocityX > MENU_LEFT_MIN_BORDER) {
-          this.enableScrolling();
-          this.translateMenuX([-1 * this.options.MENU_WIDTH - MENU_VELOCITY_OFFSET, leftPos], '200');
-          this.hideSidenavOverlay();
-        }
-
-        this.$dragTarget.css({
-          width: '10px',
-          right: '',
-          left: 0
-        });
-      } else if (this.menuOut && velocityX >= MENU_RIGHT_MIN_BORDER || velocityX > MENU_RIGHT_MAX_BORDER) {
-        this.translateMenuX([0, rightPos], '300');
-        this.showSidenavOverlay();
-        this.$dragTarget.css({
-          width: '50%',
-          right: '',
-          left: 0
-        });
-      } else if (!this.menuOut || velocityX < MENU_RIGHT_MIN_BORDER) {
-        this.enableScrolling();
-        this.translateMenuX([this.options.MENU_WIDTH + MENU_VELOCITY_OFFSET, rightPos], '200');
-        this.hideSidenavOverlay();
-        this.$dragTarget.css({
-          width: '10px',
-          right: 0,
-          left: ''
-        });
-      }
-    }
-
-    translateMenuX(fromTo, duration) {
-      this.$menu.velocity({
-        translateX: fromTo
-      }, {
-        duration: typeof duration === 'string' ? Number(duration) : duration,
-        queue: false,
-        easing: 'easeOutQuad'
-      });
-    }
-
-    hideSidenavOverlay() {
-      this.$sidenavOverlay.velocity({
-        opacity: 0
-      }, {
-        duration: 200,
-        queue: false,
-        easing: 'easeOutQuad',
-
-        complete() {
-          $(this).remove();
-        }
-
-      });
-      this.$sidenavOverlay = $();
-    }
-
-    showSidenavOverlay() {
-      this.$sidenavOverlay.velocity({
-        opacity: 1
-      }, {
-        duration: 50,
-        queue: false,
-        easing: 'easeOutQuad'
-      });
-    }
-
-    enableScrolling() {
-      this.$body.css({
-        overflow: '',
-        width: ''
-      });
-    }
-
-    openOnClick() {
-      var _this3 = this;
-
-      this.$element.on('click', function (e) {
-        e.preventDefault();
-
-        if (_this3.menuOut === true) {
-          _this3.menuOut = false;
-
-          _this3.removeMenu();
-        } else {
-          _this3.$sidenavOverlay = $('<div id="sidenav-overlay"></div>');
-
-          _this3.$body.append(_this3.$sidenavOverlay);
-
-          let translateX = [];
-
-          if (_this3.options.edge === 'left') {
-            translateX = [0, -1 * _this3.options.MENU_WIDTH];
-          } else {
-            translateX = [0, _this3.options.MENU_WIDTH];
-          }
-
-          _this3.$menu.velocity({
-            translateX
-          }, {
-            duration: 300,
-            queue: false,
-            easing: 'easeOutQuad'
-          });
-
-          _this3.$sidenavOverlay.on('click', function () {
-            _this3.removeMenu();
-          });
-        }
-      });
-    }
-
-    closeOnClick() {
-      var _this4 = this;
-
-      if (this.options.closeOnClick === true) {
-        this.$menu.on('click', 'a:not(.collapsible-header)', function () {
-          _this4.removeMenu();
-        });
-      }
-    }
-
-    setMenuTranslation() {
-      var _this5 = this;
-
-      if (this.options.edge === 'left') {
-        this.$menu.css('transform', 'translateX(-100%)');
-        this.$dragTarget.css({
-          left: 0
-        });
-      } else {
-        this.$menu.addClass('right-aligned').css('transform', 'translateX(100%)');
-        this.$dragTarget.css({
-          right: 0
-        });
-      }
-
-      if (this.$menu.hasClass('fixed')) {
-        if (window.innerWidth > SN_BREAKPOINT) {
-          this.$menu.css('transform', 'translateX(0)');
-        }
-
-        $(window).resize(function () {
-          if (window.innerWidth > SN_BREAKPOINT) {
-            if (_this5.$sidenavOverlay.length) {
-              _this5.removeMenu(true);
-            } else {
-              _this5.$menu.css('transform', 'translateX(0%)');
+        if (this.options.edge === 'left') {
+          // If velocityX <= 0.3 then the user is flinging the menu closed so ignore this.menuOut
+          if (this.menuOut && velocityX <= MENU_LEFT_MIN_BORDER || velocityX < MENU_LEFT_MAX_BORDER) {
+            if (leftPos !== 0) {
+              this.translateMenuX([0, leftPos], '300');
             }
-          } else if (_this5.menuOut === false) {
-            let xValue = _this5.options.edge === 'left' ? '-100' : '100';
 
-            _this5.$menu.css('transform', `translateX(${xValue}%)`);
+            this.showSidenavOverlay();
+          } else if (!this.menuOut || velocityX > MENU_LEFT_MIN_BORDER) {
+            this.enableScrolling();
+            this.translateMenuX([-1 * this.options.MENU_WIDTH - MENU_VELOCITY_OFFSET, leftPos], '200');
+            this.hideSidenavOverlay();
+          }
+
+          this.$dragTarget.css({
+            width: '10px',
+            right: '',
+            left: 0
+          });
+        } else if (this.menuOut && velocityX >= MENU_RIGHT_MIN_BORDER || velocityX > MENU_RIGHT_MAX_BORDER) {
+          this.translateMenuX([0, rightPos], '300');
+          this.showSidenavOverlay();
+          this.$dragTarget.css({
+            width: '50%',
+            right: '',
+            left: 0
+          });
+        } else if (!this.menuOut || velocityX < MENU_RIGHT_MIN_BORDER) {
+          this.enableScrolling();
+          this.translateMenuX([this.options.MENU_WIDTH + MENU_VELOCITY_OFFSET, rightPos], '200');
+          this.hideSidenavOverlay();
+          this.$dragTarget.css({
+            width: '10px',
+            right: 0,
+            left: ''
+          });
+        }
+      }
+    }, {
+      key: "translateMenuX",
+      value: function translateMenuX(fromTo, duration) {
+        this.$menu.velocity({
+          translateX: fromTo
+        }, {
+          duration: typeof duration === 'string' ? Number(duration) : duration,
+          queue: false,
+          easing: 'easeOutQuad'
+        });
+      }
+    }, {
+      key: "hideSidenavOverlay",
+      value: function hideSidenavOverlay() {
+        this.$sidenavOverlay.velocity({
+          opacity: 0
+        }, {
+          duration: 200,
+          queue: false,
+          easing: 'easeOutQuad',
+
+          complete() {
+            $(this).remove();
+          }
+
+        });
+        this.$sidenavOverlay = $();
+      }
+    }, {
+      key: "showSidenavOverlay",
+      value: function showSidenavOverlay() {
+        this.$sidenavOverlay.velocity({
+          opacity: 1
+        }, {
+          duration: 50,
+          queue: false,
+          easing: 'easeOutQuad'
+        });
+      }
+    }, {
+      key: "enableScrolling",
+      value: function enableScrolling() {
+        this.$body.css({
+          overflow: '',
+          width: ''
+        });
+      }
+    }, {
+      key: "openOnClick",
+      value: function openOnClick() {
+        var _this3 = this;
+
+        this.$element.on('click', function (e) {
+          e.preventDefault();
+
+          if (_this3.menuOut === true) {
+            _this3.menuOut = false;
+
+            _this3.removeMenu();
+          } else {
+            _this3.$sidenavOverlay = $('<div id="sidenav-overlay"></div>');
+
+            _this3.$body.append(_this3.$sidenavOverlay);
+
+            let translateX = [];
+
+            if (_this3.options.edge === 'left') {
+              translateX = [0, -1 * _this3.options.MENU_WIDTH];
+            } else {
+              translateX = [0, _this3.options.MENU_WIDTH];
+            }
+
+            _this3.$menu.velocity({
+              translateX
+            }, {
+              duration: 300,
+              queue: false,
+              easing: 'easeOutQuad'
+            });
+
+            _this3.$sidenavOverlay.on('click', function () {
+              _this3.removeMenu();
+            });
           }
         });
       }
-    }
+    }, {
+      key: "closeOnClick",
+      value: function closeOnClick() {
+        var _this4 = this;
 
-    setMenuWidth() {
-      let $sidenavBg = $(`#${this.$menu.attr('id')}`).find('> .sidenav-bg');
-
-      if (this.options.MENU_WIDTH !== MENU_WIDTH) {
-        this.$menu.css('width', this.options.MENU_WIDTH);
-        $sidenavBg.css('width', this.options.MENU_WIDTH);
-      }
-    }
-
-    assignOptions(newOptions) {
-      return $.extend({}, this.defaults, newOptions);
-    }
-
-    removeMenu(restoreMenu) {
-      var _this6 = this;
-
-      this.$body.css({
-        overflow: '',
-        width: ''
-      });
-      this.$menu.velocity({
-        translateX: this.options.edge === 'left' ? '-100%' : '100%'
-      }, {
-        duration: 200,
-        queue: false,
-        easing: 'easeOutCubic',
-        complete: function complete() {
-          if (restoreMenu === true) {
-            _this6.$menu.removeAttr('style');
-
-            _this6.$menu.css('width', _this6.options.MENU_WIDTH);
-          }
+        if (this.options.closeOnClick === true) {
+          this.$menu.on('click', 'a:not(.collapsible-header)', function () {
+            _this4.removeMenu();
+          });
         }
-      });
-      this.hideSidenavOverlay();
-    }
+      }
+    }, {
+      key: "setMenuTranslation",
+      value: function setMenuTranslation() {
+        var _this5 = this;
 
-    show() {
-      this.trigger('click');
-    }
+        if (this.options.edge === 'left') {
+          this.$menu.css('transform', 'translateX(-100%)');
+          this.$dragTarget.css({
+            left: 0
+          });
+        } else {
+          this.$menu.addClass('right-aligned').css('transform', 'translateX(100%)');
+          this.$dragTarget.css({
+            right: 0
+          });
+        }
 
-    hide() {
-      this.$sidenavOverlay.trigger('click');
-    }
+        if (this.$menu.hasClass('fixed')) {
+          if (window.innerWidth > SN_BREAKPOINT) {
+            this.$menu.css('transform', 'translateX(0)');
+          }
 
-  }
+          $(window).resize(function () {
+            if (window.innerWidth > SN_BREAKPOINT) {
+              if (_this5.$sidenavOverlay.length) {
+                _this5.removeMenu(true);
+              } else {
+                _this5.$menu.css('transform', 'translateX(0%)');
+              }
+            } else if (_this5.menuOut === false) {
+              let xValue = _this5.options.edge === 'left' ? '-100' : '100';
+
+              _this5.$menu.css('transform', `translateX(${xValue}%)`);
+            }
+          });
+        }
+      }
+    }, {
+      key: "setMenuWidth",
+      value: function setMenuWidth() {
+        let $sidenavBg = $(`#${this.$menu.attr('id')}`).find('> .sidenav-bg');
+
+        if (this.options.MENU_WIDTH !== MENU_WIDTH) {
+          this.$menu.css('width', this.options.MENU_WIDTH);
+          $sidenavBg.css('width', this.options.MENU_WIDTH);
+        }
+      }
+    }, {
+      key: "assignOptions",
+      value: function assignOptions(newOptions) {
+        return $.extend({}, this.defaults, newOptions);
+      }
+    }, {
+      key: "removeMenu",
+      value: function removeMenu(restoreMenu) {
+        var _this6 = this;
+
+        this.$body.css({
+          overflow: '',
+          width: ''
+        });
+        this.$menu.velocity({
+          translateX: this.options.edge === 'left' ? '-100%' : '100%'
+        }, {
+          duration: 200,
+          queue: false,
+          easing: 'easeOutCubic',
+          complete: function complete() {
+            if (restoreMenu === true) {
+              _this6.$menu.removeAttr('style');
+
+              _this6.$menu.css('width', _this6.options.MENU_WIDTH);
+            }
+          }
+        });
+        this.hideSidenavOverlay();
+      }
+    }, {
+      key: "show",
+      value: function show() {
+        this.trigger('click');
+      }
+    }, {
+      key: "hide",
+      value: function hide() {
+        this.$sidenavOverlay.trigger('click');
+      }
+    }]);
+
+    return SideNav;
+  }();
 
   $.fn.sideNav = function (options) {
     return this.each(function () {
@@ -20334,9 +20367,19 @@ $.fn.easyPieChart = function(options) {
 })(jQuery);
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 (function ($) {
-  class MaterialSelect {
-    constructor($nativeSelect, options) {
+  let MaterialSelect =
+  /*#__PURE__*/
+  function () {
+    function MaterialSelect($nativeSelect, options) {
+      _classCallCheck(this, MaterialSelect);
+
       this.options = options;
       this.$nativeSelect = $nativeSelect;
       this.isMultiple = Boolean(this.$nativeSelect.attr('multiple'));
@@ -20362,587 +20405,631 @@ $.fn.easyPieChart = function(options) {
       MaterialSelect.mutationObservers = [];
     }
 
-    static clearMutationObservers() {
-      MaterialSelect.mutationObservers.forEach(function (observer) {
-        observer.disconnect();
-        observer.customStatus = 'stopped';
-      });
-    }
+    _createClass(MaterialSelect, [{
+      key: "init",
+      value: function init() {
+        let alreadyInitialized = Boolean(this.$nativeSelect.data('select-id'));
 
-    init() {
-      let alreadyInitialized = Boolean(this.$nativeSelect.data('select-id'));
-
-      if (alreadyInitialized) {
-        this._removeMaterialWrapper();
-      }
-
-      if (this.options === 'destroy') {
-        this.$nativeSelect.data('select-id', null).removeClass('initialized');
-        return;
-      }
-
-      this.$nativeSelect.data('select-id', this.uuid);
-      this.$selectWrapper.addClass(this.$nativeSelect.attr('class'));
-      let sanitizedLabelHtml = this.$materialSelectInitialOption.replace(/"/g, '&quot;');
-      this.$materialSelect.val(sanitizedLabelHtml);
-      this.renderMaterialSelect();
-      this.bindEvents();
-
-      if (this.isRequired) {
-        this.enableValidation();
-      }
-    }
-
-    _removeMaterialWrapper() {
-      let currentUuid = this.$nativeSelect.data('select-id');
-      this.$nativeSelect.parent().find('span.caret').remove();
-      this.$nativeSelect.parent().find('input').remove();
-      this.$nativeSelect.unwrap();
-      $(`ul#select-options-${currentUuid}`).remove();
-    }
-
-    renderMaterialSelect() {
-      var _this = this;
-
-      this.$nativeSelect.before(this.$selectWrapper);
-      this.appendDropdownIcon();
-      this.appendMaterialSelect();
-      this.appendMaterialOptionsList();
-      this.appendNativeSelect();
-      this.appendSaveSelectButton();
-
-      if (!this.$nativeSelect.is(':disabled')) {
-        this.$materialSelect.dropdown({
-          hover: false,
-          closeOnClick: false
-        });
-      }
-
-      if (this.$nativeSelect.data('inherit-tabindex') !== false) {
-        this.$materialSelect.attr('tabindex', this.$nativeSelect.attr('tabindex'));
-      }
-
-      if (this.isMultiple) {
-        this.$nativeSelect.find('option:selected:not(:disabled)').each(function (i, element) {
-          let index = $(element).index();
-
-          _this._toggleSelectedValue(index);
-
-          _this.$materialOptionsList.find('li:not(.optgroup):not(.select-toggle-all)').eq(index).find(':checkbox').prop('checked', true);
-        });
-      } else {
-        let index = this.$nativeSelect.find('option:selected').index();
-        this.$materialOptionsList.find('li').eq(index).addClass('active');
-      }
-
-      this.$nativeSelect.addClass('initialized');
-    }
-
-    appendDropdownIcon() {
-      if (this.$nativeSelect.is(':disabled')) {
-        this.$dropdownIcon.addClass('disabled');
-      }
-
-      this.$selectWrapper.append(this.$dropdownIcon);
-    }
-
-    appendMaterialSelect() {
-      this.$selectWrapper.append(this.$materialSelect);
-    }
-
-    appendMaterialOptionsList() {
-      if (this.isSearchable) {
-        this.appendSearchInputOption();
-      }
-
-      this.buildMaterialOptions();
-
-      if (this.isMultiple) {
-        this.appendToggleAllCheckbox();
-      }
-
-      this.$selectWrapper.append(this.$materialOptionsList);
-    }
-
-    appendNativeSelect() {
-      this.$nativeSelect.appendTo(this.$selectWrapper);
-    }
-
-    appendSearchInputOption() {
-      let placeholder = this.$nativeSelect.attr('searchable');
-      this.$searchInput = $(`<span class="search-wrap ml-2"><div class="md-form mt-0"><input type="text" class="search form-control w-100 d-block" placeholder="${placeholder}"></div></span>`);
-      this.$materialOptionsList.append(this.$searchInput);
-    }
-
-    appendToggleAllCheckbox() {
-      this.$materialOptionsList.find('li.disabled').first().after(this.$toggleAll);
-    }
-
-    appendSaveSelectButton() {
-      this.$selectWrapper.parent().find('button.btn-save').appendTo(this.$materialOptionsList);
-    }
-
-    buildMaterialOptions() {
-      var _this2 = this;
-
-      this.$nativeSelectChildren.each(function (index, option) {
-        let $this = $(option);
-
-        if ($this.is('option')) {
-          _this2.buildSingleOption($this, _this2.isMultiple ? 'multiple' : '');
-        } else if ($this.is('optgroup')) {
-          let $materialOptgroup = $(`<li class="optgroup"><span>${$this.attr('label')}</span></li>`);
-
-          _this2.$materialOptionsList.append($materialOptgroup);
-
-          let $optgroupOptions = $this.children('option');
-          $optgroupOptions.each(function (index, optgroupOption) {
-            _this2.buildSingleOption($(optgroupOption), 'optgroup-option');
-          });
-        }
-      });
-    }
-
-    buildSingleOption($nativeSelectChild, type) {
-      let disabled = $nativeSelectChild.is(':disabled') ? 'disabled' : '';
-      let optgroupClass = type === 'optgroup-option' ? 'optgroup-option' : '';
-      let iconUrl = $nativeSelectChild.data('icon');
-      let fa = $nativeSelectChild.data('fa') ? `<i class="fa fa-${$nativeSelectChild.data('fa')}"></i>` : '';
-      let classes = $nativeSelectChild.attr('class');
-      let iconHtml = iconUrl ? `<img alt="" src="${iconUrl}" class="${classes}">` : '';
-      let checkboxHtml = this.isMultiple ? `<input type="checkbox" class="form-check-input" ${disabled}/><label></label>` : '';
-      this.$materialOptionsList.append($(`<li class="${disabled} ${optgroupClass}">${iconHtml}<span class="filtrable">${checkboxHtml} ${fa} ${$nativeSelectChild.html()}</span></li>`));
-    }
-
-    enableValidation() {
-      this.$nativeSelect.css({
-        position: 'absolute',
-        top: '1rem',
-        left: '0',
-        height: '0',
-        width: '0',
-        opacity: '0',
-        padding: '0',
-        'pointer-events': 'none'
-      });
-
-      if (this.$nativeSelect.attr('style').indexOf('inline!important') === -1) {
-        this.$nativeSelect.attr('style', `${this.$nativeSelect.attr('style')} display: inline!important;`);
-      }
-
-      this.$nativeSelect.attr('tabindex', -1);
-      this.$nativeSelect.data('inherit-tabindex', false);
-    }
-
-    bindEvents() {
-      var _this3 = this;
-
-      let config = {
-        attributes: true,
-        childList: true,
-        characterData: true,
-        subtree: true
-      };
-      let observer = new MutationObserver(this._onMutationObserverChange.bind(this));
-      observer.observe(this.$nativeSelect.get(0), config);
-      observer.customId = this.uuid;
-      observer.customStatus = 'observing';
-      MaterialSelect.clearMutationObservers();
-      MaterialSelect.mutationObservers.push(observer);
-      let $saveSelectBtn = this.$nativeSelect.parent().find('button.btn-save');
-      $saveSelectBtn.on('click', this._onSaveSelectBtnClick);
-      this.$materialSelect.on('focus', this._onMaterialSelectFocus.bind(this));
-      this.$materialSelect.on('click', this._onMaterialSelectClick.bind(this));
-      this.$materialSelect.on('blur', this._onMaterialSelectBlur.bind(this));
-      this.$materialSelect.on('keydown', this._onMaterialSelectKeydown.bind(this));
-      this.$toggleAll.on('click', this._onToggleAllClick.bind(this));
-      this.$materialOptionsList.on('mousedown', this._onEachMaterialOptionMousedown.bind(this));
-      this.$materialOptionsList.find('li:not(.optgroup)').not(this.$toggleAll).each(function (materialOptionIndex, materialOption) {
-        $(materialOption).on('click', _this3._onEachMaterialOptionClick.bind(_this3, materialOptionIndex, materialOption));
-      });
-
-      if (!this.isMultiple && this.isSearchable) {
-        this.$materialOptionsList.find('li').on('click', this._onSingleMaterialOptionClick.bind(this));
-      }
-
-      if (this.isSearchable) {
-        this.$searchInput.find('.search').on('keyup', this._onSearchInputKeyup);
-      }
-
-      $('html').on('click', this._onHTMLClick.bind(this));
-    }
-
-    _onMutationObserverChange(mutationsList) {
-      mutationsList.forEach(function (mutation) {
-        let $select = $(mutation.target).closest('select');
-
-        if ($select.data('stop-refresh') !== true && (mutation.type === 'childList' || mutation.type === 'attributes' && $(mutation.target).is('option'))) {
-          MaterialSelect.clearMutationObservers();
-          $select.materialSelect('destroy');
-          $select.materialSelect();
-        }
-      });
-    }
-
-    _onSaveSelectBtnClick() {
-      $('input.select-dropdown').trigger('close');
-    }
-
-    _onEachMaterialOptionClick(materialOptionIndex, materialOption, e) {
-      e.stopPropagation();
-      let $this = $(materialOption);
-
-      if ($this.hasClass('disabled') || $this.hasClass('optgroup')) {
-        return;
-      }
-
-      let selected = true;
-
-      if (this.isMultiple) {
-        $this.find('input[type="checkbox"]').prop('checked', function (index, oldPropertyValue) {
-          return !oldPropertyValue;
-        });
-        let hasOptgroup = Boolean(this.$nativeSelect.find('optgroup').length);
-        let thisIndex = this._isToggleAllPresent() ? $this.index() - 1 : $this.index();
-
-        if (this.isSearchable && hasOptgroup) {
-          selected = this._toggleSelectedValue(thisIndex - $this.prevAll('.optgroup').length - 1);
-        } else if (this.isSearchable) {
-          selected = this._toggleSelectedValue(thisIndex - 1);
-        } else if (hasOptgroup) {
-          selected = this._toggleSelectedValue(thisIndex - $this.prevAll('.optgroup').length);
-        } else {
-          selected = this._toggleSelectedValue(thisIndex);
+        if (alreadyInitialized) {
+          this._removeMaterialWrapper();
         }
 
-        if (this._isToggleAllPresent()) {
-          this._updateToggleAllOption();
-        }
-
-        this.$materialSelect.trigger('focus');
-      } else {
-        this.$materialOptionsList.find('li').removeClass('active');
-        $this.toggleClass('active');
-        this.$materialSelect.val($this.text());
-        this.$materialSelect.trigger('close');
-      }
-
-      this._selectSingleOption($this);
-
-      this.$nativeSelect.data('stop-refresh', true);
-      this.$nativeSelect.find('option').eq(materialOptionIndex).prop('selected', selected);
-      this.$nativeSelect.removeData('stop-refresh');
-
-      this._triggerChangeOnNativeSelect();
-
-      if (typeof this.options === 'function') {
-        this.options();
-      }
-    }
-
-    _triggerChangeOnNativeSelect() {
-      let keyboardEvt = new KeyboardEvent('change', {
-        bubbles: true,
-        cancelable: true
-      });
-      this.$nativeSelect.get(0).dispatchEvent(keyboardEvt);
-    }
-
-    _onMaterialSelectFocus(e) {
-      let $this = $(e.target);
-
-      if ($('ul.select-dropdown').not(this.$materialOptionsList.get(0)).is(':visible')) {
-        $('input.select-dropdown').trigger('close');
-      }
-
-      if (!this.$materialOptionsList.is(':visible')) {
-        $this.trigger('open', ['focus']);
-        let label = $this.val();
-        let $selectedOption = this.$materialOptionsList.find('li').filter(function () {
-          return $(this).text().toLowerCase() === label.toLowerCase();
-        })[0];
-
-        this._selectSingleOption($selectedOption);
-      }
-    }
-
-    _onMaterialSelectClick(e) {
-      e.stopPropagation();
-    }
-
-    _onMaterialSelectBlur(e) {
-      let $this = $(e);
-
-      if (!this.isMultiple && !this.isSearchable) {
-        $this.trigger('close');
-      }
-
-      this.$materialOptionsList.find('li.selected').removeClass('selected');
-    }
-
-    _onSingleMaterialOptionClick() {
-      this.$materialSelect.trigger('close');
-    }
-
-    _onEachMaterialOptionMousedown(e) {
-      let option = e.target;
-
-      if ($('.modal-content').find(this.$materialOptionsList).length) {
-        if (option.scrollHeight > option.offsetHeight) {
-          e.preventDefault();
-        }
-      }
-    }
-
-    _onHTMLClick(e) {
-      if (!$(e.target).closest(`#select-options-${this.uuid}`).length) {
-        this.$materialSelect.trigger('close');
-      }
-    }
-
-    _onToggleAllClick() {
-      var _this4 = this;
-
-      let checkbox = $(this.$toggleAll).find('input[type="checkbox"]').first();
-      let state = !$(checkbox).prop('checked');
-      $(checkbox).prop('checked', state);
-      this.$materialOptionsList.find('li:not(.optgroup):not(.disabled):not(.select-toggle-all)').each(function (materialOptionIndex, materialOption) {
-        let $optionCheckbox = $(materialOption).find('input[type="checkbox"]');
-
-        if (state && $optionCheckbox.is(':checked') || !state && !$optionCheckbox.is(':checked')) {
+        if (this.options === 'destroy') {
+          this.$nativeSelect.data('select-id', null).removeClass('initialized');
           return;
         }
 
-        if (_this4._isToggleAllPresent()) {
-          materialOptionIndex++;
+        this.$nativeSelect.data('select-id', this.uuid);
+        this.$selectWrapper.addClass(this.$nativeSelect.attr('class'));
+        let sanitizedLabelHtml = this.$materialSelectInitialOption.replace(/"/g, '&quot;');
+        this.$materialSelect.val(sanitizedLabelHtml);
+        this.renderMaterialSelect();
+        this.bindEvents();
+
+        if (this.isRequired) {
+          this.enableValidation();
+        }
+      }
+    }, {
+      key: "_removeMaterialWrapper",
+      value: function _removeMaterialWrapper() {
+        let currentUuid = this.$nativeSelect.data('select-id');
+        this.$nativeSelect.parent().find('span.caret').remove();
+        this.$nativeSelect.parent().find('input').remove();
+        this.$nativeSelect.unwrap();
+        $(`ul#select-options-${currentUuid}`).remove();
+      }
+    }, {
+      key: "renderMaterialSelect",
+      value: function renderMaterialSelect() {
+        var _this = this;
+
+        this.$nativeSelect.before(this.$selectWrapper);
+        this.appendDropdownIcon();
+        this.appendMaterialSelect();
+        this.appendMaterialOptionsList();
+        this.appendNativeSelect();
+        this.appendSaveSelectButton();
+
+        if (!this.$nativeSelect.is(':disabled')) {
+          this.$materialSelect.dropdown({
+            hover: false,
+            closeOnClick: false
+          });
         }
 
-        $optionCheckbox.prop('checked', state);
+        if (this.$nativeSelect.data('inherit-tabindex') !== false) {
+          this.$materialSelect.attr('tabindex', this.$nativeSelect.attr('tabindex'));
+        }
 
-        _this4.$nativeSelect.find('option').eq(materialOptionIndex).prop('selected', state);
+        if (this.isMultiple) {
+          this.$nativeSelect.find('option:selected:not(:disabled)').each(function (i, element) {
+            let index = $(element).index();
 
-        if (state) {
-          $(materialOption).removeClass('active');
+            _this._toggleSelectedValue(index);
+
+            _this.$materialOptionsList.find('li:not(.optgroup):not(.select-toggle-all)').eq(index).find(':checkbox').prop('checked', true);
+          });
         } else {
-          $(materialOption).addClass('active');
+          let index = this.$nativeSelect.find('option:selected').index();
+          this.$materialOptionsList.find('li').eq(index).addClass('active');
         }
 
-        _this4._toggleSelectedValue(materialOptionIndex);
-
-        _this4._selectOption(materialOption);
-
-        _this4._setValueToMaterialSelect();
-      });
-      this.$nativeSelect.data('stop-refresh', true);
-
-      this._triggerChangeOnNativeSelect();
-
-      this.$nativeSelect.removeData('stop-refresh');
-    }
-
-    _onMaterialSelectKeydown(e) {
-      let $this = $(e.target);
-      let isTab = e.which === this.keyCodes.tab;
-      let isEsc = e.which === this.keyCodes.esc;
-      let isEnter = e.which === this.keyCodes.enter;
-      let isArrowUp = e.which === this.keyCodes.arrowUp;
-      let isArrowDown = e.which === this.keyCodes.arrowDown;
-      let isMaterialSelectVisible = this.$materialOptionsList.is(':visible');
-
-      if (isTab) {
-        this._handleTabKey($this);
-
-        return;
-      } else if (isArrowDown && !isMaterialSelectVisible) {
-        $this.trigger('open');
-        return;
-      } else if (isEnter && !isMaterialSelectVisible) {
-        return;
+        this.$nativeSelect.addClass('initialized');
       }
-
-      e.preventDefault();
-
-      if (isEnter) {
-        this._handleEnterKey($this);
-      } else if (isArrowDown) {
-        this._handleArrowDownKey();
-      } else if (isArrowUp) {
-        this._handleArrowUpKey();
-      } else if (isEsc) {
-        this._handleEscKey($this);
-      } else {
-        this._handleLetterKey(e);
-      }
-    }
-
-    _handleTabKey(materialSelect) {
-      this._handleEscKey(materialSelect);
-    }
-
-    _handleEnterKey(materialSelect) {
-      let $materialSelect = $(materialSelect);
-      let $activeOption = this.$materialOptionsList.find('li.selected:not(.disabled)');
-      $activeOption.trigger('click');
-
-      if (!this.isMultiple) {
-        $materialSelect.trigger('close');
-      }
-    }
-
-    _handleArrowDownKey() {
-      let $firstOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').first();
-      let $lastOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').last();
-      let anySelected = this.$materialOptionsList.find('li.selected').length > 0;
-      let $currentOption = anySelected ? this.$materialOptionsList.find('li.selected') : $firstOption;
-      let $matchedMaterialOption = $currentOption.is($lastOption) || !anySelected ? $currentOption : $currentOption.next('li:not(.disabled)');
-
-      this._selectSingleOption($matchedMaterialOption);
-
-      this.$materialOptionsList.find('li').removeClass('active');
-      $matchedMaterialOption.toggleClass('active');
-    }
-
-    _handleArrowUpKey() {
-      let $firstOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').first();
-      let $lastOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').last();
-      let anySelected = this.$materialOptionsList.find('li.selected').length > 0;
-      let $currentOption = anySelected ? this.$materialOptionsList.find('li.selected') : $lastOption;
-      let $matchedMaterialOption = $currentOption.is($firstOption) || !anySelected ? $currentOption : $currentOption.prev('li:not(.disabled)');
-
-      this._selectSingleOption($matchedMaterialOption);
-
-      this.$materialOptionsList.find('li').removeClass('active');
-      $matchedMaterialOption.toggleClass('active');
-    }
-
-    _handleEscKey(materialSelect) {
-      let $materialSelect = $(materialSelect);
-      $materialSelect.trigger('close');
-    }
-
-    _handleLetterKey(e) {
-      var _this5 = this;
-
-      let filterQueryString = '';
-      let letter = String.fromCharCode(e.which).toLowerCase();
-      let nonLetters = Object.keys(this.keyCodes).map(function (key) {
-        return _this5.keyCodes[key];
-      });
-      let isLetterSearchable = letter && nonLetters.indexOf(e.which) === -1;
-
-      if (isLetterSearchable) {
-        filterQueryString += letter;
-        let $matchedMaterialOption = this.$materialOptionsList.find('li').filter(function () {
-          return $(this).text().toLowerCase().indexOf(filterQueryString) !== -1;
-        }).first();
-
-        if (!this.isMultiple) {
-          this.$materialOptionsList.find('li').removeClass('active');
+    }, {
+      key: "appendDropdownIcon",
+      value: function appendDropdownIcon() {
+        if (this.$nativeSelect.is(':disabled')) {
+          this.$dropdownIcon.addClass('disabled');
         }
 
-        $matchedMaterialOption.addClass('active');
-
-        this._selectSingleOption($matchedMaterialOption);
+        this.$selectWrapper.append(this.$dropdownIcon);
       }
-    }
+    }, {
+      key: "appendMaterialSelect",
+      value: function appendMaterialSelect() {
+        this.$selectWrapper.append(this.$materialSelect);
+      }
+    }, {
+      key: "appendMaterialOptionsList",
+      value: function appendMaterialOptionsList() {
+        if (this.isSearchable) {
+          this.appendSearchInputOption();
+        }
 
-    _onSearchInputKeyup(e) {
-      let $this = $(e.target);
-      let $ul = $this.closest('ul');
-      let searchValue = $this.val();
-      let $options = $ul.find('li span.filtrable');
-      $options.each(function () {
-        let $option = $(this);
+        this.buildMaterialOptions();
 
-        if (typeof this.outerHTML === 'string') {
-          let liValue = this.textContent.toLowerCase();
+        if (this.isMultiple) {
+          this.appendToggleAllCheckbox();
+        }
 
-          if (liValue.includes(searchValue.toLowerCase())) {
-            $option.show().parent().show();
+        this.$selectWrapper.append(this.$materialOptionsList);
+      }
+    }, {
+      key: "appendNativeSelect",
+      value: function appendNativeSelect() {
+        this.$nativeSelect.appendTo(this.$selectWrapper);
+      }
+    }, {
+      key: "appendSearchInputOption",
+      value: function appendSearchInputOption() {
+        let placeholder = this.$nativeSelect.attr('searchable');
+        this.$searchInput = $(`<span class="search-wrap ml-2"><div class="md-form mt-0"><input type="text" class="search form-control w-100 d-block" placeholder="${placeholder}"></div></span>`);
+        this.$materialOptionsList.append(this.$searchInput);
+      }
+    }, {
+      key: "appendToggleAllCheckbox",
+      value: function appendToggleAllCheckbox() {
+        this.$materialOptionsList.find('li.disabled').first().after(this.$toggleAll);
+      }
+    }, {
+      key: "appendSaveSelectButton",
+      value: function appendSaveSelectButton() {
+        this.$selectWrapper.parent().find('button.btn-save').appendTo(this.$materialOptionsList);
+      }
+    }, {
+      key: "buildMaterialOptions",
+      value: function buildMaterialOptions() {
+        var _this2 = this;
+
+        this.$nativeSelectChildren.each(function (index, option) {
+          let $this = $(option);
+
+          if ($this.is('option')) {
+            _this2.buildSingleOption($this, _this2.isMultiple ? 'multiple' : '');
+          } else if ($this.is('optgroup')) {
+            let $materialOptgroup = $(`<li class="optgroup"><span>${$this.attr('label')}</span></li>`);
+
+            _this2.$materialOptionsList.append($materialOptgroup);
+
+            let $optgroupOptions = $this.children('option');
+            $optgroupOptions.each(function (index, optgroupOption) {
+              _this2.buildSingleOption($(optgroupOption), 'optgroup-option');
+            });
+          }
+        });
+      }
+    }, {
+      key: "buildSingleOption",
+      value: function buildSingleOption($nativeSelectChild, type) {
+        let disabled = $nativeSelectChild.is(':disabled') ? 'disabled' : '';
+        let optgroupClass = type === 'optgroup-option' ? 'optgroup-option' : '';
+        let iconUrl = $nativeSelectChild.data('icon');
+        let fa = $nativeSelectChild.data('fa') ? `<i class="fa fa-${$nativeSelectChild.data('fa')}"></i>` : '';
+        let classes = $nativeSelectChild.attr('class');
+        let iconHtml = iconUrl ? `<img alt="" src="${iconUrl}" class="${classes}">` : '';
+        let checkboxHtml = this.isMultiple ? `<input type="checkbox" class="form-check-input" ${disabled}/><label></label>` : '';
+        this.$materialOptionsList.append($(`<li class="${disabled} ${optgroupClass}">${iconHtml}<span class="filtrable">${checkboxHtml} ${fa} ${$nativeSelectChild.html()}</span></li>`));
+      }
+    }, {
+      key: "enableValidation",
+      value: function enableValidation() {
+        this.$nativeSelect.css({
+          position: 'absolute',
+          top: '1rem',
+          left: '0',
+          height: '0',
+          width: '0',
+          opacity: '0',
+          padding: '0',
+          'pointer-events': 'none'
+        });
+
+        if (this.$nativeSelect.attr('style').indexOf('inline!important') === -1) {
+          this.$nativeSelect.attr('style', `${this.$nativeSelect.attr('style')} display: inline!important;`);
+        }
+
+        this.$nativeSelect.attr('tabindex', -1);
+        this.$nativeSelect.data('inherit-tabindex', false);
+      }
+    }, {
+      key: "bindEvents",
+      value: function bindEvents() {
+        var _this3 = this;
+
+        let config = {
+          attributes: true,
+          childList: true,
+          characterData: true,
+          subtree: true
+        };
+        let observer = new MutationObserver(this._onMutationObserverChange.bind(this));
+        observer.observe(this.$nativeSelect.get(0), config);
+        observer.customId = this.uuid;
+        observer.customStatus = 'observing';
+        MaterialSelect.clearMutationObservers();
+        MaterialSelect.mutationObservers.push(observer);
+        let $saveSelectBtn = this.$nativeSelect.parent().find('button.btn-save');
+        $saveSelectBtn.on('click', this._onSaveSelectBtnClick);
+        this.$materialSelect.on('focus', this._onMaterialSelectFocus.bind(this));
+        this.$materialSelect.on('click', this._onMaterialSelectClick.bind(this));
+        this.$materialSelect.on('blur', this._onMaterialSelectBlur.bind(this));
+        this.$materialSelect.on('keydown', this._onMaterialSelectKeydown.bind(this));
+        this.$toggleAll.on('click', this._onToggleAllClick.bind(this));
+        this.$materialOptionsList.on('mousedown', this._onEachMaterialOptionMousedown.bind(this));
+        this.$materialOptionsList.find('li:not(.optgroup)').not(this.$toggleAll).each(function (materialOptionIndex, materialOption) {
+          $(materialOption).on('click', _this3._onEachMaterialOptionClick.bind(_this3, materialOptionIndex, materialOption));
+        });
+
+        if (!this.isMultiple && this.isSearchable) {
+          this.$materialOptionsList.find('li').on('click', this._onSingleMaterialOptionClick.bind(this));
+        }
+
+        if (this.isSearchable) {
+          this.$searchInput.find('.search').on('keyup', this._onSearchInputKeyup);
+        }
+
+        $('html').on('click', this._onHTMLClick.bind(this));
+      }
+    }, {
+      key: "_onMutationObserverChange",
+      value: function _onMutationObserverChange(mutationsList) {
+        mutationsList.forEach(function (mutation) {
+          let $select = $(mutation.target).closest('select');
+
+          if ($select.data('stop-refresh') !== true && (mutation.type === 'childList' || mutation.type === 'attributes' && $(mutation.target).is('option'))) {
+            MaterialSelect.clearMutationObservers();
+            $select.materialSelect('destroy');
+            $select.materialSelect();
+          }
+        });
+      }
+    }, {
+      key: "_onSaveSelectBtnClick",
+      value: function _onSaveSelectBtnClick() {
+        $('input.select-dropdown').trigger('close');
+      }
+    }, {
+      key: "_onEachMaterialOptionClick",
+      value: function _onEachMaterialOptionClick(materialOptionIndex, materialOption, e) {
+        e.stopPropagation();
+        let $this = $(materialOption);
+
+        if ($this.hasClass('disabled') || $this.hasClass('optgroup')) {
+          return;
+        }
+
+        let selected = true;
+
+        if (this.isMultiple) {
+          $this.find('input[type="checkbox"]').prop('checked', function (index, oldPropertyValue) {
+            return !oldPropertyValue;
+          });
+          let hasOptgroup = Boolean(this.$nativeSelect.find('optgroup').length);
+          let thisIndex = this._isToggleAllPresent() ? $this.index() - 1 : $this.index();
+
+          if (this.isSearchable && hasOptgroup) {
+            selected = this._toggleSelectedValue(thisIndex - $this.prevAll('.optgroup').length - 1);
+          } else if (this.isSearchable) {
+            selected = this._toggleSelectedValue(thisIndex - 1);
+          } else if (hasOptgroup) {
+            selected = this._toggleSelectedValue(thisIndex - $this.prevAll('.optgroup').length);
           } else {
-            $option.hide().parent().hide();
+            selected = this._toggleSelectedValue(thisIndex);
+          }
+
+          if (this._isToggleAllPresent()) {
+            this._updateToggleAllOption();
+          }
+
+          this.$materialSelect.trigger('focus');
+        } else {
+          this.$materialOptionsList.find('li').removeClass('active');
+          $this.toggleClass('active');
+          this.$materialSelect.val($this.text());
+          this.$materialSelect.trigger('close');
+        }
+
+        this._selectSingleOption($this);
+
+        this.$nativeSelect.data('stop-refresh', true);
+        this.$nativeSelect.find('option').eq(materialOptionIndex).prop('selected', selected);
+        this.$nativeSelect.removeData('stop-refresh');
+
+        this._triggerChangeOnNativeSelect();
+
+        if (typeof this.options === 'function') {
+          this.options();
+        }
+      }
+    }, {
+      key: "_triggerChangeOnNativeSelect",
+      value: function _triggerChangeOnNativeSelect() {
+        let keyboardEvt = new KeyboardEvent('change', {
+          bubbles: true,
+          cancelable: true
+        });
+        this.$nativeSelect.get(0).dispatchEvent(keyboardEvt);
+      }
+    }, {
+      key: "_onMaterialSelectFocus",
+      value: function _onMaterialSelectFocus(e) {
+        let $this = $(e.target);
+
+        if ($('ul.select-dropdown').not(this.$materialOptionsList.get(0)).is(':visible')) {
+          $('input.select-dropdown').trigger('close');
+        }
+
+        if (!this.$materialOptionsList.is(':visible')) {
+          $this.trigger('open', ['focus']);
+          let label = $this.val();
+          let $selectedOption = this.$materialOptionsList.find('li').filter(function () {
+            return $(this).text().toLowerCase() === label.toLowerCase();
+          })[0];
+
+          this._selectSingleOption($selectedOption);
+        }
+      }
+    }, {
+      key: "_onMaterialSelectClick",
+      value: function _onMaterialSelectClick(e) {
+        e.stopPropagation();
+      }
+    }, {
+      key: "_onMaterialSelectBlur",
+      value: function _onMaterialSelectBlur(e) {
+        let $this = $(e);
+
+        if (!this.isMultiple && !this.isSearchable) {
+          $this.trigger('close');
+        }
+
+        this.$materialOptionsList.find('li.selected').removeClass('selected');
+      }
+    }, {
+      key: "_onSingleMaterialOptionClick",
+      value: function _onSingleMaterialOptionClick() {
+        this.$materialSelect.trigger('close');
+      }
+    }, {
+      key: "_onEachMaterialOptionMousedown",
+      value: function _onEachMaterialOptionMousedown(e) {
+        let option = e.target;
+
+        if ($('.modal-content').find(this.$materialOptionsList).length) {
+          if (option.scrollHeight > option.offsetHeight) {
+            e.preventDefault();
           }
         }
-      });
-    }
-
-    _isToggleAllPresent() {
-      return this.$materialOptionsList.find(this.$toggleAll).length;
-    }
-
-    _updateToggleAllOption() {
-      let $allOptionsButToggleAll = this.$materialOptionsList.find('li').not('.select-toggle-all, .disabled').find('[type=checkbox]');
-      let $checkedOptionsButToggleAll = $allOptionsButToggleAll.filter(':checked');
-      let isToggleAllChecked = this.$toggleAll.find('[type=checkbox]').is(':checked');
-
-      if ($checkedOptionsButToggleAll.length === $allOptionsButToggleAll.length && !isToggleAllChecked) {
-        this.$toggleAll.find('[type=checkbox]').prop('checked', true);
-      } else if ($checkedOptionsButToggleAll.length < $allOptionsButToggleAll.length && isToggleAllChecked) {
-        this.$toggleAll.find('[type=checkbox]').prop('checked', false);
       }
-    }
-
-    _toggleSelectedValue(optionIndex) {
-      let selectedValueIndex = this.valuesSelected.indexOf(optionIndex);
-      let isSelected = selectedValueIndex !== -1;
-
-      if (!isSelected) {
-        this.valuesSelected.push(optionIndex);
-      } else {
-        this.valuesSelected.splice(selectedValueIndex, 1);
+    }, {
+      key: "_onHTMLClick",
+      value: function _onHTMLClick(e) {
+        if (!$(e.target).closest(`#select-options-${this.uuid}`).length) {
+          this.$materialSelect.trigger('close');
+        }
       }
+    }, {
+      key: "_onToggleAllClick",
+      value: function _onToggleAllClick() {
+        var _this4 = this;
 
-      this.$materialOptionsList.find('li:not(.optgroup):not(.select-toggle-all)').eq(optionIndex).toggleClass('active');
-      this.$nativeSelect.find('option').eq(optionIndex).prop('selected', !isSelected);
+        let checkbox = $(this.$toggleAll).find('input[type="checkbox"]').first();
+        let state = !$(checkbox).prop('checked');
+        $(checkbox).prop('checked', state);
+        this.$materialOptionsList.find('li:not(.optgroup):not(.disabled):not(.select-toggle-all)').each(function (materialOptionIndex, materialOption) {
+          let $optionCheckbox = $(materialOption).find('input[type="checkbox"]');
 
-      this._setValueToMaterialSelect();
+          if (state && $optionCheckbox.is(':checked') || !state && !$optionCheckbox.is(':checked')) {
+            return;
+          }
 
-      return !isSelected;
-    }
+          if (_this4._isToggleAllPresent()) {
+            materialOptionIndex++;
+          }
 
-    _selectSingleOption(newOption) {
-      this.$materialOptionsList.find('li.selected').removeClass('selected');
+          $optionCheckbox.prop('checked', state);
 
-      this._selectOption(newOption);
-    }
+          _this4.$nativeSelect.find('option').eq(materialOptionIndex).prop('selected', state);
 
-    _selectOption(newOption) {
-      let option = $(newOption);
-      option.addClass('selected');
-    }
+          if (state) {
+            $(materialOption).removeClass('active');
+          } else {
+            $(materialOption).addClass('active');
+          }
 
-    _setValueToMaterialSelect() {
-      let value = '';
-      let itemsCount = this.valuesSelected.length;
+          _this4._toggleSelectedValue(materialOptionIndex);
 
-      for (let i = 0; i < itemsCount; i++) {
-        let text = this.$nativeSelect.find('option').eq(this.valuesSelected[i]).text();
-        value += `, ${text}`;
+          _this4._selectOption(materialOption);
+
+          _this4._setValueToMaterialSelect();
+        });
+        this.$nativeSelect.data('stop-refresh', true);
+
+        this._triggerChangeOnNativeSelect();
+
+        this.$nativeSelect.removeData('stop-refresh');
       }
+    }, {
+      key: "_onMaterialSelectKeydown",
+      value: function _onMaterialSelectKeydown(e) {
+        let $this = $(e.target);
+        let isTab = e.which === this.keyCodes.tab;
+        let isEsc = e.which === this.keyCodes.esc;
+        let isEnter = e.which === this.keyCodes.enter;
+        let isArrowUp = e.which === this.keyCodes.arrowUp;
+        let isArrowDown = e.which === this.keyCodes.arrowDown;
+        let isMaterialSelectVisible = this.$materialOptionsList.is(':visible');
 
-      if (itemsCount >= 5) {
-        value = `${itemsCount} options selected`;
-      } else {
-        value = value.substring(2);
+        if (isTab) {
+          this._handleTabKey($this);
+
+          return;
+        } else if (isArrowDown && !isMaterialSelectVisible) {
+          $this.trigger('open');
+          return;
+        } else if (isEnter && !isMaterialSelectVisible) {
+          return;
+        }
+
+        e.preventDefault();
+
+        if (isEnter) {
+          this._handleEnterKey($this);
+        } else if (isArrowDown) {
+          this._handleArrowDownKey();
+        } else if (isArrowUp) {
+          this._handleArrowUpKey();
+        } else if (isEsc) {
+          this._handleEscKey($this);
+        } else {
+          this._handleLetterKey(e);
+        }
       }
-
-      if (value.length === 0) {
-        value = this.$nativeSelect.find('option:disabled').eq(0).text();
+    }, {
+      key: "_handleTabKey",
+      value: function _handleTabKey(materialSelect) {
+        this._handleEscKey(materialSelect);
       }
+    }, {
+      key: "_handleEnterKey",
+      value: function _handleEnterKey(materialSelect) {
+        let $materialSelect = $(materialSelect);
+        let $activeOption = this.$materialOptionsList.find('li.selected:not(.disabled)');
+        $activeOption.trigger('click');
 
-      this.$nativeSelect.siblings('input.select-dropdown').val(value);
-    }
+        if (!this.isMultiple) {
+          $materialSelect.trigger('close');
+        }
+      }
+    }, {
+      key: "_handleArrowDownKey",
+      value: function _handleArrowDownKey() {
+        let $firstOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').first();
+        let $lastOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').last();
+        let anySelected = this.$materialOptionsList.find('li.selected').length > 0;
+        let $currentOption = anySelected ? this.$materialOptionsList.find('li.selected') : $firstOption;
+        let $matchedMaterialOption = $currentOption.is($lastOption) || !anySelected ? $currentOption : $currentOption.next('li:not(.disabled)');
 
-    _randomUUID() {
-      let d = new Date().getTime();
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        let r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c === 'x' ? r : r & 0x3 | 0x8).toString(16);
-      });
-    }
+        this._selectSingleOption($matchedMaterialOption);
 
-  }
+        this.$materialOptionsList.find('li').removeClass('active');
+        $matchedMaterialOption.toggleClass('active');
+      }
+    }, {
+      key: "_handleArrowUpKey",
+      value: function _handleArrowUpKey() {
+        let $firstOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').first();
+        let $lastOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').last();
+        let anySelected = this.$materialOptionsList.find('li.selected').length > 0;
+        let $currentOption = anySelected ? this.$materialOptionsList.find('li.selected') : $lastOption;
+        let $matchedMaterialOption = $currentOption.is($firstOption) || !anySelected ? $currentOption : $currentOption.prev('li:not(.disabled)');
+
+        this._selectSingleOption($matchedMaterialOption);
+
+        this.$materialOptionsList.find('li').removeClass('active');
+        $matchedMaterialOption.toggleClass('active');
+      }
+    }, {
+      key: "_handleEscKey",
+      value: function _handleEscKey(materialSelect) {
+        let $materialSelect = $(materialSelect);
+        $materialSelect.trigger('close');
+      }
+    }, {
+      key: "_handleLetterKey",
+      value: function _handleLetterKey(e) {
+        var _this5 = this;
+
+        let filterQueryString = '';
+        let letter = String.fromCharCode(e.which).toLowerCase();
+        let nonLetters = Object.keys(this.keyCodes).map(function (key) {
+          return _this5.keyCodes[key];
+        });
+        let isLetterSearchable = letter && nonLetters.indexOf(e.which) === -1;
+
+        if (isLetterSearchable) {
+          filterQueryString += letter;
+          let $matchedMaterialOption = this.$materialOptionsList.find('li').filter(function () {
+            return $(this).text().toLowerCase().indexOf(filterQueryString) !== -1;
+          }).first();
+
+          if (!this.isMultiple) {
+            this.$materialOptionsList.find('li').removeClass('active');
+          }
+
+          $matchedMaterialOption.addClass('active');
+
+          this._selectSingleOption($matchedMaterialOption);
+        }
+      }
+    }, {
+      key: "_onSearchInputKeyup",
+      value: function _onSearchInputKeyup(e) {
+        let $this = $(e.target);
+        let $ul = $this.closest('ul');
+        let searchValue = $this.val();
+        let $options = $ul.find('li span.filtrable');
+        $options.each(function () {
+          let $option = $(this);
+
+          if (typeof this.outerHTML === 'string') {
+            let liValue = this.textContent.toLowerCase();
+
+            if (liValue.includes(searchValue.toLowerCase())) {
+              $option.show().parent().show();
+            } else {
+              $option.hide().parent().hide();
+            }
+          }
+        });
+      }
+    }, {
+      key: "_isToggleAllPresent",
+      value: function _isToggleAllPresent() {
+        return this.$materialOptionsList.find(this.$toggleAll).length;
+      }
+    }, {
+      key: "_updateToggleAllOption",
+      value: function _updateToggleAllOption() {
+        let $allOptionsButToggleAll = this.$materialOptionsList.find('li').not('.select-toggle-all, .disabled').find('[type=checkbox]');
+        let $checkedOptionsButToggleAll = $allOptionsButToggleAll.filter(':checked');
+        let isToggleAllChecked = this.$toggleAll.find('[type=checkbox]').is(':checked');
+
+        if ($checkedOptionsButToggleAll.length === $allOptionsButToggleAll.length && !isToggleAllChecked) {
+          this.$toggleAll.find('[type=checkbox]').prop('checked', true);
+        } else if ($checkedOptionsButToggleAll.length < $allOptionsButToggleAll.length && isToggleAllChecked) {
+          this.$toggleAll.find('[type=checkbox]').prop('checked', false);
+        }
+      }
+    }, {
+      key: "_toggleSelectedValue",
+      value: function _toggleSelectedValue(optionIndex) {
+        let selectedValueIndex = this.valuesSelected.indexOf(optionIndex);
+        let isSelected = selectedValueIndex !== -1;
+
+        if (!isSelected) {
+          this.valuesSelected.push(optionIndex);
+        } else {
+          this.valuesSelected.splice(selectedValueIndex, 1);
+        }
+
+        this.$materialOptionsList.find('li:not(.optgroup):not(.select-toggle-all)').eq(optionIndex).toggleClass('active');
+        this.$nativeSelect.find('option').eq(optionIndex).prop('selected', !isSelected);
+
+        this._setValueToMaterialSelect();
+
+        return !isSelected;
+      }
+    }, {
+      key: "_selectSingleOption",
+      value: function _selectSingleOption(newOption) {
+        this.$materialOptionsList.find('li.selected').removeClass('selected');
+
+        this._selectOption(newOption);
+      }
+    }, {
+      key: "_selectOption",
+      value: function _selectOption(newOption) {
+        let option = $(newOption);
+        option.addClass('selected');
+      }
+    }, {
+      key: "_setValueToMaterialSelect",
+      value: function _setValueToMaterialSelect() {
+        let value = '';
+        let itemsCount = this.valuesSelected.length;
+
+        for (let i = 0; i < itemsCount; i++) {
+          let text = this.$nativeSelect.find('option').eq(this.valuesSelected[i]).text();
+          value += `, ${text}`;
+        }
+
+        if (itemsCount >= 5) {
+          value = `${itemsCount} options selected`;
+        } else {
+          value = value.substring(2);
+        }
+
+        if (value.length === 0) {
+          value = this.$nativeSelect.find('option:disabled').eq(0).text();
+        }
+
+        this.$nativeSelect.siblings('input.select-dropdown').val(value);
+      }
+    }, {
+      key: "_randomUUID",
+      value: function _randomUUID() {
+        let d = new Date().getTime();
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+          let r = (d + Math.random() * 16) % 16 | 0;
+          d = Math.floor(d / 16);
+          return (c === 'x' ? r : r & 0x3 | 0x8).toString(16);
+        });
+      }
+    }], [{
+      key: "clearMutationObservers",
+      value: function clearMutationObservers() {
+        MaterialSelect.mutationObservers.forEach(function (observer) {
+          observer.disconnect();
+          observer.customStatus = 'stopped';
+        });
+      }
+    }]);
+
+    return MaterialSelect;
+  }();
 
   $.fn.materialSelect = function (callback) {
     $(this).not('.browser-default').not('.custom-select').each(function () {
@@ -25902,120 +25989,178 @@ var initPhotoSwipeFromDOM = function (gallerySelector) {
 
 // execute above function
 initPhotoSwipeFromDOM('.mdb-lightbox');
-/* jSticky Plugin
- * =============
- * Author: Andrew Henderson (@AndrewHenderson)
- * Contributor: Mike Street (@mikestreety)
- * Date: 9/7/2012
- * Update: 09/20/2016
- * Website: http://github.com/andrewhenderson/jsticky/
- * Description: A jQuery plugin that keeps select DOM
- * element(s) in view while scrolling the page.
- */
+"use strict";
 
-;(function($) {
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  $.fn.sticky = function(options) {
-    var defaults = {
-      topSpacing: 0, // No spacing by default
-      zIndex: '', // No default z-index
-      stopper: '.sticky-stopper', // Default stopper class, also accepts number value
-      stickyClass: false // Class applied to element when it's stuck
-    };
-    var settings = $.extend({}, defaults, options); // Accepts custom stopper id or class
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-    // Checks if custom z-index was defined
-    function checkIndex() {
-      if (typeof settings.zIndex == 'number') {
-        return true;
-      } else {
-        return false;
-      }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+(function ($) {
+  let DEFAULT_TOP_SPACING = 0;
+
+  let Sticky =
+  /*#__PURE__*/
+  function () {
+    function Sticky(element, options) {
+      _classCallCheck(this, Sticky);
+
+      this.defaults = {
+        topSpacing: DEFAULT_TOP_SPACING,
+        zIndex: false,
+        stopper: '.sticky-stopper',
+        stickyClass: false,
+        startScrolling: 'top',
+        minWidth: false
+      };
+      this.$element = element;
+      this.options = this.assignOptions(options);
+      this.$window = $(window);
+      this.stopper = this.options.stopper;
+      this.elementWidth = this.$element.outerWidth();
+      this.elementHeight = this.$element.outerHeight(true);
+      this.$placeholder = $('<div class="sticky-placeholder"></div>');
+      this.scrollTop = 0;
+
+      this._getPushPoint();
+
+      this._getStopperPosition();
+
+      this.bindEvents();
     }
 
-    var hasIndex = checkIndex(); // True or false
-
-    // Checks if a stopper exists in the DOM or number defined
-    function checkStopper() {
-      if (0 < $(settings.stopper).length || typeof settings.stopper === 'number') {
-        return true;
-      } else {
-        return false;
+    _createClass(Sticky, [{
+      key: "assignOptions",
+      value: function assignOptions(options) {
+        return $.extend({}, this.defaults, options);
       }
-    }
-    var hasStopper = checkStopper(); // True or false
-
-    return this.each(function() {
-
-      var $this = $(this);
-      var thisHeight = $this.outerHeight();
-      var thisWidth = $this.outerWidth();
-      var topSpacing = settings.topSpacing;
-      var zIndex = settings.zIndex;
-      var pushPoint = $this.offset().top - topSpacing; // Point at which the sticky element starts pushing
-      var placeholder = $('<div></div>').width(thisWidth).height(thisHeight).addClass('sticky-placeholder'); // Cache a clone sticky element
-      var stopper = settings.stopper;
-      var $window = $(window);
-
-      function stickyScroll() {
-
-        var windowTop  = $window.scrollTop(); // Check window's scroll position
-        var stopPoint = stopper;
-        var parentWidth = $this.parent().width();
-
-        placeholder.width(parentWidth)
-
-        if ( hasStopper && typeof stopper === 'string' ) {
-          var stopperTop = $(stopper).offset().top;
-          stopPoint  = (stopperTop - thisHeight) - topSpacing;
+    }, {
+      key: "bindEvents",
+      value: function bindEvents() {
+        this.$window.on('scroll resize', this.init.bind(this));
+      }
+    }, {
+      key: "hasZIndex",
+      value: function hasZIndex() {
+        return typeof this.options.zIndex === 'number';
+      }
+    }, {
+      key: "hasStopper",
+      value: function hasStopper() {
+        return !!($(this.options.stopper).length || typeof this.options.stopper === 'number');
+      }
+    }, {
+      key: "_getStopperPosition",
+      value: function _getStopperPosition() {
+        if (typeof this.options.stopper === 'string') {
+          this.stopPoint = $(this.stopper).offset().top;
+        } else if (typeof this.options.stopper === 'number') {
+          this.stopPoint = this.options.stopper;
         }
-
-        if (pushPoint < windowTop) {
-          // Create a placeholder for sticky element to occupy vertical real estate
-          if(settings.stickyClass)
-            $this.addClass(settings.stickyClass);
-
-          $this.after(placeholder).css({
-            position: 'fixed',
-            top: topSpacing,
-            width: parentWidth
-          });
-
-          if (hasIndex) {
-            $this.css({
-              zIndex: zIndex
-            });
-          }
-
-          if (hasStopper) {
-            if (stopPoint < windowTop) {
-              var diff = (stopPoint - windowTop) + topSpacing;
-              $this.css({
-                top: diff
-              });
-            }
-          }
+      }
+    }, {
+      key: "_getPushPoint",
+      value: function _getPushPoint() {
+        if (this.options.startScrolling === 'bottom') {
+          this.$pushPoint = this.$element.offset().top + this.$element.outerHeight() - this.$window.innerHeight();
         } else {
-          if(settings.stickyClass)
-            $this.removeClass(settings.stickyClass);
-
-          $this.css({
-            position: 'static',
-            top: null,
-            left: null,
-            width: 'auto'
-          });
-
-          placeholder.remove();
+          this.$pushPoint = this.$element.offset().top - this.options.topSpacing - this.elementHeight;
         }
       }
+    }, {
+      key: "init",
+      value: function init() {
+        if (this.options.minWidth && this.options.minWidth > this.$window.innerWidth()) {
+          return false;
+        }
 
-      if($window.innerHeight() > thisHeight) {
+        this.scrollTop = this.$window.scrollTop();
 
-        $window.bind('scroll', stickyScroll);
-        $window.bind('load', stickyScroll);
-        $window.bind('resize', stickyScroll);
+        if (this.$pushPoint < this.scrollTop) {
+          this._appendPlaceholder();
+
+          this._stickyStart();
+        } else {
+          this._stickyEnd();
+        }
+
+        this._stop();
       }
+    }, {
+      key: "_appendPlaceholder",
+      value: function _appendPlaceholder() {
+        this.$element.after(this.$placeholder);
+        this.$placeholder.css({
+          width: this.elementWidth,
+          height: this.elementHeight
+        });
+      }
+    }, {
+      key: "_stickyStart",
+      value: function _stickyStart() {
+        if (this.options.stickyClass) {
+          this.$element.addClass(this.options.stickyClass);
+        }
+
+        this.$element.css({
+          'position': 'fixed',
+          'width': this.elementWidth
+        });
+
+        if (this.options.startScrolling === 'bottom') {
+          let distanceFromTop = this.$window.innerHeight() - this.$element.height() - this.options.topSpacing / 2;
+          this.$element.css({
+            top: distanceFromTop
+          });
+        } else {
+          this.$element.css({
+            top: this.options.topSpacing
+          });
+        }
+
+        if (this.hasZIndex()) {
+          this.$element.css({
+            zIndex: this.options.zIndex
+          });
+        }
+      }
+    }, {
+      key: "_stickyEnd",
+      value: function _stickyEnd() {
+        if (this.options.stickyClass) {
+          this.$element.removeClass(this.options.stickyClass);
+        }
+
+        this.$placeholder.remove();
+        this.$element.css({
+          position: 'static',
+          top: DEFAULT_TOP_SPACING
+        });
+      }
+    }, {
+      key: "_stop",
+      value: function _stop() {
+        if (this.stopPoint < $(this.$element).offset().top + this.$element.height()) {
+          let diff = this.stopPoint - ($(this.$element).offset().top + this.$element.height()) + this.options.topSpacing;
+
+          if (this.options.startScrolling === 'bottom') {
+            diff = this.stopPoint - (this.scrollTop + this.elementHeight);
+          }
+
+          this.$element.css({
+            top: diff
+          });
+        }
+      }
+    }]);
+
+    return Sticky;
+  }();
+
+  $.fn.sticky = function (options) {
+    return this.each(function () {
+      new Sticky($(this), options);
     });
   };
 })(jQuery);

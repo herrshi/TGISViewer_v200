@@ -37,6 +37,22 @@
         },
         {
           "opName": "changeLayer",
+          "opParam": ["主线发布段0"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["匝道发布段0"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["匝道发布段-人工"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["匝道发布段-人工0"]
+        },
+        {
+          "opName": "changeLayer",
           "opParam": ["快速路"]
         },
         {

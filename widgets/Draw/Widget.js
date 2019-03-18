@@ -152,8 +152,9 @@ define([
         this._enableBtn(this.btnUndo, false);
         this._enableBtn(this.btnRedo, false);
         this._enableBtn(this.btnClear, false);
-        this._enableBtn(this.btnEdit, false);
         this._enableBtn(this.btnSave, false);
+        this._enableBtn(this.btnEdit, false);
+        this._enableBtn(this.btnDelete, false);
 
         topic.subscribe("getOverlays", lang.hitch(this, this.onTopicHandler_getOverlays));
       },
@@ -952,6 +953,7 @@ define([
         this.drawBox.deactivate();
         if (this.btnEdit.innerHTML === "编辑") {
           this.btnEdit.innerHTML = "停止";
+          this._enableBtn(this.btnDelete, true);
           this._layerEventSignals.push(
             //监听graphic点击事件, 点击以后进入编辑状态
             this._pointLayer.on("click", lang.hitch(this, function (event) {
@@ -982,6 +984,7 @@ define([
         }
         else if (this.btnEdit.innerHTML === "停止") {
           this.btnEdit.innerHTML = "编辑";
+          this._enableBtn(this.btnDelete, false);
           this._editToolbar.deactivate();
           //停止监听点击事件
           array.forEach(this._layerEventSignals, function (signal) {
@@ -990,6 +993,14 @@ define([
           this._layerEventSignals = [];
         }
 
+      },
+
+      _onBtnDeleteClicked: function(event) {
+        var graphic = this._editToolbar.getCurrentState().graphic;
+        if (graphic) {
+          this._editToolbar.deactivate();
+          graphic._graphicsLayer.remove(graphic);
+        }
       },
 
       _onEditToolbar_stop: function (event) {

@@ -30,8 +30,6 @@ ul.stepper {
     width: 100%;
     height: 100%;
     text-align: center;
-    display: -ms-flexbox;
-    display: -webkit-box;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -183,8 +181,6 @@ ul.stepper {
     ul.stepper.horizontal {
       position: relative;
       display: flex;
-      -ms-flex-pack: justify;
-      -webkit-box-pack: justify;
       justify-content: space-between;
       min-height: 20rem;
       margin-left: -1.5rem;
@@ -211,8 +207,6 @@ ul.stepper {
         position: static;
         margin: 0;
         width: 100%;
-        display: -ms-flexbox;
-        display: -webkit-box;
         display: flex;
         align-items: center;
         height: 5.25rem !important;
@@ -321,8 +315,6 @@ ul.stepper {
         left: 0;
         width: 100%;
         padding: 20px;;
-        -webkit-box-orient: horizontal;
-        -webkit-box-direction: reverse;
         flex-direction: row-reverse;
 
         .btn:not(:last-child),

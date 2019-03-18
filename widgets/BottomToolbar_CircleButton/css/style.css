@@ -58,11 +58,11 @@
   background: rgba(79, 119, 233, 0.85);
 }
 
-.jimu-widget-BottomToolbarCircleButton .icon_qbb {
+.jimu-widget-BottomToolbarCircleButton .icon_AnXian {
   width: 0.35rem;
   height: 0.36rem;
   margin-bottom: -0.08rem;
-  background: url(images/icon_qbb.svg) no-repeat center center;
+  background: url(images/icon_AnXian.svg) no-repeat center center;
   background-size: 100%;
   display: inline-block;
 }
@@ -76,30 +76,11 @@
   display: inline-block;
 }
 
-.jimu-widget-BottomToolbarCircleButton .icon_parking {
+.jimu-widget-BottomToolbarCircleButton .icon_DuanMian {
   width: 0.35rem;
   height: 0.36rem;
   margin-bottom: -0.08rem;
-  background: url(images/icon_parking.svg) no-repeat center center;
-  background-size: 100%;
-  display: inline-block;
-}
-
-.jimu-widget-BottomToolbarCircleButton .icon_qbb_parking {
-  width: 0.35rem;
-  height: 0.36rem;
-  margin-bottom: -0.08rem;
-  background: url(images/icon_tcyd.svg) no-repeat center center;
-  background-size: 100%;
-  display: inline-block;
-}
-
-
-.jimu-widget-BottomToolbarCircleButton .icon_AnXian {
-  width: 0.35rem;
-  height: 0.36rem;
-  margin-bottom: -0.08rem;
-  background: url(images/icon_AnXian.svg) no-repeat center center;
+  background: url(images/icon_DuanMian.svg) no-repeat center center;
   background-size: 100%;
   display: inline-block;
 }
@@ -109,6 +90,15 @@
   height: 0.36rem;
   margin-bottom: -0.08rem;
   background: url(images/icon_HangDao.svg) no-repeat center center;
+  background-size: 100%;
+  display: inline-block;
+}
+
+.jimu-widget-BottomToolbarCircleButton .icon_KaKou {
+  width: 0.35rem;
+  height: 0.36rem;
+  margin-bottom: -0.08rem;
+  background: url(images/icon_KaKou.svg) no-repeat center center;
   background-size: 100%;
   display: inline-block;
 }
@@ -127,6 +117,33 @@
   height: 0.36rem;
   margin-bottom: -0.08rem;
   background: url(images/icon_MaTou.svg) no-repeat center center;
+  background-size: 100%;
+  display: inline-block;
+}
+
+.jimu-widget-BottomToolbarCircleButton .icon_parking {
+  width: 0.35rem;
+  height: 0.36rem;
+  margin-bottom: -0.08rem;
+  background: url(images/icon_parking.svg) no-repeat center center;
+  background-size: 100%;
+  display: inline-block;
+}
+
+.jimu-widget-BottomToolbarCircleButton .icon_qbb {
+  width: 0.35rem;
+  height: 0.36rem;
+  margin-bottom: -0.08rem;
+  background: url(images/icon_qbb.svg) no-repeat center center;
+  background-size: 100%;
+  display: inline-block;
+}
+
+.jimu-widget-BottomToolbarCircleButton .icon_qbb_parking {
+  width: 0.35rem;
+  height: 0.36rem;
+  margin-bottom: -0.08rem;
+  background: url(images/icon_tcyd.svg) no-repeat center center;
   background-size: 100%;
   display: inline-block;
 }

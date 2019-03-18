@@ -26,12 +26,325 @@
       {
         "label": "底图",
         "url":
-        "http://{gisServer}/arcgis/rest/services/LinGang/ShangHai_base/MapServer",
+          "http://{gisServer}/arcgis/rest/services/LinGang/ShangHai_base/MapServer",
         "type": "tiled",
         "visible": true
       }
     ],
     "operationallayers": [
+      {
+        "label": "海昌海洋公园",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/11",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/HaiChangOceanPark.png",
+            "width": 60,
+            "height": 36
+          }
+        }
+      },
+      {
+        "label": "发布段",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/12",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "mode": 0,
+        "refreshInterval": 2,
+        "infoTemplate": {
+          "title": "${发布段.FEATURENAME}",
+          "content": "<b>编号</b>: ${发布段.FEATUREID}"
+        },
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "LGITS.RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [110, 110, 110, 150],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [255, 255, 255],
+              "width": 1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [0, 178, 44, 175],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 200, 0, 200],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [249, 0, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [255, 255, 255],
+                  "width": 1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "停车场",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "maxScale": 36112,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/icon_P_yellow.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "停车场",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "minScale": 18056,
+        "maxScale": 9028,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/parking.png",
+            "width": 181.5,
+            "height": 144
+          }
+        }
+      },
+      {
+        "label": "停车场",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "minScale": 4514,
+        "maxScale": 2257,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/parking.png",
+            "width": 363,
+            "height": 288
+          }
+        }
+      },
+      {
+        "label": "停车场",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/8",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSMS",
+            "style": "esriSMSCircle",
+            "color": [0, 0, 0, 0],
+            "size": 10,
+            "outline": {
+              "color": [0, 0, 0, 0]
+            }
+          }
+        }
+      },
+      {
+        "label": "高速公路出入口",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/FaultDevice-blue.png",
+            "width": 15,
+            "height": 15
+          }
+        }
+      },
+      {
+        "label": "客流检测",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/2",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/FaBuDuan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "情报板",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/3",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "FEATURETYPE",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/QingBaoBan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "一级行车诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/YiJiPin.png",
+                "width": 37.5,
+                "height": 32.25
+              }
+            },
+            {
+              "value": "二级停车诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/ErJiPin.png",
+                "width": 33,
+                "height": 27.75
+              }
+            },
+            {
+              "value": "三级停车诱导板",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/SanJiPin.png",
+                "width": 27,
+                "height": 23.25
+              }
+            },
+            {
+              "value": "小型信息发布屏",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/YangPu/LuKuangPai.png",
+                "width": 22.5,
+                "height": 18.75
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "卡口",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/4",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/KaKou-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "车检器",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/5",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/DuanMian-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "视频事件检测器",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/LinGang/LinGang_Device/MapServer/6",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/SheXiangJi-KeKong-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      }
     ],
     "mapOptions": {
       "center": {
@@ -42,11 +355,12 @@
       "scale": 72224,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": false,
+      "showLabels": true
     }
   },
   "geometryService":
-  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "172.30.30.1:6080",
   "widgetOnScreen": {
     "widgets": [
@@ -59,6 +373,18 @@
         },
         "version": "2.4",
         "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/BottomToolbar_CircleButton/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_LinGang.json",
+        "position": {
+          "bottom": 10,
+          "width": "100%",
+          "left": 0,
+          "right": 0
+        },
+        "id": "BottomToolbarWidget"
       },
       {
         "uri": "widgets/TopToolbar_CircleButton/Widget",
@@ -95,6 +421,10 @@
         "uri": "widgets/TrackPlayback/Widget",
         "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
         "id": "TrackPlaybackWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "id": "FindFeatureWidget"
       }
     ]
   }

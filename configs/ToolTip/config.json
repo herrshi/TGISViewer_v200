@@ -3,20 +3,17 @@
     {
       "label": "周边-地铁标注点",
       "context":
-      "地铁线：${JWPT.RAILWAY_VOL_SATURATION.LINE_DESC}<br/>地铁站：${JWPT.RAILWAY_VOL_SATURATION.STATION_DESC}<br/>进站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_IN}<br/>出站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_OUT}<br/>状态：${JWPT.RAILWAY_VOL_SATURATION.STATUS}"
-    },
-    {
-      "label": "停车场-面",
-      "context": "停车场：${停车场.备注1}<br/>流量：${JWPT.PARK_STATUS_VW.PARK_VOLUME}<br/>状态：${JWPT.PARK_STATUS_VW.STATUS}"
+        "地铁线：${JWPT.RAILWAY_VOL_SATURATION.LINE_DESC}<br/>地铁站：${JWPT.RAILWAY_VOL_SATURATION.STATION_DESC}<br/>进站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_IN}<br/>出站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_OUT}"
     },
     {
       "label": "地铁标注点",
       "context":
-      "地铁线：${JWPT.RAILWAY_VOL_SATURATION.LINE_DESC}<br/>地铁站：${JWPT.RAILWAY_VOL_SATURATION.STATION_DESC}<br/>进站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_IN}<br/>出站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_OUT}<br/>状态：${JWPT.RAILWAY_VOL_SATURATION.STATUS}"
+        "地铁线：${JWPT.RAILWAY_VOL_SATURATION.LINE_DESC}<br/>地铁站：${JWPT.RAILWAY_VOL_SATURATION.STATION_DESC}<br/>进站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_IN}<br/>出站人数：${JWPT.RAILWAY_VOL_SATURATION.FINT_OUT}"
     },
     {
       "label": "巴士线路",
-      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+      "context":
+        "总班次：${JWPT.CUSTOMIZATION_BUS_GISDATA.BUS_NUM}<br/>总乘客数：${JWPT.CUSTOMIZATION_BUS_GISDATA.PERSON_NUM}<br/>描述：${JWPT.CUSTOMIZATION_BUS_GISDATA.BUSLINE_DESC}"
     },
     {
       "label": "国展中心",
@@ -32,35 +29,53 @@
     },
     {
       "label": "接驳线",
-      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+      "context":
+        "总班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>总乘客数：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>描述：${JWPT.BUS_DAYDATA_VW.BUSLINE_DESC}"
     },
     {
       "label": "停车场短驳线路",
-      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+      "context":
+        "总班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>总乘客数：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>描述：${JWPT.BUS_DAYDATA_VW.BUSLINE_DESC}"
     },
     {
       "label": "接驳公交专线",
-      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+      "context":
+        "总班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>总乘客数：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>描述：${JWPT.BUS_DAYDATA_VW.BUSLINE_DESC}"
     },
     {
       "label": "首日轨道交通接驳线",
-      "context": "班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>客流：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>"
+      "context":
+        "总班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>总乘客数：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>描述：${JWPT.BUS_DAYDATA_VW.BUSLINE_DESC}"
+    },
+    {
+      "label": "发布段",
+      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}",
+      "selectcolor": "red"
     },
     {
       "label": "主线发布段",
-      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}"
+      "context": "描述：${主线发布段_5级_国展周边.DES}",
+      "selectcolor": "red"
     },
     {
       "label": "匝道发布段",
-      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}"
+      "context": "描述：${匝道发布段_5级_国展周边.DES}",
+      "selectcolor": "red"
+    },
+    {
+      "label": "匝道发布段-人工",
+      "context": "描述：${匝道发布段_5级_国展周边.DES}",
+      "selectcolor": "red"
     },
     {
       "label": "快速路",
-      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}"
+      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}",
+      "selectcolor": "red"
     },
     {
       "label": "高速公路",
-      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}"
+      "context": "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}",
+      "selectcolor": "red"
     },
     {
       "label": "收费站",
@@ -80,7 +95,25 @@
     },
     {
       "label": "国展周边地面道路",
-      "context": "路名：${路名}<br/>状态 ：${状态}<br/>"
+      "context":
+        "描述：${JWPT.TOBJ_ISSUESECT.FSTR_DESC}",
+      "selectcolor": [255, 0, 0],
+      "isexpand": true
+    },
+    {
+      "label": "常规公交线路",
+      "context":
+        "总班次：${JWPT.BUS_DAYDATA_VW.BUSLINE_SHIFT}<br/>总乘客数：${JWPT.BUS_DAYDATA_VW.FLOW}<br/>描述：${JWPT.BUS_DAYDATA_VW.BUSLINE_DESC}"
+    },
+    {
+      "label": "地铁线",
+      "context": "线路：${Name_chn}"
+    },
+    {
+      "label": "短驳停车场",
+      "context":
+        "预约车辆数：${JWPT.P_PARKV1_LEFT_VW.ALLNUM}<br/>预约车辆进场数：${JWPT.P_PARKV1_LEFT_VW.LEFTNUM}<br/>描述：${JWPT.P_PARKV1_LEFT_VW.PARK_DESC}",
+      "joinfield":"JWPT.P_PARKV1_LEFT_VW.PARK_ID"
     }
   ]
 }

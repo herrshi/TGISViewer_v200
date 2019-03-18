@@ -54,7 +54,7 @@
         "uri": "widgets/Coordinate/Widget",
         "position": {
           "left": 15,
-          "bottom": 30,
+          "bottom": 5,
           "relativeTo": "map"
         },
         "version": "2.4",

@@ -7,6 +7,7 @@ define([
   "dojo/_base/array",
   "dojo/topic",
   "dojo/dom-construct",
+  "dojo/dom-class",
   "jimu/BaseWidget",
   "jimu/utils",
   "esri/graphic",
@@ -21,13 +22,16 @@ define([
   "esri/renderers/SimpleRenderer",
   "esri/renderers/UniqueValueRenderer",
   "esri/Color",
-  "esri/InfoTemplate"
+  "esri/InfoTemplate",
+  "esri/dijit/Popup",
+  "esri/dijit/PopupTemplate"
 ], function(
   declare,
   lang,
   array,
   topic,
   domConstruct,
+  domClass,
   BaseWidget,
   jimuUtils,
   Graphic,
@@ -42,7 +46,9 @@ define([
   SimpleRenderer,
   UniqueValueRenderer,
   Color,
-  InfoTemplate
+  InfoTemplate,
+  Popup,
+  PopupTemplate
 ) {
   var _jimuMarkerStyleToEsriStyle = {
     circle: SimpleMarkerSymbol.STYLE_CIRCLE,
@@ -467,7 +473,18 @@ define([
     },
 
     onTopicHandler_addOverlays: function(params, resolve, reject) {
+      var popup = new Popup({
+        fillSymbol: new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+            new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.25]))
+      }, domConstruct.create("div"));
+      domClass.add(popup.domNode, "bluePopup");
+
       var overlayParams = JSON.parse(params);
+      //需要抽稀的在ReductionOverlay中处理
+      if (overlayParams.featureReduction && !!overlayParams.featureReduction.enable) {
+        return;
+      }
       var overlays = overlayParams.overlays;
 
       var showPopup = overlayParams.showPopup === true;
@@ -525,7 +542,7 @@ define([
               } else {
                 var infoTemplate = new InfoTemplate();
                 infoTemplate.setTitle(
-                  overlayParams.defaultInfoTemplate.title == ""
+                  overlayParams.defaultInfoTemplate.title === ""
                     ? null
                     : overlayParams.defaultInfoTemplate.title
                 );
@@ -549,7 +566,9 @@ define([
         },
         this
       );
-      resolve();
+      if (resolve) {
+        resolve();
+      }
     },
 
     onTopicHandler_deleteOverlays: function(params) {
