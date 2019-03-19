@@ -212,3 +212,30 @@
 
 
 /************related records popup projector end***************************/
+
+/****popup******/
+.esriPopupcontentPane {
+  padding: inherit !important;
+  overflow: hidden !important;
+  background-color: rgba(0,0,0,0) !important;
+  color:#ffffff;
+}
+.esriPopup .sizer
+{
+  width:auto;
+  min-width:270px;
+}
+.esriPopuptitlePane
+{
+  padding-left: 0px !important;
+  background-color: inherit !important;
+  color:#ffffff;
+}
+.esriPopuppointer{
+  background-color: rgba(0, 135, 239, 0.75) !important;
+  z-index:99 !important;
+}
+.esriPopupactionsPane{
+  display:none !important;
+}
+/****popup******/

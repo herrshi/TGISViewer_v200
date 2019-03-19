@@ -1,0 +1,104 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "浅色底图",
+        "url": "http://15.75.0.255:25333/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
+        "visible": true
+      },
+      {
+        "label": "浅色标注",
+        "url": "http://15.75.0.255:25888/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "路况",
+        "url": "http://15.75.0.255:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
+        "type": "webTiled",
+        "visible": true
+      }
+
+    ],
+    "mapOptions": {
+      "center": [121.42, 31.167],
+      "zoom": 15,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "15.75.0.255:25001",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      }
+    ]
+  }
+}

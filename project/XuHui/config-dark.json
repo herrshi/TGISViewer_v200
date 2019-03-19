@@ -24,14 +24,25 @@
     },
     "basemaps": [
       {
-        "label": "矢量图",
-        "url": "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "label": "深色底图",
+        "url": "http://15.75.0.255:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
+        "visible": true
+      },
+      {
+        "label": "深色标注",
+        "url": "http://15.75.0.255:25033/v3/tile?z=${level}&x=${col}&y=${row}",
         "type": "webTiled",
         "visible": true
       }
     ],
     "operationallayers": [
-
+      {
+        "label": "路况",
+        "url": "http://15.75.0.255:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
+        "type": "webTiled",
+        "visible": false
+      }
 
     ],
     "mapOptions": {
@@ -43,7 +54,7 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "128.64.151.220:6080",
+  "gisServer": "15.75.0.255:25001",
   "widgetOnScreen": {
     "widgets": [
       {
