@@ -1264,6 +1264,34 @@ var TMap = {
     require(["dojo/topic"], function (topic) {
       topic.publish("showSelectedFeatures", params);
     });
+  },
+
+  //显示辖区
+  showJurisdiction: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showJurisdiction");
+    });
+  },
+
+  //隐藏辖区
+  hideJurisdiction: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hideJurisdiction");
+    });
+  },
+
+  //显示警力统计
+  showPoliceCount: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("showPoliceCount");
+    });
+  },
+
+  //隐藏警力统计
+  hidePoliceCount: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("hidePoliceCount");
+    });
   }
   /************************ Special Interface END **************************/
 };

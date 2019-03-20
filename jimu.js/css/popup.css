@@ -232,8 +232,24 @@
   color:#ffffff;
 }
 .esriPopuppointer{
-  background-color: rgba(0, 135, 239, 0.75) !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  background-color: #0A1A29 !important;
   z-index:99 !important;
+  border-color: rgba(0, 135, 239, 0.75);
+  border-style: solid;
+}
+.esriPopuppointer.top {
+  border-width: 1px 0px 0px 1px;
+}
+.esriPopuppointer.bottom {
+  border-width: 0px 1px 1px 0px;
+}
+.esriPopuppointer.left {
+  border-width: 0px 0px 1px 1px;
+}
+.esriPopuppointer.right {
+  border-width: 1px 1px 0px 0px;
 }
 .esriPopupactionsPane{
   display:none !important;

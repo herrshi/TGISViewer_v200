@@ -98,6 +98,11 @@
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/JurisdictionPolice/Widget",
+        "version": "2.4",
+        "id": "JurisdictionPoliceWidget"
       }
     ]
   }
