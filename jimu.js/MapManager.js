@@ -8,6 +8,7 @@ define([
   "dojo/_base/html",
   "dojo/topic",
   "dojo/on",
+  "dojo/query",
   "dojo/aspect",
   "dojo/request/xhr",
   "jimu/utils",
@@ -41,6 +42,7 @@ define([
   html,
   topic,
   on,
+  query,
   aspect,
   xhr,
   jimuUtils,
@@ -226,6 +228,20 @@ define([
           //featureLayer或graphicsLayer
           //闪烁
           if (graphic) {
+            if (graphic.infoTemplate) {
+              var poptitle = false;
+              var popcontent = false;
+              if (graphic.infoTemplate.title.indexOf("div") > -1) {
+                poptitle = true;
+              }
+              if (graphic.infoTemplate.content.indexOf("div") > -1) {
+                popcontent = true;
+              }
+              this.addPopUpClass(poptitle, popcontent);
+            } else {
+              this.clearPopUpClass();
+            }
+
             if (
               graphic.geometry.type == "point" &&
               graphic.infoTemplate === undefined
@@ -441,7 +457,7 @@ define([
       this.map.on("zoom", lang.hitch(this, this._restrictMapStartExtent));
       this.map.on("pan", lang.hitch(this, this._restrictMapStartExtent));
       this.map.on("zoom-end", lang.hitch(this, this._restrictMapEndExtent));
-      this.map.on("pan-end", lang.hitch(this, this._restrictMapEndExtent));
+      this.map.on("pan-end", lang.hitch(this, this._restrictMapPanEndExtent));
     },
     _restrictMapStartExtent: function(evt) {
       var currExtent = evt.extent.spatialReference.isWebMercator()
@@ -471,8 +487,7 @@ define([
         this.currentExtent = currExtent;
       }
     },
-
-    _restrictMapEndExtent: function(evt) {
+    _restrictMapPanEndExtent: function(evt) {
       if (evt.delta) {
         if (evt.delta.x === 0 && evt.delta.y === 0) {
           return;
@@ -486,6 +501,68 @@ define([
       if (!fullExtent.contains(currExtent)) {
         if (this.currentExtent) {
           this.map.setExtent(this.currentExtent);
+        } else {
+          this.map.setExtent(this.fullExtent);
+        }
+      }
+    },
+    _restrictMapEndExtent: function(evt) {
+      if (evt.delta) {
+        if (evt.delta.x === 0 && evt.delta.y === 0) {
+          return;
+        }
+      }
+      var currExtent = evt.extent.spatialReference.isWebMercator()
+        ? webMercatorUtils.webMercatorToGeographic(evt.extent)
+        : evt.extent;
+      var fullExtent = this.fullExtent;
+
+      if (!fullExtent.contains(currExtent)) {
+        if (currExtent) {
+          //this.map.setExtent(this.currentExtent);
+          var width = currExtent.xmax - currExtent.xmin;
+          var height = currExtent.ymax - currExtent.ymin;
+
+          var xmin =
+            currExtent.xmin < this.fullExtent.xmin
+              ? this.fullExtent.xmin
+              : currExtent.xmin;
+          var ymin =
+            currExtent.ymin < this.fullExtent.ymin
+              ? this.fullExtent.ymin
+              : currExtent.ymin;
+
+          var xmax =
+            currExtent.xmax > this.fullExtent.xmax
+              ? this.fullExtent.xmax
+              : currExtent.xmax;
+          var ymax =
+            currExtent.ymax > this.fullExtent.ymax
+              ? this.fullExtent.ymax
+              : currExtent.ymax;
+          if (
+            currExtent.xmin < this.fullExtent.xmin ||
+            currExtent.ymin < this.fullExtent.ymin
+          ) {
+            this.currentExtent = new Extent(
+              xmin,
+              ymin,
+              xmin + width,
+              ymin + height
+            );
+            this.map.setExtent(this.currentExtent);
+          } else if (
+            currExtent.xmax > this.fullExtent.xmax ||
+            currExtent.ymax > this.fullExtent.ymax
+          ) {
+            this.currentExtent = new Extent(
+              xmax - width,
+              ymax - height,
+              xmax,
+              ymax
+            );
+            this.map.setExtent(this.currentExtent);
+          }
         } else {
           this.map.setExtent(this.fullExtent);
         }
@@ -954,6 +1031,24 @@ define([
         }
         map.addLayer(layer);
       }));
+    },
+    addPopUpClass: function(title, content) {
+      if (title) {
+        query(".esriPopup .titlePane").addClass("esriPopuptitlePane");
+      }
+      if (content) {
+        query(".esriPopup .contentPane").addClass("esriPopupcontentPane");
+        query(".esriPopup .outerPointer").addClass("esriPopuppointer");
+        query(".esriPopup .pointer").addClass("esriPopuppointer");
+        query(".esriPopup .actionsPane").addClass("esriPopupactionsPane");
+      }
+    },
+    clearPopUpClass: function() {
+      query(".esriPopup .contentPane").removeClass("esriPopupcontentPane");
+      query(".esriPopup .titlePane").removeClass("esriPopuptitlePane");
+      query(".esriPopup .outerPointer").removeClass("esriPopuppointer");
+      query(".esriPopup .pointer").removeClass("esriPopuppointer");
+      query(".esriPopup .actionsPane").removeClass("esriPopupactionsPane");
     }
   });
 

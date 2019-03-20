@@ -1501,7 +1501,7 @@ border-right:18px solid transparent;
 
 .popup_small {
 }
-.blue_bgborder .popup_title {
+.popup_title {
   padding: 0.15rem 0.3rem;
   line-height: 0.1rem;
   background-color: rgba(0, 135, 239, 0.65);
@@ -1612,7 +1612,7 @@ border-right:18px solid transparent;
 
 .blue_bgborder .down_arrow_box::before {
   content: "";
-  display: block;
+  display: none;
   width: 12px;
   height: 12px;
   border-left: 1px solid rgba(0, 174, 239, 0.5);
