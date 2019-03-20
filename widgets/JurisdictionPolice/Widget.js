@@ -125,7 +125,7 @@ define([
         var id = graphic.attributes["FEATUREID"];
         this.labelPointDivs.forEach(function(div) {
           if (domAttr.get(div, "id") === id) {
-            domStyle.set(div, {left: screenPoint.x + "px", top: screenPoint.y + "px"});
+            domStyle.set(div, {left: screenPoint.x - 20 + "px", top: screenPoint.y - 100 + "px"});
           }
         });
       }, this);
