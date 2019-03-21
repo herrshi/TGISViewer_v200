@@ -47,7 +47,8 @@
     ],
     "mapOptions": {
       "center": [121.42, 31.167],
-      "zoom": 15,
+      "zoom": 13,
+      "showLabels": true,
       "logo": false,
       "nav": false,
       "slider": false
