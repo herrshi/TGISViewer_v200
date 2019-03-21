@@ -1281,9 +1281,13 @@ var TMap = {
   },
 
   //显示警力统计
-  showPoliceCount: function () {
+  /**
+   * 显示警力统计并传入警力数量
+   * [{"id":"1","count":35},{"id":"2","count":78},{"id":"3","count":101},{"id":"4","count":76},{"id":"5","count":59},{"id":"6","count":50},{"id":"7","count":68},{"id":"8","count":62},{"id":"9","count":49},{"id":"10","count":54},{"id":"11","count":87}]
+   * */
+  showPoliceCount: function (params) {
     require(["dojo/topic"], function (topic) {
-      topic.publish("showPoliceCount");
+      topic.publish("showPoliceCount", params);
     });
   },
 

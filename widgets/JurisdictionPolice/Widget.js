@@ -7,6 +7,7 @@ define([
   "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/topic",
+  "dojo/dom",
   "dojo/dom-construct",
   "dojo/dom-style",
   "dojo/dom-attr",
@@ -19,6 +20,7 @@ define([
   declare,
   lang,
   topic,
+  dom,
   domConstruct,
   domStyle,
   domAttr,
@@ -108,10 +110,10 @@ define([
         var id = graphic.attributes["FEATUREID"];
         var name = graphic.attributes["SHOWNAME"];
         return domConstruct.place(
-          "<div id='" + id + "' " +
+          "<div id='" + ("Jurisdiction" + id) + "' " +
             "class='jingli_point_green' " +
             "style='position:absolute; z-index: 99; display: none'>" +
-            "100" +
+              "<span id='" + ("JurisdictionCount" + id) + "'>100</span>" +
               "<span class='jingli_point_font'>" + name + "</span>" +
             "</div>",
           win.body()
@@ -123,11 +125,8 @@ define([
       this.labelPointGraphics.forEach(function(graphic) {
         var screenPoint = this.map.toScreen(graphic.geometry);
         var id = graphic.attributes["FEATUREID"];
-        this.labelPointDivs.forEach(function(div) {
-          if (domAttr.get(div, "id") === id) {
-            domStyle.set(div, {left: screenPoint.x - 20 + "px", top: screenPoint.y - 100 + "px"});
-          }
-        });
+        var div = dom.byId("Jurisdiction" + id);
+        domStyle.set(div, {left: screenPoint.x - 20 + "px", top: screenPoint.y - 100 + "px"});
       }, this);
     },
 
@@ -139,10 +138,17 @@ define([
       this.jurisdictionLayer.setVisibility(false);
     },
 
-    onTopicHandler_showPoliceCount: function () {
+    onTopicHandler_showPoliceCount: function (params) {
       this.labelPointDivs.forEach(function (div) {
         domStyle.set(div, {display: "block"});
       });
+
+      if (params && params instanceof Array) {
+        params.forEach(function (countData) {
+          var node = dom.byId("JurisdictionCount" + countData.id);
+          node.innerHTML = countData.count;
+        }, this);
+      }
     },
 
     onTopicHandler_hidePoliceCount: function () {
