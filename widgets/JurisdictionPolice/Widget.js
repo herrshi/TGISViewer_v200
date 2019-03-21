@@ -113,7 +113,7 @@ define([
                   }
                 });
                 this.jurisdictionLayer.setRenderer(renderer);
-                this.map.addLayer(this.jurisdictionLayer);
+                this.map.addLayer(this.jurisdictionLayer, 0);
               })
             );
           }
