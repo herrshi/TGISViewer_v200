@@ -141,7 +141,8 @@ define([
     },
 
     _createDiv: function() {
-      this.policeCountDivs = this.labelPointGraphics.map(function(graphic) {
+      // console.log(this.map.root);
+      this.policeCountDivs = this.labelPointGraphics.map(lang.hitch(this, function(graphic) {
         var id = graphic.attributes["FEATUREID"];
         var name = graphic.attributes["SHOWNAME"];
         return domConstruct.place(
@@ -157,9 +158,9 @@ define([
             name +
             "</span>" +
             "</div>",
-          win.body()
+          this.map.root
         );
-      });
+      }));
     },
 
     _placeDiv: function() {
