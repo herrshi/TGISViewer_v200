@@ -35,10 +35,10 @@
       {
         "label": "停车场-面",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/0",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/0",
         "type": "feature",
         "visible": true,
-        "showLabels": true,
+        "showLabels":true,
         "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
@@ -99,32 +99,30 @@
             }
           ]
         },
-        "labelingInfo": [
-          {
-            "labelExpressionInfo": { "value": "{停车场.FEATURENAME}" },
-            "useCodedValues": true,
-            "labelPlacement": "always-horizontal",
-            "symbol": {
-              "type": "esriTS",
-              "rightToLeft": false,
-              "color": [178, 178, 178, 255],
-              "verticalAlignment": "baseline",
-              "horizontalAlignment": "left",
-              "font": {
-                "family": "Microsoft YaHei",
-                "size": 10,
-                "weight": "bold"
-              }
+        "labelingInfo": [{
+          "labelExpressionInfo": {"value": "{停车场.FEATURENAME}"},
+          "useCodedValues":  true,
+          "labelPlacement": "always-horizontal",
+          "symbol": {
+            "type":"esriTS",
+            "rightToLeft":false,
+            "color":[178,178,178,255],
+            "verticalAlignment":"baseline",
+            "horizontalAlignment":"left",
+            "font":{
+              "family":"Microsoft YaHei",
+              "size":10,
+              "weight":"bold"
             }
           }
-        ]
+        }]
       },
       {
         "label": "地铁线",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/2",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/2",
         "type": "feature",
-        "showLabels": false,
+        "showLabels":false,
         "mode": 0,
         "visible": true,
         "outFields": ["*"]
@@ -134,7 +132,7 @@
         "url":
           "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
         "type": "feature",
-        "showLabels": false,
+        "showLabels":false,
         "mode": 0,
         "visible": true,
         "refreshInterval": 5,
@@ -199,10 +197,10 @@
           "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
         "type": "feature",
         "visible": true,
-        "showLabels": false,
+        "showLabels":false,
         "outFields": ["*"],
-        "maxScale": 18056,
-        "minScale": 1155581,
+        "maxScale":18056,
+        "minScale":1155581,
         "renderer": {
           "type": "simple",
           "symbol": {
@@ -285,7 +283,7 @@
       {
         "label": "国展中心图层",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Exhibition/MapServer/0",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Exhibition/MapServer/0",
         "type": "feature",
         "visible": true,
         "showLabels": true,
@@ -501,9 +499,9 @@
       {
         "label": "地铁标注点",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
         "type": "feature",
-        "showLabels": false,
+        "showLabels":false,
         "mode": 0,
         "refreshInterval": 5,
         "visible": true,
@@ -560,12 +558,12 @@
         "spatialReference": { "wkid": 4326 }
       },
       "backgroundColor": "#02182F",
-      "showLabels": true,
+      "showLabels":true,
       "scale": 18056,
       "logo": false,
       "nav": false,
       "slider": false,
-      "minScale": 18056
+      "minScale":18056
     }
   },
   "geometryService":

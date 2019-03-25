@@ -350,7 +350,7 @@ define([
                 result,
                 function(findResult) {
                   var graphic = findResult.feature;
-                  graphic.label = layerName;
+                  graphic.label = findResult.layerName;
                   graphic.id = findResult.value;
                   switch (graphic.geometry.type) {
                     case "polyline":
@@ -367,49 +367,12 @@ define([
                       this.map
                         .centerAt(jimuUtils.getGeometryCenter(graphic.geometry))
                         .then(function(value) {
-                          var node = graphic.getNode();
-                          if (this._alwaysHighlight) {
-                            node.setAttribute(
-                              "data-highlight",
-                              "always-highlight"
-                            );
-                          } else {
-                            node.setAttribute("data-highlight", "highlight");
-                            setTimeout(function() {
-                              node.setAttribute("data-highlight", "");
-                              highlightLayer.clear();
-                            }, 5000);
-                          }
+                          this._doHighlightFeature(graphic);
                         });
                       break;
                     case "polyline":
                     case "polygon":
-                      this.map
-                        .centerAt(jimuUtils.getGeometryCenter(graphic.geometry))
-                        .then(
-                          lang.hitch(this, function(value) {
-                            this.map
-                              .setExtent(graphic.geometry.getExtent().expand(2))
-                              .then(function(value) {
-                                var node = graphic.getNode();
-                                if (this._alwaysHighlight) {
-                                  node.setAttribute(
-                                    "data-highlight",
-                                    "always-highlight"
-                                  );
-                                } else {
-                                  node.setAttribute(
-                                    "data-highlight",
-                                    "highlight"
-                                  );
-                                  setTimeout(function() {
-                                    node.setAttribute("data-highlight", "");
-                                    highlightLayer.clear();
-                                  }, 5000);
-                                }
-                              });
-                          })
-                        );
+                      this._doHighlightFindTaskPolylineOrPolygon(graphic);
                       break;
                   }
                 },
@@ -453,7 +416,6 @@ define([
               break;
           }
           this.highlightLayer.add(highlightgraphic);
-          var highlightLayer = this.highlightLayer;
           switch (highlightgraphic.geometry.type) {
             case "point":
               this.map
@@ -461,52 +423,64 @@ define([
                   jimuUtils.getGeometryCenter(highlightgraphic.geometry)
                 )
                 .then(function(value) {
-                  var node = highlightgraphic.getNode();
-                  if (this._alwaysHighlight) {
-                    node.setAttribute("data-highlight", "always-highlight");
-                  } else {
-                    node.setAttribute("data-highlight", "highlight");
-                    setTimeout(function() {
-                      node.setAttribute("data-highlight", "");
-                      highlightLayer.clear();
-                    }, 5000);
-                  }
+                  this._doHighlightFeature(highlightgraphic);
                 });
               break;
             case "polyline":
             case "polygon":
-              this.map
-                .centerAt(
-                  jimuUtils.getGeometryCenter(highlightgraphic.geometry)
-                )
-                .then(
-                  lang.hitch(this, function(event) {
-                    this.map
-                      .setExtent(
-                        highlightgraphic.geometry.getExtent().expand(2)
-                      )
-                      .then(function(value) {
-                        var node = highlightgraphic.getNode();
-                        if (this._alwaysHighlight) {
-                          node.setAttribute(
-                            "data-highlight",
-                            "always-highlight"
-                          );
-                        } else {
-                          node.setAttribute("data-highlight", "highlight");
-                          setTimeout(function() {
-                            node.setAttribute("data-highlight", "");
-                            highlightLayer.clear();
-                          }, 5000);
-                        }
-                      });
-                  })
-                );
-
+              this._doHighlightFindTaskPolylineOrPolygon(highlightgraphic);
               break;
           }
         }
       }, this);
+    },
+    _doHighlightFindTaskPolylineOrPolygon(graphic) {
+      //graphic.attributes.showZoom="7";
+      var showZoom=null;
+      if (this.config) {
+        for (var i = 0; i < this.config.length; i++) {
+          if(graphic.label===this.config[i].label)
+          {
+              showZoom=Number(this.config[i].showzoom);
+              break;
+          }
+        }
+      }
+      if (showZoom && showZoom>0) {
+        this.map
+          .centerAndZoom(
+            jimuUtils.getGeometryCenter(graphic.geometry), showZoom
+          )
+          .then(
+            lang.hitch(this, function(value) {
+              this._doHighlightFeature(graphic);
+            })
+          );
+      } else {
+        this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry)).then(
+          lang.hitch(this, function(value) {
+            this.map.setExtent(graphic.geometry.getExtent().expand(2)).then(
+              lang.hitch(this, function(value) {
+                console.log(this.map.getZoom());
+                this._doHighlightFeature(graphic);
+              })
+            );
+          })
+        );
+      }
+    },
+    _doHighlightFeature: function(graphic) {
+      var node = graphic.getNode();
+      var highlightLayer = this.highlightLayer;
+      if (this._alwaysHighlight) {
+        node.setAttribute("data-highlight", "always-highlight");
+      } else {
+        node.setAttribute("data-highlight", "highlight");
+        setTimeout(function() {
+          node.setAttribute("data-highlight", "");
+          highlightLayer.clear();
+        }, 5000);
+      }
     },
     onTopicHandler_stopHighlightFeature: function(params) {
       //停止高亮

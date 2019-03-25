@@ -6,8 +6,8 @@ define([
   "dojo/_base/lang",
   "dojo/_base/array",
   "dojo/topic",
+  "dojo/query",
   "dojo/dom-construct",
-  "dojo/dom-class",
   "jimu/BaseWidget",
   "jimu/utils",
   "esri/graphic",
@@ -22,16 +22,14 @@ define([
   "esri/renderers/SimpleRenderer",
   "esri/renderers/UniqueValueRenderer",
   "esri/Color",
-  "esri/InfoTemplate",
-  "esri/dijit/Popup",
-  "esri/dijit/PopupTemplate"
+  "esri/InfoTemplate"
 ], function(
   declare,
   lang,
   array,
   topic,
+  query,
   domConstruct,
-  domClass,
   BaseWidget,
   jimuUtils,
   Graphic,
@@ -46,9 +44,7 @@ define([
   SimpleRenderer,
   UniqueValueRenderer,
   Color,
-  InfoTemplate,
-  Popup,
-  PopupTemplate
+  InfoTemplate
 ) {
   var _jimuMarkerStyleToEsriStyle = {
     circle: SimpleMarkerSymbol.STYLE_CIRCLE,
@@ -473,13 +469,6 @@ define([
     },
 
     onTopicHandler_addOverlays: function(params, resolve, reject) {
-      var popup = new Popup({
-        fillSymbol: new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
-          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
-            new Color([255, 0, 0]), 2), new Color([255, 255, 0, 0.25]))
-      }, domConstruct.create("div"));
-      domClass.add(popup.domNode, "bluePopup");
-
       var overlayParams = JSON.parse(params);
       //需要抽稀的在ReductionOverlay中处理
       if (overlayParams.featureReduction && !!overlayParams.featureReduction.enable) {
@@ -570,7 +559,6 @@ define([
         resolve();
       }
     },
-
     onTopicHandler_deleteOverlays: function(params) {
       var types = params.types || [];
       var ids = params.ids || [];

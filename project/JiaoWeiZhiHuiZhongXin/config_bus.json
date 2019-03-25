@@ -364,34 +364,34 @@
         "maxScale":0,
         "outFields": ["*"],
         "renderer": {
-          "type": "uniqueValue",
-          "field1": "巴士线路.FEATURETYPE",
-          "defaultSymbol": {
-            "type": "esriSLS",
-            "style": "esriSLSSolid",
-            "color": [110, 75, 195, 255],
-            "width": 2
-          },
-          "uniqueValueInfos": [
-            {
-              "value": "景区快线巴士",
-              "symbol": {
-                "type": "esriSLS",
-                "style": "esriSLSSolid",
-                "color": [156, 28, 66, 255],
-                "width": 1
-              }
+            "type": "uniqueValue",
+            "field1": "巴士线路.FEATURETYPE",
+            "defaultSymbol": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [110, 75, 195, 255],
+              "width": 2
             },
-            {
-              "value": "酒店穿梭巴士",
-              "symbol": {
-                "type": "esriSLS",
-                "style": "esriSLSSolid",
-                "color": [23, 173, 168, 255],
-                "width": 1
+            "uniqueValueInfos": [
+              {
+                "value": "景区快线巴士",
+                "symbol": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [156, 28, 66, 255],
+                  "width": 1
+                }
+              },
+              {
+                "value": "酒店穿梭巴士",
+                "symbol": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [23, 173, 168, 255],
+                  "width": 1
+                }
               }
-            }
-          ]
+            ]
         },
         "labelingInfo": [
           {

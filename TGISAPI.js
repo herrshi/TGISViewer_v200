@@ -8,14 +8,13 @@ var //arcgis api所在的url
   apiUrl = null,
   //TGISViewer所在的url
   path = null;
-  //项目配置文件
-  projectConfig = null;
-  //全部加载完成以后的回调
-  loadFinishCallback = null;
+//项目配置文件
+projectConfig = null;
+//全部加载完成以后的回调
+loadFinishCallback = null;
 
 var TMap = {
   createNew: function(options, divId, callback) {
-
     var mainLoadingDiv = document.createElement("div");
     mainLoadingDiv.id = "main-loading";
     mainLoadingDiv.style.width = "100%";
@@ -1243,39 +1242,39 @@ var TMap = {
   /**
    * 设置用户信息
    * */
-  setUserInfo: function (params) {
+  setUserInfo: function(params) {
     window.userInfo = params;
   },
 
   /***/
-  selectFeature: function (type) {
-    require(["dojo/topic"], function (topic) {
+  selectFeature: function(type) {
+    require(["dojo/topic"], function(topic) {
       topic.publish("selectFeature", type);
     });
   },
 
   clearSelectedFeature: function(params) {
-    require(["dojo/topic"], function (topic) {
+    require(["dojo/topic"], function(topic) {
       topic.publish("clearSelectedFeature", params);
     });
   },
 
-  showSelectedFeatures: function (params) {
-    require(["dojo/topic"], function (topic) {
+  showSelectedFeatures: function(params) {
+    require(["dojo/topic"], function(topic) {
       topic.publish("showSelectedFeatures", params);
     });
   },
 
   //显示辖区
-  showJurisdiction: function () {
-    require(["dojo/topic"], function (topic) {
+  showJurisdiction: function() {
+    require(["dojo/topic"], function(topic) {
       topic.publish("showJurisdiction");
     });
   },
 
   //隐藏辖区
-  hideJurisdiction: function () {
-    require(["dojo/topic"], function (topic) {
+  hideJurisdiction: function() {
+    require(["dojo/topic"], function(topic) {
       topic.publish("hideJurisdiction");
     });
   },
@@ -1285,17 +1284,23 @@ var TMap = {
    * 显示警力统计并传入警力数量
    * [{"id":"1","count":35},{"id":"2","count":78},{"id":"3","count":101},{"id":"4","count":76},{"id":"5","count":59},{"id":"6","count":50},{"id":"7","count":68},{"id":"8","count":62},{"id":"9","count":49},{"id":"10","count":54},{"id":"11","count":87}]
    * */
-  showPoliceCount: function (params) {
-    require(["dojo/topic"], function (topic) {
+  showPoliceCount: function(params) {
+    require(["dojo/topic"], function(topic) {
       topic.publish("showPoliceCount", params);
     });
   },
 
   //隐藏警力统计
-  hidePoliceCount: function () {
-    require(["dojo/topic"], function (topic) {
+  hidePoliceCount: function() {
+    require(["dojo/topic"], function(topic) {
       topic.publish("hidePoliceCount");
     });
-  }
+  },
   /************************ Special Interface END **************************/
+
+  RoutingSearch: function(params) {
+      require(["dojo/topic"], function(topic) {
+          topic.publish("RoutingSearch",params);
+      });
+  }
 };

@@ -93,6 +93,12 @@
         "uri": "widgets/JurisdictionPolice/Widget",
         "version": "2.4",
         "id": "JurisdictionPoliceWidget"
+      },
+      {
+        "uri": "widgets/Routing/Widget",
+        "config": "configs/Routing/config.json",
+        "version": "2.4",
+        "id": "RoutingWidget"
       }
     ]
   }
