@@ -733,6 +733,40 @@ var TMap = {
     });
   },
 
+  /**
+   * 添加热力图
+   * @param params: object, required.
+   *   points: [object]
+   *     fields: object, optional. 业务属性.
+   *       存放权重值和弹框内容
+   *     geometry: object, required. 几何属性.
+   *       x: x坐标
+   *       y: y坐标
+   *   options: object, optional. 热力图样式相关配置
+   *     radius: number, optional. 每个点的扩散半径.
+   *       默认为10像素
+   *     colors: [string], optional. 渐变色带，至少需要两个颜色.
+   *       默认黄->红渐变
+   *       ["rgba(0, 0, 255, 0)","rgb(0, 0, 255)","rgb(255, 0, 255)", "rgb(255, 0, 0)"]
+   *     field: string, optional. 权重字段.
+   *       默认为null, 不带权重
+   *     maxValue: number, optional. 在颜色渐变中分配最终颜色的像素强度值, 高于此数字的值也将分配渐变色的最终色
+   *       默认为100
+   *     minValue: number, optional. 在颜色渐变中分配初始颜色的像素强度值, 低于此数字的值也将分配渐变色的初始色
+   *       默认为0
+   * */
+  addHeatMap: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("addHeatMap", params);
+    });
+  },
+
+  deleteHeatMap: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("deleteHeatMap");
+    });
+  },
+
   /************************ Overlay END **************************/
 
   /************************ Search BEGIN **************************/
@@ -1298,14 +1332,24 @@ var TMap = {
   },
   /************************ Special Interface END **************************/
 
+  /**
+   * 路径分析
+   * @param params: object, required.
+   *   startPoint: string, required. 需要路径分析的开始点坐标字符串x,y
+   *   endPoint: string, required. 需要路径分析的终点字符串x,y
+   *   wayPoints: string. 途径点字符串x,y,以;隔开
+   * */
   RoutingSearch: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("RoutingSearch", params);
     });
   },
-  clearRoutingSearch: function(params) {
+  /**
+   * 清除路径分析结果
+   * */
+  clearRoutingSearch: function() {
     require(["dojo/topic"], function(topic) {
-      topic.publish("clearRoutingSearch", params);
+      topic.publish("clearRoutingSearch");
     });
   }
 };
