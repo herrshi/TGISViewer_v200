@@ -1299,8 +1299,13 @@ var TMap = {
   /************************ Special Interface END **************************/
 
   RoutingSearch: function(params) {
-      require(["dojo/topic"], function(topic) {
-          topic.publish("RoutingSearch",params);
-      });
+    require(["dojo/topic"], function(topic) {
+      topic.publish("RoutingSearch", params);
+    });
+  },
+  clearRoutingSearch: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearRoutingSearch", params);
+    });
   }
 };

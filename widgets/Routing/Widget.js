@@ -142,6 +142,10 @@ define([
         "RoutingSearch",
         lang.hitch(this, this.onTopicHandler_RoutingSearch)
       );
+      topic.subscribe(
+        "clearRoutingSearch",
+        lang.hitch(this, this.onTopicHandler_clearRoutingSearch)
+      );
 
       //var infoWindow = new InfoWindow({}, domConstruct.create("div"));
       //infoWindow.startup();
@@ -183,6 +187,9 @@ define([
     onHideInfo: function(event) {
       domStyle.set(this._tooltipDiv, "display", "none");
     },
+    onTopicHandler_clearRoutingSearch: function() {
+        this.routeLayer.clear();
+    },
     onTopicHandler_RoutingSearch: function(params) {
       this.routeLayer.clear();
       var routeParams = JSON.parse(params);
@@ -208,7 +215,10 @@ define([
       $.ajax({
         //用变量做url参数前面会带上http://localhost:8090, 不知如何解决
         url:
-          this.config.url+"?ak="+this.config.key+"&callback=callback&origin=" +
+          this.config.url +
+          "?ak=" +
+          this.config.key +
+          "&callback=callback&origin=" +
           sPoint +
           "&destination=" +
           ePoint +
@@ -245,7 +255,6 @@ define([
               });
               this._routeGraphic.push(stepGra);
             }
-            console.log(latlngs);
             this._routeLine = new Polyline(latlngs);
             this._routeLineStart = new Point(latlngs[0]);
             this._routeLineEnd = new Point(latlngs[latlngs.length - 1]);
