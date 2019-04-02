@@ -7,7 +7,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 (function ($) {
-  let MaterialSelect =
+  var MaterialSelect =
   /*#__PURE__*/
   function () {
     function MaterialSelect($nativeSelect, options) {
@@ -20,10 +20,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       this.isRequired = Boolean(this.$nativeSelect.attr('required'));
       this.uuid = this._randomUUID();
       this.$selectWrapper = $('<div class="select-wrapper"></div>');
-      this.$materialOptionsList = $(`<ul id="select-options-${this.uuid}" class="dropdown-content select-dropdown w-100 ${this.isMultiple ? 'multiple-select-dropdown' : ''}"></ul>`);
+      this.$materialOptionsList = $("<ul id=\"select-options-".concat(this.uuid, "\" class=\"dropdown-content select-dropdown w-100 ").concat(this.isMultiple ? 'multiple-select-dropdown' : '', "\"></ul>"));
       this.$materialSelectInitialOption = $nativeSelect.find('option:selected').html() || $nativeSelect.find('option:first').html() || '';
       this.$nativeSelectChildren = this.$nativeSelect.children('option, optgroup');
-      this.$materialSelect = $(`<input type="text" class="select-dropdown" readonly="true" ${this.$nativeSelect.is(':disabled') ? 'disabled' : ''} data-activates="select-options-${this.uuid}" value=""/>`);
+      this.$materialSelect = $("<input type=\"text\" class=\"select-dropdown\" readonly=\"true\" ".concat(this.$nativeSelect.is(':disabled') ? 'disabled' : '', " data-activates=\"select-options-").concat(this.uuid, "\" value=\"\"/>"));
       this.$dropdownIcon = $('<span class="caret">&#9660;</span>');
       this.$searchInput = null;
       this.$toggleAll = $('<li class="select-toggle-all"><span><input type="checkbox" class="form-check-input"><label>Select all</label></span></li>');
@@ -41,7 +41,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     _createClass(MaterialSelect, [{
       key: "init",
       value: function init() {
-        let alreadyInitialized = Boolean(this.$nativeSelect.data('select-id'));
+        var alreadyInitialized = Boolean(this.$nativeSelect.data('select-id'));
 
         if (alreadyInitialized) {
           this._removeMaterialWrapper();
@@ -54,7 +54,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         this.$nativeSelect.data('select-id', this.uuid);
         this.$selectWrapper.addClass(this.$nativeSelect.attr('class'));
-        let sanitizedLabelHtml = this.$materialSelectInitialOption.replace(/"/g, '&quot;');
+        var sanitizedLabelHtml = this.$materialSelectInitialOption.replace(/"/g, '&quot;');
         this.$materialSelect.val(sanitizedLabelHtml);
         this.renderMaterialSelect();
         this.bindEvents();
@@ -64,13 +64,32 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         }
       }
     }, {
+      key: "debounce",
+      value: function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+          var context = this,
+              args = arguments;
+
+          var later = function later() {
+            timeout = null;
+            if (!immediate) func.apply(context, args);
+          };
+
+          var callNow = immediate && !timeout;
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) func.apply(context, args);
+        };
+      }
+    }, {
       key: "_removeMaterialWrapper",
       value: function _removeMaterialWrapper() {
-        let currentUuid = this.$nativeSelect.data('select-id');
+        var currentUuid = this.$nativeSelect.data('select-id');
         this.$nativeSelect.parent().find('span.caret').remove();
         this.$nativeSelect.parent().find('input').remove();
         this.$nativeSelect.unwrap();
-        $(`ul#select-options-${currentUuid}`).remove();
+        $("ul#select-options-".concat(currentUuid)).remove();
       }
     }, {
       key: "renderMaterialSelect",
@@ -97,14 +116,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         if (this.isMultiple) {
           this.$nativeSelect.find('option:selected:not(:disabled)').each(function (i, element) {
-            let index = $(element).index();
+            var index = $(element).index();
 
             _this._toggleSelectedValue(index);
 
             _this.$materialOptionsList.find('li:not(.optgroup):not(.select-toggle-all)').eq(index).find(':checkbox').prop('checked', true);
           });
         } else {
-          let index = this.$nativeSelect.find('option:selected').index();
+          var index = this.$nativeSelect.find('option:selected').index();
           this.$materialOptionsList.find('li').eq(index).addClass('active');
         }
 
@@ -147,8 +166,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "appendSearchInputOption",
       value: function appendSearchInputOption() {
-        let placeholder = this.$nativeSelect.attr('searchable');
-        this.$searchInput = $(`<span class="search-wrap ml-2"><div class="md-form mt-0"><input type="text" class="search form-control w-100 d-block" placeholder="${placeholder}"></div></span>`);
+        var placeholder = this.$nativeSelect.attr('searchable');
+        this.$searchInput = $("<span class=\"search-wrap ml-2\"><div class=\"md-form mt-0\"><input type=\"text\" class=\"search form-control w-100 d-block\" placeholder=\"".concat(placeholder, "\"></div></span>"));
         this.$materialOptionsList.append(this.$searchInput);
       }
     }, {
@@ -167,16 +186,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         var _this2 = this;
 
         this.$nativeSelectChildren.each(function (index, option) {
-          let $this = $(option);
+          var $this = $(option);
 
           if ($this.is('option')) {
             _this2.buildSingleOption($this, _this2.isMultiple ? 'multiple' : '');
           } else if ($this.is('optgroup')) {
-            let $materialOptgroup = $(`<li class="optgroup"><span>${$this.attr('label')}</span></li>`);
+            var $materialOptgroup = $("<li class=\"optgroup\"><span>".concat($this.attr('label'), "</span></li>"));
 
             _this2.$materialOptionsList.append($materialOptgroup);
 
-            let $optgroupOptions = $this.children('option');
+            var $optgroupOptions = $this.children('option');
             $optgroupOptions.each(function (index, optgroupOption) {
               _this2.buildSingleOption($(optgroupOption), 'optgroup-option');
             });
@@ -186,14 +205,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "buildSingleOption",
       value: function buildSingleOption($nativeSelectChild, type) {
-        let disabled = $nativeSelectChild.is(':disabled') ? 'disabled' : '';
-        let optgroupClass = type === 'optgroup-option' ? 'optgroup-option' : '';
-        let iconUrl = $nativeSelectChild.data('icon');
-        let fa = $nativeSelectChild.data('fa') ? `<i class="fa fa-${$nativeSelectChild.data('fa')}"></i>` : '';
-        let classes = $nativeSelectChild.attr('class');
-        let iconHtml = iconUrl ? `<img alt="" src="${iconUrl}" class="${classes}">` : '';
-        let checkboxHtml = this.isMultiple ? `<input type="checkbox" class="form-check-input" ${disabled}/><label></label>` : '';
-        this.$materialOptionsList.append($(`<li class="${disabled} ${optgroupClass}">${iconHtml}<span class="filtrable">${checkboxHtml} ${fa} ${$nativeSelectChild.html()}</span></li>`));
+        var disabled = $nativeSelectChild.is(':disabled') ? 'disabled' : '';
+        var optgroupClass = type === 'optgroup-option' ? 'optgroup-option' : '';
+        var iconUrl = $nativeSelectChild.data('icon');
+        var fa = $nativeSelectChild.data('fas') ? "<i class=\"fas fa-".concat($nativeSelectChild.data('fas'), "\"></i> ") : '';
+        var classes = $nativeSelectChild.attr('class');
+        var iconHtml = iconUrl ? "<img alt=\"\" src=\"".concat(iconUrl, "\" class=\"").concat(classes, "\">") : '';
+        var checkboxHtml = this.isMultiple ? "<input type=\"checkbox\" class=\"form-check-input\" ".concat(disabled, "/><label></label>") : '';
+        this.$materialOptionsList.append($("<li class=\"".concat(disabled, " ").concat(optgroupClass, "\">").concat(iconHtml, "<span class=\"filtrable\">").concat(checkboxHtml).concat(fa).concat($nativeSelectChild.html(), "</span></li>")));
       }
     }, {
       key: "enableValidation",
@@ -210,7 +229,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         });
 
         if (this.$nativeSelect.attr('style').indexOf('inline!important') === -1) {
-          this.$nativeSelect.attr('style', `${this.$nativeSelect.attr('style')} display: inline!important;`);
+          this.$nativeSelect.attr('style', "".concat(this.$nativeSelect.attr('style'), " display: inline!important;"));
         }
 
         this.$nativeSelect.attr('tabindex', -1);
@@ -221,21 +240,21 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       value: function bindEvents() {
         var _this3 = this;
 
-        let config = {
+        var config = {
           attributes: true,
           childList: true,
           characterData: true,
           subtree: true
         };
-        let observer = new MutationObserver(this._onMutationObserverChange.bind(this));
+        var observer = new MutationObserver(this._onMutationObserverChange.bind(this));
         observer.observe(this.$nativeSelect.get(0), config);
         observer.customId = this.uuid;
         observer.customStatus = 'observing';
         MaterialSelect.clearMutationObservers();
         MaterialSelect.mutationObservers.push(observer);
-        let $saveSelectBtn = this.$nativeSelect.parent().find('button.btn-save');
+        var $saveSelectBtn = this.$nativeSelect.parent().find('button.btn-save');
         $saveSelectBtn.on('click', this._onSaveSelectBtnClick);
-        this.$materialSelect.on('focus', this._onMaterialSelectFocus.bind(this));
+        this.$materialSelect.on('focus', this.debounce(this._onMaterialSelectFocus.bind(this), 300));
         this.$materialSelect.on('click', this._onMaterialSelectClick.bind(this));
         this.$materialSelect.on('blur', this._onMaterialSelectBlur.bind(this));
         this.$materialSelect.on('keydown', this._onMaterialSelectKeydown.bind(this));
@@ -259,7 +278,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       key: "_onMutationObserverChange",
       value: function _onMutationObserverChange(mutationsList) {
         mutationsList.forEach(function (mutation) {
-          let $select = $(mutation.target).closest('select');
+          var $select = $(mutation.target).closest('select');
 
           if ($select.data('stop-refresh') !== true && (mutation.type === 'childList' || mutation.type === 'attributes' && $(mutation.target).is('option'))) {
             MaterialSelect.clearMutationObservers();
@@ -277,20 +296,20 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       key: "_onEachMaterialOptionClick",
       value: function _onEachMaterialOptionClick(materialOptionIndex, materialOption, e) {
         e.stopPropagation();
-        let $this = $(materialOption);
+        var $this = $(materialOption);
 
         if ($this.hasClass('disabled') || $this.hasClass('optgroup')) {
           return;
         }
 
-        let selected = true;
+        var selected = true;
 
         if (this.isMultiple) {
           $this.find('input[type="checkbox"]').prop('checked', function (index, oldPropertyValue) {
             return !oldPropertyValue;
           });
-          let hasOptgroup = Boolean(this.$nativeSelect.find('optgroup').length);
-          let thisIndex = this._isToggleAllPresent() ? $this.index() - 1 : $this.index();
+          var hasOptgroup = Boolean(this.$nativeSelect.find('optgroup').length);
+          var thisIndex = this._isToggleAllPresent() ? $this.index() - 1 : $this.index();
 
           if (this.isSearchable && hasOptgroup) {
             selected = this._toggleSelectedValue(thisIndex - $this.prevAll('.optgroup').length - 1);
@@ -329,7 +348,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_triggerChangeOnNativeSelect",
       value: function _triggerChangeOnNativeSelect() {
-        let keyboardEvt = new KeyboardEvent('change', {
+        var keyboardEvt = new KeyboardEvent('change', {
           bubbles: true,
           cancelable: true
         });
@@ -338,7 +357,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_onMaterialSelectFocus",
       value: function _onMaterialSelectFocus(e) {
-        let $this = $(e.target);
+        var $this = $(e.target);
 
         if ($('ul.select-dropdown').not(this.$materialOptionsList.get(0)).is(':visible')) {
           $('input.select-dropdown').trigger('close');
@@ -346,8 +365,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         if (!this.$materialOptionsList.is(':visible')) {
           $this.trigger('open', ['focus']);
-          let label = $this.val();
-          let $selectedOption = this.$materialOptionsList.find('li').filter(function () {
+          var label = $this.val();
+          var $selectedOption = this.$materialOptionsList.find('li').filter(function () {
             return $(this).text().toLowerCase() === label.toLowerCase();
           })[0];
 
@@ -362,7 +381,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_onMaterialSelectBlur",
       value: function _onMaterialSelectBlur(e) {
-        let $this = $(e);
+        var $this = $(e);
 
         if (!this.isMultiple && !this.isSearchable) {
           $this.trigger('close');
@@ -378,7 +397,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_onEachMaterialOptionMousedown",
       value: function _onEachMaterialOptionMousedown(e) {
-        let option = e.target;
+        var option = e.target;
 
         if ($('.modal-content').find(this.$materialOptionsList).length) {
           if (option.scrollHeight > option.offsetHeight) {
@@ -389,7 +408,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_onHTMLClick",
       value: function _onHTMLClick(e) {
-        if (!$(e.target).closest(`#select-options-${this.uuid}`).length) {
+        if (!$(e.target).closest("#select-options-".concat(this.uuid)).length) {
           this.$materialSelect.trigger('close');
         }
       }
@@ -398,11 +417,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       value: function _onToggleAllClick() {
         var _this4 = this;
 
-        let checkbox = $(this.$toggleAll).find('input[type="checkbox"]').first();
-        let state = !$(checkbox).prop('checked');
+        var checkbox = $(this.$toggleAll).find('input[type="checkbox"]').first();
+        var state = !$(checkbox).prop('checked');
         $(checkbox).prop('checked', state);
         this.$materialOptionsList.find('li:not(.optgroup):not(.disabled):not(.select-toggle-all)').each(function (materialOptionIndex, materialOption) {
-          let $optionCheckbox = $(materialOption).find('input[type="checkbox"]');
+          var $optionCheckbox = $(materialOption).find('input[type="checkbox"]');
 
           if (state && $optionCheckbox.is(':checked') || !state && !$optionCheckbox.is(':checked')) {
             return;
@@ -437,13 +456,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_onMaterialSelectKeydown",
       value: function _onMaterialSelectKeydown(e) {
-        let $this = $(e.target);
-        let isTab = e.which === this.keyCodes.tab;
-        let isEsc = e.which === this.keyCodes.esc;
-        let isEnter = e.which === this.keyCodes.enter;
-        let isArrowUp = e.which === this.keyCodes.arrowUp;
-        let isArrowDown = e.which === this.keyCodes.arrowDown;
-        let isMaterialSelectVisible = this.$materialOptionsList.is(':visible');
+        var $this = $(e.target);
+        var isTab = e.which === this.keyCodes.tab;
+        var isEsc = e.which === this.keyCodes.esc;
+        var isEnter = e.which === this.keyCodes.enter;
+        var isArrowUp = e.which === this.keyCodes.arrowUp;
+        var isArrowDown = e.which === this.keyCodes.arrowDown;
+        var isMaterialSelectVisible = this.$materialOptionsList.is(':visible');
 
         if (isTab) {
           this._handleTabKey($this);
@@ -478,8 +497,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_handleEnterKey",
       value: function _handleEnterKey(materialSelect) {
-        let $materialSelect = $(materialSelect);
-        let $activeOption = this.$materialOptionsList.find('li.selected:not(.disabled)');
+        var $materialSelect = $(materialSelect);
+        var $activeOption = this.$materialOptionsList.find('li.selected:not(.disabled)');
         $activeOption.trigger('click');
 
         if (!this.isMultiple) {
@@ -489,11 +508,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_handleArrowDownKey",
       value: function _handleArrowDownKey() {
-        let $firstOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').first();
-        let $lastOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').last();
-        let anySelected = this.$materialOptionsList.find('li.selected').length > 0;
-        let $currentOption = anySelected ? this.$materialOptionsList.find('li.selected') : $firstOption;
-        let $matchedMaterialOption = $currentOption.is($lastOption) || !anySelected ? $currentOption : $currentOption.next('li:not(.disabled)');
+        var $firstOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').first();
+        var $lastOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').last();
+        var anySelected = this.$materialOptionsList.find('li.selected').length > 0;
+        var $currentOption = anySelected ? this.$materialOptionsList.find('li.selected') : $firstOption;
+        var $matchedMaterialOption = $currentOption.is($lastOption) || !anySelected ? $currentOption : $currentOption.next('li:not(.disabled)');
 
         this._selectSingleOption($matchedMaterialOption);
 
@@ -503,11 +522,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_handleArrowUpKey",
       value: function _handleArrowUpKey() {
-        let $firstOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').first();
-        let $lastOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').last();
-        let anySelected = this.$materialOptionsList.find('li.selected').length > 0;
-        let $currentOption = anySelected ? this.$materialOptionsList.find('li.selected') : $lastOption;
-        let $matchedMaterialOption = $currentOption.is($firstOption) || !anySelected ? $currentOption : $currentOption.prev('li:not(.disabled)');
+        var $firstOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').first();
+        var $lastOption = this.$materialOptionsList.find('li').not('.disabled').not('.select-toggle-all').last();
+        var anySelected = this.$materialOptionsList.find('li.selected').length > 0;
+        var $currentOption = anySelected ? this.$materialOptionsList.find('li.selected') : $lastOption;
+        var $matchedMaterialOption = $currentOption.is($firstOption) || !anySelected ? $currentOption : $currentOption.prev('li:not(.disabled)');
 
         this._selectSingleOption($matchedMaterialOption);
 
@@ -517,7 +536,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_handleEscKey",
       value: function _handleEscKey(materialSelect) {
-        let $materialSelect = $(materialSelect);
+        var $materialSelect = $(materialSelect);
         $materialSelect.trigger('close');
       }
     }, {
@@ -525,16 +544,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       value: function _handleLetterKey(e) {
         var _this5 = this;
 
-        let filterQueryString = '';
-        let letter = String.fromCharCode(e.which).toLowerCase();
-        let nonLetters = Object.keys(this.keyCodes).map(function (key) {
+        var filterQueryString = '';
+        var letter = String.fromCharCode(e.which).toLowerCase();
+        var nonLetters = Object.keys(this.keyCodes).map(function (key) {
           return _this5.keyCodes[key];
         });
-        let isLetterSearchable = letter && nonLetters.indexOf(e.which) === -1;
+        var isLetterSearchable = letter && nonLetters.indexOf(e.which) === -1;
 
         if (isLetterSearchable) {
           filterQueryString += letter;
-          let $matchedMaterialOption = this.$materialOptionsList.find('li').filter(function () {
+          var $matchedMaterialOption = this.$materialOptionsList.find('li').filter(function () {
             return $(this).text().toLowerCase().indexOf(filterQueryString) !== -1;
           }).first();
 
@@ -550,15 +569,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_onSearchInputKeyup",
       value: function _onSearchInputKeyup(e) {
-        let $this = $(e.target);
-        let $ul = $this.closest('ul');
-        let searchValue = $this.val();
-        let $options = $ul.find('li span.filtrable');
+        var $this = $(e.target);
+        var $ul = $this.closest('ul');
+        var searchValue = $this.val();
+        var $options = $ul.find('li span.filtrable');
         $options.each(function () {
-          let $option = $(this);
+          var $option = $(this);
 
           if (typeof this.outerHTML === 'string') {
-            let liValue = this.textContent.toLowerCase();
+            var liValue = this.textContent.toLowerCase();
 
             if (liValue.includes(searchValue.toLowerCase())) {
               $option.show().parent().show();
@@ -576,9 +595,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_updateToggleAllOption",
       value: function _updateToggleAllOption() {
-        let $allOptionsButToggleAll = this.$materialOptionsList.find('li').not('.select-toggle-all, .disabled').find('[type=checkbox]');
-        let $checkedOptionsButToggleAll = $allOptionsButToggleAll.filter(':checked');
-        let isToggleAllChecked = this.$toggleAll.find('[type=checkbox]').is(':checked');
+        var $allOptionsButToggleAll = this.$materialOptionsList.find('li').not('.select-toggle-all, .disabled').find('[type=checkbox]');
+        var $checkedOptionsButToggleAll = $allOptionsButToggleAll.filter(':checked');
+        var isToggleAllChecked = this.$toggleAll.find('[type=checkbox]').is(':checked');
 
         if ($checkedOptionsButToggleAll.length === $allOptionsButToggleAll.length && !isToggleAllChecked) {
           this.$toggleAll.find('[type=checkbox]').prop('checked', true);
@@ -589,8 +608,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_toggleSelectedValue",
       value: function _toggleSelectedValue(optionIndex) {
-        let selectedValueIndex = this.valuesSelected.indexOf(optionIndex);
-        let isSelected = selectedValueIndex !== -1;
+        var selectedValueIndex = this.valuesSelected.indexOf(optionIndex);
+        var isSelected = selectedValueIndex !== -1;
 
         if (!isSelected) {
           this.valuesSelected.push(optionIndex);
@@ -615,22 +634,22 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_selectOption",
       value: function _selectOption(newOption) {
-        let option = $(newOption);
+        var option = $(newOption);
         option.addClass('selected');
       }
     }, {
       key: "_setValueToMaterialSelect",
       value: function _setValueToMaterialSelect() {
-        let value = '';
-        let itemsCount = this.valuesSelected.length;
+        var value = '';
+        var itemsCount = this.valuesSelected.length;
 
-        for (let i = 0; i < itemsCount; i++) {
-          let text = this.$nativeSelect.find('option').eq(this.valuesSelected[i]).text();
-          value += `, ${text}`;
+        for (var i = 0; i < itemsCount; i++) {
+          var text = this.$nativeSelect.find('option').eq(this.valuesSelected[i]).text();
+          value += ", ".concat(text);
         }
 
         if (itemsCount >= 5) {
-          value = `${itemsCount} options selected`;
+          value = "".concat(itemsCount, " options selected");
         } else {
           value = value.substring(2);
         }
@@ -644,9 +663,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "_randomUUID",
       value: function _randomUUID() {
-        let d = new Date().getTime();
+        var d = new Date().getTime();
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-          let r = (d + Math.random() * 16) % 16 | 0;
+          var r = (d + Math.random() * 16) % 16 | 0;
           d = Math.floor(d / 16);
           return (c === 'x' ? r : r & 0x3 | 0x8).toString(16);
         });
@@ -666,7 +685,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
   $.fn.materialSelect = function (callback) {
     $(this).not('.browser-default').not('.custom-select').each(function () {
-      let materialSelect = new MaterialSelect($(this), callback);
+      var materialSelect = new MaterialSelect($(this), callback);
       materialSelect.init();
     });
   };
@@ -682,7 +701,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       if (this.data('stop-refresh') !== true && this.hasClass('mdb-select') && this.hasClass('initialized') && !this.hasClass('browser-default') && !this.hasClass('custom-select')) {
         MaterialSelect.clearMutationObservers();
         this.materialSelect('destroy');
-        let ret = originalVal.call(this, value);
+        var ret = originalVal.call(this, value);
         this.materialSelect();
         return ret;
       }

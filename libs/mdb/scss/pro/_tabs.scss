@@ -115,6 +115,9 @@
         color: $classic-tabs-color;
         text-align: center;
         border-radius: 0;
+        &:not(.active) {
+          margin-bottom: $classic-tabs-li-a-active-border-bottom;
+        }
         &.active {
           border-bottom: $classic-tabs-li-a-active-border-bottom solid;
           color: $white-base;
@@ -135,6 +138,31 @@
             }
           }
         }
+      }
+    }
+    &.tabs-animated {
+      li {
+        a {
+          &.active {
+            border: none;
+          }
+        }
+      }
+      @each $name, $color in $ctbc {
+        &.#{$name} {
+          .floor {
+            background-color: $color;
+          }
+        }
+      }
+      .floor {
+        display: inline-block;
+        width: 30px;
+        height: 3px;
+        position: absolute;
+        z-index: 1200;
+        bottom: 0;
+        transition: all .4s linear;
       }
     }
   }

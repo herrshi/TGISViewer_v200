@@ -79,6 +79,11 @@ define([
         "startDrawOverlay",
         lang.hitch(this, this.onTopicHandler_startDrawOverlay)
       );
+
+      topic.subscribe(
+        "clearDrawOverlay",
+        lang.hitch(this, this.onTopicHandler_clearDrawOverlay)
+      );
     },
 
     onTopicHandler_startDrawOverlay: function(params) {
@@ -86,6 +91,10 @@ define([
       this.drawCallback = params.callback;
 
       this.drawToolbar.activate(drawType);
+    },
+
+    onTopicHandler_clearDrawOverlay: function() {
+      this.drawLayer.clear();
     },
 
     onDrawToolBarHandler_drawComplete: function(event) {

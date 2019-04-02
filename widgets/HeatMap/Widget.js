@@ -75,7 +75,7 @@ define([
     _onTopicHandler_addHeatMap: function(params) {
       this.heatLayer.clear();
       var points = params.points;
-      var options = params.options;
+      var options = params.options || {};
       var features = [];
       for (var i = 0; i < points.length; i++) {
         var point = new Point([points[i].geometry.x, points[i].geometry.y]);
