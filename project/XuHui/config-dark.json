@@ -41,7 +41,8 @@
         "label": "路况",
         "url": "http://15.75.0.255:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
         "type": "webTiled",
-        "visible": false
+        "visible": false,
+        "refreshInterval": 1
       }
 
     ],
@@ -58,16 +59,6 @@
   "gisServer": "15.75.0.255:25001",
   "widgetOnScreen": {
     "widgets": [
-      {
-        "uri": "widgets/Coordinate/Widget",
-        "position": {
-          "left": 15,
-          "bottom": 5,
-          "relativeTo": "map"
-        },
-        "version": "2.4",
-        "id": "CoordinateWidget"
-      },
       {
         "uri": "widgets/OverviewMap/Widget",
         "position": {
@@ -104,6 +95,22 @@
         "uri": "widgets/JurisdictionPolice/Widget",
         "version": "2.4",
         "id": "JurisdictionPoliceWidget"
+      },
+      {
+        "uri": "widgets/Routing/Widget",
+        "config": "configs/Routing/config.json",
+        "version": "2.4",
+        "id": "RoutingWidget"
+      },
+      {
+        "uri": "widgets/HeatMap/Widget",
+        "version": "2.4",
+        "id": "HeatMapWidget"
+      },
+      {
+        "uri": "widgets/DrawOverlay/Widget",
+        "version": "2.4",
+        "id": "DrawOverlayWidget"
       }
     ]
   }

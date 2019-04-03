@@ -1,17 +1,17 @@
 /*!
  * Material Design for Bootstrap 4
- * Version: MDB PRO 4.5.13
+ * Version: MDB PRO 4.7.5
  *
  *
- * Copyright: Material Design for Bootstrap
+ * Copyright: Material Design for BootstrapS
  * https://mdbootstrap.com/
  *
- * Read the license: https://mdbootstrap.com/license/
+ * Read the license: https://mdbootstrap.com/general/license/
  *
  *
  * Documentation: https://mdbootstrap.com/
  *
- * Getting started: https://mdbootstrap.com/getting-started/
+ * Getting started: https://mdbootstrap.com/docs/jquery/getting-started/download/
  *
  * Tutorials: https://mdbootstrap.com/education/bootstrap/
  *
@@ -21,7 +21,7 @@
  *
  * Contact: office@mdbootstrap.com
  *
- * Atribution: Animate CSS, Twitter Bootstrap, Materialize CSS, Normalize CSS, Waves JS, WOW JS, Toastr, Chart.js , Hammer.js
+ * Attribution: Animate CSS, Twitter Bootstrap, Materialize CSS, Normalize CSS, Waves JS, WOW JS, Toastr, Chart.js
  *
  */
 
@@ -30,6 +30,7 @@
 // Bootstrap
 @import "core/bootstrap/functions";
 @import "core/bootstrap/variables";
+@import "core/bootstrap/rfs";
 
 // CORE
 @import "core/mixins";
@@ -60,12 +61,13 @@
 @import "free/footers";
 @import "free/list-group";
 @import "free/tables";
-@import "free/switch";
 @import "free/depreciated";
 @import "free/steppers";
 @import "free/loader";
 // Free addons
 // @import "addons/datatables";
+// @import "addons/datatables-select";
+// @import "addons/directives";
 
 // PRO
 @import "pro/variables";
@@ -101,6 +103,7 @@
 @import "pro/progress";
 @import "pro/scrollbar";
 @import "pro/modules/megamenu/module";
+@import "pro/tooltips";
 // Your custom skin
 @import "custom-skin";
 @import "pro/skins";

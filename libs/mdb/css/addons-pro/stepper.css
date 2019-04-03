@@ -149,7 +149,7 @@ ul.stepper .md-form .validate {
   margin-bottom: 0; }
 
 @media only screen and (min-width: 993px) {
-  .card-body ul.stepper.horizontal {
+   ul.stepper.horizontal {
     position: relative;
     display: -webkit-box;
     display: -webkit-flex;
@@ -165,7 +165,7 @@ ul.stepper .md-form .validate {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     overflow: hidden; }
-    .card-body ul.stepper.horizontal:before {
+     ul.stepper.horizontal:before {
       content: '';
       background-color: transparent;
       width: 100%;
@@ -174,9 +174,9 @@ ul.stepper .md-form .validate {
       left: -3px;
       -webkit-border-top-left-radius: 2px;
       border-top-left-radius: 2px; }
-    .card-body ul.stepper.horizontal:first-child {
+     ul.stepper.horizontal:first-child {
       margin-top: -2.7rem; }
-    .card-body ul.stepper.horizontal .step {
+     ul.stepper.horizontal .step {
       position: static;
       margin: 0;
       width: 100%;
@@ -189,33 +189,33 @@ ul.stepper .md-form .validate {
       -ms-flex-align: center;
       align-items: center;
       height: 5.25rem !important; }
-      .card-body ul.stepper.horizontal .step:not(:last-of-type):after {
+       ul.stepper.horizontal .step:not(:last-of-type):after {
         content: '';
         position: static;
         display: inline-block;
         width: 100%;
         height: 0.0625rem; }
-    .card-body ul.stepper.horizontal > .step:last-of-type, .card-body ul.stepper.horizontal > .step[data-last="true"] {
+     ul.stepper.horizontal > .step:last-of-type,  ul.stepper.horizontal > .step[data-last="true"] {
       width: auto !important; }
-    .card-body ul.stepper.horizontal > .step.active:not(:last-of-type):after {
+     ul.stepper.horizontal > .step.active:not(:last-of-type):after {
       content: '';
       position: static;
       display: inline-block;
       width: 100%;
       height: 0.0625rem; }
-    .card-body ul.stepper.horizontal .step.active .step-title:before {
+     ul.stepper.horizontal .step.active .step-title:before {
       background-color: #4285f4; }
-    .card-body ul.stepper.horizontal .step.done .step-title:before {
+     ul.stepper.horizontal .step.done .step-title:before {
       content: '\f00c';
       font-family: FontAwesome;
       font-size: 1rem;
       background: #00c851; }
-    .card-body ul.stepper.horizontal .step.wrong .step-title:before {
+     ul.stepper.horizontal .step.wrong .step-title:before {
       content: '\f071';
       font-family: FontAwesome;
       font-size: 1.1rem;
       background-color: #ff3547; }
-    .card-body ul.stepper.horizontal .step-title {
+     ul.stepper.horizontal .step-title {
       line-height: 5.25rem;
       height: 5.25rem;
       margin: 0;
@@ -229,9 +229,9 @@ ul.stepper .md-form .validate {
       -ms-flex-negative: 0;
       -webkit-flex-shrink: 0;
       flex-shrink: 0; }
-    .card-body ul.stepper.horizontal .step:before {
+     ul.stepper.horizontal .step:before {
       content: none; }
-    .card-body ul.stepper.horizontal .step .step-title:before {
+     ul.stepper.horizontal .step .step-title:before {
       position: absolute;
       top: 1.7813rem;
       left: 1.1875rem;
@@ -246,20 +246,20 @@ ul.stepper .md-form .validate {
       text-align: center;
       line-height: 1.75rem;
       font-weight: 400; }
-    .card-body ul.stepper.horizontal .step-title:after {
+     ul.stepper.horizontal .step-title:after {
       top: 0.9375rem; }
-    .card-body ul.stepper.horizontal .step-new-content {
+     ul.stepper.horizontal .step-new-content {
       position: absolute;
       height: -webkit-calc(100% - 84px);
       height: calc(100% - 84px);
       top: 6rem;
       left: 0;
       width: 100%;
-      overflow-y: auto;
+      overflow-y: hidden;
       overflow-x: hidden;
       margin: 0;
       padding: 1.25rem 1.25rem 4.75rem 1.25rem; }
-    .card-body ul.stepper.horizontal .step-actions {
+     ul.stepper.horizontal .step-actions {
       position: absolute;
       bottom: 0;
       left: 0;
@@ -270,12 +270,12 @@ ul.stepper .md-form .validate {
       -webkit-flex-direction: row-reverse;
       -ms-flex-direction: row-reverse;
       flex-direction: row-reverse; }
-      .card-body ul.stepper.horizontal .step-actions .btn:not(:last-child),
-      .card-body ul.stepper.horizontal .step-actions .btn-flat:not(:last-child),
-      .card-body ul.stepper.horizontal .step-actions .btn-large:not(:last-child) {
+       ul.stepper.horizontal .step-actions .btn:not(:last-child),
+       ul.stepper.horizontal .step-actions .btn-flat:not(:last-child),
+       ul.stepper.horizontal .step-actions .btn-large:not(:last-child) {
         margin-left: 0.3125rem;
         margin-right: 0; }
-  .card-body ul.stepper.horizontal .step-new-content,
-  .card-body ul.stepper.horizontal .step-actions {
+   ul.stepper.horizontal .step-new-content,
+   ul.stepper.horizontal .step-actions {
     padding-left: 2.5rem;
     padding-right: 2.5rem; } }

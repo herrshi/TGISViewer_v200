@@ -733,6 +733,13 @@ var TMap = {
     });
   },
 
+  /**删除绘制的覆盖物*/
+  clearDrawOverlay: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearDrawOverlay");
+    });
+  },
+
   /**
    * 添加热力图
    * @param params: object, required.

@@ -38,7 +38,7 @@
       li.active {
         background:transparent;
       }
-      .fa {
+      .fas, .fab, .far {
         color:inherit;
       }
     }
@@ -257,10 +257,25 @@ select {
       &.active, a, span:hover {
         background-color: $color !important;
       }
+      &.disabled {
+        &.active {
+          background-color: transparent !important;
+        }
+      }
     }
     .search-wrap input:focus {
       border-bottom: 1px solid $color;
       box-shadow: 0 1px 0 0 $color;
+    }
+  }
+}
+
+.md-dropdown {
+  li {
+    &.disabled {
+      &.active {
+        background-color: transparent !important;
+      }
     }
   }
 }

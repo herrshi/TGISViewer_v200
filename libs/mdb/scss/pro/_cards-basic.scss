@@ -175,6 +175,7 @@
     .face {
       width: 100%;
       position: absolute;
+      background: $white-base;
       backface-visibility: hidden;
       z-index: 2;
     }

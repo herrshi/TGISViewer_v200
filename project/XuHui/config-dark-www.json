@@ -48,16 +48,6 @@
   "widgetOnScreen": {
     "widgets": [
       {
-        "uri": "widgets/Coordinate/Widget",
-        "position": {
-          "left": 15,
-          "bottom": 5,
-          "relativeTo": "map"
-        },
-        "version": "2.4",
-        "id": "CoordinateWidget"
-      },
-      {
         "uri": "widgets/OverviewMap/Widget",
         "position": {
           "right": 0,
