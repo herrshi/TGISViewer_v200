@@ -1,0 +1,44 @@
+{
+  "buttons": [
+    {
+      "label": "LED",
+      "fontClass": "icon_qbb",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "固定电警",
+      "fontClass": "fas fa-video",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "违停球机",
+      "fontClass": "fas fa-camera",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "车载抓拍",
+      "fontClass": "fas fa-bus"
+    },
+    {
+      "label": "信号机",
+      "fontClass": "fas fa-traffic-light",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

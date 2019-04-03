@@ -214,10 +214,12 @@ define([
     },
 
     onTopicHandler_showJurisdiction: function() {
+      this.districtLayer.setVisibility(false);
       this.jurisdictionLayer.setVisibility(true);
     },
 
     onTopicHandler_hideJurisdiction: function() {
+      this.districtLayer.setVisibility(true);
       this.jurisdictionLayer.setVisibility(false);
     },
 
