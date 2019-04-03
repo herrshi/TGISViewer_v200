@@ -39,6 +39,7 @@ define([
   return declare([BaseWidget], {
     labelPointGraphics: [],
     policeCountDivs: [],
+    districtLayer: null,
     jurisdictionLayer: null,
     jurisdictionLabelLayer: null,
 
@@ -68,7 +69,44 @@ define([
     },
 
     _readLayer: function() {
-      //辖区区域
+      //区县辖区
+      fetch(window.path + "configs/JurisdictionPolice/District.json").then(
+        lang.hitch(this, function (response) {
+          if (response.ok) {
+            response.json().then(
+              lang.hitch(this, function (data) {
+                var featureCollection = {
+                  layerDefinition: data,
+                  featureSet: data
+                };
+
+                this.districtLayer = new FeatureLayer(featureCollection, {
+                  outFields: ["*"],
+                  visible: true,
+                  showLabels: false
+                });
+                var renderer = new SimpleRenderer({
+                  type: "simple",
+                  symbol: {
+                    type: "esriSFS",
+                    style: "esriSFSNull",
+                    outline: {
+                      color: [0, 210, 245, 230],
+                      width: 2,
+                      type: "esriSLS",
+                      style: "esriSLSSolid"
+                    }
+                  }
+                });
+                this.districtLayer.setRenderer(renderer);
+                this.map.addLayer(this.districtLayer, 0);
+              })
+            );
+          }
+        })
+      );
+
+      //派出所辖区区域
       fetch(window.path + "configs/JurisdictionPolice/Jurisdiction.json").then(
         lang.hitch(this, function(response) {
           if (response.ok) {
