@@ -366,7 +366,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/ChongQing/config-GongJiao.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/XuHui/config-dark.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     map.setUserInfo({
@@ -377,7 +377,7 @@
     // map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"content":"<div class=\\"box8w popup_small blue_bgborder\\" style=\\"margin:30px\\"><div class=\\"popup_title\\"> <i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div><div class=\\"gis-dialog popup_small_inner down_arrow_box\\">\\t<div class=\\"arrow-gis-btn\\" title=\\"关闭\\"> <i class=\\"fa fa-close\\"></i> </div>\\t<div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
     // map.showLayer({label: "路况"});
     map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
-    map.showJurisdiction();
+    // map.showJurisdiction();
     // map.showPoliceCount([{"id":"1","count":35},{"id":"2","count":78},{"id":"3","count":101},{"id":"4","count":76},{"id":"5","count":59},{"id":"6","count":50},{"id":"7","count":68},{"id":"8","count":62},{"id":"9","count":49},{"id":"10","count":54},{"id":"11","count":87}]);
     // map.addPoints('{"points":[{"id":"pt001","type":"police","geometry":{"x":116.868981,"y":32.62236},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}}]}');
     // map.showSelectedFeatures({type: "scats", features: [{id: "11025"}, {id: "11023"}, {id: "11026", locked: true}]});
