@@ -819,6 +819,28 @@ var TMap = {
   },
 
   /**
+   * 后台搜索, 使用输入的图形而不是用户绘制进行搜索
+   * @param params: object, required.
+   *   geometry: object, required. 几何属性. 同addOverlays的geometry.
+   *   bufferDistance: number, optional. 缓冲距离, 单位米.
+   *     0或空代表不做缓冲.
+   *   layers: [object], optional. 要搜索的图层. 为空则搜索当前可见图层.
+   *     type: 要搜索的动态点位类型. 同addOverlays的type属性
+   *     label: 要搜索的静态图层名称.
+   * @param callback: function, optional.
+   * @return
+   *   回调函数返回: array
+   *     type: 动态点位类型.
+   *     label: 静态图层名称.
+   *     id: 要素编号
+   * */
+  backgroundGeometrySearch: function(params, callback) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("backgroundGeometrySearch", { params: params, callback: callback });
+    });
+  },
+
+  /**
    * 查询道路
    * 将符合条件的道路, 按路名和行政区合并以后在地图上高亮, 同时将路名, 长度返回给页面.
    * @param params: object, required.

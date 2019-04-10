@@ -59,7 +59,8 @@ define([
       };
 
       this.heatLayer = new FeatureLayer(featureCollection, {
-        id: "heatLayer"
+        id: "heatLayer",
+        visible: false
       });
 
       this.map.addLayer(this.heatLayer);
@@ -74,6 +75,7 @@ define([
     },
     _onTopicHandler_addHeatMap: function(params) {
       this.heatLayer.clear();
+      this.heatLayer.hide();
       var points = params.points;
       var options = params.options || {};
       var features = [];
@@ -83,6 +85,7 @@ define([
         var graphic = new Graphic(point, new SimpleMarkerSymbol(), attr);
         features.push(graphic);
       }
+
       this.heatLayer.applyEdits(features, null, null);
       var heatmapRenderer = new HeatmapRenderer({
         field: options.field,
@@ -91,9 +94,10 @@ define([
         maxPixelIntensity: options.maxValue || 100,
         minPixelIntensity: options.minValue || 0
       });
-
       this.heatLayer.setRenderer(heatmapRenderer);
       this.heatLayer.redraw();
+
+      this.heatLayer.show();
     },
     _onTopicHandler_deleteHeatMap: function() {
       this.heatLayer.clear();
