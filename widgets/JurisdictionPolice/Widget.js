@@ -75,7 +75,6 @@ define([
           if (response.ok) {
             response.json().then(
               lang.hitch(this, function (data) {
-                console.log(data);
                 var featureCollection = {
                   layerDefinition: data,
                   featureSet: data
@@ -100,7 +99,6 @@ define([
                   }
                 });
                 this.districtLayer.setRenderer(renderer);
-                console.log(this.districtLayer);
                 this.map.addLayer(this.districtLayer, 0);
               })
             );

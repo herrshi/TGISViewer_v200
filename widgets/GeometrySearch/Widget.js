@@ -16,9 +16,11 @@ define([
   "esri/SpatialReference",
   "esri/Color",
   "esri/graphic",
+  "esri/geometry/jsonUtils",
   "esri/geometry/Polygon",
   "esri/layers/GraphicsLayer",
   "esri/layers/ArcGISDynamicMapServiceLayer",
+  "esri/geometry/webMercatorUtils",
   "esri/geometry/geometryEngine",
   "esri/tasks/GeometryService",
   "esri/tasks/query",
@@ -43,9 +45,11 @@ define([
   SpatialReference,
   Color,
   Graphic,
+  geometryJsonUtils,
   Polygon,
   GraphicsLayer,
   ArcGISDynamicMapServiceLayer,
+  WebMercatorUtils,
   GeometryEngine,
   GeometryService,
   Query,
@@ -58,8 +62,13 @@ define([
     drawToolbar: null,
     drawLayer: null,
     bufferLayer: null,
+    _showGeometry: true,
+
     lastDrawGeometry: null,
     searchGeometry: null,
+
+    containerGeometry: [],
+    bufferGeometry: null,
     drawPointSymbol: new SimpleMarkerSymbol(
       SimpleMarkerSymbol.STYLE_CIRCLE,
       10,
@@ -129,10 +138,17 @@ define([
         "geometrySearch",
         lang.hitch(this, this.onTopicHandler_geometrySearch)
       );
+      topic.subscribe(
+        "backgroundGeometrySearch",
+        lang.hitch(this, this.onTopicHandler_backgroundGeometrySearch)
+      );
     },
 
     startup: function() {
       //读取要查询的图层
+      if (!this.inPanel) {
+        return;
+      }
       this.config.searchLayer.forEach(function(layerInfo) {
         var content =
           "<li>" +
@@ -245,7 +261,9 @@ define([
             : GeometryEngine.buffer(geometry, bufferDistance, this.bufferUnit);
 
         var bufferGraphic = new Graphic(bufferPolygon, this.drawPolygonSymbol);
-        this.bufferLayer.add(bufferGraphic);
+        if (this._showGeometry) {
+          this.bufferLayer.add(bufferGraphic);
+        }
         return bufferPolygon;
       } else {
         return null;
@@ -287,6 +305,68 @@ define([
 
     _handleGeometrySearchResult: function(results) {
       var resultList = [];
+      //通过GeometryEngine.contains()结果
+      if (this.containerGeometry.length > 0) {
+        array.forEach(this.containerGeometry, function(graphic) {
+          if (graphic.type) {
+            var deviceId =
+              graphic.id ||
+              graphic.attributes.DEVICEID ||
+              graphic.attributes.BM_CODE ||
+              graphic.attributes.ID ||
+              graphic.attributes.FEATUREID;
+            var resultObj = {
+              type: graphic.type,
+              id: deviceId
+            };
+
+            switch (graphic.geometry.type) {
+              //线图层计算长度
+              case "polyline":
+                try {
+                  var length =
+                    this.map.spatialReference.isWebMercator() ||
+                    this.map.spatialReference.wkid === 4326
+                      ? GeometryEngine.geodesicLength(
+                          graphic.geometry,
+                          this.bufferUnit
+                        )
+                      : GeometryEngine.planarLength(
+                          graphic.geometry,
+                          this.bufferUnit
+                        );
+                  resultObj.length = length;
+                } catch (e) {
+                  //console.log(e);
+                }
+                break;
+
+              //面图层计算面积
+              case "polygon":
+              case "extent":
+                try {
+                  var area =
+                    this.map.spatialReference.isWebMercator() ||
+                    this.map.spatialReference.wkid === 4326
+                      ? GeometryEngine.geodesicArea(
+                          graphic.geometry,
+                          "square-meters"
+                        )
+                      : GeometryEngine.planarArea(
+                          graphic.geometry,
+                          "square-meters"
+                        );
+                  resultObj.area = area;
+                } catch (e) {
+                  console.log(e);
+                }
+                break;
+            }
+            resultList.push(resultObj);
+          }
+        });
+      }
+      //通过query查询的结果
       for (var layerName in results) {
         if (results.hasOwnProperty(layerName)) {
           //graphicsLayer查询的返回
@@ -304,10 +384,11 @@ define([
                 var deviceId =
                   graphic.attributes.DEVICEID ||
                   graphic.attributes.BM_CODE ||
-                  graphic.attributes.ID;
+                  graphic.attributes.ID ||
+                  graphic.attributes.FEATUREID;
                 var resultObj = {
-                  type: layerName,
-                  id: deviceId
+                  id: deviceId,
+                  label: layerName
                 };
 
                 switch (graphic.geometry.type) {
@@ -340,15 +421,15 @@ define([
                         this.map.spatialReference.wkid === 4326
                           ? GeometryEngine.geodesicArea(
                               graphic.geometry,
-                              this.bufferUnit
+                              "square-meters"
                             )
                           : GeometryEngine.planarArea(
                               graphic.geometry,
-                              this.bufferUnit
+                              "square-meters"
                             );
                       resultObj.area = area;
                     } catch (e) {
-                      //console.log(e);
+                      console.log(e);
                     }
                     break;
                 }
@@ -363,16 +444,18 @@ define([
       if (this.searchResultCallback) {
         this.searchResultCallback(resultList);
       }
-      this._showInfoWindow(resultList);
+      if (this._showGeometry) {
+        this._showInfoWindow(resultList);
+      }
       this.loading.destroy();
     },
 
     _showInfoWindow: function(resultList) {
-      console.log(resultList);
+      //console.log(resultList);
       var resultSummery = [];
       array.forEach(resultList, function(result) {
         var found = false;
-        var type = result.type;
+        var type = result.type || result.label;
         array.forEach(resultSummery, function(summery) {
           if (summery.type === type) {
             //线图层计算总长度
@@ -385,17 +468,22 @@ define([
             }
             //点图层计算总数量
             else {
-              summery.count += 1;
             }
+            summery.count += 1;
             found = true;
           }
         });
         if (!found) {
-          result.count = 1;
-          resultSummery.push(result);
+          //result.count = 1;
+          var obj = {};
+          for (var field in result) {
+            obj[field.replace("label","type")] = result[field];
+          }
+          obj.count = 1;
+          resultSummery.push(obj);
         }
       });
-
+      console.log(resultSummery);
       var content = "";
       array.forEach(resultSummery, function(summery) {
         content += "<b>" + summery.type + "</b>: ";
@@ -557,6 +645,206 @@ define([
         if (this.lastDrawGeometry.type === "polygon") {
           this._geometrySearch(this.lastDrawGeometry);
         }
+      }
+    },
+    onTopicHandler_backgroundGeometrySearch: function(params) {
+      this.containerGeometry = [];
+      this.bufferLayer.clear();
+
+      var backGroundparams = params.params;
+      this.bufferDistance = backGroundparams.bufferDistance || 0;
+      var showGeometry = backGroundparams.showGeometry || false;
+      this._showGeometry = showGeometry;
+
+      var layers = backGroundparams.layers || undefined;
+      var overlays = backGroundparams.overlays || undefined;
+
+      var geometry = geometryJsonUtils.fromJson(backGroundparams.geometry);
+      this.searchResultCallback = params.callback;
+      var bufferPolygon = geometry;
+      if (this.bufferDistance > 0) {
+        var bufferPolygon = this._doBuffer(geometry, this.bufferDistance);
+        this.bufferGeometry = bufferPolygon;
+      } else {
+        if (geometry.type === "polygon") {
+          this.bufferGeometry = geometry;
+        }
+      }
+      var layersToQuery;
+      if (layers || overlays) {
+        layersToQuery = this._onSelectLayerByLabel(layers, overlays);
+      } else {
+        layersToQuery = this._getbackgroundVisibleLayer();
+      }
+
+      this._backgroundGeometrySearch(bufferPolygon, layersToQuery);
+    },
+    _onSelectLayerByLabel: function(layers, overlays) {
+      var searchLayer_array = [];
+      for (var i = 0; i < this.map.layerIds.length; i++) {
+        var layer = this.map.getLayer(this.map.layerIds[i]);
+        if (layer instanceof ArcGISDynamicMapServiceLayer) {
+          var visibleLayers = layer.visibleLayers;
+          for (var j = 0; j < visibleLayers.length; j++) {
+            var layerInfo = layer.layerInfos[visibleLayers[j]];
+            if (
+              layers &&
+              layerInfo.name &&
+              layers.indexOf(layerInfo.name) > -1
+            ) {
+              var subLayerUrl = layer.url + "/" + layerInfo.id;
+              var subLayer = {
+                name: layerInfo.name,
+                url: subLayerUrl
+              };
+              searchLayer_array.push(subLayer);
+            }
+          }
+        }
+      }
+      for (var i = 0; i < this.map.graphicsLayerIds.length; i++) {
+        var layerId = this.map.graphicsLayerIds[i];
+        var layer = this.map.getLayer(layerId);
+        if (layer.url) {
+          //featurelayer
+          if (layers && layer.label && layers.indexOf(layer.label) > -1) {
+            searchLayer_array.push({ url: layer.url, name: layer.label });
+          }
+        } else {
+          //graphicslayer
+          array.forEach(
+            layer.graphics,
+            lang.hitch(this, function(graphic) {
+              if (
+                overlays &&
+                graphic.type &&
+                overlays.indexOf(graphic.type) > -1
+              ) {
+                var geometry = graphic.geometry;
+                if (graphic.geometry.spatialReference.isWebMercator()) {
+                  geometry = WebMercatorUtils.webMercatorToGeographic(geometry);
+                }
+                if (
+                  GeometryEngine.contains(
+                    this.bufferGeometry.spatialReference.isWebMercator()
+                      ? WebMercatorUtils.webMercatorToGeographic(
+                          this.bufferGeometry
+                        )
+                      : this.bufferGeometry,
+                    geometry
+                  )
+                ) {
+                  this.containerGeometry.push(graphic);
+                }
+              }
+            })
+          );
+        }
+      }
+      return searchLayer_array;
+    },
+    _getbackgroundVisibleLayer: function() {
+      var searchLayer_array = [];
+      for (var i = 0; i < this.map.layerIds.length; i++) {
+        var layer = this.map.getLayer(this.map.layerIds[i]);
+        if (layer instanceof ArcGISDynamicMapServiceLayer) {
+          if (layer.visible) {
+            var visibleLayers = layer.visibleLayers;
+            for (var j = 0; j < visibleLayers.length; j++) {
+              var layerInfo = layer.layerInfos[visibleLayers[j]];
+              var subLayerUrl = layer.url + "/" + layerInfo.id;
+              var subLayer = {
+                name: layerInfo.name,
+                url: subLayerUrl
+              };
+              if (
+                (layerInfo.maxScale === 0 && layerInfo.minScale === 0) ||
+                (layerInfo.maxScale === 0 &&
+                  layerInfo.minScale >= this.map.getScale()) ||
+                (layerInfo.minScale === 0 &&
+                  layerInfo.maxScale <= this.map.getScale()) ||
+                (layerInfo.maxScale <= this.map.getScale() &&
+                  this.map.getScale() <= layerInfo.minScale)
+              ) {
+                searchLayer_array.push(subLayer);
+              }
+            }
+          }
+        }
+      }
+
+      //在FeatureLayer中查找
+      for (var i = 0; i < this.map.graphicsLayerIds.length; i++) {
+        var layerId = this.map.graphicsLayerIds[i];
+        var layer = this.map.getLayer(layerId);
+        if (layer.visible) {
+          if (
+            (layer.maxScale === 0 && layer.minScale === 0) ||
+            (layer.maxScale === 0 && layer.minScale >= this.map.getScale()) ||
+            (layer.minScale === 0 && layer.maxScale <= this.map.getScale()) ||
+            (layer.maxScale <= this.map.getScale() &&
+              this.map.getScale() <= layer.minScale)
+          ) {
+            if (layer.url) {
+              //featurelayer
+              searchLayer_array.push({ url: layer.url, name: layer.label });
+            } else {
+              //graphicslayer
+              array.forEach(
+                layer.graphics,
+                lang.hitch(this, function(graphic) {
+                  var geometry = graphic.geometry;
+                  if (graphic.geometry.spatialReference.isWebMercator()) {
+                    geometry = WebMercatorUtils.webMercatorToGeographic(
+                      geometry
+                    );
+                  }
+                  if (
+                    GeometryEngine.contains(
+                      this.bufferGeometry.spatialReference.isWebMercator()
+                        ? WebMercatorUtils.webMercatorToGeographic(
+                            this.bufferGeometry
+                          )
+                        : this.bufferGeometry,
+                      geometry
+                    )
+                  ) {
+                    this.containerGeometry.push(graphic);
+                  }
+                })
+              );
+            }
+          }
+        }
+      }
+
+      return searchLayer_array;
+    },
+    _backgroundGeometrySearch: function(geometry, layersToQuery) {
+      if (geometry && geometry.type === "polygon") {
+        this.searchGeometry = geometry;
+
+        var executeObj = {};
+        this.loading = new LoadingIndicator();
+        this.loading.placeAt(window.jimuConfig.layoutId);
+        var loading = this.loading;
+
+        array.forEach(layersToQuery, function(layerToQuery) {
+          var queryTask = new QueryTask(layerToQuery.url);
+          var query = new Query();
+          query.outFields = ["*"];
+          query.geometry = geometry;
+          query.returnGeometry = true;
+          query.spatialRelationship = Query.SPATIAL_REL_CONTAINS;
+          executeObj[layerToQuery.name] = queryTask.execute(query);
+        });
+
+        all(executeObj).then(
+          lang.hitch(this, this._handleGeometrySearchResult),
+          function() {
+            loading.destroy();
+          }
+        );
       }
     }
   });

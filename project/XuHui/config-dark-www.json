@@ -25,15 +25,13 @@
     "basemaps": [
       {
         "label": "深色底图",
-        "url": "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "url":
+          "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
         "type": "webTiled",
         "visible": true
       }
     ],
-    "operationallayers": [
-
-
-    ],
+    "operationallayers": [],
     "mapOptions": {
       "center": [121.42, 31.167],
       "zoom": 15,
@@ -43,10 +41,16 @@
       "slider": false
     }
   },
-  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "15.75.0.255:25001",
   "widgetOnScreen": {
     "widgets": [
+      {
+        "uri": "widgets/GeometrySearch/Widget",
+        "version": "2.4",
+        "id": "GeometrySearchWidget"
+      },
       {
         "uri": "widgets/OverviewMap/Widget",
         "position": {
@@ -89,6 +93,11 @@
         "config": "configs/Routing/config.json",
         "version": "2.4",
         "id": "RoutingWidget"
+      },
+      {
+        "uri": "widgets/HeatMap/Widget",
+        "version": "2.4",
+        "id": "HeatMapWidget"
       }
     ]
   }

@@ -822,11 +822,12 @@ var TMap = {
    * 后台搜索, 使用输入的图形而不是用户绘制进行搜索
    * @param params: object, required.
    *   geometry: object, required. 几何属性. 同addOverlays的geometry.
+   *   showGeometry:boolean,默认值false.是否显示查询区域
    *   bufferDistance: number, optional. 缓冲距离, 单位米.
    *     0或空代表不做缓冲.
-   *   layers: [object], optional. 要搜索的图层. 为空则搜索当前可见图层.
-   *     type: 要搜索的动态点位类型. 同addOverlays的type属性
-   *     label: 要搜索的静态图层名称.
+   *   layers: [string], optional. 要搜索的静态图层名称.
+   *   overlays [string], optional. 要搜索的动态点位类型. 同addOverlays的type属性
+   *    当layers和overlays为空则搜索当前可见图层.
    * @param callback: function, optional.
    * @return
    *   回调函数返回: array
