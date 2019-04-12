@@ -483,7 +483,6 @@ define([
           resultSummery.push(obj);
         }
       });
-      console.log(resultSummery);
       var content = "";
       array.forEach(resultSummery, function(summery) {
         content += "<b>" + summery.type + "</b>: ";

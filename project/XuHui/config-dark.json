@@ -60,6 +60,11 @@
   "widgetOnScreen": {
     "widgets": [
       {
+        "uri": "widgets/GeometrySearch/Widget",
+        "version": "2.4",
+        "id": "GeometrySearchWidget"
+      },
+      {
         "uri": "widgets/OverviewMap/Widget",
         "position": {
           "right": 0,
@@ -111,6 +116,11 @@
         "uri": "widgets/DrawOverlay/Widget",
         "version": "2.4",
         "id": "DrawOverlayWidget"
+      },
+      {
+        "uri": "widgets/POISearch/Widget",
+        "version": "2.4",
+        "id": "POISearchWidget"
       }
     ]
   }

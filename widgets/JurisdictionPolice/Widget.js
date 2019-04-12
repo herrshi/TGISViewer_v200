@@ -71,10 +71,10 @@ define([
     _readLayer: function() {
       //区县辖区
       fetch(window.path + "configs/JurisdictionPolice/District.json").then(
-        lang.hitch(this, function (response) {
+        lang.hitch(this, function(response) {
           if (response.ok) {
             response.json().then(
-              lang.hitch(this, function (data) {
+              lang.hitch(this, function(data) {
                 var featureCollection = {
                   layerDefinition: data,
                   featureSet: data
@@ -180,25 +180,27 @@ define([
 
     _createDiv: function() {
       // console.log(this.map.root);
-      this.policeCountDivs = this.labelPointGraphics.map(lang.hitch(this, function(graphic) {
-        var id = graphic.attributes["FEATUREID"];
-        var name = graphic.attributes["SHOWNAME"];
-        return domConstruct.place(
-          "<div id='" +
-            ("Jurisdiction" + id) +
-            "' " +
-            "class='jingli_point_green' " +
-            "style='position:absolute; z-index: 99; display: none'>" +
-            "<span id='" +
-            ("JurisdictionCount" + id) +
-            "'>100</span>" +
-            "<span class='jingli_point_font'>" +
-            name +
-            "</span>" +
-            "</div>",
-          this.map.root
-        );
-      }));
+      this.policeCountDivs = this.labelPointGraphics.map(
+        lang.hitch(this, function(graphic) {
+          var id = graphic.attributes["FEATUREID"];
+          var name = graphic.attributes["SHOWNAME"];
+          return domConstruct.place(
+            "<div id='" +
+              ("Jurisdiction" + id) +
+              "' " +
+              "class='jingli_point_green' " +
+              "style='position:absolute; display: none'>" +
+              "<span id='" +
+              ("JurisdictionCount" + id) +
+              "'>100</span>" +
+              "<span class='jingli_point_font'>" +
+              name +
+              "</span>" +
+              "</div>",
+            this.map.root
+          );
+        })
+      );
     },
 
     _placeDiv: function() {
