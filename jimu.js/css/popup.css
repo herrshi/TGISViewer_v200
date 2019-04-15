@@ -261,7 +261,6 @@
   overflow: hidden !important;
   background-color: rgba(0, 0, 0, 1) !important;
   color: #ffffff;
-  z-index: 999;
 }
 .esriPopup .sizer {
   width: auto;

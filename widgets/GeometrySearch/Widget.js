@@ -64,6 +64,7 @@ define([
     bufferLayer: null,
     _showGeometry: true,
 
+    _showResults: true,
     lastDrawGeometry: null,
     searchGeometry: null,
 
@@ -141,6 +142,10 @@ define([
       topic.subscribe(
         "backgroundGeometrySearch",
         lang.hitch(this, this.onTopicHandler_backgroundGeometrySearch)
+      );
+      topic.subscribe(
+        "clearBackgroundSearchResult",
+        lang.hitch(this, this.onTopicHandler_clearBackgroundSearchResult)
       );
     },
 
@@ -444,7 +449,7 @@ define([
       if (this.searchResultCallback) {
         this.searchResultCallback(resultList);
       }
-      if (this._showGeometry) {
+      if (this._showResults) {
         this._showInfoWindow(resultList);
       }
       this.loading.destroy();
@@ -477,12 +482,13 @@ define([
           //result.count = 1;
           var obj = {};
           for (var field in result) {
-            obj[field.replace("label","type")] = result[field];
+            obj[field.replace("label", "type")] = result[field];
           }
           obj.count = 1;
           resultSummery.push(obj);
         }
       });
+      //console.log(resultSummery);
       var content = "";
       array.forEach(resultSummery, function(summery) {
         content += "<b>" + summery.type + "</b>: ";
@@ -653,6 +659,8 @@ define([
       var backGroundparams = params.params;
       this.bufferDistance = backGroundparams.bufferDistance || 0;
       var showGeometry = backGroundparams.showGeometry || false;
+      var showResults = backGroundparams.showResults || false;
+      this._showResults = showResults;
       this._showGeometry = showGeometry;
 
       var layers = backGroundparams.layers || undefined;
@@ -845,6 +853,10 @@ define([
           }
         );
       }
+    },
+    onTopicHandler_clearBackgroundSearchResult: function() {
+        this.map.infoWindow.hide();
+        this.bufferLayer.clear();
     }
   });
 });
