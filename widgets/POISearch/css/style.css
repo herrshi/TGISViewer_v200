@@ -1,0 +1,21 @@
+.jimu-widget-POISearch {
+  margin: auto;
+  padding: 0;
+  text-align: center;
+}
+
+.jimu-widget-POISearch .opacity-0 {
+  opacity: 0.3;
+}
+
+.jimu-widget-POISearch .opacity-1 {
+  opacity: 1;
+}
+
+.jimu-widget-POISearch .show {
+  display: block;
+}
+
+.jimu-widget-POISearch .hide {
+  display: none;
+}

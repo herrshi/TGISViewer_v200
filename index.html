@@ -366,7 +366,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/WuLuMuQi/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/XuHui/config-dark.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     map.setUserInfo({
@@ -374,10 +374,8 @@
       id: "et_brain_021",
       code: "310000"
     });
-    map.addOverlays('{"showPopup":false,"defaultButtons":[{"label":"确认报警","type":"confirmAlarm"},{"label":"详情","type":"alarmDesc"}],"defaultSymbol":{"type":"esriPMS","url":"http://static.arcgis.com/images/Symbols/Basic/RedBeacon.png","width":24,"height":24},"overlays":[{"type":"sxj","id":"cam001","geometry":{"x":87.597,"y":43.824},"fields":{"编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}]}')
     // map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"content":"<div class=\\"box8w popup_small blue_bgborder\\" style=\\"margin:30px\\"><div class=\\"popup_title\\"> <i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div><div class=\\"gis-dialog popup_small_inner down_arrow_box\\">\\t<div class=\\"arrow-gis-btn\\" title=\\"关闭\\"> <i class=\\"fa fa-close\\"></i> </div>\\t<div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
-    // map.showLayer({label: "路况"});
-    // map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
+    map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
     // map.showJurisdiction();
     // map.showPoliceCount([{"id":"1","count":35},{"id":"2","count":78},{"id":"3","count":101},{"id":"4","count":76},{"id":"5","count":59},{"id":"6","count":50},{"id":"7","count":68},{"id":"8","count":62},{"id":"9","count":49},{"id":"10","count":54},{"id":"11","count":87}]);
     // map.addPoints('{"points":[{"id":"pt001","type":"police","geometry":{"x":116.868981,"y":32.62236},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}}]}');
@@ -480,15 +478,8 @@
   });
 
   function Test1ClickHandler() {
-    map.backgroundGeometrySearch({"geometry":{"x":121.437773,"y":31.17952},"showGeometry":true,"overlays": ["TCC"],"bufferDistance":500}, function (result) {
-      console.log(result);
-    });
-
-    // map.RoutingSearch('{"startPoint":"121.455536,31.249452","endPoint":"121.475536,31.259452","wayPoints":"121.465536,31.269452;121.463536,31.266452"}');
-    // map.addHeatMap({"points":[{"geometry":{"x":121.437773,"y":31.17952},"fields":{"desc":"上海体育馆停车场","totalSpace":321}},{"geometry":{"x":121.427773,"y":31.17652},"fields":{"desc":"天钥桥停车场1","totalSpace":600}},{"geometry":{"x":121.427773,"y":31.17452},"fields":{"desc":"天钥桥停车场2","totalSpace":250}},{"geometry":{"x":121.476773,"y":31.17852},"fields":{"desc":"天钥桥停车场3","totalSpace":200}},{"geometry":{"x":121.457773,"y":31.17952},"fields":{"desc":"天钥桥停车场4","totalSpace":120}}],"options":{"field":"totalSpace","radius":"","colors":"","maxValue":1000,"minValue":100}});
-    // map.addHeatMap({"points":[{"geometry":{"x":121.437773,"y":31.17952}},{"geometry":{"x":121.427773,"y":31.17652}},{"geometry":{"x":121.427773,"y":31.17452}},{"geometry":{"x":121.476773,"y":31.17852}},{"geometry":{"x":121.457773,"y":31.17952}}]})
     // map.showSelectedFeatures({type: "scats", features: [{id: "11025"}, {id: "11023"}, {id: "11026", locked: true}]});
-    // map.clearSelectedFeature({type: "scats", id: "11024"});
+    map.clearSelectedFeature({type: "scats", id: "11024"});
     // map.addOverlays('{"showPopup":true,"defaultSymbol":{"type":"marker","style":"circle","color":"white","alpha":0.8,"size":8,"outline":{"color":"#145b7d","width":1}},"overlays":[{"id":"0pointId","type":"CADPile","geometry":{"x":"-14035.039505","y":"-4345.931068"},"fields":{"里程":"0","点类型":"起点","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"200pointId","type":"CADPile","geometry":{"x":"-14027.045862","y":"-4545.762992"},"fields":{"里程":"200","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"300pointId","type":"CADPile","geometry":{"x":"-14027.463116","y":"-4645.761142"},"fields":{"里程":"300","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"400pointId","type":"CADPile","geometry":{"x":"-14027.836604","y":"-4745.759061"},"fields":{"里程":"400","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"500pointId","type":"CADPile","geometry":{"x":"-14022.774527","y":"-4845.613274"},"fields":{"里程":"500","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"600pointId","type":"CADPile","geometry":{"x":"-14015.658555","y":"-4945.359767"},"fields":{"里程":"600","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"700pointId","type":"CADPile","geometry":{"x":"-14008.542582","y":"-5045.106261"},"fields":{"里程":"700","点类型":"","标高":"5.62","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"800pointId","type":"CADPile","geometry":{"x":"-14001.42661","y":"-5144.852754"},"fields":{"里程":"800","点类型":"","标高":"5.92","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"900pointId","type":"CADPile","geometry":{"x":"-13994.310637","y":"-5244.599247"},"fields":{"里程":"900","点类型":"","标高":"6.52","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}},{"id":"1000pointId","type":"CADPile","geometry":{"x":"-13987.48203","y":"-5344.364942"},"fields":{"里程":"1000","点类型":"","标高":"7.12","备案详情":"<button onclick=\'alert();\' type=\'button\' class=\'btn btn-info\'><i class=\'fa fa-fa-eye\'></i> 查看</NOtton>"}}]}');
     // map.addOverlays('{"showPopup":true,"defaultSymbol":{"style":"solid","color":"#228fbd","alpha":0.8,"width":9},"overlays":[{"id":"0","type":"GPS","geometry":{"paths":[[["-14035.039505","-4345.931068"],["-14027.045862","-4545.762992"],["-14027.463116","-4645.761142"],["-14027.836604","-4745.759061"],["-14022.774527","-4845.613274"],["-14015.658555","-4945.359767"],["-14008.542582","-5045.106261"],["-14001.42661","-5144.852754"],["-13994.310637","-5244.599247"],["-13987.48203","-5344.364942"]]]},"fields":{"线路名称":"22路","全长":"108公里","线路信息":"线路信息"}}]}');
     // map.setMapCenterAndLevel({x: 121.907, y: 30.926, level: 8});
@@ -560,8 +551,6 @@
     //   console.log(results);
     //
     //   map.getMultiSearchResult({className: "road", maxCount: 1000}, function (results) {
-
-
     //     console.log(results);
     //   });
     //
@@ -628,7 +617,7 @@
     // map.hideOverlays({types:["police"]});
     // map.addOverlays('{"overlays":[{"type":"police","id":"001","geometry":{"x":121.41,"y":31.22}}]}');
     // map.showLayer({"label": "锚地"});
-    // map.startDrawOverlay({drawType: "polyline"}, function (data) {
+    // map.startDrawOverlay({drawType: "point"}, function (data) {
     //   console.log(data);
     // })
     // map.startHighlightFeature({"layerName": "发布段", "ids": ["CBCJ-NO->CBCJ-NI", "CBCJ-BO->CBCJ-BI"]})
@@ -647,7 +636,6 @@
 
   function Test2ClickHandler() {
     map.stopTrackPlayback();
-    map.clearDrawOverlay();
 //      map.addSwipeLayer({layerType: "reference", layer: {label: "db2", url: "http://172.16.20.2:6080/arcgis/rest/services/CADServices/p20170725111146_c20170725111146/MapServer"}})
 //      map.stopSwipe();
 //      map.removeSwipeLayer({
@@ -770,9 +758,9 @@
   }
 </script>
 
-<!--<script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>-->
-<!--<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
+<script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>
+<script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 
 <script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>

@@ -18,7 +18,8 @@ define([
   "esri/layers/FeatureLayer",
   "esri/layers/LabelClass",
   "esri/symbols/TextSymbol",
-  "esri/renderers/SimpleRenderer"
+  "esri/renderers/SimpleRenderer",
+  "esri/geometry/jsonUtils"
 ], function(
   declare,
   lang,
@@ -34,7 +35,8 @@ define([
   FeatureLayer,
   LabelClass,
   TextSymbol,
-  SimpleRenderer
+  SimpleRenderer,
+  geometryJsonUtils
 ) {
   return declare([BaseWidget], {
     labelPointGraphics: [],
@@ -45,7 +47,7 @@ define([
 
     postCreate: function() {
       this.inherited(arguments);
-      this._readLayer();
+      this._readJurisdictionLayer();
 
       this.map.on("zoom-end", lang.hitch(this, this._placeDiv));
       this.map.on("pan-end", lang.hitch(this, this._placeDiv));
@@ -68,7 +70,11 @@ define([
       );
     },
 
-    _readLayer: function() {
+    /**
+     * 派出所辖区和警力统计
+     * 从json读取派出所辖区, 符号化后显示在地图上
+     * */
+    _readJurisdictionLayer: function() {
       //区县辖区
       fetch(window.path + "configs/JurisdictionPolice/District.json").then(
         lang.hitch(this, function(response) {
@@ -89,9 +95,10 @@ define([
                   type: "simple",
                   symbol: {
                     type: "esriSFS",
-                    style: "esriSFSNull",
+                    style: "esriSFSSolid",
+                    color: [0, 0, 0, 150],
                     outline: {
-                      color: [0, 210, 245, 230],
+                      color: [0, 210, 245],
                       width: 2,
                       type: "esriSLS",
                       style: "esriSLSSolid"
@@ -99,6 +106,9 @@ define([
                   }
                 });
                 this.districtLayer.setRenderer(renderer);
+                this.districtLayer.on("click", function (event) {
+                  event.stopPropagation();
+                });
                 this.map.addLayer(this.districtLayer, 0);
               })
             );
@@ -122,6 +132,7 @@ define([
                   visible: false,
                   showLabels: true
                 });
+                //显示辖区名称
                 this.jurisdictionLayer.setLabelingInfo([
                   {
                     labelExpressionInfo: { value: "{SHOWNAME}" },
@@ -158,7 +169,8 @@ define([
         })
       );
 
-      //警力统计
+      //显示警力统计的div
+      //警力统计的div加在点上
       fetch(
         window.path + "configs/JurisdictionPolice/Jurisdiction_Point.json"
       ).then(
@@ -178,8 +190,11 @@ define([
       );
     },
 
+    /**
+     * 创建警力统计的div
+     * 创建以后不显示
+     * */
     _createDiv: function() {
-      // console.log(this.map.root);
       this.policeCountDivs = this.labelPointGraphics.map(
         lang.hitch(this, function(graphic) {
           var id = graphic.attributes["FEATUREID"];
@@ -203,8 +218,10 @@ define([
       );
     },
 
+    /**放置警力统计div*/
     _placeDiv: function() {
       this.labelPointGraphics.forEach(function(graphic) {
+        //将放置点的坐标转到屏幕坐标
         var screenPoint = this.map.toScreen(graphic.geometry);
         var id = graphic.attributes["FEATUREID"];
         var div = dom.byId("Jurisdiction" + id);
