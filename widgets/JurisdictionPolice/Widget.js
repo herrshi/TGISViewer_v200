@@ -60,6 +60,7 @@ define([
         "hideJurisdiction",
         lang.hitch(this, this.onTopicHandler_hideJurisdiction)
       );
+
       topic.subscribe(
         "showPoliceCount",
         lang.hitch(this, this.onTopicHandler_showPoliceCount)
@@ -68,6 +69,9 @@ define([
         "hidePoliceCount",
         lang.hitch(this, this.onTopicHandler_hidePoliceCount)
       );
+
+      topic.subscribe("showDistrictMask", lang.hitch(this, this.onTopicHandler_showDistrictMask));
+      topic.subscribe("hideDistrictMask", lang.hitch(this, this.onTopicHandler_hideDistrictMask));
     },
 
     /**
@@ -101,7 +105,7 @@ define([
                       color: [0, 210, 245],
                       width: 2,
                       type: "esriSLS",
-                      style: "esriSLSSolid"
+                      style: "esriSLSNull"
                     }
                   }
                 });
@@ -162,6 +166,9 @@ define([
                   }
                 });
                 this.jurisdictionLayer.setRenderer(renderer);
+                this.jurisdictionLayer.on("click", function (event) {
+                  event.stopPropagation();
+                });
                 this.map.addLayer(this.jurisdictionLayer);
               })
             );
@@ -271,6 +278,14 @@ define([
       this.policeCountDivs.forEach(function(div) {
         domStyle.set(div, { display: "none" });
       });
+    },
+
+    onTopicHandler_showDistrictMask: function () {
+      this.districtLayer.setVisibility(true);
+    },
+
+    onTopicHandler_hideDistrictMask: function () {
+      this.districtLayer.setVisibility(false);
     }
   });
 });

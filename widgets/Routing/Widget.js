@@ -82,13 +82,15 @@ define([
     _routeLineStart: null,
     _routeLineEnd: null,
 
-    routeLayer: null,
+    _routeLayer: null,
     _tooltipDiv: null,
+
+    _bufferDistance: 0,
 
     postCreate: function() {
       this.inherited(arguments);
-      this.routeLayer = new GraphicsLayer();
-      this.map.addLayer(this.routeLayer);
+      this._routeLayer = new GraphicsLayer();
+      this.map.addLayer(this._routeLayer);
       this._tooltipDiv = domConstruct.place(
         "<div id='Routingtooltip' class='tooltipDiv'></div>",
         document.getElementById(this.map.container.id)
@@ -139,19 +141,19 @@ define([
         4
       );
       topic.subscribe(
-        "RoutingSearch",
-        lang.hitch(this, this.onTopicHandler_RoutingSearch)
+        "routeSearch",
+        lang.hitch(this, this.onTopicHandler_routeSearch)
       );
       topic.subscribe(
-        "clearRoutingSearch",
-        lang.hitch(this, this.onTopicHandler_clearRoutingSearch)
+        "clearRouteSearch",
+        lang.hitch(this, this.onTopicHandler_clearRouteSearch)
       );
 
       //var infoWindow = new InfoWindow({}, domConstruct.create("div"));
       //infoWindow.startup();
       //this.map.infoWindow = infoWindow;
-      this.routeLayer.on("mouse-move", lang.hitch(this, this.onShowInfo));
-      this.routeLayer.on("mouse-out", lang.hitch(this, this.onHideInfo));
+      this._routeLayer.on("mouse-move", lang.hitch(this, this.onShowInfo));
+      this._routeLayer.on("mouse-out", lang.hitch(this, this.onHideInfo));
     },
     onShowInfo: function(event) {
       if (event.graphic) {
@@ -160,12 +162,10 @@ define([
           gra.geometry.type === "point" &&
           gra.attributes &&
           gra.attributes.type &&
-          gra.attributes.type == "RoutingPoint"
+          gra.attributes.type === "RoutingPoint"
         ) {
           domStyle.set(this._tooltipDiv, "display", "block");
-          var content = gra.attributes.drive_instruction;
-
-          this._tooltipDiv.innerHTML = content;
+          this._tooltipDiv.innerHTML = gra.attributes.drive_instruction;
           var divWidth = this._tooltipDiv.clientWidth;
           var divHeight = this._tooltipDiv.clientHeight;
 
@@ -187,30 +187,32 @@ define([
     onHideInfo: function(event) {
       domStyle.set(this._tooltipDiv, "display", "none");
     },
-    onTopicHandler_clearRoutingSearch: function() {
-        this.routeLayer.clear();
+    onTopicHandler_clearRouteSearch: function() {
+      this._routeLayer.clear();
     },
-    onTopicHandler_RoutingSearch: function(params) {
-      this.routeLayer.clear();
+    onTopicHandler_routeSearch: function(params) {
+      this._routeLayer.clear();
       var routeParams = JSON.parse(params);
-      var waypoints = routeParams.wayPoints || "";
+      var wayPoints = routeParams.wayPoints || "";
       var start = routeParams.startPoint;
       var end = routeParams.endPoint;
+      this._bufferDistance = routeParams.bufferDistance || 0;
 
       this._wayPoints = [];
       var startStr = start.split(",");
       this._startPoint = new Point([Number(startStr[0]), Number(startStr[1])]);
       var endStr = end.split(",");
       this._endPoint = new Point([Number(endStr[0]), Number(endStr[1])]);
-      if (waypoints) {
-        var ways = waypoints.split(";");
+      if (wayPoints) {
+        var ways = wayPoints.split(";");
         for (var i = 0; i < ways.length; i++) {
-          var waypoint = new Point(ways[i].split(","));
-          this._wayPoints.push(waypoint);
+          var wayPoint = new Point(ways[i].split(","));
+          this._wayPoints.push(wayPoint);
         }
       }
-      this.OnQueryRouting(start, end, waypoints);
+      this.OnQueryRouting(start, end, wayPoints);
     },
+
     OnQueryRouting: function(sPoint, ePoint, wPoints) {
       $.ajax({
         //用变量做url参数前面会带上http://localhost:8090, 不知如何解决
@@ -228,7 +230,7 @@ define([
         dataType: "jsonp", //使用jsonp避免跨域问题
         jsonpCallback: "callback",
         success: lang.hitch(this, function(result) {
-          if (result.message == "ok") {
+          if (result.message === "ok") {
             var steps = result.result.routes[0].steps;
             var latlngs = [];
             this._routeGraphic = [];
@@ -284,20 +286,20 @@ define([
         this._LineSymbol
       );
 
-      this.routeLayer.add(routeLine);
-      this.routeLayer.add(startLine);
-      this.routeLayer.add(endLine);
+      this._routeLayer.add(routeLine);
+      this._routeLayer.add(startLine);
+      this._routeLayer.add(endLine);
       for (var j = 0; j < this._routeGraphic.length; j++) {
-        this.routeLayer.add(this._routeGraphic[j]);
+        this._routeLayer.add(this._routeGraphic[j]);
       }
       if (this._wayPoints) {
         for (var i = 0; i < this._wayPoints.length; i++) {
           var wayGra = new Graphic(this._wayPoints[i], this._wayPointsSymbol);
-          this.routeLayer.add(wayGra);
+          this._routeLayer.add(wayGra);
         }
       }
-      this.routeLayer.add(startGra);
-      this.routeLayer.add(endGra);
+      this._routeLayer.add(startGra);
+      this._routeLayer.add(endGra);
     }
   });
 });

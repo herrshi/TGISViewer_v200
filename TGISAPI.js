@@ -1377,6 +1377,18 @@ var TMap = {
       topic.publish("hidePoliceCount");
     });
   },
+
+  showDistrictMask: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showDistrictMask");
+    });
+  },
+
+  hideDistrictMask: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideDistrictMask");
+    });
+  },
   /************************ Special Interface END **************************/
 
   /**
@@ -1385,18 +1397,19 @@ var TMap = {
    *   startPoint: string, required. 需要路径分析的开始点坐标字符串x,y
    *   endPoint: string, required. 需要路径分析的终点字符串x,y
    *   wayPoints: string. 途径点字符串x,y,以;隔开
+   *   bufferDistance: number. 缓冲半径. 默认为0, 不缓冲.
    * */
-  RoutingSearch: function(params) {
+  routeSearch: function(params) {
     require(["dojo/topic"], function(topic) {
-      topic.publish("RoutingSearch", params);
+      topic.publish("routeSearch", params);
     });
   },
   /**
    * 清除路径分析结果
    * */
-  clearRoutingSearch: function() {
+  clearRouteSearch: function() {
     require(["dojo/topic"], function(topic) {
-      topic.publish("clearRoutingSearch");
+      topic.publish("clearRouteSearch");
     });
   }
 };
