@@ -9,6 +9,7 @@ define([
 
     postCreate: function() {
       this.inherited(arguments);
+      $(function () { $("[data-toggle='tooltip']").tooltip(); });
     },
 
     onBtnSearch_mouseover: function() {
@@ -17,14 +18,18 @@ define([
 
       query("#inputSearchKey, #btnSearchClear").removeClass("hide");
       query("#inputSearchKey, #btnSearchClear").addClass("show");
-
-      // query("#btnSearchClear").removeClass("hide");
-      // query("#btnSearchClear").addClass("show");
     },
 
-    onBtnSearch_mouseout: function () {
-      query("#btnSearch").addClass("opacity-0");
+    onBtnSearch_click: function() {
+
+    },
+
+    btnSearchClear_click: function () {
       query("#btnSearch").removeClass("opacity-1");
+      query("#btnSearch").addClass("opacity-0");
+
+      query("#inputSearchKey, #btnSearchClear").removeClass("show");
+      query("#inputSearchKey, #btnSearchClear").addClass("hide");
     }
   });
 });

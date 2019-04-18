@@ -47,7 +47,7 @@
 
     ],
     "mapOptions": {
-      "center": [121.42, 31.167],
+      "center": [121.441, 31.159],
       "zoom": 13,
       "showLabels": true,
       "logo": false,
@@ -59,6 +59,16 @@
   "gisServer": "15.75.0.255:25001",
   "widgetOnScreen": {
     "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
       {
         "uri": "widgets/GeometrySearch/Widget",
         "version": "2.4",

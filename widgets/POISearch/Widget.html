@@ -1,13 +1,17 @@
 <div class="search-popup-box" style="margin-left:30px">
   <form class="form-horizontal box8w" style="font-size:0.2rem;">
     <div class="input-group">
-      <span id="btnSearchClear" class="glyphicon glyphicon-remove form-control-feedback hide" aria-hidden="true" style="z-index:333;right:0.85rem;margin-top:0.06rem; cursor:pointer;pointer-events:auto;border-left:#1e6d97 solid 1px"></span>
-      <input id="inputSearchKey" type="text" class="form-control hide" placeholder="请输入关键词" style="height:40px">
+      <span id="btnSearchClear" class="glyphicon glyphicon-remove form-control-feedback hide"
+            data-toggle="tooltip" data-placement="bottom" title="清空"
+            aria-hidden="true" style="z-index:333;right:0.85rem;margin-top:0.06rem; cursor:pointer;pointer-events:auto;border-left:#1e6d97 solid 1px"
+            data-dojo-attach-event="onclick:btnSearchClear_click"></span>
+      <input id="inputSearchKey" type="text" class="form-control hide" placeholder="请输入关键词"
+             style="height:40px">
       <span class="input-group-btn">
         <button id="btnSearch" class="btn btn-default opacity-0" type="button"
                 style="margin-left:0"
                 data-toggle="tooltip" data-placement="bottom" title="搜索"
-                data-dojo-attach-event="onmouseover:onBtnSearch_mouseover">
+                data-dojo-attach-event="onmouseover:onBtnSearch_mouseover,onclick:onBtnSearch_click">
           <i class="fa fa-search"></i>
         </button>
       </span>

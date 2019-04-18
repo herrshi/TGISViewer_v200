@@ -32,9 +32,7 @@ define([
   "esri/layers/WMSLayerInfo",
   "esri/geometry/webMercatorUtils",
   "esri/symbols/SimpleLineSymbol",
-  "esri/symbols/SimpleMarkerSymbol",
-  "esri/config",
-  "esri/request"
+  "esri/symbols/SimpleMarkerSymbol"
 ], function(
   declare,
   lang,
@@ -66,10 +64,7 @@ define([
   WMSLayerInfo,
   webMercatorUtils,
   SimpleLineSymbol,
-  SimpleMarkerSymbol,
-  PictureMarkerSymbol,
-  esriConfig,
-  esriRequest
+  SimpleMarkerSymbol
 ) {
   var instance = null,
     clazz;
@@ -80,6 +75,7 @@ define([
     map: null,
     currentExtent: null,
     fullExtent: null,
+    initialExtent: null,
     serviceToken: "",
 
     constructor: function(options, mapDivId) {
@@ -128,6 +124,7 @@ define([
         "toScreen",
         lang.hitch(this, this.topicHandler_onToScreen)
       );
+      topic.subscribe("home", lang.hitch(this, this.topicHandler_onHome));
     },
 
     showMap: function() {
@@ -195,6 +192,11 @@ define([
         this.mapDivId,
         this._processMapOptions(this.appConfig.map.mapOptions)
       );
+
+      map.on("load", lang.hitch(this, function () {
+        this.initialExtent = map.extent;
+      }));
+
       //backgroundColor不在options中，需要代码
       if (this.appConfig.map.mapOptions.backgroundColor) {
         map.setBackgroundColor(this.appConfig.map.mapOptions.backgroundColor);
@@ -231,10 +233,10 @@ define([
             if (graphic.infoTemplate) {
               var poptitle = false;
               var popcontent = false;
-              if (graphic.infoTemplate.title.indexOf("div") > -1) {
+              if (graphic.infoTemplate.title && graphic.infoTemplate.title.indexOf("div") > -1) {
                 poptitle = true;
               }
-              if (graphic.infoTemplate.content.indexOf("div") > -1) {
+              if (graphic.infoTemplate.content && graphic.infoTemplate.content.indexOf("div") > -1) {
                 popcontent = true;
               }
               this.addPopUpClass(poptitle, popcontent);
@@ -741,6 +743,11 @@ define([
         var centerPoint = new Point(params.x, params.y);
         this.map.centerAt(centerPoint);
       }
+    },
+
+    topicHandler_onHome: function() {
+      this.map.setExtent(this.initialExtent);
+      // console.log(this.initialExtent);
     },
 
     topicHandler_onRefreshMap: function(params) {

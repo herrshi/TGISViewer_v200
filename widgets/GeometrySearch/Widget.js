@@ -234,11 +234,13 @@ define([
 
       var drawGraphic = new Graphic(this.lastDrawGeometry, symbol);
       this.drawLayer.add(drawGraphic);
-
-      if (this.txtBufferDistance.value > 0) {
+      var bufferDistance = this.txtBufferDistance
+        ? this.txtBufferDistance.value
+        : this.bufferDistance;
+      if (bufferDistance > 0) {
         var bufferPolygon = this._doBuffer(
           this.lastDrawGeometry,
-          this.txtBufferDistance.value
+          bufferDistance
         );
         this._geometrySearch(bufferPolygon);
       } else {
@@ -633,7 +635,11 @@ define([
       var namelist = $("#btnDropdown").html();
       for (var i = 0; i < this.config.searchLayer.length; i++) {
         var layer = this.config.searchLayer[i];
-        if (namelist.indexOf(layer.label) > -1) {
+        if (namelist) {
+          if (namelist.indexOf(layer.label) > -1) {
+            searchLayer_array.push({ url: layer.url, name: layer.label });
+          }
+        } else {
           searchLayer_array.push({ url: layer.url, name: layer.label });
         }
       }
@@ -855,8 +861,8 @@ define([
       }
     },
     onTopicHandler_clearBackgroundSearchResult: function() {
-        this.map.infoWindow.hide();
-        this.bufferLayer.clear();
+      this.map.infoWindow.hide();
+      this.bufferLayer.clear();
     }
   });
 });

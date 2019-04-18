@@ -5,7 +5,9 @@ define([
   "dojo/on",
   "jimu/BaseWidget",
   "esri/toolbars/draw",
+  "esri/geometry/jsonUtils",
   "esri/symbols/SimpleMarkerSymbol",
+  "esri/symbols/PictureMarkerSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleFillSymbol",
   "esri/Color",
@@ -20,7 +22,9 @@ define([
   on,
   BaseWidget,
   Draw,
+  geometryJsonUtils,
   SimpleMarkerSymbol,
+  PictureMarkerSymbol,
   SimpleLineSymbol,
   SimpleFillSymbol,
   Color,
@@ -34,7 +38,7 @@ define([
     drawLayer: null,
     lastDrawGeometry: null,
     drawCallback: null,
-
+    _drawSymbol: null,
     drawPointSymbol: new SimpleMarkerSymbol(
       SimpleMarkerSymbol.STYLE_CIRCLE,
       10,
@@ -88,6 +92,8 @@ define([
 
     onTopicHandler_startDrawOverlay: function(params) {
       var drawType = params.params.drawType;
+      this._drawSymbol = params.params.symbol;
+
       this.drawCallback = params.callback;
 
       this.drawToolbar.activate(drawType);
@@ -103,11 +109,19 @@ define([
       switch (this.lastDrawGeometry.type) {
         case "point":
         case "multipoint":
-          symbol = this.drawPointSymbol;
+          if (this._drawSymbol) {
+            symbol = this._getEsriPointSymbol(this._drawSymbol);
+          } else {
+            symbol = this.drawPointSymbol;
+          }
           break;
 
         case "polyline":
-          symbol = this.drawLineSymbol;
+          if (this._drawSymbol) {
+            symbol = this._getESRILineSymbol(this._drawSymbol);
+          } else {
+            symbol = this.drawLineSymbol;
+          }
           break;
 
         case "extent":
@@ -126,7 +140,11 @@ define([
           break;
 
         case "polygon":
-          symbol = this.drawPolygonSymbol;
+          if (this._drawSymbol) {
+            symbol = this._getESRIPolygonSymbol(this._drawSymbol);
+          } else {
+            symbol = this.drawPolygonSymbol;
+          }
           break;
       }
 
@@ -135,10 +153,120 @@ define([
 
       if (this.drawCallback) {
         if (this.map.spatialReference.isWebMercator()) {
-          this.drawCallback(WebMercatorUtils.webMercatorToGeographic(this.lastDrawGeometry));
+          this.drawCallback(
+            WebMercatorUtils.webMercatorToGeographic(this.lastDrawGeometry)
+          );
         }
-
       }
+    },
+
+    _getEsriPointSymbol: function(symbolObj) {
+      var symbol;
+      if (symbolObj) {
+        switch (symbolObj.type.toLowerCase()) {
+          //picture marker Symbol
+          case "picture":
+          case "esriPMS".toLowerCase():
+            symbol = new PictureMarkerSymbol();
+            symbol.url = symbolObj.url;
+            if (!isNaN(symbolObj.width)) {
+              symbol.width = symbolObj.width;
+            }
+            if (!isNaN(symbolObj.height)) {
+              symbol.height = symbolObj.height;
+            }
+            symbol.angle = !isNaN(symbolObj.angle) ? symbolObj.angle : 0;
+            symbol.xoffset = !isNaN(symbolObj.xoffset) ? symbolObj.xoffset : 0;
+            symbol.yoffset = !isNaN(symbolObj.yoffset) ? symbolObj.yoffset : 0;
+            break;
+
+          //simple marker symbol
+          case "marker":
+          case "esriSMS".toLowerCase():
+            symbol = new SimpleMarkerSymbol();
+            symbol.style = symbolObj.style
+              ? _jimuMarkerStyleToEsriStyle[symbolObj.style.toLowerCase()] ||
+                SimpleMarkerSymbol.STYLE_CIRCLE
+              : SimpleMarkerSymbol.STYLE_CIRCLE;
+            symbol.color = this._getESRIColor(
+              symbolObj.color,
+              symbolObj.alpha,
+              [0, 0, 0, 1]
+            );
+            symbol.size = !isNaN(symbolObj.size) ? symbolObj.size : 8;
+            symbol.angle = !isNaN(symbolObj.angle) ? symbolObj.angle : 0;
+            symbol.xoffset = !isNaN(symbolObj.xoffset) ? symbolObj.xoffset : 0;
+            symbol.yoffset = !isNaN(symbolObj.yoffset) ? symbolObj.yoffset : 0;
+            symbol.outline = this._getESRILineSymbol(symbolObj.outline);
+            break;
+        }
+      } else {
+        //默认为黑色圆点
+        symbol = new SimpleMarkerSymbol(
+          SimpleMarkerSymbol.STYLE_CIRCLE,
+          8,
+          new SimpleLineSymbol(new Color([255, 255, 255, 1]), 1),
+          new Color([0, 0, 0, 1])
+        );
+      }
+
+      return symbol;
+    },
+
+    _getESRILineSymbol: function(symbolObj) {
+      var symbol;
+      if (symbolObj) {
+        symbol = new SimpleLineSymbol();
+        symbol.style = symbolObj.style
+          ? _jimuPolylineStyleToEsriStyle[symbolObj.style.toLowerCase()] ||
+            SimpleLineSymbol.STYLE_SOLID
+          : SimpleLineSymbol.STYLE_SOLID;
+        symbol.color = this._getESRIColor(symbolObj.color, symbolObj.alpha, [
+          0,
+          0,
+          0,
+          1
+        ]);
+        symbol.width = !isNaN(symbolObj.width) ? symbolObj.width : 2;
+      } else {
+        symbol = new SimpleLineSymbol(
+          SimpleLineSymbol.STYLE_SOLID,
+          new Color([0, 0, 0, 1]),
+          2
+        );
+      }
+
+      return symbol;
+    },
+
+    _getESRIPolygonSymbol: function(symbolObj) {
+      var symbol;
+
+      if (symbolObj) {
+        symbol = new SimpleFillSymbol();
+        symbol.style = symbolObj.style
+          ? _jimuPolygonStyleToEsriStyle[symbolObj.style.toLowerCase()] ||
+            SimpleFillSymbol.STYLE_SOLID
+          : SimpleFillSymbol.STYLE_SOLID;
+        symbol.color = this._getESRIColor(symbolObj.color, symbolObj.alpha, [
+          255,
+          0,
+          0,
+          1
+        ]);
+        symbol.outline = this._getESRILineSymbol(symbolObj.outline);
+      } else {
+        symbol = new SimpleFillSymbol(
+          SimpleFillSymbol.STYLE_SOLID,
+          new SimpleLineSymbol(
+            SimpleLineSymbol.STYLE_SOLID,
+            new Color([0, 0, 0, 1], 2)
+          ),
+          new Color([255, 0, 0, 0.5])
+        );
+      }
+
+      return symbol;
     }
   });
 });

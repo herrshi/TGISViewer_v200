@@ -264,6 +264,13 @@ var TMap = {
     });
   },
 
+  /**地图显示范围回到初始状态*/
+  home: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("home");
+    });
+  },
+
   /**设置地图显示范围*/
   setMapExtent: function(params) {
     require(["dojo/topic"], function(topic) {
@@ -725,6 +732,7 @@ var TMap = {
    * 不打开DrawWidget, 直接在地图上绘制覆盖物
    * @param params: object, required.
    *   drawType: string, required. 绘制类型
+   *   symbol:object, optional 设置样式
    * @param callback: function, optional.
    * */
   startDrawOverlay: function(params, callback) {
