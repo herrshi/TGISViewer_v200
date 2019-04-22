@@ -105,7 +105,7 @@ define([
                       color: [0, 210, 245],
                       width: 2,
                       type: "esriSLS",
-                      style: "esriSLSNull"
+                      style: "esriSLSSolid"
                     }
                   }
                 });

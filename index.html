@@ -58,289 +58,289 @@
 <body class="claro">
 
 <div id="mapContainer">
-  <!--Modal: modalConfirmDelete-->
-  <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
-      <!--Content-->
-      <div class="modal-content text-center">
-        <!--Header-->
-        <div class="modal-header d-flex justify-content-center">
-          <p class="heading">是否删除?</p>
-        </div>
+<!--  &lt;!&ndash;Modal: modalConfirmDelete&ndash;&gt;-->
+<!--  <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
+<!--       aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">-->
+<!--      &lt;!&ndash;Content&ndash;&gt;-->
+<!--      <div class="modal-content text-center">-->
+<!--        &lt;!&ndash;Header&ndash;&gt;-->
+<!--        <div class="modal-header d-flex justify-content-center">-->
+<!--          <p class="heading">是否删除?</p>-->
+<!--        </div>-->
 
-        <!--Body-->
-        <div class="modal-body">
+<!--        &lt;!&ndash;Body&ndash;&gt;-->
+<!--        <div class="modal-body">-->
 
-          <i class="fa fa-times fa-4x animated rotateIn"></i>
+<!--          <i class="fa fa-times fa-4x animated rotateIn"></i>-->
 
-        </div>
+<!--        </div>-->
 
-        <!--Footer-->
-        <div class="modal-footer flex-center">
-          <a type="button" class="btn btn-danger" id="btnDeleteOK">是</a>
-          <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">否</a>
-        </div>
-      </div>
-      <!--/.Content-->
-    </div>
-  </div>
-  <!--/Modal: modalConfirmDelete-->
+<!--        &lt;!&ndash;Footer&ndash;&gt;-->
+<!--        <div class="modal-footer flex-center">-->
+<!--          <a type="button" class="btn btn-danger" id="btnDeleteOK">是</a>-->
+<!--          <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">否</a>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      &lt;!&ndash;/.Content&ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  &lt;!&ndash;/Modal: modalConfirmDelete&ndash;&gt;-->
 
-  <!--Modal: modalEditControlDetail-->
-  <div class="modal fade" id="modalEditControlDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-       aria-hidden="true">
-    <div class="modal-dialog modal-notify modal-info" role="document">
+<!--  &lt;!&ndash;Modal: modalEditControlDetail&ndash;&gt;-->
+<!--  <div class="modal fade" id="modalEditControlDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"-->
+<!--       aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-notify modal-info" role="document">-->
 
-      <!--Content-->
-      <div class="modal-content">
+<!--      &lt;!&ndash;Content&ndash;&gt;-->
+<!--      <div class="modal-content">-->
 
-        <!--Header-->
-        <div class="modal-header">
-          <p class="heading lead">填写详细信息</p>
+<!--        &lt;!&ndash;Header&ndash;&gt;-->
+<!--        <div class="modal-header">-->
+<!--          <p class="heading lead">填写详细信息</p>-->
 
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" class="white-text">x</span>
-          </button>
-        </div>
-        <!--/Header-->
+<!--          <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--            <span aria-hidden="true" class="white-text">x</span>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;/Header&ndash;&gt;-->
 
-        <!--Body-->
-        <div class="modal-body mx-2">
-          <form id="formEditControlDetail" class="needs-validation" novalidate>
-            <div class="md-form row mb-0">
-              <div class="col-4">
-                <select id="selInfoType" name="info_type_id" class="mdb-select md-form colorful-select dropdown-primary"></select>
-                <label for="selInfoType">信息分类类型</label>
-              </div>
+<!--        &lt;!&ndash;Body&ndash;&gt;-->
+<!--        <div class="modal-body mx-2">-->
+<!--          <form id="formEditControlDetail" class="needs-validation" novalidate>-->
+<!--            <div class="md-form row mb-0">-->
+<!--              <div class="col-4">-->
+<!--                <select id="selInfoType" name="info_type_id" class="mdb-select md-form colorful-select dropdown-primary"></select>-->
+<!--                <label for="selInfoType">信息分类类型</label>-->
+<!--              </div>-->
 
-              <div class="col-4">
-                <select id="selEventType" name="evt_type_no" class="mdb-select md-form colorful-select dropdown-primary"></select>
-                <label for="selEventType">事件信息类型</label>
-              </div>
+<!--              <div class="col-4">-->
+<!--                <select id="selEventType" name="evt_type_no" class="mdb-select md-form colorful-select dropdown-primary"></select>-->
+<!--                <label for="selEventType">事件信息类型</label>-->
+<!--              </div>-->
 
-              <div class="col-4">
-                <select id="selSubEventType" name="sub_evt_type_no" class="mdb-select md-form colorful-select dropdown-primary"></select>
-                <label for="selSubEventType">事件信息子类型</label>
-              </div>
-            </div>
+<!--              <div class="col-4">-->
+<!--                <select id="selSubEventType" name="sub_evt_type_no" class="mdb-select md-form colorful-select dropdown-primary"></select>-->
+<!--                <label for="selSubEventType">事件信息子类型</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row mb-0">
-              <div class="col-4">
-                <select id="selEventSource" name="evt_src_no" class="mdb-select md-form colorful-select dropdown-primary"></select>
-                <label for="selEventSource">信息来源</label>
-              </div>
+<!--            <div class="md-form row mb-0">-->
+<!--              <div class="col-4">-->
+<!--                <select id="selEventSource" name="evt_src_no" class="mdb-select md-form colorful-select dropdown-primary"></select>-->
+<!--                <label for="selEventSource">信息来源</label>-->
+<!--              </div>-->
 
-              <div class="col-4">
-                <select id="selSystemSource" name="sys_src_no" class="mdb-select md-form colorful-select dropdown-primary"></select>
-                <label for="selSystemSource">对接系统</label>
-              </div>
+<!--              <div class="col-4">-->
+<!--                <select id="selSystemSource" name="sys_src_no" class="mdb-select md-form colorful-select dropdown-primary"></select>-->
+<!--                <label for="selSystemSource">对接系统</label>-->
+<!--              </div>-->
 
-              <div class="col-4">
-                <select id="selAreaCode" name="area_code" class="mdb-select md-form colorful-select dropdown-primary"></select>
-                <label for="selAreaCode">发生区域</label>
-              </div>
-            </div>
+<!--              <div class="col-4">-->
+<!--                <select id="selAreaCode" name="area_code" class="mdb-select md-form colorful-select dropdown-primary"></select>-->
+<!--                <label for="selAreaCode">发生区域</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row mb-0">
-              <div class="col-4">
-                <select id="selBlockType" name="block_type" class="mdb-select md-form colorful-select dropdown-primary"></select>
-                <label for="selBlockType">是否阻断</label>
-              </div>
+<!--            <div class="md-form row mb-0">-->
+<!--              <div class="col-4">-->
+<!--                <select id="selBlockType" name="block_type" class="mdb-select md-form colorful-select dropdown-primary"></select>-->
+<!--                <label for="selBlockType">是否阻断</label>-->
+<!--              </div>-->
 
-              <div class="col-4">
-                <select id="selLevel" name="level" class="mdb-select md-form colorful-select dropdown-primary"> </select>
-                <label for="selLevel">事件等级</label>
-              </div>
+<!--              <div class="col-4">-->
+<!--                <select id="selLevel" name="level" class="mdb-select md-form colorful-select dropdown-primary"> </select>-->
+<!--                <label for="selLevel">事件等级</label>-->
+<!--              </div>-->
 
-              <div class="col-4 md-form form-group">
-                <input type="text" id="txtDirection" name="position_direction" class="form-control" placeholder=" ">
-                <label for="txtDirection">事件方向</label>
-              </div>
-            </div>
+<!--              <div class="col-4 md-form form-group">-->
+<!--                <input type="text" id="txtDirection" name="position_direction" class="form-control" placeholder=" ">-->
+<!--                <label for="txtDirection">事件方向</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row mb-0">
-              <div class="col-4 md-form form-group">
-                <input type="text" id="txtRoadName" name="position_road_name" class="form-control" placeholder=" " required>
-                <label for="txtRoadName" class="red-text">道路名称</label>
-                <div class="invalid-feedback">请输入道路名称</div>
-              </div>
+<!--            <div class="md-form row mb-0">-->
+<!--              <div class="col-4 md-form form-group">-->
+<!--                <input type="text" id="txtRoadName" name="position_road_name" class="form-control" placeholder=" " required>-->
+<!--                <label for="txtRoadName" class="red-text">道路名称</label>-->
+<!--                <div class="invalid-feedback">请输入道路名称</div>-->
+<!--              </div>-->
 
-              <div class="col-8 md-form form-group">
-                <input type="text" id="txtAddress" name="position_addr" class="form-control" placeholder=" ">
-                <label for="txtAddress">详细地址</label>
-              </div>
-            </div>
+<!--              <div class="col-8 md-form form-group">-->
+<!--                <input type="text" id="txtAddress" name="position_addr" class="form-control" placeholder=" ">-->
+<!--                <label for="txtAddress">详细地址</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row mb-0">
-              <div class="col">
-                <textarea type="text" id="txtDesc" name="evt_desc" class="md-textarea form-control" rows="2"
-                          required></textarea>
-                <label for="txtDesc" class="red-text">事件描述</label>
-                <div class="invalid-feedback">请输入事件描述</div>
-              </div>
-              <div class="col">
-                <textarea type="text" id="txtContent" name="copywriting_content" class="md-textarea form-control"
-                          rows="2"></textarea>
-                <label data-error="wrong" data-success="right" for="txtContent">文案内容</label>
-              </div>
+<!--            <div class="md-form row mb-0">-->
+<!--              <div class="col">-->
+<!--                <textarea type="text" id="txtDesc" name="evt_desc" class="md-textarea form-control" rows="2"-->
+<!--                          required></textarea>-->
+<!--                <label for="txtDesc" class="red-text">事件描述</label>-->
+<!--                <div class="invalid-feedback">请输入事件描述</div>-->
+<!--              </div>-->
+<!--              <div class="col">-->
+<!--                <textarea type="text" id="txtContent" name="copywriting_content" class="md-textarea form-control"-->
+<!--                          rows="2"></textarea>-->
+<!--                <label data-error="wrong" data-success="right" for="txtContent">文案内容</label>-->
+<!--              </div>-->
 
-            </div>
-          </form>
-        </div>
-        <!--/Body-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;/Body&ndash;&gt;-->
 
-        <!--footer-->
-        <div class="modal-footer justify-content-center">
-          <button id="btnSendDetail" class="btn btn-info">
-            发送 <i class="fa fa-paper-plane-o ml-1 white-text"></i>
-          </button>
-          <button class="btn btn-outline-info waves-effect" data-dismiss="modal">
-            关闭 <i class="fa fa-times ml-1"></i>
-          </button>
-        </div>
-        <!--/footer-->
+<!--        &lt;!&ndash;footer&ndash;&gt;-->
+<!--        <div class="modal-footer justify-content-center">-->
+<!--          <button id="btnSendDetail" class="btn btn-info">-->
+<!--            发送 <i class="fa fa-paper-plane-o ml-1 white-text"></i>-->
+<!--          </button>-->
+<!--          <button class="btn btn-outline-info waves-effect" data-dismiss="modal">-->
+<!--            关闭 <i class="fa fa-times ml-1"></i>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;/footer&ndash;&gt;-->
 
-      </div>
-      <!--/Content-->
-    </div>
-  </div>
-  <!--/Modal: modalEditControlDetail-->
+<!--      </div>-->
+<!--      &lt;!&ndash;/Content&ndash;&gt;-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  &lt;!&ndash;/Modal: modalEditControlDetail&ndash;&gt;-->
 
-  <!--Modal: modalShowControlDetail-->
-  <div class="modal fade" id="modalShowControlDetail" tabindex="-1" role="dialog"
-       aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-notify modal-info" role="document">
+<!--  &lt;!&ndash;Modal: modalShowControlDetail&ndash;&gt;-->
+<!--  <div class="modal fade" id="modalShowControlDetail" tabindex="-1" role="dialog"-->
+<!--       aria-labelledby="myModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog modal-notify modal-info" role="document">-->
 
-      <!--Content-->
-      <div class="modal-content">
+<!--      &lt;!&ndash;Content&ndash;&gt;-->
+<!--      <div class="modal-content">-->
 
-        <!--Header-->
-        <div class="modal-header">
-          <p class="heading lead">管制信息</p>
+<!--        &lt;!&ndash;Header&ndash;&gt;-->
+<!--        <div class="modal-header">-->
+<!--          <p class="heading lead">管制信息</p>-->
 
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true" class="white-text">x</span>
-          </button>
-        </div>
-        <!--/Header-->
+<!--          <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--            <span aria-hidden="true" class="white-text">x</span>-->
+<!--          </button>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;/Header&ndash;&gt;-->
 
-        <!--Body-->
-        <div class="modal-body mx-2">
-          <form id="formShowControlDetail">
-            <div class="md-form row">
-              <div class="col">
-                <input type="text" id="input_publisher_name" class="form-control" value=" " readonly>
-                <label for="input_publisher_name">发布人姓名</label>
-              </div>
+<!--        &lt;!&ndash;Body&ndash;&gt;-->
+<!--        <div class="modal-body mx-2">-->
+<!--          <form id="formShowControlDetail">-->
+<!--            <div class="md-form row">-->
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_publisher_name" class="form-control" value=" " readonly>-->
+<!--                <label for="input_publisher_name">发布人姓名</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_publisher_id" class="form-control" value=" " readonly>
-                <label for="input_publisher_id">发布人ID</label>
-              </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_publisher_id" class="form-control" value=" " readonly>-->
+<!--                <label for="input_publisher_id">发布人ID</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_publisher_area_code" class="form-control" value=" " readonly>
-                <label for="input_publisher_area_code">发布人辖区</label>
-              </div>
-            </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_publisher_area_code" class="form-control" value=" " readonly>-->
+<!--                <label for="input_publisher_area_code">发布人辖区</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row">
-              <div class="col">
-                <input type="text" id="input_info_type" class="form-control" value=" " readonly>
-                <label for="input_info_type">信息分类类型</label>
-              </div>
+<!--            <div class="md-form row">-->
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_info_type" class="form-control" value=" " readonly>-->
+<!--                <label for="input_info_type">信息分类类型</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_event_type" class="form-control" value=" " readonly>
-                <label for="input_event_type">事件信息类型</label>
-              </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_event_type" class="form-control" value=" " readonly>-->
+<!--                <label for="input_event_type">事件信息类型</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_sub_event_type" class="form-control" value=" " readonly>
-                <label for="input_sub_event_type">事件信息子类型</label>
-              </div>
-            </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_sub_event_type" class="form-control" value=" " readonly>-->
+<!--                <label for="input_sub_event_type">事件信息子类型</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row">
-              <div class="col">
-                <input type="text" id="input_evt_src" class="form-control" value=" " readonly>
-                <label for="input_evt_src">信息来源</label>
-              </div>
+<!--            <div class="md-form row">-->
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_evt_src" class="form-control" value=" " readonly>-->
+<!--                <label for="input_evt_src">信息来源</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_sys_src" class="form-control" value=" " readonly>
-                <label for="input_sys_src">对接系统</label>
-              </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_sys_src" class="form-control" value=" " readonly>-->
+<!--                <label for="input_sys_src">对接系统</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_area" class="form-control" value=" " readonly>
-                <label for="input_area">发生区域</label>
-              </div>
-            </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_area" class="form-control" value=" " readonly>-->
+<!--                <label for="input_area">发生区域</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row">
-              <div class="col">
-                <input type="text" id="input_block_type" class="form-control" value=" " readonly>
-                <label for="input_block_type">是否阻断</label>
-              </div>
+<!--            <div class="md-form row">-->
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_block_type" class="form-control" value=" " readonly>-->
+<!--                <label for="input_block_type">是否阻断</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_level" class="form-control" value=" " readonly>
-                <label for="input_level">事件等级</label>
-              </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_level" class="form-control" value=" " readonly>-->
+<!--                <label for="input_level">事件等级</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_position_direction" class="form-control" value=" " readonly>
-                <label for="input_position_direction">事件方向</label>
-              </div>
-            </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_position_direction" class="form-control" value=" " readonly>-->
+<!--                <label for="input_position_direction">事件方向</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row">
-              <div class="col-md-4">
-                <input type="text" id="input_position_road_name" class="form-control" value=" " readonly>
-                <label for="input_position_road_name">道路名称</label>
-              </div>
+<!--            <div class="md-form row">-->
+<!--              <div class="col-md-4">-->
+<!--                <input type="text" id="input_position_road_name" class="form-control" value=" " readonly>-->
+<!--                <label for="input_position_road_name">道路名称</label>-->
+<!--              </div>-->
 
-              <div class="col-md-8">
-                <input type="text" id="input_position_addr" class="form-control" value=" " readonly>
-                <label for="input_position_addr">详细地址</label>
-              </div>
-            </div>
+<!--              <div class="col-md-8">-->
+<!--                <input type="text" id="input_position_addr" class="form-control" value=" " readonly>-->
+<!--                <label for="input_position_addr">详细地址</label>-->
+<!--              </div>-->
+<!--            </div>-->
 
-            <div class="md-form row">
-              <div class="col">
-                <input type="text" id="input_duration_start_time" class="form-control" value=" " readonly>
-                <label for="input_duration_start_time">开始时间</label>
-              </div>
+<!--            <div class="md-form row">-->
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_duration_start_time" class="form-control" value=" " readonly>-->
+<!--                <label for="input_duration_start_time">开始时间</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <input type="text" id="input_duration_stop_time" class="form-control" value=" " readonly>
-                <label for="input_duration_stop_time">结束时间</label>
-              </div>
+<!--              <div class="col">-->
+<!--                <input type="text" id="input_duration_stop_time" class="form-control" value=" " readonly>-->
+<!--                <label for="input_duration_stop_time">结束时间</label>-->
+<!--              </div>-->
 
-            </div>
+<!--            </div>-->
 
-            <div class="md-form row">
-              <div class="col">
-                <textarea type="text" id="text_evt_desc" class="md-textarea form-control" readonly> </textarea>
-                <label for="text_evt_desc">事件描述</label>
-              </div>
+<!--            <div class="md-form row">-->
+<!--              <div class="col">-->
+<!--                <textarea type="text" id="text_evt_desc" class="md-textarea form-control" readonly> </textarea>-->
+<!--                <label for="text_evt_desc">事件描述</label>-->
+<!--              </div>-->
 
-              <div class="col">
-                <textarea type="text" id="text_copywriting_content" class="md-textarea form-control" readonly> </textarea>
-                <label for="text_copywriting_content">文案内容</label>
-              </div>
-            </div>
-          </form>
-        </div>
-        <!--/Body-->
+<!--              <div class="col">-->
+<!--                <textarea type="text" id="text_copywriting_content" class="md-textarea form-control" readonly> </textarea>-->
+<!--                <label for="text_copywriting_content">文案内容</label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </form>-->
+<!--        </div>-->
+<!--        &lt;!&ndash;/Body&ndash;&gt;-->
 
-      </div>
-      <!--/Content-->
+<!--      </div>-->
+<!--      &lt;!&ndash;/Content&ndash;&gt;-->
 
-    </div>
-  </div>
+<!--    </div>-->
+<!--  </div>-->
   <!--/Modal: modalShowControlDetail-->
 </div>
 
@@ -375,8 +375,8 @@
     });
     // map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"content":"<div class=\\"box8w popup_small blue_bgborder\\" style=\\"margin:30px\\"><div class=\\"popup_title\\"> <i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div><div class=\\"gis-dialog popup_small_inner down_arrow_box\\">\\t<div class=\\"arrow-gis-btn\\" title=\\"关闭\\"> <i class=\\"fa fa-close\\"></i> </div>\\t<div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
     // map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
-    map.showJurisdiction();
-    map.showPoliceCount([{"id":"1","count":35},{"id":"2","count":78},{"id":"3","count":101},{"id":"4","count":76},{"id":"5","count":59},{"id":"6","count":50},{"id":"7","count":68},{"id":"8","count":62},{"id":"9","count":49},{"id":"10","count":54},{"id":"11","count":87}]);
+    // map.showJurisdiction();
+    // map.showPoliceCount([{"id":"1","count":35},{"id":"2","count":78},{"id":"3","count":101},{"id":"4","count":76},{"id":"5","count":59},{"id":"6","count":50},{"id":"7","count":68},{"id":"8","count":62},{"id":"9","count":49},{"id":"10","count":54},{"id":"11","count":87}]);
     // map.addPoints('{"points":[{"id":"pt001","type":"police","geometry":{"x":116.868981,"y":32.62236},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}}]}');
     // map.showSelectedFeatures({type: "scats", features: [{id: "11025"}, {id: "11023"}, {id: "11026", locked: true}]});
     // map.showLayer({label: "停车场"})
