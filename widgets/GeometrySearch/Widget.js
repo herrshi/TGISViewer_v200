@@ -101,6 +101,7 @@ define([
     searchResultCallback: null,
 
     loading: null,
+    _overlays: null,
 
     postMixInProperties: function() {
       this.inherited(arguments);
@@ -138,6 +139,10 @@ define([
       topic.subscribe(
         "geometrySearch",
         lang.hitch(this, this.onTopicHandler_geometrySearch)
+      );
+      topic.subscribe(
+        "cleargeometrySearch",
+        lang.hitch(this, this.onTopicHandler_cleargeometrySearch)
       );
       topic.subscribe(
         "backgroundGeometrySearch",
@@ -193,10 +198,14 @@ define([
       this.bufferDistance = params.params.bufferDistance || 0;
       this.searchResultCallback = params.callback;
 
+      this._overlays = params.params.overlays;
+
       this.drawToolbar.activate(drawType);
     },
 
     onDrawToolBarHandler_drawComplete: function(event) {
+      this.containerGeometry = [];
+
       this.drawLayer.clear();
       this.bufferLayer.clear();
 
@@ -321,6 +330,7 @@ define([
               graphic.attributes.DEVICEID ||
               graphic.attributes.BM_CODE ||
               graphic.attributes.ID ||
+              graphic.attributes.id ||
               graphic.attributes.FEATUREID;
             var resultObj = {
               type: graphic.type,
@@ -456,7 +466,12 @@ define([
       }
       this.loading.destroy();
     },
-
+    onTopicHandler_cleargeometrySearch: function() {
+      this.map.infoWindow.hide();
+      this.drawLayer.clear();
+      this.bufferLayer.clear();
+      this.drawToolbar.deactivate();
+    },
     _showInfoWindow: function(resultList) {
       //console.log(resultList);
       var resultSummery = [];
@@ -643,6 +658,48 @@ define([
           searchLayer_array.push({ url: layer.url, name: layer.label });
         }
       }
+      if (this._overlays) {
+        var overlays = this._overlays;
+        for (var i = 0; i < this.map.graphicsLayerIds.length; i++) {
+          var layerId = this.map.graphicsLayerIds[i];
+          var layer = this.map.getLayer(layerId);
+          if (layer.url) {
+            //featurelayer
+          } else {
+            //graphicslayer
+            array.forEach(
+              layer.graphics,
+              lang.hitch(this, function(graphic) {
+                if (
+                  (overlays &&
+                    graphic.type &&
+                    overlays.indexOf(graphic.type) > -1) ||
+                  (overlays && overlays.indexOf(layer.id) > -1)
+                ) {
+                  var geometry = graphic.geometry;
+                  if (graphic.geometry.spatialReference.isWebMercator()) {
+                    geometry = WebMercatorUtils.webMercatorToGeographic(
+                      geometry
+                    );
+                  }
+                  if (
+                    GeometryEngine.contains(
+                      this.searchGeometry.spatialReference.isWebMercator()
+                        ? WebMercatorUtils.webMercatorToGeographic(
+                            this.searchGeometry
+                          )
+                        : this.searchGeometry,
+                      geometry
+                    )
+                  ) {
+                    this.containerGeometry.push(graphic);
+                  }
+                }
+              })
+            );
+          }
+        }
+      }
       return searchLayer_array;
     },
     _onSearchLayer: function() {
@@ -725,33 +782,38 @@ define([
           }
         } else {
           //graphicslayer
-          array.forEach(
-            layer.graphics,
-            lang.hitch(this, function(graphic) {
-              if (
-                overlays &&
-                graphic.type &&
-                overlays.indexOf(graphic.type) > -1
-              ) {
-                var geometry = graphic.geometry;
-                if (graphic.geometry.spatialReference.isWebMercator()) {
-                  geometry = WebMercatorUtils.webMercatorToGeographic(geometry);
-                }
+          if (overlays) {
+            array.forEach(
+              layer.graphics,
+              lang.hitch(this, function(graphic) {
                 if (
-                  GeometryEngine.contains(
-                    this.bufferGeometry.spatialReference.isWebMercator()
-                      ? WebMercatorUtils.webMercatorToGeographic(
-                          this.bufferGeometry
-                        )
-                      : this.bufferGeometry,
-                    geometry
-                  )
+                  (overlays &&
+                    graphic.type &&
+                    overlays.indexOf(graphic.type) > -1) ||
+                  (overlays && overlays.indexOf(layer.id) > -1)
                 ) {
-                  this.containerGeometry.push(graphic);
+                  var geometry = graphic.geometry;
+                  if (graphic.geometry.spatialReference.isWebMercator()) {
+                    geometry = WebMercatorUtils.webMercatorToGeographic(
+                      geometry
+                    );
+                  }
+                  if (
+                    GeometryEngine.contains(
+                      this.bufferGeometry.spatialReference.isWebMercator()
+                        ? WebMercatorUtils.webMercatorToGeographic(
+                            this.bufferGeometry
+                          )
+                        : this.bufferGeometry,
+                      geometry
+                    )
+                  ) {
+                    this.containerGeometry.push(graphic);
+                  }
                 }
-              }
-            })
-          );
+              })
+            );
+          }
         }
       }
       return searchLayer_array;

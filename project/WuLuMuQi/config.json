@@ -31,8 +31,69 @@
       }
     ],
     "operationallayers": [
-
-
+      {
+        "label": "kk",
+        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "${DEVICEID}",
+          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/KaKou-blue.png",
+            "width": 22,
+            "height": 26,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "RFID",
+        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "${DEVICEID}",
+          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/XinHaoJi-blue.png",
+            "width": 22,
+            "height": 26,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "SP",
+        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "${DEVICEID}",
+          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/SheXiangJi-blue.png",
+            "width": 22,
+            "height": 26,
+            "yoffset": 16
+          }
+        }
+      }
 
     ],
     "mapOptions": {
@@ -73,37 +134,46 @@
         "id": "OverlayWidget"
       },
       {
-        "uri": "widgets/BottomToolbar_CircleButton/Widget",
-        "name": "BottomToolbar",
-        "config": "configs/BottomToolbar/config_LinGang.json",
-        "position": {
-          "bottom": 10,
-          "width": "100%",
-          "left": 0,
-          "right": 0
-        },
-        "id": "BottomToolbarWidget"
-      },
-      {
-        "uri": "widgets/TopToolbar_CircleButton/Widget",
-        "name": "TopToolbar",
-        "position": {
-          "top": 30,
-          "right": 50
-        },
-        "id": "TopToolbarWidget"
-      },
-      {
-        "uri": "widgets/Draw/Widget",
+        "uri": "widgets/GeometrySearch/Widget",
         "version": "2.4",
-        "name": "Draw",
-        "config": "configs/Draw/config.json",
+        "name": "GeometrySearch",
+        "config": "configs/GeometrySearch/config.json",
         "position": {
           "left": 15,
           "top": 190,
           "relativeTo": "map"
         },
-        "id": "DrawWidget"
+        "id": "GeometrySearchWidget"
+      },
+      {
+        "uri": "widgets/TrackPlayback/Widget",
+        "config": "configs/TrackPlayback/config_ShangHaiHarbour.json",
+        "id": "TrackPlaybackWidget"
+      },
+      {
+        "uri": "widgets/DrawOverlay/Widget",
+        "version": "2.4",
+        "id": "DrawOverlayWidget"
+      },
+      {
+        "uri": "widgets/HeatMap/Widget",
+        "version": "2.4",
+        "id": "HeatMapWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/Cluster/Widget",
+        "version": "2.4",
+        "id": "ClusterWidget"
+      },
+      {
+        "uri": "widgets/Monitor/Widget",
+        "version": "2.4",
+        "id": "MonitorWidget"
       }
     ]
   }

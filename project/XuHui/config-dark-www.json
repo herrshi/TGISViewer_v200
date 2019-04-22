@@ -98,21 +98,6 @@
         "uri": "widgets/HeatMap/Widget",
         "version": "2.4",
         "id": "HeatMapWidget"
-      },
-      {
-        "uri": "widgets/DrawOverlay/Widget",
-        "version": "2.4",
-        "id": "DrawOverlayWidget"
-      },
-      {
-        "uri": "widgets/POISearch/Widget",
-        "version": "2.4",
-        "id": "POISearchWidget",
-        "position": {
-          "left": 190,
-          "top": 15,
-          "relativeTo": "map"
-        }
       }
     ]
   }

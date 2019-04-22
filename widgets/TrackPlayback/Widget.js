@@ -65,8 +65,8 @@ define([
 
       this.trackLineSymbol = new SimpleLineSymbol(
         SimpleLineSymbol.STYLE_SOLID,
-        new Color([48, 59, 88, 1]),
-        4
+        new Color([0, 0, 255, 1]),
+        8
       );
 
       this.trackPointLayer = new GraphicsLayer();
@@ -222,12 +222,16 @@ define([
     },
 
     onTopicHandler_startTrackPlayback: function(params) {
-      this._clearData();
-
       params = JSON.parse(params);
       var autoStart = params.autoStart !== false;
       this.loop = params.loop !== false;
       var showTrackPoints = params.showTrackPoints !== false;
+
+      var clearBefore = params.clearBefore !== false;
+
+      if (  clearBefore) {
+        this._clearData();
+      }
 
       this.trackPoints = this.checkTrackPoints(params.trackPoints);
 

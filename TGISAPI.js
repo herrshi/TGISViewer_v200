@@ -653,7 +653,41 @@ var TMap = {
       topic.publish("addOverlays", params);
     });
   },
-
+    /**
+     * 在地图上聚合添加点
+     * 一次添加多个覆盖物, 可以同时添加点
+     * @param params: string, json字符串
+     *   overlays: [{}], required. 一次可以添加多个覆盖物, 且点\线\面可以同时叠加, 所以放在数组中. 数组中每个元素代表一个覆盖物. 每个元素包含下列属性:
+     *     id: string, optional. 编号.
+     *     type: string, optional. 类型.
+     *     fields: object, optional. 业务属性.
+     *       点击覆盖物以后会将fields回传, 或在弹出框中显示fields.
+     *     geometry: object, required. 几何属性.
+     *       参见addPoints/addLines/addPolygons的geometry属性.
+     *     symbol: object, optional. 符号.
+     *       会覆盖defaultSymbol.
+     *  distance:number,optional.聚合距离,默认100.
+     *  defaultSymbol: object, optional. 默认符号.
+     *    参见addPoints/addLines/addPolygons的symbol属性.
+     *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
+     *  defaultInfoTemplate: object, optional.配置infoTemplate需要显示的内容
+     *    为空显示默认infoTemplate.
+     * */
+  addOverlaysCluster: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("addOverlaysCluster", params);
+    });
+  },
+    /**
+     * 聚合FeatureLayer
+     *  labels:[],required.聚合图层label字符串数组.
+     *  distance:number,optional.聚合距离,默认100.
+     * */
+  addClusters: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("addClusters", params);
+    });
+  },
   /**
    * 删除指定的覆盖物, 不区分点线面
    * @param params object
@@ -809,6 +843,7 @@ var TMap = {
    *   bufferDistance: number, optional. 缓冲距离, 单位米
    *     若需要画完以后先做缓冲然后在缓冲区的范围内搜索，则输入缓冲距离
    *     0或空代表不做缓冲
+   * @param overlays: [], optional.需要查询的addoverlays动态点.
    * @param callback: function, optional.
    * @return
    *   回调函数返回: array
@@ -823,6 +858,12 @@ var TMap = {
   geometrySearch: function(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("geometrySearch", { params: params, callback: callback });
+    });
+  },
+  /** 清除geometrySearch查询结果 **/
+  cleargeometrySearch: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("cleargeometrySearch");
     });
   },
 
@@ -1130,6 +1171,7 @@ var TMap = {
    *   autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
    *   loop: boolean, optional. 是否循环播放. 默认为true.
    *   showTrackPoints: boolean, optional. 是否显示轨迹点. 默认为true.
+   *   clearBefore:boolean,optional.是否清除之前的轨迹,默认为true.
    *   defaultInfoTemplate: object, optional. 根据trackPoints中的fields配置infoTemplate需要显示的内容.
    *    为空显示默认infoTemplate.
    * @sample
@@ -1411,5 +1453,13 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearRouteSearch");
     });
-  }
+  },
+  /**
+   * 电子围栏
+   * **/
+  MonitorControl: function(params) {
+      require(["dojo/topic"], function(topic) {
+          topic.publish("MonitorControl", params);
+      });
+  },
 };
