@@ -131,6 +131,16 @@
         "uri": "widgets/ContextMenu/Widget",
         "version": "2.4",
         "id": "ContextMenuWidget"
+      },
+      {
+        "uri": "widgets/POISearch/Widget",
+        "position": {
+          "left": 50,
+          "top": 10,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "POISearchWidget"
       }
     ]
   }
