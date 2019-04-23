@@ -751,7 +751,7 @@ define([
     },
 
     topicHandler_onRefreshMap: function(params) {
-      this.map.graphicsLayerIds.forEach(function(layerId) {
+      this.map.layerIds.forEach(function(layerId) {
         var layer = this.map.getLayer(layerId);
         //不传label就刷新整个图层
         if (

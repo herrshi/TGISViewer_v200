@@ -653,36 +653,36 @@ var TMap = {
       topic.publish("addOverlays", params);
     });
   },
-    /**
-     * 在地图上聚合添加点
-     * 一次添加多个覆盖物, 可以同时添加点
-     * @param params: string, json字符串
-     *   overlays: [{}], required. 一次可以添加多个覆盖物, 且点\线\面可以同时叠加, 所以放在数组中. 数组中每个元素代表一个覆盖物. 每个元素包含下列属性:
-     *     id: string, optional. 编号.
-     *     type: string, optional. 类型.
-     *     fields: object, optional. 业务属性.
-     *       点击覆盖物以后会将fields回传, 或在弹出框中显示fields.
-     *     geometry: object, required. 几何属性.
-     *       参见addPoints/addLines/addPolygons的geometry属性.
-     *     symbol: object, optional. 符号.
-     *       会覆盖defaultSymbol.
-     *  distance:number,optional.聚合距离,默认100.
-     *  defaultSymbol: object, optional. 默认符号.
-     *    参见addPoints/addLines/addPolygons的symbol属性.
-     *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
-     *  defaultInfoTemplate: object, optional.配置infoTemplate需要显示的内容
-     *    为空显示默认infoTemplate.
-     * */
+  /**
+   * 在地图上聚合添加点
+   * 一次添加多个覆盖物, 可以同时添加点
+   * @param params: string, json字符串
+   *   overlays: [{}], required. 一次可以添加多个覆盖物, 且点\线\面可以同时叠加, 所以放在数组中. 数组中每个元素代表一个覆盖物. 每个元素包含下列属性:
+   *     id: string, optional. 编号.
+   *     type: string, optional. 类型.
+   *     fields: object, optional. 业务属性.
+   *       点击覆盖物以后会将fields回传, 或在弹出框中显示fields.
+   *     geometry: object, required. 几何属性.
+   *       参见addPoints/addLines/addPolygons的geometry属性.
+   *     symbol: object, optional. 符号.
+   *       会覆盖defaultSymbol.
+   *  distance:number,optional.聚合距离,默认100.
+   *  defaultSymbol: object, optional. 默认符号.
+   *    参见addPoints/addLines/addPolygons的symbol属性.
+   *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
+   *  defaultInfoTemplate: object, optional.配置infoTemplate需要显示的内容
+   *    为空显示默认infoTemplate.
+   * */
   addOverlaysCluster: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addOverlaysCluster", params);
     });
   },
-    /**
-     * 聚合FeatureLayer
-     *  labels:[],required.聚合图层label字符串数组.
-     *  distance:number,optional.聚合距离,默认100.
-     * */
+  /**
+   * 聚合FeatureLayer
+   *  labels:[],required.聚合图层label字符串数组.
+   *  distance:number,optional.聚合距离,默认100.
+   * */
   addClusters: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addClusters", params);
@@ -1455,11 +1455,32 @@ var TMap = {
     });
   },
   /**
-   * 电子围栏
+   * 布控预警
+   * @param params: string,json字符串 required.
+   *    monitorType: string, required  对应addOverlay中的type,
+   *    ids:[],optional,电子围栏id.为空这选择全部.
+   *    carPoints: [object], required 车辆点位信息,
+   *      x: number, required. 坐标x.
+   *      y: number, required. 坐标y.
+   *      monitorids:[string] ,optional,纳入电子围栏id,为空则认为不纳入任何区域
+   *      id: string ,optional  编号.
+   *      type: string ,optional  类型.
+   *      field: object ,optional 属性.
+   *        angle:number,optional 车辆角度方向.默认为0,正北方
+   *    buffers:[Number], required,预警缓冲区距离,单位米,从最里面开始,由红,橙,黄,绿,如果单色预警就传一个值即可
    * **/
   MonitorControl: function(params) {
-      require(["dojo/topic"], function(topic) {
-          topic.publish("MonitorControl", params);
-      });
+    require(["dojo/topic"], function(topic) {
+      topic.publish("MonitorControl", params);
+    });
   },
+
+  /**
+   * 清除布控预警效果
+   * **/
+  clearMonitorControl: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearMonitorControl");
+    });
+  }
 };

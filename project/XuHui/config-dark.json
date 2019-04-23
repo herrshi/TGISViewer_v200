@@ -126,6 +126,11 @@
         "uri": "widgets/DrawOverlay/Widget",
         "version": "2.4",
         "id": "DrawOverlayWidget"
+      },
+      {
+        "uri": "widgets/ContextMenu/Widget",
+        "version": "2.4",
+        "id": "ContextMenuWidget"
       }
     ]
   }

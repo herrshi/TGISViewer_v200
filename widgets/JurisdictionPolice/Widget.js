@@ -281,11 +281,17 @@ define([
     },
 
     onTopicHandler_showDistrictMask: function () {
-      this.districtLayer.setVisibility(true);
+      // this.districtLayer.setVisibility(true);
+      this.districtLayer.renderer.symbol.style = "solid";
+      this.districtLayer.refresh();
+      console.log(this.districtLayer.renderer);
     },
 
     onTopicHandler_hideDistrictMask: function () {
-      this.districtLayer.setVisibility(false);
+      // this.districtLayer.setVisibility(false);
+      this.districtLayer.renderer.symbol.style = "null";
+      this.districtLayer.refresh();
+      console.log(this.districtLayer.renderer);
     }
   });
 });

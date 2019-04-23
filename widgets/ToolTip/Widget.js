@@ -101,9 +101,11 @@ define([
     _joinField: null, //判断关联字段,如果为空这不显示tooltip;
     _first: true,
     _isClick: true,
+    _clickhand: null,
+    _tooltipNodes: [],
     postCreate: function() {
       this.inherited(arguments);
-      this.map.on("click", lang.hitch(this, this._onLayerClick));
+
       this._hightlightLayer = new GraphicsLayer();
       this.map.addLayer(this._hightlightLayer);
 
@@ -111,8 +113,22 @@ define([
         "findAndToolTip",
         lang.hitch(this, this._onTopicHandler_findAndToolTip)
       );
+      topic.subscribe(
+        "showToolTip",
+        lang.hitch(this, this._onTopicHandler_showToolTip)
+      );
+      topic.subscribe(
+        "clearToolTip",
+        lang.hitch(this, this._onTopicHandler_clearToolTip)
+      );
     },
     _onTopicHandler_findAndToolTip: function(params) {
+      if (this._clickhand) {
+        this._clickhand = this.map.on(
+          "click",
+          lang.hitch(this, this._onLayerClick)
+        );
+      }
       this._mapPoint = null;
       this._FindIds = [];
       this._LayerScale = [];
@@ -266,6 +282,7 @@ define([
     init: function() {
       if (this._mapPoint) {
         this.drawText();
+        this._tooltipNodes.push({ node: this._node, mapPoint: this._mapPoint });
         if (this._first) {
           this._first = false;
           this._onEvent();
@@ -487,7 +504,11 @@ define([
       if (context === undefined) {
         return;
       }
-      if (this._isClick && this._joinField !== null && this._joinField !== undefined) {
+      if (
+        this._isClick &&
+        this._joinField !== null &&
+        this._joinField !== undefined
+      ) {
         if (graphic.attributes[this._joinField] == null) {
           return;
         }
@@ -616,23 +637,29 @@ define([
       this._hide();
     },
     _hide: function() {
-      if (this._node) {
-        domUtils.hide(this._node);
+      for (var i = 0; i < this._tooltipNodes.length; i++) {
+        var node = this._tooltipNodes[i].node;
+        if (node) {
+          domUtils.hide(node);
+        }
       }
     },
     show: function() {
       this._show();
     },
     _show: function() {
-      if (this._node) {
-        domUtils.show(this._node);
+      for (var i = 0; i < this._tooltipNodes.length; i++) {
+        var node = this._tooltipNodes[i].node;
+        if (node) {
+          domUtils.show(node);
+        }
       }
     },
-    getScreentPoint: function() {
+    getScreentPoint: function(mapPoint) {
       var screenPoint;
-      if (this._mapPoint) {
+      if (mapPoint) {
         //this._mapPoint=webMercatorUtils.geographicToWebMercator(this._mapPoint);
-        screenPoint = this.map.toScreen(this._mapPoint);
+        screenPoint = this.map.toScreen(mapPoint);
       }
       return screenPoint;
     },
@@ -640,7 +667,7 @@ define([
       var ss = this.map.root; //this._layer.container;//dom.byId(this._gl.id);
       ss.appendChild(this._node);
 
-      var xy = this.getScreentPoint();
+      var xy = this.getScreentPoint(this._mapPoint);
 
       this._width = this._node.offsetWidth;
       this._height = this._node.offsetHeight;
@@ -680,31 +707,43 @@ define([
       }
     },
     panchangeText: function(e) {
-      if (this._node) {
-        var dx = e.delta.x;
-        var dy = e.delta.y;
-        var dd = this.getScreentPoint();
-        domStyle.set(this._node, {
-          left: dd.x + dx + this._offsetX + "px",
-          top: dd.y + dy + this._offsetY + "px"
-        });
+      for (var i = 0; i < this._tooltipNodes.length; i++) {
+        var node = this._tooltipNodes[i].node;
+        var point = this._tooltipNodes[i].mapPoint;
+        if (node) {
+          var dx = e.delta.x;
+          var dy = e.delta.y;
+          var dd = this.getScreentPoint(point);
+          domStyle.set(node, {
+            left: dd.x + dx + this._offsetX + "px",
+            top: dd.y + dy + this._offsetY + "px"
+          });
+        }
       }
     },
     zoomchangeText: function(e) {
-      if (this._node) {
-        var dx = e.anchor.x;
-        var dy = e.anchor.y;
-        var dd = this.getScreentPoint();
-        domStyle.set(this._node, {
-          left: dd.x + this._offsetX + "px",
-          top: dd.y + this._offsetY + "px"
-        });
+      for (var i = 0; i < this._tooltipNodes.length; i++) {
+        var node = this._tooltipNodes[i].node;
+        var point = this._tooltipNodes[i].mapPoint;
+        if (node) {
+          var dx = e.anchor.x;
+          var dy = e.anchor.y;
+          var dd = this.getScreentPoint(point);
+          domStyle.set(node, {
+            left: dd.x + this._offsetX + "px",
+            top: dd.y + this._offsetY + "px"
+          });
+        }
       }
     },
     clear: function() {
       $(".MapText").remove();
+      for (var i = 0; i < this._tooltipNodes.length; i++) {
+        var node = this._tooltipNodes[i].node;
+        domConstruct.destroy(node);
+      }
       this._node = null;
-      domConstruct.destroy(this._node);
+      this._tooltipNodes = [];
     },
     getScales: function(id, scales) {
       var scale = 0;
@@ -731,6 +770,58 @@ define([
         this._timeOut2 = null;
       }
     },
-    startup: function() {}
+    startup: function() {},
+
+    _onTopicHandler_showToolTip: function(param) {
+      var graphic = param.graphic;
+      var context = param.context;
+      var label = param.label;
+      this._place = "top";
+      this._mapPoint = this.getCenter(graphic);
+      this._offset = param.offset || 30;
+      //this._first = true;
+      for (var i = 0; i < this.config.tooltips.length; i++) {
+        var tooltip = this.config.tooltips[i];
+        if (tooltip.label === label) {
+          context = tooltip.context;
+          if (tooltip.offsetx) {
+            this._iconOffsetX = tooltip.offsetx;
+          }
+          if (tooltip.offsety) {
+            this._iconOffsetY = tooltip.offsety;
+          }
+          break;
+        }
+      }
+      var contextObj = {};
+      for (var field in graphic.attributes) {
+        contextObj[field] =
+          graphic.attributes[field] == null ? "" : graphic.attributes[field];
+      }
+      var text = "";
+      try {
+        text = string.substitute(context, contextObj);
+      } catch (e) {
+        text = context.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g, "");
+      }
+
+      var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
+      if (text.toString().indexOf("div") > -1) {
+        this._node = text;
+      } else {
+        text = text.replace(/\n/g, "<br/>");
+        this._node = domConstruct.toDom(
+          "<div class='MapText TextDiv'><span>" +
+            text +
+            "</span><div class='" +
+            divClass +
+            "'></div></div>"
+        );
+      }
+      this.init();
+    },
+    _onTopicHandler_clearToolTip: function() {
+      this.clear();
+    }
   });
 });

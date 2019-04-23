@@ -54,7 +54,10 @@ var ie = (function() {
       window.apiUrl + "esri/css/esri.css",
       window.apiUrl + "dojox/layout/resources/ResizeHandle.css",
       window.path + "jimu.js/css/jimu-theme.css",
-      window.path + "libs/caja-html-sanitizer-minified.js"
+      window.path + "libs/caja-html-sanitizer-minified.js",
+      window.path + "libs/jQuery-contextMenu/jquery.contextMenu.css",
+      window.path + "libs/jQuery-contextMenu/jquery.contextMenu.min.js",
+      window.path + "libs/jQuery-contextMenu/jquery.ui.position.min.js"
     ]);
 
     if (
