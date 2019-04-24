@@ -33,8 +33,8 @@
     ],
     "operationallayers": [],
     "mapOptions": {
-      "center": [121.42, 31.167],
-      "zoom": 15,
+      "center": [121.441, 31.159],
+      "zoom": 13,
       "showLabels": true,
       "logo": false,
       "nav": false,
@@ -108,6 +108,17 @@
         "uri": "widgets/ContextMenu/Widget",
         "version": "2.4",
         "id": "ContextMenuWidget"
+      },
+      {
+        "uri": "widgets/POISearch/Widget",
+        "config": "configs/POISearch/config.json",
+        "position": {
+          "left": 50,
+          "top": 10,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "POISearchWidget"
       }
     ]
   }

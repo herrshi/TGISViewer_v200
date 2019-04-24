@@ -1,14 +1,15 @@
 <div>
   <div class="search-popup-box" style="margin-left:30px">
-    <form class="form-horizontal box8w" style="font-size:0.2rem;">
+    <div class="form-horizontal box8w" style="font-size:0.2rem;">
       <div class="input-group">
         <span id="btnSearchClear" class="glyphicon glyphicon-remove form-control-feedback hide"
               data-toggle="tooltip" data-placement="bottom" title="清空"
-              aria-hidden="true" style="z-index:333;right:0.85rem;margin-top:0.06rem; cursor:pointer;pointer-events:auto;border-left:#1e6d97 solid 1px"
+              aria-hidden="true"
+              style="z-index:333;right:0.85rem;margin-top:0.06rem; cursor:pointer;pointer-events:auto;border-left:#1e6d97 solid 1px"
               data-dojo-attach-event="onclick:btnSearchClear_click"></span>
 
         <input id="inputSearchKey" type="text" class="form-control hide" placeholder="请输入关键词"
-               style="height:40px">
+               style="height:40px" data-dojo-attach-event="onkeyup:onInputSearchKey_keyUp">
         <span class="input-group-btn">
         <button id="btnSearch" class="btn btn-default opacity-0" type="button"
                 style="margin-left:0"
@@ -18,7 +19,111 @@
         </button>
       </span>
       </div>
-    </form>
+    </div>
+  </div>
+
+  <div id="searchResult" class="box8w table corner_full_bg02 time-popup-box hide" style="margin:10px 30px 30px 30px">
+    <!-- BEGIN 列表-->
+    <div class="search-popup-box marginMinus20" style="height: 12rem;"><!--高度自定-->
+      <div class="search-popup" style="overflow: hidden;">
+        <ul>
+          <li>
+            <div class="line_box active">
+              <i class="icon-num">1</i>
+              <div class="list_right"><p>徐家汇-地铁站</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">2</i>
+              <div class="list_right"><p>徐家汇</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">3</i>
+              <div class="list_right"><p>徐家汇-地铁站</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">4</i>
+              <div class="list_right"><p>徐家汇</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">5</i>
+              <div class="list_right"><p>徐家汇-地铁站</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">6</i>
+              <div class="list_right"><p>徐家汇</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">7</i>
+              <div class="list_right"><p>徐家汇-地铁站</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">8</i>
+              <div class="list_right"><p>徐家汇-地铁站</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">9</i>
+              <div class="list_right"><p>徐家汇-地铁站</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">10</i>
+              <div class="list_right"><p>徐家汇-地铁站</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+          <li>
+            <div class="line_box">
+              <i class="icon-num">11</i>
+              <div class="list_right"><p>徐家汇-地铁站</p><font>漕溪北路11号</font></div>
+              <div style="clear:both"></div>
+            </div>
+          </li>
+
+
+        </ul>
+      </div>
+    </div>
+    <div class="page_box">
+      <ul class="pager">
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+      </ul>
+    </div>
+
+    <!-- END 列表-->
+
   </div>
 </div>
 

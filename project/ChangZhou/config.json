@@ -178,7 +178,7 @@
         "label": "公里牌",
         "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/5",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": [
           "*"
         ],
@@ -190,13 +190,17 @@
             "width": 15,
             "height": 15
           }
+        },
+        "infoTemplate": {
+          "title": "<b>${DEVICENAME}</b>",
+          "content": "<b>编号</b>: ${DEVICEID}<hr><button type='button' class='btn' onclick='showGisDeviceInfo(\"bjdw\",\"${DEVICEID}\")'>查看视频</button>"
         }
       },
       {
         "label": "电子警察",
         "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/6",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": [
           "*"
         ],
@@ -215,7 +219,7 @@
         "label": "龙门架",
         "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/7",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": [
           "*"
         ],
@@ -234,7 +238,7 @@
         "label": "警力",
         "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/8",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": [
           "*"
         ],
@@ -253,7 +257,7 @@
         "label": "测速设备",
         "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/9",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": [
           "*"
         ],
@@ -272,7 +276,7 @@
         "label": "语音广播",
         "url": "http://{gisServer}/arcgis/rest/services/ChangZhou/ChangZhou_device/MapServer/10",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": [
           "*"
         ],

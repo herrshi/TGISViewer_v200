@@ -25,13 +25,13 @@
     "basemaps": [
       {
         "label": "浅色底图",
-        "url": "http://15.75.0.255:25333/v3/tile?z=${level}&x=${col}&y=${row}",
+        "url": "http://{gisServer}:25333/v3/tile?z=${level}&x=${col}&y=${row}",
         "type": "webTiled",
         "visible": true
       },
       {
         "label": "浅色标注",
-        "url": "http://15.75.0.255:25888/v3/tile?z=${level}&x=${col}&y=${row}",
+        "url": "http://{gisServer}:25888/v3/tile?z=${level}&x=${col}&y=${row}",
         "type": "webTiled",
         "visible": true
       }
@@ -39,14 +39,14 @@
     "operationallayers": [
       {
         "label": "路况",
-        "url": "http://15.75.0.255:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
+        "url": "http://{gisServer}:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
         "type": "webTiled",
         "visible": false
       }
 
     ],
     "mapOptions": {
-      "center": [121.42, 31.167],
+      "center": [121.441, 31.159],
       "zoom": 13,
       "showLabels": true,
       "logo": false,
@@ -55,7 +55,7 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "15.75.0.255:25001",
+  "gisServer": "15.75.0.255",
   "widgetOnScreen": {
     "widgets": [
       {
