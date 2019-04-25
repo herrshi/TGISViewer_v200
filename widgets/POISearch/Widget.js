@@ -2,10 +2,10 @@ define([
   "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/query",
+  "dojo/Deferred",
   "jimu/BaseWidget",
-  "esri/request",
   "dojo/NodeList-data"
-], function(declare, lang, query, BaseWidget, esriRequest) {
+], function(declare, lang, query, Deferred, BaseWidget) {
   return declare([BaseWidget], {
     baseClass: "jimu-widget-POISearch",
 
@@ -21,18 +21,50 @@ define([
     },
 
     onBtnSearch_click: function() {
-      // query("#searchResult").removeClass("hide");
       var searchKey = query("#inputSearchKey").attr("value")[0];
-      console.log(searchKey);
       if (searchKey === "") {
         return;
       }
 
-      var request = esriRequest({
-        url: ""
-      });
+      this._getSearchResult(searchKey).then(
+        lang.hitch(this, function(data) {
+          this._showSearchResult(data);
+        })
+      );
+    },
 
+    _getSearchResult: function(searchKey) {
+      var def = new Deferred();
+      var searchUrl = this.config.searchUrl.replace(
+        /{gisServer}/i,
+        this.appConfig.gisServer
+      );
+      $.get(
+        searchUrl,
+        {
+          ak: this.config.ak,
+          region: this.config.region,
+          page_size: this.config.pageSize,
+          query: searchKey
+        },
+        function(data, status) {
+          if (status === "success") {
+            def.resolve(data);
+          } else {
+            def.reject();
+          }
+        },
+        "jsonp"
+      );
 
+      return def;
+    },
+
+    _showSearchResult: function(result) {
+      if (result.message === "ok") {
+        query("#searchResult").removeClass("hide");
+
+      }
     },
 
     onInputSearchKey_keyUp: function(event) {
@@ -41,7 +73,7 @@ define([
       }
     },
 
-    btnSearchClear_click: function () {
+    btnSearchClear_click: function() {
       query("#btnSearch").removeClass("opacity-1");
       query("#btnSearch").addClass("opacity-0");
 

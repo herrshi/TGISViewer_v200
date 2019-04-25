@@ -1,5 +1,5 @@
 {
-  "searchUrl": "https://api.mapabc.com/as/search/poi",
+  "searchUrl": "http://{gisServer}:25001/as/search/poi",
   "ak": "ec85d3648154874552835438ac6a02b2",
   "region": "上海市",
   "pageSize": 10
