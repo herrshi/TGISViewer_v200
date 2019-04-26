@@ -16,9 +16,9 @@
     },
     "movingPoint": {
       "type": "esriPMS",
-      "url": "images/mapIcons/icon_ship_green02.png",
-      "width": 16.5,
-      "height": 43.5
+      "url": "images/car_blue.png",
+      "width": 48,
+      "height": 48
     }
   }
 }
