@@ -4,13 +4,47 @@ define([
   "dojo/query",
   "dojo/Deferred",
   "jimu/BaseWidget",
-  "dojo/NodeList-data"
-], function(declare, lang, query, Deferred, BaseWidget) {
+  "esri/lang",
+  "esri/InfoTemplate",
+  "esri/graphic",
+  "esri/geometry/Point",
+  "esri/layers/GraphicsLayer",
+  "esri/symbols/PictureMarkerSymbol"
+], function(
+  declare,
+  lang,
+  query,
+  Deferred,
+  BaseWidget,
+  esriLang,
+  InfoTemplate,
+  Graphic,
+  Point,
+  GraphicsLayer,
+  PictureMarkerSymbol
+) {
   return declare([BaseWidget], {
     baseClass: "jimu-widget-POISearch",
 
+    resultContentTemplate:
+      "<li id='${uid}'>" +
+      "<div class='line_box'>" +
+      "<i class='icon-num'>${index}</i>" +
+      "<div class='list_right'>" +
+      "<p>${name}</p>" +
+      "<font style='font-size: 0.3rem'>${address}</font>" +
+      "</div>" +
+      "<div style='clear:both'></div>" +
+      "</div>" +
+      "</li>",
+
+    resultLayer: null,
+
     postCreate: function() {
       this.inherited(arguments);
+
+      this.resultLayer = new GraphicsLayer();
+      this.map.addLayer(this.resultLayer);
     },
 
     onBtnSearch_mouseover: function() {
@@ -47,9 +81,9 @@ define([
           page_size: this.config.pageSize,
           query: searchKey
         },
-        function(data, status) {
+        function(response, status) {
           if (status === "success") {
-            def.resolve(data);
+            def.resolve(response);
           } else {
             def.reject();
           }
@@ -60,10 +94,61 @@ define([
       return def;
     },
 
-    _showSearchResult: function(result) {
-      if (result.message === "ok") {
+    _showSearchResult: function(response) {
+      if (response.message === "ok") {
         query("#searchResult").removeClass("hide");
 
+        var searchResultList = $("#searchResultList");
+        searchResultList.empty();
+        this.resultLayer.clear();
+
+        response.results.forEach(function(result, index) {
+          result.index = index + 1;
+          //显示列表
+          var content = esriLang.substitute(result, this.resultContentTemplate);
+          searchResultList.append(content);
+
+          //在地图上撒点
+          var lng = result.location.lng;
+          var lat = result.location.lat;
+          var point = new Point(lng, lat);
+          var graphic = new Graphic(point);
+          graphic.symbol = new PictureMarkerSymbol({
+            type: "esriPMS",
+            url: window.path + "images/blue" + (index + 1) + ".png",
+            width: 18,
+            height: 26.25,
+            yoffset: 13
+          });
+          graphic.attributes = result;
+          graphic.infoTemplate = new InfoTemplate({
+            content:
+              "<div class='box8w table corner_full_bg02' style='color: #c3efff; margin: 5px'>" +
+              "  <div class='page-box-title'> <font>${name}</font>" +
+              "  </div>" +
+              "  <div class='jtsg_box marginMinus20'>" +
+              "    <div class='jtsg_body'>" +
+              "        <table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size: 0.3rem'>" +
+              "          <tr>" +
+              "            <td style='width: 15%'>地址：</td>" +
+              "            <td>${address}</td>" +
+              "          </tr>" +
+              "          <tr>" +
+              "            <td>电话：</td>" +
+              "            <td>${telephone}</td>" +
+              "          </tr>" +
+              // "          <tr>" +
+              // "            <td>类型：</td>" +
+              // "            <td>${type}</td>" +
+              // "          </tr>" +
+              "        </table>" +
+              "    </div>" +
+              "  </div>" +
+              "  <div class='clearfix'></div>" +
+              "</div>"
+          });
+          this.resultLayer.add(graphic);
+        }, this);
       }
     },
 
