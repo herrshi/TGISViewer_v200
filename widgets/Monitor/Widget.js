@@ -22,6 +22,7 @@ define([
   "esri/tasks/QueryTask",
   "esri/tasks/query",
   "esri/graphic",
+  "esri/geometry/jsonUtils",
   "jimu/BaseWidget"
 ], function(
   declare,
@@ -47,15 +48,18 @@ define([
   QueryTask,
   Query,
   Graphic,
+  geometryJsonUtils,
   BaseWidget
 ) {
   return declare([BaseWidget], {
     bufferLayer: null,
+    areaLayer: null,
     carLayer: null,
     _showBuffer: true,
     _objectid: 1,
     _showBufferIds: [],
     _geoBuffers: [],
+    _geoBufferIds: [],
     _monitorLayer: null,
     monitorSymbol: new PictureMarkerSymbol(
       "images/mapIcons/JiaoWeiZhiHui/icon_camere_green.png",
@@ -81,6 +85,9 @@ define([
       this.carLayer = new GraphicsLayer();
       this.map.addLayer(this.carLayer);
 
+      this.areaLayer = new GraphicsLayer();
+      this.map.addLayer(this.areaLayer);
+
       topic.subscribe(
         "MonitorControl",
         lang.hitch(this, this._onTopicHandler_MonitorControl)
@@ -88,6 +95,16 @@ define([
       topic.subscribe(
         "clearMonitorControl",
         lang.hitch(this, this._onTopicHandler_clearMonitorControl)
+      );
+
+      topic.subscribe(
+        "showMonitorArea",
+        lang.hitch(this, this._onTopicHandler_showMonitorArea)
+      );
+
+      topic.subscribe(
+        "clearMonitorArea",
+        lang.hitch(this, this._onTopicHandler_clearMonitorArea)
       );
     },
     _onTopicHandler_MonitorControl: function(params) {
@@ -180,7 +197,6 @@ define([
       }
       bufferPolygon.OBJECTID = id;
       bufferPolygon.MID = monitorid;
-      this._objectid++;
 
       return bufferPolygon;
     },
@@ -201,6 +217,7 @@ define([
                   level: j,
                   geometry: bufferGeometry[j]
                 });
+                this._geoBufferIds.push(bufferGeometry[j].OBJECTID);
                 break;
               }
             }
@@ -250,6 +267,21 @@ define([
       this._geoBuffers.sort(function(a, b) {
         return a.level - b.level;
       });
+      var clearBufferids = []; //需要清理的id;
+      //清除车辆已经离开的预警区域
+      if (this._geoBuffers.length == 0) {
+        this.bufferLayer.clear();
+        this._showBufferIds = [];
+      } else {
+        if (this._showBufferIds.length > 0) {
+          for (var j = 0; j < this._showBufferIds.length; j++) {
+            if (this._geoBufferIds.indexOf(this._showBufferIds[j]) < 0) {
+              clearBufferids.push(this._showBufferIds[j]);
+            }
+          }
+          this.clearShowBuffer(clearBufferids);
+        }
+      }
       for (var i = this._geoBuffers.length - 1; i > -1; i--) {
         var geometry = this._geoBuffers[i].geometry;
         var level = this._geoBuffers[i].level;
@@ -271,6 +303,7 @@ define([
               symbol = new SimpleMarkerSymbol();
             }
             var bufferGraphic = new Graphic(geometry, symbol);
+            bufferGraphic.OBJECTID = geometry.OBJECTID;
             if (this._showBuffer) {
               this.bufferLayer.add(bufferGraphic);
             }
@@ -278,15 +311,114 @@ define([
         }
       }
     },
+    clearShowBuffer: function(ids) {
+      var removeGraphics = [];
+      if (ids) {
+        array.forEach(
+          this.bufferLayer.graphics,
+          lang.hitch(this, function(graphic) {
+            if (graphic.OBJECTID && ids.indexOf(graphic.OBJECTID) > -1) {
+              removeGraphics.push(graphic);
+              this._showBufferIds.splice(
+                this._showBufferIds.indexOf(graphic.OBJECTID),
+                1
+              );
+            }
+          })
+        );
+        if (removeGraphics.length > 0) {
+          array.forEach(
+            removeGraphics,
+            lang.hitch(this, function(graphic) {
+              this.bufferLayer.remove(graphic);
+            })
+          );
+        }
+      }
+    },
     clear: function() {
       this.carLayer.clear();
+      this.areaLayer.clear();
       topic.publish("clearToolTip");
       this._geoBuffers = [];
+      this._geoBufferIds = [];
     },
     _onTopicHandler_clearMonitorControl: function() {
-      this._showBufferIds = [];
       this.bufferLayer.clear();
+      this._showBufferIds = [];
       this.clear();
+    },
+    _onTopicHandler_showMonitorArea: function(params) {
+      var monitorParams = JSON.parse(params);
+      var id = monitorParams.id || "";
+
+      //this.areaLayer.clear();
+      this._onTopicHandler_clearMonitorArea([id]);
+
+      var geometryObj = monitorParams.geometry;
+      var buffers = monitorParams.buffers || [10000];
+
+      var geometry = geometryJsonUtils.fromJson(geometryObj);
+      if (this.map.spatialReference.isWebMercator()) {
+        geometry = WebMercatorUtils.geographicToWebMercator(geometry);
+      }
+      var bufferGeometrys;
+      var fields = {};
+      fields.id = id;
+      var fillsymbol = new SimpleFillSymbol(
+        SimpleFillSymbol.STYLE_SOLID,
+        new SimpleLineSymbol(
+          SimpleLineSymbol.STYLE_SOLID,
+          new Color([0, 255, 255, 1]),
+          2
+        ),
+        new Color([0, 255, 255, 0])
+      );
+
+      var moitorGraphic = new Graphic(geometry, fillsymbol, fields);
+
+      for (var j = buffers.length; j > -1; j--) {
+        var buffer = this._doBuffer(moitorGraphic, buffers[j], j);
+
+        var symbol = new SimpleFillSymbol(
+          SimpleFillSymbol.STYLE_SOLID,
+          new SimpleLineSymbol(
+            SimpleLineSymbol.STYLE_SOLID,
+            new Color([255, 255, 255, 0.1]),
+            1
+          ),
+          new Color(this._colors[j])
+        );
+        var bufferGraphic = new Graphic(buffer, symbol, fields);
+        bufferGraphic.id = id + j;
+        bufferGraphic.pid = id;
+        this.areaLayer.add(bufferGraphic);
+      }
+      //this.areaLayer.add(moitorGraphic);
+    },
+    _onTopicHandler_clearMonitorArea: function(params) {
+      var ids = params || undefined;
+      var removeGraphics = [];
+      if (ids) {
+        array.forEach(
+          this.areaLayer.graphics,
+          lang.hitch(this, function(graphic) {
+            if (graphic.pid && ids.indexOf(graphic.pid) > -1) {
+              removeGraphics.push(graphic);
+            }
+          })
+        );
+        if (removeGraphics.length > 0) {
+          array.forEach(
+            removeGraphics,
+            lang.hitch(this, function(graphic) {
+              this.areaLayer.remove(graphic);
+            })
+          );
+        }
+      } else {
+        this.areaLayer.clear();
+      }
     }
   });
 });

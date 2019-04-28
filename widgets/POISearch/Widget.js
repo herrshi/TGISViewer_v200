@@ -7,6 +7,7 @@ define([
   "esri/lang",
   "esri/InfoTemplate",
   "esri/graphic",
+  "esri/graphicsUtils",
   "esri/geometry/Point",
   "esri/layers/GraphicsLayer",
   "esri/symbols/PictureMarkerSymbol"
@@ -19,6 +20,7 @@ define([
   esriLang,
   InfoTemplate,
   Graphic,
+  graphicsUtils,
   Point,
   GraphicsLayer,
   PictureMarkerSymbol
@@ -28,14 +30,14 @@ define([
 
     resultContentTemplate:
       "<li id='${uid}'>" +
-      "<div class='line_box'>" +
-      "<i class='icon-num'>${index}</i>" +
-      "<div class='list_right'>" +
-      "<p>${name}</p>" +
-      "<font style='font-size: 0.3rem'>${address}</font>" +
-      "</div>" +
-      "<div style='clear:both'></div>" +
-      "</div>" +
+      "  <div class='line_box'>" +
+      "    <i class='icon-num'>${index}</i>" +
+      "    <div class='list_right'>" +
+      "      <p>${name}</p>" +
+      "      <font style='font-size: 0.3rem'>${address}</font>" +
+      "    </div>" +
+      "    <div style='clear:both'></div>" +
+      "  </div>" +
       "</li>",
 
     resultLayer: null,
@@ -73,6 +75,7 @@ define([
         /{gisServer}/i,
         this.appConfig.gisServer
       );
+      //使用jsonp获取poi搜索结果
       $.get(
         searchUrl,
         {
@@ -94,6 +97,8 @@ define([
       return def;
     },
 
+
+    /**在列表上显示搜索结果, 在地图上显示结果点位*/
     _showSearchResult: function(response) {
       if (response.message === "ok") {
         query("#searchResult").removeClass("hide");
@@ -113,6 +118,7 @@ define([
           var lat = result.location.lat;
           var point = new Point(lng, lat);
           var graphic = new Graphic(point);
+          graphic.id = result.uid;
           graphic.symbol = new PictureMarkerSymbol({
             type: "esriPMS",
             url: window.path + "images/blue" + (index + 1) + ".png",
@@ -128,7 +134,7 @@ define([
               "  </div>" +
               "  <div class='jtsg_box marginMinus20'>" +
               "    <div class='jtsg_body'>" +
-              "        <table width='100%' border='0' cellspacing='0' cellpadding='0' style='font-size: 0.3rem'>" +
+              "        <table style='font-size: 0.3rem; width: 100%; border: 0;'>" +
               "          <tr>" +
               "            <td style='width: 15%'>地址：</td>" +
               "            <td>${address}</td>" +
@@ -148,9 +154,28 @@ define([
               "</div>"
           });
           this.resultLayer.add(graphic);
+          //调整地图范围, 显示所有结果
+          var resultExtent = graphicsUtils.graphicsExtent(
+            this.resultLayer.graphics
+          );
+          this.map.setExtent(resultExtent, true);
         }, this);
+
+        //list点击事件
+        $("#searchResultList>li").on("click", lang.hitch(this, function (event) {
+          this.resultLayer.graphics.forEach(function (graphic) {
+            if (graphic.id === event.currentTarget.id) {
+              this.map.centerAt(graphic.geometry);
+              this.map.infoWindow.setFeatures([graphic]);
+              this.map.infoWindow.show(graphic.geometry);
+            }
+          }, this);
+        }));
+
       }
     },
+
+
 
     onInputSearchKey_keyUp: function(event) {
       if (event.keyCode === 13) {

@@ -1482,5 +1482,26 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMonitorControl");
     });
+  },
+  /**
+   * 显示布控预警区域
+   *  @param params: string,json字符串 required.
+   *    geometry: object, required. 几何属性.
+   *    id: string,required,布控区域id值.用于删除id,若地图上存在该id,则覆盖.
+   *    buffers:[Number], required,预警缓冲区距离,单位米,从最里面开始,由红,橙,黄,绿,如果单色预警就传一个值即可
+   * **/
+  showMonitorArea: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showMonitorArea", params);
+    });
+  },
+  /**
+   * 隐藏布控预警区域
+   * *  @param params: [id],字符串数组 optional布控区域id值,删除该id对应的区域,为空这清除全部.
+   * **/
+  clearMonitorArea: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearMonitorArea", params);
+    });
   }
 };

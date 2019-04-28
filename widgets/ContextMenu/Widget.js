@@ -33,8 +33,9 @@ define([
             radio: "radio",
             value: "showMask",
             selected: true,
+            //radio不触发默认的callback, 需要单独写events
             events: {
-              click: function (e) {
+              click: function(e) {
                 topic.publish("showDistrictMask");
                 $(".map").contextMenu("hide");
               }
@@ -45,8 +46,9 @@ define([
             type: "radio",
             radio: "radio",
             value: "hideMask",
+            //radio不触发默认的callback, 需要单独写events
             events: {
-              click: function (e) {
+              click: function(e) {
                 topic.publish("hideDistrictMask");
                 $(".map").contextMenu("hide");
               }
@@ -54,16 +56,19 @@ define([
           },
           sep1: "---------",
           mapRefresh: { name: "刷新地图" },
-          home: {name: "还原地图"}
+          home: { name: "还原地图" }
         },
         events: {
-          show: function (opt) {
+          //打开菜单时读取状态
+          show: function(opt) {
             var $this = this;
+            //第一次打开时没有$this.data().radio
             if ($this.data().radio) {
               $.contextMenu.setInputValues(opt, $this.data());
             }
           },
-          hide: function (opt) {
+          //关闭菜单里记录状态
+          hide: function(opt) {
             var $this = this;
             $.contextMenu.getInputValues(opt, $this.data());
           }
