@@ -1458,20 +1458,24 @@ var TMap = {
    * 布控预警
    * @param params: string,json字符串 required.
    *    monitorType: string, required  对应addOverlay中的type,
-   *    ids:[],optional,电子围栏id.为空这选择全部.
+   *    ids:[string],optional,电子围栏id.为空这选择全部.
    *    carPoints: [object], required 车辆点位信息,
    *      x: number, required. 坐标x.
    *      y: number, required. 坐标y.
    *      monitorids:[string] ,optional,纳入电子围栏id,为空则认为不纳入任何区域
    *      id: string ,optional  编号.
    *      type: string ,optional  类型.
-   *      field: object ,optional 属性.
-   *        angle:number,optional 车辆角度方向.默认为0,正北方
-   *    buffers:[Number], required,预警缓冲区距离,单位米,从最里面开始,由红,橙,黄,绿,如果单色预警就传一个值即可
+   *      fields: object ,optional 属性.
+   *      angle:number,optional 车辆角度方向.默认为0,正北方,通过addoverlay中fields.limit,判断是限进还是限出
+   *    buffers:[number] , required,默认预警缓冲区距离,单位米,从最里面开始,由红,橙,黄,绿,如果单色预警就传一个值即可
+   *    monitorBuffers:[object] , optional,设定每个点位围栏的buffer
+   *      id: string, required.电子围栏id
+   *      buffer: string, optional.每个电子围栏预警缓冲区距离,覆盖buffers.
+   * @param callback: object required,返回预警信息.
    * **/
-  MonitorControl: function(params) {
+  MonitorControl: function(params, callback) {
     require(["dojo/topic"], function(topic) {
-      topic.publish("MonitorControl", params);
+      topic.publish("MonitorControl", { params: params, callback: callback });
     });
   },
 

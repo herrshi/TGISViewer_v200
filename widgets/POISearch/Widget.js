@@ -163,19 +163,20 @@ define([
 
         //list点击事件
         $("#searchResultList>li").on("click", lang.hitch(this, function (event) {
+          this.map.infoWindow.hide();
+
           this.resultLayer.graphics.forEach(function (graphic) {
             if (graphic.id === event.currentTarget.id) {
-              this.map.centerAt(graphic.geometry);
-              this.map.infoWindow.setFeatures([graphic]);
-              this.map.infoWindow.show(graphic.geometry);
+              this.map.centerAt(graphic.geometry).then(lang.hitch(this, function () {
+                this.map.infoWindow.setFeatures([graphic]);
+                this.map.infoWindow.show(graphic.geometry);
+              }));
             }
           }, this);
         }));
 
       }
     },
-
-
 
     onInputSearchKey_keyUp: function(event) {
       if (event.keyCode === 13) {
