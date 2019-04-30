@@ -164,12 +164,14 @@ define([
             searchPager.append(pagerContent);
           }
           //给第一页加上高亮
-          $("#searchPager>li:first>a").trigger("focus");
+          $("#searchPager>li:first").addClass("active");
           //分页点击事件
-          $("#searchPager>li>a").on(
+          $("#searchPager>li").on(
             "click",
             lang.hitch(this, function(event) {
-              var page = event.currentTarget.innerHTML;
+              $("#searchPager>li").removeClass("active");
+              $(event.currentTarget).addClass("active");
+              var page = $("#searchPager>li.active>a").html();
               var searchKey = query("#inputSearchKey").attr("value")[0];
               this._getSearchResult(searchKey, page).then(
                 lang.hitch(this, function(data) {
