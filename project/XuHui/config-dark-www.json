@@ -111,7 +111,7 @@
       },
       {
         "uri": "widgets/POISearch/Widget",
-        "config": "configs/POISearch/config.json",
+        "config": "configs/POISearch/config-www.json",
         "position": {
           "left": 50,
           "top": 10,

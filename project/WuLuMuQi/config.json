@@ -32,8 +32,29 @@
     ],
     "operationallayers": [
       {
-        "label": "kk",
+        "label": "SXJ",
         "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "${DEVICEID}",
+          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/SheXiangJi-blue.png",
+            "width": 22,
+            "height": 26,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "kk",
+        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/1",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
@@ -54,7 +75,28 @@
       },
       {
         "label": "RFID",
-        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/1",
+        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "${DEVICEID}",
+          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+        },
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/icon_camera_blue.png",
+            "width": 22,
+            "height": 26,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "SP",
+        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/3",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
@@ -72,27 +114,6 @@
             "yoffset": 16
           }
         }
-      },
-      {
-        "label": "SP",
-        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/2",
-        "type": "feature",
-        "visible": true,
-        "outFields": ["*"],
-        "infoTemplate": {
-          "title": "${DEVICEID}",
-          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
-        },
-        "renderer": {
-          "type": "simple",
-          "symbol": {
-            "type": "esriPMS",
-            "url": "images/mapIcons/SheXiangJi-blue.png",
-            "width": 22,
-            "height": 26,
-            "yoffset": 16
-          }
-        }
       }
 
     ],
@@ -105,7 +126,7 @@
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "172.30.30.1:6080",
+  "gisServer": "172.10.10.1:6080",
   "widgetOnScreen": {
     "widgets": [
       {

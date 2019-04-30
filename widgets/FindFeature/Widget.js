@@ -434,7 +434,7 @@ define([
         }
       }, this);
     },
-    _doHighlightFindTaskPolylineOrPolygon(graphic) {
+    _doHighlightFindTaskPolylineOrPolygon:function(graphic) {
       //graphic.attributes.showZoom="7";
       var showZoom=null;
       if (this.config) {

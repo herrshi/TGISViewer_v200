@@ -18,8 +18,8 @@ define([
   "esri/layers/FeatureLayer",
   "esri/layers/LabelClass",
   "esri/symbols/TextSymbol",
-  "esri/renderers/SimpleRenderer",
-  "esri/geometry/jsonUtils"
+  "esri/symbols/SimpleFillSymbol",
+  "esri/renderers/SimpleRenderer"
 ], function(
   declare,
   lang,
@@ -35,8 +35,8 @@ define([
   FeatureLayer,
   LabelClass,
   TextSymbol,
-  SimpleRenderer,
-  geometryJsonUtils
+  SimpleFillSymbol,
+  SimpleRenderer
 ) {
   return declare([BaseWidget], {
     labelPointGraphics: [],
@@ -282,13 +282,13 @@ define([
 
     onTopicHandler_showDistrictMask: function () {
       // this.districtLayer.setVisibility(true);
-      this.districtLayer.renderer.symbol.style = "solid";
+      this.districtLayer.renderer.symbol.style = SimpleFillSymbol.STYLE_SOLID;
       this.districtLayer.refresh();
     },
 
     onTopicHandler_hideDistrictMask: function () {
       // this.districtLayer.setVisibility(false);
-      this.districtLayer.renderer.symbol.style = "null";
+      this.districtLayer.renderer.symbol.style = SimpleFillSymbol.STYLE_NULL;
       this.districtLayer.refresh();
     }
   });

@@ -76,6 +76,23 @@
     {
       "label": "长途客运站",
       "url": "http://122.144.195.126:6080/arcgis/rest/services/JiaoWei/Road_App/MapServer/33"
+    },
+    {
+      "label": "kk",
+      "url": "http://172.10.10.1:6080/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/1"
+    },
+    {
+      "label": "RFID",
+      "url": "http://172.10.10.1:6080/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/2"
+    },
+    {
+      "label": "SP",
+      "url": "http://172.10.10.1:6080/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/3"
+    }
+  ,
+    {
+      "label": "SXJ",
+      "url": "http://172.10.10.1:6080/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/0"
     }
   ]
 }

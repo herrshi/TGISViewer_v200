@@ -478,6 +478,7 @@ define([
 
       var showPopup = overlayParams.showPopup === true;
       var autoPopup = overlayParams.autoPopup === true;
+      var showToolTip = overlayParams.showToolTip === true;
 
       array.forEach(
         overlays,
@@ -522,6 +523,13 @@ define([
             graphic.id = id;
             graphic.type = type;
             graphic.buttons = buttons;
+            if(showToolTip){
+                topic.publish("showToolTip", {
+                    graphic: graphic,
+                    label: "卡口",
+                    offset: 20
+                });
+            }
 
             if (showPopup) {
               if (overlayParams.defaultInfoTemplate === undefined) {

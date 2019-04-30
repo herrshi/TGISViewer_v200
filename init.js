@@ -218,22 +218,22 @@ var ie = (function() {
       return;
     }
 
-    if (allCookies && allCookies.esri_auth) {
-      var userObj = eval("(" + unescape(allCookies.esri_auth) + ")");
-      if (userObj.culture) {
-        dojoConfig.locale = userObj.culture;
-      }
-    }
-
-    if (window.queryObject && window.queryObject.mode) {
-      if (allCookies && allCookies.wab_locale) {
-        dojoConfig.locale = allCookies.wab_locale;
-      }
-    } else {
-      if (allCookies && allCookies.wab_app_locale) {
-        dojoConfig.locale = allCookies.wab_app_locale;
-      }
-    }
+    // if (allCookies && allCookies.esri_auth) {
+    //   var userObj = eval("(" + unescape(allCookies.esri_auth) + ")");
+    //   if (userObj.culture) {
+    //     dojoConfig.locale = userObj.culture;
+    //   }
+    // }
+    //
+    // if (window.queryObject && window.queryObject.mode) {
+    //   if (allCookies && allCookies.wab_locale) {
+    //     dojoConfig.locale = allCookies.wab_locale;
+    //   }
+    // } else {
+    //   if (allCookies && allCookies.wab_app_locale) {
+    //     dojoConfig.locale = allCookies.wab_app_locale;
+    //   }
+    // }
 
     if (!dojoConfig.locale) {
       dojoConfig.locale = navigator.language

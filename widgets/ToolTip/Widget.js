@@ -282,7 +282,12 @@ define([
     init: function() {
       if (this._mapPoint) {
         this.drawText();
-        this._tooltipNodes.push({ node: this._node, mapPoint: this._mapPoint });
+        this._tooltipNodes.push({
+          node: this._node,
+          mapPoint: this._mapPoint,
+          offsetX: this._offsetX,
+          offsetY: this._offsetY
+        });
         if (this._first) {
           this._first = false;
           this._onEvent();
@@ -710,13 +715,15 @@ define([
       for (var i = 0; i < this._tooltipNodes.length; i++) {
         var node = this._tooltipNodes[i].node;
         var point = this._tooltipNodes[i].mapPoint;
+        var offsetx = this._tooltipNodes[i].offsetX;
+        var offsety = this._tooltipNodes[i].offsetY;
         if (node) {
           var dx = e.delta.x;
           var dy = e.delta.y;
           var dd = this.getScreentPoint(point);
           domStyle.set(node, {
-            left: dd.x + dx + this._offsetX + "px",
-            top: dd.y + dy + this._offsetY + "px"
+            left: dd.x + dx + offsetx + "px",
+            top: dd.y + dy + offsety + "px"
           });
         }
       }
@@ -725,13 +732,15 @@ define([
       for (var i = 0; i < this._tooltipNodes.length; i++) {
         var node = this._tooltipNodes[i].node;
         var point = this._tooltipNodes[i].mapPoint;
+        var offsetx = this._tooltipNodes[i].offsetX;
+        var offsety = this._tooltipNodes[i].offsetY;
         if (node) {
           var dx = e.anchor.x;
           var dy = e.anchor.y;
           var dd = this.getScreentPoint(point);
           domStyle.set(node, {
-            left: dd.x + this._offsetX + "px",
-            top: dd.y + this._offsetY + "px"
+            left: dd.x + offsetx + "px",
+            top: dd.y + offsety + "px"
           });
         }
       }
