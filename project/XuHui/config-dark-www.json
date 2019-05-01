@@ -47,6 +47,16 @@
   "widgetOnScreen": {
     "widgets": [
       {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
         "uri": "widgets/GeometrySearch/Widget",
         "version": "2.4",
         "id": "GeometrySearchWidget"
@@ -90,7 +100,7 @@
       },
       {
         "uri": "widgets/Routing/Widget",
-        "config": "configs/Routing/config.json",
+        "config": "configs/Routing/config-www.json",
         "version": "2.4",
         "id": "RoutingWidget"
       },

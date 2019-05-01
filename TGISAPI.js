@@ -1440,6 +1440,7 @@ var TMap = {
    *   endPoint: string, required. 需要路径分析的终点字符串x,y
    *   wayPoints: string. 途径点字符串x,y,以;隔开
    *   bufferDistance: number. 缓冲半径. 默认为0, 不缓冲.
+   *   clearPrevResults: boolean. 是否清除上一次路径分析结果. 默认为true
    * */
   routeSearch: function(params) {
     require(["dojo/topic"], function(topic) {

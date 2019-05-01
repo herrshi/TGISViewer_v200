@@ -98,32 +98,32 @@ define([
 
       this._startPointSymbol = new PictureMarkerSymbol({
         url: "images/mapIcons/start.png",
-        height: 31,
-        width: 19,
+        height: 23.25,
+        width: 14.25,
         type: "esriPMS",
         xoffset: 0,
-        yoffset: 16
+        yoffset: 11.625
       });
       this._endPointSymbol = new PictureMarkerSymbol({
         url: "images/mapIcons/end.png",
-        height: 31,
-        width: 19,
+        height: 23.25,
+        width: 14.25,
         type: "esriPMS",
         xoffset: 0,
-        yoffset: 16
+        yoffset: 11.625
       });
       this._wayPointsSymbol = new PictureMarkerSymbol({
         url: "images/mapIcons/mid.png",
-        height: 31,
-        width: 19,
+        height: 23.25,
+        width: 14.25,
         type: "esriPMS",
         xoffset: 0,
-        yoffset: 16
+        yoffset: 11.625
       });
       this._routePointsSymbol = new PictureMarkerSymbol({
         url: "images/BlueSphere.png",
-        height: 32,
-        width: 32,
+        height: 24,
+        width: 24,
         type: "esriPMS"
       });
       this._routeLineSymbol = new SimpleLineSymbol(
@@ -191,8 +191,12 @@ define([
       this._routeLayer.clear();
     },
     onTopicHandler_routeSearch: function(params) {
-      this._routeLayer.clear();
       var routeParams = JSON.parse(params);
+      // console.log(routeParams.clearPrevResults, !!routeParams.clearPrevResults);
+      if (routeParams.clearPrevResults === undefined || routeParams.clearPrevResults === true) {
+        this._routeLayer.clear();
+      }
+
       var wayPoints = routeParams.wayPoints || "";
       var start = routeParams.startPoint;
       var end = routeParams.endPoint;
