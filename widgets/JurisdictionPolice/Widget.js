@@ -169,7 +169,7 @@ define([
                 this.jurisdictionLayer.on("click", function (event) {
                   event.stopPropagation();
                 });
-                this.map.addLayer(this.jurisdictionLayer);
+                this.map.addLayer(this.jurisdictionLayer, 0);
               })
             );
           }

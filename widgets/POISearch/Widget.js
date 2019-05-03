@@ -1,6 +1,7 @@
 define([
   "dojo/_base/declare",
   "dojo/_base/lang",
+  "dojo/topic",
   "dojo/query",
   "dojo/Deferred",
   "jimu/BaseWidget",
@@ -14,6 +15,7 @@ define([
 ], function(
   declare,
   lang,
+  topic,
   query,
   Deferred,
   BaseWidget,
@@ -28,7 +30,7 @@ define([
   return declare([BaseWidget], {
     baseClass: "jimu-widget-POISearch",
 
-    //列表项的html模板
+    //列表项模板
     listContentTemplate:
       "<li id='${uid}'>" +
       "  <div class='line_box' style='margin-bottom: 0.1rem; padding: 0.1rem'>" +
@@ -41,6 +43,7 @@ define([
       "  </div>" +
       "</li>",
 
+    //弹出框标题模板
     infoTitleTemplate:
       "<div class='box8w popup_small green_bgborder'>" +
       "  <div class='popup_title' style='padding: 0.25rem;'>" +
@@ -48,6 +51,7 @@ define([
       "  </div>" +
       "</div>",
 
+    //弹出框内容模板
     infoContentTemplate:
       "<div class='gis-dialog popup_small_inner down_arrow_box'>" +
       "  <div class='popup_small_main' style='color: #c3efff;'>" +
@@ -56,27 +60,8 @@ define([
       "  </div>" +
       "</div>",
 
+    //分页模板
     pagerTemplate: "<li><a href='#'>${index}</a></li>",
-
-    // "<div class='box8w table corner_full_bg02' style='color: #c3efff; margin: 5px'>" +
-    // "  <div class='page-box-title'> <font>${name}</font>" +
-    // "  </div>" +
-    // "  <div class='jtsg_box marginMinus20'>" +
-    // "    <div class='jtsg_body'>" +
-    // "        <table style='font-size: 0.3rem; width: 100%; border: 0;'>" +
-    // "          <tr>" +
-    // "            <td style='width: 15%'>地址：</td>" +
-    // "            <td>${address}</td>" +
-    // "          </tr>" +
-    // "          <tr>" +
-    // "            <td>电话：</td>" +
-    // "            <td>${telephone}</td>" +
-    // "          </tr>" +
-    // "        </table>" +
-    // "    </div>" +
-    // "  </div>" +
-    // "  <div class='clearfix'></div>" +
-    // "</div>",
 
     resultLayer: null,
 
@@ -85,6 +70,8 @@ define([
 
       this.resultLayer = new GraphicsLayer();
       this.map.addLayer(this.resultLayer);
+
+      topic.subscribe("showPOISearch", lang.hitch(this, this.onTopicHandler_showPOISearch));
     },
 
     onBtnSearch_mouseover: function() {
@@ -250,10 +237,13 @@ define([
     },
 
     btnSearchClear_click: function() {
-      query("#btnSearch").removeClass("opacity-1");
-      query("#btnSearch").addClass("opacity-0");
+      query("#searchParam").addClass("hide");
+    },
 
-      query("#inputSearchKey, #btnSearchClear, #searchResult").addClass("hide");
+    onTopicHandler_showPOISearch: function (params) {
+      console.log(params);
+
+      query("#searchParam").removeClass("hide");
     }
   });
 });
