@@ -24,6 +24,14 @@ define([
             case "home":
               topic.publish("home");
               break;
+            case "poiSearch":
+              topic.publish("showPOISearch", {
+                position: {
+                  top: options.$menu.css("top"),
+                  left: options.$menu.css("left")
+                }
+              });
+              break;
           }
         }),
         items: {
@@ -60,35 +68,8 @@ define([
           mapRefresh: { name: "刷新地图" },
           home: { name: "还原地图" },
           sep2: "---------",
-          poiSearch: {
-            name: "搜索",
-            type: "checkbox",
-            events: {
-              click: function(event) {
-                if (this.checked) {
-                  topic.publish("showPOISearch", {
-                    x: event.clientX,
-                    y: event.clientY
-                  });
-                } else {
-                  topic.publish("hidePOISearch");
-                }
-                //关闭contextMenu
-                $(".map").contextMenu("hide");
-              }
-            }
-          },
-          route: {
-            name: "路径",
-            type: "checkbox",
-            events: {
-              click: function() {
-                topic.publish("showPOISearch");
-                //关闭contextMenu
-                $(".map").contextMenu("hide");
-              }
-            }
-          }
+          poiSearch: { name: "搜索" },
+          route: { name: "路径" }
         },
         events: {
           //打开菜单时读取状态

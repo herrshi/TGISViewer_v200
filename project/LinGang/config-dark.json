@@ -377,11 +377,11 @@
     ],
     "mapOptions": {
       "center": {
-        "x": 121.8763,
-        "y": 30.8996,
+        "x": 121.908,
+        "y": 30.912,
         "spatialReference": { "wkid": 4326 }
       },
-      "scale": 72224,
+      "scale": 36112,
       "logo": false,
       "nav": false,
       "slider": false,

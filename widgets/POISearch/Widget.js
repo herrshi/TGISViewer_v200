@@ -74,15 +74,9 @@ define([
       topic.subscribe("showPOISearch", lang.hitch(this, this.onTopicHandler_showPOISearch));
     },
 
-    onBtnSearch_mouseover: function() {
-      query("#btnSearch").removeClass("opacity-0");
-      query("#btnSearch").addClass("opacity-1");
-
-      query("#inputSearchKey, #btnSearchClear").removeClass("hide");
-    },
-
     onBtnSearch_click: function() {
-      var searchKey = query("#inputSearchKey").attr("value")[0];
+      var searchKey = $("#inputSearchKey").val();
+      console.log("key: " + searchKey);
       if (searchKey === "") {
         return;
       }
@@ -159,7 +153,7 @@ define([
               $("#searchPager>li").removeClass("active");
               $(event.currentTarget).addClass("active");
               var page = $("#searchPager>li.active>a").html();
-              var searchKey = query("#inputSearchKey").attr("value")[0];
+              var searchKey = $("#inputSearchKey").val();
               this._getSearchResult(searchKey, page).then(
                 lang.hitch(this, function(data) {
                   this._showSearchResult(data, true);
@@ -237,13 +231,20 @@ define([
     },
 
     btnSearchClear_click: function() {
-      query("#searchParam").addClass("hide");
+      $("#searchResultList").empty();
+      $("#searchPager").empty();
+      $("#inputSearchKey").val("");
+      this.map.infoWindow.hide();
+      this.resultLayer.clear();
+
+      $("#searchParam, #searchResult").addClass("hide");
+
     },
 
     onTopicHandler_showPOISearch: function (params) {
-      console.log(params);
-
-      query("#searchParam").removeClass("hide");
+      $("." + this.baseClass).css({left: params.position.left, top: params.position.top});
+      $("." + this.baseClass).draggable();
+      $("#searchParam").removeClass("hide");
     }
   });
 });
