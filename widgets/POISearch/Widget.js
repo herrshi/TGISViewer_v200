@@ -71,7 +71,10 @@ define([
       this.resultLayer = new GraphicsLayer();
       this.map.addLayer(this.resultLayer);
 
-      topic.subscribe("showPOISearch", lang.hitch(this, this.onTopicHandler_showPOISearch));
+      topic.subscribe(
+        "showPOISearch",
+        lang.hitch(this, this.onTopicHandler_showPOISearch)
+      );
     },
 
     onBtnSearch_click: function() {
@@ -237,13 +240,18 @@ define([
       this.map.infoWindow.hide();
       this.resultLayer.clear();
 
-      $("#searchParam, #searchResult").addClass("hide");
-
+      $("." + this.baseClass).addClass("hide");
+      $("#searchResult").addClass("hide");
     },
 
-    onTopicHandler_showPOISearch: function (params) {
-      $("." + this.baseClass).css({left: params.position.left, top: params.position.top});
-      $("." + this.baseClass).draggable();
+    onTopicHandler_showPOISearch: function(params) {
+      var baseDom = $("." + this.baseClass);
+      baseDom.css({
+        left: params.position.left,
+        top: params.position.top
+      });
+      baseDom.draggable();
+      baseDom.removeClass("hide");
       $("#searchParam").removeClass("hide");
     }
   });

@@ -1,0 +1,23 @@
+.jimu-widget-Route {
+  margin: auto;
+  padding: 0;
+  text-align: center;
+  cursor: move;
+  color: #c3efff;
+}
+
+.jimu-widget-Route .opacity-0 {
+  opacity: 0.3;
+}
+
+.jimu-widget-Route .opacity-1 {
+  opacity: 1;
+}
+
+.jimu-widget-Route .show {
+  display: block;
+}
+
+.jimu-widget-Route .hide {
+  display: none;
+}
