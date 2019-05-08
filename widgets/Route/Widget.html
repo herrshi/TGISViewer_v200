@@ -1,20 +1,54 @@
 <div class="box8w L_bg">
-  <div id="routeParam" class="box8w corner_full_topbg hide" style="margin-bottom:4px">
+  <div id="routeParam" class="box8w corner_full_topbg hide">
     <div class="page-box-title" style="padding-bottom:0">
+      <div class="pull-right" style="cursor: pointer; padding-left: 0.5rem; padding-top: 0.1rem"
+           data-dojo-attach-event="onclick:onBtnClose_click">
+        <i class="fa fa-close"></i>
+      </div>
       <i class="iconone icon-one-quick"></i>
-      <!--        <div class="nav_tab" style="background: none; border: none; display: inline-block">-->
-      <!--          <ul>-->
-      <!--            <li class="active">-->
-      <!--              <div class="bevel"></div>-->
-      <!--              驾车-->
-      <!--            </li>-->
-      <!--            <li>-->
-      <!--              <div class="bevel"></div>-->
-      <!--              步行-->
-      <!--            </li>-->
-      <!--          </ul>-->
-      <!--        </div>-->
-      <div class="pull-right" style="cursor: pointer;"><i class="fa fa-close"></i></div>
+      <font> 路线</font>
+      <div class="check-box">
+        <ul>
+          <li><i class="fa fa-circle-o"></i> 步行</li>
+          <li><i class="fa fa-dot-circle-o"></i> 驾车</li>
+        </ul>
+        <div style="clear:both"></div>
+      </div>
     </div>
+    <div class="marginMinus20">
+      <div class="search_box" style="padding: 0.2rem">
+        <div class="form-horizontal" style="font-size: 0.2rem">
+          <div class="form-group">
+            <label for="inputRouteStart" class="col-sm-2 control-label">起点</label>
+            <div class="col-sm-10">
+              <div class="input-group" style="width: 100%">
+                <span id="btnClearStart" class="glyphicon glyphicon-remove form-control-feedback"
+                      data-toggle="tooltip" data-placement="bottom" title="清空"
+                      aria-hidden="true"
+                      style="z-index:333; cursor:pointer; pointer-events:auto; border-left:#1e6d97 solid 1px"></span>
+                <input id="inputRouteStart" class="form-control" placeholder="输入起点或在地图上选点"
+                       data-dojo-attach-event="onfocus:onInputRouteStart_focus">
+
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputRouteEnd" class="col-sm-2 control-label">终点</label>
+            <div class="col-sm-10">
+              <div class="input-group" style="width: 100%">
+                <span id="btnClearEnd" class="glyphicon glyphicon-remove form-control-feedback"
+                      data-toggle="tooltip" data-placement="bottom" title="清空"
+                      aria-hidden="true"
+                      style="z-index:333; cursor:pointer; pointer-events:auto; border-left:#1e6d97 solid 1px"></span>
+                <input id="inputRouteEnd" class="form-control" placeholder="输入终点或在地图上选点"
+                       data-dojo-attach-event="onfocus:onInputRouteEnd_focus">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+  <div id="routeResult" class="box8w corner_full_bottombg hide"></div>
 </div>

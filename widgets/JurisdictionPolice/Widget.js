@@ -166,9 +166,9 @@ define([
                   }
                 });
                 this.jurisdictionLayer.setRenderer(renderer);
-                this.jurisdictionLayer.on("click", function (event) {
-                  event.stopPropagation();
-                });
+                // this.jurisdictionLayer.on("click", function (event) {
+                //   event.stopPropagation();
+                // });
                 this.map.addLayer(this.jurisdictionLayer, 0);
               })
             );

@@ -77,7 +77,7 @@ define([
           home: { name: "还原地图" },
           sep2: "---------",
           search: { name: "搜索" },
-          route: { name: "路径" }
+          route: { name: "路线" }
         },
         events: {
           //打开菜单时读取状态
