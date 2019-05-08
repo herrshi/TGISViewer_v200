@@ -1,9 +1,9 @@
 .jimu-widget-Route {
   margin: auto;
   padding: 0;
-  text-align: center;
-  cursor: move;
+  /*text-align: center;*/
   color: #c3efff;
+  cursor: move;
 }
 
 .jimu-widget-Route .opacity-0 {

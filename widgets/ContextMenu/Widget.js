@@ -24,8 +24,16 @@ define([
             case "home":
               topic.publish("home");
               break;
-            case "poiSearch":
+            case "search":
               topic.publish("showPOISearch", {
+                position: {
+                  top: options.$menu.css("top"),
+                  left: options.$menu.css("left")
+                }
+              });
+              break;
+            case "route":
+              topic.publish("showRoute", {
                 position: {
                   top: options.$menu.css("top"),
                   left: options.$menu.css("left")
@@ -68,7 +76,7 @@ define([
           mapRefresh: { name: "刷新地图" },
           home: { name: "还原地图" },
           sep2: "---------",
-          poiSearch: { name: "搜索" },
+          search: { name: "搜索" },
           route: { name: "路径" }
         },
         events: {
