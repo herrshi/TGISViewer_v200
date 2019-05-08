@@ -145,7 +145,7 @@
       },
       {
         "uri": "widgets/Route/Widget",
-        "config": "configs/POISearch/config.json",
+        "config": "configs/Route/config.json",
         "position": {
           "left": 50,
           "top": 10,
