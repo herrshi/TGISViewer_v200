@@ -201,6 +201,11 @@
         "config": "configs/ToolTip/config_WuLuMuQi.json",
         "version": "2.4",
         "id": "ToolTipWidget"
+      },
+      {
+        "uri": "widgets/GatherArea/Widget",
+        "version": "2.4",
+        "id": "GatherAreaWidget"
       }
     ]
   }

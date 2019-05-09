@@ -38,8 +38,11 @@ define([
 
     postCreate: function() {
       this.inherited(arguments);
-
-      this._identifyTask = new IdentifyTask(this.config.identify.url);
+      var identifyTaskUrl = this.config.identify.url.replace(
+        /{token}/i,
+        window.serviceToken
+      );
+      this._identifyTask = new IdentifyTask(identifyTaskUrl);
       this._identifyParams = new IdentifyParameters();
       this._identifyParams.tolerance = 3;
       this._identifyParams.returnGeometry = true;
@@ -50,7 +53,11 @@ define([
 
       //叠加各个图层的切片服务
       this.config.layers.forEach(function(layerConfig) {
-        var tiledLayer = new ArcGISTiledMapServiceLayer(layerConfig.tiledUrl);
+        var tiledUrl = layerConfig.tiledUrl.replace(
+          /{token}/i,
+          window.serviceToken
+        );
+        var tiledLayer = new ArcGISTiledMapServiceLayer(tiledUrl);
         tiledLayer.setVisibility(false);
         tiledLayer.id = layerConfig.name;
         this.map.addLayer(tiledLayer);

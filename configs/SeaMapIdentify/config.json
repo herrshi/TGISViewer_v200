@@ -1,33 +1,37 @@
 {
   "identify": {
-    "url": "http://180.168.99.215:8080/OneMapServer/rest/services/SHdynamic/MapServer?token={token}"
+    "url": "http://10.130.249.90:7002/OneMapServer/rest/services/SHdynamic/MapServer?token={token}"
   },
   "layers":[
     {
       "name": "港口",
-      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
-      "objectTypes": ["BERTHS"]
-
+      "tiledUrl": "http://10.130.249.90:7002/OneMapServer/rest/services/port/MapServer?token={token}",
+      "objectTypes": ["BERTHS"],
+      "objectTypeDescription":"BERTH"
     },
     {
       "name": "锚地",
-      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/anchor/MapServer?token={token}",
-      "objectTypes": ["ACHARE","ACHBRT"]
+      "tiledUrl": "http://10.130.249.90:7002/OneMapServer/rest/services/anchor/MapServer?token={token}",
+      "objectTypes": ["ACHARE","ACHBRT"],
+      "objectTypeDescription":"Anchora berth"
     },
     {
       "name": "航道",
-      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/channel/MapServer?token={token}",
-      "objectTypes": ["FAIRWY"]
+      "tiledUrl": "http://10.130.249.90:7002/OneMapServer/rest/services/channel/MapServer?token={token}",
+      "objectTypes": ["FAIRWY"],
+      "objectTypeDescription":"Fairway"
     },
     {
       "name": "码头",
-      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/port/MapServer?token={token}",
-      "objectTypes": ["SLCONS"]
+      "tiledUrl": "http://10.130.249.90:7002/OneMapServer/rest/services/port/MapServer?token={token}",
+      "objectTypes": ["SLCONS"],
+      "objectTypeDescription": "Shoreline construction"
     },
     {
       "name": "岸线",
-      "tiledUrl": "http://180.168.99.215:8080/OneMapServer/rest/services/shoreline/MapServer?token={token}",
-      "objectTypes": ["COALNE"]
+      "tiledUrl": "http://10.130.249.90:7002/OneMapServer/rest/services/shoreline/MapServer?token={token}",
+      "objectTypes": ["COALNE"],
+      "objectTypeDescription": "COAST line"
     }
    ]
 }
