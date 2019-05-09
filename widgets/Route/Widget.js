@@ -105,6 +105,21 @@ define([
         /{gisServer}/i,
         this.appConfig.gisServer
       );
+
+      $.get(
+        routeUrl,
+        {
+          ak: this.config.ak,
+          origin: this.startPoint.x + "," + this.startPoint.y,
+          destination: this.endPoint.x + "," + this.endPoint.y
+        },
+        function(response, status) {
+          if (status === "success" && response.message === "ok") {
+            console.log(response);
+          }
+        },
+        "jsonp"
+      );
     },
 
     /**起点输入框focus后，在地图上点击获取起点*/
@@ -116,12 +131,14 @@ define([
           graphic.id = "start";
           this.routeLayer.add(graphic);
 
-          this._reGeoCode(point.x, point.y).then(lang.hitch(this, function(poiName) {
-            this.startPoint = point;
-            $("#inputRouteStart").val(poiName);
-            //确定起点以后自动开始输入终点
-            $("#inputRouteEnd").trigger("focus");
-          }));
+          this._reGeoCode(point.x, point.y).then(
+            lang.hitch(this, function(poiName) {
+              this.startPoint = point;
+              $("#inputRouteStart").val(poiName);
+              //确定起点以后自动开始输入终点
+              $("#inputRouteEnd").trigger("focus");
+            })
+          );
         })
       );
     },
@@ -129,13 +146,16 @@ define([
     onBtnClearStart_click: function() {
       this.startPoint = null;
 
+      //清除地图上的起点图标
       for (var i = 0; i < this.routeLayer.graphics.length; i++) {
         var graphic = this.routeLayer.graphics[i];
         if (graphic.id === "start") {
           this.routeLayer.remove(graphic);
+          break;
         }
       }
 
+      //清空输入，等待重新输入
       var inputRouteStart = $("#inputRouteStart");
       inputRouteStart.val("");
       inputRouteStart.trigger("focus");
@@ -144,20 +164,21 @@ define([
     onInputRouteEnd_focus: function() {
       this._getMapClickedCoordinate().then(
         lang.hitch(this, function(point) {
-
           //添加终点图标
           var graphic = new Graphic(point, this.endPointSymbol);
           graphic.id = "end";
           this.routeLayer.add(graphic);
 
-          this._reGeoCode(point.x, point.y).then(lang.hitch(this, function(poiName) {
-            this.endPoint = point;
-            $("#inputRouteEnd").val(poiName);
+          this._reGeoCode(point.x, point.y).then(
+            lang.hitch(this, function(poiName) {
+              this.endPoint = point;
+              $("#inputRouteEnd").val(poiName);
 
-            if (this.startPoint && this.endPoint) {
-              this._findRoute();
-            }
-          }));
+              if (this.startPoint && this.endPoint) {
+                this._findRoute();
+              }
+            })
+          );
         })
       );
     },
@@ -165,17 +186,19 @@ define([
     onBtnClearEnd_click: function() {
       this.endPoint = null;
 
+      //清除地图上的终点图标
       for (var i = 0; i < this.routeLayer.graphics.length; i++) {
         var graphic = this.routeLayer.graphics[i];
         if (graphic.id === "end") {
           this.routeLayer.remove(graphic);
+          break;
         }
       }
 
+      //清空输入，等待重新输入
       var inputRouteEnd = $("#inputRouteEnd");
       inputRouteEnd.val("");
       inputRouteEnd.trigger("focus");
-
     },
 
     onBtnClose_click: function() {
