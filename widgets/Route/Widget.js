@@ -6,8 +6,10 @@ define([
   "jimu/BaseWidget",
   "esri/graphic",
   "esri/geometry/Point",
+  "esri/geometry/Polyline",
   "esri/layers/GraphicsLayer",
   "esri/symbols/PictureMarkerSymbol",
+  "esri/symbols/SimpleLineSymbol",
   "esri/geometry/webMercatorUtils"
 ], function(
   declare,
@@ -17,8 +19,10 @@ define([
   BaseWidget,
   Graphic,
   Point,
+  Polyline,
   GraphicsLayer,
   PictureMarkerSymbol,
+  SimpleLineSymbol,
   webMercatorUtils
 ) {
   return declare([BaseWidget], {
@@ -29,6 +33,8 @@ define([
     startPoint: null,
     endPoint: null,
     routeLayer: null,
+
+    routeLineSymbol: null,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -46,6 +52,11 @@ define([
         yoffset: 15.375
       });
 
+      this.routeLineSymbol = new SimpleLineSymbol({
+        color: [0, 255, 0],
+        width: 2
+      });
+
       this.routeLayer = new GraphicsLayer();
       this.map.addLayer(this.routeLayer);
 
@@ -53,6 +64,16 @@ define([
         "showRoute",
         lang.hitch(this, this.onTopicHandler_showRoute)
       );
+    },
+
+    _removeGraphicById: function(id) {
+      for (var i = 0; i < this.routeLayer.graphics.length; i++) {
+        var graphic = this.routeLayer.graphics[i];
+        if (graphic.id === id) {
+          this.routeLayer.remove(graphic);
+          break;
+        }
+      }
     },
 
     /**获取地图点击坐标*/
@@ -97,10 +118,13 @@ define([
         },
         "jsonp"
       );
+
       return def;
     },
 
     _findRoute: function() {
+      var def = new Deferred();
+
       var routeUrl = this.config.routeUrl.replace(
         /{gisServer}/i,
         this.appConfig.gisServer
@@ -115,17 +139,58 @@ define([
         },
         function(response, status) {
           if (status === "success" && response.message === "ok") {
-            console.log(response);
+            def.resolve(response.result.routes[0]);
           }
         },
         "jsonp"
       );
+
+      return def;
+    },
+
+    _showRoute: function(route) {
+      this._showRouteInMap(route);
+    },
+
+    _showRouteInMap: function(route) {
+      //清除原有的路线
+      for (var i = 0; i < this.routeLayer.graphics.length; i++) {
+        var graphic = this.routeLayer.graphics[i];
+        if (graphic.geometry instanceof Polyline) {
+          this.routeLayer.remove(graphic);
+          i--;
+        }
+      }
+
+      //保存上一段线最后一个点的坐标，如果和本段线第一个点不一致就插入本段线第一个点
+      //避免出现中断
+      var prevLastPoint;
+
+      route.steps.forEach(function(step, index) {
+        var path = step.path.split(";").map(function(pathPoint) {
+          return pathPoint.split(",");
+        });
+        if (
+          prevLastPoint &&
+          (prevLastPoint[0] !== path[0][0] || prevLastPoint[1] !== path[0][1])
+        ) {
+          path.unshift(prevLastPoint);
+        }
+        prevLastPoint = path[path.length - 1];
+        //使用多个graphic，便于分段高亮
+        var line = new Polyline(path);
+        var graphic = new Graphic(line, this.routeLineSymbol);
+        graphic.id = "route_" + index;
+        this.routeLayer.add(graphic);
+      }, this);
     },
 
     /**起点输入框focus后，在地图上点击获取起点*/
     onInputRouteStart_focus: function() {
       this._getMapClickedCoordinate().then(
         lang.hitch(this, function(point) {
+          this._removeGraphicById("start");
+
           //添加起点图标
           var graphic = new Graphic(point, this.startPointSymbol);
           graphic.id = "start";
@@ -136,7 +201,18 @@ define([
               this.startPoint = point;
               $("#inputRouteStart").val(poiName);
               //确定起点以后自动开始输入终点
-              $("#inputRouteEnd").trigger("focus");
+              var inputRouteEnd = $("#inputRouteEnd");
+              if (inputRouteEnd.val() === "") {
+                inputRouteEnd.trigger("focus");
+              }
+
+              if (this.startPoint && this.endPoint) {
+                this._findRoute().then(
+                  lang.hitch(this, function(route) {
+                    this._showRoute(route);
+                  })
+                );
+              }
             })
           );
         })
@@ -147,13 +223,7 @@ define([
       this.startPoint = null;
 
       //清除地图上的起点图标
-      for (var i = 0; i < this.routeLayer.graphics.length; i++) {
-        var graphic = this.routeLayer.graphics[i];
-        if (graphic.id === "start") {
-          this.routeLayer.remove(graphic);
-          break;
-        }
-      }
+      this._removeGraphicById("start");
 
       //清空输入，等待重新输入
       var inputRouteStart = $("#inputRouteStart");
@@ -164,6 +234,8 @@ define([
     onInputRouteEnd_focus: function() {
       this._getMapClickedCoordinate().then(
         lang.hitch(this, function(point) {
+          this._removeGraphicById("end");
+
           //添加终点图标
           var graphic = new Graphic(point, this.endPointSymbol);
           graphic.id = "end";
@@ -175,7 +247,11 @@ define([
               $("#inputRouteEnd").val(poiName);
 
               if (this.startPoint && this.endPoint) {
-                this._findRoute();
+                this._findRoute().then(
+                  lang.hitch(this, function(route) {
+                    this._showRoute(route);
+                  })
+                );
               }
             })
           );
@@ -187,13 +263,8 @@ define([
       this.endPoint = null;
 
       //清除地图上的终点图标
-      for (var i = 0; i < this.routeLayer.graphics.length; i++) {
-        var graphic = this.routeLayer.graphics[i];
-        if (graphic.id === "end") {
-          this.routeLayer.remove(graphic);
-          break;
-        }
-      }
+      this._removeGraphicById("end");
+
 
       //清空输入，等待重新输入
       var inputRouteEnd = $("#inputRouteEnd");
@@ -202,6 +273,11 @@ define([
     },
 
     onBtnClose_click: function() {
+      this.routeLayer.clear();
+      this.startPoint = null;
+      this.endPoint = null;
+      $("#inputRouteStart").val("");
+      $("#inputRouteEnd").val("");
       $("." + this.baseClass).addClass("hide");
     },
 
@@ -213,7 +289,7 @@ define([
       });
       baseDom.draggable();
       baseDom.removeClass("hide");
-      $("#routeParam,#routeResult").removeClass("hide");
+      $("#routeParam").removeClass("hide");
 
       //输入起点
       $("#inputRouteStart").trigger("focus");
