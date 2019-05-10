@@ -4,7 +4,9 @@ define([
   "dojo/topic",
   "dojo/Deferred",
   "jimu/BaseWidget",
+  "esri/lang",
   "esri/graphic",
+  "esri/graphicsUtils",
   "esri/geometry/Point",
   "esri/geometry/Polyline",
   "esri/layers/GraphicsLayer",
@@ -17,7 +19,9 @@ define([
   topic,
   Deferred,
   BaseWidget,
+  esriLang,
   Graphic,
+  graphicsUtils,
   Point,
   Polyline,
   GraphicsLayer,
@@ -35,6 +39,22 @@ define([
     routeLayer: null,
 
     routeLineSymbol: null,
+    highlightLineSymbol: null,
+
+    timeAxisTemplate:
+      "<li id='route_${index}'>" +
+      "  <div class='time-num-box'>" +
+      "    <i class='circle-num'>${index}</i>" +
+      "    <div class='time-line'></div>" +
+      "  </div>" +
+      "  <div class='time-axis-right'>" +
+      "    <span>" +
+      // "      <i class='fa fa-clock-o'></i>" +
+      "      <font>${segmentContent}\t</font>" +
+      "    </span>" +
+      "  </div>" +
+      "  <div style='clear:both'></div>" +
+      "</li>",
 
     postCreate: function() {
       this.inherited(arguments);
@@ -53,8 +73,12 @@ define([
       });
 
       this.routeLineSymbol = new SimpleLineSymbol({
-        color: [0, 255, 0],
+        color: [0, 188, 6],
         width: 2
+      });
+      this.highlightLineSymbol = new SimpleLineSymbol({
+        color: [254, 77, 134],
+        width: 3
       });
 
       this.routeLayer = new GraphicsLayer();
@@ -150,6 +174,7 @@ define([
 
     _showRoute: function(route) {
       this._showRouteInMap(route);
+      this._showRouteInList(route);
     },
 
     _showRouteInMap: function(route) {
@@ -162,27 +187,82 @@ define([
         }
       }
 
-      //保存上一段线最后一个点的坐标，如果和本段线第一个点不一致就插入本段线第一个点
-      //避免出现中断
       var prevLastPoint;
 
       route.steps.forEach(function(step, index) {
         var path = step.path.split(";").map(function(pathPoint) {
           return pathPoint.split(",");
         });
-        if (
-          prevLastPoint &&
-          (prevLastPoint[0] !== path[0][0] || prevLastPoint[1] !== path[0][1])
-        ) {
+        //将上一段线的最后一个点插入开头，避免路线出现中断
+        if (prevLastPoint) {
           path.unshift(prevLastPoint);
         }
         prevLastPoint = path[path.length - 1];
         //使用多个graphic，便于分段高亮
         var line = new Polyline(path);
         var graphic = new Graphic(line, this.routeLineSymbol);
-        graphic.id = "route_" + index;
+        graphic.id = "route_" + (index + 1);
         this.routeLayer.add(graphic);
       }, this);
+
+      var routeExtent = graphicsUtils.graphicsExtent(this.routeLayer.graphics);
+      this.map.setExtent(routeExtent, true);
+    },
+
+    _showRouteInList: function(route) {
+      $("#routeResult").removeClass("hide");
+
+      var distance = route.distance;
+      //格式化距离
+      var formattedDistance =
+        distance >= 1000
+          ? (distance / 1000).toFixed(2) + "公里"
+          : distance + "米";
+      $("#txtDistance").html(formattedDistance);
+
+      var routeTimeAxis = $("#routeTimeAxis");
+      routeTimeAxis.empty();
+      route.steps.forEach(
+        lang.hitch(this, function(step, index) {
+          var segment = {
+            index: index + 1,
+            segmentContent: step.drive_instruction
+          };
+          var timeAxisContent = esriLang.substitute(
+            segment,
+            this.timeAxisTemplate
+          );
+          routeTimeAxis.append(timeAxisContent);
+        })
+      );
+      $("#routeTimeAxis>li").on("mouseover", lang.hitch(this, function (event) {
+        this._highlightRoute(event.currentTarget.id);
+      }));
+      $("#routeTimeAxis>li").on("mouseout", lang.hitch(this, function (event) {
+        this._dehighlightRoute(event.currentTarget.id);
+      }));
+    },
+
+    _highlightRoute: function(id) {
+      for (var i = 0; i < this.routeLayer.graphics.length; i++) {
+        var graphic = this.routeLayer.graphics[i];
+        if (graphic.id === id) {
+          graphic.symbol = this.highlightLineSymbol;
+          break;
+        }
+      }
+      this.routeLayer.refresh();
+    },
+
+    _dehighlightRoute: function(id) {
+      for (var i = 0; i < this.routeLayer.graphics.length; i++) {
+        var graphic = this.routeLayer.graphics[i];
+        if (graphic.id === id) {
+          graphic.symbol = this.routeLineSymbol;
+          break;
+        }
+      }
+      this.routeLayer.refresh();
     },
 
     /**起点输入框focus后，在地图上点击获取起点*/
@@ -200,7 +280,7 @@ define([
             lang.hitch(this, function(poiName) {
               this.startPoint = point;
               $("#inputRouteStart").val(poiName);
-              //确定起点以后自动开始输入终点
+              //确定起点以后，若没有终点，则自动开始输入终点
               var inputRouteEnd = $("#inputRouteEnd");
               if (inputRouteEnd.val() === "") {
                 inputRouteEnd.trigger("focus");
@@ -265,7 +345,6 @@ define([
       //清除地图上的终点图标
       this._removeGraphicById("end");
 
-
       //清空输入，等待重新输入
       var inputRouteEnd = $("#inputRouteEnd");
       inputRouteEnd.val("");
@@ -290,6 +369,7 @@ define([
       baseDom.draggable();
       baseDom.removeClass("hide");
       $("#routeParam").removeClass("hide");
+      $("#routeResult").addClass("hide");
 
       //输入起点
       $("#inputRouteStart").trigger("focus");
