@@ -41,6 +41,8 @@ define([
     routeLineSymbol: null,
     highlightLineSymbol: null,
 
+    routeType: "car",
+
     timeAxisTemplate:
       "<li id='route_${index}'>" +
       "  <div class='time-num-box'>" +
@@ -149,10 +151,11 @@ define([
     _findRoute: function() {
       var def = new Deferred();
 
-      var routeUrl = this.config.routeUrl.replace(
-        /{gisServer}/i,
-        this.appConfig.gisServer
-      );
+      var routeUrl =
+        this.routeType === "walk"
+          ? this.config.walkRouteUrl
+          : this.config.carRouteUrl;
+      routeUrl = routeUrl.replace(/{gisServer}/i, this.appConfig.gisServer);
 
       $.get(
         routeUrl,
@@ -220,8 +223,8 @@ define([
           : distance + "米";
       $("#txtDistance").html(formattedDistance);
 
-      var routeTimeAxis = $("#routeTimeAxis");
-      routeTimeAxis.empty();
+      var routeList = $("#routeList");
+      routeList.empty();
       route.steps.forEach(
         lang.hitch(this, function(step, index) {
           var segment = {
@@ -232,15 +235,21 @@ define([
             segment,
             this.timeAxisTemplate
           );
-          routeTimeAxis.append(timeAxisContent);
+          routeList.append(timeAxisContent);
         })
       );
-      $("#routeTimeAxis>li").on("mouseover", lang.hitch(this, function (event) {
-        this._highlightRoute(event.currentTarget.id);
-      }));
-      $("#routeTimeAxis>li").on("mouseout", lang.hitch(this, function (event) {
-        this._dehighlightRoute(event.currentTarget.id);
-      }));
+      $("#routeList>li").on(
+        "mouseover",
+        lang.hitch(this, function(event) {
+          this._highlightRoute(event.currentTarget.id);
+        })
+      );
+      $("#routeList>li").on(
+        "mouseout",
+        lang.hitch(this, function(event) {
+          this._dehighlightRoute(event.currentTarget.id);
+        })
+      );
     },
 
     _highlightRoute: function(id) {
@@ -370,6 +379,19 @@ define([
       baseDom.removeClass("hide");
       $("#routeParam").removeClass("hide");
       $("#routeResult").addClass("hide");
+
+      // $("#routeTypeList>li").on(
+      //   "click",
+      //   lang.hitch(this, function(event) {
+      //     $("#routeTypeList>li").removeClass("active");
+      //     $("#routeTypeList>li>i").removeClass("fa fa-dot-circle-o");
+      //     $("#routeTypeList>li>i").addClass("fa fa-circle-o");
+      //     $(event.currentTarget).addClass("active");
+      //     $("#routeTypeList>li.active>i").addClass("fa fa-dot-circle-o");
+      //
+      //     this.routeType = $(event.currentTarget).attr("data-type");
+      //   })
+      // );
 
       //输入起点
       $("#inputRouteStart").trigger("focus");
