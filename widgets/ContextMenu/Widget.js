@@ -40,6 +40,15 @@ define([
                 }
               });
               break;
+
+            case "measurement":
+              topic.publish("showMeasurement", {
+                position: {
+                  top: options.$menu.css("top"),
+                  left: options.$menu.css("left")
+                }
+              });
+              break;
           }
         }),
         items: {
@@ -77,7 +86,8 @@ define([
           home: { name: "还原地图" },
           sep2: "---------",
           search: { name: "搜索" },
-          route: { name: "路线" }
+          route: { name: "路线" },
+          measurement: { name: "测量" }
         },
         events: {
           //打开菜单时读取状态

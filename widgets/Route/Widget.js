@@ -148,6 +148,7 @@ define([
       return def;
     },
 
+    /**获取路线信息*/
     _findRoute: function() {
       var def = new Deferred();
 
@@ -166,6 +167,7 @@ define([
         },
         function(response, status) {
           if (status === "success" && response.message === "ok") {
+            //此服务只会返回一条路线，所以只处理routes的第一个元素
             def.resolve(response.result.routes[0]);
           }
         },
@@ -238,13 +240,16 @@ define([
           routeList.append(timeAxisContent);
         })
       );
-      $("#routeList>li").on(
+
+      //路线分段mouseover高亮
+      var routeListItem = $("#routeList>li");
+      routeListItem.on(
         "mouseover",
         lang.hitch(this, function(event) {
           this._highlightRoute(event.currentTarget.id);
         })
       );
-      $("#routeList>li").on(
+      routeListItem.on(
         "mouseout",
         lang.hitch(this, function(event) {
           this._dehighlightRoute(event.currentTarget.id);
@@ -252,6 +257,7 @@ define([
       );
     },
 
+    /**高亮分段*/
     _highlightRoute: function(id) {
       for (var i = 0; i < this.routeLayer.graphics.length; i++) {
         var graphic = this.routeLayer.graphics[i];
@@ -263,6 +269,7 @@ define([
       this.routeLayer.refresh();
     },
 
+    /**取消高亮*/
     _dehighlightRoute: function(id) {
       for (var i = 0; i < this.routeLayer.graphics.length; i++) {
         var graphic = this.routeLayer.graphics[i];
@@ -295,6 +302,7 @@ define([
                 inputRouteEnd.trigger("focus");
               }
 
+              //起点和终点都已确定，开始查找路径
               if (this.startPoint && this.endPoint) {
                 this._findRoute().then(
                   lang.hitch(this, function(route) {
@@ -373,25 +381,13 @@ define([
       var baseDom = $("." + this.baseClass);
       baseDom.css({
         left: params.position.left,
-        top: params.position.top
+        top: params.position.top,
+        height: "auto"
       });
       baseDom.draggable();
       baseDom.removeClass("hide");
       $("#routeParam").removeClass("hide");
       $("#routeResult").addClass("hide");
-
-      // $("#routeTypeList>li").on(
-      //   "click",
-      //   lang.hitch(this, function(event) {
-      //     $("#routeTypeList>li").removeClass("active");
-      //     $("#routeTypeList>li>i").removeClass("fa fa-dot-circle-o");
-      //     $("#routeTypeList>li>i").addClass("fa fa-circle-o");
-      //     $(event.currentTarget).addClass("active");
-      //     $("#routeTypeList>li.active>i").addClass("fa fa-dot-circle-o");
-      //
-      //     this.routeType = $(event.currentTarget).attr("data-type");
-      //   })
-      // );
 
       //输入起点
       $("#inputRouteStart").trigger("focus");

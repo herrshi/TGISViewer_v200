@@ -1,0 +1,23 @@
+.jimu-widget-Measurement {
+  margin: auto;
+  padding: 0;
+  /*text-align: center;*/
+  color: #c3efff;
+  cursor: move;
+}
+
+.jimu-widget-Measurement .opacity-0 {
+  opacity: 0.3;
+}
+
+.jimu-widget-Measurement .opacity-1 {
+  opacity: 1;
+}
+
+.jimu-widget-Measurement .show {
+  display: block;
+}
+
+.jimu-widget-Measurement .hide {
+  display: none;
+}

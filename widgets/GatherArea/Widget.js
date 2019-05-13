@@ -139,10 +139,8 @@ define([
 
             var extent = areageometry.getExtent();
 
-            //this.addGraphics(extent, "area", id); //预计聚集面
-            var perx = extent.xmax - extent.xmin;
-            var pery = extent.ymax - extent.ymin;
-            var per = (perx + pery) / 4.5;
+            var radius = (extent.xmax - extent.xmin) / 2;
+
             array.forEach(
               carareas,
               function(carcarea) {
@@ -162,7 +160,6 @@ define([
 
                 var carpoints = carcarea.carpoints;
                 this.addGraphics(cargeometry, "cararea", id); //车辆聚集面
-
                 array.forEach(
                   carpoints,
                   function(car) {
@@ -180,20 +177,25 @@ define([
                 if (areaPoint.y > centerPoint.y) {
                   py = -1;
                 }
+                var len = this.getLength(areaPoint, centerPoint);
+
+                var per = radius / len;
+                if (per > 1) {
+                  per = 0.8;
+                } else {
+                  per = per * 1.1;
+                }
+                var perx = (centerPoint.x - areaPoint.x) * per;
+                var pery = (centerPoint.y - areaPoint.y) * per;
                 var arrowPoint = new Point([
-                  areaPoint.x + per * px,
-                  areaPoint.y + per * py
+                  areaPoint.x + perx,
+                  areaPoint.y + pery
                 ]);
                 //var path = this.doBezierCurve(centerPoint, arrowPoint);
                 line.addPath([centerPoint, arrowPoint]);
                 //line.addPath(path);
-                var angle =
-                  Math.atan2(
-                    arrowPoint.y - centerPoint.y,
-                    arrowPoint.x - centerPoint.x
-                  ) *
-                  (180 / Math.PI);
-                arrowPoint.angle = ((360 - angle + 90) % 360) - px * py * 5;
+                var angle = this.doarrowAngle(centerPoint, arrowPoint);
+                arrowPoint.angle = angle;
                 this.addGraphics(line, "polyline", id); //箭头线
                 this.addGraphics(centerPoint, "point", id); //箭头点
                 this.addGraphics(arrowPoint, "arrowpoint", id); //箭头三角
@@ -329,6 +331,11 @@ define([
         py = -1;
       }
       return ((360 - angle + 90) % 360) - px * py * 5; //减去修正值
+    },
+    getLength: function(p1, p2) {
+      return Math.sqrt(
+        (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y)
+      );
     }
   });
 });

@@ -140,6 +140,16 @@
         },
         "version": "2.4",
         "id": "RouteWidget"
+      },
+      {
+        "uri": "widgets/Measurement/Widget",
+        "position": {
+          "left": 50,
+          "top": 10,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "MeasurementWidget"
       }
     ]
   }

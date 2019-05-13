@@ -1,5 +1,5 @@
 {
-  "name": "Route",
+  "name": "Measurement",
   "platform": "HTML",
   "version": "2.4",
   "wabVersion": "2.4",
@@ -11,7 +11,7 @@
     "inPanel": false,
     "hasLocale": false,
     "hasStyle": true,
-    "hasConfig": true,
+    "hasConfig": false,
     "hasUIFile": true,
     "hasSettingPage": false,
     "keepConfigAfterMapSwitched": false,

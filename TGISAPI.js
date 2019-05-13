@@ -1508,5 +1508,32 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMonitorArea", params);
     });
+  },
+  /**
+   * 车辆聚合区域
+   * *  @param params:string json字符串 required.
+   *    forecastarea:预测下一个车辆聚集区域
+   *      geometry:object, required. 几何属性.
+   *    id:string,required,布控区域id值.用于删除id.
+   *    carareas:[object], required 车辆聚集区域.
+   *      geometry:object, required. 几何属性.
+   *        rings;[[[]]]或者center:[],radius:半径,
+   *      carpoints:[object], required.车辆位置信息.
+   *        x:number, required.坐标x.
+   *        y:number, required.坐标y.
+   * **/
+  addGatherArea: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("addGatherArea", params);
+    });
+  },
+  /**
+   * 删除车辆聚合区域
+   * *  @param params: [id],字符串数组 optional车辆聚合区域id值,删除该id对应的区域,为空这清除全部.
+   * **/
+  deleteGatherArea: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("deleteGatherArea", params);
+    });
   }
 };
