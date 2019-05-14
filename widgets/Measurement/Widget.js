@@ -7,7 +7,16 @@ define([
   "esri/symbols/SimpleFillSymbol",
   "esri/toolbars/draw",
   "esri/units"
-], function(declare, lang, topic, BaseWidget, SimpleLineSymbol, SimpleFillSymbol, Draw, units) {
+], function(
+  declare,
+  lang,
+  topic,
+  BaseWidget,
+  SimpleLineSymbol,
+  SimpleFillSymbol,
+  Draw,
+  units
+) {
   return declare([BaseWidget], {
     baseClass: "jimu-widget-Measurement",
 
@@ -54,15 +63,16 @@ define([
         currentTarget.addClass("active");
 
         console.log(currentTarget.attr("data-measureType"));
-        switch (currentTarget.attr("data-measureType")) {
-          case "area":
-            this.drawToolbar.activate(Draw.POLYGON);
-            break;
-
-          case "length":
-            this.drawToolbar.activate(Draw.POLYLINE);
-            break;
-        }
+        this.drawToolbar.activate(Draw[currentTarget.attr("data-drawType")]);
+        // switch (currentTarget.attr("data-measureType")) {
+        //   case "area":
+        //     this.drawToolbar.activate(Draw.POLYGON);
+        //     break;
+        //
+        //   case "length":
+        //     this.drawToolbar.activate(Draw.POLYLINE);
+        //     break;
+        // }
       }
     },
 
