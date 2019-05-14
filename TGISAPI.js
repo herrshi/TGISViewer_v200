@@ -1402,6 +1402,20 @@ var TMap = {
     });
   },
 
+  //显示片区
+  showArea: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showArea");
+    });
+  },
+
+  //隐藏片区
+  hideArea: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideArea");
+    });
+  },
+
   //显示警力统计
   /**
    * 显示警力统计并传入警力数量
@@ -1534,6 +1548,20 @@ var TMap = {
   deleteGatherArea: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteGatherArea", params);
+    });
+  },
+  /**
+   * 显示弹窗标注
+   * *   @param params: object json, required
+   *     geometry:object required
+   *        x:number required.坐标x
+   *        y:number required.坐标y
+   *     context:string required.弹窗内容,可以传html元素
+   *     offset:number optional.向上偏移的像素.默认值30
+   * */
+  showToolTip: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showToolTip", params);
     });
   }
 };

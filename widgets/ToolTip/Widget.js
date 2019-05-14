@@ -783,10 +783,18 @@ define([
 
     _onTopicHandler_showToolTip: function(param) {
       var graphic = param.graphic;
+      var geometry = param.geometry;
       var context = param.context;
       var label = param.label;
+      var tipClass = param.tipClass || "TextDiv";
+
       this._place = "top";
-      this._mapPoint = this.getCenter(graphic);
+      if (graphic) {
+        this._mapPoint = this.getCenter(graphic);
+      }
+      if (geometry) {
+        this._mapPoint = new Point([geometry.x, geometry.y]);
+      }
       this._offset = param.offset || 30;
       //this._first = true;
       for (var i = 0; i < this.config.tooltips.length; i++) {
@@ -803,11 +811,13 @@ define([
         }
       }
       var contextObj = {};
-      for (var field in graphic.attributes) {
-        contextObj[field] =
-          graphic.attributes[field] == null ? "" : graphic.attributes[field];
+      if (graphic) {
+        for (var field in graphic.attributes) {
+          contextObj[field] =
+            graphic.attributes[field] == null ? "" : graphic.attributes[field];
+        }
       }
-      var text = "";
+      var text = context;
       try {
         text = string.substitute(context, contextObj);
       } catch (e) {
@@ -816,11 +826,13 @@ define([
 
       var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
       if (text.toString().indexOf("div") > -1) {
-        this._node = text;
+        this._node = domConstruct.toDom(text);
       } else {
         text = text.replace(/\n/g, "<br/>");
         this._node = domConstruct.toDom(
-          "<div class='MapText TextDiv'><span>" +
+          "<div class='MapText " +
+            tipClass +
+            "'><span>" +
             text +
             "</span><div class='" +
             divClass +

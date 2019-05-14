@@ -202,10 +202,9 @@ define([
       var limit =
         graphic.attributes.limit == undefined ? 1 : graphic.attributes.limit;
       var bufferPolygon;
-      if (bufferDistance > 0) {
+      if (bufferDistance > 0 && geometry) {
         //如果是 WGS-84或Web Mercator坐标系，使用geodesicBuffer。其他坐标系使用buffer
         var bufferPolygon =
-          this.map.spatialReference.isWebMercator() ||
           this.map.spatialReference.wkid === 4326
             ? GeometryEngine.geodesicBuffer(
                 geometry,
@@ -455,7 +454,7 @@ define([
 
       var moitorGraphic = new Graphic(geometry, fillsymbol, fields);
       moitorGraphic.id = id;
-      for (var j = buffers.length; j > -1; j--) {
+      for (var j = buffers.length - 1; j > -1; j--) {
         var buffer = this._doBuffer(moitorGraphic, buffers[j], j);
 
         var symbol = new SimpleFillSymbol(

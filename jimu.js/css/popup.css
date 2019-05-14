@@ -306,3 +306,7 @@
   max-width: 300px;
   display: none;
 }
+
+.map .esriMapTooltip {
+  background-color: #002f47;
+}

@@ -191,9 +191,11 @@ define([
                   areaPoint.x + perx,
                   areaPoint.y + pery
                 ]);
-                //var path = this.doBezierCurve(centerPoint, arrowPoint);
+                //曲线
+                // var path = this.doBezierCurve(centerPoint, arrowPoint);
+                // line.addPath(path);
+                //直线
                 line.addPath([centerPoint, arrowPoint]);
-                //line.addPath(path);
                 var angle = this.doarrowAngle(centerPoint, arrowPoint);
                 arrowPoint.angle = angle;
                 this.addGraphics(line, "polyline", id); //箭头线
@@ -281,7 +283,7 @@ define([
       if (p2.y > p0.y) {
         py = -1;
       }
-      var up = px * raddir; //弧度向上px*py*dir,一致方向;px  * raddir根据x来
+      var up = px* raddir; //弧度向上px*py*dir,一致方向;px  * raddir根据x来
       console.log(px * py);
       var path = [];
       var p1;

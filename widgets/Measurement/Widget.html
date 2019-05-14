@@ -11,31 +11,38 @@
 
     <div class="marginMinus20">
       <div class="nav_tab">
-        <ul>
-          <li class="active" style="margin-right: 0.2rem"><div class="bevel"></div>面积</li>
-          <li style="margin-right: 0.2rem"><div class="bevel"></div>长度</li>
-          <li style="margin-right: 0.2rem"><div class="bevel"></div>位置</li>
+        <ul id="listMeasureType">
+          <li class="active" style="margin-right: 0.2rem" data-measureType="area"><div class="bevel"></div>面积</li>
+          <li style="margin-right: 0.2rem" data-measureType="length"><div class="bevel"></div>长度</li>
+          <li style="margin-right: 0.2rem" data-measureType="position"><div class="bevel"></div>位置</li>
         </ul>
         <div style="clear:both"></div>
       </div>
     </div>
   </div>
 
-  <div id="measurementResult" class="box8w search_box" style="padding: 0.5rem">
+  <div id="measurementResult" class="box8w search_box hide" style="padding: 0.5rem">
     <form class="form-horizontal">
       <div class="form-group">
-        <label class="col-sm-2 control-label" style="font-size: 0.3rem">1.2</label>
+        <label class="col-sm-2 control-label" style="font-size: 0.3rem"></label>
         <div class="col-sm-10">
           <div class="has-feedback">
-            <select class="selectpicker">
-              <option>平方米</option>
-              <option>平方公里</option>
-              <option>英亩</option>
-              <option>平方英里</option>
-              <option>公顷</option>
-              <option>平方码</option>
-              <option>平方英尺</option>
-              <option>平方英尺(US)</option>
+            <select id="selAreaUnit" class="selectpicker">
+              <option value="SQUARE_METERS">平方米</option>
+              <option value="SQUARE_KILOMETERS">平方千米</option>
+              <option value="ACRES">英亩</option>
+              <option value="SQUARE_MILES">平方英里</option>
+              <option value="HECTARES">公顷</option>
+              <option value="SQUARE_YARDS">平方码</option>
+              <option value="SQUARE_FEET">平方英尺</option>
+            </select>
+            <select id="selLengthUnit" class="selectpicker hide">
+              <option value="METERS">米</option>
+              <option value="KILOMETERS">千米</option>
+              <option value="MILES">英里</option>
+              <option value="NAUTICAL_MILES">海里</option>
+              <option value="YARDS">码</option>
+              <option value="FEET">英尺</option>
             </select>
           </div>
         </div>

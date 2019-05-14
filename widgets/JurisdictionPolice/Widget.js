@@ -44,6 +44,7 @@ define([
     districtLayer: null,
     jurisdictionLayer: null,
     jurisdictionLabelLayer: null,
+    areaLayer: null,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -62,6 +63,15 @@ define([
       );
 
       topic.subscribe(
+        "showArea",
+        lang.hitch(this, this.onTopicHandler_showArea)
+      );
+      topic.subscribe(
+        "hideArea",
+        lang.hitch(this, this.onTopicHandler_hideArea)
+      );
+
+      topic.subscribe(
         "showPoliceCount",
         lang.hitch(this, this.onTopicHandler_showPoliceCount)
       );
@@ -70,8 +80,14 @@ define([
         lang.hitch(this, this.onTopicHandler_hidePoliceCount)
       );
 
-      topic.subscribe("showDistrictMask", lang.hitch(this, this.onTopicHandler_showDistrictMask));
-      topic.subscribe("hideDistrictMask", lang.hitch(this, this.onTopicHandler_hideDistrictMask));
+      topic.subscribe(
+        "showDistrictMask",
+        lang.hitch(this, this.onTopicHandler_showDistrictMask)
+      );
+      topic.subscribe(
+        "hideDistrictMask",
+        lang.hitch(this, this.onTopicHandler_hideDistrictMask)
+      );
     },
 
     /**
@@ -79,6 +95,43 @@ define([
      * 从json读取派出所辖区, 符号化后显示在地图上
      * */
     _readJurisdictionLayer: function() {
+      //片区图层
+      fetch(window.path + "configs/JurisdictionPolice/Area.json").then(
+        lang.hitch(this, function(response) {
+          if (response.ok) {
+            response.json().then(
+              lang.hitch(this, function(data) {
+                var featureCollection = {
+                  layerDefinition: data,
+                  featureSet: data
+                };
+
+                this.areaLayer = new FeatureLayer(featureCollection, {
+                  outFields: ["*"],
+                  visible: false
+                });
+                var renderer = new SimpleRenderer({
+                  type: "simple",
+                  symbol: {
+                    type: "esriSFS",
+                    style: "esriSFSNull",
+                    color: [0, 45, 80, 178],
+                    outline: {
+                      color: [0, 188, 6],
+                      width: 4,
+                      type: "esriSLS",
+                      style: "esriSLSSolid"
+                    }
+                  }
+                });
+                this.areaLayer.setRenderer(renderer);
+                this.map.addLayer(this.areaLayer, 0);
+              })
+            );
+          }
+        })
+      );
+
       //徐汇辖区之外，需要加黑的部分
       fetch(window.path + "configs/JurisdictionPolice/District.json").then(
         lang.hitch(this, function(response) {
@@ -110,7 +163,7 @@ define([
                   }
                 });
                 this.districtLayer.setRenderer(renderer);
-                this.districtLayer.on("click", function (event) {
+                this.districtLayer.on("click", function(event) {
                   event.stopPropagation();
                 });
                 this.map.addLayer(this.districtLayer, 0);
@@ -166,9 +219,6 @@ define([
                   }
                 });
                 this.jurisdictionLayer.setRenderer(renderer);
-                // this.jurisdictionLayer.on("click", function (event) {
-                //   event.stopPropagation();
-                // });
                 this.map.addLayer(this.jurisdictionLayer, 0);
               })
             );
@@ -240,14 +290,21 @@ define([
     },
 
     onTopicHandler_showJurisdiction: function() {
-      // this.districtLayer.setVisibility(false);
       this.jurisdictionLayer.setVisibility(true);
     },
 
     onTopicHandler_hideJurisdiction: function() {
-      // this.districtLayer.setVisibility(true);
       this.jurisdictionLayer.setVisibility(false);
     },
+
+    onTopicHandler_showArea: function() {
+      this.areaLayer.setVisibility(true);
+    },
+
+    onTopicHandler_hideArea: function() {
+      this.areaLayer.setVisibility(false);
+    },
+
 
     onTopicHandler_showPoliceCount: function(params) {
       this.jurisdictionLayer.showLabels = false;
@@ -280,13 +337,13 @@ define([
       });
     },
 
-    onTopicHandler_showDistrictMask: function () {
+    onTopicHandler_showDistrictMask: function() {
       // this.districtLayer.setVisibility(true);
       this.districtLayer.renderer.symbol.style = SimpleFillSymbol.STYLE_SOLID;
       this.districtLayer.refresh();
     },
 
-    onTopicHandler_hideDistrictMask: function () {
+    onTopicHandler_hideDistrictMask: function() {
       // this.districtLayer.setVisibility(false);
       this.districtLayer.renderer.symbol.style = SimpleFillSymbol.STYLE_NULL;
       this.districtLayer.refresh();
