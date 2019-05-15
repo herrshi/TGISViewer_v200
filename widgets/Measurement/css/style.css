@@ -21,3 +21,15 @@
 .jimu-widget-Measurement .hide {
   display: none;
 }
+
+.jimu-widget-Measurement .cursorImg {
+  width: 20px;
+  height: 30px;
+  background: url("images/cursor16x24.png") no-repeat center center;
+}
+
+.jimu-widget-Measurement .pinImg {
+  width: 20px;
+  height: 30px;
+  background: url("images/esriGreenPin16x26.png") no-repeat center center;
+}

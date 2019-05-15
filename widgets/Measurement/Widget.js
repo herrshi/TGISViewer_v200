@@ -3,6 +3,8 @@ define([
   "dojo/_base/lang",
   "dojo/topic",
   "jimu/BaseWidget",
+  "esri/graphic",
+  "esri/layers/GraphicsLayer",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleFillSymbol",
   "esri/toolbars/draw",
@@ -12,6 +14,8 @@ define([
   lang,
   topic,
   BaseWidget,
+  Graphic,
+  GraphicsLayer,
   SimpleLineSymbol,
   SimpleFillSymbol,
   Draw,
@@ -24,6 +28,7 @@ define([
 
     polylineSymbol: null,
     polygonSymbol: null,
+    drawLayer: null,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -41,10 +46,13 @@ define([
           width: 3
         }
       });
+      this.drawLayer = new GraphicsLayer();
+      this.map.addLayer(this.drawLayer);
 
       this.drawToolbar = new Draw(this.map);
       this.drawToolbar.setLineSymbol(this.polylineSymbol);
       this.drawToolbar.setFillSymbol(this.polygonSymbol);
+      this.drawToolbar.on("draw-complete", lang.hitch(this, this.onDrawToolbar_drawComplete));
 
       topic.subscribe(
         "showMeasurement",
@@ -52,8 +60,25 @@ define([
       );
     },
 
+    onDrawToolbar_drawComplete: function(event) {
+      this.drawLayer.clear();
+
+      var graphic = new Graphic(event.geometry);
+      switch (event.geometry.type) {
+        case "polyline":
+          graphic.symbol = this.polylineSymbol;
+          break;
+        case "polygon":
+          graphic.symbol = this.polygonSymbol;
+          break;
+      }
+      this.drawLayer.add(graphic);
+    },
+
     onBtnClose_click: function() {
       $("." + this.baseClass).addClass("hide");
+      this.drawToolbar.deactivate();
+      this.drawLayer.clear();
     },
 
     onListMeasureType_click: function(event) {
@@ -62,17 +87,22 @@ define([
         $("#listMeasureType>li").removeClass("active");
         currentTarget.addClass("active");
 
-        console.log(currentTarget.attr("data-measureType"));
-        this.drawToolbar.activate(Draw[currentTarget.attr("data-drawType")]);
-        // switch (currentTarget.attr("data-measureType")) {
-        //   case "area":
-        //     this.drawToolbar.activate(Draw.POLYGON);
-        //     break;
-        //
-        //   case "length":
-        //     this.drawToolbar.activate(Draw.POLYLINE);
-        //     break;
-        // }
+        var drawType = currentTarget.attr("data-drawType").toUpperCase();
+        this.drawToolbar.activate(Draw[drawType]);
+
+        $("#measurementResult>div").addClass("hide");
+        switch (drawType) {
+          case "POLYGON":
+            $("#polygonResult").removeClass("hide");
+            break;
+          case "POLYLINE":
+            $("#polylineResult").removeClass("hide");
+            break;
+          case "POINT":
+            $("#pointResult").removeClass("hide");
+            break;
+
+        }
       }
     },
 
@@ -86,10 +116,12 @@ define([
       baseDom.draggable();
       baseDom.removeClass("hide");
 
-      $("#listMeasureType>li").on(
-        "click",
-        lang.hitch(this, this.onListMeasureType_click)
-      );
+
+      $("#listMeasureType>li")
+        .off("click")
+        .on("click", lang.hitch(this, this.onListMeasureType_click));
+
+      this.drawToolbar.activate(Draw[$("#listMeasureType>li.active").attr("data-drawType").toUpperCase()]);
     }
   });
 });
