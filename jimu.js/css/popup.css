@@ -274,9 +274,9 @@
 .esriPopuppointer {
   box-shadow: none !important;
   -webkit-box-shadow: none !important;
-  background-color: rgba(0, 0, 0, 1) !important;
+  background-color: rgba(0, 53, 90, 0.7) !important;
   z-index: 99 !important;
-  border-color: rgba(0, 0, 0, 1);
+  border-color: rgba(0, 53, 90, 0.7);
   border-style: solid;
 }
 .esriPopuppointer.top {

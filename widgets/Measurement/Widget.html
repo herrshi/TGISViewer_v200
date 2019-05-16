@@ -38,17 +38,17 @@
           <div class="col-sm-10">
             <div class="row">
               <div class="col-sm-4">
-                <label class="control-label" style="font-size: 0.3rem; background-color: transparent;">1.2</label>
+                <label id="polygonLength" class="control-label" style="font-size: 0.3rem; background-color: transparent;"></label>
               </div>
               <div class="col-xs-8">
                 <div class="has-feedback">
-                  <select class="selectpicker">
-                    <option value="METERS">米</option>
-                    <option value="KILOMETERS">千米</option>
-                    <option value="MILES">英里</option>
-                    <option value="NAUTICAL_MILES">海里</option>
-                    <option value="YARDS">码</option>
-                    <option value="FEET">英尺</option>
+                  <select id="polygonLengthUnit" class="selectpicker" data-dojo-attach-event="onchange:onPolygonLengthUnit_change">
+                    <option value="kilometers" data-converter="1">千米</option>
+                    <option value="meters" data-converter="0.001">米</option>
+                    <option value="miles" data-converter="1.609344">英里</option>
+                    <option value="nautical-miles" data-converter="1.852">海里</option>
+                    <option value="yards" data-converter="0.0009144">码</option>
+                    <option value="feet" data-converter="0.0003048">英尺</option>
                   </select>
                 </div>
               </div>
@@ -61,19 +61,20 @@
           <div class="col-sm-10">
             <div class="row">
               <div class="col-sm-4">
-                <label class="control-label" style="font-size: 0.3rem; background-color: transparent;">1111.233</label>
+                <label id="polygonArea" class="control-label" style="font-size: 0.3rem; background-color: transparent;"></label>
               </div>
 
               <div class="col-xs-8">
                 <div class="has-feedback">
-                  <select class="selectpicker">
-                    <option value="SQUARE_METERS">平方米</option>
-                    <option value="SQUARE_KILOMETERS">平方千米</option>
-                    <option value="ACRES">英亩</option>
-                    <option value="SQUARE_MILES">平方英里</option>
-                    <option value="HECTARES">公顷</option>
-                    <option value="SQUARE_YARDS">平方码</option>
-                    <option value="SQUARE_FEET">平方英尺</option>
+                  <select id="polygonAreaUnit" class="selectpicker" data-dojo-attach-event="onchange:onPolygonAreaUnit_change">
+                    <option value="square-kilometers" data-converter="1">平方千米</option>
+                    <option value="square-meters" data-converter="0.000001">平方米</option>
+                    <option value="ares" data-converter="0.0001">公亩</option>
+                    <option value="acres" data-converter="0.0040468564">英亩</option>
+                    <option value="square-miles" data-converter="2.5899881">平方英里</option>
+                    <option value="hectares" data-converter="0.01">公顷</option>
+                    <option value="square-yards" data-converter="0.00000083612736">平方码</option>
+                    <option value="square-feet" data-converter="0.00000009290304">平方英尺</option>
                   </select>
                 </div>
               </div>
@@ -91,17 +92,17 @@
           <div class="col-sm-10">
             <div class="row">
               <div class="col-sm-4">
-                <label class="control-label" style="font-size: 0.3rem; background-color: transparent;">1.2</label>
+                <label id="polylineLength" class="control-label" style="font-size: 0.3rem; background-color: transparent;"></label>
               </div>
               <div class="col-xs-8">
                 <div class="has-feedback">
-                  <select class="selectpicker">
-                    <option value="METERS">米</option>
-                    <option value="KILOMETERS">千米</option>
-                    <option value="MILES">英里</option>
-                    <option value="NAUTICAL_MILES">海里</option>
-                    <option value="YARDS">码</option>
-                    <option value="FEET">英尺</option>
+                  <select id="polylineLengthUnit" class="selectpicker">
+                    <option value="kilometers" data-converter="1">千米</option>
+                    <option value="meters" data-converter="0.001">米</option>
+                    <option value="miles" data-converter="1.609344">英里</option>
+                    <option value="nautical-miles" data-converter="1.852">海里</option>
+                    <option value="yards" data-converter="0.0009144">码</option>
+                    <option value="feet" data-converter="0.0003048">英尺</option>
                   </select>
                 </div>
               </div>
@@ -115,7 +116,6 @@
     <div id="pointResult" class="hide">
 
       <table class="table_normal">
-        <tbody>
         <thead>
         <tr>
           <td colspan="2" style="width: 50%; text-align: end">经度</td>
@@ -123,20 +123,20 @@
         </tr>
 
         </thead>
-
+        <tbody>
         <tr>
           <td>
             <div class="cursorImg"></div>
           </td>
-          <td style="text-align: end;">121.456432</td>
-          <td style="text-align: end;">31.232123</td>
+          <td id="cursorCoordinateX" style="text-align: end;"></td>
+          <td id="cursorCoordinateY" style="text-align: end;"></td>
         </tr>
         <tr>
           <td>
             <div class="pinImg"></div>
           </td>
-          <td style="text-align: end; width: 48%;">121.456432</td>
-          <td style="text-align: end; width: 48%;">31.232123</td>
+          <td id="pinCoordinateX" style="text-align: end; width: 48%;"></td>
+          <td id="pinCoordinateY" style="text-align: end; width: 48%;"></td>
         </tr>
         </tbody>
       </table>

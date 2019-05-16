@@ -4,35 +4,53 @@ define([
   "dojo/topic",
   "jimu/BaseWidget",
   "esri/graphic",
+  "esri/geometry/webMercatorUtils",
   "esri/layers/GraphicsLayer",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleFillSymbol",
+  "esri/symbols/PictureMarkerSymbol",
   "esri/toolbars/draw",
-  "esri/units"
+  "esri/geometry/geometryEngine"
 ], function(
   declare,
   lang,
   topic,
   BaseWidget,
   Graphic,
+  webMercatorUtils,
   GraphicsLayer,
   SimpleLineSymbol,
   SimpleFillSymbol,
+  PictureMarkerSymbol,
   Draw,
-  units
+  geometryEngine
 ) {
   return declare([BaseWidget], {
     baseClass: "jimu-widget-Measurement",
 
     drawToolbar: null,
 
+    pointSymbol: null,
     polylineSymbol: null,
     polygonSymbol: null,
     drawLayer: null,
 
+    mapMouseMoveHandler: null,
+
+    //记录原始数据，用于单位转换
+    polygonLength: null,
+    polygonArea: null,
+    polylineLength: null,
+
     postCreate: function() {
       this.inherited(arguments);
 
+      this.pointSymbol = new PictureMarkerSymbol({
+        url: window.path + "images/mapIcons/esriGreenPin16x26.png",
+        width: 12,
+        height: 19.5,
+        yoffset: 10
+      });
       this.polylineSymbol = new SimpleLineSymbol({
         color: [0, 128, 255],
         width: 3
@@ -46,13 +64,17 @@ define([
           width: 3
         }
       });
+
       this.drawLayer = new GraphicsLayer();
       this.map.addLayer(this.drawLayer);
 
       this.drawToolbar = new Draw(this.map);
       this.drawToolbar.setLineSymbol(this.polylineSymbol);
       this.drawToolbar.setFillSymbol(this.polygonSymbol);
-      this.drawToolbar.on("draw-complete", lang.hitch(this, this.onDrawToolbar_drawComplete));
+      this.drawToolbar.on(
+        "draw-complete",
+        lang.hitch(this, this.onDrawToolbar_drawComplete)
+      );
 
       topic.subscribe(
         "showMeasurement",
@@ -60,22 +82,90 @@ define([
       );
     },
 
+    _clearResult: function() {
+      $("#polygonLength").html("");
+      $("#polygonArea").html("");
+
+      $("#polylineLength").html("");
+
+      $("#cursorCoordinateX").html("");
+      $("#cursorCoordinateY").html("");
+      $("#pinCoordinateX").html("");
+      $("#pinCoordinateY").html("");
+    },
+
     onDrawToolbar_drawComplete: function(event) {
       this.drawLayer.clear();
 
       var graphic = new Graphic(event.geometry);
       switch (event.geometry.type) {
+        case "point":
+          graphic.symbol = this.pointSymbol;
+
+          //显示点击位置坐标
+          var point = graphic.geometry;
+          if (this.map.spatialReference.isWebMercator()) {
+            point = webMercatorUtils.webMercatorToGeographic(point);
+          }
+          $("#pinCoordinateX").html(point.x.toFixed(6));
+          $("#pinCoordinateY").html(point.y.toFixed(6));
+          break;
+
         case "polyline":
           graphic.symbol = this.polylineSymbol;
+
+          //计算长度
+          var polylineLength = geometryEngine.geodesicLength(
+            graphic.geometry,
+            $("#polylineLengthUnit").val()
+          );
+          $("#polylineLength").html(polylineLength.toFixed(2));
           break;
+
         case "polygon":
           graphic.symbol = this.polygonSymbol;
+
+          //计算长度
+          var polygonLengthUnit = $("#polygonLengthUnit");
+          var polygonLength = geometryEngine.geodesicLength(
+            graphic.geometry,
+            polygonLengthUnit.val()
+          );
+          $("#polygonLength").html(polygonLength.toFixed(2));
+          //结果单位转换为公里
+          this.polygonLength =
+            polygonLength *
+            polygonLengthUnit.find("option:selected").attr("data-converter");
+
+          //计算面积
+          var polygonAreaUnit = $("#polygonAreaUnit");
+          var polygonArea = geometryEngine.geodesicArea(
+            graphic.geometry,
+            polygonAreaUnit.val()
+          );
+          $("#polygonArea").html(polygonArea.toFixed(2));
+          //结果单位转换为平方公里
+          this.polygonArea =
+            polygonArea *
+            polygonAreaUnit.find("option:selected").attr("data-converter");
           break;
       }
       this.drawLayer.add(graphic);
     },
 
+    onMap_mousemove: function(event) {
+      //显示当前位置坐标
+      var point = event.mapPoint;
+      if (this.map.spatialReference.isWebMercator()) {
+        point = webMercatorUtils.webMercatorToGeographic(point);
+      }
+      $("#cursorCoordinateX").html(point.x.toFixed(6));
+      $("#cursorCoordinateY").html(point.y.toFixed(6));
+    },
+
     onBtnClose_click: function() {
+      if (this.mapMouseMoveHandler) this.mapMouseMoveHandler.remove();
+      this._clearResult();
       $("." + this.baseClass).addClass("hide");
       this.drawToolbar.deactivate();
       this.drawLayer.clear();
@@ -84,6 +174,8 @@ define([
     onListMeasureType_click: function(event) {
       var currentTarget = $(event.currentTarget);
       if (!$(event.currentTarget).hasClass("active")) {
+        this._clearResult();
+
         $("#listMeasureType>li").removeClass("active");
         currentTarget.addClass("active");
 
@@ -94,15 +186,43 @@ define([
         switch (drawType) {
           case "POLYGON":
             $("#polygonResult").removeClass("hide");
+            if (this.mapMouseMoveHandler) this.mapMouseMoveHandler.remove();
             break;
           case "POLYLINE":
             $("#polylineResult").removeClass("hide");
+            if (this.mapMouseMoveHandler) this.mapMouseMoveHandler.remove();
             break;
           case "POINT":
             $("#pointResult").removeClass("hide");
-            break;
+            this.mapMouseMoveHandler = this.map.on(
+              "mouse-move",
+              lang.hitch(this, this.onMap_mousemove)
+            );
 
+            break;
         }
+      }
+    },
+
+    onPolygonLengthUnit_change: function() {
+      if ($("#polygonLength").html() !== "") {
+        var length =
+          this.polygonLength /
+          $("#polygonLengthUnit")
+            .find("option:selected")
+            .attr("data-converter");
+        $("#polygonLength").html(length.toFixed(2));
+      }
+    },
+
+    onPolygonAreaUnit_change: function() {
+      if ($("#polygonArea").html() !== "") {
+        var length =
+          this.polygonArea /
+          $("#polygonAreaUnit")
+            .find("option:selected")
+            .attr("data-converter");
+        $("#polygonArea").html(length.toFixed(2));
       }
     },
 
@@ -116,12 +236,17 @@ define([
       baseDom.draggable();
       baseDom.removeClass("hide");
 
-
       $("#listMeasureType>li")
         .off("click")
         .on("click", lang.hitch(this, this.onListMeasureType_click));
 
-      this.drawToolbar.activate(Draw[$("#listMeasureType>li.active").attr("data-drawType").toUpperCase()]);
+      this.drawToolbar.activate(
+        Draw[
+          $("#listMeasureType>li.active")
+            .attr("data-drawType")
+            .toUpperCase()
+        ]
+      );
     }
   });
 });
