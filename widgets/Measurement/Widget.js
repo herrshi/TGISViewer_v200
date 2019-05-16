@@ -114,40 +114,48 @@ define([
         case "polyline":
           graphic.symbol = this.polylineSymbol;
 
-          //计算长度
-          var polylineLength = geometryEngine.geodesicLength(
+          //计算长度，单位km
+          this.polylineLength = geometryEngine.geodesicLength(
             graphic.geometry,
-            $("#polylineLengthUnit").val()
+            "kilometers"
           );
+          //从km换算到当前单位
+          var polylineLength =
+            this.polylineLength /
+            $("#polylineLengthUnit")
+              .find("option:selected")
+              .attr("data-converter");
           $("#polylineLength").html(polylineLength.toFixed(2));
           break;
 
         case "polygon":
           graphic.symbol = this.polygonSymbol;
 
-          //计算长度
-          var polygonLengthUnit = $("#polygonLengthUnit");
-          var polygonLength = geometryEngine.geodesicLength(
+          //计算周长，单位km
+          this.polygonLength = geometryEngine.geodesicLength(
             graphic.geometry,
-            polygonLengthUnit.val()
+            "kilometers"
           );
+          //从km换算到当前单位
+          var polygonLength =
+            this.polygonLength /
+            $("#polygonLengthUnit")
+              .find("option:selected")
+              .attr("data-converter");
           $("#polygonLength").html(polygonLength.toFixed(2));
-          //结果单位转换为公里
-          this.polygonLength =
-            polygonLength *
-            polygonLengthUnit.find("option:selected").attr("data-converter");
 
-          //计算面积
-          var polygonAreaUnit = $("#polygonAreaUnit");
-          var polygonArea = geometryEngine.geodesicArea(
+          //计算面积，单位km^2
+          this.polygonArea = geometryEngine.geodesicArea(
             graphic.geometry,
-            polygonAreaUnit.val()
+            "square-kilometers"
           );
+          //从km^2换算到当前单位
+          var polygonArea =
+            this.polygonArea /
+            $("#polygonAreaUnit")
+              .find("option:selected")
+              .attr("data-converter");
           $("#polygonArea").html(polygonArea.toFixed(2));
-          //结果单位转换为平方公里
-          this.polygonArea =
-            polygonArea *
-            polygonAreaUnit.find("option:selected").attr("data-converter");
           break;
       }
       this.drawLayer.add(graphic);
@@ -188,10 +196,12 @@ define([
             $("#polygonResult").removeClass("hide");
             if (this.mapMouseMoveHandler) this.mapMouseMoveHandler.remove();
             break;
+
           case "POLYLINE":
             $("#polylineResult").removeClass("hide");
             if (this.mapMouseMoveHandler) this.mapMouseMoveHandler.remove();
             break;
+
           case "POINT":
             $("#pointResult").removeClass("hide");
             this.mapMouseMoveHandler = this.map.on(
@@ -205,24 +215,26 @@ define([
     },
 
     onPolygonLengthUnit_change: function() {
-      if ($("#polygonLength").html() !== "") {
+      var polygonLength = $("#polygonLength");
+      if (polygonLength.html() !== "") {
         var length =
           this.polygonLength /
           $("#polygonLengthUnit")
             .find("option:selected")
             .attr("data-converter");
-        $("#polygonLength").html(length.toFixed(2));
+        polygonLength.html(length.toFixed(2));
       }
     },
 
     onPolygonAreaUnit_change: function() {
-      if ($("#polygonArea").html() !== "") {
+      var polygonArea = $("#polygonArea");
+      if (polygonArea.html() !== "") {
         var length =
           this.polygonArea /
           $("#polygonAreaUnit")
             .find("option:selected")
             .attr("data-converter");
-        $("#polygonArea").html(length.toFixed(2));
+        polygonArea.html(length.toFixed(2));
       }
     },
 
