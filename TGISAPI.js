@@ -1493,7 +1493,28 @@ var TMap = {
       topic.publish("MonitorControl", { params: params, callback: callback });
     });
   },
-
+  /**
+   * 布控预警
+   * @param params: [object], json字符串 required.
+   *    area: [object], required, 布控区域,4色预警为多个,单色为一个
+   *      geometry: object, required.几何属性.
+   *      level: string, required.级别.
+   *      id: string, required.区域id.
+   *    carPoints: [object], required 车辆点位信息,
+   *      x: number, required. 坐标x.
+   *      y: number, required. 坐标y.
+   *      id: string ,optional  车辆编号.
+   *      type: string ,optional  类型.
+   *      fields: object ,optional 属性.
+   *      limit:string ,required 标志位.1为限进车辆,0位限出车辆.
+   *    highlight:boolean, optional. 是否闪烁,默认闪烁.
+   * @param callback: object required,返回预警信息.
+   * **/
+  MonitorWarn: function(params, callback) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("MonitorWarn", { params: params, callback: callback });
+    });
+  },
   /**
    * 清除布控预警效果
    * **/

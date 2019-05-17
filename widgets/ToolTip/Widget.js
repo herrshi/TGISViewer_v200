@@ -745,14 +745,24 @@ define([
         }
       }
     },
-    clear: function() {
-      $(".MapText").remove();
-      for (var i = 0; i < this._tooltipNodes.length; i++) {
-        var node = this._tooltipNodes[i].node;
-        domConstruct.destroy(node);
+    clear: function(params) {
+      //$(".MapText").remove();
+      var ids = params || [];
+      if (ids.length > 0) {
+        for (var i = 0; i < this._tooltipNodes.length; i++) {
+          var node = this._tooltipNodes[i].node;
+          if (ids.indexOf(node.id) > -1) {
+            domConstruct.destroy(node);
+          }
+        }
+      } else {
+        for (var i = 0; i < this._tooltipNodes.length; i++) {
+          var node = this._tooltipNodes[i].node;
+          domConstruct.destroy(node);
+        }
+        this._node = null;
+        this._tooltipNodes = [];
       }
-      this._node = null;
-      this._tooltipNodes = [];
     },
     getScales: function(id, scales) {
       var scale = 0;
@@ -786,6 +796,7 @@ define([
       var geometry = param.geometry;
       var context = param.context;
       var label = param.label;
+      var id = param.id;
       var tipClass = param.tipClass || "TextDiv";
 
       this._place = "top";
@@ -825,12 +836,18 @@ define([
       }
 
       var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
+      var idStr = "";
+      if (id) {
+        idStr = "id='" + id + "'";
+      }
       if (text.toString().indexOf("div") > -1) {
         this._node = domConstruct.toDom(text);
       } else {
         text = text.replace(/\n/g, "<br/>");
         this._node = domConstruct.toDom(
-          "<div class='MapText " +
+          "<div " +
+            idStr +
+            " class='MapText " +
             tipClass +
             "'><span>" +
             text +
@@ -841,8 +858,8 @@ define([
       }
       this.init();
     },
-    _onTopicHandler_clearToolTip: function() {
-      this.clear();
+    _onTopicHandler_clearToolTip: function(params) {
+      this.clear(params);
     }
   });
 });
