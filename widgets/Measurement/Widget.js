@@ -83,6 +83,8 @@ define([
     },
 
     _clearResult: function() {
+      this.drawLayer.clear();
+
       $("#polygonLength").html("");
       $("#polygonArea").html("");
 
@@ -176,7 +178,6 @@ define([
       this._clearResult();
       $("." + this.baseClass).addClass("hide");
       this.drawToolbar.deactivate();
-      this.drawLayer.clear();
     },
 
     onListMeasureType_click: function(event) {
@@ -235,6 +236,18 @@ define([
             .find("option:selected")
             .attr("data-converter");
         polygonArea.html(length.toFixed(2));
+      }
+    },
+
+    onPolylineLengthUnit_change: function() {
+      var polylineLength = $("#polylineLength");
+      if (polylineLength.html() !== "") {
+        var length =
+          this.polylineLength /
+          $("#polylineLengthUnit")
+            .find("option:selected")
+            .attr("data-converter");
+        polylineLength.html(length.toFixed(2));
       }
     },
 
