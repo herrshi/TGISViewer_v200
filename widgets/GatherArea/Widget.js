@@ -66,43 +66,43 @@ define([
       this.map.addLayer(this.gatherLayer);
       this.pointSymbol = new SimpleMarkerSymbol(
         SimpleMarkerSymbol.STYLE_CIRCLE,
-        10,
+        8,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          new Color([255, 0, 0.1]),
-          1
+          new Color([255, 0, 0]),
+          4
         ),
-        new Color([255, 0, 0, 1])
+        new Color([255, 0, 0, 0.2])
       );
       //this.arrowSymbol =
       this.carPointSymbol = new PictureMarkerSymbol(
-        "images/car_blue.png",
-        30,
-        30
+        window.path + "images/car_blue.png",
+        15,
+        15
       ).setOffset(0, 15);
       this.dashSymbol = new SimpleLineSymbol(
         SimpleLineSymbol.STYLE_DASH,
-        new Color([255, 0, 0, 1]),
+        new Color([255, 0, 0, 0.5]),
         3
       );
       this.carSymbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          new Color([128, 128, 128, 1]),
+          new Color([255, 105, 180, 0.2]),
           1
         ),
-        new Color([213, 231, 237, 0.5])
+        new Color([255, 105, 180, 0.2])
       );
 
       this.areaSymbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_DASH,
-          new Color([255, 0, 0, 1]),
-          1
+          new Color([220, 20, 60, 0.5]),
+          4
         ),
-        new Color([255, 0, 0, 0.5])
+        new Color([220, 20, 60, 0.5])
       );
       topic.subscribe(
         "addGatherArea",
@@ -160,14 +160,7 @@ define([
 
                 var carpoints = carcarea.carpoints;
                 this.addGraphics(cargeometry, "cararea", id); //车辆聚集面
-                array.forEach(
-                  carpoints,
-                  function(car) {
-                    var point = new Point([car.x, car.y]);
-                    this.addGraphics(point, "carpoint", id); //车辆点
-                  },
-                  this
-                );
+
                 var line = new Polyline();
                 var px = 1,
                   py = 1;
@@ -191,13 +184,21 @@ define([
                   areaPoint.x + perx,
                   areaPoint.y + pery
                 ]);
-                //曲线
-                // var path = this.doBezierCurve(centerPoint, arrowPoint);
-                // line.addPath(path);
-                //直线
+                //var path = this.doBezierCurve(centerPoint, arrowPoint);
                 line.addPath([centerPoint, arrowPoint]);
+                //line.addPath(path);
                 var angle = this.doarrowAngle(centerPoint, arrowPoint);
                 arrowPoint.angle = angle;
+                console.log(angle);
+                array.forEach(
+                  carpoints,
+                  function(car) {
+                    var point = new Point([car.x, car.y]);
+                    point.angle = angle;
+                    this.addGraphics(point, "carpoint", id); //车辆点
+                  },
+                  this
+                );
                 this.addGraphics(line, "polyline", id); //箭头线
                 this.addGraphics(centerPoint, "point", id); //箭头点
                 this.addGraphics(arrowPoint, "arrowpoint", id); //箭头三角
@@ -225,13 +226,19 @@ define([
               new Color([255, 0, 0.1]),
               1
             ),
-            new Color([255, 0, 0, 1])
+            new Color([255, 0, 0, 0.5])
           )
             .setPath("M0 16 L 10 16 L5 0z")
             .setAngle(geometry.angle);
           break;
         case "carpoint":
-          symbol = this.carPointSymbol;
+          symbol = new PictureMarkerSymbol(
+            window.path + "images/car_blue.png",
+            15,
+            15
+          )
+            .setOffset(0, 15)
+            .setAngle(geometry.angle);
           break;
         case "polyline":
           symbol = this.dashSymbol;
@@ -283,7 +290,7 @@ define([
       if (p2.y > p0.y) {
         py = -1;
       }
-      var up = px* raddir; //弧度向上px*py*dir,一致方向;px  * raddir根据x来
+      var up = px * raddir; //弧度向上px*py*dir,一致方向;px  * raddir根据x来
       console.log(px * py);
       var path = [];
       var p1;
