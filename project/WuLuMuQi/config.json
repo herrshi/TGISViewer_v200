@@ -37,7 +37,7 @@
         "url":
           "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_xzqh/MapServer/0",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": ["*"],
         "renderer": {
           "type": "simple",
@@ -283,6 +283,21 @@
         "uri": "widgets/TrackException/Widget",
         "version": "2.4",
         "id": "TrackExceptionWidget"
+      },
+      {
+        "uri": "widgets/TrackCompare/Widget",
+        "version": "2.4",
+        "id": "TrackCompareWidget"
+      },
+      {
+        "uri": "widgets/LayerDefinition/Widget",
+        "version": "2.4",
+        "id": "LayerDefinitionWidget"
+      },
+      {
+        "uri": "widgets/MonitorTrack/Widget",
+        "version": "2.4",
+        "id": "MonitorTrackWidget"
       }
     ]
   }

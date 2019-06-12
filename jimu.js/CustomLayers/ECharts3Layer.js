@@ -9,7 +9,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "esri/geometry/Point", "esri/ge
     constructor: function (e, t) {
       this._map = e;
       var n = this._echartsContainer = document.createElement("div");
-      n.style.position = "absolute", n.style.height = e.height + "px", n.style.width = e.width + "px", n.style.top = 0, n.style.left = 0, e.__container.appendChild(n), this._init(e, t)
+      n.style.position = "absolute",n.style.pointerEvents = "none", n.style.height = e.height + "px", n.style.width = e.width + "px", n.style.top = 0, n.style.left = 0, e.__container.appendChild(n), this._init(e, t)
     },
     _init: function (e, t) {
       // console.log('<a href="https://github.com/wandergis/arcgis-echarts3">develop by wandergis</a>');

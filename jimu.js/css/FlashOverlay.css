@@ -38,19 +38,23 @@ path[data-highlight="always-highlight"], g[data-highlight="always-highlight"],im
   overflow: hidden;
 }
 
-path[data-enlarge="highlight"], image[data-enlarge="highlight"], circle[data-enlarge="highlight"] {
-  animation: alphachange 1s linear 0s infinite normal;
-  -webkit-animation: alphachange 1s linear 0s infinite normal;
-  -moz-animation: alphachange 1s linear 0s infinite normal;
-  -o-animation: alphachange 1s linear 0s infinite normal;
-  -ms-animation: alphachange 1s linear 0s infinite normal;
-
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+image[data-highlight="jump"], circle[data-highlight="jump"] {
+  animation: jump 1s ease-in-out infinite;
 }
 
-@-webkit-keyframes glow {
+@keyframes jump {  /*定义关键帧、scaleDrew是需要绑定到选择器的关键帧名称*/
+  0% {
+    transform: translate(0px, 0px);
+  }
+  50% {
+    transform: translate(0px, -20px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
+}
+
+@keyframes glow {
   0% {
     -webkit-box-shadow: 0 0 12px rgba(72, 106, 170, 0.5);
     border-color: rgba(255, 0, 0, 0.5);
@@ -59,18 +63,6 @@ path[data-enlarge="highlight"], image[data-enlarge="highlight"], circle[data-enl
     -webkit-box-shadow: 0 0 12px rgba(72, 106, 170, 1.0), 0 0 18px rgba(0, 140, 255, 1.0);
     border-color: rgba(255, 0, 0, 1.0);
   }
-}
-
-circle[data-highlight='glow'] {
-  animation: change 2s linear 0s 6 normal;
-  ms-animation: change 2s linear 0s 6 normal;
-  -webkit-animation: change 2s linear 0s 6 normal;
-  -moz-animation: change 2s linear 0s 6 normal;
-  -o-animation: change 2s linear 0s 6 normal;
-
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 @keyframes change {

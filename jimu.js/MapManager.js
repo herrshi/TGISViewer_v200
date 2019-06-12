@@ -193,9 +193,12 @@ define([
         this._processMapOptions(this.appConfig.map.mapOptions)
       );
 
-      map.on("load", lang.hitch(this, function () {
-        this.initialExtent = map.extent;
-      }));
+      map.on(
+        "load",
+        lang.hitch(this, function() {
+          this.initialExtent = map.extent;
+        })
+      );
 
       //backgroundColor不在options中，需要代码
       if (this.appConfig.map.mapOptions.backgroundColor) {
@@ -233,10 +236,16 @@ define([
             if (graphic.infoTemplate) {
               var poptitle = false;
               var popcontent = false;
-              if (graphic.infoTemplate.title && graphic.infoTemplate.title.indexOf("div") > -1) {
+              if (
+                graphic.infoTemplate.title &&
+                graphic.infoTemplate.title.indexOf("div") > -1
+              ) {
                 poptitle = true;
               }
-              if (graphic.infoTemplate.content && graphic.infoTemplate.content.indexOf("div") > -1) {
+              if (
+                graphic.infoTemplate.content &&
+                graphic.infoTemplate.content.indexOf("div") > -1
+              ) {
                 popcontent = true;
               }
               this.addPopUpClass(poptitle, popcontent);
@@ -287,7 +296,7 @@ define([
             }
 
             var node = graphic.getNode();
-            node.setAttribute("data-highlight", "highlight");
+            node.setAttribute("data-highlight", "jump");
             setTimeout(function() {
               if (find_blackGraphic !== undefined) {
                 find_blackGraphic.getLayer().remove(find_blackGraphic);
@@ -337,7 +346,7 @@ define([
                   type: type,
                   id: id,
                   label: graphic.getLayer().label,
-                  graphic: this.map.spatialReference.isWebMercator()
+                  graphic: graphic.geometry.spatialReference.isWebMercator()
                     ? new Graphic(
                         webMercatorUtils.webMercatorToGeographic(
                           graphic.geometry
@@ -358,7 +367,7 @@ define([
                   type: type,
                   id: id,
                   label: graphic.getLayer().label,
-                  graphic: this.map.spatialReference.isWebMercator()
+                  graphic: graphic.geometry.spatialReference.isWebMercator()
                     ? new Graphic(
                         webMercatorUtils.webMercatorToGeographic(
                           graphic.geometry
@@ -1035,6 +1044,10 @@ define([
         if (layerConfig.labelingInfo) {
           //var lc = new LabelClass(layerConfig.labelingInfo);
           layer.setLabelingInfo(layerConfig.labelingInfo);
+        }
+        if (layerConfig.featureReduction) {
+          layer.setFeatureReduction(layerConfig.featureReduction);
+          layer.enableFeatureReduction();
         }
         map.addLayer(layer);
       }));

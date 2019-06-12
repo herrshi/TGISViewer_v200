@@ -5,21 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>TGISViewer Version 2.00</title>
-<!--  <link href="libs/fontawesome/css/all.css" rel="stylesheet">-->
+  <link href="libs/fontawesome/css/all.css" rel="stylesheet">
 <!--  <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet">-->
 <!--  <link href="libs/mdb/css/mdb.min.css" rel="stylesheet">-->
 
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap/css/bootstrap.css"/>
   <link rel="stylesheet" type="text/css" href="assets/global/plugins/jquery-ui/jquery-ui.min.css">
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/icomoon/css/style.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/fontTwister/css/fontTwister.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/simple-line-icons/simple-line-icons.min.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap/css/bootstrap.css"/>
   <link rel="stylesheet" type="text/css" href="assets/global/css/animate.css">
   <link rel="stylesheet" type="text/css" href="assets/layouts/css/layout.css"/>
   <link rel="stylesheet" type="text/css" href="assets/layouts/css/custom.css"/>
   <link rel="stylesheet" type="text/css" href="assets/global/css/plugins.css"/>
-  <link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap-select/css/bootstrap-select.css"/>
 
   <!--<link rel="stylesheet" type="text/css" href="libs/dropdownCheckbox/dropdownCheckboxes.min.css">-->
 
@@ -361,7 +356,7 @@
 
 <script type="text/javascript">
   var map = TMap.createNew({
-    apiUrl: "http://localhost:8090/arcgis_js_api/",
+    apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
@@ -370,7 +365,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/WuLuMuQi/config.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/XuHui/config-dark-www.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     map.setUserInfo({
@@ -378,9 +373,8 @@
       id: "et_brain_021",
       code: "310000"
     });
-    // map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/icon_gis_blue_park.png","height":41,"width":31.5},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
-    // map.showJurisdiction();
-    // map.showArea();
+    map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
+    map.showJurisdiction();
     // map.showPoliceCount();
     // map.addPoints('{"points":[{"id":"pt001","type":"police","geometry":{"x":116.868981,"y":32.62236},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}}]}');
     // map.showSelectedFeatures({type: "scats", features: [{id: "11025"}, {id: "11023"}, {id: "11026", locked: true}]});
@@ -772,8 +766,6 @@
 
 <script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>
 <script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="assets/global/plugins/fontTwister/js/fontTwister.js"></script>
 <!--<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
 
 <!--<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>-->

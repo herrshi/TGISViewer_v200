@@ -795,10 +795,18 @@ define([
     //车辆角度
     doarrowAngle: function(p1, p2, limit) {
       if (p2.x - p1.x == 0) {
-        return 90;
+        if (p2.y - p1.y > 0) {
+          return 0;
+        } else {
+          return 180;
+        }
       }
       if (p2.y - p1.y == 0) {
-        return 0;
+        if (p2.x - p1.x > 0) {
+          return 90;
+        } else {
+          return 270;
+        }
       }
       var angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
       var px = 1,

@@ -52,7 +52,7 @@ define([
   InfoTemplate
 ) {
   return declare([BaseWidget], {
-    name: "cluster",
+    name: "GatherArea",
     gatherLayer: [],
     pointSymbol: null,
     arrowSymbol: null,
@@ -194,7 +194,7 @@ define([
                   carpoints,
                   function(car) {
                     var point = new Point([car.x, car.y]);
-                    point.angle = angle;
+                    point.angle = Math.random()*360;
                     this.addGraphics(point, "carpoint", id); //车辆点
                   },
                   this
@@ -325,10 +325,18 @@ define([
     //箭头角度
     doarrowAngle: function(p1, p2) {
       if (p2.x - p1.x == 0) {
-        return 90;
+        if (p2.y - p1.y > 0) {
+          return 0;
+        } else {
+          return 180;
+        }
       }
       if (p2.y - p1.y == 0) {
-        return 0;
+        if (p2.x - p1.x > 0) {
+          return 90;
+        } else {
+          return 270;
+        }
       }
       var angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
       var px = 1,

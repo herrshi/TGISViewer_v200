@@ -842,6 +842,9 @@ define([
       }
       if (text.toString().indexOf("div") > -1) {
         this._node = domConstruct.toDom(text);
+        if (id) {
+          this._node.id = id;
+        }
       } else {
         text = text.replace(/\n/g, "<br/>");
         this._node = domConstruct.toDom(
