@@ -27,10 +27,12 @@
       <w>polyline</w>
       <w>qiao</w>
       <w>qing</w>
+      <w>regeo</w>
       <w>renderers</w>
       <w>rtind</w>
       <w>rtpf</w>
       <w>rtstate</w>
+      <w>selectpicker</w>
       <w>shan</w>
       <w>shang</w>
       <w>showname</w>
@@ -38,6 +40,7 @@
       <w>textarea</w>
       <w>textsymbol</w>
       <w>timepicker</w>
+      <w>topbg</w>
       <w>xiang</w>
       <w>xoffset</w>
       <w>yoffset</w>
