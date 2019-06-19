@@ -6,7 +6,7 @@
       "layers": [
         {
           "type": "json",
-          "source": "configs/DynamicRendererLayer/XuHui/地面主干道路1.json",
+          "source": "configs/DynamicRendererLayer/XuHui/地面主干道路3.json",
           "idField": "BM_CODE"
         }
       ],
@@ -25,10 +25,15 @@
             "value": "free",
             "label" : "畅通",
             "symbol": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [100, 210, 121, 255],
-              "width": 2
+              "type": "esriSFS",
+              "style": "esriSFSSolid",
+              "color": [100, 210, 121, 180],
+              "outline": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "color": [255, 255, 255, 255],
+                "width": 0
+              }
             }
           },
           {
