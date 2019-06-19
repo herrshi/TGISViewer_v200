@@ -1,0 +1,58 @@
+{
+  "dynamicRenderers": [
+    {
+      "name": "IssuesectState",
+      "label": "发布段状态",
+      "layers": [
+        {
+          "type": "json",
+          "source": "configs/DynamicRendererLayer/XuHui/地面主干道路1.json",
+          "idField": "BM_CODE"
+        }
+      ],
+      "renderer": {
+        "type": "uniqueValue",
+        "field1": "data",
+        "defaultSymbol": {
+          "type": "esriSLS",
+          "style": "esriSLSSolid",
+          "color": [110, 110, 110, 255],
+          "width": 2
+        },
+        "defaultLabel": "未知",
+        "uniqueValueInfos": [
+          {
+            "value": "free",
+            "label" : "畅通",
+            "symbol": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [100, 210, 121, 255],
+              "width": 2
+            }
+          },
+          {
+            "value" : "crowd",
+            "label" : "拥挤",
+            "symbol": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [250, 207, 51, 255],
+              "width": 4
+            }
+          },
+          {
+            "value" : "jam",
+            "label" : "堵塞",
+            "symbol": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [222, 2, 0, 255],
+              "width": 4
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

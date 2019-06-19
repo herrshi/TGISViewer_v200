@@ -162,6 +162,12 @@
         },
         "version": "2.4",
         "id": "MeasurementWidget"
+      },
+      {
+        "uri": "widgets/DynamicRendererLayer/Widget",
+        "config": "configs/DynamicRendererLayer/config_XuHui.json",
+        "version": "2.4",
+        "id": "DynamicRendererLayerWidget"
       }
     ]
   }
