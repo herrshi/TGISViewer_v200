@@ -12,7 +12,7 @@ define([
   "jimu/BaseWidget",
   "jimu/utils",
   "esri/dijit/OverviewMap"
-], function(
+], function (
   declare,
   lang,
   html,
@@ -30,7 +30,7 @@ define([
     showDijit: false,
     handles: [],
 
-    startup: function() {
+    startup: function () {
       this.inherited(arguments);
       this.createOverviewMap();
     },
@@ -51,24 +51,18 @@ define([
       //set a default "attachTo" by position
       if (typeof config.overviewMap.attachTo === "undefined" && position) {
         if (position.top !== undefined && position.left !== undefined) {
-          config.overviewMap.attachTo = "top-left";
+          config.overviewMap.attachTo =  "top-left";
         } else if (position.top !== undefined && position.right !== undefined) {
           config.overviewMap.attachTo = "top-right";
-        } else if (
-          position.bottom !== undefined &&
-          position.left !== undefined
-        ) {
+        } else if (position.bottom !== undefined && position.left !== undefined) {
           config.overviewMap.attachTo = "bottom-left";
-        } else if (
-          position.bottom !== undefined &&
-          position.right !== undefined
-        ) {
+        } else if (position.bottom !== undefined && position.right !== undefined) {
           config.overviewMap.attachTo = "bottom-right";
         }
       }
     },
 
-    _updateDomPosition: function(attachTo) {
+    _updateDomPosition: function (attachTo) {
       if (this.overviewMapDijit) {
         var initPos = {
           left: "auto",
@@ -86,8 +80,8 @@ define([
       domStyle.set(this.domNode, style);
       domStyle.set(this.overviewMapDijit.domNode, style);
     },
-
-    createOverviewMap: function(visible) {
+    
+    createOverviewMap: function (visible) {
       var json = lang.clone(this.config.overviewMap);
       json.map = this.map;
       if (visible !== undefined) {
@@ -105,20 +99,8 @@ define([
       json.attachTo = this.config.overviewMap.attachTo;
 
       this.overviewMapDijit = new OverviewMap(json);
-      this.handles.push(
-        aspect.after(
-          this.overviewMapDijit,
-          "show",
-          lang.hitch(this, "_afterOverviewHide")
-        )
-      );
-      this.handles.push(
-        aspect.after(
-          this.overviewMapDijit,
-          "hide",
-          lang.hitch(this, "_afterOverviewShow")
-        )
-      );
+      this.handles.push(aspect.after(this.overviewMapDijit, "show", lang.hitch(this, "_afterOverviewHide")));
+      this.handles.push(aspect.after(this.overviewMapDijit, "hide", lang.hitch(this, "_afterOverviewShow")));
       this.overviewMapDijit.startup();
 
       this._updateDomPosition(json.attachTo);
@@ -197,4 +179,5 @@ define([
   });
 
   return clazz;
+
 });

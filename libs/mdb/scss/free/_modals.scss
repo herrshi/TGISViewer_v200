@@ -46,7 +46,7 @@ body {
         margin-bottom: 0;
         width: 100%;
         font-size: $cascading-modal-font-size;
-        .fas, .fab, .far {
+        .fa {
           margin-right: $cascading-modal-fa-margin-right;
         }
       }
@@ -135,21 +135,11 @@ body {
         .modal-header {
           background-color: $color;
         }
-        .fas, .fab, .far {
+        .fa {
           color: $color;
         }
         .badge {
           background-color: $color;
-        }
-        .btn {
-          .fas, .fab, .far {
-            color: #fff;
-          }
-          &.btn-outline-#{$name} {
-            .fas, .fab, .far {
-              color: $color;
-            }
-          }
         }
       }
     }
@@ -241,7 +231,6 @@ body {
       display: flex;
       margin: 0;
       width: $modal-width;
-      min-height: 100%;
       height: auto;
       min-height: 100%;
       top: 0;

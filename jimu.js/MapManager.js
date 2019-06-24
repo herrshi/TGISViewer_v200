@@ -193,9 +193,12 @@ define([
         this._processMapOptions(this.appConfig.map.mapOptions)
       );
 
-      map.on("load", lang.hitch(this, function () {
-        this.initialExtent = map.extent;
-      }));
+      map.on(
+        "load",
+        lang.hitch(this, function() {
+          this.initialExtent = map.extent;
+        })
+      );
 
       //backgroundColor不在options中，需要代码
       if (this.appConfig.map.mapOptions.backgroundColor) {
@@ -233,10 +236,16 @@ define([
             if (graphic.infoTemplate) {
               var poptitle = false;
               var popcontent = false;
-              if (graphic.infoTemplate.title && graphic.infoTemplate.title.indexOf("div") > -1) {
+              if (
+                graphic.infoTemplate.title &&
+                graphic.infoTemplate.title.indexOf("div") > -1
+              ) {
                 poptitle = true;
               }
-              if (graphic.infoTemplate.content && graphic.infoTemplate.content.indexOf("div") > -1) {
+              if (
+                graphic.infoTemplate.content &&
+                graphic.infoTemplate.content.indexOf("div") > -1
+              ) {
                 popcontent = true;
               }
               this.addPopUpClass(poptitle, popcontent);
@@ -244,54 +253,54 @@ define([
               this.clearPopUpClass();
             }
 
-            if (
-              graphic.geometry.type == "point" &&
-              graphic.infoTemplate === undefined
-            ) {
-              var sms = new SimpleMarkerSymbol({
-                color: [0, 0, 0, 0],
-                size: 12,
-                type: "esriSMS",
-                style: "esriSMSSquare",
-                outline: {
-                  color: [0, 0, 0, 255],
-                  width: 1,
-                  type: "esriSLS",
-                  style: "esriSLSSolid"
-                }
-              });
-              if (graphic.getLayer().type == "Feature Layer") {
-                //当为图层的时候
-                defaultSymbol = graphic.getLayer().renderer.defaultSymbol;
-              } else {
-                defaultSymbol = graphic.symbol;
-              }
-              if (defaultSymbol) {
-                if (defaultSymbol.type === "picturemarkersymbol") {
-                  sms.setSize(
-                    defaultSymbol.width > defaultSymbol.height
-                      ? defaultSymbol.width + 4
-                      : defaultSymbol.height + 4
-                  );
-                } else if (defaultSymbol.size !== undefined) {
-                  sms.setSize(defaultSymbol.size + 4);
-                } else {
-                  sms.setSize(16);
-                }
-                sms.setOffset(defaultSymbol.xoffset, defaultSymbol.yoffset);
-                find_blackGraphic = new Graphic(graphic.geometry, sms);
-                this.map.graphics.add(find_blackGraphic);
-                var find_blacknode = find_blackGraphic.getNode();
-                //find_blacknode.setAttribute("data-highlight", "highlight");
-              }
-            }
+            // if (
+            //   graphic.geometry.type == "point" &&
+            //   graphic.infoTemplate === undefined
+            // ) {
+            //   var sms = new SimpleMarkerSymbol({
+            //     color: [0, 0, 0, 0],
+            //     size: 12,
+            //     type: "esriSMS",
+            //     style: "esriSMSSquare",
+            //     outline: {
+            //       color: [0, 0, 0, 255],
+            //       width: 1,
+            //       type: "esriSLS",
+            //       style: "esriSLSSolid"
+            //     }
+            //   });
+            //   if (graphic.getLayer().type == "Feature Layer") {
+            //     //当为图层的时候
+            //     defaultSymbol = graphic.getLayer().renderer.defaultSymbol;
+            //   } else {
+            //     defaultSymbol = graphic.symbol;
+            //   }
+            //   if (defaultSymbol) {
+            //     if (defaultSymbol.type === "picturemarkersymbol") {
+            //       sms.setSize(
+            //         defaultSymbol.width > defaultSymbol.height
+            //           ? defaultSymbol.width + 4
+            //           : defaultSymbol.height + 4
+            //       );
+            //     } else if (defaultSymbol.size !== undefined) {
+            //       sms.setSize(defaultSymbol.size + 4);
+            //     } else {
+            //       sms.setSize(16);
+            //     }
+            //     sms.setOffset(defaultSymbol.xoffset, defaultSymbol.yoffset);
+            //     find_blackGraphic = new Graphic(graphic.geometry, sms);
+            //     this.map.graphics.add(find_blackGraphic);
+            //     var find_blacknode = find_blackGraphic.getNode();
+            //     //find_blacknode.setAttribute("data-highlight", "highlight");
+            //   }
+            // }
 
             var node = graphic.getNode();
             node.setAttribute("data-highlight", "highlight");
             setTimeout(function() {
-              if (find_blackGraphic !== undefined) {
-                find_blackGraphic.getLayer().remove(find_blackGraphic);
-              }
+              // if (find_blackGraphic !== undefined) {
+              //   find_blackGraphic.getLayer().remove(find_blackGraphic);
+              // }
               node.setAttribute("data-highlight", "");
             }, 5000);
 
@@ -337,7 +346,7 @@ define([
                   type: type,
                   id: id,
                   label: graphic.getLayer().label,
-                  graphic: this.map.spatialReference.isWebMercator()
+                  graphic: graphic.geometry.spatialReference.isWebMercator()
                     ? new Graphic(
                         webMercatorUtils.webMercatorToGeographic(
                           graphic.geometry
@@ -358,7 +367,7 @@ define([
                   type: type,
                   id: id,
                   label: graphic.getLayer().label,
-                  graphic: this.map.spatialReference.isWebMercator()
+                  graphic: graphic.geometry.spatialReference.isWebMercator()
                     ? new Graphic(
                         webMercatorUtils.webMercatorToGeographic(
                           graphic.geometry
@@ -1035,6 +1044,10 @@ define([
         if (layerConfig.labelingInfo) {
           //var lc = new LabelClass(layerConfig.labelingInfo);
           layer.setLabelingInfo(layerConfig.labelingInfo);
+        }
+        if (layerConfig.featureReduction) {
+          layer.setFeatureReduction(layerConfig.featureReduction);
+          layer.enableFeatureReduction();
         }
         map.addLayer(layer);
       }));

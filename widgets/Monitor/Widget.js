@@ -64,6 +64,7 @@ define([
     _geoBufferIds: [],
     _monitorLayer: null,
     _warnResult: [],
+    _highlight: true,
     monitorSymbol: new PictureMarkerSymbol(
       "images/mapIcons/JiaoWeiZhiHui/icon_camere_green.png",
       24,
@@ -99,7 +100,10 @@ define([
         "clearMonitorControl",
         lang.hitch(this, this._onTopicHandler_clearMonitorControl)
       );
-
+      topic.subscribe(
+        "MonitorWarn",
+        lang.hitch(this, this._onTopicHandler_MonitorWarn)
+      );
       topic.subscribe(
         "showMonitorArea",
         lang.hitch(this, this._onTopicHandler_showMonitorArea)
@@ -578,6 +582,242 @@ define([
         islimit = true;
       }
       return islimit;
+    },
+
+    _onTopicHandler_MonitorWarn: function(params) {
+      var monitorParams = JSON.parse(params.params);
+      var callback = params.callback;
+      this._warnResult = [];
+      this._geoBuffers = [];
+
+      array.forEach(
+        monitorParams,
+        function(monitor) {
+          var areas = monitor.area;
+
+          areas.sort(function(a, b) {
+            return Number(a.level) - Number(b.level);
+          });
+          var highlight = monitor.highlight;
+          var carpoints = monitor.carpoints;
+          array.forEach(
+            carpoints,
+            function(car) {
+              var point = new Point([car.x, car.y]);
+              var flag = false;
+              var areageometry;
+              if (car.limit == "1" || car.limit == 1) {
+                //限进,1
+                for (var i = 0; i < areas.length; i++) {
+                  var area = areas[i];
+                  areageometry = geometryJsonUtils.fromJson(area.geometry);
+                  var level = area.level;
+                  areageometry.id = area.id;
+                  areageometry.level = level;
+
+                  if (areageometry.contains(point)) {
+                    this._geoBuffers.push({
+                      level: level,
+                      geometry: areageometry,
+                      limit: "1",
+                      id: area.id,
+                      type: area.type,
+                      highlight: highlight != false
+                    });
+                    this.doCarGraphic(areageometry, car, level, 1);
+                    flag = true;
+                    break;
+                  }
+                }
+                if (!flag) {
+                  this.doCarGraphic(areageometry, car, 0, 1);
+                }
+              }
+              if (car.limit == "0" || car.limit == 0) {
+                //限出,0
+                var areatemp;
+                var areageotemp;
+                var leveltemp;
+                for (var i = 0; i < areas.length; i++) {
+                  var area = areas[i];
+                  areageometry = geometryJsonUtils.fromJson(area.geometry);
+                  var level = area.level;
+                  areageometry.id = area.id;
+                  areageometry.level = level;
+
+                  if (!areageometry.contains(point)) {
+                    areatemp = area;
+                    areageotemp = areageometry;
+                    leveltemp = level;
+                  } else {
+                    break;
+                  }
+                }
+                if (areatemp) {
+                  this._geoBuffers.push({
+                    level: leveltemp,
+                    geometry: areageotemp,
+                    limit: "0",
+                    id: areatemp.id,
+                    type: areatemp.type,
+                    highlight: highlight != false
+                  });
+                  this.doCarGraphic(areageotemp, car, 5 - leveltemp, 0);
+                } else {
+                  this.doCarGraphic(areageometry, car, 0, 0); //包含在最里面
+                }
+              }
+            },
+            this
+          );
+        },
+        this
+      );
+
+      this.showWarnArea();
+      if (callback) {
+        callback(this._warnResult);
+      }
+    },
+    doCarGraphic: function(areaGeo, car, level, limit) {
+      var imgUrl = "car_blue.png";
+      var stateHtml = "";
+      var state = "";
+      var areacenter = jimuUtils.getGeometryCenter(areaGeo);
+      switch (level.toString()) {
+        case "1":
+          imgUrl = "car_red.png";
+          state = "红色";
+          stateHtml = "<font  color='red'>红色</font>";
+          break;
+        case "2":
+          imgUrl = "car_orange.png";
+          state = "橙色";
+          stateHtml = "<font  color='orange'>橙色</font>";
+          break;
+        case "3":
+          imgUrl = "car_yellow.png";
+          state = "黄色";
+          stateHtml = "<font  color='yellow'>黄色</font>";
+          break;
+        case "4":
+          imgUrl = "car_green.png";
+          state = "绿色";
+          stateHtml = "<font  color='green'>绿色</font>";
+          break;
+      }
+      var attr = car.fields || {};
+
+      var limitState = limit.toString() == "1" ? "限进" : "限出";
+      attr.limit = limitState;
+      var resultObj = {};
+      for (var str in attr) {
+        resultObj[str] = attr[str];
+      }
+      resultObj.carid = car.id;
+      resultObj.state = state;
+      resultObj.areaid = areaGeo.id;
+      resultObj.level = areaGeo.level;
+      this._warnResult.push(resultObj);
+
+      var carpoint = new Point([car.x, car.y]);
+      var angle = this.doarrowAngle(carpoint, areacenter, limit);
+
+      var picSymbol = new PictureMarkerSymbol(
+        window.path + "images/" + imgUrl,
+        30,
+        30
+      )
+        .setOffset(0, 15)
+        .setAngle(angle);
+      attr.state = stateHtml;
+
+      var carGraphic = new Graphic(carpoint, picSymbol, attr);
+      carGraphic.id = car.id;
+      carGraphic.type = car.type;
+      this.addCar(carGraphic);
+
+      if (level > 0) {
+        topic.publish("showToolTip", {
+          graphic: carGraphic,
+          label: limitState + "车辆",
+          id: car.id,
+          offset: 40
+        });
+      }
+      this.carLayer.add(carGraphic);
+    },
+    addCar: function(car) {
+      for (var i = 0; i < this.carLayer.graphics.length; i++) {
+        var graphic = this.carLayer.graphics[i];
+        if (graphic.id && graphic.id === car.id) {
+          this.carLayer.remove(graphic);
+          topic.publish("clearToolTip", [car.id]);
+          i--;
+        }
+      }
+      this.carLayer.add(car);
+    },
+    showWarnArea: function() {
+      this._geoBuffers.sort(function(a, b) {
+        return a.level - b.level;
+      });
+      for (var i = this._geoBuffers.length - 1; i > -1; i--) {
+        var area = this._geoBuffers[i];
+        var geometry = area.geometry;
+        var level = area.level;
+        if (area.hasOwnProperty("id")) {
+          if (this._showBufferIds.indexOf(area.id) < 0) {
+            this._showBufferIds.push(area.id);
+            var symbol = new SimpleFillSymbol(
+              SimpleFillSymbol.STYLE_SOLID,
+              new SimpleLineSymbol(
+                SimpleLineSymbol.STYLE_SOLID,
+                new Color([255, 255, 255, 0.1]),
+                1
+              ),
+              new Color(this._colors[level - 1])
+            );
+            var bufferGraphic = new Graphic(geometry, symbol);
+            bufferGraphic.id = area.id;
+            this.bufferLayer.add(bufferGraphic);
+            if (area.highlight) {
+              var node = bufferGraphic.getNode();
+              node.setAttribute("data-highlight", "highlight");
+              setTimeout(function() {
+                node.setAttribute("data-highlight", "");
+              }, 5000);
+            }
+          }
+        }
+      }
+    },
+    //车辆角度
+    doarrowAngle: function(p1, p2, limit) {
+      if (p2.x - p1.x == 0) {
+        if (p2.y - p1.y > 0) {
+          return 0;
+        } else {
+          return 180;
+        }
+      }
+      if (p2.y - p1.y == 0) {
+        if (p2.x - p1.x > 0) {
+          return 90;
+        } else {
+          return 270;
+        }
+      }
+      var angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
+      var px = 1,
+        py = 1;
+      if (p2.x > p1.x) {
+        px = -1;
+      }
+      if (p2.y > p1.y) {
+        py = -1;
+      }
+      return ((360 - angle + 90) % 360) - px * py * 15 + 180 * limit + 180; //减去修正值
     }
   });
 });

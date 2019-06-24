@@ -5,6 +5,8 @@ define([
   "dojo/topic",
   "jimu/BaseWidget",
   "esri/graphic",
+  "esri/geometry/geometryEngine",
+  "esri/tasks/GeometryService",
   "esri/geometry/Point",
   "esri/geometry/Polyline",
   "esri/geometry/webMercatorUtils",
@@ -12,6 +14,7 @@ define([
   "esri/symbols/PictureMarkerSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleMarkerSymbol",
+  "esri/symbols/SimpleFillSymbol",
   "esri/symbols/jsonUtils",
   "esri/Color",
   "esri/InfoTemplate"
@@ -22,6 +25,8 @@ define([
   topic,
   BaseWidget,
   Graphic,
+  GeometryEngine,
+  GeometryService,
   Point,
   Polyline,
   webMercatorUtils,
@@ -29,6 +34,7 @@ define([
   PictureMarkerSymbol,
   SimpleLineSymbol,
   SimpleMarkerSymbol,
+  SimpleFillSymbol,
   symbolJsonUtils,
   Color,
   InfoTemplate
@@ -56,6 +62,23 @@ define([
     movingFunction: null,
     //是否循环播放
     loop: null,
+    //是否中点定位.
+    _center: false,
+    //是否层级变化.
+    _zoom: false,
+
+    startPointLayer: null,
+    trackInterval: null,
+
+    repeatCount: 0,
+    currentCount: 0,
+
+    kkPoints: null,
+    kkPointLayer: null,
+    kkInfo: null,
+    kkPointSymbol: null,
+    showKKPoint: false,
+    bufferUnit: GeometryService.UNIT_METER,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -71,6 +94,12 @@ define([
 
       this.trackPointLayer = new GraphicsLayer();
       this.map.addLayer(this.trackPointLayer);
+
+      this.kkPointLayer = new GraphicsLayer();
+      this.map.addLayer(this.kkPointLayer);
+
+      this.startPointLayer = new GraphicsLayer();
+      this.map.addLayer(this.startPointLayer);
 
       this.trackPointSymbol = new SimpleMarkerSymbol(
         SimpleMarkerSymbol.STYLE_CIRCLE,
@@ -93,7 +122,13 @@ define([
         ),
         new Color("red")
       );
-
+      //卡口点位
+      this.kkPointSymbol = new PictureMarkerSymbol(
+        window.path + "images/mapIcons/wlmq/icon_kk.png",
+        30,
+        40
+      );
+      this.kkPointSymbol.yoffset = 20;
       if (this.config.symbol.startPoint) {
         this.startPointSymbol = symbolJsonUtils.fromJson(
           this.config.symbol.startPoint
@@ -160,12 +195,22 @@ define([
         "findFeature",
         lang.hitch(this, this.onTopicHandler_findFeature)
       );
+      topic.subscribe(
+        "drawTrackPlayback",
+        lang.hitch(this, this.onTopicHandler_drawTrackPlayback)
+      );
     },
 
     _clearData: function() {
       if (typeof this.movingFunction !== undefined) {
         clearInterval(this.movingFunction);
       }
+      if (this.trackInterval !== undefined) {
+        clearInterval(this.trackInterval);
+      }
+      this.currentCount = 0;
+      this.startPointLayer.clear();
+      this.kkPointLayer.clear();
       this.trackPointLayer.clear();
       this.trackLineLayer.clear();
       this.movingPointLayer.clear();
@@ -229,11 +274,19 @@ define([
 
       var clearBefore = params.clearBefore !== false;
 
-      if (  clearBefore) {
+      this.repeatCount = params.repeatCount || 0;
+
+      this._center = params.isCenter === true;
+      this._zoom = params.isZoom === true;
+
+      if (clearBefore) {
         this._clearData();
       }
 
       this.trackPoints = this.checkTrackPoints(params.trackPoints);
+
+      this.kkPoints = params.kkPoints || undefined;
+      this.showKKPoint = params.showKKPoint !== false;
 
       //显示起点和终点
       var startPoint = new Point(this.trackPoints[0].x, this.trackPoints[0].y);
@@ -319,11 +372,23 @@ define([
 
     /**播放移动动画*/
     _movePoint: function(startIndex, endIndex) {
+      //卡口坐标,判断当前轨迹点是否在某卡口位置.
+
+      if (startIndex == 0 && endIndex == 1) {
+        if (this.repeatCount > 0 && this.currentCount >= this.repeatCount) {
+          this._clearData();
+          return;
+        }
+        this.currentCount++;
+      }
       var x1 = this.trackPoints[startIndex].x;
       var y1 = this.trackPoints[startIndex].y;
       var x2 = this.trackPoints[endIndex].x;
       var y2 = this.trackPoints[endIndex].y;
-
+      if (this.kkPoints && this.kkPoints.length > 0) {
+        this._currentPointInfo(new Point([x1, y1]));
+      }
+      this._doCenter(x1, y1, x2, y2);
       var distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
       // console.log("distance: " + distance);
 
@@ -331,9 +396,19 @@ define([
       if (distance <= this.stepLength * 2) {
         this.movingPointGraphic.geometry.x = x2;
         this.movingPointGraphic.geometry.y = y2;
-        this.movingPointLayer.refresh();
+
+        this.movingPointLayer.clear();
+        this.movingPointLayer.add(this.movingPointGraphic);
+
         startIndex++;
         endIndex++;
+
+        if (endIndex == this.trackPoints.length) {
+          if (this.kkPoints && this.kkPoints.length > 0) {
+            this._currentPointInfo(this.movingPointGraphic.geometry);
+          }
+        }
+
         if (endIndex < this.trackPoints.length) {
           this._movePoint(startIndex, endIndex);
         }
@@ -345,6 +420,7 @@ define([
           lang.hitch(this, function() {
             // this.startIndex = startIndex;
             // this.endIndex = endIndex;
+
             if (Math.abs(p) === Number.POSITIVE_INFINITY) {
               this.movingPointGraphic.geometry.y += this.stepLength;
             } else {
@@ -371,7 +447,10 @@ define([
                 y2
               );
             }
-            this.movingPointLayer.refresh();
+
+            this.movingPointLayer.clear();
+            this.movingPointLayer.add(this.movingPointGraphic);
+
             if (
               Math.sqrt(
                 Math.pow(x2 - this.movingPointGraphic.geometry.x, 2) +
@@ -381,6 +460,13 @@ define([
               clearInterval(this.movingFunction);
               startIndex++;
               endIndex++;
+
+              if (endIndex == this.trackPoints.length) {
+                if (this.kkPoints && this.kkPoints.length > 0) {
+                  this._currentPointInfo(this.movingPointGraphic.geometry);
+                }
+              }
+
               if (endIndex < this.trackPoints.length) {
                 this._movePoint(startIndex, endIndex);
               } else if (this.loop) {
@@ -415,7 +501,22 @@ define([
         return -tan;
       }
     },
-
+    _doCenter: function(x, y, x2, y2) {
+      var point = new Point([x, y]);
+      var point2 = new Point([x2, y2]);
+      if (this._zoom) {
+        var line = new Polyline();
+        line.addPath([point, point2]);
+        this.map.setExtent(line.getExtent().expand(4));
+      } else {
+        if (this._center) {
+          if (this.map.spatialReference.isWebMercator()) {
+            point2 = webMercatorUtils.geographicToWebMercator(point2);
+          }
+          this.map.centerAt(point2);
+        }
+      }
+    },
     onTopicHandler_stopTrackPlayback: function() {
       this._clearData();
     },
@@ -440,6 +541,182 @@ define([
           this
         );
       }
+    },
+
+    onTopicHandler_drawTrackPlayback: function(params) {
+      params = JSON.parse(params);
+      var showTrackPoints = params.showTrackPoints !== false;
+
+      var clearBefore = params.clearBefore !== false;
+
+      if (clearBefore) {
+        this._clearData();
+      }
+      var defaultInfoTemplate = params.defaultInfoTemplate;
+      this.trackPoints = this.checkTrackPoints(params.trackPoints);
+
+      //显示起点和终点
+      var startPoint = new Point(this.trackPoints[0].x, this.trackPoints[0].y);
+      if (this.map.spatialReference.isWebMercator()) {
+        startPoint = webMercatorUtils.geographicToWebMercator(startPoint);
+      }
+      var startGraphic = new Graphic(startPoint);
+      startGraphic.symbol = this.startPointSymbol;
+      this.startPointLayer.add(startGraphic);
+
+      var index = 1;
+
+      this.trackInterval = setInterval(
+        lang.hitch(this, function() {
+          index++;
+          if (index <= this.trackPoints.length) {
+            var trackpoints = this.trackPoints.slice(0, index);
+            this._drawTrackLine(
+              trackpoints,
+              defaultInfoTemplate,
+              showTrackPoints
+            );
+          } else {
+            var endPoint = new Point(
+              this.trackPoints[this.trackPoints.length - 1].x,
+              this.trackPoints[this.trackPoints.length - 1].y
+            );
+            if (this.map.spatialReference.isWebMercator()) {
+              endPoint = webMercatorUtils.geographicToWebMercator(endPoint);
+            }
+            var endGraphic = new Graphic(endPoint);
+            endGraphic.symbol = this.endPointSymbol;
+            this.startPointLayer.add(endGraphic);
+            clearInterval(this.trackInterval);
+          }
+        }),
+        100
+      );
+    },
+    _drawTrackLine: function(
+      trackPoints,
+      defaultInfoTemplate,
+      showTrackPoints
+    ) {
+      this.trackPointLayer.clear();
+      this.trackLineLayer.clear();
+      //显示轨迹点
+      if (showTrackPoints) {
+        array.forEach(
+          trackPoints,
+          function(trackPoint) {
+            var point = new Point(trackPoint.x, trackPoint.y);
+            if (this.map.spatialReference.isWebMercator()) {
+              point = webMercatorUtils.geographicToWebMercator(point);
+            }
+            var graphic = new Graphic(point);
+            if (trackPoint.id) {
+              graphic.id = trackPoint.id;
+            }
+            graphic.symbol =
+              trackPoint.isHighlight === true
+                ? this.highlightPointSymbol
+                : this.trackPointSymbol;
+            graphic.attributes = trackPoint.fields;
+            if (!defaultInfoTemplate) {
+              graphic.infoTemplate = new InfoTemplate({
+                content: this._getInfoWindowContent(graphic)
+              });
+            } else {
+              var infoTemplate = new InfoTemplate();
+              infoTemplate.setTitle(
+                defaultInfoTemplate.title == ""
+                  ? null
+                  : defaultInfoTemplate.title
+              );
+              infoTemplate.setContent(defaultInfoTemplate.content);
+              graphic.setInfoTemplate(infoTemplate);
+            }
+            this.trackPointLayer.add(graphic);
+            if (trackPoint.isHighlight === true && graphic.getNode()) {
+              graphic.getNode().setAttribute("data-enlarge", "highlight");
+            }
+          },
+          this
+        );
+      }
+
+      //显示轨迹线
+      var path = array.map(trackPoints, function(trackPoint) {
+        return [trackPoint.x, trackPoint.y];
+      });
+      var line = new Polyline([path]);
+      var lineGraphic = new Graphic(line);
+      lineGraphic.symbol = this.trackLineSymbol;
+      this.trackLineLayer.add(lineGraphic);
+    },
+    _currentPointInfo: function(trackPoint) {
+      if (this.kkPoints && this.kkPoints.length > 0) {
+        for (var i = 0; i < this.kkPoints.length; i++) {
+          var kkpoint = new Point([this.kkPoints[i].x, this.kkPoints[i].y]);
+          var fields = this.kkPoints[i].fields || {};
+          var id = this.kkPoints[i].id;
+          if (this.showKKPoint) {
+            var kkGraphic = new Graphic(kkpoint, this.kkPointSymbol, fields);
+            this.kkPointLayer.add(kkGraphic);
+          }
+
+          var kkBuffer = this._doBuffer(kkpoint, 50);
+
+          /*var bufferGraphic = new Graphic(
+            kkBuffer,
+            new SimpleFillSymbol(
+              SimpleFillSymbol.STYLE_SOLID,
+              new SimpleLineSymbol(
+                SimpleLineSymbol.STYLE_SOLID,
+                new Color([255, 105, 180, 0.2]),
+                1
+              ),
+              new Color([255, 105, 180, 0.2])
+            ),
+            fields
+          );
+          this.kkPointLayer.add(bufferGraphic);*/
+
+          if (kkBuffer.contains(trackPoint)) {
+            if (this.kkInfo === null || this.kkInfo.id != id) {
+              var obj = {};
+              for (var str in fields) {
+                obj[str] = fields[str];
+              }
+              this.kkInfo = obj;
+              this.kkInfo.id = id || "";
+              if (
+                typeof showKKInfo !== "undefined" &&
+                showKKInfo instanceof Function
+              ) {
+                showKKInfo(this.kkInfo);
+              }
+            }
+          }
+        }
+      }
+    },
+    //生成缓冲区
+    _doBuffer: function(geometry, bufferDistance) {
+      var bufferPolygon;
+      if (this.map.spatialReference.isWebMercator()) {
+        geometry = webMercatorUtils.geographicToWebMercator(geometry);
+      }
+      if (bufferDistance > 0 && geometry) {
+        //如果是 WGS-84或Web Mercator坐标系，使用geodesicBuffer。其他坐标系使用buffer
+        var bufferPolygon =
+          this.map.spatialReference.wkid === 4326
+            ? GeometryEngine.geodesicBuffer(
+                geometry,
+                bufferDistance,
+                this.bufferUnit
+              )
+            : GeometryEngine.buffer(geometry, bufferDistance, this.bufferUnit);
+      } else {
+        bufferPolygon = geometry;
+      }
+      return bufferPolygon;
     }
   });
 });

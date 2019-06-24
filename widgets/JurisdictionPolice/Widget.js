@@ -15,10 +15,12 @@ define([
   "dojo/_base/window",
   "jimu/BaseWidget",
   "esri/graphic",
+  "esri/layers/GraphicsLayer",
   "esri/layers/FeatureLayer",
   "esri/layers/LabelClass",
   "esri/symbols/TextSymbol",
   "esri/symbols/SimpleFillSymbol",
+  "esri/symbols/SimpleLineSymbol",
   "esri/renderers/SimpleRenderer"
 ], function(
   declare,
@@ -32,18 +34,32 @@ define([
   win,
   BaseWidget,
   Graphic,
+  GraphicsLayer,
   FeatureLayer,
   LabelClass,
   TextSymbol,
   SimpleFillSymbol,
+  SimpleLineSymbol,
   SimpleRenderer
 ) {
+  var lineColor = {
+    ROAD: [255, 78, 65],
+    "NON-ROAD": [90, 190, 242],
+    RIVER: [90, 190, 242]
+  };
+  var lineStyle = {
+    CONTAINED: SimpleLineSymbol.STYLE_SOLID,
+    "NOT-CONTAINED": SimpleLineSymbol.STYLE_DASH
+  };
+
   return declare([BaseWidget], {
     labelPointGraphics: [],
+    lineGraphics: [],
     policeCountDivs: [],
     districtLayer: null,
     jurisdictionLayer: null,
     jurisdictionLabelLayer: null,
+    jurisdictionLineLayer: null,
     areaLayer: null,
 
     postCreate: function() {
@@ -219,7 +235,29 @@ define([
                   }
                 });
                 this.jurisdictionLayer.setRenderer(renderer);
+                this.jurisdictionLayer.on(
+                  "click",
+                  lang.hitch(this, this._onJurisdictionLayer_click)
+                );
                 this.map.addLayer(this.jurisdictionLayer, 0);
+              })
+            );
+          }
+        })
+      );
+
+      fetch(
+        window.path + "configs/JurisdictionPolice/Jurisdiction_Line.json"
+      ).then(
+        lang.hitch(this, function(response) {
+          if (response.ok) {
+            response.json().then(
+              lang.hitch(this, function(data) {
+                this.lineGraphics = data.features.map(function(feature) {
+                  return new Graphic(feature);
+                });
+                this.jurisdictionLineLayer = new GraphicsLayer();
+                this.map.addLayer(this.jurisdictionLineLayer);
               })
             );
           }
@@ -289,6 +327,44 @@ define([
       }, this);
     },
 
+    _onJurisdictionLayer_click: function(event) {
+      event.stopPropagation();
+
+      this.jurisdictionLayer.setVisibility(false);
+
+      var signal = this.map.on(
+        "click",
+        lang.hitch(this, function() {
+          this.jurisdictionLayer.setVisibility(true);
+          this.jurisdictionLineLayer.clear();
+          signal.remove();
+        })
+      );
+
+      var id = event.graphic.attributes["FEATUREID"];
+      //查找这个辖区的边界
+      this.lineGraphics.forEach(function(lineGraphic) {
+        var ids = lineGraphic.attributes["BelongTo"];
+        ids = ids.split(",");
+        if (ids.indexOf(id) >= 0) {
+          //包含道路边界--红色实线
+          //不包含道路边界--红色虚线
+          //沿河堤--蓝色实线
+          //无名小路--蓝色虚线
+          var symbol = new SimpleLineSymbol(
+            lineGraphic.attributes["ContainedIn"] === id ||
+            lineGraphic.attributes["IsRoad"].toUpperCase() === "RIVER"
+              ? lineStyle["CONTAINED"]
+              : lineStyle["NOT-CONTAINED"],
+            lineColor[lineGraphic.attributes["IsRoad"].toUpperCase()],
+            4
+          );
+          lineGraphic.setSymbol(symbol);
+          this.jurisdictionLineLayer.add(lineGraphic);
+        }
+      }, this);
+    },
+
     onTopicHandler_showJurisdiction: function() {
       this.jurisdictionLayer.setVisibility(true);
     },
@@ -304,7 +380,6 @@ define([
     onTopicHandler_hideArea: function() {
       this.areaLayer.setVisibility(false);
     },
-
 
     onTopicHandler_showPoliceCount: function(params) {
       this.jurisdictionLayer.showLabels = false;

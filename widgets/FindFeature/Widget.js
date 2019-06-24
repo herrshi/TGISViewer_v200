@@ -71,14 +71,14 @@ define([
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          [0, 255, 255, 255],
+          [255, 0, 0, 255],
           3
         ),
         new Color([0, 0, 0, 0])
       );
       this.defaultHighlightSymbol = new SimpleLineSymbol(
         SimpleLineSymbol.STYLE_SOLID,
-        new Color([0, 255, 255, 255]),
+        new Color([255, 0, 0, 255]),
         4
       );
 
