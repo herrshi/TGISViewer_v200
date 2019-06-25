@@ -356,7 +356,7 @@
 
 <script type="text/javascript">
   var map = TMap.createNew({
-    apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
+    apiUrl: "http://localhost:8090/arcgis_js_api/",
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
@@ -655,7 +655,9 @@
 
   function Test2ClickHandler() {
     // map.routeSearch('{"startPoint":"121.418,31.157","endPoint":"121.411,31.169", "clearPrevResults": false}');
-    map.hideDynamicRendererLayer();
+    map.hideDynamicRendererLayer({
+      name: "城际公路"
+    });
 
     // map.stopTrackPlayback();
 //      map.addSwipeLayer({layerType: "reference", layer: {label: "db2", url: "http://172.16.20.2:6080/arcgis/rest/services/CADServices/p20170725111146_c20170725111146/MapServer"}})

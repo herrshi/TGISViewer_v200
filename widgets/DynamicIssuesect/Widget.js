@@ -6,6 +6,7 @@ define([
   "dojo/promise/all",
   "jimu/BaseWidget",
   "esri/graphic",
+  "esri/InfoTemplate",
   "esri/layers/GraphicsLayer",
   "esri/renderers/jsonUtils"
 ], function(
@@ -16,6 +17,7 @@ define([
   all,
   BaseWidget,
   Graphic,
+  InfoTemplate,
   GraphicsLayer,
   rendererJsonUtils
 ) {
@@ -30,18 +32,20 @@ define([
         lang.hitch(this, this.onTopicHandler_showDynamicRendererLayer)
       );
 
-      topic.subscribe("hideDynamicRendererLayer",
-        lang.hitch(this, this.onTopicHandler_hideDynamicRendererLayer));
+      topic.subscribe(
+        "hideDynamicRendererLayer",
+        lang.hitch(this, this.onTopicHandler_hideDynamicRendererLayer)
+      );
 
-      this.map.on("zoom-end", () => {
-        const scale = this.map.getScale();
-        console.log(this.map.getScale());
-        this._rendererLayers.forEach(layer => {
-          if (layer.isVisibleAtScale(scale)) {
-            console.log(layer.id);
-          }
-        });
-      });
+      // this.map.on("zoom-end", () => {
+      //   const scale = this.map.getScale();
+      //   console.log(this.map.getScale());
+      //   this._rendererLayers.forEach(layer => {
+      //     if (layer.isVisibleAtScale(scale)) {
+      //       console.log(layer.id);
+      //     }
+      //   });
+      // });
 
       this._readLayerConfig();
     },
@@ -76,7 +80,8 @@ define([
         renderer: layerRenderer,
         idField,
         minScale,
-        maxScale
+        maxScale,
+        infoTemplate
       } = layerConfig;
 
       const graphicsLayer = new GraphicsLayer();
@@ -93,12 +98,32 @@ define([
           : defaultRenderer
       );
 
+      let info;
+      if (infoTemplate) {
+        info = new InfoTemplate(infoTemplate);
+
+        graphicsLayer.on("mouse-over", event => {
+          const graphic = event.graphic;
+          this.map.infoWindow.setContent(graphic.getContent());
+          this.map.infoWindow.setTitle(graphic.getTitle());
+          this.map.infoWindow.show(
+            event.mapPoint,
+            this.map.getInfoWindowAnchor(event.screenPoint)
+          );
+        });
+        graphicsLayer.on("mouse-out", () => {
+          this.map.infoWindow.hide();
+        });
+      }
+
       features.forEach(feature => {
         const graphic = new Graphic(feature);
         if (idField) {
           graphic.id = graphic.attributes[idField];
         }
-        graphic.attributes.data = "free";
+        if (info) {
+          graphic.setInfoTemplate(info);
+        }
         graphicsLayer.add(graphic);
       });
       this.map.addLayer(graphicsLayer);
@@ -150,8 +175,12 @@ define([
       this._setLayerData(params);
     },
 
-    onTopicHandler_hideDynamicRendererLayer: function () {
-
+    onTopicHandler_hideDynamicRendererLayer: function(params) {
+      this._rendererLayers.forEach(layer => {
+        if (!params || params.name === layer.groupName) {
+          layer.setVisibility(false);
+        }
+      });
     }
   });
 });
