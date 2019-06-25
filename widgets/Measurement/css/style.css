@@ -1,0 +1,35 @@
+.jimu-widget-Measurement {
+  margin: auto;
+  padding: 0;
+  /*text-align: center;*/
+  color: #c3efff;
+  cursor: move;
+}
+
+.jimu-widget-Measurement .opacity-0 {
+  opacity: 0.3;
+}
+
+.jimu-widget-Measurement .opacity-1 {
+  opacity: 1;
+}
+
+.jimu-widget-Measurement .show {
+  display: block;
+}
+
+.jimu-widget-Measurement .hide {
+  display: none;
+}
+
+.jimu-widget-Measurement .cursorImg {
+  width: 20px;
+  height: 30px;
+  background: url("images/cursor16x24.png") no-repeat center center;
+}
+
+.jimu-widget-Measurement .pinImg {
+  width: 20px;
+  height: 30px;
+  background: url("images/esriGreenPin16x26.png") no-repeat center center;
+}

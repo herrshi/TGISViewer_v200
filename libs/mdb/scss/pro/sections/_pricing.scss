@@ -65,11 +65,6 @@
         border-color: $pricing-card-purple-striped-li-border-color;
       }
     }
-    &.darker-striped {
-      li {
-        border-bottom: 1px solid $pricing-card-striped-li-border-bottom-color-darker;
-      }
-    }
   }
   .card-background {
     background-color: $pricing-card-dark-bgc;
@@ -84,7 +79,7 @@
     height: $pricing-card-circle-height;
     width: $pricing-card-circle-width;
     border-radius: $pricing-card-circle-border-radius;
-    .fas, .fab, .far {
+    .fa {
       font-size: $pricing-card-circle-icon-font-size;
     }
   }

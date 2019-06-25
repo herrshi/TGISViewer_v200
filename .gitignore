@@ -32,6 +32,7 @@
 .DS_Store
 ehthumbs.db 
 Icon? 
-Thumbs.db
+Thumbs.db 
 
-/.idea
+*/.idea/
+.idea/

@@ -1,0 +1,150 @@
+<div class="box8w corner_full_gradual hide">
+  <div id="measurementParam" class="box8w">
+    <div class="page-box-title">
+      <div class="pull-right" style="cursor: pointer; padding-left: 0.5rem; padding-top: 0.1rem"
+           data-dojo-attach-event="onclick:onBtnClose_click">
+        <i class="fa fa-close"></i>
+      </div>
+      <i class="iconone icon-one-panel"></i>
+      <font> 测量</font>
+    </div>
+
+    <div class="marginMinus20">
+      <div class="nav_tab">
+        <ul id="listMeasureType">
+          <li class="active" style="margin-right: 0.2rem" data-drawType="POLYGON">
+            <div class="bevel"></div>
+            面积
+          </li>
+          <li style="margin-right: 0.2rem" data-drawType="POLYLINE">
+            <div class="bevel"></div>
+            长度
+          </li>
+          <li style="margin-right: 0.2rem" data-drawType="POINT">
+            <div class="bevel"></div>
+            位置
+          </li>
+        </ul>
+        <div style="clear:both"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="measurementResult" class="box8w search_box" style="padding: 0.5rem">
+    <div id="polygonResult">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label" style="font-size: 0.25rem">周长</label>
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-sm-4">
+                <label id="polygonLength" class="control-label" style="font-size: 0.3rem; background-color: transparent;"></label>
+              </div>
+              <div class="col-sm-8">
+                <div class="has-feedback">
+                  <select id="polygonLengthUnit" class="selectpicker"
+                          data-dojo-attach-event="onchange:onPolygonLengthUnit_change">
+                    <option value="kilometers" data-converter="1">公里</option>
+                    <option value="meters" data-converter="0.001">米</option>
+                    <option value="miles" data-converter="1.609344">英里</option>
+                    <option value="nautical-miles" data-converter="1.852">海里</option>
+                    <option value="yards" data-converter="0.0009144">码</option>
+                    <option value="feet" data-converter="0.0003048">英尺</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label" style="font-size: 0.25rem">面积</label>
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-sm-4">
+                <label id="polygonArea" class="control-label" style="font-size: 0.3rem; background-color: transparent;"></label>
+              </div>
+
+              <div class="col-sm-8">
+                <div class="has-feedback">
+                  <select id="polygonAreaUnit" class="selectpicker"
+                          data-dojo-attach-event="onchange:onPolygonAreaUnit_change">
+                    <option value="square-kilometers" data-converter="1">平方公里</option>
+                    <option value="square-meters" data-converter="0.000001">平方米</option>
+                    <option value="square-meters" data-converter="0.00066666667">市亩</option>
+                    <option value="ares" data-converter="0.0001">公亩</option>
+                    <option value="acres" data-converter="0.0040468564">英亩</option>
+                    <option value="square-miles" data-converter="2.5899881">平方英里</option>
+                    <option value="hectares" data-converter="0.01">公顷</option>
+                    <option value="square-yards" data-converter="0.00000083612736">平方码</option>
+                    <option value="square-feet" data-converter="0.00000009290304">平方英尺</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="polylineResult" class="hide">
+      <form class="form-horizontal">
+        <div class="form-group">
+          <label class="col-sm-2 control-label" style="font-size: 0.25rem">长度</label>
+          <div class="col-sm-10">
+            <div class="row">
+              <div class="col-sm-4">
+                <label id="polylineLength" class="control-label" style="font-size: 0.3rem; background-color: transparent;"></label>
+              </div>
+              <div class="col-sm-8">
+                <div class="has-feedback">
+                  <select id="polylineLengthUnit" class="selectpicker"
+                          data-dojo-attach-event="onchange:onPolylineLengthUnit_change">
+                    <option value="kilometers" data-converter="1">公里</option>
+                    <option value="meters" data-converter="0.001">米</option>
+                    <option value="miles" data-converter="1.609344">英里</option>
+                    <option value="nautical-miles" data-converter="1.852">海里</option>
+                    <option value="yards" data-converter="0.0009144">码</option>
+                    <option value="feet" data-converter="0.0003048">英尺</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <div id="pointResult" class="hide">
+
+      <table class="table_normal">
+        <thead>
+        <tr>
+          <td colspan="2" style="width: 50%; text-align: end">经度</td>
+          <td style="width: 50%; text-align: end">纬度</td>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr>
+          <td>
+            <div class="cursorImg"></div>
+          </td>
+          <td id="cursorCoordinateX" style="text-align: end; font-size: 0.3rem"></td>
+          <td id="cursorCoordinateY" style="text-align: end; font-size: 0.3rem"></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="pinImg"></div>
+          </td>
+          <td id="pinCoordinateX" style="text-align: end; width: 48%; font-size: 0.3rem;"></td>
+          <td id="pinCoordinateY" style="text-align: end; width: 48%; font-size: 0.3rem;"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

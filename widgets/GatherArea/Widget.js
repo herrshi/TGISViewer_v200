@@ -52,7 +52,7 @@ define([
   InfoTemplate
 ) {
   return declare([BaseWidget], {
-    name: "cluster",
+    name: "GatherArea",
     gatherLayer: [],
     pointSymbol: null,
     arrowSymbol: null,
@@ -66,43 +66,43 @@ define([
       this.map.addLayer(this.gatherLayer);
       this.pointSymbol = new SimpleMarkerSymbol(
         SimpleMarkerSymbol.STYLE_CIRCLE,
-        10,
+        8,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          new Color([255, 0, 0.1]),
-          1
+          new Color([255, 0, 0]),
+          4
         ),
-        new Color([255, 0, 0, 1])
+        new Color([255, 0, 0, 0.2])
       );
       //this.arrowSymbol =
       this.carPointSymbol = new PictureMarkerSymbol(
-        "images/car_blue.png",
-        30,
-        30
+        window.path + "images/car_blue.png",
+        15,
+        15
       ).setOffset(0, 15);
       this.dashSymbol = new SimpleLineSymbol(
         SimpleLineSymbol.STYLE_DASH,
-        new Color([255, 0, 0, 1]),
+        new Color([255, 0, 0, 0.5]),
         3
       );
       this.carSymbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          new Color([128, 128, 128, 1]),
+          new Color([255, 105, 180, 0.2]),
           1
         ),
-        new Color([213, 231, 237, 0.5])
+        new Color([255, 105, 180, 0.2])
       );
 
       this.areaSymbol = new SimpleFillSymbol(
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_DASH,
-          new Color([255, 0, 0, 1]),
-          1
+          new Color([220, 20, 60, 0.5]),
+          4
         ),
-        new Color([255, 0, 0, 0.5])
+        new Color([220, 20, 60, 0.5])
       );
       topic.subscribe(
         "addGatherArea",
@@ -139,10 +139,8 @@ define([
 
             var extent = areageometry.getExtent();
 
-            //this.addGraphics(extent, "area", id); //预计聚集面
-            var perx = extent.xmax - extent.xmin;
-            var pery = extent.ymax - extent.ymin;
-            var per = (perx + pery) / 4.5;
+            var radius = (extent.xmax - extent.xmin) / 2;
+
             array.forEach(
               carareas,
               function(carcarea) {
@@ -163,14 +161,6 @@ define([
                 var carpoints = carcarea.carpoints;
                 this.addGraphics(cargeometry, "cararea", id); //车辆聚集面
 
-                array.forEach(
-                  carpoints,
-                  function(car) {
-                    var point = new Point([car.x, car.y]);
-                    this.addGraphics(point, "carpoint", id); //车辆点
-                  },
-                  this
-                );
                 var line = new Polyline();
                 var px = 1,
                   py = 1;
@@ -180,19 +170,35 @@ define([
                 if (areaPoint.y > centerPoint.y) {
                   py = -1;
                 }
+                var len = this.getLength(areaPoint, centerPoint);
+
+                var per = radius / len;
+                if (per > 1) {
+                  per = 0.8;
+                } else {
+                  per = per * 1.1;
+                }
+                var perx = (centerPoint.x - areaPoint.x) * per;
+                var pery = (centerPoint.y - areaPoint.y) * per;
                 var arrowPoint = new Point([
-                  areaPoint.x + per * px,
-                  areaPoint.y + per * py
+                  areaPoint.x + perx,
+                  areaPoint.y + pery
                 ]);
+                //var path = this.doBezierCurve(centerPoint, arrowPoint);
                 line.addPath([centerPoint, arrowPoint]);
-                var angle =
-                  Math.atan2(
-                    arrowPoint.y - centerPoint.y,
-                    arrowPoint.x - centerPoint.x
-                  ) *
-                  (180 / Math.PI);
-                arrowPoint.angle = ((360 - angle + 90) % 360) - px * py * 5;
+                //line.addPath(path);
+                var angle = this.doarrowAngle(centerPoint, arrowPoint);
+                arrowPoint.angle = angle;
                 console.log(angle);
+                array.forEach(
+                  carpoints,
+                  function(car) {
+                    var point = new Point([car.x, car.y]);
+                    point.angle = Math.random()*360;
+                    this.addGraphics(point, "carpoint", id); //车辆点
+                  },
+                  this
+                );
                 this.addGraphics(line, "polyline", id); //箭头线
                 this.addGraphics(centerPoint, "point", id); //箭头点
                 this.addGraphics(arrowPoint, "arrowpoint", id); //箭头三角
@@ -206,6 +212,7 @@ define([
     },
     addGraphics: function(geometry, type, id) {
       var symbol;
+      var gtype = "";
       switch (type) {
         case "point":
           symbol = this.pointSymbol;
@@ -219,26 +226,35 @@ define([
               new Color([255, 0, 0.1]),
               1
             ),
-            new Color([255, 0, 0, 1])
+            new Color([255, 0, 0, 0.5])
           )
             .setPath("M0 16 L 10 16 L5 0z")
             .setAngle(geometry.angle);
           break;
         case "carpoint":
-          symbol = this.carPointSymbol;
+          symbol = new PictureMarkerSymbol(
+            window.path + "images/car_blue.png",
+            15,
+            15
+          )
+            .setOffset(0, 15)
+            .setAngle(geometry.angle);
           break;
         case "polyline":
           symbol = this.dashSymbol;
           break;
         case "area":
           symbol = this.areaSymbol;
+          gtype = "GatherArea";
           break;
         case "cararea":
           symbol = this.carSymbol;
+          gtype = "CarArea";
           break;
       }
       var graphic = new Graphic(geometry, symbol, {});
       graphic.id = id;
+      graphic.type = gtype;
       this.gatherLayer.add(graphic);
     },
     onTopicHandler_deleteGatherArea: function(params) {
@@ -260,6 +276,83 @@ define([
       } else {
         this.gatherLayer.clear();
       }
+    },
+    //p0为开始点,p2为终点,带箭头,画贝塞尔曲线
+    doBezierCurve: function(p0, p2) {
+      //var p1 = new Point([p0.x, p2.y]); //[p2.x,p0.y]
+      var raddir = -1; //弧度方向1,向上;-1向下
+      var rad = 4; //弧度
+      var px = 1,
+        py = 1;
+      if (p2.x > p0.x) {
+        px = -1;
+      }
+      if (p2.y > p0.y) {
+        py = -1;
+      }
+      var up = px * raddir; //弧度向上px*py*dir,一致方向;px  * raddir根据x来
+      console.log(px * py);
+      var path = [];
+      var p1;
+      var pcenter = new Point([(p0.x + p2.x) / 2, (p0.y + p2.y) / 2]);
+
+      if (p2.x - p0.x == 0) {
+        p1 = new Point([p0.x - (up * Math.abs(p2.y - p0.y)) / 2, pcenter.y]);
+      } else if (p2.y - p0.y == 0) {
+        p1 = new Point([pcenter.x, p0.y + (up * Math.abs(p2.x - p0.x)) / 2]);
+      } else {
+        var k = -1 / ((p2.y - p0.y) / (p2.x - p0.x));
+        var b = pcenter.y - k * pcenter.x;
+        var x = pcenter.x - (up * Math.abs(pcenter.x - p0.x)) / rad;
+        p1 = new Point([x, k * x + b]);
+      }
+
+      p2.angle = this.doarrowAngle(p1, p2);
+
+      path.push(p0);
+      for (var i = 1; i < 100; i++) {
+        var t = i / 100;
+        var x =
+          (1 - t) * (1 - t) * p0.x + 2 * t * (1 - t) * p1.x + t * t * p2.x;
+        var y =
+          (1 - t) * (1 - t) * p0.y + 2 * t * (1 - t) * p1.y + t * t * p2.y;
+        var p = new Point([x, y]);
+        path.push(p);
+      }
+      path.push(p2);
+      return path;
+    },
+    //箭头角度
+    doarrowAngle: function(p1, p2) {
+      if (p2.x - p1.x == 0) {
+        if (p2.y - p1.y > 0) {
+          return 0;
+        } else {
+          return 180;
+        }
+      }
+      if (p2.y - p1.y == 0) {
+        if (p2.x - p1.x > 0) {
+          return 90;
+        } else {
+          return 270;
+        }
+      }
+      var angle = Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI);
+      var px = 1,
+        py = 1;
+      if (p2.x > p1.x) {
+        px = -1;
+      }
+      if (p2.y > p1.y) {
+        py = -1;
+      }
+      return ((360 - angle + 90) % 360) - px * py * 5; //减去修正值
+    },
+    getLength: function(p1, p2) {
+      return Math.sqrt(
+        (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y)
+      );
     }
   });
 });

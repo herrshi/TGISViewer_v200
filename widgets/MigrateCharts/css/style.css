@@ -1,0 +1,18 @@
+#migratechart_layer  path[stroke="rgb(255, 255, 255)"][fill="none"]{
+    stroke-dasharray: 100;
+    stroke-dashoffset: 1000;
+    animation: dash 5s linear infinite;
+}
+#migratechart_layer  path[fill^="rgb"]{
+}
+@keyframes dash {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+.horse-run {
+
+}
+@keyframes move {
+    100% { offset-distance: 100%;}
+}

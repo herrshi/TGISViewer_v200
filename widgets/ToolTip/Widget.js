@@ -745,14 +745,24 @@ define([
         }
       }
     },
-    clear: function() {
-      $(".MapText").remove();
-      for (var i = 0; i < this._tooltipNodes.length; i++) {
-        var node = this._tooltipNodes[i].node;
-        domConstruct.destroy(node);
+    clear: function(params) {
+      //$(".MapText").remove();
+      var ids = params || [];
+      if (ids.length > 0) {
+        for (var i = 0; i < this._tooltipNodes.length; i++) {
+          var node = this._tooltipNodes[i].node;
+          if (ids.indexOf(node.id) > -1) {
+            domConstruct.destroy(node);
+          }
+        }
+      } else {
+        for (var i = 0; i < this._tooltipNodes.length; i++) {
+          var node = this._tooltipNodes[i].node;
+          domConstruct.destroy(node);
+        }
+        this._node = null;
+        this._tooltipNodes = [];
       }
-      this._node = null;
-      this._tooltipNodes = [];
     },
     getScales: function(id, scales) {
       var scale = 0;
@@ -783,10 +793,19 @@ define([
 
     _onTopicHandler_showToolTip: function(param) {
       var graphic = param.graphic;
+      var geometry = param.geometry;
       var context = param.context;
       var label = param.label;
+      var id = param.id;
+      var tipClass = param.tipClass || "TextDiv";
+
       this._place = "top";
-      this._mapPoint = this.getCenter(graphic);
+      if (graphic) {
+        this._mapPoint = this.getCenter(graphic);
+      }
+      if (geometry) {
+        this._mapPoint = new Point([geometry.x, geometry.y]);
+      }
       this._offset = param.offset || 30;
       //this._first = true;
       for (var i = 0; i < this.config.tooltips.length; i++) {
@@ -803,11 +822,13 @@ define([
         }
       }
       var contextObj = {};
-      for (var field in graphic.attributes) {
-        contextObj[field] =
-          graphic.attributes[field] == null ? "" : graphic.attributes[field];
+      if (graphic) {
+        for (var field in graphic.attributes) {
+          contextObj[field] =
+            graphic.attributes[field] == null ? "" : graphic.attributes[field];
+        }
       }
-      var text = "";
+      var text = context;
       try {
         text = string.substitute(context, contextObj);
       } catch (e) {
@@ -815,12 +836,23 @@ define([
       }
 
       var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
+      var idStr = "";
+      if (id) {
+        idStr = "id='" + id + "'";
+      }
       if (text.toString().indexOf("div") > -1) {
-        this._node = text;
+        this._node = domConstruct.toDom(text);
+        if (id) {
+          this._node.id = id;
+        }
       } else {
         text = text.replace(/\n/g, "<br/>");
         this._node = domConstruct.toDom(
-          "<div class='MapText TextDiv'><span>" +
+          "<div " +
+            idStr +
+            " class='MapText " +
+            tipClass +
+            "'><span>" +
             text +
             "</span><div class='" +
             divClass +
@@ -829,8 +861,8 @@ define([
       }
       this.init();
     },
-    _onTopicHandler_clearToolTip: function() {
-      this.clear();
+    _onTopicHandler_clearToolTip: function(params) {
+      this.clear(params);
     }
   });
 });

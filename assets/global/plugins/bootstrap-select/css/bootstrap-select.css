@@ -33,7 +33,8 @@ select.selectpicker {
   height: 100% !important;
   padding: 0 !important;
   opacity: 0 !important;
-  border: none;
+  border: none; 
+
 }
 .bootstrap-select > select.mobile-device {
   top: 0;
@@ -44,18 +45,18 @@ select.selectpicker {
 }
 .has-error .bootstrap-select .dropdown-toggle,
 .error .bootstrap-select .dropdown-toggle {
-  border-color: #b94a48;
+  border-color:none;
 }
 .bootstrap-select.fit-width {
   width: auto !important;
 }
 .bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
-  width: 220px;
+  width: 100%;
 }
 .bootstrap-select .dropdown-toggle:focus {
-  /*outline: thin dotted #333333 !important;
+  outline: thin dotted #333333 !important;
   outline: 5px auto -webkit-focus-ring-color !important;
-  outline-offset: -2px;*/
+  outline-offset: -2px;
 }
 .bootstrap-select.form-control {
   margin-bottom: 0;
@@ -138,6 +139,8 @@ select.selectpicker {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
+		  background:rgba(10, 90, 140, 0.9);
+		  border-color:rgba(11, 110, 149, 0.9);
 }
 .bootstrap-select.btn-group .dropdown-menu.inner {
   position: static;
@@ -148,6 +151,7 @@ select.selectpicker {
   border-radius: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
+		  background:none;
 }
 .bootstrap-select.btn-group .dropdown-menu li {
   position: relative;
@@ -164,6 +168,21 @@ select.selectpicker {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+		  color:#fff;background:rgba(12, 72, 106, 0);
+      line-height:1.6;
+      text-align:left;
+      padding-left:0.25rem;
+		 
+}
+
+.bootstrap-select.btn-group .dropdown-menu li a :hover{
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+		  color:#fff;background:rgba(12, 72, 106, 0.9);
+		 
 }
 .bootstrap-select.btn-group .dropdown-menu li a.opt {
   position: relative;
@@ -185,8 +204,8 @@ select.selectpicker {
   margin: 0 2%;
   min-height: 26px;
   padding: 3px 5px;
-  background: #f5f5f5;
-  border: 1px solid #e3e3e3;
+  background: #145759;
+  border: 2px solid #145759;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
   pointer-events: none;
@@ -194,6 +213,7 @@ select.selectpicker {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
+		  
 }
 .bootstrap-select.btn-group .no-results {
   padding: 3px;
@@ -219,7 +239,7 @@ select.selectpicker {
   margin-right: 34px;
 }
 .bootstrap-select.show-menu-arrow.open > .dropdown-toggle {
-  z-index: 1061;
+  z-index: 1061;background:rgba(12, 72, 106, 0.9);
 }
 .bootstrap-select.show-menu-arrow .dropdown-toggle:before {
   content: '';
@@ -229,7 +249,7 @@ select.selectpicker {
   position: absolute;
   bottom: -4px;
   left: 9px;
-  display: none;
+  display: none;background:rgba(12, 72, 106, 0.9);
 }
 .bootstrap-select.show-menu-arrow .dropdown-toggle:after {
   content: '';
@@ -239,23 +259,23 @@ select.selectpicker {
   position: absolute;
   bottom: -4px;
   left: 10px;
-  display: none;
+  display: none;background:rgba(12, 72, 106, 0.9);
 }
 .bootstrap-select.show-menu-arrow.dropup .dropdown-toggle:before {
   bottom: auto;
   top: -3px;
   border-top: 7px solid rgba(204, 204, 204, 0.2);
-  border-bottom: 0;
+  border-bottom: 0;background:rgba(12, 72, 106, 0.9);
 }
 .bootstrap-select.show-menu-arrow.dropup .dropdown-toggle:after {
   bottom: auto;
   top: -3px;
   border-top: 6px solid white;
-  border-bottom: 0;
+  border-bottom: 0;background:rgba(12, 72, 106, 0.9);
 }
 .bootstrap-select.show-menu-arrow.pull-right .dropdown-toggle:before {
   right: 12px;
-  left: auto;
+  left: auto;background:rgba(12, 72, 106, 0.9);
 }
 .bootstrap-select.show-menu-arrow.pull-right .dropdown-toggle:after {
   right: 13px;
@@ -297,5 +317,75 @@ select.selectpicker {
   width: 100%;
   float: none;
 }
-input,button,select,textarea{outline:none;}
 /*# sourceMappingURL=bootstrap-select.css.map */
+
+
+
+.form-control-blue:focus {
+	border-color:#00c0ff;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(147, 161, 187, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(147, 161, 187, 0.6);
+}
+	
+
+
+
+.bootstrap-select .btn {	border-color:#00c0ff;}
+
+
+.btn-default{
+	color: #65cffb;
+	background-color: #005683;
+	border: 1px solid #00c0ff;
+	border-radius: 0px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+	-o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+	transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    background-color:#122a30\9; }
+
+  .btn-default:focus, .btn-default.focus {
+    color: #65cffb;
+    background-color: #005683;
+    border-color: #00c0ff; }
+  .btn-default:hover {
+    color: #65cffb;
+    background-color: #005683;
+    border-color:#00c0ff; }
+  .btn-default:active, .btn-default.active,
+  .open > .btn-default.dropdown-toggle {
+    color: #65cffb;
+    background-color: #005683;
+    border-color: #00c0ff; }
+    .btn-default:active:hover, .btn-default:active:focus, .btn-default:active.focus, .btn-default.active:hover, .btn-default.active:focus, .btn-default.active.focus,
+    .open > .btn-default.dropdown-toggle:hover,
+    .open > .btn-default.dropdown-toggle:focus,
+    .open > .btn-default.dropdown-toggle.focus {
+      color: #65cffb;
+      background-color:#005683;
+      border-color: #00c0ff; }
+  .btn-default:active, .btn-default.active,
+  .open > .btn-default.dropdown-toggle {
+    background-image: none; }
+  .btn-default.disabled:hover, .btn-default.disabled:focus, .btn-default.disabled.focus, .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled].focus,
+  fieldset[disabled] .btn-default:hover,
+  fieldset[disabled] .btn-default:focus,
+  fieldset[disabled] .btn-default.focus {
+    background-color: rgba(17,69,65,.8);
+    border-color:#00c0ff; }
+  .btn-default .badge {
+    color: #fff;
+    background-color: rgba(17,69,65,.8);}
+
+
+.bootstrap-select.btn-group .dropdown-menu li a:hover {background:rgba(6, 126, 182, 0.8);}
+
+
+/*去除选择框的outline*/
+.bootstrap-select .dropdown-toggle:focus{outline:none !important;}
+a:focus {outline:none !important;}
+/*去除选项的outline*/
+
+

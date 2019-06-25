@@ -25,21 +25,87 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_base_PurplishBlue/MapServer",
         "type": "tiled",
         "visible": true
       }
     ],
     "operationallayers": [
       {
-        "label": "SXJ",
-        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/0",
+        "label": "行政区划",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_xzqh/MapServer/0",
         "type": "feature",
-        "visible": true,
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSNull",
+            "outline": {
+              "color": [115, 223, 255, 255],
+              "width": 2
+            }
+          }
+        }
+      },
+      {
+        "label": "路况",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_fbd/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "refreshInterval": 2,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "STATE",
+          "defaultSymbol": {
+            "type": "esriSLS",
+            "color": [178, 178, 178, 255],
+            "width": 2
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSLS",
+                "color": [102, 211, 124, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSLS",
+                "color": [250, 207, 51, 255],
+                "width": 2
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSLS",
+                "color": [222, 2, 0, 255],
+                "width": 4
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "SXJ",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/0",
+        "type": "feature",
+        "visible": false,
         "outFields": ["*"],
         "infoTemplate": {
           "title": "${DEVICEID}",
-          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+          "content":
+            "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
         },
         "renderer": {
           "type": "simple",
@@ -54,13 +120,15 @@
       },
       {
         "label": "kk",
-        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/1",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/1",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": ["*"],
         "infoTemplate": {
           "title": "${DEVICEID}",
-          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+          "content":
+            "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
         },
         "renderer": {
           "type": "simple",
@@ -75,13 +143,15 @@
       },
       {
         "label": "RFID",
-        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/2",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/2",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": ["*"],
         "infoTemplate": {
           "title": "${DEVICEID}",
-          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+          "content":
+            "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
         },
         "renderer": {
           "type": "simple",
@@ -96,13 +166,15 @@
       },
       {
         "label": "SP",
-        "url": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/3",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_device/MapServer/3",
         "type": "feature",
-        "visible": true,
+        "visible": false,
         "outFields": ["*"],
         "infoTemplate": {
           "title": "${DEVICEID}",
-          "content": "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
+          "content":
+            "<b>设备描述: </b>${DEVICEDESC}<br><b>设备类型: </b>${DEVICETYPE}<br><b>"
         },
         "renderer": {
           "type": "simple",
@@ -115,7 +187,6 @@
           }
         }
       }
-
     ],
     "mapOptions": {
       "center": [87.597, 43.824],
@@ -125,8 +196,9 @@
       "slider": false
     }
   },
-  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "172.10.10.1:6080",
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.30.30.1:6080",
   "widgetOnScreen": {
     "widgets": [
       {
@@ -206,6 +278,26 @@
         "uri": "widgets/GatherArea/Widget",
         "version": "2.4",
         "id": "GatherAreaWidget"
+      },
+      {
+        "uri": "widgets/TrackException/Widget",
+        "version": "2.4",
+        "id": "TrackExceptionWidget"
+      },
+      {
+        "uri": "widgets/TrackCompare/Widget",
+        "version": "2.4",
+        "id": "TrackCompareWidget"
+      },
+      {
+        "uri": "widgets/LayerDefinition/Widget",
+        "version": "2.4",
+        "id": "LayerDefinitionWidget"
+      },
+      {
+        "uri": "widgets/MonitorTrack/Widget",
+        "version": "2.4",
+        "id": "MonitorTrackWidget"
       }
     ]
   }

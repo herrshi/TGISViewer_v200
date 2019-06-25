@@ -416,7 +416,7 @@ var TMap = {
 
   /**
    * 使用动态数据渲染静态图层, 事先配置好渲染器
-   * @param params: object, optional.
+   * @param params: object, required.
    *   name: string, required.
    *   defaultData: string/number, optional. 缺省的渲染数据值.
    *     如果设置了缺省值, 本次datas中未覆盖到的元素将使用缺省值赋值, 否则不更改原有值.
@@ -432,10 +432,13 @@ var TMap = {
 
   /**
    * 隐藏动态渲染图层
+   * @param params: object, optional.
+   * 不传参数隐藏所有动态渲染图层
+   *   name: string, required.
    * */
-  hideDynamicRendererLayer: function() {
+  hideDynamicRendererLayer: function(params) {
     require(["dojo/topic"], function(topic) {
-      topic.publish("hideDynamicRendererLayer");
+      topic.publish("hideDynamicRendererLayer", params);
     });
   },
   /************************ Layer & Service END **************************/
@@ -671,11 +674,31 @@ var TMap = {
    *    参见addPoints/addLines/addPolygons的symbol属性.
    *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
    *  defaultInfoTemplate: object, optional.配置infoTemplate需要显示的内容
+   *  showInfoTemplate:boolean,optional.是否显示弹窗.默认值false
    *    为空显示默认infoTemplate.
    * */
   addOverlaysCluster: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addOverlaysCluster", params);
+    });
+  },
+  /**
+   * 显示指定的覆盖物
+   * 参数同deleteOverlays
+   * */
+  showOverlaysCluster: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showOverlaysCluster", params);
+    });
+  },
+
+  /**
+   * 隐藏指定的覆盖物
+   * 参数同deleteOverlays
+   * */
+  hideOverlaysCluster: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideOverlaysCluster", params);
     });
   },
   /**
@@ -1170,8 +1193,17 @@ var TMap = {
    *     fields: object, optional. 业务属性. 点击以后会在弹出框中显示
    *   autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
    *   loop: boolean, optional. 是否循环播放. 默认为true.
+   *   repeatCount:number,optional.循环播发次数.默认值为0.无线循环.
    *   showTrackPoints: boolean, optional. 是否显示轨迹点. 默认为true.
    *   clearBefore:boolean,optional.是否清除之前的轨迹,默认为true.
+   *   isCenter:boolean,optional.是否定位到中点,默认为false.
+   *   isZoom:boolean,optional.是否层级变化,默认为false.
+   *   kkPoints:[object],optional.判断当前轨迹移动到那个口位置.为空则不判断.
+   *     id: string, required. 轨迹点id.
+   *     x: number, required. x坐标.
+   *     y: number, required. y坐标.
+   *     fields: object, optional. 业务属性. 返回的信息.
+   *   showKKPoint:boolean,optional.是否显示卡口点.默认为true
    *   defaultInfoTemplate: object, optional. 根据trackPoints中的fields配置infoTemplate需要显示的内容.
    *    为空显示默认infoTemplate.
    * @sample
@@ -1182,7 +1214,25 @@ var TMap = {
       topic.publish("startTrackPlayback", params);
     });
   },
-
+  /**
+   * 开始轨迹播发
+   * @param params: string, required.
+   *   trackPoints: [object], required. 轨迹点列表.
+   *     id: string, required. 轨迹点id.
+   *     x: number, required. x坐标.
+   *     y: number, required. y坐标.
+   *     isHighlight: boolean, optional. 是否需要高亮显示此轨迹点.
+   *     fields: object, optional. 业务属性. 点击以后会在弹出框中显示
+   *   showTrackPoints: boolean, optional. 是否显示轨迹点. 默认为true.
+   *   clearBefore:boolean,optional.是否清除之前的轨迹,默认为true.
+   *   defaultInfoTemplate: object, optional. 根据trackPoints中的fields配置infoTemplate需要显示的内容.
+   *    为空显示默认infoTemplate.
+   * */
+  drawTrackPlayback: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("drawTrackPlayback", params);
+    });
+  },
   /**停止轨迹回放, 并清除轨迹*/
   stopTrackPlayback: function() {
     require(["dojo/topic"], function(topic) {
@@ -1402,6 +1452,20 @@ var TMap = {
     });
   },
 
+  //显示片区
+  showArea: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showArea");
+    });
+  },
+
+  //隐藏片区
+  hideArea: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideArea");
+    });
+  },
+
   //显示警力统计
   /**
    * 显示警力统计并传入警力数量
@@ -1479,7 +1543,28 @@ var TMap = {
       topic.publish("MonitorControl", { params: params, callback: callback });
     });
   },
-
+  /**
+   * 布控预警
+   * @param params: [object], json字符串 required.
+   *    area: [object], required, 布控区域,4色预警为多个,单色为一个
+   *      geometry: object, required.几何属性.
+   *      level: string, required.级别.
+   *      id: string, required.区域id.
+   *    carPoints: [object], required 车辆点位信息,
+   *      x: number, required. 坐标x.
+   *      y: number, required. 坐标y.
+   *      id: string ,optional  车辆编号.
+   *      type: string ,optional  类型.
+   *      fields: object ,optional 属性.
+   *      limit:string ,required 标志位.1为限进车辆,0位限出车辆.
+   *    highlight:boolean, optional. 是否闪烁,默认闪烁.
+   * @param callback: object required,返回预警信息.
+   * **/
+  MonitorWarn: function(params, callback) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("MonitorWarn", { params: params, callback: callback });
+    });
+  },
   /**
    * 清除布控预警效果
    * **/
@@ -1507,6 +1592,166 @@ var TMap = {
   clearMonitorArea: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMonitorArea", params);
+    });
+  },
+  /**
+   * 车辆聚合区域
+   * *  @param params:string json字符串 required.
+   *    forecastarea:预测下一个车辆聚集区域
+   *      geometry:object, required. 几何属性.
+   *    id:string,required,布控区域id值.用于删除id.
+   *    carareas:[object], required 车辆聚集区域.
+   *      geometry:object, required. 几何属性.
+   *        rings;[[[]]]或者center:[],radius:半径,
+   *      carpoints:[object], required.车辆位置信息.
+   *        x:number, required.坐标x.
+   *        y:number, required.坐标y.
+   * **/
+  addGatherArea: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("addGatherArea", params);
+    });
+  },
+  /**
+   * 删除车辆聚合区域
+   * *  @param params: [id],字符串数组 optional车辆聚合区域id值,删除该id对应的区域,为空这清除全部.
+   * **/
+  deleteGatherArea: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("deleteGatherArea", params);
+    });
+  },
+  /**
+   * 显示弹窗标注
+   * *   @param params: object json, required
+   *     geometry:object required
+   *        x:number required.坐标x
+   *        y:number required.坐标y
+   *     context:string required.弹窗内容,可以传html元素
+   *     offset:number optional.向上偏移的像素.默认值30
+   * */
+  showToolTip: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showToolTip", params);
+    });
+  },
+
+  /**
+   *车辆轨迹,异常停留区域
+   * *   @param params: string json字符串, required
+   *     kkPoints:[object] required.卡口坐标集合
+   *        id:string required.编号id,
+   *        x:number required.坐标x,
+   *        y:number required.坐标y,
+   *        field:object optional属性,
+   *     trackPoints:[object] required.轨迹线坐标集合
+   *        x:number required.坐标x,
+   *        y:number required.坐标y,
+   *        field:object optional属性,
+   *     exception:[object] required.异常车辆坐标集合
+   *        startPoint required.开始卡口位置.
+   *          x:number required.坐标x,
+   *          y:number required.坐标y,
+   *        endPoint required.结束卡口位置.
+   *        x:number required.坐标x,
+   *        y:number required.坐标y,
+   * */
+  trackException: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("trackException", params);
+    });
+  },
+  /**
+   * 删除车辆轨迹,异常停留区域
+   * *  @param params: [id],字符串数组 optional车辆聚合区域id值,删除该id对应的区域,为空这清除全部.
+   * **/
+  cleartrackException: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("cleartrackException", params);
+    });
+  },
+  /**
+   *图层筛选
+   * *   @param params: json, required
+   *     layer:string required.图层名称
+   *     expressions:[object]/string required.筛选条件.如果是featurelayer,可直接设置筛选条件,dynamiclayer,需要设置图层id.
+   *        id:number required.图层id,
+   *        expression:string required.条件.
+   * */
+  LayerDefinition: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("LayerDefinition", params);
+    });
+  },
+
+  /**
+   * 实际轨迹和计划轨迹对比
+   * @param params: string, required.
+   *   trackPoints: [object], required. 实际轨迹点列表.
+   *     id: string, required. 轨迹点id.
+   *     x: number, required. x坐标.
+   *     y: number, required. y坐标.
+   *     fields: object, optional. 业务属性. 点击以后会在弹出框中显示
+   *   planPoints: [object], required. 计划轨迹点列表.
+   *     id: string, required. 轨迹点id.
+   *     x: number, required. x坐标.
+   *     y: number, required. y坐标.
+   *     fields: object, optional. 业务属性. 点击以后会在弹出框中显示
+   *   autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
+   *   loop: boolean, optional. 是否循环播放. 默认为true.
+   *   repeatCount:number,optional.循环播发次数.默认值为0.无线循环.
+   *   showTrackPoints: boolean, optional. 是否显示轨迹点. 默认为true.
+   *   clearBefore:boolean,optional.是否清除之前的轨迹,默认为true.
+   *   isCenter:boolean,optional.是否定位到中点,默认为false.
+   *   isZoom:boolean,optional.是否层级变化,默认为false.
+   *   symbol:object, optional. 车辆符号.
+   * @sample
+   *   {"trackPoints":[{"x": 104.023, "y": 30.577, "isHighlight": true, "fields": {"经过时间": "2017/11/24 08:00:00","编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}, {"x": 104.002, "y": 30.565, "fields":{"经过时间": "2017/11/24 08:00:05"}}, {"x": 103.969, "y": 30.56, "fields":{"经过时间": "2017/11/24 08:00:10"}}, {"x": 103.907, "y": 30.536, "fields":{"经过时间": "2017/11/24 08:00:15"}}], "autoStart": true, "loop": true, "showTrackPoints": true}
+   * */
+  startTrackCompare: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("startTrackCompare", params);
+    });
+  },
+  /**停止轨迹回放, 并清除轨迹*/
+  stopTrackCompare: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("stopTrackCompare");
+    });
+  },
+  showMigrateCharts: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showMigrateCharts", params);
+    });
+  },
+  /**
+   *车辆轨迹,限制进入/离开区域
+   * *   @param params: string json字符串, required
+   *     id:string required.编号id.
+   *     kkPoints:[object] required.卡口坐标集合
+   *        x:number required.坐标x,
+   *        y:number required.坐标y,
+   *        field:object optional属性,
+   *     trackPoints:[object] required.轨迹线坐标集合
+   *        x:number required.坐标x,
+   *        y:number required.坐标y, *
+   *     autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
+   *     loop: boolean, optional. 是否循环播放. 默认为true.
+   *     repeatCount:number,optional.循环播发次数.默认值为0.无线循环.
+   *     showTrackPoints: boolean, optional. 是否显示轨迹点. 默认为true.
+   *     isCenter:boolean,optional.是否定位到中点,默认为false.
+   *     isZoom:boolean,optional.是否层级变化,默认为false.
+   *     symbol:object, optional. 车辆符号.
+   * */
+  startMonitorTrack: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("startMonitorTrack", params);
+    });
+  },
+  /**停止轨迹回放, 并清除轨迹*/
+  clearMonitorTrack: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearMonitorTrack", params);
     });
   }
 };

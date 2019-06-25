@@ -670,43 +670,43 @@ define([
             this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry));
           }
           if (graphic.geometry.type === "point") {
-            var sms = new SimpleMarkerSymbol({
-              color: [0, 0, 0, 0],
-              size: 12,
-              type: "esriSMS",
-              style: "esriSMSSquare",
-              outline: {
-                color: [0, 0, 0, 255],
-                width: 1,
-                type: "esriSLS",
-                style: "esriSLSSolid"
-              }
-            });
-            //sms.setColor(new Color([0, 0, 0, 0]));
-            if (graphic.symbol.type === "picturemarkersymbol") {
-              sms.setSize(
-                graphic.symbol.width > graphic.symbol.height
-                  ? graphic.symbol.width + 4
-                  : graphic.symbol.height + 4
-              );
-            } else if (graphic.symbol.size !== undefined) {
-              sms.setSize(graphic.symbol.size + 4);
-            } else {
-              sms.setSize(16);
-            }
-            sms.setOffset(graphic.symbol.xoffset, graphic.symbol.yoffset);
-            find_blackGraphic = new Graphic(graphic.geometry, sms);
-            this.graphicsLayer.add(find_blackGraphic);
-            var find_blacknode = find_blackGraphic.getNode();
+            // var sms = new SimpleMarkerSymbol({
+            //   color: [0, 0, 0, 0],
+            //   size: 12,
+            //   type: "esriSMS",
+            //   style: "esriSMSSquare",
+            //   outline: {
+            //     color: [0, 0, 0, 255],
+            //     width: 1,
+            //     type: "esriSLS",
+            //     style: "esriSLSSolid"
+            //   }
+            // });
+            // //sms.setColor(new Color([0, 0, 0, 0]));
+            // if (graphic.symbol.type === "picturemarkersymbol") {
+            //   sms.setSize(
+            //     graphic.symbol.width > graphic.symbol.height
+            //       ? graphic.symbol.width + 4
+            //       : graphic.symbol.height + 4
+            //   );
+            // } else if (graphic.symbol.size !== undefined) {
+            //   sms.setSize(graphic.symbol.size + 4);
+            // } else {
+            //   sms.setSize(16);
+            // }
+            // sms.setOffset(graphic.symbol.xoffset, graphic.symbol.yoffset);
+            // find_blackGraphic = new Graphic(graphic.geometry, sms);
+            // this.graphicsLayer.add(find_blackGraphic);
+            // var find_blacknode = find_blackGraphic.getNode();
             //find_blacknode.setAttribute("data-highlight", "highlight");
           }
           var node = graphic.getNode();
           node.setAttribute("data-highlight", "highlight");
-          domConstruct.place(find_blacknode, node, "before"); // before/after
+          // domConstruct.place(find_blacknode, node, "before"); // before/after
           setTimeout(function() {
-            if (find_blackGraphic !== undefined) {
-              find_blackGraphic.getLayer().remove(find_blackGraphic);
-            }
+            // if (find_blackGraphic !== undefined) {
+            //   find_blackGraphic.getLayer().remove(find_blackGraphic);
+            // }
             node.setAttribute("data-highlight", "");
           }, 5000);
         }
