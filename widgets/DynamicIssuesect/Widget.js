@@ -30,127 +30,128 @@ define([
         lang.hitch(this, this.onTopicHandler_showDynamicRendererLayer)
       );
 
+      topic.subscribe("hideDynamicRendererLayer",
+        lang.hitch(this, this.onTopicHandler_hideDynamicRendererLayer));
 
-    },
-
-    _readGroups: function() {
-      var def = new Deferred();
-
-      var defs = this.config.layerGroups.map(function(layerGroup) {
-        return this._readGroup(layerGroup);
-      }, this);
-
-      all(defs).then(function() {
-        def.resolve();
-      });
-
-      return def;
-    },
-
-    _readGroup: function(layerGroup) {
-      var def = new Deferred();
-
-      var groupName = layerGroup.name;
-      var renderer = rendererJsonUtils.fromJson(layerGroup.renderer);
-      var queryFeaturesDef = layerGroup.layers.map(function(layerConfig) {
-        var layerType = layerConfig.type || "mapService";
-
-        if (layerType === "json") {
-          return this._queryFeatureFromJson(layerConfig, groupName, renderer);
-        }
-      }, this);
-
-      all(queryFeaturesDef).then(function() {
-        def.resolve();
-      });
-
-      return def;
-    },
-
-    _queryFeatureFromJson: function(layerConfig, groupName, renderer) {
-      var def = new Deferred();
-
-      var source = window.path + layerConfig.source;
-      var idField = layerConfig.idField || "FEATUREID";
-
-      fetch(source).then(
-        lang.hitch(this, function(response) {
-          if (response.ok) {
-            response.json().then(
-              lang.hitch(this, function(data) {
-                //创建图层
-                var graphicsLayer = new GraphicsLayer();
-                graphicsLayer.setVisibility(false);
-                //图层有单独的渲染器就不用图层组的渲染器
-                graphicsLayer.renderer = layerConfig.renderer
-                  ? rendererJsonUtils.fromJson(layerConfig.renderer)
-                  : renderer;
-                //存放分组名称
-                //使用分组名称控制显示/隐藏
-                graphicsLayer.groupName = groupName;
-                //加点
-                data.features.forEach(function(feature) {
-                  var graphic = new Graphic(feature);
-                  graphic.id = graphic.attributes[idField];
-                  graphicsLayer.add(graphic);
-                });
-                this.map.addLayer(graphicsLayer, layerConfig.layerIndex);
-                this._rendererLayers.push(graphicsLayer);
-                def.resolve();
-              })
-            );
+      this.map.on("zoom-end", () => {
+        const scale = this.map.getScale();
+        console.log(this.map.getScale());
+        this._rendererLayers.forEach(layer => {
+          if (layer.isVisibleAtScale(scale)) {
+            console.log(layer.id);
           }
-        })
+        });
+      });
+
+      this._readLayerConfig();
+    },
+
+    _readLayerConfig: function() {
+      //使用并发fetch, 按顺序获取返回, 已保证图层按照配置的顺序加载
+      const fetchs = [];
+      const { layers, renderer } = this.config;
+      const defaultRenderer = rendererJsonUtils.fromJson(renderer);
+      layers.forEach(layerConfig => {
+        fetchs.push(
+          fetch(window.path + layerConfig.source).then(response =>
+            response.json()
+          )
+        );
+      });
+
+      fetchs.reduce((chain, jsonPromise, index) => {
+        return chain
+          .then(() => jsonPromise)
+          .then(json =>
+            this._createLayer(json.features, layers[index], defaultRenderer)
+          );
+      }, Promise.resolve());
+      // this.map.addLayers(this._rendererLayers);
+    },
+
+    _createLayer: function(features, layerConfig, defaultRenderer) {
+      const {
+        id,
+        group: groupName,
+        renderer: layerRenderer,
+        idField,
+        minScale,
+        maxScale
+      } = layerConfig;
+
+      const graphicsLayer = new GraphicsLayer();
+      graphicsLayer.id = id;
+      graphicsLayer.setMinScale(minScale);
+      graphicsLayer.setMaxScale(maxScale);
+      //使用分组名称控制显示、隐藏
+      graphicsLayer.groupName = groupName;
+      graphicsLayer.setVisibility(false);
+      //使用图层渲染器或者默认渲染器
+      graphicsLayer.setRenderer(
+        layerRenderer
+          ? rendererJsonUtils.fromJson(layerRenderer)
+          : defaultRenderer
       );
 
-      return def;
+      features.forEach(feature => {
+        const graphic = new Graphic(feature);
+        if (idField) {
+          graphic.id = graphic.attributes[idField];
+        }
+        graphic.attributes.data = "free";
+        graphicsLayer.add(graphic);
+      });
+      this.map.addLayer(graphicsLayer);
+      this._rendererLayers.push(graphicsLayer);
     },
 
     _setLayerData: function(params) {
-      this._rendererLayers.forEach(function (rendererLayer) {
-        if (rendererLayer.groupName === params.name) {
-          if (!rendererLayer.visible) {
-            rendererLayer.setVisibility(true);
-          }
+      const { name: groupName, datas, defaultData } = params;
+      this._rendererLayers.forEach(rendererLayer => {
+        if (rendererLayer.groupName === groupName) {
+          rendererLayer.setVisibility(true);
 
-          if (params.datas !== undefined || params.defaultData !== undefined) {
-            rendererLayer.graphics.forEach(function(graphic) {
-              var found = false;
+          if (datas !== undefined || defaultData !== undefined) {
+            rendererLayer.graphics.forEach(graphic => {
+              let found = false;
 
-              if (params.datas !== undefined) {
-                for (var j = 0; j < params.datas.length; j++) {
-                  if (graphic.id === params.datas[j].id) {
-                    graphic.attributes.data = params.datas[j].data;
+              if (datas !== undefined) {
+                for (let j = 0; j < datas.length; j++) {
+                  if (graphic.id === datas[j].id) {
+                    graphic.attr("data", datas[j].data);
 
-                    params.datas.splice(j, 1);
+                    datas.splice(j, 1);
                     found = true;
                     break;
                   }
                 }
               }
 
-              if (!found && params.defaultData !== undefined) {
-                graphic.attributes.data = params.defaultData;
+              if (!found && defaultData !== undefined) {
+                graphic.attr("data", defaultData);
               }
             });
           }
 
           rendererLayer.refresh();
         }
-      }, this);
+      });
     },
 
     onTopicHandler_showDynamicRendererLayer: function(params) {
-      if (this._rendererLayers.length === 0) {
-        this._readGroups().then(
-          lang.hitch(this, function() {
-            console.log(this._rendererLayers);
-            this._setLayerData(params);
-          })
-        );
-      } else {
-        this._setLayerData(params);
-      }
+      //将遮罩图层至于最上层
+      this.map.graphicsLayerIds.forEach(layerId => {
+        const layer = this.map.getLayer(layerId);
+        if (layer.id.indexOf("Mask") >= 0) {
+          this.map.reorderLayer(layer, 100);
+        }
+      });
+
+      this._setLayerData(params);
+    },
+
+    onTopicHandler_hideDynamicRendererLayer: function () {
+
     }
   });
 });

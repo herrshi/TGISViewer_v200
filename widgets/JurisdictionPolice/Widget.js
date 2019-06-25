@@ -164,15 +164,16 @@ define([
                   visible: true,
                   showLabels: false
                 });
+                this.districtLayer.id = "districtLayerMask";
                 var renderer = new SimpleRenderer({
                   type: "simple",
                   symbol: {
                     type: "esriSFS",
                     style: "esriSFSSolid",
-                    color: [0, 0, 0, 150],
+                    color: [180, 222, 255, 190],
                     outline: {
-                      color: [0, 210, 245],
-                      width: 2,
+                      color: [80, 170, 255],
+                      width: 3,
                       type: "esriSLS",
                       style: "esriSLSSolid"
                     }
@@ -225,7 +226,7 @@ define([
                   symbol: {
                     type: "esriSFS",
                     style: "esriSFSSolid",
-                    color: [0, 45, 80, 178],
+                    color: [255, 243, 255, 190],
                     outline: {
                       color: [0, 210, 245, 230],
                       width: 1,

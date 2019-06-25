@@ -51,13 +51,19 @@
       "showLabels": true,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": true
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "15.75.0.255",
   "widgetOnScreen": {
     "widgets": [
+      {
+        "uri": "widgets/DynamicIssuesect/Widget",
+        "config": "configs/DynamicIssuesect/config_XuHui.json",
+        "version": "2.4",
+        "id": "DynamicIssuesectWidget"
+      },
       {
         "uri": "widgets/Coordinate/Widget",
         "position": {
@@ -99,11 +105,6 @@
         "uri": "widgets/Print/Widget",
         "version": "2.4",
         "id": "PrintWidget"
-      },
-      {
-        "uri": "widgets/JurisdictionPolice/Widget",
-        "version": "2.4",
-        "id": "JurisdictionPoliceWidget"
       },
       {
         "uri": "widgets/Routing/Widget",
@@ -159,10 +160,9 @@
         "id": "MeasurementWidget"
       },
       {
-        "uri": "widgets/DynamicIssuesect/Widget",
-        "config": "configs/DynamicIssuesect/config_XuHui.json",
+        "uri": "widgets/JurisdictionPolice/Widget",
         "version": "2.4",
-        "id": "DynamicIssuesectWidget"
+        "id": "JurisdictionPoliceWidget"
       },
       {
         "uri": "widgets/Overlay/Widget",

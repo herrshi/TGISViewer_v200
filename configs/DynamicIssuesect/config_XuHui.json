@@ -1,79 +1,248 @@
 {
-  "layerGroups": [
+  "layers": [
     {
-      "name": "快速路",
-      "layers": [
-        {
-          "type": "json",
-          "source": "configs/DynamicIssuesect/XuHui/快速路1.json",
-          "idField": "BM_CODE",
-          "layerIndex": 0,
-          "maxScale": 0,
-          "minScale": 0
-        },
-        {
-          "type": "json",
-          "source": "configs/DynamicIssuesect/XuHui/快速路_线.json",
-          "layerIndex": 1,
-          "renderer": {
-            "type": "simple",
-            "symbol": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [255, 255, 255],
-              "width": 1
-            }
-          }
-        }
-      ],
+      "id": "DMZG2",
+      "type": "json",
+      "group": "城市道路",
+      "source": "configs/DynamicIssuesect/XuHui/地面主干道路2.json",
+      "idField": "BM_CODE",
+      "maxScale": 18055,
+      "minScale": 72223
+    },
+    {
+      "id": "DMZG_LINE",
+      "type": "json",
+      "group": "城市道路",
+      "source": "configs/DynamicIssuesect/XuHui/地面主干道路_线.json",
+      "maxScale": 18055,
+      "minScale": 72223,
       "renderer": {
-        "type": "uniqueValue",
-        "field1": "data",
-        "defaultSymbol": {
+        "type": "simple",
+        "symbol": {
           "type": "esriSLS",
           "style": "esriSLSSolid",
-          "color": [110, 110, 110, 255],
-          "width": 2
-        },
-        "defaultLabel": "未知",
-        "uniqueValueInfos": [
-          {
-            "value": "free",
-            "label" : "畅通",
-            "symbol": {
-              "type": "esriSFS",
-              "style": "esriSFSSolid",
-              "color": [100, 210, 121, 200],
-              "outline": {
-                "type": "esriSLS",
-                "style": "esriSLSNull",
-                "color": [100, 210, 121, 200],
-                "width": 1
-              }
-            }
-          },
-          {
-            "value" : "crowd",
-            "label" : "拥挤",
-            "symbol": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [250, 207, 51, 255],
-              "width": 4
-            }
-          },
-          {
-            "value" : "jam",
-            "label" : "堵塞",
-            "symbol": {
-              "type": "esriSLS",
-              "style": "esriSLSSolid",
-              "color": [222, 2, 0, 255],
-              "width": 4
-            }
-          }
-        ]
+          "color": [255, 255, 255],
+          "width": 1
+        }
+      }
+    },
+    {
+      "id": "CSDL",
+      "type": "json",
+      "group": "城市道路",
+      "source": "configs/DynamicIssuesect/XuHui/城市道路.json",
+      "idField": "BM_CODE",
+      "maxScale": 0,
+      "minScale": 18055
+    },
+    {
+      "id": "CSDL_LINE",
+      "type": "json",
+      "group": "城市道路",
+      "source": "configs/DynamicIssuesect/XuHui/城市道路_线.json",
+      "maxScale": 0,
+      "minScale": 18055,
+      "renderer": {
+        "type": "simple",
+        "symbol": {
+          "type": "esriSLS",
+          "style": "esriSLSSolid",
+          "color": [255, 255, 255],
+          "width": 1
+        }
+      }
+    },
+    {
+      "id": "KSL1",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/快速路1.json",
+      "idField": "BM_CODE",
+      "maxScale": 288895,
+      "minScale": 0
+    },
+    {
+      "id": "KSL2",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/快速路2.json",
+      "idField": "BM_CODE",
+      "maxScale": 144447,
+      "minScale": 288895
+    },
+    {
+      "id": "KSL3",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/快速路3.json",
+      "idField": "BM_CODE",
+      "maxScale": 72223,
+      "minScale": 144447
+    },
+    {
+      "id": "ZD3",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/匝道3.json",
+      "idField": "BM_CODE",
+      "maxScale": 72223,
+      "minScale": 144447
+    },
+    {
+      "id": "KSL4",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/快速路4.json",
+      "idField": "BM_CODE",
+      "maxScale": 18055,
+      "minScale": 72223
+    },
+    {
+      "id": "ZD4",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/匝道4.json",
+      "idField": "BM_CODE",
+      "maxScale": 18055,
+      "minScale": 72223
+    },
+    {
+      "id": "ZD5",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/匝道5.json",
+      "idField": "BM_CODE",
+      "maxScale": 0,
+      "minScale": 18055
+    },
+    {
+      "id": "LJ",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/立交.json",
+      "idField": "BM_CODE",
+      "maxScale": 0,
+      "minScale": 18055
+    },
+    {
+      "id": "KSL_LINE",
+      "type": "json",
+      "group": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/快速路_线.json",
+      "renderer": {
+        "type": "simple",
+        "symbol": {
+          "type": "esriSLS",
+          "style": "esriSLSSolid",
+          "color": [255, 255, 255],
+          "width": 1
+        }
+      }
+    },
+    {
+      "id": "GSGL2",
+      "type": "json",
+      "group": "城际公路",
+      "source": "configs/DynamicIssuesect/XuHui/高速公路2.json",
+      "idField": "BM_CODE",
+      "maxScale": 288895,
+      "minScale": 0
+    },
+    {
+      "id": "GSGL3",
+      "type": "json",
+      "group": "城际公路",
+      "source": "configs/DynamicIssuesect/XuHui/高速公路3.json",
+      "idField": "BM_CODE",
+      "maxScale": 18055,
+      "minScale": 288895
+    },
+    {
+      "id": "GSGL4",
+      "type": "json",
+      "group": "城际公路",
+      "source": "configs/DynamicIssuesect/XuHui/高速公路4.json",
+      "idField": "BM_CODE",
+      "maxScale": 0,
+      "minScale": 18055
+    },
+    {
+      "id": "GSGL_LINE",
+      "type": "json",
+      "group": "城际公路",
+      "source": "configs/DynamicIssuesect/XuHui/高速公路_线.json",
+      "renderer": {
+        "type": "simple",
+        "symbol": {
+          "type": "esriSLS",
+          "style": "esriSLSSolid",
+          "color": [255, 255, 255],
+          "width": 1
+        }
       }
     }
-  ]
+  ],
+  "renderer": {
+    "type": "uniqueValue",
+    "field1": "data",
+    "defaultSymbol": {
+      "type": "esriSFS",
+      "style": "esriSFSSolid",
+      "color": [100, 210, 121, 200],
+      "outline": {
+        "type": "esriSLS",
+        "style": "esriSLSNull",
+        "color": [100, 210, 121, 200],
+        "width": 1
+      }
+    },
+    "defaultLabel": "未知",
+    "uniqueValueInfos": [
+      {
+        "value": "free",
+        "label": "畅通",
+        "symbol": {
+          "type": "esriSFS",
+          "style": "esriSFSSolid",
+          "color": [100, 210, 121, 255],
+          "outline": {
+            "type": "esriSLS",
+            "style": "esriSFSSolid",
+            "color": [100, 210, 121, 200],
+            "width": 1
+          }
+        }
+      },
+      {
+        "value": "crowd",
+        "label": "拥挤",
+        "symbol": {
+          "type": "esriSFS",
+          "style": "esriSFSSolid",
+          "color": [100, 210, 121, 200],
+          "outline": {
+            "type": "esriSLS",
+            "style": "esriSLSNull",
+            "color": [100, 210, 121, 200],
+            "width": 1
+          }
+        }
+      },
+      {
+        "value": "jam",
+        "label": "堵塞",
+        "symbol": {
+          "type": "esriSFS",
+          "style": "esriSFSSolid",
+          "color": [100, 210, 121, 200],
+          "outline": {
+            "type": "esriSLS",
+            "style": "esriSLSNull",
+            "color": [100, 210, 121, 200],
+            "width": 1
+          }
+        }
+      }
+    ]
+  }
 }
