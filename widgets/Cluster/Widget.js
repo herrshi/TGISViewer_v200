@@ -63,6 +63,14 @@ define([
         lang.hitch(this, this.onTopicHandler_addOverlaysCluster)
       );
       topic.subscribe(
+        "showOverlaysCluster",
+        lang.hitch(this, this.onTopicHandler_showOverlays)
+      );
+      topic.subscribe(
+        "hideOverlaysCluster",
+        lang.hitch(this, this.onTopicHandler_hideOverlays)
+      );
+      topic.subscribe(
         "addClusters",
         lang.hitch(this, this.onTopicHandler_addCluster)
       );
@@ -71,6 +79,7 @@ define([
       var overlayParams = JSON.parse(params);
       var overlays = overlayParams.overlays;
       var distance = overlayParams.distance || 100;
+      var showInfoTemplate = overlayParams.showInfoTemplate === true;
       var clusterDatas = [];
       var symbolObj;
       var type;
@@ -91,17 +100,21 @@ define([
           var id = overlayObj.id;
           symbolObj = overlayObj.symbol || overlayParams.defaultSymbol;
           type = overlayObj.type || overlayParams.defaultType;
-          var fields = overlayObj.fields;
+          var fields = overlayObj.fields || {};
           var geometryObj = overlayObj.geometry;
           var geometry = geometryJsonUtils.fromJson(geometryObj);
           if (this.map.spatialReference.isWebMercator()) {
             geometry = WebMercatorUtils.geographicToWebMercator(geometry);
           }
-          if(!fields.hasOwnProperty("id"))
-          {
-              fields.id = id;
+          if (!fields.hasOwnProperty("id")) {
+            fields.id = id;
+          }
+          if (!fields.hasOwnProperty("type")) {
+            fields.type = type;
           }
           clusterDatas.push({
+            id: id,
+            type: type,
             x: geometry.x,
             y: geometry.y,
             attributes: fields
@@ -110,7 +123,14 @@ define([
         this
       );
       var symbol = this._getEsriPointSymbol(symbolObj);
-      this.addClusters(clusterDatas, type, symbol, infoTemplate, distance);
+      this.addClusters(
+        clusterDatas,
+        type,
+        symbol,
+        infoTemplate,
+        distance,
+        showInfoTemplate
+      );
       if (resolve) {
         resolve();
       }
@@ -167,24 +187,31 @@ define([
 
       return symbol;
     },
-    addClusters: function(data, type, symbol, infoTemplate, distance) {
+    addClusters: function(
+      data,
+      type,
+      symbol,
+      infoTemplate,
+      distance,
+      showInfo
+    ) {
       // cluster layer that uses OpenLayers style clustering
       var clusterLayer = new ClusterLayer({
         data: data,
         distance: distance,
-        id: type,
         type: type,
         labelColor: "#fff",
         labelOffset: 10,
         resolution: this.map.extent.getWidth() / this.map.width,
         singleColor: "#888",
         singleSymbol: symbol,
-        singleTemplate: infoTemplate
+        singleTemplate: infoTemplate,
+        showInfo: showInfo
       });
 
       var renderer = new ClassBreaksRenderer(symbol, "clusterCount");
 
-      var picBaseUrl = "images/";
+      var picBaseUrl = window.path + "images/";
       var blue = new PictureMarkerSymbol(
         picBaseUrl + "BluePin1LargeB.png",
         72,
@@ -211,8 +238,45 @@ define([
       this.map.on("click", lang.hitch(this, this.cleanUp));
       clusterLayer.on(
         "click",
-        lang.hitch(this, function() {
-          if (this.clickclusterLayer) {
+        lang.hitch(this, function(evt) {
+          if (evt.graphic) {
+            var graphic = evt.graphic;
+            var id = graphic.id;
+            var type = graphic.type;
+            if (type !== undefined && id !== undefined) {
+              if (
+                typeof showGisDeviceInfo !== "undefined" &&
+                showGisDeviceInfo instanceof Function
+              ) {
+                showGisDeviceInfo(type, id);
+              }
+            }
+            if (!graphic.iscluster) {
+              if (
+                typeof showGisDeviceDetailInfo !== "undefined" &&
+                showGisDeviceDetailInfo instanceof Function
+              ) {
+                showGisDeviceDetailInfo({
+                  type: type,
+                  id: id,
+                  label: graphic.getLayer().label,
+                  graphic: graphic.geometry.spatialReference.isWebMercator()
+                    ? new Graphic(
+                        WebMercatorUtils.webMercatorToGeographic(
+                          graphic.geometry
+                        ),
+                        graphic.symbol,
+                        graphic.attributes
+                      )
+                    : graphic
+                });
+              }
+            }
+          }
+          if (
+            this.clickclusterLayer &&
+            this.clickclusterLayer.id != clusterLayer.id
+          ) {
             this.clickclusterLayer.clearSingles();
           }
           this.clickclusterLayer = clusterLayer;
@@ -263,9 +327,71 @@ define([
             layer.label,
             layer.renderer.symbol,
             layer.infoTemplate,
-            distance
+            distance,
+            false
           );
         }
+      }
+    },
+    onTopicHandler_showOverlays: function(params) {
+      var types = params.types || [];
+      var ids = params.ids || [];
+      for (var i = 0; i < this.clusterLayers.length; i++) {
+        var layer = this.clusterLayers[i];
+        for (var j = 0; j < layer.graphics.length; j++) {
+          var graphic = layer.graphics[j];
+          if (
+            //只判断type
+            (types.length > 0 &&
+              ids.length === 0 &&
+              array.indexOf(types, graphic.type) >= 0) ||
+            //只判断id
+            (types.length === 0 &&
+              ids.length > 0 &&
+              array.indexOf(ids, graphic.id) >= 0) ||
+            //type和id都要判断
+            (types.length > 0 &&
+              ids.length > 0 &&
+              array.indexOf(types, graphic.type) >= 0 &&
+              array.indexOf(ids, graphic.id) >= 0)
+          ) {
+            graphic.visible = true;
+            graphic.attributes.visible = true;
+          }
+        }
+        layer._setShowGraphic(ids, types);
+        layer._refreshClusterLayer();
+      }
+    },
+
+    onTopicHandler_hideOverlays: function(params) {
+      var types = params.types || [];
+      var ids = params.ids || [];
+      for (var i = 0; i < this.clusterLayers.length; i++) {
+        var layer = this.clusterLayers[i];
+        for (var j = 0; j < layer.graphics.length; j++) {
+          var graphic = layer.graphics[j];
+          if (
+            //只判断type
+            (types.length > 0 &&
+              ids.length === 0 &&
+              array.indexOf(types, graphic.type) >= 0) ||
+            //只判断id
+            (types.length === 0 &&
+              ids.length > 0 &&
+              array.indexOf(ids, graphic.id) >= 0) ||
+            //type和id都要判断
+            (types.length > 0 &&
+              ids.length > 0 &&
+              array.indexOf(types, graphic.type) >= 0 &&
+              array.indexOf(ids, graphic.id) >= 0)
+          ) {
+            graphic.visible = false;
+            graphic.attributes.visible = false;
+          }
+        }
+        layer._setHideGraphic(ids, types);
+        layer._refreshClusterLayer();
       }
     }
   });

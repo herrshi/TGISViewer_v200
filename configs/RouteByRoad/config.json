@@ -1,0 +1,5 @@
+{
+  "roadUrl": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_road/MapServer",
+  "queryUrl": "http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_road_analyst/MapServer/7",
+  "routeUrl":"http://{gisServer}/arcgis/rest/services/WuLuMuQi/wlmq_road_analyst/NAServer/Route"
+}

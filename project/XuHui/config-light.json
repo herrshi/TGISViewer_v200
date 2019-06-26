@@ -51,13 +51,19 @@
       "showLabels": true,
       "logo": false,
       "nav": false,
-      "slider": false
+      "slider": true
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "15.75.0.255",
   "widgetOnScreen": {
     "widgets": [
+      {
+        "uri": "widgets/DynamicIssuesect/Widget",
+        "config": "configs/DynamicIssuesect/config_XuHui.json",
+        "version": "2.4",
+        "id": "DynamicIssuesectWidget"
+      },
       {
         "uri": "widgets/Coordinate/Widget",
         "position": {
@@ -101,16 +107,6 @@
         "id": "PrintWidget"
       },
       {
-        "uri": "widgets/Overlay/Widget",
-        "version": "2.4",
-        "id": "OverlayWidget"
-      },
-      {
-        "uri": "widgets/JurisdictionPolice/Widget",
-        "version": "2.4",
-        "id": "JurisdictionPoliceWidget"
-      },
-      {
         "uri": "widgets/Routing/Widget",
         "config": "configs/Routing/config.json",
         "version": "2.4",
@@ -141,6 +137,37 @@
         },
         "version": "2.4",
         "id": "POISearchWidget"
+      },
+      {
+        "uri": "widgets/Route/Widget",
+        "config": "configs/Route/config.json",
+        "position": {
+          "left": 50,
+          "top": 10,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "RouteWidget"
+      },
+      {
+        "uri": "widgets/Measurement/Widget",
+        "position": {
+          "left": 50,
+          "top": 10,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "MeasurementWidget"
+      },
+      {
+        "uri": "widgets/JurisdictionPolice/Widget",
+        "version": "2.4",
+        "id": "JurisdictionPoliceWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
       }
     ]
   }

@@ -56,7 +56,7 @@
           font-size: 0.86rem;
           color: $grey-base;
           &:hover {
-            .fas, .fab, .far {
+            .fa {
               color: $red-base;
               transition: 0.4s;
             }
@@ -65,7 +65,7 @@
               transition: 0.4s;
             }
           }
-          .fas, .fab, .far {
+          .fa {
             padding-right: 0.5rem;
           }
         }
@@ -75,7 +75,7 @@
           cursor: default;
         }
         .thumbs {
-          .fas, .fab, .far {
+          .fa {
             color: $grey-base;
             transition: 0.4s;
             &:hover {
@@ -113,7 +113,7 @@
       font-weight: 300;
       font-size: 0.86rem;
       color: $grey-darken-1;
-      .fas, .fab, .far {
+      .fa {
         padding-right: 0.5rem;
       }
     }
@@ -147,7 +147,7 @@
     }
   }
   .social-meta {
-    .fas, .fab, .far {
+    .fa {
       padding-right: 0.6rem;
     }
     .fa-heart-o {

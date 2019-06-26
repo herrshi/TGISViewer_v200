@@ -1,6 +1,4 @@
 {
-  "regeoUrl": "http://api.mapabc.com/as/rgeo",
-  "carRouteUrl": "http://api.mapabc.com/as/route/car",
-  "walkRouteUrl": "http://api.mapabc.com/as/route/walk",
+  "searchUrl": "https://api.mapabc.com/as/rgeo",
   "ak": "ec85d3648154874552835438ac6a02b2"
 }

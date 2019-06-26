@@ -356,7 +356,7 @@
 
 <script type="text/javascript">
   var map = TMap.createNew({
-    apiUrl: "http://localhost:8090/arcgis_js_api/library/3.22/3.22/",
+    apiUrl: "http://localhost:8090/arcgis_js_api/",
     // apiUrl: "http://172.1.1.102:18001/web-gis/scripts/arcgis_js_api/library/3.20/3.20/",
     viewerUrl: "http://localhost:8090/TGISViewer_v200/",
     // viewerUrl: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2",
@@ -373,9 +373,9 @@
       id: "et_brain_021",
       code: "310000"
     });
-    map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
+    // map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
     // map.addOverlays('{"overlays":[{"id":"yy01","type":"specialPoint","geometry":{"x":121.423125759,"y":31.177039021},"symbol":{"type":"picture","url":"assets/layouts/images/icon_gis_hospital.png","height":48,"width":55}}]}');
-    map.showJurisdiction();
+    // map.showJurisdiction();
     // map.showPoliceCount();
     // map.addPoints('{"points":[{"id":"pt001","type":"police","geometry":{"x":116.868981,"y":32.62236},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}}]}');
     // map.showSelectedFeatures({type: "scats", features: [{id: "11025"}, {id: "11023"}, {id: "11026", locked: true}]});
@@ -581,13 +581,15 @@
     // });
     map.showDynamicRendererLayer({
       name: "快速路",
-      defaultData: "free",
-      datas: [
-        {id: "NHZSB-WO->NHD&Y-WI", data: "jam"},
-        {id: "HMHM-DO->HMHM-DI", data: "jam"},
-        {id: "NBYC-DO->NBGZ-DI",data: "crowd"},
-        {id: "YIXYG-XI->YIXCZ-XO", data: "crowd"}
-      ]
+      defaultData: "free"
+    });
+    map.showDynamicRendererLayer({
+      name: "城市道路",
+      defaultData: "free"
+    });
+    map.showDynamicRendererLayer({
+      name: "城际公路",
+      defaultData: "free"
     });
 
     // map.showDynamicRendererLayer({
@@ -653,7 +655,9 @@
 
   function Test2ClickHandler() {
     // map.routeSearch('{"startPoint":"121.418,31.157","endPoint":"121.411,31.169", "clearPrevResults": false}');
-    map.hideDynamicRendererLayer();
+    map.hideDynamicRendererLayer({
+      name: "城际公路"
+    });
 
     // map.stopTrackPlayback();
 //      map.addSwipeLayer({layerType: "reference", layer: {label: "db2", url: "http://172.16.20.2:6080/arcgis/rest/services/CADServices/p20170725111146_c20170725111146/MapServer"}})

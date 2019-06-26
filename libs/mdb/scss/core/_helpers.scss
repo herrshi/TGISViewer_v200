@@ -11,17 +11,13 @@
   justify-content: center;
   align-items: center;
   height: 100%;
-
   p {
     margin: 0;
   }
-
   ul {
     text-align: center;
-
     li {
       margin-bottom: $flex-center-ul-mb;
-
       &:last-of-type {
         margin-bottom: 0;
       }
@@ -40,7 +36,6 @@
 // Responsive width
 .w-responsive {
   width: 75%;
-
   @media (max-width: 740px) {
     width: 100%;
   }
@@ -57,10 +52,8 @@
   background-color: $white-base;
 }
 
-@each $name,
-$color in $basic-mdb-colors {
+@each $name, $color in $basic-mdb-colors {
   @include bg-variant(".bg-#{$name}", $color);
-
   .border-#{$name} {
     border-color: $color !important;
   }
@@ -70,7 +63,6 @@ $color in $basic-mdb-colors {
   width: 100px;
   height: 100px;
 }
-
 .card-img-64 {
   width: 64px;
   height: 64px;
@@ -78,8 +70,4 @@ $color in $basic-mdb-colors {
 
 .mml-1 {
   margin-left: - 0.25rem !important;
-}
-
-.flex-1 {
-  flex: 1;
 }
