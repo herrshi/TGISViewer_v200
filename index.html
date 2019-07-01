@@ -365,7 +365,7 @@
     // config: "http://localhost:8090/TGISViewer_v200/project/JiaoWei/政务网172.1.1.101/config.json"
     // config: "http://localhost:8090/TGISViewer_v200/project/ShuangLiu/config-route-www.json"
     // config: "http://localhost:8099/TGISViewer_v200/project/JiaoJing/config-dm.json"
-    config: "http://localhost:8090/TGISViewer_v200/project/XuHui/config-light.json"
+    config: "http://localhost:8090/TGISViewer_v200/project/XuHui/config-dark-www.json"
     // config: "http://172.1.1.102:18001/web-gis/scripts/TGISViewer2/config.json"
   }, "mapContainer", function () {
     map.setUserInfo({
@@ -373,7 +373,7 @@
       id: "et_brain_021",
       code: "310000"
     });
-    // map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
+    map.addOverlays('{"overlays":[{"id":"police001","type":"TCC","geometry":{"x":121.437773,"y":31.17952},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"上海体育馆停车场","totalSpace":321,"remainSpace":200}},{"id":"police002","type":"TCC","geometry":{"x":121.444554,"y":31.180034},"symbol":{"type":"picture","url":"images/mapIcons/TingCheChang-blue.png","height":26,"width":22},"fields":{"desc":"天钥桥停车场","totalSpace":200,"remainSpace":56}}],"showPopup":true,"defaultInfoTemplate":{"title":"<div class=\\"popup_title\\"><i class=\\"fa fa-flag\\"></i> <font>${desc}</font> </div>","content":"<div class=\\"box8w popup_small blue_bgborder\\"><div class=\\"gis-dialog popup_small_inner down_arrow_box\\"><div class=\\"popup_small_main park_list\\">\\t\\t<p class=\\"font_box orange\\" >总车位 <span class=\\"orange_font\\">${totalSpace}</span></p>\\t\\t<p class=\\"font_box blue\\" >剩余车位 <span class=\\"blue_font\\">${remainSpace}</span></p>\\t</div></div></div>"}}');
     // map.addOverlays('{"overlays":[{"id":"yy01","type":"specialPoint","geometry":{"x":121.423125759,"y":31.177039021},"symbol":{"type":"picture","url":"assets/layouts/images/icon_gis_hospital.png","height":48,"width":55}}]}');
     // map.showJurisdiction();
     // map.showPoliceCount();
@@ -477,6 +477,7 @@
   });
 
   function Test1ClickHandler() {
+    // map.addOverlaysCluster('{"showInfoTemplate":true,"overlays":[{"type":"police","id":"002","geometry":{"x":87.38,"y":43.76},"fields":{"zcpp":"11","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}},{"type":"police","id":"003","geometry":{"x":87.463,"y":43.81},"fields":{"zcpp":"","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}},{"type":"police","id":"004","geometry":{"x":87.471,"y":43.831},"fields":{"zcpp":"","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}}]}');
     // map.findFeature({layerName: "specialPoint", ids: ["yy01"], centerResult: true});
 
     // map.home();
@@ -585,10 +586,6 @@
     });
     map.showDynamicRendererLayer({
       name: "城市道路",
-      defaultData: "free"
-    });
-    map.showDynamicRendererLayer({
-      name: "城际公路",
       defaultData: "free"
     });
 

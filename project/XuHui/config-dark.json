@@ -155,6 +155,11 @@
         "id": "RouteWidget"
       },
       {
+        "uri": "widgets/Cluster/Widget",
+        "version": "2.4",
+        "id": "ClusterWidget"
+      },
+      {
         "uri": "widgets/Measurement/Widget",
         "position": {
           "left": 50,

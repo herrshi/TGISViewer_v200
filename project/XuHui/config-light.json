@@ -165,6 +165,11 @@
         "id": "JurisdictionPoliceWidget"
       },
       {
+        "uri": "widgets/Cluster/Widget",
+        "version": "2.4",
+        "id": "ClusterWidget"
+      },
+      {
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
