@@ -30,6 +30,15 @@ define([
     postCreate: function() {
       this.inherited(arguments);
 
+      topic.subscribe(
+        "showBottomToolbarButton",
+        lang.hitch(this, this.topicHandler_onShowBottomToolbarButton)
+      );
+      topic.subscribe(
+        "hideBottomToolbarButton",
+        lang.hitch(this, this.topicHandler_onHideBottomToolbarButton)
+      );
+
       this._createButton();
     },
 
@@ -80,7 +89,10 @@ define([
       var label = domAttr.get(target, "title");
       var enable = domClass.contains(target, this._activeClass);
       //通知页面
-      if (typeof onBottomButtonClick !== "undefined" && onBottomButtonClick instanceof Function) {
+      if (
+        typeof onBottomButtonClick !== "undefined" &&
+        onBottomButtonClick instanceof Function
+      ) {
         onBottomButtonClick(label, enable);
       }
 
@@ -118,28 +130,31 @@ define([
     onArrow_click: function() {
       var arrowNode = query(".popup_bottom_arrowUp")[0];
       if (domClass.contains(arrowNode, "clicked")) {
-        fx
-          .animateProperty({
-            node: query(".popup_bottom_inner")[0],
-            properties: {
-              marginBottom: -85
-            }
-          })
-          .play();
+        fx.animateProperty({
+          node: query(".popup_bottom_inner")[0],
+          properties: {
+            marginBottom: -85
+          }
+        }).play();
         domStyle.set(arrowNode, "transform", "rotate(0deg)");
         domClass.remove(arrowNode, "clicked");
       } else {
-        fx
-          .animateProperty({
-            node: query(".popup_bottom_inner")[0],
-            properties: {
-              marginBottom: 0
-            }
-          })
-          .play();
+        fx.animateProperty({
+          node: query(".popup_bottom_inner")[0],
+          properties: {
+            marginBottom: 0
+          }
+        }).play();
         domStyle.set(arrowNode, "transform", "rotate(180deg)");
         domClass.add(arrowNode, "clicked");
       }
+    },
+    topicHandler_onShowBottomToolbarButton: function(params) {
+      query("[title=" + params + "]").style("display", "inline-block");
+    },
+
+    topicHandler_onHideBottomToolbarButton: function(params) {
+      query("[title=" + params + "]").style("display", "none");
     }
   });
 });

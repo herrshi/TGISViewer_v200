@@ -161,6 +161,12 @@
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/LocateInIssuesect/Widget",
+        "config": "configs/LocateInIssuesect/config_XuHui.json",
+        "version": "2.4",
+        "id": "LocateInIssuesectWidget"
       }
     ]
   }

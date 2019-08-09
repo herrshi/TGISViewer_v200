@@ -1,0 +1,121 @@
+.row .col{
+    padding: 5px 0;
+}
+.detachment_leader{
+    position: relative;
+}
+.detachment_leader i{
+    width: 7px;
+    height: 7px;
+    border-radius: 10px;
+    background: #bbe6f6;
+    position: absolute;
+    top: 5px;
+    left: -10px;
+}
+.leader{
+    display: flex;
+    justify-content: space-between;
+}
+.leader .name{
+    margin: 0 10px;
+}
+.gangwei_pot i{
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: #7099af;
+    position: absolute;
+    top: -4px;
+    right: 0;
+}
+.crossroads{
+    padding-left: 10px;
+}
+.crossroads .dot{
+    width: 7px;
+    height: 7px;
+    background: #e58e00;
+    border-radius: 10px;
+    position: absolute;
+    top: 13px;
+    left: 0;
+}
+.corner_full_data::before{
+    z-index: -1 !important;
+}
+.congestion_percentage{
+    display: flex;
+    justify-content: space-between;
+}
+.nav_content .corner_full_gradual{
+    cursor: pointer;
+}
+.nav_content .box8w i{
+    width:65px;
+    height: 65px;
+    display: inline-block;
+    position: absolute;
+    top: -13px;
+    left: -14px;
+}
+.nav_content .box8w_jingcha i{
+    background: url("../../assets/layouts/images/emgcRespond/jigncha.png") no-repeat;
+    background-size: 100% 100%;
+}
+.nav_content .box8w_daolu i{
+    background: url("../../assets/layouts/images/emgcRespond/daolu.png") no-repeat;
+    background-size: 100% 100%;
+}
+.nav_content .box8w_yingjicheliang i{
+    background: url("../../assets/layouts/images/emgcRespond/yingjicheliang_01.png") no-repeat;
+    background-size: 100% 100%;
+}
+.nav_content .box8w_dianhua i{
+    background: url("../../assets/layouts/images/emgcRespond/dianhua.png") no-repeat;
+    background-size: 100% 100%;
+}
+.nav_content .box8w_jingcha i.active{
+    background: url("../../assets/layouts/images/emgcRespond/jingcha.png") no-repeat;
+    background-size: 100% 100%;
+}
+.nav_content .box8w_daolu i.active{
+    background: url("../../assets/layouts/images/emgcRespond/daolu.png") no-repeat;
+    background-size: 100% 100%;
+}
+.nav_content .box8w_yingjicheliang i.active{
+    background: url("../../assets/layouts/images/emgcRespond/yingjicheliang_01.png") no-repeat;
+    background-size: 100% 100%;
+}
+.nav_content .box8w_dianhua i.active{
+    background: url("../../assets/layouts/images/emgcRespond/dianhua.png") no-repeat;
+    background-size: 100% 100%;
+}
+.intelligent_sorting:hover .baojing{
+    display: block !important;
+    top: 25px;
+    left: -52px;
+}
+/*.dianhua_box>div:hover,*/
+/*.jinji_box>div:hover{*/
+/*    cursor: pointer;*/
+/*    background: rgba(4,120,209,0.45) !important;*/
+/*}*/
+/*.dianhua_box>div.active,*/
+/*.jinji_box>div.active{*/
+/*    cursor: pointer;*/
+/*    background: rgba(4,120,209,0.45) !important;*/
+/*}*/
+.gis_small .line{
+    width: 1px;
+    height: 30px;
+    background: rgba(189,233,249,0.4);
+    display: inline-block;
+}
+.row::after,
+.row::before{
+    display: unset;
+}
+.moreBtn a:hover{
+    color: #bde9f9;
+}

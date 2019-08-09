@@ -42,8 +42,13 @@
         "url": "http://{gisServer}:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
         "type": "webTiled",
         "visible": false
+      },
+      {
+        "label": "发布段",
+        "url": "http://15.32.196.88:6080/arcgis/rest/services/jj_fbd_local/MapServer",
+        "type": "dynamic",
+        "visible": true
       }
-
     ],
     "mapOptions": {
       "center": [121.441, 31.159],
@@ -51,7 +56,9 @@
       "showLabels": true,
       "logo": false,
       "nav": false,
-      "slider": true
+      "slider": false,
+      "minZoom": 10,
+      "maxZoom": 20
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
@@ -173,6 +180,17 @@
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/LocateInIssuesect/Widget",
+        "config": "configs/LocateInIssuesect/config_XuHui.json",
+        "version": "2.4",
+        "id": "LocateInIssuesectWidget"
+      },
+      {
+        "uri": "widgets/MultiSearch_XuHui/Widget",
+        "version": "2.4",
+        "id": "MultiSearchWidget"
       }
     ]
   }

@@ -39,6 +39,7 @@ define([
     lastDrawGeometry: null,
     drawCallback: null,
     _drawSymbol: null,
+    _clearlastDraw: false,
     drawPointSymbol: new SimpleMarkerSymbol(
       SimpleMarkerSymbol.STYLE_CIRCLE,
       10,
@@ -85,6 +86,11 @@ define([
       );
 
       topic.subscribe(
+          "stopDrawOverlay",
+          lang.hitch(this, this.onTopicHandler_stopDrawOverlay)
+      );
+
+      topic.subscribe(
         "clearDrawOverlay",
         lang.hitch(this, this.onTopicHandler_clearDrawOverlay)
       );
@@ -96,6 +102,8 @@ define([
 
       this.drawCallback = params.callback;
 
+      this._clearlastDraw=params.params.isClear===true;
+
       this.drawToolbar.activate(drawType);
     },
 
@@ -103,7 +111,15 @@ define([
       this.drawLayer.clear();
     },
 
+    onTopicHandler_stopDrawOverlay: function() {
+      this.drawToolbar.deactivate();
+
+    },
+
     onDrawToolBarHandler_drawComplete: function(event) {
+      if (this._clearlastDraw) {
+        this.drawLayer.clear();
+      }
       var symbol;
       this.lastDrawGeometry = event.geometry;
       switch (this.lastDrawGeometry.type) {

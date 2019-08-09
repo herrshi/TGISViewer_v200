@@ -51,8 +51,8 @@ define([
       //     Optional. Whether or not the map is from an ArcGIS.com webmap. Default is false.
       //   spatialReference:  SpatialReference?
       //     Optional. Spatial reference for all graphics in the layer. This has to match the spatial reference of the map. Default is 102100. Omit this if the map uses basemaps in web mercator.
-
       this._clusterTolerance = options.distance || 50;
+      this._clusterToleranceTemp = options.distanceTemp || 50;
       this._clusterData = options.data || [];
       this._clusters = [];
       this._clusterLabelColor = options.labelColor || "#000";

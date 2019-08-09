@@ -139,10 +139,10 @@ define([
       //  * If you want to share data, please call *publishData*. the published data will
       //    be stored in DataManager.
       //  * If you want to read share data, you can override *onReceiveData* method. Whenever
-      //    any widgt publishes data, this method will be invoked. (communication directly)
+      //    any widget publishes data, this method will be invoked. (communication directly)
       //  * If you want to read the data that published before your widget loaded, you can call
       //    *fetchData* method and get data in *onReceiveData* method. If the data contains
-      //    history data, it will be availble in *historyData* parameter.
+      //    history data, it will be available in *historyData* parameter.
       //      (transferred by DataManager)
       this.own(topic.subscribe("publishData", lang.hitch(this, this._onReceiveData)));
       this.own(topic.subscribe("dataFetched", lang.hitch(this, this._onReceiveData)));

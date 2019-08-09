@@ -71,6 +71,10 @@ define([
         lang.hitch(this, this.onTopicHandler_hideOverlays)
       );
       topic.subscribe(
+        "deleteAllOverlaysCluster",
+        lang.hitch(this, this.onTopicHandler_deleteAllOverlaysCluster)
+      );
+      topic.subscribe(
         "addClusters",
         lang.hitch(this, this.onTopicHandler_addCluster)
       );
@@ -392,6 +396,12 @@ define([
         }
         layer._setHideGraphic(ids, types);
         layer._refreshClusterLayer();
+      }
+    },
+    onTopicHandler_deleteAllOverlaysCluster: function() {
+      for (var i = 0; i < this.clusterLayers.length; i++) {
+        var layer = this.clusterLayers[i];
+        layer.clear();
       }
     }
   });

@@ -1,0 +1,7 @@
+babel widgets -d D:\Javascript\TGISViewer_v200_es5\widgets
+babel TGISAPI.js -o D:\Javascript\TGISViewer_v200_es5\TGISAPI.js
+
+
+browserify D:\Javascript\TGISViewer_v200_es5\TGISAPI.js -o D:\apache-tomcat-8.5.41\webapps\TGISViewer_v200_es5\TGISAPI.js
+browserify D:\Javascript\TGISViewer_v200_es5\widgets\LocateInIssuesect\Widget.js -o D:\apache-tomcat-8.5.41\webapps\TGISViewer_v200_es5\widgets\LocateInIssuesect\Widget.js
+browserify D:\Javascript\TGISViewer_v200_es5\widgets\DynamicIssuesect\Widget.js -o D:\apache-tomcat-8.5.41\webapps\TGISViewer_v200_es5\widgets\DynamicIssuesect\Widget.js

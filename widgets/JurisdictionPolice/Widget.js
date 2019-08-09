@@ -61,6 +61,8 @@ define([
     jurisdictionLabelLayer: null,
     jurisdictionLineLayer: null,
     areaLayer: null,
+    streetLayer: null,
+    zoomEvent: null,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -76,6 +78,15 @@ define([
       topic.subscribe(
         "hideJurisdiction",
         lang.hitch(this, this.onTopicHandler_hideJurisdiction)
+      );
+
+      topic.subscribe(
+        "showStreet",
+        lang.hitch(this, this.onTopicHandler_showStreet)
+      );
+      topic.subscribe(
+        "hideStreet",
+        lang.hitch(this, this.onTopicHandler_hideStreet)
       );
 
       topic.subscribe(
@@ -130,11 +141,11 @@ define([
                   type: "simple",
                   symbol: {
                     type: "esriSFS",
-                    style: "esriSFSNull",
-                    color: [0, 45, 80, 178],
+                    style: "esriSFSSolid",
+                    color: [255, 243, 255, 190],
                     outline: {
-                      color: [0, 188, 6],
-                      width: 4,
+                      color: [0, 210, 245, 230],
+                      width: 1,
                       type: "esriSLS",
                       style: "esriSLSSolid"
                     }
@@ -247,6 +258,63 @@ define([
         })
       );
 
+      //派出所辖区区域
+      fetch(window.path + "configs/JurisdictionPolice/Street.json").then(
+        lang.hitch(this, function(response) {
+          if (response.ok) {
+            response.json().then(
+              lang.hitch(this, function(data) {
+                var featureCollection = {
+                  layerDefinition: data,
+                  featureSet: data
+                };
+
+                this.streetLayer = new FeatureLayer(featureCollection, {
+                  outFields: ["*"],
+                  visible: false,
+                  showLabels: true
+                });
+                //显示辖区名称
+                this.streetLayer.setLabelingInfo([
+                  {
+                    labelExpressionInfo: { value: "{SHOWNAME}" },
+                    symbol: {
+                      type: "esriTS",
+                      color: [36, 135, 205],
+                      font: {
+                        family: "Microsoft YaHei",
+                        size: 10,
+                        weight: "bold"
+                      }
+                    }
+                  }
+                ]);
+                var renderer = new SimpleRenderer({
+                  type: "simple",
+                  symbol: {
+                    type: "esriSFS",
+                    style: "esriSFSSolid",
+                    color: [255, 243, 255, 190],
+                    outline: {
+                      color: [0, 210, 245, 230],
+                      width: 1,
+                      type: "esriSLS",
+                      style: "esriSLSSolid"
+                    }
+                  }
+                });
+                this.streetLayer.setRenderer(renderer);
+                this.streetLayer.on(
+                  "click",
+                  lang.hitch(this, this._onJurisdictionLayer_click)
+                );
+                this.map.addLayer(this.streetLayer, 0);
+              })
+            );
+          }
+        })
+      );
+
       fetch(
         window.path + "configs/JurisdictionPolice/Jurisdiction_Line.json"
       ).then(
@@ -301,7 +369,7 @@ define([
               "' " +
               "class='jingli_point_green' " +
               "style='position:absolute; display: none'>" +
-              "<span id='" +
+              "<span style='color: white' id='" +
               ("JurisdictionCount" + id) +
               "'>100</span>" +
               "<span class='jingli_point_font'>" +
@@ -328,42 +396,52 @@ define([
       }, this);
     },
 
+    _clickedJurisdictionId: "",
+
     _onJurisdictionLayer_click: function(event) {
       event.stopPropagation();
 
-      this.jurisdictionLayer.setVisibility(false);
+      // this.jurisdictionLayer.setVisibility(false);
 
-      var signal = this.map.on(
-        "click",
-        lang.hitch(this, function() {
-          this.jurisdictionLayer.setVisibility(true);
-          this.jurisdictionLineLayer.clear();
-          signal.remove();
-        })
-      );
+      // var signal = this.map.on(
+      //   "click",
+      //   lang.hitch(this, function() {
+      //     // this.jurisdictionLayer.setVisibility(true);
+      //     this.jurisdictionLineLayer.clear();
+      //     signal.remove();
+      //   })
+      // );
+      this.jurisdictionLineLayer.clear();
 
-      var id = event.graphic.attributes["FEATUREID"];
-      //查找这个辖区的边界
-      this.lineGraphics.forEach(function(lineGraphic) {
-        var ids = lineGraphic.attributes["BelongTo"];
-        ids = ids.split(",");
-        if (ids.indexOf(id) >= 0) {
-          //包含道路边界--红色实线
-          //不包含道路边界--红色虚线
-          //沿河堤--蓝色实线
-          //无名小路--蓝色虚线
-          var symbol = new SimpleLineSymbol(
-            lineGraphic.attributes["ContainedIn"] === id ||
-            lineGraphic.attributes["IsRoad"].toUpperCase() === "RIVER"
-              ? lineStyle["CONTAINED"]
-              : lineStyle["NOT-CONTAINED"],
-            lineColor[lineGraphic.attributes["IsRoad"].toUpperCase()],
-            4
-          );
-          lineGraphic.setSymbol(symbol);
-          this.jurisdictionLineLayer.add(lineGraphic);
-        }
-      }, this);
+      if (
+        this._clickedJurisdictionId !== event.graphic.attributes["FEATUREID"]
+      ) {
+        this._clickedJurisdictionId = event.graphic.attributes["FEATUREID"];
+        //查找这个辖区的边界
+        this.lineGraphics.forEach(function(lineGraphic) {
+          var ids = lineGraphic.attributes["BelongTo"];
+          ids = ids.split(",");
+          if (ids.indexOf(this._clickedJurisdictionId) >= 0) {
+            //包含道路边界--红色实线
+            //不包含道路边界--红色虚线
+            //沿河堤--蓝色实线
+            //无名小路--蓝色虚线
+            var symbol = new SimpleLineSymbol(
+              lineGraphic.attributes["ContainedIn"] ===
+                this._clickedJurisdictionId ||
+              lineGraphic.attributes["IsRoad"].toUpperCase() === "RIVER"
+                ? lineStyle["CONTAINED"]
+                : lineStyle["NOT-CONTAINED"],
+              lineColor[lineGraphic.attributes["IsRoad"].toUpperCase()],
+              4
+            );
+            lineGraphic.setSymbol(symbol);
+            this.jurisdictionLineLayer.add(lineGraphic);
+          }
+        }, this);
+      } else {
+        this._clickedJurisdictionId = "";
+      }
     },
 
     onTopicHandler_showJurisdiction: function() {
@@ -372,6 +450,44 @@ define([
 
     onTopicHandler_hideJurisdiction: function() {
       this.jurisdictionLayer.setVisibility(false);
+      this.jurisdictionLineLayer.clear();
+    },
+
+    onTopicHandler_showStreet: function(params) {
+      var maxZoom = 100,
+        minZoom = 0;
+      if (params) {
+        maxZoom = params.maxZoom || 100;
+        minZoom = params.minZoom || 0;
+      }
+
+      var cur_zoom = this.map.getZoom();
+
+      if (!this.zoomEvent) {
+        this.zoomEvent = this.map.on(
+          "zoom-end",
+          lang.hitch(this, function(event) {
+            if (
+              event.level <= Number(maxZoom) &&
+              event.level >= Number(minZoom)
+            ) {
+              this.streetLayer.setVisibility(true);
+            } else {
+              this.streetLayer.setVisibility(false);
+            }
+          })
+        );
+      }
+
+      if (cur_zoom <= Number(maxZoom) && cur_zoom >= Number(minZoom)) {
+        this.streetLayer.setVisibility(true);
+      } else {
+        this.streetLayer.setVisibility(false);
+      }
+    },
+
+    onTopicHandler_hideStreet: function() {
+      this.streetLayer.setVisibility(false);
     },
 
     onTopicHandler_showArea: function() {
@@ -385,13 +501,25 @@ define([
     onTopicHandler_showPoliceCount: function(params) {
       this.jurisdictionLayer.showLabels = false;
       this.jurisdictionLayer.refresh();
-
       this.policeCountDivs.forEach(function(div) {
-        domStyle.set(div, { display: "block" });
+        domStyle.set(div, { display: "none" });
       });
+      //默认显示辖区
+      if (params === undefined) {
+        this.policeCountDivs.forEach(function(div) {
+          if (Number(div.id.replace("Jurisdiction", "")) < 20) {
+            domStyle.set(div, { display: "block" });
+          }
+        });
+      }
 
       if (params && params instanceof Array) {
         params.forEach(function(countData) {
+          var curDiv = this.policeCountDivs.find(function(div) {
+            return div.id === "Jurisdiction" + countData.id;
+          });
+          domStyle.set(curDiv, { display: "block" });
+
           var parentNode = dom.byId("Jurisdiction" + countData.id);
           domClass.remove(
             parentNode,

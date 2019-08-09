@@ -37,16 +37,6 @@ define([
         lang.hitch(this, this.onTopicHandler_hideDynamicRendererLayer)
       );
 
-      // this.map.on("zoom-end", () => {
-      //   const scale = this.map.getScale();
-      //   console.log(this.map.getScale());
-      //   this._rendererLayers.forEach(layer => {
-      //     if (layer.isVisibleAtScale(scale)) {
-      //       console.log(layer.id);
-      //     }
-      //   });
-      // });
-
       this._readLayerConfig();
     },
 
@@ -124,6 +114,7 @@ define([
         if (info) {
           graphic.setInfoTemplate(info);
         }
+        // graphic.attributes.data = "";
         graphicsLayer.add(graphic);
       });
       this.map.addLayer(graphicsLayer);
@@ -143,9 +134,7 @@ define([
               if (datas !== undefined) {
                 for (let j = 0; j < datas.length; j++) {
                   if (graphic.id === datas[j].id) {
-                    graphic.attr("data", datas[j].data);
-
-                    datas.splice(j, 1);
+                    graphic.attributes.data = datas[j].data;
                     found = true;
                     break;
                   }
@@ -153,7 +142,7 @@ define([
               }
 
               if (!found && defaultData !== undefined) {
-                graphic.attr("data", defaultData);
+                graphic.attributes.data = defaultData;
               }
             });
           }

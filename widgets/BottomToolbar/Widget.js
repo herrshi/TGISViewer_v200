@@ -48,11 +48,22 @@ define([
         lang.hitch(this, function(buttonObj) {
           buttonContainer.addContent(
             "<img style='cursor: pointer;' " +
-            "src='" + window.path + buttonObj.image + "' " +
-            "class='mr-2 " + (!!buttonObj.initEnable ? this._activeClass : this._inactiveClass) + "'" +
-            "title='" + buttonObj.label + "' " +
-            "data-toggle='tooltip' data-placement='top' " +
-            "data-operations='" + JSON.stringify(buttonObj.operations) + "'>"
+              "src='" +
+              window.path +
+              buttonObj.image +
+              "' " +
+              "class='mr-2 " +
+              (!!buttonObj.initEnable
+                ? this._activeClass
+                : this._inactiveClass) +
+              "'" +
+              "title='" +
+              buttonObj.label +
+              "' " +
+              "data-toggle='tooltip' data-placement='top' " +
+              "data-operations='" +
+              JSON.stringify(buttonObj.operations) +
+              "'>"
             // "<span>" +
             //   "<button class='btn btn-sm btn-mdb-color"  +
             //   (!!buttonObj.initEnable ? this._activeClass : "") +
@@ -93,8 +104,17 @@ define([
       domClass.toggle(target, this._activeClass);
       domClass.toggle(target, this._inactiveClass);
 
-      var label = domAttr.get(target, "title") || domAttr.get(target, "data-original-title");
+      var label =
+        domAttr.get(target, "title") ||
+        domAttr.get(target, "data-original-title");
       var enable = domClass.contains(target, this._activeClass);
+      //通知页面
+      if (
+        typeof onBottomButtonClick !== "undefined" &&
+        onBottomButtonClick instanceof Function
+      ) {
+        onBottomButtonClick(label, enable);
+      }
 
       var operations = domAttr.get(target, "data-operations");
       if (operations !== "undefined") {

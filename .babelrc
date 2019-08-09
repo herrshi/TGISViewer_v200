@@ -1,0 +1,13 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "chrome": "44"
+        }
+      }
+    ]
+  ],
+  "plugins":["transform-remove-strict-mode"]
+}

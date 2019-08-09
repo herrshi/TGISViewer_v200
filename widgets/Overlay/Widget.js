@@ -77,7 +77,6 @@ define([
   var clazz = declare([BaseWidget], {
     name: "Overlay",
     graphicsLayer: null,
-
     postCreate: function() {
       this.inherited(arguments);
 
@@ -471,7 +470,10 @@ define([
     onTopicHandler_addOverlays: function(params, resolve, reject) {
       var overlayParams = JSON.parse(params);
       //需要抽稀的在ReductionOverlay中处理
-      if (overlayParams.featureReduction && !!overlayParams.featureReduction.enable) {
+      if (
+        overlayParams.featureReduction &&
+        !!overlayParams.featureReduction.enable
+      ) {
         return;
       }
       var overlays = overlayParams.overlays;
@@ -523,12 +525,12 @@ define([
             graphic.id = id;
             graphic.type = type;
             graphic.buttons = buttons;
-            if(showToolTip){
-                topic.publish("showToolTip", {
-                    graphic: graphic,
-                    label: "卡口",
-                    offset: 20
-                });
+            if (showToolTip) {
+              topic.publish("showToolTip", {
+                graphic: graphic,
+                label: "卡口",
+                offset: 20
+              });
             }
 
             if (showPopup) {
@@ -663,9 +665,15 @@ define([
       var centerResult = params.params.centerResult || false;
       var find_blackGraphic;
       var find_blacknode;
+
+      var callback = params.callback;
+
       for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
         var graphic = this.graphicsLayer.graphics[i];
         if (graphic.type === layerName && graphic.id === ids[0]) {
+          if (callback) {
+            callback(graphic);
+          }
           if (centerResult) {
             this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry));
           }

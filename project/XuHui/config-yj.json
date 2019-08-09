@@ -1,0 +1,83 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "深色底图",
+        "url":
+        "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [],
+    "mapOptions": {
+      "center": [121.441, 31.159],
+      "zoom": 13,
+      "showLabels": true,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "15.75.0.255",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/BottomToolbar_CircleButton/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_XuHui_circle.json",
+        "position": {
+          "bottom": 150,
+          "width": "100%",
+          "left": 0,
+          "right": 0
+        },
+        "id": "BottomToolbarWidget"
+      },
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/JurisdictionPolice/Widget",
+        "version": "2.4",
+        "id": "JurisdictionPoliceWidget"
+      }
+    ]
+  }
+}

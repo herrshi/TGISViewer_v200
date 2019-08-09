@@ -53,6 +53,7 @@ define([
     _showPopup: false,
     _centerResult: true,
     _alwaysHighlight: true,
+    _callback: null,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -71,14 +72,14 @@ define([
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          [255, 0, 0, 255],
+          [0, 255, 255, 255],
           3
         ),
         new Color([0, 0, 0, 0])
       );
       this.defaultHighlightSymbol = new SimpleLineSymbol(
         SimpleLineSymbol.STYLE_SOLID,
-        new Color([255, 0, 0, 255]),
+        new Color([0, 255, 255, 255]),
         4
       );
 
@@ -121,6 +122,10 @@ define([
                 result,
                 function(findResult) {
                   var graphic = findResult.feature;
+
+                  if (this._callback) {
+                    this._callback(graphic);
+                  }
                   switch (graphic.geometry.type) {
                     case "polyline":
                       graphic.symbol = this.defaultPolylineSymbol;
@@ -226,6 +231,9 @@ define([
           }
         }
         if (ids.indexOf(id) >= 0) {
+          if (this._callback) {
+            this._callback(graphic);
+          }
           if (this._showResult) {
             if (this._centerResult) {
               this.map
@@ -256,6 +264,8 @@ define([
       this._showResult = params.params.showResult !== false;
       this._centerResult = params.params.centerResult === true;
       this._showPopup = params.params.showPopup === true;
+
+      this._callback = params.callback;
 
       if (layerName === "" || ids === "") {
         return;
@@ -434,22 +444,22 @@ define([
         }
       }, this);
     },
-    _doHighlightFindTaskPolylineOrPolygon:function(graphic) {
+    _doHighlightFindTaskPolylineOrPolygon: function(graphic) {
       //graphic.attributes.showZoom="7";
-      var showZoom=null;
+      var showZoom = null;
       if (this.config) {
         for (var i = 0; i < this.config.length; i++) {
-          if(graphic.label===this.config[i].label)
-          {
-              showZoom=Number(this.config[i].showzoom);
-              break;
+          if (graphic.label === this.config[i].label) {
+            showZoom = Number(this.config[i].showzoom);
+            break;
           }
         }
       }
-      if (showZoom && showZoom>0) {
+      if (showZoom && showZoom > 0) {
         this.map
           .centerAndZoom(
-            jimuUtils.getGeometryCenter(graphic.geometry), showZoom
+            jimuUtils.getGeometryCenter(graphic.geometry),
+            showZoom
           )
           .then(
             lang.hitch(this, function(value) {

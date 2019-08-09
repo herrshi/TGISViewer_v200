@@ -416,7 +416,7 @@ var TMap = {
 
   /**
    * 使用动态数据渲染静态图层, 事先配置好渲染器
-   * @param params: object, required.
+   * @param params: object, optional.
    *   name: string, required.
    *   defaultData: string/number, optional. 缺省的渲染数据值.
    *     如果设置了缺省值, 本次datas中未覆盖到的元素将使用缺省值赋值, 否则不更改原有值.
@@ -432,13 +432,10 @@ var TMap = {
 
   /**
    * 隐藏动态渲染图层
-   * @param params: object, optional.
-   * 不传参数隐藏所有动态渲染图层
-   *   name: string, required.
    * */
-  hideDynamicRendererLayer: function(params) {
+  hideDynamicRendererLayer: function() {
     require(["dojo/topic"], function(topic) {
-      topic.publish("hideDynamicRendererLayer", params);
+      topic.publish("hideDynamicRendererLayer");
     });
   },
   /************************ Layer & Service END **************************/
@@ -670,6 +667,7 @@ var TMap = {
    *     symbol: object, optional. 符号.
    *       会覆盖defaultSymbol.
    *  distance:number,optional.聚合距离,默认100.
+   *  zoom:number, optional. maxZoom,需要聚合显示的最大层级,地图小于等于该层级时,聚合显示.默认值为地图最大zoom.为0或null时,聚合显示
    *  defaultSymbol: object, optional. 默认符号.
    *    参见addPoints/addLines/addPolygons的symbol属性.
    *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
@@ -699,6 +697,11 @@ var TMap = {
   hideOverlaysCluster: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideOverlaysCluster", params);
+    });
+  },
+  deleteAllOverlaysCluster: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("deleteAllOverlaysCluster");
     });
   },
   /**
@@ -790,11 +793,19 @@ var TMap = {
    * @param params: object, required.
    *   drawType: string, required. 绘制类型
    *   symbol:object, optional 设置样式
+   *   isClear:boolean, optional 清除上一个画的geometry.默认值false
    * @param callback: function, optional.
    * */
   startDrawOverlay: function(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("startDrawOverlay", { params: params, callback: callback });
+    });
+  },
+
+  /**停止绘制的覆盖物*/
+  stopDrawOverlay: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("stopDrawOverlay");
     });
   },
 
@@ -826,6 +837,8 @@ var TMap = {
    *       默认为100
    *     minValue: number, optional. 在颜色渐变中分配初始颜色的像素强度值, 低于此数字的值也将分配渐变色的初始色
    *       默认为0
+   *     zoom:number, optional. 需要显示热力图层级,地图小于等于该层级时,显示热力图.默认值为地图最大zoom
+   *     renderer:object, optional. 设置图层renderer.
    * */
   addHeatMap: function(params) {
     require(["dojo/topic"], function(topic) {
@@ -1113,6 +1126,82 @@ var TMap = {
     });
   },
 
+  /***
+   *
+   * @param params: object, required.
+   *   center: [number, number], 中心点
+   *   radius: number, 搜索半径
+   *   showResult: boolean, 是否显示搜索结果
+   *   contents: [object], 搜索内容
+   *     class: string, "poi" | "overlay" | "fbd"
+   *     types: string, 不指定时搜索此类型下所有要素
+   * @example
+   *
+   {
+    center: [121.441, 31.159],
+    radius: 500,
+    showResult: true,
+    contents: [
+      {
+        class: "poi",
+        types: "路口名,道路名"
+      },
+      {
+        class: "overlay",
+        types: "police"
+      },
+      {
+        class: "fbd"
+        types: "城市道路,快速路"
+      }
+    ]
+   }
+   *
+   * @return
+    {
+      results: [
+        {
+          class: "poi",
+          result: [
+	        id: "B0FFGQ9Q9Y",
+            name: "天目中路",
+            location: [121.455896, 31.247646]
+            type: "地名地址信息;交通地名;道路名"
+          ]
+        },
+	      {
+	        class: "fbd",
+	        result: [
+	          {
+		          id: "21252416912",
+		          name: "武康路(华山路->安福路)",
+		          location: [121.44019983601686, 31.213175770283573],
+		          type: "地面道路"
+		        },
+		        {
+		          id: "61191954001",
+		          name: "外圈吴中路下匝道至吴中路上匝道",
+		          location: [121.42395568881847, 31.185519213177798],
+		          type: "快速路"
+		        }
+	        ]
+	      },
+	      {
+	        class: "overlay",
+	        result: [
+	          {
+		          id: "",
+		          name: "",
+		          location: [],
+		          type: "police"
+		        }
+	        ]
+	      }
+      ]
+    }
+   */
+  mixinSearch: function(params) {},
+
   /**
    * 从已经搜索好的结果中获取某个分类的详细结果列表
    * @param params: object required.
@@ -1163,6 +1252,23 @@ var TMap = {
   clearMultiSearchResult: function() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMultiSearchResult");
+    });
+  },
+
+  /**
+   * 将点位定位到发布段上
+   * @param params: object, required.
+   *   x: number, required.
+   *   y: number, required.
+   * @param callback: 回调函数
+   *   results: array of object
+   *     id: string
+   *     roadName: string
+   *     layerName: string
+   * */
+  locateInGeometry: function(params, callback) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("locateInGeometry", { params, callback });
     });
   },
   /************************ Search END **************************/
@@ -1370,6 +1476,7 @@ var TMap = {
    *       x: number
    *       y: number
    *     flow: number, required. O分析时为D点流量, D分析时为O点流量
+   *     opposite:boolean, optional.设置是否双向.
    * */
   showOD: function(params) {
     require(["dojo/topic"], function(topic) {
@@ -1451,7 +1558,24 @@ var TMap = {
       topic.publish("hideJurisdiction");
     });
   },
+  /**
+   * 显示街道
+   * @param params: object, optional.
+   *   maxZoom: number, optional. 显示的最大层级
+   *   minZoom: number, optional. 显示的最小层级
+   * */
+  showStreet: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showStreet", params);
+    });
+  },
 
+  //隐藏街道
+  hideStreet: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideStreet");
+    });
+  },
   //显示片区
   showArea: function() {
     require(["dojo/topic"], function(topic) {
@@ -1505,6 +1629,7 @@ var TMap = {
    *   wayPoints: string. 途径点字符串x,y,以;隔开
    *   bufferDistance: number. 缓冲半径. 默认为0, 不缓冲.
    *   clearPrevResults: boolean. 是否清除上一次路径分析结果. 默认为true
+   *   showIcon:boolean.是否显示起点终点途径点图标.默认为true.
    * */
   routeSearch: function(params) {
     require(["dojo/topic"], function(topic) {
@@ -1752,6 +1877,42 @@ var TMap = {
   clearMonitorTrack: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMonitorTrack", params);
+    });
+  },
+  /**
+   *车辆轨迹路径查询
+   * *   @param params: string json字符串, required
+   *     id:string required.编号id.
+   *     monitors:[object] required.电子围栏集合
+   *        kkpoints[object] required.卡口坐标集合
+   *          x:number required.坐标x,
+   *          y:number required.坐标y,
+   *        level:number required.级别1-3.1级为最内层.3级最外层.
+   *     stops:[object] optional.设置多个途径点.
+   *        stop:[object] required. 设置途径点集合.
+   *          x:number required.坐标x,
+   *          y:number required.坐标y,
+   *     trackPoints:[object] required.轨迹线坐标集合.
+   *        x:number required.坐标x,
+   *        y:number required.坐标y,
+   *        roadids:[string] required.相关的道路id.
+   *        fields:object optional.属性字段.
+   *     autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
+   *     loop: boolean, optional. 是否循环播放. 默认为true.
+   *     repeatCount:number,optional.循环播发次数.默认值为0.无线循环.
+   *     isCenter:boolean,optional.是否定位到中点,默认为false.
+   *     isZoom:boolean,optional.是否层级变化,默认为false.
+   *     symbol:object, optional. 车辆符号.
+   * */
+  RouteByRoadSearch: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("RouteByRoadSearch", params);
+    });
+  },
+  //清除路径查询
+  clearRouteByRoadSearch: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearRouteByRoadSearch", params);
     });
   }
 };
