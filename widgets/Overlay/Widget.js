@@ -481,6 +481,7 @@ define([
       var showPopup = overlayParams.showPopup === true;
       var autoPopup = overlayParams.autoPopup === true;
       var showToolTip = overlayParams.showToolTip === true;
+      var defaultVisible = overlayParams.defaultVisible !== false;
 
       array.forEach(
         overlays,
@@ -491,6 +492,7 @@ define([
           var geometryObj = overlayObj.geometry;
           var symbolObj = overlayObj.symbol || overlayParams.defaultSymbol;
           var buttons = overlayObj.buttons || overlayParams.defaultButtons;
+          var visible = overlayObj.visible !== undefined ? overlayObj.visible : defaultVisible;
 
           var geometry = geometryJsonUtils.fromJson(geometryObj);
           if (this.map.spatialReference.isWebMercator()) {
@@ -525,6 +527,7 @@ define([
             graphic.id = id;
             graphic.type = type;
             graphic.buttons = buttons;
+            graphic.visible = visible;
             if (showToolTip) {
               topic.publish("showToolTip", {
                 graphic: graphic,
@@ -565,6 +568,7 @@ define([
         },
         this
       );
+      this.publishData(this.graphicsLayer.graphics);
       if (resolve) {
         resolve();
       }

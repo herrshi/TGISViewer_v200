@@ -46,7 +46,8 @@
       "slider": false
     }
   },
-  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "114.215.146.210",
   "widgetOnScreen": {
     "widgets": [
@@ -162,11 +163,6 @@
         "id": "ClusterWidget"
       },
       {
-        "uri": "widgets/Overlay/Widget",
-        "version": "2.4",
-        "id": "OverlayWidget"
-      },
-      {
         "uri": "widgets/LocateInIssuesect/Widget",
         "config": "configs/LocateInIssuesect/config_XuHui.json",
         "version": "2.4",
@@ -174,9 +170,14 @@
       },
       {
         "uri": "widgets/MultiSearch_XuHui/Widget",
-        "config": "configs/MultiSearch/config_XuHui.json",
+        "config": "configs/MultiSearch/config_XuHui_www.json",
         "version": "2.4",
         "id": "MultiSearchWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
       }
     ]
   }

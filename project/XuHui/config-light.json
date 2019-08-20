@@ -42,12 +42,6 @@
         "url": "http://{gisServer}:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
         "type": "webTiled",
         "visible": false
-      },
-      {
-        "label": "发布段",
-        "url": "http://15.32.196.88:6080/arcgis/rest/services/jj_fbd_local/MapServer",
-        "type": "dynamic",
-        "visible": true
       }
     ],
     "mapOptions": {
@@ -189,6 +183,7 @@
       },
       {
         "uri": "widgets/MultiSearch_XuHui/Widget",
+        "config": "configs/MultiSearch/config_XuHui.json",
         "version": "2.4",
         "id": "MultiSearchWidget"
       }

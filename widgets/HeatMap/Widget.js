@@ -141,8 +141,13 @@ define([
       this.heatLayer.applyEdits(features, null, null);
       var heatmapRenderer = new HeatmapRenderer({
         field: options.field,
-        blurRadius: options.radius || 20,
-        colors: options.colors || undefined,
+        blurRadius: options.radius || 25,
+        colors: options.colors || [
+          "rgba(0, 0, 255, 0)",
+          "rgb(0, 255, 0)",
+          "rgb(255, 255, 0)",
+          "rgb(255, 0, 0)"
+        ],
         maxPixelIntensity: options.maxValue || 100,
         minPixelIntensity: options.minValue || 0
       });

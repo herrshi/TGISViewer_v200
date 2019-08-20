@@ -433,9 +433,9 @@ var TMap = {
   /**
    * 隐藏动态渲染图层
    * */
-  hideDynamicRendererLayer: function() {
+  hideDynamicRendererLayer: function(params) {
     require(["dojo/topic"], function(topic) {
-      topic.publish("hideDynamicRendererLayer");
+      topic.publish("hideDynamicRendererLayer", params);
     });
   },
   /************************ Layer & Service END **************************/
@@ -881,15 +881,14 @@ var TMap = {
    *     0或空代表不做缓冲
    * @param overlays: [], optional.需要查询的addoverlays动态点.
    * @param callback: function, optional.
-   * @return
-   *   回调函数返回: array
+   * @callback
    *     type: 图层名称
    *     id: 要素编号
    *     length: 线要素的长度, 米
    *     area: 面要素的面积, 平方米
-   *     [{type: "快速路", id: "111", length: 183.12}]
    * @sample map.geometrySearch({drawType: "polygon"}, function(results){});
    * @sample map.geometrySearch({drawType: "polyline", bufferDistance: 100}, function(results){});
+   * @sample [{type: "快速路", id: "111", length: 183.12}]
    * */
   geometrySearch: function(params, callback) {
     require(["dojo/topic"], function(topic) {
@@ -916,7 +915,6 @@ var TMap = {
    *    当layers和overlays为空则搜索当前可见图层.
    * @param callback: function, optional.
    * @return
-   *   回调函数返回: array
    *     type: 动态点位类型.
    *     label: 静态图层名称.
    *     id: 要素编号
@@ -1129,12 +1127,36 @@ var TMap = {
   /***
    *
    * @param params: object, required.
-   *   center: [number, number], 中心点
+   *   geometry: object, required. 搜索中心, 可以为点、线、面
+   *     点：
+   *       {"x" : -118.15, "y" : 33.80, "spatialReference" : {"wkid" : 4326}}
+   *     线：
+   *       {
+   *         "paths" : [[[-97.06138,32.837],[-97.06133,32.836],[-97.06124,32.834],[-97.06127,32.832]],
+   *                    [[-97.06326,32.759],[-97.06298,32.755]]],
+   *         "spatialReference" : {"wkid" : 4326}
+   *       }
+   *     面：
+   *       {
+   *         "rings" : [[[-97.06138,32.837],[-97.06133,32.836],[-97.06124,32.834],[-97.06127,32.832],
+   *                    [-97.06138,32.837]],[[-97.06326,32.759],[-97.06298,32.755],[-97.06153,32.749],
+   *                    [-97.06326,32.759]]],
+   *         "spatialReference" : {"wkid" : 4326}
+   *       }
    *   radius: number, 搜索半径
+   *     default: 0, 不进行缓冲
+   *   showGeometry: boolean, 是否显示原始geometry
+   *     default: true
+   *   showBuffer: boolean, radius可用时, 是否显示搜索缓冲区
+   *     default: true
    *   showResult: boolean, 是否显示搜索结果
+   *     default: true
    *   contents: [object], 搜索内容
    *     class: string, "poi" | "overlay" | "fbd"
    *     types: string, 不指定时搜索此类型下所有要素
+   * @param callback: function, required.
+   *   回调函数
+   *   可使用promise或回调函数获取返回结果
    * @example
    *
    {
@@ -1157,7 +1179,7 @@ var TMap = {
     ]
    }
    *
-   * @return
+   * @callback: 回调函数返回
     {
       results: [
         {
@@ -1200,7 +1222,37 @@ var TMap = {
       ]
     }
    */
-  mixinSearch: function(params) {},
+  mixinSearch: function(
+    {
+      geometry,
+      radius = 0,
+      showGeometry = true,
+      showBuffer = true,
+      showResult = true,
+      contents
+    } = {},
+    callback
+  ) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("mixinSearch", {
+        params: {
+          geometry,
+          radius,
+          showGeometry,
+          showBuffer,
+          showResult,
+          contents
+        },
+        callback
+      });
+    });
+  },
+
+  clearMixinSearch: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearMixinSearch");
+    });
+  },
 
   /**
    * 从已经搜索好的结果中获取某个分类的详细结果列表
