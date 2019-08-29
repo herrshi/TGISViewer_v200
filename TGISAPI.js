@@ -667,7 +667,8 @@ var TMap = {
    *     symbol: object, optional. 符号.
    *       会覆盖defaultSymbol.
    *  distance:number,optional.聚合距离,默认100.
-   *  zoom:number, optional. maxZoom,需要聚合显示的最大层级,地图小于等于该层级时,聚合显示.默认值为地图最大zoom.为0或null时,聚合显示
+   *  zoom:number, optional. maxZoom,需要聚合显示的最大层级,地图小于等于该层级时,聚合显示.
+   *    默认值为地图最大zoom.为0或null时,聚合始终显示
    *  defaultSymbol: object, optional. 默认符号.
    *    参见addPoints/addLines/addPolygons的symbol属性.
    *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.

@@ -15,6 +15,7 @@ define([
   "dojo/_base/window",
   "jimu/BaseWidget",
   "esri/graphic",
+  "esri/geometry/Polyline",
   "esri/layers/GraphicsLayer",
   "esri/layers/FeatureLayer",
   "esri/layers/LabelClass",
@@ -34,6 +35,7 @@ define([
   win,
   BaseWidget,
   Graphic,
+  Polyline,
   GraphicsLayer,
   FeatureLayer,
   LabelClass,
@@ -62,6 +64,7 @@ define([
     jurisdictionLineLayer: null,
     areaLayer: null,
     streetLayer: null,
+    streetLayerShow: true,
     zoomEvent: null,
 
     postCreate: function() {
@@ -83,6 +86,10 @@ define([
       topic.subscribe(
         "showStreet",
         lang.hitch(this, this.onTopicHandler_showStreet)
+      );
+      topic.subscribe(
+        "locateStreet",
+        lang.hitch(this, this.onTopicHandler_LocateStreet)
       );
       topic.subscribe(
         "hideStreet",
@@ -257,7 +264,7 @@ define([
           }
         })
       );
-
+      this.streetLayer = new GraphicsLayer();
       //派出所辖区区域
       fetch(window.path + "configs/JurisdictionPolice/Street.json").then(
         lang.hitch(this, function(response) {
@@ -306,7 +313,30 @@ define([
                 this.streetLayer.setRenderer(renderer);
                 this.streetLayer.on(
                   "click",
-                  lang.hitch(this, this._onJurisdictionLayer_click)
+                  lang.hitch(this, this._onStreetLayer_click)
+                );
+                this.streetLayer.on(
+                  "dbl-click",
+                  lang.hitch(this, function(evt) {
+                    evt.stopPropagation();
+                    var graphic = evt.graphic;
+                    var area = graphic.geometry;
+                    var symbol = new SimpleLineSymbol(
+                      lineStyle["NOT-CONTAINED"],
+                      lineColor["ROAD"],
+                      4
+                    );
+                    var lineGraphic = new Graphic(
+                      new Polyline(area.rings),
+                      symbol
+                    );
+                    this.jurisdictionLineLayer.add(lineGraphic);
+
+                    this.streetLayerShow = false;
+                    this.streetLayer.setVisibility(false);
+
+                    this.map.setExtent(graphic.geometry.getExtent());
+                  })
                 );
                 this.map.addLayer(this.streetLayer, 0);
               })
@@ -444,6 +474,55 @@ define([
       }
     },
 
+    _onStreetLayer_click: function(event) {
+      event.stopPropagation();
+      this.jurisdictionLineLayer.clear();
+      var area = event.graphic.geometry;
+      var symbol = new SimpleLineSymbol(
+        lineStyle["NOT-CONTAINED"],
+        lineColor["ROAD"],
+        4
+      );
+
+      if (
+        typeof onStreetClick !== "undefined" &&
+        onStreetClick instanceof Function
+      ) {
+        onStreetClick(event.graphic.attributes.SHOWNAME);
+      }
+      var lineGraphic = new Graphic(new Polyline(area.rings), symbol);
+      this.jurisdictionLineLayer.add(lineGraphic);
+    },
+    onTopicHandler_LocateStreet: function(params) {
+      this.jurisdictionLineLayer.clear();
+      var name = params.name || "";
+      var hideStreet = params.hideStreet === true;
+      var reset = params.reset === true;
+      if (reset) {
+        this.streetLayerShow = true;
+        this.streetLayer.setVisibility(true);
+        var mapOptions = this.appConfig.map.mapOptions;
+        this.map.centerAndZoom(mapOptions.center, mapOptions.zoom);
+      }
+      this.streetLayer.graphics.forEach(function(graphic) {
+        if (name.indexOf(graphic.attributes.SHOWNAME) > -1) {
+          var area = graphic.geometry;
+          var symbol = new SimpleLineSymbol(
+            lineStyle["NOT-CONTAINED"],
+            lineColor["ROAD"],
+            4
+          );
+          var lineGraphic = new Graphic(new Polyline(area.rings), symbol);
+          this.jurisdictionLineLayer.add(lineGraphic);
+          if (hideStreet) {
+            this.streetLayerShow = false;
+            this.streetLayer.setVisibility(false);
+          }
+          //this.map.centerAt(graphic.geometry.getCentroid());
+          this.map.setExtent(graphic.geometry.getExtent().expand(2));
+        }
+      }, this);
+    },
     onTopicHandler_showJurisdiction: function() {
       this.jurisdictionLayer.setVisibility(true);
     },
@@ -454,6 +533,7 @@ define([
     },
 
     onTopicHandler_showStreet: function(params) {
+      this.streetLayerShow = true;
       var maxZoom = 100,
         minZoom = 0;
       if (params) {
@@ -471,7 +551,7 @@ define([
               event.level <= Number(maxZoom) &&
               event.level >= Number(minZoom)
             ) {
-              this.streetLayer.setVisibility(true);
+              this.streetLayer.setVisibility(this.streetLayerShow);
             } else {
               this.streetLayer.setVisibility(false);
             }
@@ -487,6 +567,7 @@ define([
     },
 
     onTopicHandler_hideStreet: function() {
+      this.streetLayerShow = false;
       this.streetLayer.setVisibility(false);
     },
 

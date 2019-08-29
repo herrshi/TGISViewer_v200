@@ -10,17 +10,17 @@
 }
 
 .esriPopup .esriPopupWrapper {
-  font-family: "Avenir Light";
+  font-family: "Avenir Light", sans-serif;
 }
 
 .esriPopup .header,
 .esriMobilePopupInfoView .header {
-  font-family: "Avenir Heavy";
+  font-family: "Avenir Heavy", sans-serif;
 }
 
 .esriPopup .contentPane {
   background-color: #ffffff;
-  max-height: none; !important;
+  max-height: none !important;
 }
 
 .esriPopup .actionsPane {
@@ -63,8 +63,8 @@
 }
 
 .esriPopup .related-records-popup-projector.second-page-mode,
-.esriMobileInfoView.esriMobilePopupInfoView
-  .related-records-popup-projector.second-page-mode {
+.esriMobileInfoView.esriMobilePopupInfoView,
+.related-records-popup-projector.second-page-mode {
   min-height: 60px;
   padding-top: 30px;
 }
@@ -81,7 +81,7 @@
   left: 0;
   right: 0;
   /*font-weight: bold;*/
-  font-family: "Avenir Heavy";
+  font-family: "Avenir Heavy", sans-serif;
   font-size: 13px;
 }
 
@@ -98,11 +98,11 @@
   line-height: 28px;
 }
 
-.jimu-rtl
-  .esriPopup
-  .related-records-popup-projector
-  .operation-box
-  .previos-btn,
+.jimu-rtl,
+.esriPopup,
+.related-records-popup-projector,
+.operation-box,
+.previos-btn,
 .jimu-rtl .esriMobileInfoView.esriMobilePopupInfoView .previos-btn {
   /*
   float: right;
@@ -124,7 +124,7 @@
 
 .esriPopup .related-records-popup-projector .content-box .title-box,
 .esriMobileInfoView.esriMobilePopupInfoView .content-box .title-box {
-  font-family: "Avenir Heavy";
+  font-family: "Avenir Heavy", sans-serif;
   /*height: 25px;*/
   line-height: 25px;
   overflow: hidden;
@@ -132,9 +132,9 @@
 }
 
 .esriPopup .related-records-popup-projector .content-box .title-box.font-normal,
-.esriMobileInfoView.esriMobilePopupInfoView
-  .content-box
-  .title-box.font-normal {
+.esriMobileInfoView.esriMobilePopupInfoView,
+.content-box,
+.title-box.font-normal {
   font-weight: normal;
   color: #666666;
 }
@@ -257,7 +257,7 @@
 /************related records popup projector end***************************/
 
 /****popup******/
-.esriPopupcontentPane {
+.esriPopupcontentPane, .esriPopup .contentPane {
   padding: inherit !important;
   overflow: hidden !important;
   background-color: rgba(0, 0, 0, 1) !important;
@@ -267,7 +267,7 @@
   width: auto;
   min-width: 270px;
 }
-.esriPopuptitlePane {
+.esriPopuptitlePane, .esriPopup .titlePane {
   padding-left: 0 !important;
   background-color: rgba(0, 0, 0, 1) !important;
   color: #ffffff;

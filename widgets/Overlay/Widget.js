@@ -492,7 +492,10 @@ define([
           var geometryObj = overlayObj.geometry;
           var symbolObj = overlayObj.symbol || overlayParams.defaultSymbol;
           var buttons = overlayObj.buttons || overlayParams.defaultButtons;
-          var visible = overlayObj.visible !== undefined ? overlayObj.visible : defaultVisible;
+          var visible =
+            overlayObj.visible !== undefined
+              ? overlayObj.visible
+              : defaultVisible;
 
           var geometry = geometryJsonUtils.fromJson(geometryObj);
           if (this.map.spatialReference.isWebMercator()) {
@@ -536,21 +539,19 @@ define([
               });
             }
 
+            var templateConfig =
+              overlayObj.infoTemplate || overlayParams.defaultInfoTemplate;
             if (showPopup) {
-              if (overlayParams.defaultInfoTemplate === undefined) {
+              if (templateConfig === undefined) {
                 graphic.infoTemplate = new InfoTemplate({
                   content: this._getInfoWindowContent(graphic)
                 });
               } else {
                 var infoTemplate = new InfoTemplate();
                 infoTemplate.setTitle(
-                  overlayParams.defaultInfoTemplate.title === ""
-                    ? null
-                    : overlayParams.defaultInfoTemplate.title
+                  templateConfig.title === "" ? null : templateConfig.title
                 );
-                infoTemplate.setContent(
-                  overlayParams.defaultInfoTemplate.content
-                );
+                infoTemplate.setContent(templateConfig.content);
                 graphic.setInfoTemplate(infoTemplate);
                 //this.map.infoWindow.resize(200,90);
               }

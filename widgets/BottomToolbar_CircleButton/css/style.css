@@ -297,3 +297,20 @@
   background-size: 100%;
   display: inline-block;
 }
+.jimu-widget-BottomToolbarCircleButton .icon_all {
+  width: 0.35rem;
+  height: 0.36rem;
+  margin-bottom: -0.08rem;
+  background: url(images/all.png) no-repeat center center;
+  background-size: 100%;
+  display: inline-block;
+}
+
+.jimu-widget-BottomToolbarCircleButton .fa-traffic-light {
+  width: 0.35rem;
+  height: 0.36rem;
+  margin-bottom: -0.08rem;
+  background: url(images/XinHaoJi-white.png) no-repeat center center;
+  background-size: 100%;
+  display: inline-block;
+}

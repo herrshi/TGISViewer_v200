@@ -118,6 +118,7 @@ define([
         graphicsLayer.add(graphic);
       });
       this.map.addLayer(graphicsLayer);
+      this.map.reorderLayer(graphicsLayer, 0);
       this._rendererLayers.push(graphicsLayer);
     },
 
