@@ -392,7 +392,8 @@ define([
         type: p.type,
         x: p.x,
         y: p.y,
-        attributes: clusterattr
+        attributes: clusterattr,
+        infoTemplate: p.infoTemplate
       };
       this._clusters.push(cluster);
     },
@@ -406,7 +407,8 @@ define([
 
     _showCluster: function(c) {
       var point = new Point(c.x, c.y, this._sr);
-      var g = new Graphic(point, null, c.attributes);
+      var infoTemplate = c.infoTemplate ? c.infoTemplate : this._singleTemplate;
+      var g = new Graphic(point, null, c.attributes, infoTemplate);
       g.type = this._type;
       // code below is used to not label clusters with a single point
 
@@ -436,7 +438,7 @@ define([
             new Point(p.x, p.y, this._sr),
             this._singleSym,
             p.attributes,
-            this._singleTemplate
+            p.infoTemplate ? p.infoTemplate : this._singleTemplate
           );
           this._singles.push(g);
           if (this._showSingles) {

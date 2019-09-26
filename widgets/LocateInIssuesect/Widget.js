@@ -43,10 +43,12 @@ define([
 
     /**获取所有发布段的graphic*/
     _getAllGraphics: function() {
-      this.config.layers.forEach(async layerConfig =>  {
-        const response = await fetch(window.path + layerConfig.source);
-        const json = await response.json();
-        this._getGraphic(json.features, layerConfig);
+      this.config.layers.forEach(layerConfig =>  {
+        fetch(window.path + layerConfig.source).then(response => {
+          response.json().then(json => {
+            this._getGraphic(json.features, layerConfig);
+          })
+        });
       });
     },
 

@@ -1,0 +1,56 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "政务地图",
+        "url": "http://{gisServer}/arcgis/rest/services/dsnpd/MapServer",
+        "type": "tiled",
+        "visible": true
+      },
+      {
+        "label": "影像地图",
+        "url": "http://{gisServer}/arcgis/rest/services/air2018/MapServer",
+        "type": "tiled",
+        "visible": false
+      }
+    ],
+    "operationallayers": [],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false,
+      "scale": 8000,
+      "center": {"x": 18053, "y": -9906, "spatialReference": {"wkt": "PROJCS[\"shanghaicity\",GEOGCS[\"GCS_Beijing_1954\",DATUM[\"D_Beijing_1954\",SPHEROID[\"Krasovsky_1940\",6378245.0,298.3]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"False_Easting\",-3457147.81],PARAMETER[\"False_Northing\",0.0],PARAMETER[\"Central_Meridian\",121.2751921],PARAMETER[\"Scale_Factor\",1.0],PARAMETER[\"Latitude_Of_Origin\",0.0],UNIT[\"Meter\",1.0]]"}}
+    }
+  },
+  "geometryService":
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.26.36.246:6080",
+  "widgetOnScreen": {
+    "widgets": [
+
+    ]
+  }
+}

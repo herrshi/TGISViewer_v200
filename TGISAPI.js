@@ -632,11 +632,15 @@ var TMap = {
    *       参见addPoints/addLines/addPolygons的geometry属性.
    *     symbol: object, optional. 符号.
    *       会覆盖defaultSymbol.
+   *     visible: boolean, optional.
+   *       默认为false
    *     buttons: [{}], optional. 弹出框的按钮.
    *       会覆盖defaultButtons.
    *  defaultSymbol: object, optional. 默认符号.
    *    参见addPoints/addLines/addPolygons的symbol属性.
    *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
+   *  defaultVisible: boolean, optional.
+   *    默认为false
    *  defaultButtons: [{}], optional. 弹出框的默认按钮.
    *    点击以后将调用js函数mapFeatureClicked(type, id)
    *    label: string, required. 按钮文本.
@@ -738,6 +742,9 @@ var TMap = {
    * */
   showOverlays: function(params) {
     require(["dojo/topic"], function(topic) {
+      if (typeof params === "string") {
+        params = JSON.parse(params);
+      }
       topic.publish("showOverlays", params);
     });
   },
@@ -838,7 +845,8 @@ var TMap = {
    *       默认为100
    *     minValue: number, optional. 在颜色渐变中分配初始颜色的像素强度值, 低于此数字的值也将分配渐变色的初始色
    *       默认为0
-   *     zoom:number, optional. 需要显示热力图层级,地图小于等于该层级时,显示热力图.默认值为地图最大zoom
+   *     zoom:number, optional. 需要显示热力图层级,地图小于等于该层级时,显示热力图. 大于此层级时，显示renderer中配置的图标.
+   *       默认值为地图最大zoom
    *     renderer:object, optional. 设置图层renderer.
    * */
   addHeatMap: function(params) {

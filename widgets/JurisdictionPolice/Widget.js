@@ -130,257 +130,238 @@ define([
      * */
     _readJurisdictionLayer: function() {
       //片区图层
-      fetch(window.path + "configs/JurisdictionPolice/Area.json").then(
-        lang.hitch(this, function(response) {
-          if (response.ok) {
-            response.json().then(
-              lang.hitch(this, function(data) {
-                var featureCollection = {
-                  layerDefinition: data,
-                  featureSet: data
-                };
+      $.get(
+        window.path + "configs/JurisdictionPolice/Area.json",
+        lang.hitch(this, function(data, status) {
+          if (status === "success") {
+            var featureCollection = {
+              layerDefinition: data,
+              featureSet: data
+            };
 
-                this.areaLayer = new FeatureLayer(featureCollection, {
-                  outFields: ["*"],
-                  visible: false
-                });
-                var renderer = new SimpleRenderer({
-                  type: "simple",
-                  symbol: {
-                    type: "esriSFS",
-                    style: "esriSFSSolid",
-                    color: [255, 243, 255, 190],
-                    outline: {
-                      color: [0, 210, 245, 230],
-                      width: 1,
-                      type: "esriSLS",
-                      style: "esriSLSSolid"
-                    }
-                  }
-                });
-                this.areaLayer.setRenderer(renderer);
-                this.map.addLayer(this.areaLayer, 0);
-              })
-            );
+            this.areaLayer = new FeatureLayer(featureCollection, {
+              outFields: ["*"],
+              visible: false
+            });
+            var renderer = new SimpleRenderer({
+              type: "simple",
+              symbol: {
+                type: "esriSFS",
+                style: "esriSFSSolid",
+                color: [255, 243, 255, 190],
+                outline: {
+                  color: [0, 210, 245, 230],
+                  width: 1,
+                  type: "esriSLS",
+                  style: "esriSLSSolid"
+                }
+              }
+            });
+            this.areaLayer.setRenderer(renderer);
+            this.map.addLayer(this.areaLayer, 0);
           }
-        })
+        }),
+        "json"
       );
 
       //徐汇辖区之外，需要加黑的部分
-      fetch(window.path + "configs/JurisdictionPolice/District.json").then(
-        lang.hitch(this, function(response) {
-          if (response.ok) {
-            response.json().then(
-              lang.hitch(this, function(data) {
-                var featureCollection = {
-                  layerDefinition: data,
-                  featureSet: data
-                };
+      $.get(
+        window.path + "configs/JurisdictionPolice/District.json",
+        lang.hitch(this, function(data, status) {
+          if (status === "success") {
+            var featureCollection = {
+              layerDefinition: data,
+              featureSet: data
+            };
 
-                this.districtLayer = new FeatureLayer(featureCollection, {
-                  outFields: ["*"],
-                  visible: true,
-                  showLabels: false
-                });
-                this.districtLayer.id = "districtLayerMask";
-                var renderer = new SimpleRenderer({
-                  type: "simple",
-                  symbol: {
-                    type: "esriSFS",
-                    style: "esriSFSSolid",
-                    color: [180, 222, 255, 190],
-                    outline: {
-                      color: [80, 170, 255],
-                      width: 3,
-                      type: "esriSLS",
-                      style: "esriSLSSolid"
-                    }
-                  }
-                });
-                this.districtLayer.setRenderer(renderer);
-                this.districtLayer.on("click", function(event) {
-                  event.stopPropagation();
-                });
-                this.map.addLayer(this.districtLayer, 0);
-              })
-            );
+            this.districtLayer = new FeatureLayer(featureCollection, {
+              outFields: ["*"],
+              visible: true,
+              showLabels: false
+            });
+            this.districtLayer.id = "districtLayerMask";
+            var renderer = new SimpleRenderer({
+              type: "simple",
+              symbol: {
+                type: "esriSFS",
+                style: "esriSFSSolid",
+                color: [180, 222, 255, 190],
+                outline: {
+                  color: [80, 170, 255],
+                  width: 3,
+                  type: "esriSLS",
+                  style: "esriSLSSolid"
+                }
+              }
+            });
+            this.districtLayer.setRenderer(renderer);
+            this.districtLayer.on("click", function(event) {
+              event.stopPropagation();
+            });
+            this.map.addLayer(this.districtLayer, 0);
           }
-        })
+        }),
+        "json"
       );
 
       //派出所辖区区域
-      fetch(window.path + "configs/JurisdictionPolice/Jurisdiction.json").then(
-        lang.hitch(this, function(response) {
-          if (response.ok) {
-            response.json().then(
-              lang.hitch(this, function(data) {
-                var featureCollection = {
-                  layerDefinition: data,
-                  featureSet: data
-                };
+      $.get(
+        window.path + "configs/JurisdictionPolice/Jurisdiction.json",
+        lang.hitch(this, function(data, status) {
+          if (status === "success") {
+            var featureCollection = {
+              layerDefinition: data,
+              featureSet: data
+            };
 
-                this.jurisdictionLayer = new FeatureLayer(featureCollection, {
-                  outFields: ["*"],
-                  visible: false,
-                  showLabels: true
-                });
-                //显示辖区名称
-                this.jurisdictionLayer.setLabelingInfo([
-                  {
-                    labelExpressionInfo: { value: "{SHOWNAME}" },
-                    symbol: {
-                      type: "esriTS",
-                      color: [36, 135, 205],
-                      font: {
-                        family: "Microsoft YaHei",
-                        size: 10,
-                        weight: "bold"
-                      }
-                    }
+            this.jurisdictionLayer = new FeatureLayer(featureCollection, {
+              outFields: ["*"],
+              visible: false,
+              showLabels: true
+            });
+            //显示辖区名称
+            this.jurisdictionLayer.setLabelingInfo([
+              {
+                labelExpressionInfo: { value: "{SHOWNAME}" },
+                symbol: {
+                  type: "esriTS",
+                  color: [36, 135, 205],
+                  font: {
+                    family: "Microsoft YaHei",
+                    size: 10,
+                    weight: "bold"
                   }
-                ]);
-                var renderer = new SimpleRenderer({
-                  type: "simple",
-                  symbol: {
-                    type: "esriSFS",
-                    style: "esriSFSSolid",
-                    color: [255, 243, 255, 190],
-                    outline: {
-                      color: [0, 210, 245, 230],
-                      width: 1,
-                      type: "esriSLS",
-                      style: "esriSLSSolid"
-                    }
-                  }
-                });
-                this.jurisdictionLayer.setRenderer(renderer);
-                this.jurisdictionLayer.on(
-                  "click",
-                  lang.hitch(this, this._onJurisdictionLayer_click)
-                );
-                this.map.addLayer(this.jurisdictionLayer, 0);
-              })
+                }
+              }
+            ]);
+            var renderer = new SimpleRenderer({
+              type: "simple",
+              symbol: {
+                type: "esriSFS",
+                style: "esriSFSSolid",
+                color: [255, 243, 255, 190],
+                outline: {
+                  color: [0, 210, 245, 230],
+                  width: 1,
+                  type: "esriSLS",
+                  style: "esriSLSSolid"
+                }
+              }
+            });
+            this.jurisdictionLayer.setRenderer(renderer);
+            this.jurisdictionLayer.on(
+              "click",
+              lang.hitch(this, this._onJurisdictionLayer_click)
             );
+            this.map.addLayer(this.jurisdictionLayer, 0);
           }
-        })
+        }),
+        "json"
       );
       this.streetLayer = new GraphicsLayer();
       //派出所辖区区域
-      fetch(window.path + "configs/JurisdictionPolice/Street.json").then(
-        lang.hitch(this, function(response) {
-          if (response.ok) {
-            response.json().then(
-              lang.hitch(this, function(data) {
-                var featureCollection = {
-                  layerDefinition: data,
-                  featureSet: data
-                };
+      $.get(
+        window.path + "configs/JurisdictionPolice/Street.json",
+        lang.hitch(this, function(data, status) {
+          if (status === "success") {
+            var featureCollection = {
+              layerDefinition: data,
+              featureSet: data
+            };
 
-                this.streetLayer = new FeatureLayer(featureCollection, {
-                  outFields: ["*"],
-                  visible: false,
-                  showLabels: true
-                });
-                //显示辖区名称
-                this.streetLayer.setLabelingInfo([
-                  {
-                    labelExpressionInfo: { value: "{SHOWNAME}" },
-                    symbol: {
-                      type: "esriTS",
-                      color: [36, 135, 205],
-                      font: {
-                        family: "Microsoft YaHei",
-                        size: 10,
-                        weight: "bold"
-                      }
-                    }
+            this.streetLayer = new FeatureLayer(featureCollection, {
+              outFields: ["*"],
+              visible: false,
+              showLabels: true
+            });
+            //显示辖区名称
+            this.streetLayer.setLabelingInfo([
+              {
+                labelExpressionInfo: { value: "{SHOWNAME}" },
+                symbol: {
+                  type: "esriTS",
+                  color: [36, 135, 205],
+                  font: {
+                    family: "Microsoft YaHei",
+                    size: 10,
+                    weight: "bold"
                   }
-                ]);
-                var renderer = new SimpleRenderer({
-                  type: "simple",
-                  symbol: {
-                    type: "esriSFS",
-                    style: "esriSFSSolid",
-                    color: [255, 243, 255, 190],
-                    outline: {
-                      color: [0, 210, 245, 230],
-                      width: 1,
-                      type: "esriSLS",
-                      style: "esriSLSSolid"
-                    }
-                  }
-                });
-                this.streetLayer.setRenderer(renderer);
-                this.streetLayer.on(
-                  "click",
-                  lang.hitch(this, this._onStreetLayer_click)
+                }
+              }
+            ]);
+            var renderer = new SimpleRenderer({
+              type: "simple",
+              symbol: {
+                type: "esriSFS",
+                style: "esriSFSSolid",
+                color: [255, 243, 255, 190],
+                outline: {
+                  color: [0, 210, 245, 230],
+                  width: 1,
+                  type: "esriSLS",
+                  style: "esriSLSSolid"
+                }
+              }
+            });
+            this.streetLayer.setRenderer(renderer);
+            this.streetLayer.on(
+              "click",
+              lang.hitch(this, this._onStreetLayer_click)
+            );
+            this.streetLayer.on(
+              "dbl-click",
+              lang.hitch(this, function(evt) {
+                evt.stopPropagation();
+                var graphic = evt.graphic;
+                var area = graphic.geometry;
+                var symbol = new SimpleLineSymbol(
+                  lineStyle["NOT-CONTAINED"],
+                  lineColor["ROAD"],
+                  4
                 );
-                this.streetLayer.on(
-                  "dbl-click",
-                  lang.hitch(this, function(evt) {
-                    evt.stopPropagation();
-                    var graphic = evt.graphic;
-                    var area = graphic.geometry;
-                    var symbol = new SimpleLineSymbol(
-                      lineStyle["NOT-CONTAINED"],
-                      lineColor["ROAD"],
-                      4
-                    );
-                    var lineGraphic = new Graphic(
-                      new Polyline(area.rings),
-                      symbol
-                    );
-                    this.jurisdictionLineLayer.add(lineGraphic);
+                var lineGraphic = new Graphic(new Polyline(area.rings), symbol);
+                this.jurisdictionLineLayer.add(lineGraphic);
 
-                    this.streetLayerShow = false;
-                    this.streetLayer.setVisibility(false);
+                this.streetLayerShow = false;
+                this.streetLayer.setVisibility(false);
 
-                    this.map.setExtent(graphic.geometry.getExtent());
-                  })
-                );
-                this.map.addLayer(this.streetLayer, 0);
+                this.map.setExtent(graphic.geometry.getExtent());
               })
             );
+            this.map.addLayer(this.streetLayer, 0);
           }
-        })
+        }),
+        "json"
       );
 
-      fetch(
-        window.path + "configs/JurisdictionPolice/Jurisdiction_Line.json"
-      ).then(
-        lang.hitch(this, function(response) {
-          if (response.ok) {
-            response.json().then(
-              lang.hitch(this, function(data) {
-                this.lineGraphics = data.features.map(function(feature) {
-                  return new Graphic(feature);
-                });
-                this.jurisdictionLineLayer = new GraphicsLayer();
-                this.map.addLayer(this.jurisdictionLineLayer);
-              })
-            );
+      $.get(
+        window.path + "configs/JurisdictionPolice/Jurisdiction_Line.json",
+        lang.hitch(this, function(data, status) {
+          if (status === "success") {
+            this.lineGraphics = data.features.map(function(feature) {
+              return new Graphic(feature);
+            });
+            this.jurisdictionLineLayer = new GraphicsLayer();
+            this.map.addLayer(this.jurisdictionLineLayer);
           }
-        })
+        }),
+        "json"
       );
 
       //显示警力统计的div
       //警力统计的div加在点上
-      fetch(
-        window.path + "configs/JurisdictionPolice/Jurisdiction_Point.json"
-      ).then(
-        lang.hitch(this, function(response) {
-          if (response.ok) {
-            response.json().then(
-              lang.hitch(this, function(data) {
-                this.labelPointGraphics = data.features.map(function(feature) {
-                  return new Graphic(feature);
-                }, this);
-                this._createDiv();
-                this._placeDiv();
-              })
-            );
+      $.get(
+        window.path + "configs/JurisdictionPolice/Jurisdiction_Point.json",
+        lang.hitch(this, function(data, status) {
+          if (status === "success") {
+            this.labelPointGraphics = data.features.map(function(feature) {
+              return new Graphic(feature);
+            }, this);
+            this._createDiv();
+            this._placeDiv();
           }
-        })
+        }),
+        "json"
       );
     },
 

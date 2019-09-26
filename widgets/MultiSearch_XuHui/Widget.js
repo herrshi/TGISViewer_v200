@@ -139,10 +139,7 @@ define([
 
     _overlaySearch: function(overlayParam) {
       const { geometry: containerGeometry, types, showResult } = overlayParam;
-      let searchType = [];
-      if (types) {
-        searchType = types.split(",");
-      }
+      const searchType = types ? types.split(",") : [];
       const searchGraphics = this._overlayGraphics.filter(graphic => {
         //没传type属性，就搜索所有可见图层
         if (searchType.length === 0) {

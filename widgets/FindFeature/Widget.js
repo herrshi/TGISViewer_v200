@@ -97,6 +97,11 @@ define([
         "stopHighlightFeature",
         lang.hitch(this, this.onTopicHandler_stopHighlightFeature)
       );
+
+      topic.subscribe(
+        "findAllFeatureState",
+        lang.hitch(this, this.onTopicHandler_findAllFeatureState)
+      );
     },
 
     _doFindTask: function(url, ids, layerIds) {
@@ -231,6 +236,10 @@ define([
           }
         }
         if (ids.indexOf(id) >= 0) {
+          //把他放到最上层
+          graphicsLayer.remove(graphic);
+          graphicsLayer.add(graphic);
+
           if (this._callback) {
             this._callback(graphic);
           }
@@ -305,6 +314,7 @@ define([
       var ids = params.ids || "";
       this._alwaysHighlight =
         params.always === undefined ? true : params.always;
+      this._centerResult = params.centerResult === true;
 
       if (layerName === "" || ids === "") {
         return;
@@ -399,6 +409,9 @@ define([
     },
 
     _findInHighlightGraphicsLayer: function(graphicsLayer, ids) {
+      var symbol = graphicsLayer.renderer
+        ? graphicsLayer.renderer.symbol
+        : null;
       graphicsLayer.graphics.forEach(function(graphic) {
         var attr = graphic.attributes;
         var id;
@@ -428,13 +441,18 @@ define([
           this.highlightLayer.add(highlightgraphic);
           switch (highlightgraphic.geometry.type) {
             case "point":
+              if (symbol) {
+                highlightgraphic.symbol = symbol;
+              }
               this.map
                 .centerAt(
                   jimuUtils.getGeometryCenter(highlightgraphic.geometry)
                 )
-                .then(function(value) {
-                  this._doHighlightFeature(highlightgraphic);
-                });
+                .then(
+                  lang.hitch(this, function(value) {
+                    this._doHighlightFeature(highlightgraphic);
+                  })
+                );
               break;
             case "polyline":
             case "polygon":
@@ -467,16 +485,19 @@ define([
             })
           );
       } else {
-        this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry)).then(
-          lang.hitch(this, function(value) {
-            this.map.setExtent(graphic.geometry.getExtent().expand(2)).then(
-              lang.hitch(this, function(value) {
-                console.log(this.map.getZoom());
-                this._doHighlightFeature(graphic);
-              })
-            );
-          })
-        );
+        if (this._centerResult) {
+          this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry)).then(
+            lang.hitch(this, function(value) {
+              this.map.setExtent(graphic.geometry.getExtent().expand(2)).then(
+                lang.hitch(this, function(value) {
+                  this._doHighlightFeature(graphic);
+                })
+              );
+            })
+          );
+        } else {
+          this._doHighlightFeature(graphic);
+        }
       }
     },
     _doHighlightFeature: function(graphic) {
@@ -524,6 +545,69 @@ define([
       for (var i = 0; i < removeGraphics.length; i++) {
         this.highlightLayer.remove(removeGraphics[i]);
       }
+    },
+    onTopicHandler_findAllFeatureState: function(params) {
+      var layerName = params.params.layerName || "";
+      var idStates = params.params.idStates || [];
+      this._centerResult = params.params.centerResult === true;
+      this._showPopup = params.params.showPopup === true;
+
+      this._callback = params.callback;
+
+      if (layerName === "" || idStates.length == 0) {
+        this.resultLayer.clear();
+        return;
+      }
+
+      var layer;
+
+      //在FeatureLayer或GraphicsLayer中查找
+      for (i = 0; i < this.map.graphicsLayerIds.length; i++) {
+        layer = this.map.getLayer(this.map.graphicsLayerIds[i]);
+        if (layer.label === layerName && layer instanceof FeatureLayer) {
+          this.resultLayer.setRenderer(layer.renderer);
+          this._doQueryTaskOnFeatureLayerStates(layer.url, idStates);
+        }
+      }
+    },
+    _doQueryTaskOnFeatureLayerStates: function(url, idStates) {
+      var where = "";
+      array.forEach(idStates, function(idstate) {
+        where += "FEATUREID = '" + idstate.id + "' OR ";
+      });
+      //去掉最后的" OR "共四个字符
+      where = where.substr(0, where.length - 4);
+
+      var queryTask = new QueryTask(url);
+      var query = new Query();
+      query.returnGeometry = true;
+      query.where = where;
+      query.outFields = ["*"];
+      queryTask.execute(
+        query,
+        lang.hitch(this, function(featureSet) {
+          featureSet.features.forEach(function(graphic) {
+            var attributeField = this.resultLayer.renderer.attributeField;
+            array.forEach(idStates, function(idstate) {
+              var id = idstate.id;
+              var state = idstate.state;
+              for (var field in graphic.attributes) {
+                if (field.indexOf("FEATUREID") > -1) {
+                  if (graphic.attributes[field] === id) {
+                    graphic.attributes[attributeField] = state;
+                    break;
+                  }
+                }
+              }
+            });
+            this.resultLayer.add(graphic);
+            if (this._centerResult) {
+              this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry));
+            }
+          }, this);
+        }),
+        function(error) {}
+      );
     }
   });
 
