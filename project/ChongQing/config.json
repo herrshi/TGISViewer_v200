@@ -205,6 +205,11 @@
         "uri": "widgets/FindFeature/Widget",
         "version": "2.4",
         "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/Cluster/Widget",
+        "version": "2.4",
+        "id": "ClusterWidget"
       }
     ]
   }
