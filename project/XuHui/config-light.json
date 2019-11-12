@@ -176,12 +176,6 @@
         "id": "OverlayWidget"
       },
       {
-        "uri": "widgets/LocateInIssuesect/Widget",
-        "config": "configs/LocateInIssuesect/config_XuHui.json",
-        "version": "2.4",
-        "id": "LocateInIssuesectWidget"
-      },
-      {
         "uri": "widgets/MultiSearch_XuHui/Widget",
         "config": "configs/MultiSearch/config_XuHui.json",
         "version": "2.4",

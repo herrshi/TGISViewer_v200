@@ -2,6 +2,26 @@
  * Created by herrshi on 2017/6/19.
  */
 
+String.prototype.format = function(args) {
+  var result = this;
+  if (arguments.length < 1) {
+    return result;
+  }
+
+  var data = arguments; //如果模板参数是数组
+  if (arguments.length === 1 && typeof args == "object") {
+    //如果模板参数是对象
+    data = args;
+  }
+  for (var key in data) {
+    var value = data[key];
+    if (undefined !== value) {
+      result = result.replace("{" + key + "}", value);
+    }
+  }
+  return result;
+};
+
 document.body.className = "jimu-main-font";
 
 var //arcgis api所在的url
@@ -891,7 +911,7 @@ var TMap = {
    * @param overlays: [], optional.需要查询的addoverlays动态点.
    * @param callback: function, optional.
    * @callback
-   *     type: 图层名称
+    *     type: 图层名称
    *     id: 要素编号
    *     length: 线要素的长度, 米
    *     area: 面要素的面积, 平方米
@@ -1189,7 +1209,7 @@ var TMap = {
    }
    *
    * @callback: 回调函数返回
-    {
+   {
       results: [
         {
           class: "poi",

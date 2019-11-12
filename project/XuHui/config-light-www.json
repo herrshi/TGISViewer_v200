@@ -36,7 +36,14 @@
         "visible": true
       }
     ],
-    "operationallayers": [],
+    "operationallayers": [
+      {
+        "label": "路况",
+        "url": "http://{gisServer}:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
+        "type": "webTiled",
+        "visible": true
+      }
+    ],
     "mapOptions": {
       "center": [121.441, 31.159],
       "zoom": 13,
@@ -161,12 +168,6 @@
         "uri": "widgets/Cluster/Widget",
         "version": "2.4",
         "id": "ClusterWidget"
-      },
-      {
-        "uri": "widgets/LocateInIssuesect/Widget",
-        "config": "configs/LocateInIssuesect/config_XuHui.json",
-        "version": "2.4",
-        "id": "LocateInIssuesectWidget"
       },
       {
         "uri": "widgets/MultiSearch_XuHui/Widget",

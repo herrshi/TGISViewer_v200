@@ -6,6 +6,7 @@ define([
   "esri/graphic",
   "esri/layers/GraphicsLayer",
   "esri/geometry/jsonUtils",
+  "esri/geometry/Point",
   "esri/symbols/PictureMarkerSymbol",
   "esri/symbols/SimpleLineSymbol",
   "esri/symbols/SimpleFillSymbol",
@@ -19,6 +20,7 @@ define([
   Graphic,
   GraphicsLayer,
   geometryJsonUtils,
+  Point,
   PictureMarkerSymbol,
   SimpleLineSymbol,
   SimpleFillSymbol,
@@ -27,6 +29,8 @@ define([
 ) {
   return declare([BaseWidget], {
     _graphicsLayer: null,
+
+    _fbdDatas: null,
 
     _pointSymbol: null,
     _polylineSymbol: null,
@@ -38,6 +42,8 @@ define([
 
       this._graphicsLayer = new GraphicsLayer();
       this.map.addLayer(this._graphicsLayer);
+
+      this._fbdDatas = new Map();
 
       this._pointSymbol = new PictureMarkerSymbol({
         url: window.path + "images/mapIcons/m0.png",
@@ -63,6 +69,8 @@ define([
           width: 1
         }
       });
+
+      this._getFBD();
 
       topic.subscribe(
         "mixinSearch",
@@ -102,14 +110,15 @@ define([
 
       const searchResults = [];
       for (const searchContent of contents) {
-        switch (searchContent.class) {
+        const { types, class: searchClass } = searchContent;
+        switch (searchClass) {
           case "poi":
             if (searchGeometry.type === "point" && radius > 0) {
               const poiResult = this._poiSearch({
                 x: searchGeometry.x,
                 y: searchGeometry.y,
                 radius,
-                types: searchContent.types,
+                types,
                 showResult
               });
               searchResults.push(poiResult);
@@ -119,14 +128,19 @@ define([
           case "overlay":
             const overlayResults = this._overlaySearch({
               geometry: bufferGeometry || searchGeometry,
-              types: searchContent.types,
+              types,
               showResult
             });
             searchResults.push(overlayResults);
             break;
 
           case "fbd":
-            const fbdResults = this._fbdSearch({});
+            const fbdResults = this._fbdSearch({
+              x: searchGeometry.x,
+              y: searchGeometry.y,
+              geometry: bufferGeometry || searchGeometry,
+              types
+            });
             searchResults.push(fbdResults);
             break;
         }
@@ -138,6 +152,12 @@ define([
     },
 
     _overlaySearch: function(overlayParam) {
+      if (!this._overlayGraphics) {
+        return {
+          class: "overlay",
+          result: []
+        };
+      }
       const { geometry: containerGeometry, types, showResult } = overlayParam;
       const searchType = types ? types.split(",") : [];
       const searchGraphics = this._overlayGraphics.filter(graphic => {
@@ -177,13 +197,43 @@ define([
       };
     },
 
-    onReceiveData: function(name, widgetId, data, historyData) {
-      if (widgetId === "OverlayWidget") {
-        this._overlayGraphics = data;
-      }
-    },
+    _fbdSearch: function(fbdParams) {
+      const { x, y, geometry: containerGeometry, types } = fbdParams;
+      const centerPoint = new Point(x, y);
+      let graphics = [];
+      let fbdResults = [];
 
-    _fbdSearch: function(fbdParams) {},
+      for (let type of this._fbdDatas.keys()) {
+        if (!types || types.length === 0 || types.indexOf(type) >= 0) {
+          const fbdData = this._fbdDatas.get(type);
+          const filtered = fbdData.filter(graphic => {
+            const polygon = graphic.geometry;
+            if (geometryEngine.intersects(containerGeometry, polygon)) {
+              graphic.distanceToPoint = geometryEngine.nearestCoordinate(
+                polygon,
+                centerPoint
+              ).distance;
+              return true;
+            }
+          });
+          graphics = graphics.concat(filtered);
+        }
+      }
+      if (graphics.length >= 0) {
+        const sorted = graphics.sort(function(obj1, obj2) {
+          return obj1.distanceToPoint - obj2.distanceToPoint;
+        });
+        fbdResults = sorted.map(graphic => ({
+          id: graphic.id,
+          type: graphic.type,
+          name: graphic.name
+        }));
+      }
+      return {
+        class: "fbd",
+        result: fbdResults
+      };
+    },
 
     _poiSearch: function(poiParam) {
       const { x, y, radius, types, showResult } = poiParam;
@@ -193,7 +243,7 @@ define([
         {
           ak: this.config.poi.ak,
           location: `${x},${y}`,
-          radius: radius,
+          radius,
           type: types.replace(",", "|"),
           page_size: 100
         },
@@ -276,11 +326,7 @@ define([
         this.map.spatialReference.wkid === "4326" ||
         this.map.spatialReference.isWebMercator()
       ) {
-        return geometryEngine.geodesicBuffer(
-          geometry,
-          radius,
-          "meters"
-        );
+        return geometryEngine.geodesicBuffer(geometry, radius, "meters");
       } else {
         return geometryEngine.buffer(geometry, radius, "meters");
       }
@@ -290,13 +336,44 @@ define([
       this._clearSearch();
     },
 
-    _clearSearch: function () {
+    _clearSearch: function() {
       this._graphicsLayer.clear();
       this._changedOverlay.forEach(graphic => {
         graphic.visible = false;
         graphic.draw();
       });
       this._changedOverlay = [];
+    },
+
+    onReceiveData: function(name, widgetId, data, historyData) {
+      if (widgetId === "OverlayWidget") {
+        this._overlayGraphics = data;
+      }
+    },
+
+    _getFBD: function() {
+      const { fbd: fbdConfigs } = this.config;
+      fbdConfigs.forEach(fbdConfig => {
+        const { type, source, idField, name } = fbdConfig;
+        if (!this._fbdDatas.has(type)) {
+          this._fbdDatas.set(type, []);
+        }
+
+        fetch(window.path + source).then(fetchResponse => {
+          fetchResponse.json().then(layerData => {
+            const { features } = layerData;
+            const graphics = features.map(feature => {
+              const graphic = new Graphic(feature);
+              graphic.id = graphic.attributes[idField];
+              graphic.type = type;
+              graphic.name = name.format(graphic.attributes);
+              return graphic;
+            });
+            const allData = this._fbdDatas.get(type).concat(graphics);
+            this._fbdDatas.set(type, allData);
+          });
+        });
+      });
     }
   });
 });
