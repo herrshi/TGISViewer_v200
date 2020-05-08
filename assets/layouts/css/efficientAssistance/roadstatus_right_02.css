@@ -1,0 +1,150 @@
+/*路况监测右侧看板-道路路况  行内样式整合*/
+.lkjc_dllk_right_one {
+    width: 100%;
+    height: 774px;
+}
+
+.lkjc_dllk_right_one1 {
+    margin-bottom: 0px;
+    width: 100%;
+    height: 774px;
+}
+
+.pull-right {
+    cursor: pointer;
+}
+
+.lkjc_dllk_right_one1_1 {
+    height: 730px;
+}
+
+.lkjc_dllk_right_one1_1_1, .lkjc_dllk_right_one1_1_2, .lkjc_dllk_right_one1_1_3, .lkjc_dllk_right_one1_1_4 {
+    width: 100%;
+}
+
+.lkjc_dllk_right_one1_1_1 {
+    height: 100px;
+}
+
+.lkjc_dllk_right_one1_1_2 {
+    height: 30px;
+}
+
+.lkjc_dllk_right_one1_1_3 {
+    height: 225px;
+}
+
+.lkjc_dllk_right_one1_1_4 {
+    height: 400px;
+}
+
+.lkjc_dllk_right_one1_1_1_1, .lkjc_dllk_right_one1_1_1_2 {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_dllk_right_one1_1_1_2 {
+    font-size: 18px;
+}
+
+.lkjc_dllk_right_one1_1_2_1 {
+    width: 160px;
+    height: 30px;
+    float: left;
+    line-height: 30px;
+}
+
+.lkjc_dllk_right_one1_1_2_2 {
+    width: 248px;
+    height: 30px;
+    float: left;
+}
+
+.lkjc_dllk_right_one1_1_2_1_span1 {
+    display: block;
+    float: right;
+    font-size: 16px;
+}
+
+.lkjc_dllk_right_one1_1_4_div1 {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+
+.lkjc_dllk_right_one1_1_4_div2 {
+    width: 100%;
+    height: 370px;
+    line-height: 370px;
+    text-align: center;
+}
+
+.lkjc_dllk_right_one1_1_4_div1_span1 {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.lkjc_dllk_right_one1_1_4_div2_span1 {
+    font-size: 20px;
+}
+
+.lkjc_dllk_right_one1_1_1_2_div1 {
+    width: 60%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_dllk_right_one1_1_1_2_div2 {
+    width: 40%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_dllk_right_one1_1_1_2_div1_1, .lkjc_dllk_right_one1_1_1_2_div1_2 {
+    width: 100%;
+    height: 50%;
+    line-height: 50px;
+}
+
+.lkjc_dllk_right_one1_1_1_2_div1_1_1, .lkjc_dllk_right_one1_1_1_2_div1_2_1 {
+    display: block;
+    float: left;
+    color: #00B8F1;
+}
+
+.lkjc_dllk_right_one1_1_1_2_div1_1_2, .lkjc_dllk_right_one1_1_1_2_div1_2_2 {
+    display: block;
+    float: left;
+    font-family: AIP;
+    font-size: 25px;
+}
+
+.lkjc_dllk_right_i1, .lkjc_dllk_right_i2 {
+    font-size: 0.40rem!important;
+    margin-left: 5px;
+    line-height: 50px!important;
+}
+
+.lkjc_dllk_right_i1 {
+    color: red;
+}
+
+.lkjc_dllk_right_i2 {
+    color: #0085CC;
+}
+
+.lkjc_dllk_right_one1_1_1_2_div2_1 {
+    display: block;
+    color: #00B8F1;
+    margin-top: 20px;
+}
+
+.lkjc_dllk_right_one1_1_1_2_div2_2 {
+    display: block;
+    font-family: AIP;
+    font-size: 30px;
+    text-align: center;
+}
+

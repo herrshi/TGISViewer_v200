@@ -17,7 +17,10 @@ define([
   "esri/renderers/SimpleRenderer",
   "esri/Color",
   "esri/graphic",
+<<<<<<< HEAD
   "esri/dijit/LayerSwipe",
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
   "esri/renderers/jsonUtils",
   "jimu/BaseWidget"
 ], function(
@@ -39,7 +42,10 @@ define([
   SimpleRenderer,
   Color,
   Graphic,
+<<<<<<< HEAD
   LayerSwipe,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
   rendererJsonUtils,
   BaseWidget
 ) {
@@ -175,6 +181,7 @@ define([
           this.heatLayer.show();
         })
       );
+<<<<<<< HEAD
       // var layer=this.map.getLayer("heatLayer");
       // var swipeWidget = new LayerSwipe(
       //   {
@@ -185,6 +192,8 @@ define([
       //   "swipeDiv"
       // );
       // swipeWidget.startup();
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     },
     _onTopicHandler_deleteHeatMap: function() {
       this.heatLayer.clear();

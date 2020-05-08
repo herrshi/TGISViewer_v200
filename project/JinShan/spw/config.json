@@ -1,0 +1,192 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url": "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_base/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "发布段",
+        "url": "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_issue/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JSITS.TOBJ_ISSUESECT.STATUS",
+          "defaultSymbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "width": 2,
+            "color": [23, 191, 0, 255]
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSLS",
+                "style": "esriSLSSolid",
+                "width": 2,
+                "color": [23, 191, 0, 255]
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSLS",
+                "width": 2,
+                "style": "esriSLSSolid",
+                "color": [255, 159, 25, 255]
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSLS",
+                "width": 2,
+                "style": "esriSLSSolid",
+                "color": [242, 48, 48, 255]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "信号机",
+        "url": "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_device/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/XinHaoJi-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      },
+      {
+        "label": "诱导屏",
+        "url": "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_device/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/QingBaoBan-blue.png",
+            "width": 16.5,
+            "height": 19.5,
+            "yoffset": 10
+          }
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": [121.342, 30.744],
+      "scale": 18056,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "15.75.18.189:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/TopToolbar_CircleButton/Widget",
+        "name": "TopToolbar",
+        "position": {
+          "top": 30,
+          "right": 50
+        },
+        "id": "TopToolbarWidget"
+      },
+      {
+        "uri": "widgets/BottomToolbar_CircleButton/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_JinShan.json",
+        "position": {
+          "bottom": 10,
+          "width": "100%",
+          "left":0,
+          "right":0
+        },
+        "id": "BottomToolbarWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      }
+    ]
+  }
+}

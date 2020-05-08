@@ -313,6 +313,7 @@
   background: url(images/XinHaoJi-white.png) no-repeat center center;
   background-size: 100%;
   display: inline-block;
+<<<<<<< HEAD
 }
 .jimu-widget-BottomToolbarCircleButton .icon_shigu {
   width: 0.35rem;
@@ -329,4 +330,6 @@
   background: url(images/JiaoWeiZhiHui/icon_ssj.png) no-repeat center center;
   background-size: 100%;
   display: inline-block;
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
 }

@@ -33,7 +33,8 @@ define([
   "esri/layers/WMSLayerInfo",
   "esri/geometry/webMercatorUtils",
   "esri/symbols/SimpleLineSymbol",
-  "esri/symbols/SimpleMarkerSymbol"
+  "esri/symbols/SimpleMarkerSymbol",
+  "esri/SpatialReference"
 ], function(
   declare,
   lang,
@@ -66,7 +67,8 @@ define([
   WMSLayerInfo,
   webMercatorUtils,
   SimpleLineSymbol,
-  SimpleMarkerSymbol
+  SimpleMarkerSymbol,
+  SpatialReference
 ) {
   var instance = null,
     clazz;
@@ -1076,6 +1078,8 @@ define([
           layer.setFeatureReduction(layerConfig.featureReduction);
           layer.enableFeatureReduction();
         }
+        // layer.spatialReference = new SpatialReference(3857);
+        // console.log(layer.label, layer.spatialReference);
         map.addLayer(layer);
       }));
     },

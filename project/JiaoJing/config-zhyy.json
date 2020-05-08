@@ -70,11 +70,14 @@
         "id": "CoordinateWidget"
       },
       {
+<<<<<<< HEAD
         "uri": "widgets/GeometrySearch/Widget",
         "version": "2.4",
         "id": "GeometrySearchWidget"
       },
       {
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         "uri": "widgets/OverviewMap/Widget",
         "position": {
           "right": 0,
@@ -85,6 +88,7 @@
         "id": "OverviewMapWidget"
       },
       {
+<<<<<<< HEAD
         "uri": "widgets/Draw/Widget",
         "version": "2.4",
         "name": "Draw",
@@ -153,16 +157,24 @@
         },
         "version": "2.4",
         "id": "MeasurementWidget"
+=======
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       },
       {
         "uri": "widgets/Cluster/Widget",
         "version": "2.4",
         "id": "ClusterWidget"
+<<<<<<< HEAD
       },
       {
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       }
     ]
   }

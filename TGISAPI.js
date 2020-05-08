@@ -23,10 +23,14 @@ String.prototype.format = function(args) {
   }
 
   var data = arguments; //如果模板参数是数组
+<<<<<<< HEAD
   if (
     arguments.length === 1 &&
     (typeof args === "undefined" ? "undefined" : _typeof(args)) == "object"
   ) {
+=======
+  if (arguments.length === 1 && typeof args == "object") {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     //如果模板参数是对象
     data = args;
   }
@@ -750,7 +754,11 @@ var TMap = {
       topic.publish("hideOverlaysCluster", params);
     });
   },
+<<<<<<< HEAD
   deleteAllOverlaysCluster: function deleteAllOverlaysCluster() {
+=======
+  deleteAllOverlaysCluster: function() {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteAllOverlaysCluster");
     });
@@ -868,6 +876,13 @@ var TMap = {
     });
   },
 
+  /**停止绘制的覆盖物*/
+  stopDrawOverlay: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("stopDrawOverlay");
+    });
+  },
+
   /**删除绘制的覆盖物*/
   clearDrawOverlay: function clearDrawOverlay() {
     require(["dojo/topic"], function(topic) {
@@ -942,7 +957,11 @@ var TMap = {
    * @param overlays: [], optional.需要查询的addoverlays动态点.
    * @param callback: function, optional.
    * @callback
+<<<<<<< HEAD
    *     type: 图层名称
+=======
+    *     type: 图层名称
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
    *     id: 要素编号
    *     length: 线要素的长度, 米
    *     area: 面要素的面积, 平方米
@@ -1190,8 +1209,11 @@ var TMap = {
   /***
    *
    * @param params: object, required.
+<<<<<<< HEAD
    *   drawType: string, required. 是否由用户绘制几何图层.
    *     default: null
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
    *   geometry: object, required. 搜索中心, 可以为点、线、面
    *     点：
    *       {"x" : -118.15, "y" : 33.80, "spatialReference" : {"wkid" : 4326}}
@@ -1250,12 +1272,17 @@ var TMap = {
         {
           class: "poi",
           result: [
+<<<<<<< HEAD
          id: "B0FFGQ9Q9Y",
+=======
+	        id: "B0FFGQ9Q9Y",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             name: "天目中路",
             location: [121.455896, 31.247646]
             type: "地名地址信息;交通地名;道路名"
           ]
         },
+<<<<<<< HEAD
        {
          class: "fbd",
          result: [
@@ -1317,11 +1344,70 @@ var TMap = {
           contents: contents
         },
         callback: callback
+=======
+	      {
+	        class: "fbd",
+	        result: [
+	          {
+		          id: "21252416912",
+		          name: "武康路(华山路->安福路)",
+		          location: [121.44019983601686, 31.213175770283573],
+		          type: "地面道路"
+		        },
+		        {
+		          id: "61191954001",
+		          name: "外圈吴中路下匝道至吴中路上匝道",
+		          location: [121.42395568881847, 31.185519213177798],
+		          type: "快速路"
+		        }
+	        ]
+	      },
+	      {
+	        class: "overlay",
+	        result: [
+	          {
+		          id: "",
+		          name: "",
+		          location: [],
+		          type: "police"
+		        }
+	        ]
+	      }
+      ]
+    }
+   */
+  mixinSearch: function(
+    {
+      geometry,
+      radius = 0,
+      showGeometry = true,
+      showBuffer = true,
+      showResult = true,
+      contents
+    } = {},
+    callback
+  ) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("mixinSearch", {
+        params: {
+          geometry,
+          radius,
+          showGeometry,
+          showBuffer,
+          showResult,
+          contents
+        },
+        callback
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       });
     });
   },
 
+<<<<<<< HEAD
   clearMixinSearch: function clearMixinSearch() {
+=======
+  clearMixinSearch: function() {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMixinSearch");
     });
@@ -1391,9 +1477,15 @@ var TMap = {
    *     roadName: string
    *     layerName: string
    * */
+<<<<<<< HEAD
   locateInGeometry: function locateInGeometry(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("locateInGeometry", { params: params, callback: callback });
+=======
+  locateInGeometry: function(params, callback) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("locateInGeometry", { params, callback });
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     });
   },
   /************************ Search END **************************/
@@ -1694,11 +1786,16 @@ var TMap = {
    *   maxZoom: number, optional. 显示的最大层级
    *   minZoom: number, optional. 显示的最小层级
    * */
+<<<<<<< HEAD
   showStreet: function showStreet(params) {
+=======
+  showStreet: function(params) {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     require(["dojo/topic"], function(topic) {
       topic.publish("showStreet", params);
     });
   },
+<<<<<<< HEAD
   locateStreet: function locateStreet(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("locateStreet", params);
@@ -1706,6 +1803,11 @@ var TMap = {
   },
   //隐藏街道
   hideStreet: function hideStreet() {
+=======
+
+  //隐藏街道
+  hideStreet: function() {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     require(["dojo/topic"], function(topic) {
       topic.publish("hideStreet");
     });
@@ -2043,12 +2145,17 @@ var TMap = {
    *     isZoom:boolean,optional.是否层级变化,默认为false.
    *     symbol:object, optional. 车辆符号.
    * */
+<<<<<<< HEAD
   RouteByRoadSearch: function RouteByRoadSearch(params) {
+=======
+  RouteByRoadSearch: function(params) {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     require(["dojo/topic"], function(topic) {
       topic.publish("RouteByRoadSearch", params);
     });
   },
   //清除路径查询
+<<<<<<< HEAD
   clearRouteByRoadSearch: function clearRouteByRoadSearch(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearRouteByRoadSearch", params);
@@ -2058,5 +2165,11 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("startRangeSearch", params);
     });
+=======
+  clearRouteByRoadSearch: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearRouteByRoadSearch", params);
+    });
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
   }
 };

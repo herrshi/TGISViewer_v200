@@ -50,6 +50,7 @@
   "gisServer": "172.26.36.246:6080",
   "widgetOnScreen": {
     "widgets": [
+<<<<<<< HEAD
       {
         "uri": "widgets/Coordinate/Widget",
         "position": {
@@ -80,6 +81,9 @@
         "version": "2.4",
         "id": "OverlayWidget"
       }
+=======
+
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     ]
   }
 }

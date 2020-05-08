@@ -5,9 +5,21 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "dojo/Deferred", 
     postCreate: function postCreate() {
       this.inherited(arguments);
 
+<<<<<<< HEAD
       topic.subscribe("showDynamicRendererLayer", lang.hitch(this, this.onTopicHandler_showDynamicRendererLayer));
 
       topic.subscribe("hideDynamicRendererLayer", lang.hitch(this, this.onTopicHandler_hideDynamicRendererLayer));
+=======
+      topic.subscribe(
+        "showDynamicRendererLayer",
+        lang.hitch(this, this.onTopicHandler_showDynamicRendererLayer)
+      );
+
+      topic.subscribe(
+        "hideDynamicRendererLayer",
+        lang.hitch(this, this.onTopicHandler_hideDynamicRendererLayer)
+      );
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
 
       this._readLayerConfig();
     },

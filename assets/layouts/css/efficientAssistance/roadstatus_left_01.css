@@ -1,0 +1,27 @@
+/*路况监测左侧看板  行内样式整合*/
+.lkjc_left_one{
+    width: 100%;height:435px;
+}
+.lkjc_left_two{
+    width: 100%;height: 250px;margin-top: 10px;
+}
+.lkjc_left_one_1{
+    margin-bottom: 0px!important;
+    width: 100%!important;
+    height: 435px!important;
+}
+.lkjc_left_one_1_2_1{
+    width: 100%;height: 180px;padding: 0px 10px;display: none;
+}
+.lkjc_left_one_1_2_1_1{
+    font-size:0.2rem;
+}
+.lkjc_left_one_1_2_1_1_div1,.lkjc_left_one_1_2_1_1_div2,.lkjc_left_one_1_2_1_1_div3,.lkjc_left_one_1_2_1_1_div4,.lkjc_left_one_1_2_1_1_div5{
+    width: 100%;height: 30px;margin-top: 5px;
+}
+.lkjc_left_one_1_2_1_1_div3_1,.lkjc_left_one_1_2_1_1_div4_1{
+    width:49%;height: 100%;float: left;
+}
+.lkjc_left_one_1_2_1_1_div3_2,.lkjc_left_one_1_2_1_1_div4_2{
+    width:49%;height: 100%;float: right;
+}

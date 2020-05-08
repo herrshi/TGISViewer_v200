@@ -1,0 +1,283 @@
+/*路况监测右侧看板——区域路况  行内样式整合 */
+.lkjc_qylk_one {
+    width: 100%;
+    height: 384px;
+}
+
+.lkjc_qylk_two {
+    width: 100%;
+    height: 414px;
+    margin-top: 10px;
+}
+
+.lkjc_qylk_one1 {
+    margin-bottom: 0px;
+    width: 100%;
+    height: 384px;
+}
+
+.lkjc_qylk_one1_1 {
+    height: 340px;
+}
+
+.lkjc_qylk_one1_1_1 {
+    width: 100%;
+    height: 100px;
+}
+
+.lkjc_qylk_one1_1_2 {
+    width: 100%;
+    height: 140px;
+}
+
+.lkjc_qylk_one1_1_3 {
+    width: 100%;
+    height: 100px;
+    font-size: 18px;
+    line-height: 33px;
+    text-align: center;
+}
+
+.lkjc_qylk_one1_1_1_1, .lkjc_qylk_one1_1_1_2 {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_qylk_one1_1_1_2 {
+    font-size: 18px;
+}
+
+.lkjc_qylk_one1_1_1_2_1,.lkjc_qylk_one1_1_1_2_2 {
+    float: left;
+}
+
+.lkjc_qylk_one1_1_1_2_1 {
+    width: 60%;
+    height: 60%;
+}
+
+.lkjc_qylk_one1_1_1_2_2 {
+    width: 40%;
+    height: 100%;
+    text-align: center;
+}
+
+.lkjc_qylk_one1_1_1_2_1_div1, .lkjc_qylk_one1_1_1_2_1_div2 {
+    width: 100%;
+    height: 80%;
+    line-height: 50px;
+}
+
+.lkjc_qylk_one1_1_1_2_1_div1_span1, .lkjc_qylk_one1_1_1_2_1_div2_span1 {
+    display: block;
+    float: left;
+    color: #00B8F1;
+}
+
+.lkjc_qylk_one1_1_1_2_1_div1_span2, .lkjc_qylk_one1_1_1_2_1_div2_span2 {
+    display: block;
+    float: left;
+    font-family: AIP;
+    font-size: 25px;
+}
+
+.lkjc_qylk_one1_i1 {
+    color: red;
+}
+
+.lkjc_qylk_one1_i2 {
+    color: #0085CC;
+}
+
+.lkjc_qylk_one1_i1, .lkjc_qylk_one1_i2 {
+    font-size: 0.40rem!important;
+    margin-left: 5px;
+    line-height: 50px!important;
+}
+
+.lkjc_qylk_one1_1_1_2_2_span1 {
+    display: block;
+    color: #00B8F1;
+    margin-top: 20px;
+}
+
+.lkjc_qylk_one1_1_1_2_2_span2 {
+    display: block;
+    font-family: AIP;
+    font-size: 30px;
+    text-align: center;
+}
+
+.lkjc_qylk_one1_1_3_1, .lkjc_qylk_one1_1_3_2 {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_qylk_one1_1_3_1_div1, .lkjc_qylk_one1_1_3_1_div2, .lkjc_qylk_one1_1_3_1_div3,
+.lkjc_qylk_one1_1_3_2_div1, .lkjc_qylk_one1_1_3_2_div2, .lkjc_qylk_one1_1_3_2_div3 {
+    width: 100%;
+    height: 33%;
+}
+
+.lkjc_qylk_one1_1_3_1_div2_span1, .lkjc_qylk_one1_1_3_2_div2_span1 {
+    font-family: AIP;
+    font-size: 24px;
+    color: #32EA36;
+}
+
+.lkjc_qylk_one1_1_3_1_div1, .lkjc_qylk_one1_1_3_2_div1 {
+    font-weight: bold;
+}
+
+.lkjc_qylk_two1 {
+    margin-bottom: 0px;
+    width: 100%;
+    height: 414px;
+}
+
+.lkjc_qylk_two1_1 {
+    height: 370px;
+}
+
+.lkjc_qylk_two1_1_1 {
+    width: 100%;
+    height: 100px;
+}
+
+.lkjc_qylk_two1_1_2 {
+    width: 100%;
+    height: 30px;
+}
+
+.lkjc_qylk_two1_1_3 {
+    width: 100%;
+    height: 140px;
+}
+
+.lkjc_qylk_two1_1_4 {
+    width: 100%;
+    height: 100px;
+    font-size: 18px;
+    line-height: 70px;
+    text-align: center;
+}
+
+.lkjc_qylk_two1_1_1_1, .lkjc_qylk_two1_1_1_2 {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_qylk_two1_1_1_2 {
+    font-size: 18px;
+}
+
+.lkjc_qylk_two1_1_1_2_1 {
+    width: 60%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_qylk_two1_1_1_2_2 {
+    width: 40%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_qylk_two1_1_1_2_1_div1, .lkjc_qylk_two1_1_1_2_1_div2 {
+    width: 100%;
+    height: 50%;
+    line-height: 50px;
+}
+
+.lkjc_qylk_two1_1_1_2_1_div1_1, .lkjc_qylk_two1_1_1_2_1_div2_1 {
+    display: block;
+    float: left;
+    color: #00B8F1;
+}
+
+.lkjc_qylk_two1_1_1_2_1_div1_2, .lkjc_qylk_two1_1_1_2_1_div2_2 {
+    display: block;
+    float: left;
+    font-family: AIP;
+    font-size: 25px;
+}
+
+.lkjc_qylk_two1_i1, .lkjc_qylk_two1_i2 {
+    font-size: 0.40rem!important;
+    margin-left: 5px;
+    line-height: 50px!important;
+}
+
+.lkjc_qylk_two1_i1 {
+    color: red;
+}
+
+.lkjc_qylk_two1_i2 {
+    color: #0085CC;
+}
+
+.lkjc_qylk_two1_1_1_2_2_span1 {
+    display: block;
+    color: #00B8F1;
+    margin-top: 20px;
+}
+
+.lkjc_qylk_two1_1_1_2_2_span2 {
+    display: block;
+    font-family: AIP;
+    font-size: 30px;
+    text-align: center;
+}
+
+.lkjc_qylk_two1_1_2_1, .lkjc_qylk_two1_1_2_3 {
+    width: 80px;
+    height: 30px;
+    float: left;
+    line-height: 30px;
+}
+
+.lkjc_qylk_two1_1_2_2 {
+    width: 250px;
+    height: 30px;
+    float: left;
+}
+
+.lkjc_qylk_two1_1_2_1_span1, .lkjc_qylk_two1_1_2_3_span1 {
+    display: block;
+    float: left;
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.lkjc_qylk_two1_1_2_3_span1 {
+    text-align: left;
+}
+
+.lkjc_qylk_two1_1_4_1, .lkjc_qylk_two1_1_4_2 {
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.lkjc_qylk_two1_1_4_1_div1, .lkjc_qylk_two1_1_4_1_div2, .lkjc_qylk_two1_1_4_1_div3,
+.lkjc_qylk_two1_1_4_2_div1, .lkjc_qylk_two1_1_4_2_div2, .lkjc_qylk_two1_1_4_2_div3 {
+    width: 100%;
+    height: 33%;
+}
+
+.lkjc_qylk_two1_1_4_1_div1, .lkjc_qylk_two1_1_4_2_div1 {
+    font-weight: bold;
+}
+
+.lkjc_qylk_two1_1_4_1_div2_span1, .lkjc_qylk_two1_1_4_2_div2_span1 {
+    color: #32EA36;
+    font-family: AIP;
+    font-size: 24px;
+}
+
+
+
+

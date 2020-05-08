@@ -1,4 +1,36 @@
+<<<<<<< HEAD
 define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget", "esri/graphic", "esri/layers/GraphicsLayer", "esri/geometry/jsonUtils", "esri/geometry/Point", "esri/symbols/PictureMarkerSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleFillSymbol", "esri/geometry/geometryEngine", "esri/geometry/webMercatorUtils", "esri/toolbars/draw"], function (declare, lang, topic, BaseWidget, Graphic, GraphicsLayer, geometryJsonUtils, Point, PictureMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, geometryEngine, webMercatorUtils, Draw) {
+=======
+define([
+  "dojo/_base/declare",
+  "dojo/_base/lang",
+  "dojo/topic",
+  "jimu/BaseWidget",
+  "esri/graphic",
+  "esri/layers/GraphicsLayer",
+  "esri/geometry/jsonUtils",
+  "esri/geometry/Point",
+  "esri/symbols/PictureMarkerSymbol",
+  "esri/symbols/SimpleLineSymbol",
+  "esri/symbols/SimpleFillSymbol",
+  "esri/geometry/geometryEngine",
+  "esri/geometry/webMercatorUtils"
+], function(
+  declare,
+  lang,
+  topic,
+  BaseWidget,
+  Graphic,
+  GraphicsLayer,
+  geometryJsonUtils,
+  Point,
+  PictureMarkerSymbol,
+  SimpleLineSymbol,
+  SimpleFillSymbol,
+  geometryEngine,
+  webMercatorUtils
+) {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
   return declare([BaseWidget], {
     _graphicsLayer: null,
 
@@ -9,10 +41,14 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
     _polygonSymbol: null,
     _changedOverlay: [],
 
+<<<<<<< HEAD
     _drawToolbar: null,
     _searchParamerters: null,
 
     postCreate: function postCreate() {
+=======
+    postCreate: function() {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       this.inherited(arguments);
 
       this._graphicsLayer = new GraphicsLayer();
@@ -20,9 +56,12 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
 
       this._fbdDatas = new Map();
 
+<<<<<<< HEAD
       this._drawToolbar = new Draw(this.map);
       this._drawToolbar.on("draw-end", lang.hitch(this, this.onDrawToolbar_drawEnd));
 
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       this._pointSymbol = new PictureMarkerSymbol({
         url: window.path + "images/mapIcons/m0.png",
         width: 16,
@@ -50,6 +89,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
 
       this._getFBD();
 
+<<<<<<< HEAD
       topic.subscribe("mixinSearch", lang.hitch(this, this.onTopicHandler_mixinSearch));
 
       topic.subscribe("clearMixinSearch", lang.hitch(this, this.onTopicHandler_clearMixinSearch));
@@ -100,18 +140,52 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
           contents = params.contents;
 
       var searchGeometry = geometryJsonUtils.fromJson(geometry);
+=======
+      topic.subscribe(
+        "mixinSearch",
+        lang.hitch(this, this.onTopicHandler_mixinSearch)
+      );
+
+      topic.subscribe(
+        "clearMixinSearch",
+        lang.hitch(this, this.onTopicHandler_clearMixinSearch)
+      );
+    },
+
+    onTopicHandler_mixinSearch: function(parameter) {
+      this._clearSearch();
+
+      const { params, callback } = parameter;
+      const {
+        geometry,
+        radius,
+        showGeometry,
+        showBuffer,
+        showResult,
+        contents
+      } = params;
+      const searchGeometry = geometryJsonUtils.fromJson(geometry);
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       if (showGeometry) {
         this._showGeometry(searchGeometry);
       }
       //处理缓冲
+<<<<<<< HEAD
       var bufferGeometry = void 0;
       if (radius > 0) {
         bufferGeometry = this._bufferGeometry(searchGeometry, radius);
         if (showBuffer && bufferGeometry) {
+=======
+      let bufferGeometry;
+      if (radius > 0) {
+        bufferGeometry = this._bufferGeometry(searchGeometry, radius);
+        if (showBuffer) {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
           this._showGeometry(bufferGeometry);
         }
       }
 
+<<<<<<< HEAD
       var searchResults = [];
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
@@ -170,6 +244,43 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
           if (_didIteratorError) {
             throw _iteratorError;
           }
+=======
+      const searchResults = [];
+      for (const searchContent of contents) {
+        const { types, class: searchClass } = searchContent;
+        switch (searchClass) {
+          case "poi":
+            if (searchGeometry.type === "point" && radius > 0) {
+              const poiResult = this._poiSearch({
+                x: searchGeometry.x,
+                y: searchGeometry.y,
+                radius,
+                types,
+                showResult
+              });
+              searchResults.push(poiResult);
+            }
+            break;
+
+          case "overlay":
+            const overlayResults = this._overlaySearch({
+              geometry: bufferGeometry || searchGeometry,
+              types,
+              showResult
+            });
+            searchResults.push(overlayResults);
+            break;
+
+          case "fbd":
+            const fbdResults = this._fbdSearch({
+              x: searchGeometry.x,
+              y: searchGeometry.y,
+              geometry: bufferGeometry || searchGeometry,
+              types
+            });
+            searchResults.push(fbdResults);
+            break;
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         }
       }
 
@@ -178,19 +289,29 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
       }
     },
 
+<<<<<<< HEAD
     _overlaySearch: function _overlaySearch(overlayParam) {
+=======
+    _overlaySearch: function(overlayParam) {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       if (!this._overlayGraphics) {
         return {
           class: "overlay",
           result: []
         };
       }
+<<<<<<< HEAD
       var containerGeometry = overlayParam.geometry,
           types = overlayParam.types,
           showResult = overlayParam.showResult;
 
       var searchType = types ? types.split(",") : [];
       var searchGraphics = this._overlayGraphics.filter(function (graphic) {
+=======
+      const { geometry: containerGeometry, types, showResult } = overlayParam;
+      const searchType = types ? types.split(",") : [];
+      const searchGraphics = this._overlayGraphics.filter(graphic => {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         //没传type属性，就搜索所有可见图层
         if (searchType.length === 0) {
           return graphic.visible;
@@ -198,6 +319,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
           return searchType.indexOf(graphic.type) >= 0;
         }
       });
+<<<<<<< HEAD
       var overlayResult = [];
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
@@ -239,12 +361,38 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
         }
       }
 
+=======
+      const overlayResult = [];
+      for (const graphic of searchGraphics) {
+        const insideGeometry = this.map.spatialReference.isWebMercator()
+          ? webMercatorUtils.webMercatorToGeographic(graphic.geometry)
+          : graphic.geometry;
+
+        const contained = geometryEngine.contains(
+          containerGeometry,
+          insideGeometry
+        );
+        if (contained) {
+          if (showResult && !graphic.visible) {
+            graphic.visible = true;
+            graphic.draw();
+            this._changedOverlay.push(graphic);
+          }
+          overlayResult.push({
+            id: graphic.id,
+            type: graphic.type,
+            location: insideGeometry
+          });
+        }
+      }
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       return {
         class: "overlay",
         result: overlayResult
       };
     },
 
+<<<<<<< HEAD
     _fbdSearch: function _fbdSearch(fbdParams) {
       var x = fbdParams.x,
           y = fbdParams.y,
@@ -301,6 +449,39 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
             name: graphic.name
           };
         });
+=======
+    _fbdSearch: function(fbdParams) {
+      const { x, y, geometry: containerGeometry, types } = fbdParams;
+      const centerPoint = new Point(x, y);
+      let graphics = [];
+      let fbdResults = [];
+
+      for (let type of this._fbdDatas.keys()) {
+        if (!types || types.length === 0 || types.indexOf(type) >= 0) {
+          const fbdData = this._fbdDatas.get(type);
+          const filtered = fbdData.filter(graphic => {
+            const polygon = graphic.geometry;
+            if (geometryEngine.intersects(containerGeometry, polygon)) {
+              graphic.distanceToPoint = geometryEngine.nearestCoordinate(
+                polygon,
+                centerPoint
+              ).distance;
+              return true;
+            }
+          });
+          graphics = graphics.concat(filtered);
+        }
+      }
+      if (graphics.length >= 0) {
+        const sorted = graphics.sort(function(obj1, obj2) {
+          return obj1.distanceToPoint - obj2.distanceToPoint;
+        });
+        fbdResults = sorted.map(graphic => ({
+          id: graphic.id,
+          type: graphic.type,
+          name: graphic.name
+        }));
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       }
       return {
         class: "fbd",
@@ -308,6 +489,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
       };
     },
 
+<<<<<<< HEAD
     _poiSearch: function _poiSearch(poiParam) {
       var _this = this;
 
@@ -327,6 +509,25 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
       }, null, "jsonp").then(function (response) {
         if (response.message === "ok") {
           response.results.forEach(function (result) {
+=======
+    _poiSearch: function(poiParam) {
+      const { x, y, radius, types, showResult } = poiParam;
+      const poiResult = [];
+      $.get(
+        this.config.poi.url,
+        {
+          ak: this.config.poi.ak,
+          location: `${x},${y}`,
+          radius,
+          type: types.replace(",", "|"),
+          page_size: 100
+        },
+        null,
+        "jsonp"
+      ).then(response => {
+        if (response.message === "ok") {
+          response.results.forEach(result => {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             poiResult.push({
               id: result.uid,
               name: result.name,
@@ -339,7 +540,11 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
             });
             //在地图上显示poi点
             if (showResult) {
+<<<<<<< HEAD
               var graphic = new Graphic({
+=======
+              const graphic = new Graphic({
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
                 geometry: {
                   x: result.location.lng,
                   y: result.location.lat
@@ -366,7 +571,11 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
                   content: "地址: ${address}<br/>电话: ${telephone}"
                 }
               });
+<<<<<<< HEAD
               _this._graphicsLayer.add(graphic);
+=======
+              this._graphicsLayer.add(graphic);
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             }
           });
         }
@@ -378,8 +587,13 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
       };
     },
 
+<<<<<<< HEAD
     _showGeometry: function _showGeometry(geometry) {
       var graphic = new Graphic(geometry);
+=======
+    _showGeometry: function(geometry) {
+      const graphic = new Graphic(geometry);
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       switch (geometry.type) {
         case "point":
           graphic.symbol = this._pointSymbol;
@@ -396,14 +610,23 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
       this._graphicsLayer.add(graphic);
     },
 
+<<<<<<< HEAD
     _bufferGeometry: function _bufferGeometry(geometry, radius) {
       if (this.map.spatialReference.wkid === "4326" || this.map.spatialReference.isWebMercator()) {
+=======
+    _bufferGeometry: function(geometry, radius) {
+      if (
+        this.map.spatialReference.wkid === "4326" ||
+        this.map.spatialReference.isWebMercator()
+      ) {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         return geometryEngine.geodesicBuffer(geometry, radius, "meters");
       } else {
         return geometryEngine.buffer(geometry, radius, "meters");
       }
     },
 
+<<<<<<< HEAD
     onTopicHandler_clearMixinSearch: function onTopicHandler_clearMixinSearch() {
       this._clearSearch();
     },
@@ -411,18 +634,32 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
     _clearSearch: function _clearSearch() {
       this._graphicsLayer.clear();
       this._changedOverlay.forEach(function (graphic) {
+=======
+    onTopicHandler_clearMixinSearch: function() {
+      this._clearSearch();
+    },
+
+    _clearSearch: function() {
+      this._graphicsLayer.clear();
+      this._changedOverlay.forEach(graphic => {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         graphic.visible = false;
         graphic.draw();
       });
       this._changedOverlay = [];
     },
 
+<<<<<<< HEAD
     onReceiveData: function onReceiveData(name, widgetId, data, historyData) {
+=======
+    onReceiveData: function(name, widgetId, data, historyData) {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       if (widgetId === "OverlayWidget") {
         this._overlayGraphics = data;
       }
     },
 
+<<<<<<< HEAD
     _getFBD: function _getFBD() {
       var _this2 = this;
 
@@ -444,13 +681,33 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "jimu/BaseWidget"
 
             var graphics = features.map(function (feature) {
               var graphic = new Graphic(feature);
+=======
+    _getFBD: function() {
+      const { fbd: fbdConfigs } = this.config;
+      fbdConfigs.forEach(fbdConfig => {
+        const { type, source, idField, name } = fbdConfig;
+        if (!this._fbdDatas.has(type)) {
+          this._fbdDatas.set(type, []);
+        }
+
+        fetch(window.path + source).then(fetchResponse => {
+          fetchResponse.json().then(layerData => {
+            const { features } = layerData;
+            const graphics = features.map(feature => {
+              const graphic = new Graphic(feature);
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
               graphic.id = graphic.attributes[idField];
               graphic.type = type;
               graphic.name = name.format(graphic.attributes);
               return graphic;
             });
+<<<<<<< HEAD
             var allData = _this2._fbdDatas.get(type).concat(graphics);
             _this2._fbdDatas.set(type, allData);
+=======
+            const allData = this._fbdDatas.get(type).concat(graphics);
+            this._fbdDatas.set(type, allData);
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
           });
         });
       });

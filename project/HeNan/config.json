@@ -1,0 +1,69 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "地图",
+        "url": "http://{gisServer}/arcgis/rest/services/Vector_New/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [],
+    "mapOptions": {
+      "logo": false,
+      "nav": false,
+      "slider": false,
+      "center": [113.821943, 34.019541],
+      "scale": 160000
+    }
+  },
+  "geometryService":
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "10.41.100.84:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/Cluster/Widget",
+        "version": "2.4",
+        "id": "ClusterWidget"
+      }
+    ]
+  }
+}

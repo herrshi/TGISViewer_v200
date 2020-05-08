@@ -322,9 +322,7 @@ select.selectpicker {
 
 
 .form-control {
-	border:none;background:none
-
-
+	background:none
 }
 .form-control-blue:focus {
 	border-color: #2b9194;

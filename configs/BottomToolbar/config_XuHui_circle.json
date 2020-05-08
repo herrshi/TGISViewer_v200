@@ -3,7 +3,10 @@
     {
       "label": "危化品",
       "fontClass": "icon_whp",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -13,7 +16,10 @@
     {
       "label": "有限空间",
       "fontClass": "icon_yxkj",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -23,7 +29,10 @@
     {
       "label": "粉尘涉爆",
       "fontClass": "icon_fc",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -33,7 +42,10 @@
     {
       "label": "消防",
       "fontClass": "icon_xf",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -43,7 +55,10 @@
     {
       "label": "建筑工地",
       "fontClass": "icon_jzsg",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -53,7 +68,10 @@
     {
       "label": "燃气",
       "fontClass": "icon_rq",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -63,7 +81,10 @@
     {
       "label": "特种设备",
       "fontClass": "icon_tssb",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -73,7 +94,10 @@
     {
       "label": "地下空间",
       "fontClass": "icon_dxkj",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -83,7 +107,10 @@
     {
       "label": "生态环境",
       "fontClass": "icon_sthj",
+<<<<<<< HEAD
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -91,6 +118,7 @@
       ]
     },
     {
+<<<<<<< HEAD
       "label": "一键开启",
       "fontClass": "icon_all",
       "initEnable":true,
@@ -104,6 +132,10 @@
       "label": "动态隐患-消防",
       "fontClass": "icon_xf_s",
       "initEnable":true,
+=======
+      "label": "动态-消防",
+      "fontClass": "icon_xf_s",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -111,9 +143,14 @@
       ]
     },
     {
+<<<<<<< HEAD
       "label": "动态隐患-燃气",
       "fontClass": "icon_rq_s",
       "initEnable":true,
+=======
+      "label": "动态-燃气",
+      "fontClass": "icon_rq_s",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -121,9 +158,14 @@
       ]
     },
     {
+<<<<<<< HEAD
       "label": "动态隐患-建设工程",
       "fontClass": "icon_jsgc_s",
       "initEnable":true,
+=======
+      "label": "动态-建设工程",
+      "fontClass": "icon_jsgc_s",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -131,9 +173,14 @@
       ]
     },
     {
+<<<<<<< HEAD
       "label": "动态隐患-特种设备",
       "fontClass": "icon_tzsb_s",
       "initEnable":true,
+=======
+      "label": "动态-特种设备",
+      "fontClass": "icon_tzsb_s",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -141,9 +188,14 @@
       ]
     },
     {
+<<<<<<< HEAD
       "label": "动态隐患-危险化学品",
       "fontClass": "icon_whp_s",
       "initEnable":true,
+=======
+      "label": "动态-危险化学品",
+      "fontClass": "icon_whp_s",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -151,9 +203,14 @@
       ]
     },
     {
+<<<<<<< HEAD
       "label": "动态隐患-老旧住房",
       "fontClass": "icon_ljzf_s",
       "initEnable":true,
+=======
+      "label": "动态-老旧住房",
+      "fontClass": "icon_ljzf_s",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -161,9 +218,14 @@
       ]
     },
     {
+<<<<<<< HEAD
       "label": "动态隐患-拆违基地",
       "fontClass": "icon_cwjd_s",
       "initEnable":true,
+=======
+      "label": "动态-拆违基地",
+      "fontClass": "icon_cwjd_s",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -171,9 +233,14 @@
       ]
     },
     {
+<<<<<<< HEAD
       "label": "动态隐患-地下空间",
       "fontClass": "icon_dxkj_s",
       "initEnable":true,
+=======
+      "label": "动态-地下空间",
+      "fontClass": "icon_dxkj_s",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"
@@ -183,6 +250,7 @@
     {
       "label": "其他",
       "fontClass": "icon_qt_s",
+<<<<<<< HEAD
       "initEnable":true,
       "operations": [
         {
@@ -194,6 +262,8 @@
       "label": "动态隐患-一键开启",
       "fontClass": "icon_all",
       "initEnable":true,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       "operations": [
         {
           "opName": "changeLayer"

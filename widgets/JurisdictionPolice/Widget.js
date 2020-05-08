@@ -197,6 +197,7 @@ define([
                 }
               }
             });
+<<<<<<< HEAD
 
             if (this.showDistLayer) {
               this.districtLayer.renderer.symbol.style =
@@ -205,6 +206,8 @@ define([
               this.districtLayer.renderer.symbol.style =
                 SimpleFillSymbol.STYLE_NULL;
             }
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             this.districtLayer.setRenderer(renderer);
             this.districtLayer.on("click", function(event) {
               event.stopPropagation();
@@ -286,18 +289,25 @@ define([
               showLabels: true
             });
             //显示辖区名称
+<<<<<<< HEAD
             var labelColor = [36, 135, 205];
             var fillColor = [255, 243, 255, 190];
             if (this.appConfig.theme.name !== "BillboardTheme") {
               labelColor = [255, 255, 255];
               fillColor = [255, 243, 255, 64];
             }
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             this.streetLayer.setLabelingInfo([
               {
                 labelExpressionInfo: { value: "{SHOWNAME}" },
                 symbol: {
                   type: "esriTS",
+<<<<<<< HEAD
                   color: labelColor,
+=======
+                  color: [36, 135, 205],
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
                   font: {
                     family: "Microsoft YaHei",
                     size: 10,
@@ -311,7 +321,11 @@ define([
               symbol: {
                 type: "esriSFS",
                 style: "esriSFSSolid",
+<<<<<<< HEAD
                 color: fillColor,
+=======
+                color: [255, 243, 255, 190],
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
                 outline: {
                   color: [0, 210, 245, 230],
                   width: 1,
@@ -486,10 +500,14 @@ define([
         typeof onStreetClick !== "undefined" &&
         onStreetClick instanceof Function
       ) {
+<<<<<<< HEAD
         onStreetClick(
           event.graphic.attributes.SHOWNAME,
           event.graphic.attributes.FEATUREID
         );
+=======
+        onStreetClick(event.graphic.attributes.SHOWNAME);
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       }
       var lineGraphic = new Graphic(new Polyline(area.rings), symbol);
       this.jurisdictionLineLayer.add(lineGraphic);
@@ -497,7 +515,10 @@ define([
     onTopicHandler_LocateStreet: function(params) {
       this.jurisdictionLineLayer.clear();
       var name = params.name || "";
+<<<<<<< HEAD
       var id = params.id;
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       var hideStreet = params.hideStreet === true;
       var reset = params.reset === true;
       if (reset) {
@@ -507,10 +528,14 @@ define([
         this.map.centerAndZoom(mapOptions.center, mapOptions.zoom);
       }
       this.streetLayer.graphics.forEach(function(graphic) {
+<<<<<<< HEAD
         if (
           name.indexOf(graphic.attributes.SHOWNAME) > -1 ||
           (id !== undefined && id === graphic.attributes.FEATUREID)
         ) {
+=======
+        if (name.indexOf(graphic.attributes.SHOWNAME) > -1) {
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
           var area = graphic.geometry;
           var symbol = new SimpleLineSymbol(
             lineStyle["NOT-CONTAINED"],
@@ -525,6 +550,7 @@ define([
           }
           //this.map.centerAt(graphic.geometry.getCentroid());
           this.map.setExtent(graphic.geometry.getExtent().expand(2));
+<<<<<<< HEAD
         } else {
           var fillColor = [255, 243, 255, 0.75];
           if (this.appConfig.theme.name !== "BillboardTheme") {
@@ -542,6 +568,8 @@ define([
           );
           var dyGraphic = new Graphic(area, symbol);
           this.jurisdictionLineLayer.add(dyGraphic);
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         }
       }, this);
     },

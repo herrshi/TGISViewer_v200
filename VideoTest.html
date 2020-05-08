@@ -1,0 +1,101 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1, user-scalable=no"
+    />
+    <title>ArcGIS API for JavaScript Hello World App</title>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      #videoDiv {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="http://localhost:8090/arcgis_js_api_4/esri/css/main.css"
+    />
+    <script src="http://localhost:8090/arcgis_js_api_4/init.js"></script>
+
+    <script>
+      require([
+        "esri/Basemap",
+        "esri/layers/TileLayer",
+        "esri/Map",
+        "esri/views/SceneView"
+      ], function(Basemap, TileLayer, Map, SceneView) {
+        const basemap = new Basemap({
+          baseLayers: [
+            new TileLayer({
+              url:
+                "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer"
+            })
+          ]
+        });
+        const map = new Map({
+          basemap,
+          ground: {
+            opacity: 0.5
+          }
+        });
+
+        const view = new SceneView({
+          container: "viewDiv",
+          map,
+          camera: {
+            position: [121.423755, 31.214968, 1000],
+            heading: 0,
+            tilt: 65
+          },
+          viewingMode: "local",
+          alphaCompositingEnabled: true,
+          environment: {
+            background: {
+              type: "color", // autocasts as new ColorBackground()
+              // set the color alpha to 0 for full transparency
+              color: [255, 252, 244, 0]
+            },
+            // disable stars
+            starsEnabled: false,
+            //disable atmosphere
+            atmosphereEnabled: false
+          }
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div id="videoDiv">
+      <video
+        width="100%"
+        height="100%"
+        class="video-intro"
+        poster="https://mdbootstrap.com/img/Photos/Others/background.jpg"
+        playsinline
+        autoplay
+        muted=""
+        loop
+      >
+        <source
+          src="https://mdbootstrap.com/img/video/animation.mp4"
+          type="video/mp4"
+        />
+      </video>
+    </div>
+    <div id="viewDiv"></div>
+  </body>
+</html>

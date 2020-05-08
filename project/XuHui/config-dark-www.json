@@ -25,8 +25,13 @@
     "basemaps": [
       {
         "label": "深色底图",
-        "url":
-          "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "url": "http://{gisServer}:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
+        "visible": true
+      },
+      {
+        "label": "深色标注",
+        "url": "http://{gisServer}:25033/v3/tile?z=${level}&x=${col}&y=${row}",
         "type": "webTiled",
         "visible": true
       }
@@ -41,9 +46,8 @@
       "slider": false
     }
   },
-  "geometryService":
-    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
-  "gisServer": "15.75.0.255:25001",
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "114.215.146.210",
   "widgetOnScreen": {
     "widgets": [
       {
@@ -163,10 +167,17 @@
         "id": "OverlayWidget"
       },
       {
+<<<<<<< HEAD
         "uri": "widgets/LocateInIssuesect/Widget",
         "config": "configs/LocateInIssuesect/config_XuHui.json",
         "version": "2.4",
         "id": "LocateInIssuesectWidget"
+=======
+        "uri": "widgets/MultiSearch_XuHui/Widget",
+        "config": "configs/MultiSearch/config_XuHui.json",
+        "version": "2.4",
+        "id": "MultiSearchWidget"
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       }
     ]
   }

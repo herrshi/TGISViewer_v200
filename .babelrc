@@ -1,0 +1,15 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "browsers": "ie 10"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "transform-remove-strict-mode"
+  ]
+}

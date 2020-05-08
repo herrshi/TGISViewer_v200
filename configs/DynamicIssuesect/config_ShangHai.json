@@ -213,57 +213,101 @@
     "defaultSymbol": {
       "type": "esriSFS",
       "style": "esriSFSSolid",
+<<<<<<< HEAD
       "color": [0, 200, 81, 150],
       "outline": {
         "type": "esriSLS",
         "style": "esriSLSSolid",
         "color": [0, 126, 51, 255],
+=======
+      "color": [144, 164, 174],
+      "outline": {
+        "type": "esriSLS",
+        "style": "esriSLSSolid",
+        "color": [96, 125, 139],
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         "width": 1
       }
     },
     "defaultLabel": "未知",
     "uniqueValueInfos": [
       {
+<<<<<<< HEAD
         "value": "free",
+=======
+        "value": "畅通",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         "label": "畅通",
         "symbol": {
           "type": "esriSFS",
           "style": "esriSFSSolid",
+<<<<<<< HEAD
           "color": [0, 200, 81, 150],
           "outline": {
             "type": "esriSLS",
             "style": "esriSLSSolid",
             "color": [0, 126, 51, 255],
+=======
+          "color": [130, 206, 134],
+          "outline": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [56, 142, 60],
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             "width": 1
           }
         }
       },
       {
+<<<<<<< HEAD
         "value": "crowd",
+=======
+        "value": "拥挤",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         "label": "拥挤",
         "symbol": {
           "type": "esriSFS",
           "style": "esriSFSSolid",
+<<<<<<< HEAD
           "color": [255, 187, 51, 200],
           "outline": {
             "type": "esriSLS",
             "style": "esriSLSSolid",
             "color": [255, 136, 0, 255],
+=======
+          "color": [255, 235, 59],
+          "outline": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [251, 192, 45],
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             "width": 1
           }
         }
       },
       {
+<<<<<<< HEAD
         "value": "jam",
+=======
+        "value": "堵塞",
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
         "label": "堵塞",
         "symbol": {
           "type": "esriSFS",
           "style": "esriSFSSolid",
+<<<<<<< HEAD
           "color": [255, 68, 68, 255],
           "outline": {
             "type": "esriSLS",
             "style": "esriSLSNull",
             "color": [204, 0, 0, 255],
+=======
+          "color": [201, 53, 35],
+          "outline": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [198, 40, 40],
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             "width": 1
           }
         }

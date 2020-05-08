@@ -36,7 +36,18 @@
         "visible": true
       }
     ],
+<<<<<<< HEAD
     "operationallayers": [],
+=======
+    "operationallayers": [
+      {
+        "label": "路况",
+        "url": "http://{gisServer}:8883/tile?lid=traffic&get=map&cache=off&x=${col}&y=${row}&z=${level}",
+        "type": "webTiled",
+        "visible": true
+      }
+    ],
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     "mapOptions": {
       "center": [121.441, 31.159],
       "zoom": 13,

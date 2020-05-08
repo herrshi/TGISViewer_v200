@@ -1137,7 +1137,7 @@ padding: 0px;
     top:-0.32rem;
     bottom:-0.31rem;
     display:block;
-    border: rgba(28,108,152,0.8) solid 1px;
+    border: #3A8EC7 solid 1px;
     z-index:22
   }
 
@@ -1228,7 +1228,7 @@ padding: 0px;
     background-color: transparent; }
 .form-control[disabled], .form-control[readonly],
   fieldset[disabled] .form-control {
-    background-color: #3ff5fc;
+    background-color: #C5EBFE;
     opacity: 1; }
   .form-control[disabled],
   fieldset[disabled] .form-control {
@@ -1964,5 +1964,15 @@ border-bottom: none;
 .glyphicon-remove:before{
     color:#00c0ff!important;
 }
+<<<<<<< HEAD
+=======
+.widthHeight{
+    width: 100%;
+    height: 100%;
+}
+.height{
+    height: 100%;
+}
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
 
 

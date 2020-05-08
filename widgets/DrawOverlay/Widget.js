@@ -87,8 +87,13 @@ define([
       );
 
       topic.subscribe(
+<<<<<<< HEAD
         "stopDrawOverlay",
         lang.hitch(this, this.onTopicHandler_stopDrawOverlay)
+=======
+          "stopDrawOverlay",
+          lang.hitch(this, this.onTopicHandler_stopDrawOverlay)
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       );
 
       topic.subscribe(
@@ -103,9 +108,13 @@ define([
 
       this.drawCallback = params.callback;
 
+<<<<<<< HEAD
       this.drawStartCallback = params.startcallback;
 
       this._clearlastDraw = params.params.isClear === true;
+=======
+      this._clearlastDraw=params.params.isClear===true;
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
 
       this.drawToolbar.activate(drawType);
       if (this.drawStartCallback) {
@@ -127,6 +136,10 @@ define([
 
     onTopicHandler_stopDrawOverlay: function() {
       this.drawToolbar.deactivate();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     },
 
     onDrawToolBarHandler_drawComplete: function(event) {

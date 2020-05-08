@@ -80,11 +80,15 @@ define([
         "addClusters",
         lang.hitch(this, this.onTopicHandler_addCluster)
       );
+<<<<<<< HEAD
       topic.subscribe(
         "findFeature",
         lang.hitch(this, this.onTopicHandler_findFeature)
       );
       //this.map.on("zoom-end", lang.hitch(this, this._zoomEndEvent));
+=======
+      this.map.on("zoom-end", lang.hitch(this, this._zoomEndEvent));
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     },
     _zoomEndEvent: function(event) {
       var currentZoom = event.level;
@@ -163,9 +167,12 @@ define([
             type: type,
             x: geometry.x,
             y: geometry.y,
+<<<<<<< HEAD
             geometry: geometry.spatialReference.isWebMercator()
               ? WebMercatorUtils.webMercatorToGeographic(geometry)
               : geometry,
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             attributes: fields,
             infoTemplate: infoTemplate
           });
@@ -455,6 +462,7 @@ define([
       for (var i = 0; i < this.clusterLayers.length; i++) {
         var layer = this.clusterLayers[i];
         layer.clear();
+<<<<<<< HEAD
         layer._clusterData = [];
       }
       this.clusterLayers = [];
@@ -513,6 +521,8 @@ define([
             }
           }
         }
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       }
     }
   });

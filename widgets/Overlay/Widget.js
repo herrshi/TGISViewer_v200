@@ -81,7 +81,10 @@ define([
   var clazz = declare([BaseWidget], {
     name: "Overlay",
     graphicsLayer: null,
+<<<<<<< HEAD
     toolTips: [],
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
     postCreate: function() {
       this.inherited(arguments);
 
@@ -599,6 +602,7 @@ define([
       var showPopup = overlayParams.showPopup === true;
       var autoPopup = overlayParams.autoPopup === true;
       var showToolTip = overlayParams.showToolTip === true;
+<<<<<<< HEAD
       var moveToolTip = overlayParams.moveToolTip === true;
       var toolTipLabel = overlayParams.toolTipLabel;
       var toolTipContent = overlayParams.toolTipContent;
@@ -608,6 +612,10 @@ define([
       var labelInfo = overlayParams.labelInfo;
 
       var features = [];
+=======
+      var defaultVisible = overlayParams.defaultVisible !== false;
+
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       array.forEach(
         overlays,
         function(overlayObj) {
@@ -622,6 +630,7 @@ define([
               ? overlayObj.visible
               : defaultVisible;
 
+<<<<<<< HEAD
           if (moveToolTip) {
             var ar = this.toolTips.find(function(el) {
               return el.type == type;
@@ -634,6 +643,8 @@ define([
               });
             }
           }
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
           var geometry = geometryJsonUtils.fromJson(geometryObj);
           if (this.map.spatialReference.isWebMercator()) {
             geometry = WebMercatorUtils.geographicToWebMercator(geometry);
@@ -671,26 +682,32 @@ define([
             if (showToolTip) {
               topic.publish("showToolTip", {
                 graphic: graphic,
+<<<<<<< HEAD
                 label: toolTipLabel,
                 offset: 20
               });
             }
             features.push(graphic);
+=======
+                label: "卡口",
+                offset: 20
+              });
+            }
+
+            var templateConfig =
+              overlayObj.infoTemplate || overlayParams.defaultInfoTemplate;
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
             if (showPopup) {
-              if (overlayParams.defaultInfoTemplate === undefined) {
+              if (templateConfig === undefined) {
                 graphic.infoTemplate = new InfoTemplate({
                   content: this._getInfoWindowContent(graphic)
                 });
               } else {
                 var infoTemplate = new InfoTemplate();
                 infoTemplate.setTitle(
-                  overlayParams.defaultInfoTemplate.title === ""
-                    ? null
-                    : overlayParams.defaultInfoTemplate.title
+                  templateConfig.title === "" ? null : templateConfig.title
                 );
-                infoTemplate.setContent(
-                  overlayParams.defaultInfoTemplate.content
-                );
+                infoTemplate.setContent(templateConfig.content);
                 graphic.setInfoTemplate(infoTemplate);
                 //this.map.infoWindow.resize(200,90);
               }
@@ -709,9 +726,12 @@ define([
         this
       );
       this.publishData(this.graphicsLayer.graphics);
+<<<<<<< HEAD
       if (showLabels) {
         this.addOverlaysLabel(features, defaultTextSymbol, labelInfo);
       }
+=======
+>>>>>>> 1e93de92ca458248b8448852db9063820b708052
       if (resolve) {
         resolve();
       }

@@ -1,0 +1,396 @@
+ 
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>高效管援</title>
+<style type="text/css">
+    html,body{
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		margin: 0;
+		padding: 0;
+    }
+    #mapContainer {
+		overflow: hidden;
+		height: 100%;
+		width: 100%;
+	}
+	.bottom_icon {
+		position: relative!important;
+		top:30%!important;
+	}
+	/*右侧设置下拉框*/
+	.djsnap:hover .baojing {
+		display: block !important;
+	}
+
+	.djstatic:hover .baojing {
+		display: block !important;
+	}
+
+	.xhsort:hover .baojing {
+		display: block !important;
+	}
+
+	.construct-calendar:hover .baojing {
+		display: block !important;
+	}
+	.word-content-td{
+		overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+	}
+	.tujinggangdian td div{
+		font-family: Accidental Presidency;!important;
+		font-size: 0.26rem;!important;
+		color: black;
+	}
+	.lvbo_div:hover{
+		background: #E7E7E7!important;
+	}
+	.lvbo_div div{
+		font-size: 0.26rem;
+	}
+
+
+</style>
+
+
+
+
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/efficientAssistance/overall_left_01.css" rel="stylesheet" type="text/css" />
+
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/efficientAssistance/overall_right_01.css" rel="stylesheet" type="text/css" />
+
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/efficientAssistance/roadstatus_left_01.css" rel="stylesheet" type="text/css" />
+
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/efficientAssistance/roadstatus_right_01.css" rel="stylesheet" type="text/css" />
+
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/efficientAssistance/roadstatus_right_02.css" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link type="text/css" rel="stylesheet" href="http://15.128.16.164:80/web-res/xuhui_white/css/common.css"/>
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/layout.css" rel="stylesheet" type="text/css" />
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/custom.css" rel="stylesheet" type="text/css" />
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/extend.css" rel="stylesheet" type="text/css" />
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/css/emgcRespond.css" rel="stylesheet" type="text/css" />
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/icomoon/css/style.css" rel="stylesheet" type="text/css" />
+<link href="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/js/vue.min.js"></script>
+<script type="text/javascript" src="http://15.128.16.164:80/web-res/xuhui_white/js/date-zh-CN.js"></script>
+<script type="text/javascript">
+	var webres = "http://15.128.16.164:80/web-res/xuhui_white";
+	var command = "http://15.128.16.164:80/command-app";
+	var manager = "http://15.128.16.164:80/manager-app";
+</script>
+<script type="text/javascript" src="http://15.128.16.164:80/command-app/resources/js/dynamicPopupHtml.js"></script>
+<script type="text/javascript" src="http://15.128.16.164:80/command-app/resources/js/gis-control.js"></script>
+<script type="text/javascript" src="http://15.128.16.164:80/command-app/resources/js/eventDataOperation.js"></script>
+
+<script type="text/javascript" src="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/echarts/echarts-liquidfill.js"></script>
+<script type="text/javascript" src="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/bootstrap-select/js/bootstrap-select.min.js"></script>
+</head>
+
+<body>
+	<!--地图div块-->
+	<div id="mapContainer"></div>
+	<!--顶部居中二级菜单-->
+	<div class="input-card" id="center-top-div-id" style="width:700px; margin:0px auto; right: 0; left: 0; top: 100px;padding: 0px 0px;">
+		<div class="nav_hexagon_box text-center">
+			<div class="nav_hexagon">
+				  <ul>
+					<li class="active"><a href="javascript:void(0)" id="overall-a-id"><span class="socicon-btn-custom active"> <i class="fa fa-tachometer"></i> <font>综合监控</font></span></a></li>
+					<li><a href="javascript:void(0)" id="roadstatus-a-id"><span class="socicon-btn-custom bg-hover-grey-salsa"> <i class="fa fa-road"></i> <font>路况监测</font></span> </a></li>
+					<li><a href="javascript:void(0)" id="emgc-a-id"> <span class="socicon-btn-custom bg-hover-grey-salsa"> <i class="iconone icon-one-triangle"></i> <font>应急响应</font></span></a></li>
+					<li><a href="javascript:void(0)" id="guard-a-id"> <span class="socicon-btn-custom bg-hover-grey-salsa"> <i class="iconone icon-one-commander"></i> <font>特勤任务</font></span> </a></li>
+					<li><a href="javascript:void(0)" id="construction-a-id"> <span class="socicon-btn-custom bg-hover-grey-salsa"> <i class="fa fa-tasks"></i> <font>路设监管</font></span> </a></li>
+					<li><a href="javascript:void(0)" id="facility-a-id"> <span class="socicon-btn-custom bg-hover-grey-salsa"> <i class="fa fa-key"></i> <font>科技保障</font></span> </a></li>
+				  </ul>
+			 </div>
+		</div>
+	</div>
+	
+	<!--摄像机详情-->
+	<div class="input-card" id="sxj-detail-panel-div-id" style="width:510px; margin:0px auto; right: 0; left: 0; top: 220px;padding: 0px 0px;display: none;">
+	</div>
+	
+	<!--信号机详情-->
+	<div id="center-scats-div-id" class="input-card" style="width:710px;height: 440px; margin:0px auto; right: 0; left: 0; top: 220px;display: none;">
+	</div>
+
+	<!--卡口详情-->
+	<div id="center-kk-div-id" class="input-card" style="width:830px;height: 530px; margin:0px auto; right: 0; left: 0; top: 220px;display: none;">
+	</div>
+
+	<!--电警详情-->
+	<div id="center-dj-div-id" class="input-card" style="width:830px;height: 530px; margin:0px auto; right: 0; left: 0; top: 220px;display: none;">
+	</div>
+	
+	<!-- 施工检查 -->
+	<div id="center-sg-check-div-id" class="input-card" style="width:870px;height: 630px; margin:0px auto; right: 0; left: 0; top: 220px;display: none;">
+	
+	</div>
+	
+	<!-- 高效管援左侧面板位置 -->
+	<div id="left-div-id" class="input-card" style="width: 420px;left: 10px;top: 100px;bottom: 25px;z-index: 111;">
+		
+	</div>
+	
+	<!-- 高效管援右侧面板位置 -->
+	<div id="right-div-id" class="input-card" style="width: 420px;right: 10px;top: 100px;bottom: 25px;z-index: 111;">
+	</div>
+	
+	<div class="input-card" id="full-input-card-div-id" style="width: 296px;margin: 0 auto;left: 0px;right: 0px;bottom: 92px;height: 15px;">
+		<!-- <i class="fa fa-caret-down" style="font-size: 12px;"></i> -->
+		<div id="show-full-div-id" onclick="showFullMap()" style="width: 100%;height: 100%;border: 1px #10558C solid;padding-left: 140px;cursor: pointer;">
+			<i class="fa fa-caret-down" style="font-size: 12px;float: left;"></i>
+		</div>
+		<div id="hide-full-div-id" onclick="hideFullMap()" style="width: 100%;height: 100%;border: 1px #10558C solid;padding-left: 140px;cursor: pointer;display: none;">
+			<i class="fa fa-caret-up" style="font-size: 12px;float: left;"></i>
+		</div>
+	</div>
+	<!-- 地图底部图层控制按钮 -->
+	<div id="center-bottom-div-id" class="input-card"  style="width:100%; margin:0px auto; right: 0; left: 0; bottom: 0;">
+		<div class="bottom_menu">
+			<div class="box1"></div>
+			<div class="box2">
+				<div class="socicon-btn-box">
+					<ul>
+							<li id="fbd-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('FBD',this)">
+									<span class="socicon-btn-custom"> <i class="fa fa-road  bottom_icon"></i>
+									</span>
+									<font class="font-green">路况</font>
+								</a> </li>
+							<li id="sxj-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('SXJ',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="fa fa-video-camera  bottom_icon"></i> </span>
+									<font class="font-yellow">视频</font>
+								</a> </li>
+							<li id="kk-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('KK',this)"> <span
+									 class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="iconone icon-one-kakou  bottom_icon"></i> </span>
+									<font class="font-green">卡口</font>
+								</a> </li>
+							<li id="xhd-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('XHD',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="iconone icon-one-trafficlight  bottom_icon"></i> </span>
+									<font class="font-red">信号灯</font>
+								</a> </li>
+							<li id="tcc-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('TCC',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="iconone icon-one-park  bottom_icon"></i> </span>
+									<font class="font-yellow">停车场</font>
+								</a> </li>
+							<li id="police-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('Police',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="iconone icon-one-police  bottom_icon"></i> </span>
+									<font class="font-yellow">警力</font>
+								</a> </li>
+							<li id="area-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('XQ',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="fa fa-map  bottom_icon"></i> </span>
+									<font class="font-yellow">辖区</font>
+								</a> </li>
+							<li id="pq-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('PQ',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="fa fa-map  bottom_icon"></i> </span>
+									<font class="font-yellow">片区</font>
+								</a> </li>
+							<li id="policecar-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('PoliceCar',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="iconone icon-one-autopilot  bottom_icon"></i> </span>
+									<font class="font-yellow">警车</font>
+								</a> </li>
+							<li id="qycar-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('QYCar',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="iconone icon-one-qianycar bottom_icon"></i> </span>
+									<font class="font-yellow">牵引车</font>
+								</a> </li>
+							<li id="zdsg-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('ZDSG',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="iconone icon-one-construct  bottom_icon"></i> </span>
+									<font class="font-blue">占道施工</font>
+								</a> </li>
+							<li id="jtsg-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('JTSG',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="iconone icon-one-accident  bottom_icon" style="font-size:0.45rem"></i> </span>
+									<font class="font-dark">警情</font>
+								</a> </li>
+							<li id="dzjc-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('DZJC',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="fa fa-camera-retro bottom_icon"   style="font-size:0.45rem"></i> </span>
+									<font class="font-dark">电子警察</font>
+								</a> </li>
+							<li id="zdqy-li-id" style="display: none;"> <a href="javascript:void(0);" onclick="clickBotton('ZDQY',this)">
+									<span class="socicon-btn-custom bg-hover-grey-salsa">
+										<i class="fa fa-map  bottom_icon" style="font-size:0.45rem"></i> </span>
+									<font class="font-dark">重点区域</font>
+								</a> </li>
+
+						</ul>
+				</div>
+			</div>
+			<div class="box3"></div>
+		</div>
+	</div>
+	<script src="http://15.128.16.164:80/web-res/xuhui_white/assets/layouts/js/vue.min.js"></script>
+	<script type="text/javascript" src="http://15.128.16.164:80/web-gis/scripts/TGISViewer_v200/simpleLoader.js"></script>
+	<script type="text/javascript" src="http://15.128.16.164:80/web-gis/scripts/TGISViewer_v200/TGISAPI.js"></script>
+	<script type="text/javascript"
+			src="http://15.128.16.164:80/web-res/xuhui_white/assets/global/plugins/bootstrap/js/bootstrap-paginator.js"></script>
+	<script defer type="text/javascript" src="index.js"></script>
+	<script type="text/javascript">
+		//$("#left-div-id").load("/command-app/overall/overall_left_board");
+		$(document).ready(function(){
+			swapLeft({url:"/command-app/overall/overall_left_01"});
+			swapRight({url:"/command-app/overall/overall_right_01"});
+			swapGisControl({bottomIdArr:["fbd", "sxj", "police", "zdsg", "jtsg", "area", "pq"]});
+
+			$("#sxj-detail-panel-div-id").load("http://15.128.16.164:80/command-app/widgets/sxj");
+			$("#center-scats-div-id").load("http://15.128.16.164:80/command-app/widgets/scats");
+			$("#center-kk-div-id").load("http://15.128.16.164:80/command-app/widgets/kk");
+			$("#center-dj-div-id").load("http://15.128.16.164:80/command-app/widgets/dj");
+			$("#center-sg-check-div-id").load("http://15.128.16.164:80/command-app/widgets/sg_check_iframe");
+
+		});
+
+		/**
+		* 控制左侧面板
+		**/
+		function swapLeft(params){
+			$("#left-div-id").hide("slide",{direction:"left"},500,function(){
+				$("#left-div-id").load(params.url);
+				$("#left-div-id").show("slide",{direction:"left"},500,function(){
+				});
+			});
+		}
+
+		/**
+		* 控制右侧面板
+		**/
+		function swapRight(params){
+			$("#right-div-id").hide("slide",{direction:"right"},500,function(){
+				$("#right-div-id").load(params.url);
+				$("#right-div-id").show("slide",{direction:"right"},500);
+			});
+		}
+
+		/**
+		** 打开右侧面板
+		**/
+		function openRight(urlParam){
+			
+		}
+
+		/**
+		* 控制底部图层
+		**/
+		function swapGisControl(params){
+			$("#center-bottom-div-id").hide("slide",{direction:"down"},500,function(){
+				// setBottomButton(params.bottomIdArr);
+				$("#center-bottom-div-id").show("slide",{direction:"down"},500);
+			});
+		}
+
+
+		/**
+		** 同时切换左右面板
+		**/
+		function swap(leftUrl,rightUrl){
+			swapLeft({url:leftUrl});
+			swapRight({url:rightUrl});
+		}
+
+		function showFullMap(){
+			$("#right-div-id").hide("slide",{direction:"right"},500);
+			$("#left-div-id").hide("slide",{direction:"left"},500);
+			$("#center-top-div-id").hide("slide",{direction:"up"},500);
+			$("#center-bottom-div-id").hide("slide",{direction:"down"},500);
+			$("#full-input-card-div-id").animate({
+				bottom: "10px"
+			}, 500, function() {
+				$("#show-full-div-id").hide();
+				$("#hide-full-div-id").show();
+			});
+		}
+
+		function hideFullMap(){
+			$("#right-div-id").show("slide",{direction:"right"},500);
+			$("#left-div-id").show("slide",{direction:"left"},500);
+			$("#center-top-div-id").show("slide",{direction:"up"},500);
+			$("#center-bottom-div-id").show("slide",{direction:"down"},500);
+			$("#full-input-card-div-id").animate({
+				bottom: "92px"
+			}, 500, function() {
+				$("#show-full-div-id").show();
+				$("#hide-full-div-id").hide();
+			});
+		}
+
+		/**
+		 * 导航切换
+		 **/
+		$(".nav_hexagon").find("li").click(function() {
+			$(".nav_hexagon").find("li").removeClass("active");
+			$(this).addClass("active");
+
+			$(".box2").find("li").find("a").removeClass("nav_bottom_choiceLight");
+			$(".box2").find("span").removeClass("active");
+			
+			var nav_id = $(this).find("a").attr("id");
+			
+			map.deleteAllOverlays();
+			map.deleteAllOverlaysCluster();
+			map.clearRouteSearch();
+			map.hidePoliceCount();
+			map.hideJurisdiction();
+			map.hideArea();
+			
+			if(nav_id == "overall-a-id"){
+				swapLeft({url:"/command-app/overall/overall_left_01"});
+				swapRight({url:"/command-app/overall/overall_right_01"});
+				swapGisControl({bottomIdArr:["fbd", "sxj", "police", "zdsg", "jtsg", "area", "pq"]});
+			}else if(nav_id == "roadstatus-a-id"){
+				swapLeft({url:"/command-app/roadstatus/roadstatus_left_01"});
+				swapRight({url:"/command-app/roadstatus/roadstatus_right_01"});
+				swapGisControl({bottomIdArr:["fbd", "sxj", "kk", "xhd", "police", "zdsg", "jtsg", "tcc"]});
+			}else if(nav_id == "emgc-a-id"){
+				swapLeft({url:"/command-app/emgc/emgc_left_01"});
+				swapRight({url:"/command-app/emgc/emgc_right_01"});
+				swapGisControl({bottomIdArr:["fbd", "sxj", "police", "jtsg", "zdqy"]});
+			}else if(nav_id == "guard-a-id"){
+				swapLeft({url:"/command-app/guard/guard_left_01"});
+				swapRight({url:"/command-app/guard/guard_right_01"});
+				swapGisControl({bottomIdArr:["xhd", "sxj", "police", "tcc", "qycar"]});
+			}else if(nav_id == "construction-a-id"){
+				swapLeft({url:"/command-app/construction/construction_left_01"});
+				swapRight({url:"/command-app/construction/construction_right_01"});
+				swapGisControl({bottomIdArr:["fbd", "sxj", "police", "zdsg"]});
+			}else if(nav_id == "facility-a-id"){
+				swapLeft({url:"/command-app/facility/facility_left_01"});
+				swapRight({url:"/command-app/facility/facility_right_01"});
+				swapGisControl({bottomIdArr:["sxj", "kk", "xhd", "dzjc"]});
+			}
+			//swapGisControl({bottomIdArr:["fbd", "sxj", "police", "zdsg", "jtsg","area"]});
+		});
+
+	</script>
+	<script type="text/javascript" src="/command-app/resources/js/index.js"></script>
+	<script type="text/javascript" src="/command-app/resources/js/posa.js"></script>
+	<script type="text/javascript" src="/command-app/resources/js/basefunction.js"></script>
+	<script type="text/javascript" src="/command-app/resources/js/base64.js"></script>
+</body>
+</html>

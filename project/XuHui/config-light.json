@@ -39,6 +39,7 @@
         "label": "高精地图",
         "url": "http://15.75.10.74/mapcache/gmaps/futurecity_shxh_mars_gray@g_hd/{level}/{col}/{row}.png",
         "type": "webTiled",
+        "minScale": 18,
         "visible": true
       }
     ],
