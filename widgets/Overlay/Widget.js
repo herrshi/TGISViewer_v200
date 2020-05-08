@@ -19,9 +19,11 @@ define([
   "esri/symbols/SimpleFillSymbol",
   "esri/symbols/SimpleMarkerSymbol",
   "esri/symbols/PictureMarkerSymbol",
+  "esri/symbols/TextSymbol",
   "esri/renderers/SimpleRenderer",
   "esri/renderers/UniqueValueRenderer",
   "esri/Color",
+  "esri/symbols/Font",
   "esri/InfoTemplate"
 ], function(
   declare,
@@ -41,9 +43,11 @@ define([
   SimpleFillSymbol,
   SimpleMarkerSymbol,
   PictureMarkerSymbol,
+  TextSymbol,
   SimpleRenderer,
   UniqueValueRenderer,
   Color,
+  Font,
   InfoTemplate
 ) {
   var _jimuMarkerStyleToEsriStyle = {
@@ -77,16 +81,21 @@ define([
   var clazz = declare([BaseWidget], {
     name: "Overlay",
     graphicsLayer: null,
-
+    toolTips: [],
     postCreate: function() {
       this.inherited(arguments);
 
       this.graphicsLayer = new GraphicsLayer();
       this.map.addLayer(this.graphicsLayer);
 
+      this._setMapMoveEvent();
       topic.subscribe(
         "addOverlays",
         lang.hitch(this, this.onTopicHandler_addOverlays)
+      );
+      topic.subscribe(
+        "addOverlaysJson",
+        lang.hitch(this, this.onTopicHandler_addOverlaysJson)
       );
       topic.subscribe(
         "deleteOverlays",
@@ -145,7 +154,103 @@ define([
         lang.hitch(this, this.onTopicHandler_findFeature)
       );
     },
+    _setMapMoveEvent: function() {
+      this.graphicsLayer.on(
+        "mouse-over",
+        lang.hitch(this, function(event) {
+          var graphic = event.graphic;
+          if (graphic && graphic.islabel !== true) {
+            var id, type;
+            if (graphic.attributes) {
+              var featureAttributes = graphic.attributes;
+              for (var fieldName in featureAttributes) {
+                //过滤掉prototype
+                if (featureAttributes.hasOwnProperty(fieldName)) {
+                  //做join时，字段名会带上图层名，用indexOf来判断
+                  if (
+                    fieldName.indexOf("DEVICEID") > -1 ||
+                    fieldName.indexOf("BM_CODE") > -1 ||
+                    fieldName.indexOf("FEATUREID") > -1
+                  ) {
+                    id = featureAttributes[fieldName];
+                  }
+                  if (
+                    fieldName.indexOf("DEVICETYPE") > -1 ||
+                    fieldName.indexOf("FEATURETYPE") > -1
+                  ) {
+                    type = featureAttributes[fieldName];
+                  }
+                }
+              }
+            }
+            id = id || graphic.id;
+            type = type || graphic.type;
+            if (type !== undefined && id !== undefined) {
+              //只传type和id
+              if (
+                typeof moveGisDeviceInfo !== "undefined" &&
+                moveGisDeviceInfo instanceof Function
+              ) {
+                moveGisDeviceInfo(type, id);
+              }
+            }
+            var ar = this.toolTips.find(function(el) {
+              return el.type == type;
+            });
+            if (ar && ar.islabel === undefined) {
+              if (ar.label) {
+                topic.publish("showToolTip", {
+                  graphic: graphic,
+                  label: ar.label
+                });
+              }
+              if (ar.content) {
+                topic.publish("showToolTip", {
+                  graphic: graphic,
+                  context: ar.content
+                });
+              }
+            }
+            //传完整信息
+            if (
+              typeof moveGisDeviceDetailInfo !== "undefined" &&
+              moveGisDeviceDetailInfo instanceof Function
+            ) {
+              moveGisDeviceDetailInfo({
+                type: type,
+                id: id,
+                label: graphic.getLayer().label,
+                graphic: graphic.geometry.spatialReference.isWebMercator()
+                  ? new Graphic(
+                      WebMercatorUtils.webMercatorToGeographic(
+                        graphic.geometry
+                      ),
+                      graphic.symbol,
+                      graphic.attributes
+                    )
+                  : graphic
+              });
+            }
+          }
+          //dynamicLayer
+          else {
+          }
+        })
+      );
 
+      this.graphicsLayer.on(
+        "mouse-out",
+        lang.hitch(this, function(event) {
+          topic.publish("clearToolTip");
+          if (
+            typeof moveOutGisDeviceInfo !== "undefined" &&
+            moveOutGisDeviceInfo instanceof Function
+          ) {
+            moveOutGisDeviceInfo();
+          }
+        })
+      );
+    },
     _getESRIColor: function(color, alpha, defaultColor) {
       //color如果是[r,g,b,a]形式
       if (color instanceof Array && color.length === 4) {
@@ -270,7 +375,19 @@ define([
 
       return symbol;
     },
+    _getESRITextSymbol: function(symbolObj) {
+      var symbol;
+      if (symbolObj) {
+        symbol = symbolJsonUtils.fromJson(symbolObj);
+      } else {
+        symbol = new TextSymbol()
+          .setColor(new Color([0, 0, 0]))
+          .setAlign(Font.ALIGN_START)
+          .setFont(new Font("12pt").setWeight(Font.WEIGHT_NORMAL));
+      }
 
+      return symbol;
+    },
     _deleteGraphicByGeometryType: function(geometryType) {
       for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
         var graphic = this.graphicsLayer.graphics[i];
@@ -471,7 +588,10 @@ define([
     onTopicHandler_addOverlays: function(params, resolve, reject) {
       var overlayParams = JSON.parse(params);
       //需要抽稀的在ReductionOverlay中处理
-      if (overlayParams.featureReduction && !!overlayParams.featureReduction.enable) {
+      if (
+        overlayParams.featureReduction &&
+        !!overlayParams.featureReduction.enable
+      ) {
         return;
       }
       var overlays = overlayParams.overlays;
@@ -479,7 +599,15 @@ define([
       var showPopup = overlayParams.showPopup === true;
       var autoPopup = overlayParams.autoPopup === true;
       var showToolTip = overlayParams.showToolTip === true;
+      var moveToolTip = overlayParams.moveToolTip === true;
+      var toolTipLabel = overlayParams.toolTipLabel;
+      var toolTipContent = overlayParams.toolTipContent;
+      var defaultVisible = overlayParams.defaultVisible !== false;
+      var showLabels = overlayParams.showLabels === true;
+      var defaultTextSymbol = overlayParams.defaultTextSymbol;
+      var labelInfo = overlayParams.labelInfo;
 
+      var features = [];
       array.forEach(
         overlays,
         function(overlayObj) {
@@ -489,7 +617,23 @@ define([
           var geometryObj = overlayObj.geometry;
           var symbolObj = overlayObj.symbol || overlayParams.defaultSymbol;
           var buttons = overlayObj.buttons || overlayParams.defaultButtons;
+          var visible =
+            overlayObj.visible !== undefined
+              ? overlayObj.visible
+              : defaultVisible;
 
+          if (moveToolTip) {
+            var ar = this.toolTips.find(function(el) {
+              return el.type == type;
+            });
+            if (ar == undefined) {
+              this.toolTips.push({
+                type: type,
+                label: toolTipLabel,
+                content: toolTipContent
+              });
+            }
+          }
           var geometry = geometryJsonUtils.fromJson(geometryObj);
           if (this.map.spatialReference.isWebMercator()) {
             geometry = WebMercatorUtils.geographicToWebMercator(geometry);
@@ -523,14 +667,15 @@ define([
             graphic.id = id;
             graphic.type = type;
             graphic.buttons = buttons;
-            if(showToolTip){
-                topic.publish("showToolTip", {
-                    graphic: graphic,
-                    label: "卡口",
-                    offset: 20
-                });
+            graphic.visible = visible;
+            if (showToolTip) {
+              topic.publish("showToolTip", {
+                graphic: graphic,
+                label: toolTipLabel,
+                offset: 20
+              });
             }
-
+            features.push(graphic);
             if (showPopup) {
               if (overlayParams.defaultInfoTemplate === undefined) {
                 graphic.infoTemplate = new InfoTemplate({
@@ -563,9 +708,66 @@ define([
         },
         this
       );
+      this.publishData(this.graphicsLayer.graphics);
+      if (showLabels) {
+        this.addOverlaysLabel(features, defaultTextSymbol, labelInfo);
+      }
       if (resolve) {
         resolve();
       }
+    },
+    addOverlaysLabel: function(features, textSymbol, labelInfo) {
+      features.forEach(function(graphic) {
+        var textsymbol = this._getESRITextSymbol(textSymbol);
+        var text = labelInfo;
+        for (var str in graphic.attributes) {
+          text = text.replace("{" + str + "}", graphic.attributes[str]);
+        }
+        textsymbol.text = text;
+        var point = jimuUtils.getGeometryCenter(graphic.geometry);
+        var textGraphic = new Graphic(point, textsymbol);
+        textGraphic.id = graphic.id;
+        textGraphic.type = graphic.type;
+        textGraphic.visible = graphic.visible;
+        textGraphic.islabel = true;
+        this.graphicsLayer.add(textGraphic);
+      }, this);
+    },
+    onTopicHandler_addOverlaysJson: function(params, resolve, reject) {
+      var overlayParams = JSON.parse(params);
+      var JsonUrl = overlayParams.url;
+      var type = overlayParams.type;
+      $.get(
+        JsonUrl,
+        lang.hitch(this, function(data, status) {
+          if (status === "success") {
+            var features = data.features;
+            var overlays = [];
+            features.forEach(function(feature) {
+              overlays.push({
+                type: feature.attributes.FEATURETYPE
+                  ? feature.attributes.FEATURETYPE
+                  : type,
+                id: feature.attributes.FEATUREID,
+                geometry: feature.geometry,
+                fields: feature.attributes
+              });
+            });
+            var jsonObj = {};
+            for (var field in overlayParams) {
+              jsonObj[field] = overlayParams[field];
+            }
+            jsonObj.overlays = overlays;
+
+            this.onTopicHandler_addOverlays(
+              JSON.stringify(jsonObj),
+              resolve,
+              reject
+            );
+          }
+        }),
+        "json"
+      );
     },
     onTopicHandler_deleteOverlays: function(params) {
       var types = params.types || [];
@@ -663,9 +865,15 @@ define([
       var centerResult = params.params.centerResult || false;
       var find_blackGraphic;
       var find_blacknode;
+
+      var callback = params.callback;
+
       for (var i = 0; i < this.graphicsLayer.graphics.length; i++) {
         var graphic = this.graphicsLayer.graphics[i];
         if (graphic.type === layerName && graphic.id === ids[0]) {
+          if (callback) {
+            callback(graphic);
+          }
           if (centerResult) {
             this.map.centerAt(jimuUtils.getGeometryCenter(graphic.geometry));
           }

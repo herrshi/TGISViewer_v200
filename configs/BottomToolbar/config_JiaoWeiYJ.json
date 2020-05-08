@@ -1,0 +1,68 @@
+{
+  "buttons": [
+    {
+      "label": "发布段",
+      "fontClass": "icon_fbd",
+      "initEnable": false,
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["发布段"]
+        }
+      ]
+    },
+    {
+      "label": "摄像机",
+      "fontClass": "icon_ssj",
+      "initEnable": false,
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["摄像机"]
+        }
+      ]
+    },
+    {
+      "label": "交通事故",
+      "fontClass": "icon_shigu",
+      "initEnable": false,
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["交通事故"]
+        }
+      ]
+    },
+    {
+      "label": "地铁",
+      "fontClass": "icon_whp",
+      "initEnable": false,
+      "operations": [
+        {
+          "opName": "changeLayer",
+          "opParam": ["地铁标注线"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["地铁站点"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["地铁标注点"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["机场"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["火车站"]
+        },
+        {
+          "opName": "changeLayer",
+          "opParam": ["地铁遮盖"]
+        }
+      ]
+    }
+  ]
+}

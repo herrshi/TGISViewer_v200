@@ -25,7 +25,8 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -33,12 +34,11 @@
     "operationallayers": [
       {
         "label": "QBB",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/2",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/2",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
           "field1": "DEVICESTATE",
@@ -76,12 +76,11 @@
       },
       {
         "label": "SXJ",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/0",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/0",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
           "field1": "DEVICESTATE",
@@ -119,12 +118,11 @@
       },
       {
         "label": "XHJ",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/3",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/3",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
           "field1": "DEVICESTATE",
@@ -162,12 +160,11 @@
       },
       {
         "label": "KK",
-        "url": "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/5",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_device/FeatureServer/5",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
           "field1": "DEVICESTATE",
@@ -203,8 +200,6 @@
           ]
         }
       }
-
-
     ],
     "mapOptions": {
       "extent": {
@@ -221,10 +216,16 @@
       "slider": false
     }
   },
-  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "101.95.186.146:8997",
   "widgetOnScreen": {
     "widgets": [
+      {
+        "uri": "widgets/ToolTip/Widget",
+        "version": "2.4",
+        "id": "ToolTipWidget"
+      },
       {
         "uri": "widgets/Coordinate/Widget",
         "position": {

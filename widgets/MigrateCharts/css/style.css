@@ -1,18 +1,35 @@
-#migratechart_layer  path[stroke="rgb(255, 255, 255)"][fill="none"]{
-    stroke-dasharray: 100;
-    stroke-dashoffset: 1000;
-    animation: dash 5s linear infinite;
+#migratechart_layer path[stroke="rgb(255, 255, 255)"][fill="none"] {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 1000;
+  animation: dash 5s linear infinite;
 }
-#migratechart_layer  path[fill^="rgb"]{
+#migratechart_layer path[stroke-width="1.5"] {
+  animation: circle-opacity 1s ease-out infinite;
+}
+
+#migratechart_layer path[stroke-width="1"] {
+  animation: circle-opacity1 1s ease-out infinite;
 }
 @keyframes dash {
-    to {
-        stroke-dashoffset: 0;
-    }
+  to {
+    stroke-dashoffset: 0;
+  }
 }
-.horse-run {
 
+@keyframes circle-opacity {
+  from {
+    stroke-opacity: 0;
+  }
+  to {
+    stroke-opacity: 0.5;
+  }
 }
-@keyframes move {
-    100% { offset-distance: 100%;}
+
+@keyframes circle-opacity1 {
+  from {
+    stroke-opacity: 0.5;
+  }
+  to {
+    stroke-opacity: 0;
+  }
 }

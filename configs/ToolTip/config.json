@@ -90,6 +90,10 @@
       "context": "描述：${JWPT.DEV_CONFIG.FSTR_DESC}"
     },
     {
+      "label": "道路摄像机",
+      "context": "描述：${JWPT.DEV_GA_CAMERA.FSTR_DESC}-${JWPT.DEV_GA_CAMERA.FSTR_SCENE}"
+    },
+    {
       "label": "交通事故",
       "context": "描述：${JWPT.EVENT.DEVICEDESC}"
     },
@@ -114,6 +118,22 @@
       "context":
         "预约车辆数：${JWPT.P_PARKV1_LEFT_VW.ALLNUM}<br/>预约车辆进场数：${JWPT.P_PARKV1_LEFT_VW.LEFTNUM}<br/>描述：${JWPT.P_PARKV1_LEFT_VW.PARK_DESC}",
       "joinfield":"JWPT.P_PARKV1_LEFT_VW.PARK_ID"
+    },
+    {
+      "label": "停车场-点",
+      "context": "描述：${JWPT.P_PARKV3_PARKSTAT_VW.PARK_DESC}<br/>总泊位数（大车）：${JWPT.P_PARKV3_PARKSTAT_VW.B_PARKNUM}<br/>总泊位数（小车）：${JWPT.P_PARKV3_PARKSTAT_VW.S_PARKNUM}<br/>总剩余泊位数（大车）：${JWPT.P_PARKV3_PARKSTAT_VW.B_REMAIN_PARKNUM}<br/>总剩余泊位数（小车）：${JWPT.P_PARKV3_PARKSTAT_VW.S_REMAIN_PARKNUM}<br/>泊位占用率（大车）：${JWPT.P_PARKV3_PARKSTAT_VW.B_PARKRATE}<br/>泊位占用率（小车）：${JWPT.P_PARKV3_PARKSTAT_VW.S_PARKRATE}<br/>预约到达率（大车）：${JWPT.P_PARKV3_PARKSTAT_VW.B_APPOINT_INRATE}<br/>预约到达率（小车）：${JWPT.P_PARKV3_PARKSTAT_VW.S_APPOINT_INRATE}"
+    },
+    {
+      "label": "大停车场-点",
+      "context": "描述：${JWPT.P_PARKV3_PARKSTAT_VW.PARK_DESC}<br/>总泊位数（大车）：${JWPT.P_PARKV3_PARKSTAT_VW.B_PARKNUM}<br/>总剩余泊位数（大车）：${JWPT.P_PARKV3_PARKSTAT_VW.B_REMAIN_PARKNUM}<br/>泊位占用率（大车）：${JWPT.P_PARKV3_PARKSTAT_VW.B_PARKRATE}<br/>预约到达率（大车）：${JWPT.P_PARKV3_PARKSTAT_VW.B_APPOINT_INRATE}<br/>"
+    },
+    {
+      "label": "小停车场-点",
+      "context": "描述：${JWPT.P_PARKV3_PARKSTAT_VW.PARK_DESC}<br/>总泊位数（小车）：${JWPT.P_PARKV3_PARKSTAT_VW.S_PARKNUM}<br/>总剩余泊位数（小车）：${JWPT.P_PARKV3_PARKSTAT_VW.S_REMAIN_PARKNUM}<br/>泊位占用率（小车）：${JWPT.P_PARKV3_PARKSTAT_VW.S_PARKRATE}<br/>预约到达率（小车）：${JWPT.P_PARKV3_PARKSTAT_VW.S_APPOINT_INRATE}"
+    },
+    {
+      "label": "P8",
+      "context": "描述：${JWPT.P_PARKV3_P8STAT.PARK_DESC}<br/>累计进场车次（大车）：${JWPT.P_PARKV3_P8STAT.B_STAT_INNUM}<br/>累计进场车次（小车）：${JWPT.P_PARKV3_P8STAT.S_STAT_INMUM}<br/>预约进场率（大车）：${JWPT.P_PARKV3_P8STAT.B_APPOINT_INRATE}%<br/>预约进场率（小车）：${JWPT.P_PARKV3_P8STAT.S_APPOINT_INRATE}%"
     }
   ]
 }

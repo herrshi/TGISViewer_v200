@@ -9,7 +9,7 @@
 .esriPopup .titleButton.close {
   color: #ffffff;
   opacity: 1;
-  background-image: url("./images/remove-icon-small-white.png") !important;
+  background-image: url("./images/black_close_default.png") !important;
   top: 6px;
 }
 

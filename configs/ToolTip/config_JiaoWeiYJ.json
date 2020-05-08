@@ -1,0 +1,23 @@
+{
+  "tooltips": [
+    {
+      "label": "发布段",
+      "context": "描述：${FSTR_DESC}",
+      "selectcolor": "red",
+      "searchField": "SECTIONID",
+      "sublayers": ["快速路", "高速公路"],
+      "sublayerids":[2,3],
+      "width": 270,
+      "height": 30
+    },
+    {
+      "label": "市内水运",
+      "context": "<b>名称：</b>${FSTR_DESC}<br/><b>状态：</b>${FSTR_STATUS}",
+      "width": 180,
+      "height": 30,
+      "selectcolor": "red",
+      "searchField": "FEATUREID",
+      "sublayers": ["轮渡线", "轮渡线_黄浦江"]
+    }
+  ]
+}

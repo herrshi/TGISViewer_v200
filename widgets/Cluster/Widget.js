@@ -13,6 +13,7 @@ define([
   "esri/graphic",
   "esri/layers/GraphicsLayer",
   "esri/geometry/jsonUtils",
+  "esri/geometry/Point",
   "esri/geometry/webMercatorUtils",
   "esri/symbols/jsonUtils",
   "esri/symbols/SimpleLineSymbol",
@@ -38,6 +39,7 @@ define([
   Graphic,
   GraphicsLayer,
   geometryJsonUtils,
+  Point,
   WebMercatorUtils,
   symbolJsonUtils,
   SimpleLineSymbol,
@@ -71,15 +73,48 @@ define([
         lang.hitch(this, this.onTopicHandler_hideOverlays)
       );
       topic.subscribe(
+        "deleteAllOverlaysCluster",
+        lang.hitch(this, this.onTopicHandler_deleteAllOverlaysCluster)
+      );
+      topic.subscribe(
         "addClusters",
         lang.hitch(this, this.onTopicHandler_addCluster)
       );
+      topic.subscribe(
+        "findFeature",
+        lang.hitch(this, this.onTopicHandler_findFeature)
+      );
+      //this.map.on("zoom-end", lang.hitch(this, this._zoomEndEvent));
+    },
+    _zoomEndEvent: function(event) {
+      var currentZoom = event.level;
+      for (var i = 0; i < this.clusterLayers.length; i++) {
+        var layer = this.clusterLayers[i];
+        if (layer.maxZoom > 0) {
+          if (currentZoom <= layer.maxZoom) {
+            layer._clusterTolerance = layer._clusterToleranceTemp;
+            layer._refreshClusterLayer();
+          } else {
+            layer._clusterTolerance = -1;
+            layer._refreshClusterLayer();
+          }
+        }
+      }
     },
     onTopicHandler_addOverlaysCluster: function(params, resolve, reject) {
       var overlayParams = JSON.parse(params);
       var overlays = overlayParams.overlays;
-      var distance = overlayParams.distance || 100;
+      var distance_temp = overlayParams.distance || 100;
+      var distance = distance_temp;
+
+      var maxzoom = overlayParams.zoom || 0;
+
+      if (maxzoom > 0 && this.map.getZoom() > maxzoom) {
+        distance = -1;
+      }
+
       var showInfoTemplate = overlayParams.showInfoTemplate === true;
+
       var clusterDatas = [];
       var symbolObj;
       var type;
@@ -103,6 +138,17 @@ define([
           var fields = overlayObj.fields || {};
           var geometryObj = overlayObj.geometry;
           var geometry = geometryJsonUtils.fromJson(geometryObj);
+
+          var infoTemplateObj = overlayObj.infoTemplate;
+          var infoTemplate = null;
+          if (infoTemplateObj) {
+            infoTemplate = new InfoTemplate();
+            infoTemplate.setTitle(
+              infoTemplateObj.title === "" ? null : infoTemplateObj.title
+            );
+            infoTemplate.setContent(infoTemplateObj.content);
+          }
+
           if (this.map.spatialReference.isWebMercator()) {
             geometry = WebMercatorUtils.geographicToWebMercator(geometry);
           }
@@ -117,7 +163,11 @@ define([
             type: type,
             x: geometry.x,
             y: geometry.y,
-            attributes: fields
+            geometry: geometry.spatialReference.isWebMercator()
+              ? WebMercatorUtils.webMercatorToGeographic(geometry)
+              : geometry,
+            attributes: fields,
+            infoTemplate: infoTemplate
           });
         },
         this
@@ -129,7 +179,9 @@ define([
         symbol,
         infoTemplate,
         distance,
-        showInfoTemplate
+        showInfoTemplate,
+        maxzoom,
+        distance_temp
       );
       if (resolve) {
         resolve();
@@ -193,12 +245,15 @@ define([
       symbol,
       infoTemplate,
       distance,
-      showInfo
+      showInfo,
+      zoom,
+      distance_temp
     ) {
       // cluster layer that uses OpenLayers style clustering
       var clusterLayer = new ClusterLayer({
         data: data,
         distance: distance,
+        distanceTemp: distance_temp,
         type: type,
         labelColor: "#fff",
         labelOffset: 10,
@@ -208,7 +263,7 @@ define([
         singleTemplate: infoTemplate,
         showInfo: showInfo
       });
-
+      clusterLayer.maxZoom = zoom;
       var renderer = new ClassBreaksRenderer(symbol, "clusterCount");
 
       var picBaseUrl = window.path + "images/";
@@ -328,7 +383,9 @@ define([
             layer.renderer.symbol,
             layer.infoTemplate,
             distance,
-            false
+            false,
+            0,
+            distance
           );
         }
       }
@@ -392,6 +449,70 @@ define([
         }
         layer._setHideGraphic(ids, types);
         layer._refreshClusterLayer();
+      }
+    },
+    onTopicHandler_deleteAllOverlaysCluster: function() {
+      for (var i = 0; i < this.clusterLayers.length; i++) {
+        var layer = this.clusterLayers[i];
+        layer.clear();
+        layer._clusterData = [];
+      }
+      this.clusterLayers = [];
+    },
+    onTopicHandler_findFeature: function(params) {
+      var layerName = params.params.layerName || "";
+      var ids = params.params.ids || "";
+      var showResult = params.params.showResult !== false;
+      var centerResult = params.params.centerResult === true;
+      var callback = params.callback;
+      var zoom = params.params.zoom || 17;
+
+      if (ids === "") {
+        return;
+      }
+      for (var i = 0; i < this.clusterLayers.length; i++) {
+        var layer = this.clusterLayers[i];
+        for (var j = 0; j < layer._clusterData.length; j++) {
+          var point = layer._clusterData[j];
+          if (
+            ids.length > 0 &&
+            array.indexOf(ids, point.id) >= 0 &&
+            (point.type === layerName || layerName === "")
+          ) {
+            if (centerResult) {
+              var center = new Point(
+                point.x,
+                point.y,
+                this.map.spatialReference
+              );
+              if (callback) {
+                callback(point);
+              }
+              this.map
+                .centerAndZoom(
+                  center,
+                  zoom > this.map.getZoom() ? zoom : this.map.getZoom()
+                )
+                .then(function(value) {
+                  //取消聚合
+                  layer._clusterTolerance = -1;
+                  layer._refreshClusterLayer();
+                  layer._clusterTolerance = layer._clusterToleranceTemp;
+                  if (showResult) {
+                    layer.graphics.forEach(function(graphic) {
+                      if (ids.indexOf(graphic.id) >= 0) {
+                        var node = graphic.getNode();
+                        node.setAttribute("data-highlight", "highlight");
+                        setTimeout(function() {
+                          node.setAttribute("data-highlight", "");
+                        }, 5000);
+                      }
+                    });
+                  }
+                });
+            }
+          }
+        }
       }
     }
   });

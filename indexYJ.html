@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=10">
+  <title>TGISViewer Version 2.00</title>
+  <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
+  <link href="libs/mdb/css/bootstrap.min.css" rel="stylesheet">
+  <!--<link href="libs/mdb/css/mdb.min.css" rel="stylesheet">-->
+
+  <script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="assets/global/plugins/bootstrap/css/bootstrap.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/global/css/animate.css">
+  <link rel="stylesheet" type="text/css" href="assets/layouts/css/layout.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/layouts/css/custom.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/global/css/plugins.css"/>
+
+  <!--<link rel="stylesheet" type="text/css" href="libs/dropdownCheckbox/dropdownCheckboxes.min.css">-->
+
+
+
+  <style type="text/css">
+    body, html {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #mapContainer {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #0c203a;
+    }
+
+    #testButtons {
+      position: absolute;
+      right: 20px;
+      top: 100px;
+      width: 200px;
+      height: 30px;
+      z-index: 100;
+      background: #ffffff;
+      color: #777777;
+      padding: 5px;
+      border: 2px solid #666666;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+  </style>
+
+</head>
+<body class="claro">
+
+<div id="mapContainer">
+  <!--<div id="swipeDiv"></div>-->
+  <!--Modal: modalConfirmDelete-->
+  <div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+      <!--Content-->
+      <div class="modal-content text-center">
+        <!--Header-->
+        <div class="modal-header d-flex justify-content-center">
+          <p class="heading">是否删除?</p>
+        </div>
+
+        <!--Body-->
+        <div class="modal-body">
+
+          <i class="fa fa-times fa-4x animated rotateIn"></i>
+
+        </div>
+
+        <!--Footer-->
+        <div class="modal-footer flex-center">
+          <a type="button" class="btn btn-danger" id="btnDeleteOK">是</a>
+          <a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">否</a>
+        </div>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+  <!--/Modal: modalConfirmDelete-->
+
+  <!--Modal: modalControlDetail-->
+  <div class="modal fade" id="modalControlDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-info" role="document">
+
+      <!--Content-->
+      <div class="modal-content">
+
+        <!--Header-->
+        <div class="modal-header">
+          <p class="heading lead">填写详细信息</p>
+
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="white-text">x</span>
+          </button>
+        </div>
+        <!--/Header-->
+
+        <!--Body-->
+        <div class="modal-body mx-2">
+          <form id="formControlDetail" class="needs-validation" novalidate>
+            <div class="md-form row mb-0">
+              <div class="col-4">
+                <select id="selInfoType" name="info_type_id"
+                        class="mdb-select md-form colorful-select dropdown-primary"></select>
+                <label for="selInfoType">信息分类类型</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selEventType" name="evt_type_no"
+                        class="mdb-select md-form colorful-select dropdown-primary"></select>
+                <label for="selEventType">事件信息类型</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selSubEventType" name="sub_evt_type_no"
+                        class="mdb-select md-form colorful-select dropdown-primary"></select>
+                <label for="selSubEventType">事件信息子类型</label>
+              </div>
+            </div>
+
+            <div class="md-form row mb-0">
+              <div class="col-4">
+                <select id="selEventSource" name="evt_src_no"
+                        class="mdb-select md-form colorful-select dropdown-primary">
+                  <option value="0">默认</option>
+                  <option value="1">视频解析</option>
+                  <option value="2">交警手动录入</option>
+                  <option value="3">警情交互</option>
+                  <option value="4">高德</option>
+                  <option value="5">接警平台</option>
+                  <option value="6">scarts系统上报</option>
+                  <option value="7">自主感知</option>
+                  <option value="8">人工上报</option>
+                </select>
+                <label for="selEventSource">信息来源</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selSystemSource" name="sys_src_no"
+                        class="mdb-select md-form colorful-select dropdown-primary">
+                  <option value="1">事件处置</option>
+                  <option value="2">智能诱导</option>
+                  <option value="1">设备运维</option>
+                </select>
+                <label for="selSystemSource">对接系统</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selAreaCode" name="area_code"
+                        class="mdb-select md-form colorful-select dropdown-primary"></select>
+                <label for="selAreaCode">发生区域</label>
+              </div>
+            </div>
+
+            <div class="md-form row mb-0">
+              <div class="col-4">
+                <select id="selBlockType" name="block_type" class="mdb-select md-form colorful-select dropdown-primary">
+                  <option value="0">不阻断</option>
+                  <option value="1">阻断</option>
+                </select>
+                <label for="selBlockType">是否阻断</label>
+              </div>
+
+              <div class="col-4">
+                <select id="selLevel" name="level" class="mdb-select md-form colorful-select dropdown-primary">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+                <label for="selLevel">事件等级</label>
+              </div>
+
+              <div class="col-4 md-form form-group">
+                <input type="text" id="txtDirection" name="position_direction" class="form-control"
+                       placeholder="事件方向">
+              </div>
+            </div>
+
+            <div class="md-form row mb-0">
+              <div class="col-4 md-form form-group">
+                <input type="text" id="txtRoadName" name="position_road_name" class="form-control" placeholder="道路名称"
+                       required>
+                <!--<label for="txtRoadName" class="red-text">道路名称</label>-->
+                <div class="invalid-feedback">请输入道路名称</div>
+              </div>
+
+              <div class="col-8 md-form form-group">
+                <input type="text" id="txtAddress" name="position_addr" class="form-control" placeholder="详细地址">
+              </div>
+            </div>
+
+            <div class="md-form row mb-0">
+              <div class="col-6">
+                <textarea type="text" id="txtDesc" name="evt_desc" class="md-textarea form-control" rows="2" required></textarea>
+                <label data-error="wrong" data-success="right" for="txtDesc">事件描述</label>
+                <div class="invalid-feedback">请输入事件描述</div>
+              </div>
+              <div class="col-6">
+                <textarea type="text" id="txtContent" name="copywriting_content" class="md-textarea form-control" rows="2"></textarea>
+                <label data-error="wrong" data-success="right" for="txtContent">文案内容</label>
+              </div>
+
+            </div>
+          </form>
+        </div>
+        <!--/Body-->
+
+        <!--footer-->
+        <div class="modal-footer justify-content-center">
+          <button id="btnSendDetail" class="btn btn-info">
+            发送 <i class="fa fa-paper-plane-o ml-1 white-text"></i>
+          </button>
+          <button class="btn btn-outline-info waves-effect" data-dismiss="modal">
+            关闭 <i class="fa fa-times ml-1"></i>
+          </button>
+        </div>
+        <!--/footer-->
+
+      </div>
+      <!--/Content-->
+    </div>
+  </div>
+  <!--/Modal: modalControlDetail-->
+</div>
+
+<div id="testButtons">
+  <button type="button" onclick="Test1ClickHandler()">定位街道</button>
+  <button type="button" onclick="Test2ClickHandler()">取消定位</button>
+  <button type="button" onclick="Test3ClickHandler()">热力图</button>
+
+  <button type="button" onclick="Test4ClickHandler()">显示街道内点位</button>
+</div>
+<!--<script type="text/javascript" src="simpleLoader.js"></script>-->
+<script type="text/javascript" src="TGISAPI.js"></script>
+<!--<script type="text/javascript" src="libs/EChartsInArcGIS.js"></script>-->
+
+<script type="text/javascript">
+
+
+
+  var hosturl=location.protocol+"//"+window.location.host;
+  var map = TMap.createNew({
+    apiUrl: hosturl+"/arcgis_js_api/library/3.22/3.22/",
+    viewerUrl: hosturl+"/TGISViewer_v200/",
+      config: hosturl+"/TGISViewer_v200/project/XuHui/config-dark-www.json"
+  }, "mapContainer", function () {
+      map.hideDistrictMask();
+      map.showStreet({maxZoom:15});
+      $(".popup_bottom_arrowUp").hide();
+      $(".popup_bottom_inner").css("margin-bottom","0px");
+
+      //$(".popup_bottom_arrowUp").css("transform","rotate(180deg)");
+      //$(".popup_bottom_arrowUp").addClass("clicked");
+      //$(".jimu-widget-BottomToolbarCircleButton").hide()
+      changeButton("0");
+      //selectAllLayer("1",true);
+  });
+  var btnType="0";
+  function changeButton(flag)
+  {
+      //"0"为固定,1为动态.
+      btnType=flag;
+      if(flag=="1")
+      {
+          map.showBottomToolbarButton("动态隐患-消防");
+          map.showBottomToolbarButton("动态隐患-燃气");
+          map.showBottomToolbarButton("动态隐患-建设工程");
+          map.showBottomToolbarButton("动态隐患-特种设备");
+          map.showBottomToolbarButton("动态隐患-危险化学品");
+          map.showBottomToolbarButton("动态隐患-老旧住房");
+          map.showBottomToolbarButton("动态隐患-拆违基地");
+          map.showBottomToolbarButton("动态隐患-地下空间");
+          map.showBottomToolbarButton("其他");
+          map.showBottomToolbarButton("动态隐患-一键开启");
+
+
+          map.hideBottomToolbarButton("危化品");
+          map.hideBottomToolbarButton("有限空间");
+          map.hideBottomToolbarButton("粉尘涉爆");
+          map.hideBottomToolbarButton("消防");
+          map.hideBottomToolbarButton("建筑工地");
+          map.hideBottomToolbarButton("燃气");
+          map.hideBottomToolbarButton("特种设备");
+          map.hideBottomToolbarButton("地下空间");
+          map.hideBottomToolbarButton("生态环境");
+          map.hideBottomToolbarButton("一键开启");
+      }
+      else
+      {
+          map.showBottomToolbarButton("危化品");
+          map.showBottomToolbarButton("有限空间");
+          map.showBottomToolbarButton("粉尘涉爆");
+          map.showBottomToolbarButton("消防");
+          map.showBottomToolbarButton("建筑工地");
+          map.showBottomToolbarButton("燃气");
+          map.showBottomToolbarButton("特种设备");
+          map.showBottomToolbarButton("地下空间");
+          map.showBottomToolbarButton("生态环境");
+          map.showBottomToolbarButton("一键开启");
+
+          map.hideBottomToolbarButton("动态隐患-消防");
+          map.hideBottomToolbarButton("动态隐患-燃气");
+          map.hideBottomToolbarButton("动态隐患-建设工程");
+          map.hideBottomToolbarButton("动态隐患-特种设备");
+          map.hideBottomToolbarButton("动态隐患-危险化学品");
+          map.hideBottomToolbarButton("动态隐患-老旧住房");
+          map.hideBottomToolbarButton("动态隐患-拆违基地");
+          map.hideBottomToolbarButton("动态隐患-地下空间");
+          map.hideBottomToolbarButton("其他");
+          map.hideBottomToolbarButton("动态隐患-一键开启");
+
+      }
+  }
+  var showPopup="false";
+  var whp_img=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/whp.png";
+  var whp_img1=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/whp_yellow.png";
+  var whp_img2=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/whp_orange.png";
+  var whp_img3=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/whp_red.png";
+  var whp_img4=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/whp_grey.png";
+
+  var yxkj_img=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/yxkj.png";
+
+  var tzsb_img=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/tzsb.png";
+  var tzsb_img1=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/tzsb_yellow.png";
+  var tzsb_img2=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/tzsb_orange.png";
+  var tzsb_img3=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/tzsb_red.png";
+  var tzsb_img4=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/tzsb_grey.png";
+
+  var jzgd_img=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/jzsg.png";
+  var jzgd_img1=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/jzsg_yellow.png";
+  var jzgd_img2=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/jzsg_orange.png";
+  var jzgd_img3=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/jzsg_red.png";
+  var jzgd_img4=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/jzsg_grey.png";
+
+  var sthj_img=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/sthj.png";
+  var sthj_img1=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/sthj_yellow.png";
+  var sthj_img2=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/sthj_orange.png";
+  var sthj_img3=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/sthj_red.png";
+  var sthj_img4=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/sthj_grey.png";
+
+  var dxkj_img=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/dxkj_s.png";
+  var dxkj_img1=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/dxkj_s.png";
+  var dxkj_img2=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/dxkj_red_s.png";
+  var dxkj_img3=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/dxkj_red_s.png";
+
+  var xf_img=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/xf_s.png";
+  var xf_img1=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/xf_s.png";
+  var xf_img2=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/xf_red_s.png";
+  var xf_img3=hosturl+"/TGISViewer_v200/images/mapIcons/xuhui/xf_red_s.png";
+
+  var whp_json='{"showPopup":'+showPopup+',"defaultSymbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15},"overlays":[{"type":"whp","id":100,"fields":{"addr":"上海市徐汇区龙水南路|60","road":"龙水南路60","street":"龙华"},"geometry":{"x":"121.454269","y":"31.154980"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":101,"fields":{"addr":"上海市闵行区虹梅路|1688","road":"虹梅路1688","street":"虹梅"},"geometry":{"x":"121.400724","y":"31.166409"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":102,"fields":{"addr":"上海市徐汇区钦江路|201","road":"钦江路201","street":"虹梅"},"geometry":{"x":"121.406151","y":"31.175623"},"symbol":{"type":"esriPMS","url":"'+whp_img1+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":103,"fields":{"addr":"上海市长宁区凯旋路|2048","road":"凯旋路2048","street":"徐家汇"},"geometry":{"x":"121.423894","y":"31.192199"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":104,"fields":{"addr":"上海市徐汇区龙水南路|112","road":"龙水南路112","street":"龙华"},"geometry":{"x":"121.460642","y":"31.155389"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":105,"fields":{"addr":"上海市徐汇区龙州路|588","road":"龙州路588","street":"凌云"},"geometry":{"x":"121.424757","y":"31.135341"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":106,"fields":{"addr":"上海市闵行区龙吴路|2453号","road":"龙吴路2453号","street":"华泾"},"geometry":{"x":"121.455456","y":"31.114503"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":107,"fields":{"addr":"上海市闵行区龙吴路|560号","road":"龙吴路560号","street":"龙华"},"geometry":{"x":"121.450541","y":"31.155759"}},{"type":"whp","id":108,"fields":{"addr":"上海市徐汇区古宜路|189","road":"古宜路189","street":"田林"},"geometry":{"x":"121.423319","y":"31.188364"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":109,"fields":{"addr":"上海市闵行区吴中路|100号","road":"吴中路100号","street":"田林"},"geometry":{"x":"121.413932","y":"31.187808"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":110,"fields":{"addr":"上海市徐汇区宛平路|288","road":"宛平路288","street":"天平"},"geometry":{"x":"121.443809","y":"31.197828"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":111,"fields":{"addr":"上海市徐汇区中山南二路|10","road":"中山南二路10","street":"斜土"},"geometry":{"x":"121.469220","y":"31.195058"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":112,"fields":{"addr":"上海市闵行区龙吴路|889号","road":"龙吴路889号","street":"漕河泾"},"geometry":{"x":"121.449667","y":"31.153837"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":113,"fields":{"addr":"上海市闵行区龙吴路|400","road":"龙吴路400","street":"龙华"},"geometry":{"x":"121.447980","y":"31.161661"}},{"type":"whp","id":114,"fields":{"addr":"上海市徐汇区石龙路|577","road":"石龙路577","street":"漕河泾"},"geometry":{"x":"121.435703","y":"31.153379"}},{"type":"whp","id":115,"fields":{"addr":"上海市徐汇区钦州路|625号","road":"钦州路625号","street":"田林"},"geometry":{"x":"121.429793","y":"31.174126"}},{"type":"whp","id":116,"fields":{"addr":"上海市徐汇区宜山路|771","road":"宜山路771","street":"虹梅"},"geometry":{"x":"121.410008","y":"31.172737"}},{"type":"whp","id":117,"fields":{"addr":"上海市徐汇区虹漕南路|777","road":"虹漕南路777","street":"康健"},"geometry":{"x":"121.418846","y":"31.148026"}},{"type":"whp","id":118,"fields":{"addr":"上海市徐汇区中山西路|2026号","road":"中山西路2026号","street":"田林"},"geometry":{"x":"121.427848","y":"31.181561"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":119,"fields":{"addr":"上海市闵行区龙吴路|2","road":"龙吴路2","street":"龙华"},"geometry":{"x":"121.445093","y":"31.173861"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":120,"fields":{"addr":"上海市徐汇区虹漕南路|15","road":"虹漕南路15","street":"康健"},"geometry":{"x":"121.412739","y":"31.163530"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":121,"fields":{"addr":"上海市闵行区虹梅路|2028","road":"虹梅路2028","street":"虹梅"},"geometry":{"x":"121.396712","y":"31.172081"}},{"type":"whp","id":122,"fields":{"addr":"上海市徐汇区长华路|88号","road":"长华路88号","street":"长桥"},"geometry":{"x":"121.443074","y":"31.131754"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":123,"fields":{"addr":"上海市闵行区龙吴路|1581号","road":"龙吴路1581号","street":"长桥"},"geometry":{"x":"121.452629","y":"31.136442"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":124,"fields":{"addr":"上海市徐汇区老沪闵路|1302号","road":"老沪闵路1302号","street":"华泾"},"geometry":{"x":"121.438813","y":"31.118584"},"symbol":{"type":"esriPMS","url":"'+whp_img4+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":125,"fields":{"addr":"上海市徐汇区船厂路|37号","road":"船厂路37号","street":"斜土"},"geometry":{"x":"121.459388","y":"31.187010"},"symbol":{"type":"esriPMS","url":"'+whp_img+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":126,"fields":{"addr":"上海市徐汇区中山西路|1786","road":"中山西路1786","street":"田林"},"geometry":{"x":"121.424006","y":"31.184184"}}]}';
+
+  var yxkj_json='{"showPopup":'+showPopup+',"defaultSymbol":{"type":"esriPMS","url":"'+yxkj_img+'","width":28,"height":38,"yoffset":15},"overlays":[{"type":"yxkj","id":200,"fields":{"addr":"上海市闵行区漕宝路|8号","road":"漕宝路8号","street":"漕河泾"},"geometry":{"x":"121.433975","y":"31.166964"}}]}';
+
+  var tzsb_json='{"showPopup":'+showPopup+',"defaultSymbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15},"overlays":[{"type":"tzsb","id":300,"fields":{"addr":"上海市徐汇区钦江路|201","road":"钦江路201","street":"虹梅"},"geometry":{"x":"121.406151","y":"31.175623"},"symbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":301,"fields":{"addr":"上海市徐汇区龙漕路200弄|22号","road":"龙漕路200弄22号","street":"漕河泾"},"geometry":{"x":"121.442783","y":"31.168234"},"symbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":302,"fields":{"addr":"上海市徐汇区虹漕南路|15","road":"虹漕南路15","street":"康健"},"geometry":{"x":"121.412739","y":"31.163530"},"symbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":303,"fields":{"addr":"上海市闵行区沪闵路|9001号","road":"沪闵路9001号","street":"漕河泾"},"geometry":{"x":"121.429821","y":"31.152051"},"symbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":304,"fields":{"addr":"上海市徐汇区徐家汇地铁站","road":"","street":"徐家汇"},"geometry":{"x":"121.438133","y":"31.191698"},"symbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":305,"fields":{"addr":"上海市徐汇区石龙路|666","road":"石龙路666","street":"漕河泾"},"geometry":{"x":"121.433923","y":"31.152783"},"symbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":306,"fields":{"addr":"上海市徐汇区古宜路|189","road":"古宜路189","street":"田林"},"geometry":{"x":"121.423319","y":"31.188364"},"symbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":307,"fields":{"addr":"上海市闵行区龙吴路|2600号","road":"龙吴路2600号","street":"华泾"},"geometry":{"x":"121.461662","y":"31.114837"},"symbol":{"type":"esriPMS","url":"'+tzsb_img4+'","width":28,"height":38,"yoffset":15}}]}';
+
+  var jzgd_json='{"showPopup":'+showPopup+',"defaultSymbol":{"type":"esriPMS","url":"'+jzgd_img4+'","width":28,"height":38,"yoffset":15},"overlays":[{"type":"jzgd","id":400,"fields":{"addr":"上海市徐汇区云锦路|518号","road":"云锦路518号","street":"龙华"},"geometry":{"x":"121.457854","y":"31.163641"}},{"type":"jzgd","id":401,"fields":{"addr":"上海市徐汇区云锦路","road":"","street":"龙华"},"geometry":{"x":"121.457910","y":"31.164909"}},{"type":"jzgd","id":402,"fields":{"addr":"上海市徐汇区广元西路|126号","road":"广元西路126号","street":"徐家汇"},"geometry":{"x":"121.434095","y":"31.195339"}}]}';
+
+  var sthj_json='{"showPopup":'+showPopup+',"defaultSymbol":{"type":"esriPMS","url":"'+sthj_img4+'","width":28,"height":38,"yoffset":15},"overlays":[{"type":"sthj","id":500,"fields":{"addr":"上海市徐汇区龙川北路625弄|8号","road":"龙川北路625弄8号","street":"长桥"},"geometry":{"x":"121.439606","y":"31.148298"}}]}'
+
+
+
+  var dxkj_json='{"showPopup":'+showPopup+',"defaultSymbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15},"overlays":[{"type":"dxkj","id":600,"geometry":{"x":"121.45337","y":"31.17808"},"fields":{"street":"龙华"},"symbol":{"type":"esriPMS","url":"'+dxkj_img1+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":601,"geometry":{"x":"121.431424","y":"31.16146"},"fields":{"street":"漕河泾"},"symbol":{"type":"esriPMS","url":"'+dxkj_img2+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":602,"geometry":{"x":"121.427326","y":"31.17746"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img3+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":603,"geometry":{"x":"121.42627","y":"31.17824"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":604,"geometry":{"x":"121.453762","y":"31.196775"},"fields":{"street":"枫林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img1+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":605,"geometry":{"x":"121.439398","y":"31.18381"},"fields":{"street":"徐家汇"},"symbol":{"type":"esriPMS","url":"'+dxkj_img2+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":606,"geometry":{"x":"121.446","y":"31.120822"},"fields":{"street":"华泾"},"symbol":{"type":"esriPMS","url":"'+dxkj_img3+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":666,"geometry":{"x":"121.435173","y":"31.141631"},"fields":{"street":"长桥"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":607,"geometry":{"x":"121.445023","y":"31.120521"},"fields":{"street":"华泾"},"symbol":{"type":"esriPMS","url":"'+dxkj_img2+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":608,"geometry":{"x":"121.445738","y":"31.169655"},"fields":{"street":"龙华"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":609,"geometry":{"x":"121.433458","y":"31.165232"},"fields":{"street":"漕河泾"},"symbol":{"type":"esriPMS","url":"'+dxkj_img3+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":610,"geometry":{"x":"121.415783","y":"31.153688"},"fields":{"street":"康健"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":611,"geometry":{"x":"121.412224","y":"31.150061"},"fields":{"street":"康健"},"symbol":{"type":"esriPMS","url":"'+dxkj_img1+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":612,"geometry":{"x":"121.414501","y":"31.156006"},"fields":{"street":"康健"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":613,"geometry":{"x":"121.427304","y":"31.190609"},"fields":{"street":"徐家汇"},"symbol":{"type":"esriPMS","url":"'+dxkj_img2+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":614,"geometry":{"x":"121.432875","y":"31.196225"},"fields":{"street":"徐家汇"},"symbol":{"type":"esriPMS","url":"'+dxkj_img3+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":615,"geometry":{"x":"121.427576","y":"31.188602"},"fields":{"street":"徐家汇"},"symbol":{"type":"esriPMS","url":"'+dxkj_img2+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":616,"geometry":{"x":"121.456206","y":"31.199167"},"fields":{"street":"枫林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img1+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":617,"geometry":{"x":"121.439564","y":"31.187073"},"fields":{"street":"徐家汇"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":618,"geometry":{"x":"121.442853","y":"31.19034"},"fields":{"street":"徐家汇"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":619,"geometry":{"x":"121.452647","y":"31.153174"},"fields":{"street":"龙华"},"symbol":{"type":"esriPMS","url":"'+dxkj_img2+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":620,"geometry":{"x":"121.426844","y":"31.177896"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":621,"geometry":{"x":"121.449478","y":"31.211809"},"fields":{"street":"湖南"},"symbol":{"type":"esriPMS","url":"'+dxkj_img3+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":622,"geometry":{"x":"121.425647","y":"31.178556"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":623,"geometry":{"x":"121.427573","y":"31.17636"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img1+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":624,"geometry":{"x":"121.428094","y":"31.175452"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img2+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":625,"geometry":{"x":"121.427782","y":"31.175846"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+dxkj_img+'","width":35,"height":38,"yoffset":15}},{"type":"dxkj","id":626,"geometry":{"x":"121.453406","y":"31.177783"},"fields":{"street":"龙华"},"symbol":{"type":"esriPMS","url":"'+dxkj_img3+'","width":35,"height":38,"yoffset":15}}]}';
+
+  var xf_json='{"showPopup":'+showPopup+',"defaultSymbol":{"type":"esriPMS","url":"'+xf_img+'","width":35,"height":38,"yoffset":15},"overlays":[{"type":"xf","id":700,"geometry":{"x":"121.435911","y":"31.18554"},"fields":{"street":"徐家汇"},"symbol":{"type":"esriPMS","url":"'+xf_img1+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":701,"geometry":{"x":"121.412309","y":"31.176763"},"fields":{"street":"虹梅"},"symbol":{"type":"esriPMS","url":"'+xf_img+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":702,"geometry":{"x":"121.449864","y":"31.139921"},"fields":{"street":"长桥"},"symbol":{"type":"esriPMS","url":"'+xf_img2+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":703,"geometry":{"x":"121.429217","y":"31.175231"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+xf_img+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":704,"geometry":{"x":"121.44263","y":"31.168371"},"fields":{"street":"漕河泾"},"symbol":{"type":"esriPMS","url":"'+xf_img3+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":705,"geometry":{"x":"121.440469","y":"31.127646"},"fields":{"street":"华泾"},"symbol":{"type":"esriPMS","url":"'+xf_img3+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":706,"geometry":{"x":"121.447574","y":"31.156588"},"fields":{"street":"漕河泾"},"symbol":{"type":"esriPMS","url":"'+xf_img2+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":707,"geometry":{"x":"121.412309","y":"31.176763"},"fields":{"street":"虹梅"},"symbol":{"type":"esriPMS","url":"'+xf_img+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":708,"geometry":{"x":"121.462272","y":"31.202678"},"fields":{"street":"斜土"},"symbol":{"type":"esriPMS","url":"'+xf_img1+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":709,"geometry":{"x":"121.450131","y":"31.144277"},"fields":{"street":"长桥"},"symbol":{"type":"esriPMS","url":"'+xf_img+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":710,"geometry":{"x":"121.419002","y":"31.157108"},"fields":{"street":"康健"},"symbol":{"type":"esriPMS","url":"'+xf_img2+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":711,"geometry":{"x":"121.421865","y":"31.18759"},"fields":{"street":"田林"},"symbol":{"type":"esriPMS","url":"'+xf_img3+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":712,"geometry":{"x":"121.458309","y":"31.217065"},"fields":{"street":"湖南"},"symbol":{"type":"esriPMS","url":"'+xf_img2+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":713,"geometry":{"x":"121.442961","y":"31.154964"},"fields":{"street":"漕河泾"},"symbol":{"type":"esriPMS","url":"'+xf_img+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":714,"geometry":{"x":"121.405899","y":"31.162983"},"fields":{"street":"虹梅"},"symbol":{"type":"esriPMS","url":"'+xf_img1+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":715,"geometry":{"x":"121.442282","y":"31.18602"},"fields":{"street":"徐家汇"},"symbol":{"type":"esriPMS","url":"'+xf_img2+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":716,"geometry":{"x":"121.451514","y":"31.179566"},"fields":{"street":"龙华"},"symbol":{"type":"esriPMS","url":"'+xf_img+'","width":35,"height":38,"yoffset":15}},{"type":"xf","id":717,"geometry":{"x":"121.439523","y":"31.12068"},"fields":{"street":"华泾"},"symbol":{"type":"esriPMS","url":"'+xf_img3+'","width":35,"height":38,"yoffset":15}}]}';
+
+
+  function selectPointByStreet(data,name)
+  {
+      var datajson=JSON.parse(data);
+      var points=datajson.overlays;
+      var overlays=[];
+      var newData={};
+      newData.showPopup=datajson.showPopup;
+      newData.defaultSymbol=datajson.defaultSymbol;
+      for(var i=0;i<points.length;i++)
+      {
+          var attr=points[i].fields;
+          if(name.indexOf(attr.street)>-1)
+          {
+              overlays.push(points[i]);
+          }
+      }
+      newData.overlays=overlays;
+      map.addOverlays(JSON.stringify(newData));
+  }
+  function selectPoints(name)
+  {
+      map.deleteAllOverlays();
+      if(btnType=="0")
+      {
+          selectPointByStreet(whp_json,name);
+          selectPointByStreet(yxkj_json,name);
+          selectPointByStreet(tzsb_json,name);
+          selectPointByStreet(jzgd_json,name);
+          selectPointByStreet(sthj_json,name);
+      }
+      else
+      {
+          selectPointByStreet(dxkj_json,name);
+          selectPointByStreet(xf_json,name);
+      }
+  }
+  function onBottomButtonClick(label, state) {
+      console.log(label,state);
+      //map.locateStreet({name:"徐家汇街道",hideStreet:true});
+      var json="";
+      var type="";
+      if(label.indexOf("开启")>-1)
+      {
+          var flag="0";
+          if(label.indexOf("动态")>-1)
+          {
+              flag="1";
+          }
+          $(".nav_btn_button").each(function(index,element){
+
+              if(element.style.display!="none")
+              {
+                  if(state)
+                  {
+                     $(element).addClass("active");
+                  }else {
+                    $(element).removeClass("active");
+                  }
+              }
+          });
+          selectAllLayer(flag,state)
+          return
+      }
+      switch (label) {
+          case "危化品":json=whp_json;type="whp";break;
+          case "有限空间":json=yxkj_json;type="yxkj";break;
+          case "特种设备":json=tzsb_json;type="tzsb";break;
+          case "建筑工地":json=jzgd_json;type="jzgd";break;
+          case "生态环境":json=sthj_json;type="sthj";break;
+          case "动态隐患-地下空间":json=dxkj_json;type="dxkj";break;
+          case "动态隐患-消防":json=xf_json;type="xf";break;
+      }
+      if(state)
+      {
+          if(json!="")
+          {
+            map.addOverlays(json);
+          }
+      }
+      else {
+          if(type!="")
+          {
+              map.deleteOverlays({types: [type]});
+          }
+      }
+  }
+  function selectAllLayer(flag,state)
+  {
+      map.deleteAllOverlays();
+      if(flag=="0")
+      {
+          onBottomButtonClick("有限空间",state);
+          onBottomButtonClick("粉尘涉爆",state);
+          onBottomButtonClick("消防",state);
+          onBottomButtonClick("建筑工地",state);
+          onBottomButtonClick("燃气",state);
+          onBottomButtonClick("特种设备",state);
+          onBottomButtonClick("地下空间",state);
+          onBottomButtonClick("生态环境",state);
+          onBottomButtonClick("危化品",state);
+      }
+      else {
+          onBottomButtonClick("动态隐患-消防",state);
+          onBottomButtonClick("动态隐患-燃气",state);
+          onBottomButtonClick("动态隐患-建设工程",state);
+          onBottomButtonClick("动态隐患-特种设备",state);
+          onBottomButtonClick("动态隐患-危险化学品",state);
+          onBottomButtonClick("动态隐患-老旧住房",state);
+          onBottomButtonClick("动态隐患-拆违基地",state);
+          onBottomButtonClick("动态隐患-地下空间",state);
+          onBottomButtonClick("其他",state);
+      }
+  }
+  function showGisDeviceInfo(type, id) {
+      console.log(type, id);
+  }
+  //显示热力图
+  function showHeatmap()
+  {
+      /*
+      map.hideStreet();
+      var points=[];
+      var x=121.43;
+      var y=31.15;
+      for(var i=0;i<20;i++)
+      {
+          var x1=x+(Math.random()*2-1)/50;
+          var y1=y+(Math.random()*2-1)/50;
+          var value=100*Math.random()+1;
+          var a=i%2==0?"1":"0";
+          points.push({"geometry":{"x":x1,"y":y1},"fields":{"desc":"上海体育馆停车场","totalSpace":value,"type":a}});
+      }
+      var json={"points":points,"options":{"field":"totalSpace","radius":"20","colors":["rgba(30,144,255,0)","rgba(30,144,255)","rgb(0, 255, 0)","rgb(255, 255, 0)", "rgb(254,89,0)"],"maxValue":1000,"minValue":1,"zoom":16,"renderer":{"type":"simple","symbol":{"type":"esriPMS","url":"images/mapIcons/icon_qbb_blue.png","width":24,"height":32,"yoffset":16}}}};
+      console.log(JSON.stringify(json));
+      map.addHeatMap(json);*/
+      map.addOverlaysCluster('{"zoom":7,"showInfoTemplate":true,"overlays":[{"type":"police","id":"002","geometry":{"x":121.38,"y":31.76},"fields":{"zcpp":"11","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}},{"type":"police","id":"003","geometry":{"x":121.463,"y":31.81},"fields":{"zcpp":"","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}},{"type":"police","id":"004","geometry":{"x":121.471,"y":31.831},"fields":{"zcpp":"","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}}]}');
+      map.addOverlaysCluster('{"zoom":7,"overlays":[{"type":"police1","id":"002","geometry":{"x":121.58,"y":31.76},"fields":{"zcpp":"11","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}},{"type":"police1","id":"003","geometry":{"x":121.563,"y":31.81},"fields":{"zcpp":"","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}},{"type":"police1","id":"004","geometry":{"x":121.571,"y":31.831},"fields":{"zcpp":"","hostname":"暂无设备名"},"symbol":{"type":"picture","url":"images/mapIcons/JingCha-blue.png","height":26,"width":22,"yoffset":13}}]}');
+
+  }
+  //隐藏热力图
+  function hideHeatMap()
+  {
+      //
+      //map.showStreet({maxZoom:15});
+      //map.deleteHeatMap(json);
+  }
+  //定位
+  function locate(str)
+  {
+      map.locateStreet({name:str,hideStreet:true});
+
+      selectPoints(str);
+  }
+  function onStreetClick(name,id)
+  {
+      console.log(name,id);
+  }
+  //取消定位
+  function clearlocate()
+  {
+      map.deleteAllOverlaysCluster();
+      // selectAllLayer("0",true);
+      // map.locateStreet({reset:true});
+  }
+  function locateEnterprise(name)
+  {
+      selectAllLayer("0",false);
+      var jsonStr='{"overlays":[{"type":"whp","id":1000,"geometry":{"x":"121.406151","y":"31.175623"},"fields":{"name":"液化空气上海有限公司"},"symbol":{"type":"esriPMS","url":"'+whp_img1+'","width":28,"height":38,"yoffset":15}},{"type":"whp","id":1001,"geometry":{"x":"121.459388","y":"31.18701"},"fields":{"name":"华湄加油站"},"symbol":{"type":"esriPMS","url":"'+whp_img+'","width":28,"height":38,"yoffset":15}},{"type":"yxkj","id":1002,"geometry":{"x":"121.433975","y":"31.166964"},"fields":{"name":"徐汇区第八人民医院"},"symbol":{"type":"esriPMS","url":"'+yxkj_img+'","width":28,"height":38,"yoffset":15}},{"type":"sthj","id":1003,"geometry":{"x":"121.439606","y":"31.148298"},"fields":{"name":"上海阳晨排水运营有限公司长桥水质净化厂"},"symbol":{"type":"esriPMS","url":"'+sthj_img1+'","width":28,"height":38,"yoffset":15}},{"type":"jzgd","id":1004,"geometry":{"x":"121.434095","y":"31.195339"},"fields":{"name":"上海建工集团股份有限公司"},"symbol":{"type":"esriPMS","url":"'+jzgd_img2+'","width":28,"height":38,"yoffset":15}},{"type":"jzgd","id":1005,"geometry":{"x":"121.457854","y":"31.163641"},"fields":{"name":"上海建工七建集团有限公司"},"symbol":{"type":"esriPMS","url":"'+jzgd_img1+'","width":28,"height":38,"yoffset":15}},{"type":"jzgd","id":1006,"geometry":{"x":"121.45791","y":"31.164909"},"fields":{"name":"中国建筑股份有限公司"},"symbol":{"type":"esriPMS","url":"'+jzgd_img1+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":1007,"geometry":{"x":"121.429821","y":"31.152051"},"fields":{"name":"上海铁路局上海南站"},"symbol":{"type":"esriPMS","url":"'+tzsb_img3+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":1008,"geometry":{"x":"121.433923","y":"31.152783"},"fields":{"name":"上海南站长途客运有限公司"},"symbol":{"type":"esriPMS","url":"'+tzsb_img2+'","width":28,"height":38,"yoffset":15}},{"type":"tzsb","id":1009,"geometry":{"x":"121.412739","y":"31.16353"},"fields":{"name":"上海新路达阳光油气有限责任公司"},"symbol":{"type":"esriPMS","url":"'+tzsb_img2+'","width":28,"height":38,"yoffset":15}}]}';
+
+      var json=JSON.parse(jsonStr);
+      var overlayerjson="";
+      var overlays=json.overlays;
+      for(var i=0;i<overlays.length;i++)
+      {
+          if(overlays[i].fields.name===name)
+          {
+              overlayerjson=overlays[i];
+              map.setMapCenterAndLevel({x:overlays[i].geometry.x,y:overlays[i].geometry.y,level:18});
+              map.addOverlays('{"defaultSymbol":{"type":"marker","style":"circle","color":"red","alpha":0.5,"size":100,"outline":{"color":"#696969"}},"overlays":[{"type":"bz","geometry":{"x":"'+overlays[i].geometry.x+'","y":"'+overlays[i].geometry.y+'"}}]}');
+              break;
+          }
+      }
+      var data={overlays:[overlayerjson]};
+      map.addOverlays(JSON.stringify(data));
+  }
+</script>
+<script type="text/javascript" >
+
+    var count=0;
+    var global_overlays=[];
+    var address=["钦江路201号","龙水南路60号","虹梅路1688号","龙水南路112号","凯旋路2048号","龙州路588号","龙吴路560号",
+        "龙吴路2453号","吴中路100号","古宜路189号","宛平路288号","中山南二路10号","龙吴路889号","龙吴路400号"
+        ,"石龙路577号","钦州路625号","虹漕南路777号","宜山路771号","龙吴路2号","中山西路2026号","虹漕南路15号","长华路88号"
+        ,"龙吴路1581号","虹梅路2028号","老沪闵路1302号","船厂路37号","中山西路1786号","漕宝路8号","龙漕路200弄22号","钦江路201号"
+        ,"沪闵路9001号","石龙路666号","徐家汇地铁站","虹漕南路15号","古宜路189号","龙吴路2600号","广元西路126号","云锦路518号"
+        ,"云锦路701号","龙川北路625弄8号"];
+
+    var address1=["钦江路201号","龙水南路60号","虹梅路1688号","龙水南路112号","凯旋路2048号","龙州路588号","龙吴路560号",
+        "龙吴路2453号","吴中路100号","古宜路189号","宛平路288号","中山南二路10号","龙吴路889号","龙吴路400号"
+        ,"石龙路577号","钦州路625号","虹漕南路777号","宜山路771号","龙吴路2号","中山西路2026号","虹漕南路15号","长华路88号"
+        ,"龙吴路1581号","虹梅路2028号","老沪闵路1302号","船厂路37号","中山西路1786号"];
+    var address2=["漕宝路8号"];
+    var address3=["龙漕路200弄22号","钦江路201号","沪闵路9001号","石龙路666号","徐家汇地铁站","虹漕南路15号","古宜路189号","龙吴路2600号"];
+    var address4=["广元西路126号","云锦路518号","云锦路701号"];
+    var address5=["龙川北路625弄8号"];
+    function query(addr,typeStr)
+    {
+        return ;
+        for(var i=0;i<addr.length;i++)
+        {
+            $.ajax({
+                type:"GET",
+                url:"http://restapi.amap.com/v3/geocode/geo?key=1cdc3963d987d38a7a223eea00f4fc6c&address="+addr[i]+"&city=上海",
+                success:function(res)
+                {
+                    if(res.info=="OK")
+                    {
+                        var geoArr=res.geocodes;
+                        for(var j=0;j<geoArr.length;j++)
+                        {
+                            var geoArr=res.geocodes;
+                            for(var j=0;j<geoArr.length;j++)
+                            {
+                                var point=geoArr[0].location.toString().split(",");
+                                global_overlays.push({type:typeStr,id:count,fields:{addr:geoArr[0].formatted_address,street:geoArr[0].street+geoArr[0].number},geometry:{x:point[0],y:point[1]}});
+                                count++;
+                            }
+                        }
+                    }
+                },error:function(e)
+                {
+                    console.log(e);
+                }
+            });
+        }
+    }
+    function Test1ClickHandler()
+    {
+        //map.addOverlays('{"overlays":[{"type":3,"id":"030ac16e-d134-1650-fbc6-00e3008c2614","geometry":{"x":"121.442783","y":"31.168234"},"fields":{"street":"漕河泾街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/3/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"2c52c2ea-f134-1650-e72c-0c068fa3ee70","geometry":{"x":"121.460581","y":"31.155584"},"fields":{"street":"龙华街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":3,"id":"0b5b1a29-0134-1650-fd3b-0d1f1bb19442","geometry":{"x":"121.461373","y":"31.114807"},"fields":{"street":"华泾镇"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/3/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"95ccfde8-8134-1650-f8bf-0d86ce385a07","geometry":{"x":"121.469315","y":"31.195074"},"fields":{"street":"斜土街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":4,"id":"23cf70e3-3134-1650-fcea-0e46dca36622","geometry":{"x":"121.445904","y":"31.166599"},"fields":{"street":"龙华街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/4/4.png","width":"37","height":"50","yoffset":"0"}},{"type":3,"id":"cab36651-5134-1650-1039-199f71865172","geometry":{"x":"121.412739","y":"31.16353"},"fields":{"street":"康健街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/3/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"ca1f4870-2134-1650-f711-25b5ffc9e850","geometry":{"x":"121.450403","y":"31.155308"},"fields":{"street":"龙华街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"1673406d-f134-1650-fa24-2792ff1ae9b2","geometry":{"x":"121.43575","y":"31.153394"},"fields":{"street":"漕河泾街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":3,"id":"dcedcb48-8134-1650-1037-39304a3e6f0d","geometry":{"x":"121.423319","y":"31.188364"},"fields":{"street":"田林街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/3/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"85f7d1bc-3134-1650-fabf-49bfec27bdd5","geometry":{"x":"121.445093","y":"31.173861"},"fields":{"street":"龙华街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"9bdacbd8-7134-1650-f89d-52dff95bb9e0","geometry":{"x":"121.443833","y":"31.197754"},"fields":{"street":"徐家汇街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"0e3d01c5-8134-1650-e78a-5877197e5600","geometry":{"x":"121.423894","y":"31.192199"},"fields":{"street":"徐家汇街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":5,"id":"6c0b2c46-8134-1650-e845-5b3b0235a289","geometry":{"x":"121.439606","y":"31.148298"},"fields":{"street":"长桥街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/5/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"d4a0ccb3-a134-1650-fa6c-649570a0744e","geometry":{"x":"121.429465","y":"31.174975"},"fields":{"street":"田林街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":3,"id":"17b23c3a-1134-1650-fcc0-668b1f8c649b","geometry":{"x":"121.429821","y":"31.152051"},"fields":{"street":"漕河泾街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/3/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"e891df78-5134-1650-f850-6c0f2a09a663","geometry":{"x":"121.423319","y":"31.188364"},"fields":{"street":"田林街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":4,"id":"e80c083d-b134-1650-fd0c-6c544dae3a07","geometry":{"x":"121.434095","y":"31.195339"},"fields":{"street":"徐家汇街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/4/4.png","width":"37","height":"50","yoffset":"0"}},{"type":4,"id":"2286d070-0134-1650-e8c0-850250ff2460","geometry":{"x":"121.457685","y":"31.165433"},"fields":{"street":"龙华街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/4/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"b4442ceb-7134-1650-e62d-86a80441b8fc","geometry":{"x":"121.46179","y":"31.156303"},"fields":{"street":"龙华街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"4c667859-3134-1650-f745-887cfa373cb8","geometry":{"x":"121.45531","y":"31.115911"},"fields":{"street":"华泾镇"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":3,"id":"3507820f-f134-1650-fc9e-9d0f46bac70c","geometry":{"x":"121.406088","y":"31.175519"},"fields":{"street":"虹梅街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/3/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"935a0979-3134-1650-fba1-a0425db0fd12","geometry":{"x":"121.459388","y":"31.18701"},"fields":{"street":"斜土街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"e54fe751-2134-1650-e5cc-ad6473bb125d","geometry":{"x":"121.406088","y":"31.175519"},"fields":{"street":"虹梅街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":2,"id":"46a26c9e-d134-1650-f8ed-aec85cfd84c6","geometry":{"x":"121.433552","y":"31.167677"},"fields":{"street":"漕河泾街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/2/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"c38f317e-3134-1650-f872-b28fbd43bafc","geometry":{"x":"121.41367","y":"31.187202"},"fields":{"street":"田林街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"0b239636-2134-1650-faed-b59c59b76a72","geometry":{"x":"121.412739","y":"31.16353"},"fields":{"street":"康健街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"e74a6973-1134-1650-fa9f-b6d05a3947ae","geometry":{"x":"121.410047","y":"31.172888"},"fields":{"street":"虹梅街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":3,"id":"21d28f33-a134-1650-103b-c5fd29834871","geometry":{"x":"121.433336","y":"31.152603"},"fields":{"street":"漕河泾街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/3/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"f9b2ae0d-1134-1650-fb86-c66cb44fa2a1","geometry":{"x":"121.438247","y":"31.117483"},"fields":{"street":"华泾镇"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"29016831-3134-1650-f96a-c8aaec027c70","geometry":{"x":"121.449667","y":"31.153837"},"fields":{"street":"漕河泾街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"2820e875-f134-1650-fd2a-cf571fdb8276","geometry":{"x":"121.42384","y":"31.184181"},"fields":{"street":"田林街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"9c7e2d68-7134-1650-fb09-d8d1c3dbabbb","geometry":{"x":"121.445432","y":"31.126167"},"fields":{"street":"华泾镇"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"ad5edfd8-e134-1650-fa7b-de27734ad042","geometry":{"x":"121.418846","y":"31.148026"},"fields":{"street":"康健街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"17588e9b-d134-1650-fb38-de6599335f3a","geometry":{"x":"121.39676","y":"31.172531"},"fields":{"street":"虹梅街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"a38b2040-0134-1650-fb17-e41fefc2c927","geometry":{"x":"121.45304","y":"31.135553"},"fields":{"street":"长桥街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"41977c88-6134-1650-e7d6-e4d787518419","geometry":{"x":"121.424757","y":"31.135341"},"fields":{"street":"凌云街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"775ffe7b-6134-1650-f986-ecd1753012c2","geometry":{"x":"121.448309","y":"31.161211"},"fields":{"street":"龙华街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":3,"id":"58b36a1d-7134-1650-1039-f18027150e8f","geometry":{"x":"121.426597","y":"31.188861"},"fields":{"street":"徐家汇街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/3/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"1bb4d6d4-6134-1650-fadf-f277f03c8841","geometry":{"x":"121.427848","y":"31.181561"},"fields":{"street":"田林街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}},{"type":1,"id":"96a04282-f134-1650-e67e-f8facdfc08d3","geometry":{"x":"121.400724","y":"31.166409"},"fields":{"street":"虹梅街道"},"symbol":{"type":"esriPMS","url":"../images/emergency/marker2/1/4.png","width":"37","height":"50","yoffset":"0"}}]}');
+        locate("华泾镇");
+        /*count=100;
+        global_overlays=[];
+        query(address1,"whp");*/
+        // map.deleteAllOverlays();
+        // var points=[];
+        // var x=121.43;
+        // var y=31.15;
+        // for(var i=0;i<10;i++)
+        // {
+        //     var x1=x+(Math.random()*2-1)/3;
+        //     var y1=y+(Math.random()*2-1)/3;
+        //     var value=100*Math.random()+1;
+        //     var a=i%2==0?"1":"0";
+        //     points.push({"geometry":{"x":x1,"y":y1},"type":"police","id":value.toFixed(3),"fields":{"desc":"上海体育馆停车场","totalSpace":value,"type":a}});
+        // }
+        // map.addOverlays(JSON.stringify({"overlays":points,"defaultSymbol":{"type":"esriPMS","url":"images/mapIcons/xuhui/whp_yellow.png","width":28,"height":38,"yoffset":15}}));
+        //
+    }
+    function Test2ClickHandler()
+    {
+        clearlocate();
+        /*count=200;
+        global_overlays=[];
+        query(address2,"yxkj");*/
+    }
+    function Test3ClickHandler()
+    {
+        /*count=300;
+        global_overlays=[];
+        query(address3,"tzsb");*/
+        showHeatmap();
+        //locateEnterprise("液化空气上海有限公司");
+
+    }
+
+    function Test4ClickHandler()
+    {
+        /*count=400;
+        global_overlays=[];
+        query(address4,"jzgd");*/
+        //selectPoints("田林","1")
+        map.deleteAllOverlays();
+        Test1ClickHandler();
+    }
+    function Test5ClickHandler()
+    {
+        count=500;
+        global_overlays=[];
+        query(address5,"sthj");
+    }
+    function Test6ClickHandler()
+    {
+        console.log(global_overlays.length+":"+JSON.stringify(global_overlays));
+    }
+</script>
+
+<!--<script type="text/javascript" src="assets/global/plugins/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>-->
+
+<script type="text/javascript" src="libs/mdb/js/jquery-3.3.1.min.js"></script>
+<!--<script type="text/javascript" src="libs/mdb/js/popper.min.js"></script>-->
+<!--<script type="text/javascript" src="libs/mdb/js/bootstrap.min.js"></script>-->
+<!--&lt;!&ndash;<script type="text/javascript" src="libs/mdb/js/mdb.min.js"></script>&ndash;&gt;-->
+<!--<script type="text/javascript" src="libs/echarts.source.js"></script>-->
+
+<!--<script type="text/javascript" src="assets/global/plugins/pause/Info-pause.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/js/app.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/layouts/js/html5_3d_animation.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/jquery-ui/jquery-ui.min.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/anime.js"></script>-->
+<!--<script type="text/javascript" src="assets/global/plugins/gis-tool/index.js"></script>-->
+
+<!--<script type="text/javascript" src="libs/dropdownCheckbox/dropdownCheckboxes.min.js"></script>-->
+
+</body>
+</html>

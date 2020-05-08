@@ -113,7 +113,7 @@
       {
         "label": "国展中心",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
         "type": "feature",
         "visible": true,
         "outFields": ["*"],
@@ -217,7 +217,7 @@
       {
         "label": "国展中心图层",
         "url":
-          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Exhibition/MapServer/0",
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Exhibition/MapServer/0",
         "type": "feature",
         "visible": true,
         "showLabels": true,

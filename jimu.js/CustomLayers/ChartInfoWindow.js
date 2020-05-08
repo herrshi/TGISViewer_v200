@@ -15,7 +15,7 @@ define([
     chartPoint: "",
     width: 0,
     height: 0,
-    xoffset: 15,
+    xoffset: 0,
     yoffset: 10,
     constructor: function(j) {
       a.mixin(this, j);

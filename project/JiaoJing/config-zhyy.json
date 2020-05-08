@@ -1,0 +1,169 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "浅色底图",
+        "url": "http://{gisServer}:25333/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
+        "visible": true
+      },
+      {
+        "label": "浅色标注",
+        "url": "http://{gisServer}:25888/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "webTiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+    ],
+    "mapOptions": {
+      "center": [121.469, 31.225],
+      "zoom": 11,
+      "showLabels": true,
+      "logo": false,
+      "nav": false,
+      "slider": false,
+      "minZoom": 10,
+      "maxZoom": 20
+    }
+  },
+  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "15.75.0.255",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/DynamicIssuesect/Widget",
+        "config": "configs/DynamicIssuesect/config_ShangHai.json",
+        "version": "2.4",
+        "id": "DynamicIssuesectWidget"
+      },
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/GeometrySearch/Widget",
+        "version": "2.4",
+        "id": "GeometrySearchWidget"
+      },
+      {
+        "uri": "widgets/OverviewMap/Widget",
+        "position": {
+          "right": 0,
+          "bottom": 0,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "OverviewMapWidget"
+      },
+      {
+        "uri": "widgets/Draw/Widget",
+        "version": "2.4",
+        "name": "Draw",
+        "config": "configs/Draw/config.json",
+        "position": {
+          "left": 15,
+          "top": 190,
+          "relativeTo": "map"
+        },
+        "id": "DrawWidget"
+      },
+      {
+        "uri": "widgets/Print/Widget",
+        "version": "2.4",
+        "id": "PrintWidget"
+      },
+      {
+        "uri": "widgets/Routing/Widget",
+        "config": "configs/Routing/config.json",
+        "version": "2.4",
+        "id": "RoutingWidget"
+      },
+      {
+        "uri": "widgets/HeatMap/Widget",
+        "version": "2.4",
+        "id": "HeatMapWidget"
+      },
+      {
+        "uri": "widgets/DrawOverlay/Widget",
+        "version": "2.4",
+        "id": "DrawOverlayWidget"
+      },
+      {
+        "uri": "widgets/ContextMenu/Widget",
+        "version": "2.4",
+        "id": "ContextMenuWidget"
+      },
+      {
+        "uri": "widgets/POISearch/Widget",
+        "config": "configs/POISearch/config.json",
+        "position": {
+          "left": 50,
+          "top": 10,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "POISearchWidget"
+      },
+      {
+        "uri": "widgets/Route/Widget",
+        "config": "configs/Route/config.json",
+        "position": {
+          "left": 50,
+          "top": 10,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "RouteWidget"
+      },
+      {
+        "uri": "widgets/Measurement/Widget",
+        "position": {
+          "left": 50,
+          "top": 10,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "MeasurementWidget"
+      },
+      {
+        "uri": "widgets/Cluster/Widget",
+        "version": "2.4",
+        "id": "ClusterWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      }
+    ]
+  }
+}

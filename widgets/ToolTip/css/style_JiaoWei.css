@@ -1,0 +1,71 @@
+.MapText {
+  min-width: 30px;
+  max-width: 260px;
+  border-radius: 4px;
+  position: absolute;
+  text-align: left;
+  padding: 8px 15px 8px 15px;
+  line-height: 18px;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 999;
+}
+.exceptDiv {
+  position: absolute;
+  z-index: 999;
+  width: 115px;
+  height: 62px;
+  padding: 34px 0px 0px 32px;
+  color:white;
+  font-size: 14px;
+  background-image: url(../images/img_ycyy.png);
+}
+.TextDiv {
+  border:1px solid #3872C4;
+  background: #ECF2FC;
+  color: #000000;
+  font-family: "黑体";
+}
+
+.TextTriTop {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  z-index: -1;
+  border: 1px solid #3872C4;
+  background: #ECF2FC;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -moz-transform: rotate(45deg); /* Firefox */
+  -webkit-transform: rotate(45deg); /* Safari 和 Chrome */
+  -o-transform: rotate(45deg); /* Opera */
+
+  border-left: none;
+  border-top: none;
+  margin: auto;
+  margin-top: 4px;
+  left: 0;
+  right: 0;
+}
+.TextTriRight {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  z-index: -1;
+  background: #ECF2FC;
+  border: 1px solid #3872C4;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -moz-transform: rotate(45deg); /* Firefox */
+  -webkit-transform: rotate(45deg); /* Safari 和 Chrome */
+  -o-transform: rotate(45deg); /* Opera */
+
+  border-right: none;
+  border-top: none;
+  margin: auto;
+  margin-left: -21px;
+  top: 0;
+  bottom: 0;
+}

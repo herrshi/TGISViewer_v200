@@ -156,8 +156,20 @@ define([
         42
       );
       this.outPointSymbol.yoffset = 21;
+      this.startPointSymbol = new PictureMarkerSymbol(
+        window.path + "images/mapIcons/TianJin/GongJiao/bus_start.png",
+        26,
+        42
+      );
+      this.startPointSymbol.yoffset = 21;
+      this.endPointSymbol = new PictureMarkerSymbol(
+        window.path + "images/mapIcons/TianJin/GongJiao/bus_end.png",
+        26,
+        42
+      );
+      this.endPointSymbol.yoffset = 21;
 
-      this.movingPointLayer = new GraphicsLayer();
+      this.movingPointLayer = new GraphicsLayer({"id":"moving"});
       this.map.addLayer(this.movingPointLayer);
 
       if (this.movingPointSymbol === null) {
@@ -239,7 +251,7 @@ define([
       params = JSON.parse(params);
       var autoStart = params.autoStart !== false;
       var loop = params.loop !== false;
-      var showTrack = params.showTrack !== false;
+      var showTrack = params.showTrackPoints !== false;
 
       var repeatCount = params.repeatCount || 0;
 
@@ -248,18 +260,45 @@ define([
       var limit = params.limit;
       var carSymbol = params.symbol;
       if (carSymbol) {
-        var movingPointSymbol = this._getEsriPointSymbol(carSymbol);
+        carSymbol = this._getEsriPointSymbol(carSymbol);
+      } else {
+        carSymbol = this.movingPointSymbol;
       }
       var id = params.id || undefined;
 
-      var trackPoints = this.checkTrackPoints(params.trackPoints);
+      var trackPoints = this.checkTrackPoints(params.trackPoints || []);
       var kkPoints = params.kkPoints;
-      var monitorArea = this._showMonitor(kkPoints, trackPoints, id);
+      var monitorArea;
+      if (kkPoints && kkPoints.length > 0) {
+        monitorArea = this._showMonitor(kkPoints, trackPoints, limit, id);
+      }
+
+      this._showTrackLine(trackPoints, id);
       //显示轨迹点
       if (showTrack) {
-        this._showTrackLine(trackPoints, id);
         this._showTrackPoint(trackPoints, carSymbol, id);
       }
+      //显示起点和终点
+      var startPoint = new Point(trackPoints[0].x, trackPoints[0].y);
+      if (this.map.spatialReference.isWebMercator()) {
+        startPoint = webMercatorUtils.geographicToWebMercator(startPoint);
+      }
+      var startGraphic = new Graphic(startPoint);
+      startGraphic.symbol = this.startPointSymbol;
+      this.trackPointLayer.add(startGraphic);
+
+      var endPoint = new Point(
+        trackPoints[trackPoints.length - 1].x,
+        trackPoints[trackPoints.length - 1].y
+      );
+      if (this.map.spatialReference.isWebMercator()) {
+        endPoint = webMercatorUtils.geographicToWebMercator(endPoint);
+      }
+      var endGraphic = new Graphic(endPoint);
+      endGraphic.symbol = this.endPointSymbol;
+      this.trackPointLayer.add(endGraphic);
+
+
 
       var context = "";
       if (
@@ -278,7 +317,7 @@ define([
       if (context != "") {
         var startPointGraphic = new Graphic(
           new Point(trackPoints[0].x, trackPoints[0].y),
-          this.movingPointSymbol
+          carSymbol
         );
         startPointGraphic.id = id;
         this.movingPointLayer.add(startPointGraphic);
@@ -294,7 +333,7 @@ define([
       if (autoStart) {
         var movingPointGraphic = new Graphic(
           new Point(trackPoints[0].x, trackPoints[0].y),
-          this.movingPointSymbol
+          carSymbol
         );
         movingPointGraphic.id = id;
         this.movingPointLayer.add(movingPointGraphic);
@@ -346,7 +385,7 @@ define([
       lineGraphic.symbol = this.trackLineSymbol;
       this.trackLineLayer.add(lineGraphic);
     },
-    _showMonitor: function(kkPoints, trackPoints, id) {
+    _showMonitor: function(kkPoints, trackPoints, limit, id) {
       var rings = array.map(
         kkPoints,
         lang.hitch(this, function(kkPoint) {
@@ -376,12 +415,12 @@ define([
       this.trackLineLayer.add(areaGraphic);
       var point = area.getExtent().getCenter();
       var pointGra = new Graphic(point);
-      if (this._limit === 1) {
+      pointGra.id = id;
+      if (limit === 1) {
         pointGra.symbol = this.inPointSymbol;
       } else {
         pointGra.symbol = this.outPointSymbol;
       }
-      pointGra.id = id;
       this.trackLineLayer.add(pointGra);
       return area;
     },
@@ -403,7 +442,6 @@ define([
       this._doCenter(x1, y1, x2, y2);
 
       var distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-
       //如果两点距离小于步进, 直接移动到下一个点
       if (distance <= this.stepLength * 2) {
         obj.movingPointGraphic.geometry.x = x2;
@@ -441,13 +479,18 @@ define([
         //斜率
         var p = (y2 - y1) / (x2 - x1);
         // console.log("p: " + p);
+
         var movingFunction = setInterval(
           lang.hitch(this, function() {
+            var dis = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
             // this.startIndex = startIndex;
             // this.endIndex = endIndex;
-
             if (Math.abs(p) === Number.POSITIVE_INFINITY) {
-              obj.movingPointGraphic.geometry.y += this.stepLength;
+              if (y2 < y1) {
+                obj.movingPointGraphic.geometry.y -= this.stepLength;
+              } else {
+                obj.movingPointGraphic.geometry.y += this.stepLength;
+              }
             } else {
               if (x2 < x1) {
                 obj.movingPointGraphic.geometry.x -=
@@ -456,7 +499,6 @@ define([
                 obj.movingPointGraphic.geometry.x +=
                   (1 / Math.sqrt(1 + p * p)) * this.stepLength;
               }
-
               if (y2 < y1) {
                 obj.movingPointGraphic.geometry.y -=
                   (Math.abs(p) / Math.sqrt(1 + p * p)) * this.stepLength;
@@ -464,7 +506,6 @@ define([
                 obj.movingPointGraphic.geometry.y +=
                   (Math.abs(p) / Math.sqrt(1 + p * p)) * this.stepLength;
               }
-
               obj.movingPointGraphic.symbol.angle = this._calculateAngle(
                 x1,
                 y1,
@@ -490,12 +531,12 @@ define([
                 this._movePoint(0, 1, obj);
               }
             }
-            if (
-              Math.sqrt(
-                Math.pow(x2 - obj.movingPointGraphic.geometry.x, 2) +
-                  Math.pow(y2 - obj.movingPointGraphic.geometry.y, 2)
-              ) < this.stepLength
-            ) {
+            var subDis = Math.sqrt(
+              Math.pow(x2 - obj.movingPointGraphic.geometry.x, 2) +
+                Math.pow(y2 - obj.movingPointGraphic.geometry.y, 2)
+            );
+
+            if (subDis < this.stepLength * 2) {
               clearInterval(movingFunction);
               startIndex++;
               endIndex++;
@@ -516,8 +557,15 @@ define([
     },
 
     _calculateAngle: function(x1, y1, x2, y2) {
-      var tan =
-        (Math.atan(Math.abs((y2 - y1) / (x2 - x1))) * 180) / Math.PI + 90;
+      var tan;
+      if (Math.abs(x2 - x1) < 0.000001) {
+        tan = 90;
+      } else if (Math.abs(y2 - y1) < 0.000001) {
+        tan = 0;
+      } else {
+        tan = (Math.atan(Math.abs((y2 - y1) / (x2 - x1))) * 180) / Math.PI + 90;
+      }
+
       //第一象限
       if (x2 > x1 && y2 > y1) {
         return -tan + 180;

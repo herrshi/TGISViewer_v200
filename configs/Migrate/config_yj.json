@@ -1,0 +1,25 @@
+{
+  "query": {
+    "url":
+      "http://10.31.152.48:6080/arcgis/rest/services/ShangHaiHarbour/ShangHai_xzqh_simple/MapServer/1",
+    "id": "FEATUREID",
+    "name": "Name",
+    "layer": "Layer"
+  },
+  "qx": {
+    "url":
+      "http://10.31.152.48:6080/arcgis/rest/services/ShangHaiHarbour/ShangHai_xzqh_simple/MapServer/0",
+    "id": "FEATUREID",
+    "name": "FEATURENAM",
+    "layer": "Layer"
+  },
+  "zooms": {
+    "浦东国际机场": 0,
+    "虹桥机场": 0,
+    "上海火车站": 0,
+    "虹桥火车站": 0,
+    "上海南站": 0
+  },
+  "center": [121.41682,31.1824],
+  "colorField": "JWPT.RAILWAY_VOL_SATURATION.STATUS"
+}

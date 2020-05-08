@@ -1,0 +1,40 @@
+{
+  "layers": [
+    {
+      "label": "地面主干",
+      "type": "json",
+      "source": "configs/DynamicIssuesect/XuHui/DMZG1.json",
+      "idField": "BM_CODE",
+      "roadNameField": "路名"
+    },
+    {
+      "label": "地面次干",
+      "type": "json",
+      "source": "configs/DynamicIssuesect/XuHui/DMCG2.json",
+      "idField": "BM_CODE",
+      "roadNameField": "路名"
+    },
+    {
+      "label": "地面一般",
+      "type": "json",
+      "source": "configs/DynamicIssuesect/XuHui/DMYB.json",
+      "idField": "BM_CODE",
+      "roadNameField": "路名"
+    },
+    {
+      "label": "快速路主线",
+      "type": "json",
+      "source": "configs/DynamicIssuesect/XuHui/KSL2.json",
+      "idField": "BM_CODE",
+      "roadNameField": "所属道"
+    },
+    {
+      "label": "快速路匝道",
+      "type": "json",
+      "source": "configs/DynamicIssuesect/XuHui/ZD2.json",
+      "idField": "BM_CODE",
+      "roadNameField": "所属道"
+    }
+
+  ]
+}

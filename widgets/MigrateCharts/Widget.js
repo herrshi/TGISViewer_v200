@@ -54,6 +54,7 @@ define([
   return declare([BaseWidget], {
     name: "MigrateCharts",
     gatherLayer: [],
+    gatherPointLayer: [],
     pointSymbol: null,
     arrowSymbol: null,
     carPointSymbol: null,
@@ -64,7 +65,12 @@ define([
     postCreate: function() {
       this.inherited(arguments);
       this.gatherLayer = new GraphicsLayer({ id: "migratechart" });
+
+      this.gatherPointLayer = new GraphicsLayer();
+      this.gatherPointLayer.opacity = 0.6;
+      this.map.addLayer(this.gatherPointLayer);
       this.map.addLayer(this.gatherLayer);
+
       this.pointSymbol = new SimpleMarkerSymbol(
         SimpleMarkerSymbol.STYLE_CIRCLE,
         8,
@@ -77,7 +83,7 @@ define([
       );
       //this.arrowSymbol =
       this.carPointSymbol = new PictureMarkerSymbol(
-        window.path + "images/car_blue.png",
+        window.path + "images/mapIcons/point_green.gif",
         15,
         15
       ).setOffset(0, 15);
@@ -105,10 +111,10 @@ define([
         SimpleFillSymbol.STYLE_SOLID,
         new SimpleLineSymbol(
           SimpleLineSymbol.STYLE_SOLID,
-          new Color([0, 255, 255, 0.8]),
+          new Color([0, 255, 255, 0.5]),
           1
         ),
-        new Color([0, 255, 255, 0.8])
+        new Color([0, 255, 255, 0.0])
       );
       topic.subscribe(
         "showMigrateCharts",
@@ -124,7 +130,7 @@ define([
             var startPoint = ChartObj.startPoint;
             this.addGraphics(
               new Point([startPoint.x, startPoint.y]),
-              "point",
+              "carpoint",
               "01"
             );
             var endPoints = ChartObj.endPoints;
@@ -132,7 +138,7 @@ define([
               endPoints,
               function(endPoint) {
                 var point = new Point([endPoint.x, endPoint.y]);
-                this.addGraphics(point, "point", "01");
+                this.addGraphics(point, "carpoint", "01");
 
                 var line = new Polyline();
                 var path = this.doBezierCurve(
@@ -158,9 +164,17 @@ define([
       switch (type) {
         case "point":
           geometry = new Circle(geometry, {
-            radius: 1000
+            radius: 300
           });
-          symbol = this.areaSymbol;
+          symbol = new SimpleFillSymbol(
+            SimpleFillSymbol.STYLE_SOLID,
+            new SimpleLineSymbol(
+              SimpleLineSymbol.STYLE_SOLID,
+              new Color([0, 255, 255, 0.5]),
+              2
+            ),
+            new Color([0, 255, 255, 0.5])
+          );
           break;
         case "arrowpoint":
           symbol = new SimpleMarkerSymbol(
@@ -178,12 +192,10 @@ define([
           break;
         case "carpoint":
           symbol = new PictureMarkerSymbol(
-            window.path + "images/car_blue.png",
-            15,
-            15
-          )
-            .setOffset(0, 15)
-            .setAngle(geometry.angle);
+            window.path + "images/mapIcons/point_green.gif",
+            50,
+            50
+          ).setOffset(0, 0);
           break;
         case "polyline":
           symbol = this.dashSymbol;
@@ -203,8 +215,11 @@ define([
       var graphic = new Graphic(geometry, symbol, {});
       graphic.id = id;
       graphic.type = gtype;
-
-      this.gatherLayer.add(graphic);
+      if (type == "carpoint") {
+        this.gatherPointLayer.add(graphic);
+      } else {
+        this.gatherLayer.add(graphic);
+      }
     },
     //p0为开始点,p2为终点,带箭头,画贝塞尔曲线
     doBezierCurve: function(p0, p2) {
@@ -244,8 +259,8 @@ define([
       p2.angle = this.doarrowAngle(p1, p2);
 
       path.push(p0);
-      for (var i = 1; i < 100; i++) {
-        var t = i / 100;
+      for (var i = 1; i < 20; i++) {
+        var t = i / 20;
         var x =
           (1 - t) * (1 - t) * p0.x + 2 * t * (1 - t) * p1.x + t * t * p2.x;
         var y =

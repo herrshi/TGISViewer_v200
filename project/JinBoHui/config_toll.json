@@ -1,0 +1,910 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "发布段",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "国展周边地面道路",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_GZZX_dmfbd/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "refreshInterval": 5,
+        "maxScale": 0,
+        "minScale": 144448,
+        "mode":0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.HIST_FBD.FINT_STATUS",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "1",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "2",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "3",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "国展中心",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "maxScale": 18056,
+        "minScale": 1155581,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/flower.png",
+            "width": 100,
+            "height": 100,
+            "angle": 25
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "国展中心.OBJECTID",
+              "minDataValue": 2257,
+              "maxDataValue": 288896,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 800
+                  },
+                  {
+                    "value": 4514,
+                    "size": 400
+                  },
+                  {
+                    "value": 9028,
+                    "size": 200
+                  },
+                  {
+                    "value": 18056,
+                    "size": 100
+                  },
+                  {
+                    "value": 36112,
+                    "size": 50
+                  },
+                  {
+                    "value": 72224,
+                    "size": 25
+                  },
+                  {
+                    "value": 144448,
+                    "size": 12
+                  },
+                  {
+                    "value": 288896,
+                    "size": 8
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 1600
+                  },
+                  {
+                    "value": 4514,
+                    "size": 800
+                  },
+                  {
+                    "value": 9028,
+                    "size": 400
+                  },
+                  {
+                    "value": 18056,
+                    "size": 200
+                  },
+                  {
+                    "value": 36112,
+                    "size": 100
+                  },
+                  {
+                    "value": 72224,
+                    "size": 50
+                  },
+                  {
+                    "value": 144448,
+                    "size": 25
+                  },
+                  {
+                    "value": 288896,
+                    "size": 12
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "国展中心图层",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "mode":0,
+        "maxScale": 0,
+        "minScale": 18055,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/JiaoWeiZhiHui/gzzx.svg",
+            "width": 560,
+            "height": 595,
+            "yoffset":17,
+            "xoffset":10,
+            "angle": 0
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "国展中心.OBJECTID",
+              "minDataValue": 2257,
+              "maxDataValue": 1155581,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 1840
+                  },
+                  {
+                    "value": 4514,
+                    "size": 920
+                  },
+                  {
+                    "value": 9028,
+                    "size": 460
+                  },
+                  {
+                    "value": 18056,
+                    "size": 230
+                  },
+                  {
+                    "value": 36112,
+                    "size": 115
+                  },
+                  {
+                    "value": 72224,
+                    "size": 58
+                  },
+                  {
+                    "value": 144448,
+                    "size": 29
+                  },
+                  {
+                    "value": 288895,
+                    "size": 14
+                  },
+                  {
+                    "value": 577791,
+                    "size": 7
+                  },
+                  {
+                    "value": 1155581,
+                    "size": 7
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 1840
+                  },
+                  {
+                    "value": 4514,
+                    "size": 920
+                  },
+                  {
+                    "value": 9028,
+                    "size": 460
+                  },
+                  {
+                    "value": 18056,
+                    "size": 230
+                  },
+                  {
+                    "value": 36112,
+                    "size": 115
+                  },
+                  {
+                    "value": 72224,
+                    "size": 58
+                  },
+                  {
+                    "value": 144448,
+                    "size": 29
+                  },
+                  {
+                    "value": 288895,
+                    "size": 14
+                  },
+                  {
+                    "value": 577791,
+                    "size": 7
+                  },
+                  {
+                    "value": 1155581,
+                    "size": 7
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "主线发布段0",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd_GZZB/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "mode": 0,
+        "minScale": 18056,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.JWPT_RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "主线发布段",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd_GZZB/MapServer/0",
+        "type": "feature",
+        "mode": 0,
+        "visible": true,
+        "minScale": 18056,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSBackwardDiagonal",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 1
+            }
+          }
+        }
+      },
+      {
+        "label": "匝道发布段0",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd_GZZB/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "minScale": 18056,
+        "outFields": ["*"],
+        "mode": 0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.JWPT_RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "匝道发布段",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd_GZZB/MapServer/1",
+        "type": "feature",
+        "visible": true,
+        "mode": 0,
+        "minScale": 18056,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSBackwardDiagonal",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 1
+            }
+          }
+        }
+      },
+      {
+        "label": "匝道发布段-人工0",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd_GZZB/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "minScale": 18056,
+        "outFields": ["*"],
+        "mode": 0,
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.JWPT_RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "匝道发布段-人工",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd_GZZB/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "mode": 0,
+        "minScale": 18056,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSBackwardDiagonal",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 1
+            }
+          }
+        }
+      },
+      {
+        "label": "快速路",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "refreshInterval": 5,
+        "mode": 0,
+        "maxScale": 18057,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.JWPT_RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0.1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0.1
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0.1
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0.1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "高速公路",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd/MapServer/3",
+        "type": "feature",
+        "maxScale": 18057,
+        "visible": true,
+        "refreshInterval": 5,
+        "mode": 0,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.JWPT_RT_ISSUESECT.FSTR_CFMSTATE",
+          "defaultSymbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0.1
+            }
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [85, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0.1
+                }
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 255, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0.1
+                }
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriSFS",
+                "style": "esriSFSSolid",
+                "color": [255, 85, 0, 255],
+                "outline": {
+                  "type": "esriSLS",
+                  "style": "esriSLSSolid",
+                  "color": [0, 25, 46, 255],
+                  "width": 0.1
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "快速路-段",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_fbd/MapServer/4",
+        "type": "feature",
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "symbol": {
+            "type": "esriSFS",
+            "style": "esriSFSSolid",
+            "color": [85, 255, 0, 255],
+            "outline": {
+              "type": "esriSLS",
+              "style": "esriSLSSolid",
+              "color": [0, 25, 46, 255],
+              "width": 0
+            }
+          }
+        }
+      },
+      {
+        "label": "收费站",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_shoufeizhan/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "mode": 0,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/JiaoWeiZhiHui/icon_toll_green.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "情报板",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_devices/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "mode": 0,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/JiaoWeiZhiHui/icon_qbb_green.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "摄像机",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/Kuaisulu_devices/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "mode": 0,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/JiaoWeiZhiHui/icon_camere_green.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "交通事故",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_event/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "refreshInterval": 1,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/JiaoWeiZhiHui/icon_event_red.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 16
+          }
+        }
+      },
+      {
+        "label": "轮廓线",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHai/morph_yy_frame/MapServer/0",
+        "type": "feature",
+        "showLabels": false,
+        "maxScale": 18057,
+        "mode": 0,
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriSLS",
+            "style": "esriSLSSolid",
+            "color": [255, 0, 0, 255],
+            "width": 4
+          }
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": {
+        "x": 121.297401,
+        "y": 31.195602,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "backgroundColor": "#02182F",
+      "showLabels": true,
+      "scale": 18056,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "10.31.214.201:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/Migrate/Widget",
+        "version": "2.4",
+        "config": "configs/Migrate/config_toll.json",
+        "id": "MigrateWidget"
+      },
+      {
+        "uri": "widgets/ToolTip/Widget",
+        "version": "2.4",
+        "config": "configs/ToolTip/config.json",
+        "id": "ToolTipWidget"
+      }
+    ]
+  }
+}

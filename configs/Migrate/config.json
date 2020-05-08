@@ -5,7 +5,7 @@
     "name":"地铁标注点.Name"
   },
   "rest": {
-    "url": "http://10.31.214.203:15021/web-gis/proxy.jsp?http://10.31.214.203:15011/tcp-sa-railway-api/tcpSaRailwayRestService/getStationOdVolumeVoList",
+    "url": "http://10.31.214.203:15021/web-gis/proxy.jsp?http://10.31.214.203:15011/ciie-sa-railway-api/ciieSaRailwayRestService/getStationOdVolumeVoList",
     "type":"0"
   },
   "colorField":"JWPT.RAILWAY_VOL_SATURATION.STATUS"

@@ -97,7 +97,7 @@ define([
       );
 
       this._startPointSymbol = new PictureMarkerSymbol({
-        url: "images/mapIcons/start.png",
+        url: window.path + "images/mapIcons/start.png",
         height: 23.25,
         width: 14.25,
         type: "esriPMS",
@@ -105,7 +105,7 @@ define([
         yoffset: 11.625
       });
       this._endPointSymbol = new PictureMarkerSymbol({
-        url: "images/mapIcons/end.png",
+        url: window.path + "images/mapIcons/end.png",
         height: 23.25,
         width: 14.25,
         type: "esriPMS",
@@ -113,7 +113,7 @@ define([
         yoffset: 11.625
       });
       this._wayPointsSymbol = new PictureMarkerSymbol({
-        url: "images/mapIcons/mid.png",
+        url: window.path + "images/mapIcons/mid.png",
         height: 23.25,
         width: 14.25,
         type: "esriPMS",
@@ -121,7 +121,7 @@ define([
         yoffset: 11.625
       });
       this._routePointsSymbol = new PictureMarkerSymbol({
-        url: "images/BlueSphere.png",
+        url: window.path + "images/BlueSphere.png",
         height: 24,
         width: 24,
         type: "esriPMS"
@@ -193,7 +193,10 @@ define([
     onTopicHandler_routeSearch: function(params) {
       var routeParams = JSON.parse(params);
       // console.log(routeParams.clearPrevResults, !!routeParams.clearPrevResults);
-      if (routeParams.clearPrevResults === undefined || routeParams.clearPrevResults === true) {
+      if (
+        routeParams.clearPrevResults === undefined ||
+        routeParams.clearPrevResults === true
+      ) {
         this._routeLayer.clear();
       }
 
@@ -202,39 +205,22 @@ define([
       var end = routeParams.endPoint;
       this._bufferDistance = routeParams.bufferDistance || 0;
 
-      this._wayPoints = [];
-      var startStr = start.split(",");
-      this._startPoint = new Point([Number(startStr[0]), Number(startStr[1])]);
-      var endStr = end.split(",");
-      this._endPoint = new Point([Number(endStr[0]), Number(endStr[1])]);
-      if (wayPoints) {
-        var ways = wayPoints.split(";");
-        for (var i = 0; i < ways.length; i++) {
-          var wayPoint = new Point(ways[i].split(","));
-          this._wayPoints.push(wayPoint);
-        }
-      }
-      this.OnQueryRouting(start, end, wayPoints);
+      var showIcon = routeParams.showIcon !== false;
+
+      this.OnQueryRouting(start, end, wayPoints, showIcon);
     },
 
-    OnQueryRouting: function(sPoint, ePoint, wPoints) {
-      $.ajax({
-        //用变量做url参数前面会带上http://localhost:8090, 不知如何解决
-        url:
-          this.config.url +
-          "?ak=" +
-          this.config.key +
-          "&callback=callback&origin=" +
-          sPoint +
-          "&destination=" +
-          ePoint +
-          "&waypoints=" +
-          wPoints,
-        type: "GET",
-        dataType: "jsonp", //使用jsonp避免跨域问题
-        jsonpCallback: "callback",
-        success: lang.hitch(this, function(result) {
-          if (result.message === "ok") {
+    OnQueryRouting: function(sPoint, ePoint, wPoints, showIcon) {
+      $.get(
+        this.config.url,
+        {
+          ak: this.config.key,
+          origin: sPoint,
+          destination: ePoint,
+          waypoints: wPoints
+        },
+        lang.hitch(this, function(result, callback) {
+          if (callback === "success" && result.message === "ok") {
             var steps = result.result.routes[0].steps;
             var latlngs = [];
             this._routeGraphic = [];
@@ -261,31 +247,112 @@ define([
               });
               this._routeGraphic.push(stepGra);
             }
-            this._routeLine = new Polyline(latlngs);
-            this._routeLineStart = new Point(latlngs[0]);
-            this._routeLineEnd = new Point(latlngs[latlngs.length - 1]);
-            this.OnRoutingResult();
+
+            var startStr = sPoint.split(",");
+            var startPoint = new Point([
+              Number(startStr[0]),
+              Number(startStr[1])
+            ]);
+            var endStr = ePoint.split(",");
+            var endPoint = new Point([Number(endStr[0]), Number(endStr[1])]);
+
+            var wapPoints = [];
+            if (wPoints) {
+              var ways = wPoints.split(";");
+              for (var i = 0; i < ways.length; i++) {
+                var wayPoint = new Point(ways[i].split(","));
+                wapPoints.push(wayPoint);
+              }
+            }
+            this.OnRoutingResult(
+              startPoint,
+              endPoint,
+              wapPoints,
+              latlngs,
+              showIcon
+            );
           }
         }),
-        error: {}
-      });
+        "jsonp"
+      );
+      // $.ajax({
+      //   //用变量做url参数前面会带上http://localhost:8090, 不知如何解决
+      //   url:
+      //     this.config.url +
+      //     "?ak=" +
+      //     this.config.key +
+      //     "&callback=callback&origin=" +
+      //     sPoint +
+      //     "&destination=" +
+      //     ePoint +
+      //     "&waypoints=" +
+      //     wPoints,
+      //   type: "GET",
+      //   dataType: "jsonp", //使用jsonp避免跨域问题
+      //   jsonpCallback: "callback",
+      //   success: lang.hitch(this, function(result, callback) {
+      //     if (result.message === "ok") {
+      //       var steps = result.result.routes[0].steps;
+      //       var latlngs = [];
+      //       this._routeGraphic = [];
+      //       for (var i = 0; i < steps.length; i++) {
+      //         var paths = steps[i].path.split(";");
+      //         //turn:"3":左转;7,右转
+      //         //var turn=steps[i].turn.toString()=="3"?"左转":"右转";
+      //         //var road=steps[i].instruction;
+      //         //var dir=steps[i].distance+"米";
+      //         // var text=turn+"进入"+road+"沿着"+road+"行驶"+dir+"米";
+      //         for (var j = 0; j < paths.length; j++) {
+      //           var point = paths[j].split(",");
+      //           var latlng = [Number(point[0]), Number(point[1])];
+      //           latlngs.push(latlng);
+      //         }
+      //         var stepPoint = new Point([
+      //           steps[i].stepOriginLocation.lng,
+      //           steps[i].stepOriginLocation.lat
+      //         ]);
+      //         var stepGra = new Graphic(stepPoint, this._routePointsSymbol, {
+      //           type: "RoutingPoint",
+      //           instruction: steps[i].instruction,
+      //           drive_instruction: steps[i].drive_instruction
+      //         });
+      //         this._routeGraphic.push(stepGra);
+      //       }
+      //       this._routeLine = new Polyline(latlngs);
+      //       this._routeLineStart = new Point(latlngs[0]);
+      //       this._routeLineEnd = new Point(latlngs[latlngs.length - 1]);
+      //       this.OnRoutingResult();
+      //     }
+      //   }),
+      //   error: {}
+      // });
     },
-    OnRoutingResult: function() {
-      var startGra = new Graphic(this._startPoint, this._startPointSymbol);
-      var endGra = new Graphic(this._endPoint, this._endPointSymbol);
-      var routeLine = new Graphic(this._routeLine, this._routeLineSymbol);
+    OnRoutingResult: function(
+      startPoint,
+      endPoint,
+      wapPoints,
+      latlngs,
+      showIcon
+    ) {
+      var routeLine = new Polyline(latlngs);
+      var routeLineStart = new Point(latlngs[0]);
+      var routeLineEnd = new Point(latlngs[latlngs.length - 1]);
+
+      var startGra = new Graphic(startPoint, this._startPointSymbol);
+      var endGra = new Graphic(endPoint, this._endPointSymbol);
+      var routeLine = new Graphic(routeLine, this._routeLineSymbol);
 
       var startLine = new Graphic(
         new Polyline([
-          [this._startPoint.x, this._startPoint.y],
-          [this._routeLineStart.x, this._routeLineStart.y]
+          [startPoint.x, startPoint.y],
+          [routeLineStart.x, routeLineStart.y]
         ]),
         this._LineSymbol
       );
       var endLine = new Graphic(
         new Polyline([
-          [this._routeLineEnd.x, this._routeLineEnd.y],
-          [this._endPoint.x, this._endPoint.y]
+          [routeLineEnd.x, routeLineEnd.y],
+          [endPoint.x, endPoint.y]
         ]),
         this._LineSymbol
       );
@@ -296,14 +363,16 @@ define([
       for (var j = 0; j < this._routeGraphic.length; j++) {
         this._routeLayer.add(this._routeGraphic[j]);
       }
-      if (this._wayPoints) {
-        for (var i = 0; i < this._wayPoints.length; i++) {
-          var wayGra = new Graphic(this._wayPoints[i], this._wayPointsSymbol);
+      if (showIcon && wapPoints) {
+        for (var i = 0; i < wapPoints.length; i++) {
+          var wayGra = new Graphic(wapPoints[i], this._wayPointsSymbol);
           this._routeLayer.add(wayGra);
         }
       }
-      this._routeLayer.add(startGra);
-      this._routeLayer.add(endGra);
+      if (showIcon) {
+        this._routeLayer.add(startGra);
+        this._routeLayer.add(endGra);
+      }
     }
   });
 });

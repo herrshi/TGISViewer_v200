@@ -1,0 +1,404 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "陆图",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_base_new/MapServer",
+        "type": "tiled",
+        "visible": true
+      },
+      {
+        "label": "道路图",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_baseroad/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "行政区划",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_xzqh/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "opacity": 0.8,
+        "showLabels": true
+      },
+      {
+        "label": "发布段",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_fbd/MapServer",
+        "type": "dynamic",
+        "visible": false,
+        "infoTemplates": {
+          "0": {
+            "infoTemplate": {
+              "title": "<div></div>",
+              "content": "<div>${JTPT.TOBJ_ISSUESECT.FSTR_DESC}</div>",
+              "width": 200,
+              "height": 30
+            }
+          },
+          "1": {
+            "infoTemplate": {
+              "title": "<div></div>",
+              "content": "<div>${JTPT.TOBJ_ISSUESECT.FSTR_DESC}</div>",
+              "width": 200,
+              "height": 30
+            }
+          },
+          "2": {
+            "infoTemplate": {
+              "title": "<div></div>",
+              "content": "<div>${JTPT.TOBJ_ISSUESECT.FSTR_DESC}</div>",
+              "width": 200,
+              "height": 30
+            }
+          },
+          "3": {
+            "infoTemplate": {
+              "title": "<div></div>",
+              "content": "<div>${JTPT.TOBJ_ISSUESECT.FSTR_DESC}</div>",
+              "width": 200,
+              "height": 30
+            }
+          },
+
+          "6": {
+            "infoTemplate": {
+              "title": "<div></div>",
+              "content": "<div>${JTPT.TOBJ_ISSUESECT.FSTR_DESC}</div>",
+              "width": 200,
+              "height": 30
+            }
+          },
+          "7": {
+            "infoTemplate": {
+              "title": "<div></div>",
+              "content": "<div>${JTPT.TOBJ_ISSUESECT.FSTR_DESC}</div>",
+              "width": 200,
+              "height": 30
+            }
+          },
+          "8": {
+            "infoTemplate": {
+              "title": "<div></div>",
+              "content": "<div>${JTPT.TOBJ_ISSUESECT.FSTR_DESC}</div>",
+              "width": 200,
+              "height": 30
+            }
+          },
+          "9": {
+            "infoTemplate": {
+              "title": "<div></div>",
+              "content": "<div>${JTPT.TOBJ_ISSUESECT.FSTR_DESC}</div>",
+              "width": 200,
+              "height": 30
+            }
+          }
+        }
+      },
+      {
+        "label": "地铁标注线",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/5",
+        "type": "feature",
+        "mode": 0,
+        "visible": false,
+        "outFields": ["*"]
+      },
+      {
+        "label": "地铁站点",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/2",
+        "type": "feature",
+        "mode": 0,
+        "visible": false,
+        "outFields": ["*"],
+        "minScale": 288896.0,
+        "infoTemplate": {
+          "title": "<div></div>",
+          "content": "<div>${SDE.地铁标注点.NAME}</div>",
+          "width": 90,
+          "height": 30
+        }
+      },
+      {
+        "label": "地铁标注点",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_Annotation/MapServer",
+        "type": "dynamic",
+        "visible": false
+      },
+      {
+        "label": "机场面",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/7",
+        "type": "feature",
+        "visible": false,
+        "showLabels": false,
+        "outFields": ["*"],
+        "opacity": 0.6,
+        "infoTemplate": {
+          "title": "<div></div>",
+          "content": "<div>站内车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_NUM}<br/>当天累计车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_DAYNUM}</div>",
+          "width": 180,
+          "height": 30
+        }
+      },
+
+      {
+        "label": "火车站面",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/8",
+        "type": "feature",
+        "visible": false,
+        "showLabels": false,
+        "mode": 0,
+        "outFields": ["*"],
+        "opacity": 0.6,
+        "infoTemplate": {
+          "title": "<div></div>",
+          "content": "<div>站内车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_NUM}<br/>当天累计车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_DAYNUM}</div>",
+          "width": 180,
+          "height": 30
+        }
+      },
+      {
+        "label": "旅游景点面",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/14",
+        "type": "feature",
+        "visible": false,
+        "showLabels": false,
+        "mode": 0,
+        "outFields": ["*"],
+        "opacity": 0.6,
+        "infoTemplate": {
+          "title": "<div></div>",
+          "content": "<div>站内车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_NUM}<br/>当天累计车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_DAYNUM}</div>",
+          "width": 180,
+          "height": 30
+        }
+      },
+      {
+        "label": "机场",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "showLabels": true,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "<div></div>",
+          "content": "<div>站内车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_NUM}<br/>当天累计车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_DAYNUM}</div>",
+          "width": 180,
+          "height": 30
+        }
+      },
+      {
+        "label": "火车站",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "showLabels": true,
+        "mode": 0,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "<div></div>",
+          "content": "<div>站内车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_NUM}<br/>当天累计车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_DAYNUM}</div>",
+          "width": 180,
+          "height": 30
+        }
+      },
+      {
+        "label": "旅游景点",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/13",
+        "type": "feature",
+        "visible": false,
+        "showLabels": true,
+        "mode": 0,
+        "outFields": ["*"],
+        "infoTemplate": {
+          "title": "<div></div>",
+          "content": "<div>站内车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_NUM}<br/>当天累计车辆：${JTPT.LKYW_STATIONVEH_NUM.VEH_DAYNUM}</div>",
+          "width": 180,
+          "height": 30
+        }
+      },
+      {
+        "label": "交通事故",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_event/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "refreshInterval": 1,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/JiaoWei/event.svg",
+            "width": 33,
+            "height": 33,
+            "yoffset": 16
+          }
+        },
+        "infoTemplate": {
+          "title": "<div></div>",
+          "content": "<div>${JTPT.EVENT.DEVICEDESC}</div>",
+          "width": 270,
+          "height": 30
+        }
+      },
+      {
+        "label": "摄像机",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/KuaiSuLu_device/MapServer/1",
+        "type": "feature",
+        "visible": false,
+        "mode": 0,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/JiaoWei/icon_gis_sp.png",
+            "width": 20,
+            "height": 28,
+            "yoffset": 14
+          }
+        }
+      },
+      {
+        "label": "热力图",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/ShangHaiHarbour/ShangHai_HeatMap/MapServer/0",
+        "type": "feature",
+        "visible": false,
+        "mode": 0,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "heatmap",
+          "colorStops": [
+            "rgba(30,144,255,0)",
+            "rgba(30,144,255)",
+            "rgb(0, 255, 0)",
+            "rgb(255, 255, 23)",
+            "rgb(254,128,0)"
+          ],
+          "field": "VALUE",
+          "blurRadius": 11,
+          "maxPixelIntensity": 3000,
+          "minPixelIntensity": 1
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": {
+        "x": 121.469,
+        "y": 31.228,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "showLabels": true,
+      "zoom": 2,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "172.30.30.1:6080",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/BottomToolbar_CircleButton/Widget",
+        "name": "BottomToolbar",
+        "config": "configs/BottomToolbar/config_JiaoWeiYJ.json",
+        "position": {
+          "bottom": 10,
+          "width": "100%",
+          "left": 0,
+          "right": 0
+        },
+        "id": "BottomToolbarWidget"
+      },
+      {
+        "uri": "widgets/Coordinate/Widget",
+        "position": {
+          "left": 15,
+          "bottom": 5,
+          "relativeTo": "map"
+        },
+        "version": "2.4",
+        "id": "CoordinateWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/Migrate/Widget",
+        "config": "configs/Migrate/config_yj.json",
+        "version": "2.4",
+        "id": "MigrateWidget"
+      },
+      {
+        "uri": "widgets/LocateSubway/Widget",
+        "version": "2.4",
+        "id": "LocateSubwayWidget"
+      },
+      {
+        "uri": "widgets/ToolTip/Widget",
+        "version": "2.4",
+        "config": "configs/ToolTip/config_JiaoWeiYJ.json",
+        "style": "css/style_JiaoWei.css",
+        "id": "ToolTipWidget"
+      },
+      {
+        "uri": "widgets/ChartInfoWindow/Widget",
+        "version": "2.4",
+        "config": "configs/ChartInfoWindow/config_JiaoWeiYJ.json",
+        "id": "ChartInfoWindowWidget"
+      },
+      {
+        "uri": "widgets/MonitorTrack/Widget",
+        "version": "2.4",
+        "id": "MonitorTrackWidget"
+      },
+      {
+        "uri": "widgets/InfoTemplate/Widget",
+        "version": "2.4",
+        "id": "InfoTemplateWidget"
+      }
+    ]
+  }
+}

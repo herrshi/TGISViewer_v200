@@ -1,6 +1,43 @@
+var _typeof =
+  typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
+    ? function(obj) {
+        return typeof obj;
+      }
+    : function(obj) {
+        return obj &&
+          typeof Symbol === "function" &&
+          obj.constructor === Symbol &&
+          obj !== Symbol.prototype
+          ? "symbol"
+          : typeof obj;
+      };
+
 /**
  * Created by herrshi on 2017/6/19.
  */
+
+String.prototype.format = function(args) {
+  var result = this;
+  if (arguments.length < 1) {
+    return result;
+  }
+
+  var data = arguments; //如果模板参数是数组
+  if (
+    arguments.length === 1 &&
+    (typeof args === "undefined" ? "undefined" : _typeof(args)) == "object"
+  ) {
+    //如果模板参数是对象
+    data = args;
+  }
+  for (var key in data) {
+    var value = data[key];
+    if (undefined !== value) {
+      result = result.replace("{" + key + "}", value);
+    }
+  }
+  return result;
+};
 
 document.body.className = "jimu-main-font";
 
@@ -14,7 +51,7 @@ projectConfig = null;
 loadFinishCallback = null;
 
 var TMap = {
-  createNew: function(options, divId, callback) {
+  createNew: function createNew(options, divId, callback) {
     var mainLoadingDiv = document.createElement("div");
     mainLoadingDiv.id = "main-loading";
     mainLoadingDiv.style.width = "100%";
@@ -119,7 +156,7 @@ var TMap = {
    *     参数同swipeLayers
    *   swipeLayers长度必须大于1
    * */
-  startSwipe: function(params) {
+  startSwipe: function startSwipe(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("startSwipe", params);
     });
@@ -134,7 +171,7 @@ var TMap = {
    *     url: string, optional. 服务地址
    *     ids: [int], optional.
    * */
-  addSwipeLayer: function(params) {
+  addSwipeLayer: function addSwipeLayer(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addSwipeLayer", params);
     });
@@ -148,14 +185,14 @@ var TMap = {
    *     label: string, required. 图层名称
    *     ids: [int], optional. 不传id就删除整个图层
    * */
-  removeSwipeLayer: function(params) {
+  removeSwipeLayer: function removeSwipeLayer(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("removeSwipeLayer", params);
     });
   },
 
   /**退出卷帘图模式*/
-  stopSwipe: function() {
+  stopSwipe: function stopSwipe() {
     require(["dojo/topic"], function(topic) {
       topic.publish("stopSwipe");
     });
@@ -172,7 +209,7 @@ var TMap = {
    *   projectState: string, required. 项目状态
    * @param callback: function，optional. 成功则返回地图服务地址
    * */
-  convertCAD: function(params, callback) {
+  convertCAD: function convertCAD(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("convertCAD", { params: params, callback: callback });
     });
@@ -184,7 +221,7 @@ var TMap = {
    *   fileName: string, required. cad文件名
    * @param callback: function, optional. 成功则返回地图服务地址
    * */
-  fastConvertCAD: function(params, callback) {
+  fastConvertCAD: function fastConvertCAD(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("fastConvertCAD", { params: params, callback: callback });
     });
@@ -195,13 +232,13 @@ var TMap = {
   /**
    *
    * */
-  openWidget: function(widgetId) {
+  openWidget: function openWidget(widgetId) {
     require(["dojo/topic"], function(topic) {
       topic.publish("openWidget", widgetId);
     });
   },
 
-  closeWidget: function(widgetId) {
+  closeWidget: function closeWidget(widgetId) {
     require(["dojo/topic"], function(topic) {
       topic.publish("closeWidget", widgetId);
     });
@@ -217,7 +254,7 @@ var TMap = {
    * @param callback: function
    *   回调函数
    * */
-  toScreen: function(params, callback) {
+  toScreen: function toScreen(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("toScreen", { params: params, callback: callback });
     });
@@ -228,7 +265,7 @@ var TMap = {
    *   x: number, required.
    *   y: number, required.
    * */
-  setMapCenter: function(params) {
+  setMapCenter: function setMapCenter(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("setMapCenter", params);
     });
@@ -240,7 +277,7 @@ var TMap = {
    *   缩放比例, 2000\4000\8000等
    * 若要同时设置地图中心点，请使用setMapCenterAndLevel
    * */
-  setMapScale: function(scale) {
+  setMapScale: function setMapScale(scale) {
     require(["dojo/topic"], function(topic) {
       topic.publish("setMapScale", scale);
     });
@@ -252,27 +289,27 @@ var TMap = {
    *   缩放等级, 一般从0开始
    * 若要同时设置地图中心点，请使用setMapCenterAndLevel
    * */
-  setMapLevel: function(level) {
+  setMapLevel: function setMapLevel(level) {
     require(["dojo/topic"], function(topic) {
       topic.publish("setMapLevel", level);
     });
   },
 
-  setMapCenterAndLevel: function(params) {
+  setMapCenterAndLevel: function setMapCenterAndLevel(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("setMapCenterAndLevel", params);
     });
   },
 
   /**地图显示范围回到初始状态*/
-  home: function() {
+  home: function home() {
     require(["dojo/topic"], function(topic) {
       topic.publish("home");
     });
   },
 
   /**设置地图显示范围*/
-  setMapExtent: function(params) {
+  setMapExtent: function setMapExtent(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("setMapExtent", params);
     });
@@ -283,7 +320,7 @@ var TMap = {
    * @param params: object, optional, 不传参则刷新整个地图
    *   labels: [string], required. 图层的配置名称
    * */
-  refreshMap: function(params) {
+  refreshMap: function refreshMap(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("refreshMap", params);
     });
@@ -298,7 +335,7 @@ var TMap = {
    * @param callback, function, optional.
    *   接受图片url的回调函数
    * */
-  exportMap: function(params, callback) {
+  exportMap: function exportMap(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("Print", { params: params, callback: callback });
     });
@@ -310,14 +347,14 @@ var TMap = {
    *   direction: string, optional. 双地图的排列方向. "horizontal"(水平) | "vertical"(垂直)
    *     默认为horizontal
    * */
-  showDoubleMap: function(params) {
+  showDoubleMap: function showDoubleMap(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showDoubleMap", params);
     });
   },
 
   /**关闭双地图对比模式*/
-  hideDoubleMap: function() {
+  hideDoubleMap: function hideDoubleMap() {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideDoubleMap");
     });
@@ -340,7 +377,7 @@ var TMap = {
    *     dynamic | ChengDiDynamic | feature, 默认为dynamic
    *   url: string, optional. 服务地址.
    * */
-  addDoubleMapLayer: function(params) {
+  addDoubleMapLayer: function addDoubleMapLayer(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addDoubleMapLayer", params);
     });
@@ -354,7 +391,7 @@ var TMap = {
    *     2代表右/下
    *   label: string, required. 服务名称.
    * */
-  removeDoubleMapLayer: function(params) {
+  removeDoubleMapLayer: function removeDoubleMapLayer(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("removeDoubleMapLayer", params);
     });
@@ -370,7 +407,7 @@ var TMap = {
    * @sample
    *   {label: "道路", ids: [3, 6, 7, 9]}
    * */
-  showLayer: function(params) {
+  showLayer: function showLayer(params) {
     require(["dojo/topic", "dojo/_base/lang"], function(topic, lang) {
       lang.mixin(params, { visible: true });
       topic.publish("setLayerVisibility", params);
@@ -381,7 +418,7 @@ var TMap = {
    * 隐藏已配置的图层
    * 参数同showLayer
    * */
-  hideLayer: function(params) {
+  hideLayer: function hideLayer(params) {
     require(["dojo/topic", "dojo/_base/lang"], function(topic, lang) {
       lang.mixin(params, { visible: false });
       topic.publish("setLayerVisibility", params);
@@ -396,7 +433,7 @@ var TMap = {
    *   type: string, optional. 服务类型, dynamic/wms/feature
    *     默认为"dynamic"
    * */
-  addLayer: function(params) {
+  addLayer: function addLayer(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addLayer", params);
     });
@@ -408,7 +445,7 @@ var TMap = {
    *   label: string, optional. 服务名称. 可以不传，如果传了就必须label和url全都一致才会删除
    *   url: string, required. 服务地址
    * */
-  removeLayer: function(params) {
+  removeLayer: function removeLayer(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("removeLayer", params);
     });
@@ -416,7 +453,7 @@ var TMap = {
 
   /**
    * 使用动态数据渲染静态图层, 事先配置好渲染器
-   * @param params: object, required.
+   * @param params: object, optional.
    *   name: string, required.
    *   defaultData: string/number, optional. 缺省的渲染数据值.
    *     如果设置了缺省值, 本次datas中未覆盖到的元素将使用缺省值赋值, 否则不更改原有值.
@@ -424,7 +461,7 @@ var TMap = {
    *     id: string, required. 静态图层中地理要素编号.
    *     data: string/number, required. 渲染用数据.
    * */
-  showDynamicRendererLayer: function(params) {
+  showDynamicRendererLayer: function showDynamicRendererLayer(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showDynamicRendererLayer", params);
     });
@@ -432,11 +469,8 @@ var TMap = {
 
   /**
    * 隐藏动态渲染图层
-   * @param params: object, optional.
-   * 不传参数隐藏所有动态渲染图层
-   *   name: string, required.
    * */
-  hideDynamicRendererLayer: function(params) {
+  hideDynamicRendererLayer: function hideDynamicRendererLayer(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideDynamicRendererLayer", params);
     });
@@ -444,7 +478,7 @@ var TMap = {
   /************************ Layer & Service END **************************/
 
   /************************ Overlay BEGIN **************************/
-  findOverlay: function(params) {
+  findOverlay: function findOverlay(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("findOverlay", params);
     });
@@ -517,14 +551,14 @@ var TMap = {
    *    '{"points":[{"id":"pt001","type":"police","geometry":{"x":121.465,"y":31.226},"symbol":{"type":"marker","style":"circle","color":"#0000FF","alpha":0.8,"size":16,"outlineColor":"#FFFFFF"}},{"id":"pt002","type":"police","geometry":{"x":121.467,"y":31.222},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":1,"size":16,"outlineColor":"#FFFFFF"}},{"id":"pt003","type":"police","geometry":{"x":121.456,"y":31.262},"symbol":{"type":"marker","style":"circle","color":"#FF0000","alpha":1,"size":16,"outlineColor":"#FFFFFF"}}]}'
    *
    * */
-  addPoints: function(params) {
+  addPoints: function addPoints(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addPoints", params);
     });
   },
 
   /**删除所有的点覆盖物*/
-  deleteAllPoints: function() {
+  deleteAllPoints: function deleteAllPoints() {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteAllPoints");
     });
@@ -559,14 +593,14 @@ var TMap = {
    * @sample
    *   '{"lines":[{"id":"wx001","type": "GPS", "geometry":{"paths":[[[-5699, -3025],[-4937, -2720],[-1685, -1112]]]},"symbol":{"style":"solid","color":"#00FF00","alpha": 0.8, "width":2}}]}'
    * */
-  addLines: function(params) {
+  addLines: function addLines(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addPolylines", params);
     });
   },
 
   /**删除所有的线覆盖物*/
-  deleteAllLines: function() {
+  deleteAllLines: function deleteAllLines() {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteAllPolylines");
     });
@@ -609,14 +643,14 @@ var TMap = {
    * @sample
    *   '{"polygons":[{"geometry":{"rings":[[[-1984.3789687579374,1680.1075268817203],[-1984.3789687579374,3188.2355431377528],[291.04224875116415,3188.2355431377528],[291.04224875116415,1680.1075268817203],[-1984.3789687579374,1680.1075268817203]]]},"symbol":{"color":[155,187,89],"alpha":0.5,"outline":{"color":[115,140,61],"width":1.5,"type":"esriSLS","style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"}}]}'
    * */
-  addPolygons: function(params) {
+  addPolygons: function addPolygons(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addPolygons", params);
     });
   },
 
   /**删除所有面覆盖物*/
-  deleteAllPolygons: function() {
+  deleteAllPolygons: function deleteAllPolygons() {
     require(["dojo/topic"], function(topic) {
       topic.publish("addAllPolygons");
     });
@@ -635,11 +669,15 @@ var TMap = {
    *       参见addPoints/addLines/addPolygons的geometry属性.
    *     symbol: object, optional. 符号.
    *       会覆盖defaultSymbol.
+   *     visible: boolean, optional.
+   *       默认为false
    *     buttons: [{}], optional. 弹出框的按钮.
    *       会覆盖defaultButtons.
    *  defaultSymbol: object, optional. 默认符号.
    *    参见addPoints/addLines/addPolygons的symbol属性.
    *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
+   *  defaultVisible: boolean, optional.
+   *    默认为false
    *  defaultButtons: [{}], optional. 弹出框的默认按钮.
    *    点击以后将调用js函数mapFeatureClicked(type, id)
    *    label: string, required. 按钮文本.
@@ -650,8 +688,17 @@ var TMap = {
    *    默认为false.
    *  defaultInfoTemplate: object, optional.配置infoTemplate需要显示的内容
    *    为空显示默认infoTemplate.
+   *  moveToolTip: boolean, optional.配置是否鼠标移入显示toolTip悬浮窗
+   *    为空显示默认infoTemplate.
+   *  toolTipContent: string, optional.配置toolTip悬浮窗内容
+   *    为空显示默认infoTemplate.
+   *  toolTipLabel: string, optional.配置toolTip需要显示的内容
+   *    为空显示默认infoTemplate.
+   *  showLabels:boolean,optional.是否显示文本.
+   *  defaultTextSymbol:object,optional.配置文本样式.
+   *  labelInfo:string,optional.标注内容，如：{字段}.
    * */
-  addOverlays: function(params) {
+  addOverlays: function addOverlays(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addOverlays", params);
     });
@@ -670,6 +717,8 @@ var TMap = {
    *     symbol: object, optional. 符号.
    *       会覆盖defaultSymbol.
    *  distance:number,optional.聚合距离,默认100.
+   *  zoom:number, optional. maxZoom,需要聚合显示的最大层级,地图小于等于该层级时,聚合显示.
+   *    默认值为地图最大zoom.为0或null时,聚合始终显示
    *  defaultSymbol: object, optional. 默认符号.
    *    参见addPoints/addLines/addPolygons的symbol属性.
    *    symbol类型必须符合几何类型(比如不能给线使用填充符号), 否则将使用默认符号.
@@ -677,7 +726,7 @@ var TMap = {
    *  showInfoTemplate:boolean,optional.是否显示弹窗.默认值false
    *    为空显示默认infoTemplate.
    * */
-  addOverlaysCluster: function(params) {
+  addOverlaysCluster: function addOverlaysCluster(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addOverlaysCluster", params);
     });
@@ -686,7 +735,7 @@ var TMap = {
    * 显示指定的覆盖物
    * 参数同deleteOverlays
    * */
-  showOverlaysCluster: function(params) {
+  showOverlaysCluster: function showOverlaysCluster(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showOverlaysCluster", params);
     });
@@ -696,9 +745,14 @@ var TMap = {
    * 隐藏指定的覆盖物
    * 参数同deleteOverlays
    * */
-  hideOverlaysCluster: function(params) {
+  hideOverlaysCluster: function hideOverlaysCluster(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideOverlaysCluster", params);
+    });
+  },
+  deleteAllOverlaysCluster: function deleteAllOverlaysCluster() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("deleteAllOverlaysCluster");
     });
   },
   /**
@@ -706,7 +760,7 @@ var TMap = {
    *  labels:[],required.聚合图层label字符串数组.
    *  distance:number,optional.聚合距离,默认100.
    * */
-  addClusters: function(params) {
+  addClusters: function addClusters(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addClusters", params);
     });
@@ -722,7 +776,7 @@ var TMap = {
    *   删除类型为"car"，且id是"沪A11111", "沪A22222"的覆盖物
    *     {types: ["car"], ids: ["沪A11111", "沪A22222"]}
    * */
-  deleteOverlays: function(params) {
+  deleteOverlays: function deleteOverlays(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteOverlays", params);
     });
@@ -732,8 +786,11 @@ var TMap = {
    * 显示指定的覆盖物
    * 参数同deleteOverlays
    * */
-  showOverlays: function(params) {
+  showOverlays: function showOverlays(params) {
     require(["dojo/topic"], function(topic) {
+      if (typeof params === "string") {
+        params = JSON.parse(params);
+      }
       topic.publish("showOverlays", params);
     });
   },
@@ -742,28 +799,28 @@ var TMap = {
    * 隐藏指定的覆盖物
    * 参数同deleteOverlays
    * */
-  hideOverlays: function(params) {
+  hideOverlays: function hideOverlays(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideOverlays", params);
     });
   },
 
   /**删除所有覆盖物*/
-  deleteAllOverlays: function() {
+  deleteAllOverlays: function deleteAllOverlays() {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteAllOverlays");
     });
   },
 
   /**显示所有覆盖物*/
-  showAllOverlays: function() {
+  showAllOverlays: function showAllOverlays() {
     require(["dojo/topic"], function(topic) {
       topic.publish("showAllOverlays");
     });
   },
 
   /**隐藏所有覆盖物*/
-  hideAllOverlays: function() {
+  hideAllOverlays: function hideAllOverlays() {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideAllOverlays");
     });
@@ -779,7 +836,7 @@ var TMap = {
    *     geometry: object. 参见addPoints/addLines/addPolygons的geometry属性.
    *     symbol: object. 参见addPoints/addLines/addPolygons的symbol属性.
    * */
-  getOverlays: function(params, callback) {
+  getOverlays: function getOverlays(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("getOverlays", { params: params, callback: callback });
     });
@@ -790,16 +847,29 @@ var TMap = {
    * @param params: object, required.
    *   drawType: string, required. 绘制类型
    *   symbol:object, optional 设置样式
+   *   isClear:boolean, optional 清除上一个画的geometry.默认值false
    * @param callback: function, optional.
+   * @param startcallback: function ,optional.开始绘制,鼠标第一次点击返回
    * */
-  startDrawOverlay: function(params, callback) {
+  startDrawOverlay: function startDrawOverlay(params, callback, startcallback) {
     require(["dojo/topic"], function(topic) {
-      topic.publish("startDrawOverlay", { params: params, callback: callback });
+      topic.publish("startDrawOverlay", {
+        params: params,
+        callback: callback,
+        startcallback: startcallback
+      });
+    });
+  },
+
+  /**停止绘制的覆盖物*/
+  stopDrawOverlay: function stopDrawOverlay() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("stopDrawOverlay");
     });
   },
 
   /**删除绘制的覆盖物*/
-  clearDrawOverlay: function() {
+  clearDrawOverlay: function clearDrawOverlay() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearDrawOverlay");
     });
@@ -826,14 +896,17 @@ var TMap = {
    *       默认为100
    *     minValue: number, optional. 在颜色渐变中分配初始颜色的像素强度值, 低于此数字的值也将分配渐变色的初始色
    *       默认为0
+   *     zoom:number, optional. 需要显示热力图层级,地图小于等于该层级时,显示热力图. 大于此层级时，显示renderer中配置的图标.
+   *       默认值为地图最大zoom
+   *     renderer:object, optional. 设置图层renderer.
    * */
-  addHeatMap: function(params) {
+  addHeatMap: function addHeatMap(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addHeatMap", params);
     });
   },
 
-  deleteHeatMap: function() {
+  deleteHeatMap: function deleteHeatMap() {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteHeatMap");
     });
@@ -868,23 +941,22 @@ var TMap = {
    *     0或空代表不做缓冲
    * @param overlays: [], optional.需要查询的addoverlays动态点.
    * @param callback: function, optional.
-   * @return
-   *   回调函数返回: array
+   * @callback
    *     type: 图层名称
    *     id: 要素编号
    *     length: 线要素的长度, 米
    *     area: 面要素的面积, 平方米
-   *     [{type: "快速路", id: "111", length: 183.12}]
    * @sample map.geometrySearch({drawType: "polygon"}, function(results){});
    * @sample map.geometrySearch({drawType: "polyline", bufferDistance: 100}, function(results){});
+   * @sample [{type: "快速路", id: "111", length: 183.12}]
    * */
-  geometrySearch: function(params, callback) {
+  geometrySearch: function geometrySearch(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("geometrySearch", { params: params, callback: callback });
     });
   },
   /** 清除geometrySearch查询结果 **/
-  cleargeometrySearch: function() {
+  cleargeometrySearch: function cleargeometrySearch() {
     require(["dojo/topic"], function(topic) {
       topic.publish("cleargeometrySearch");
     });
@@ -903,12 +975,14 @@ var TMap = {
    *    当layers和overlays为空则搜索当前可见图层.
    * @param callback: function, optional.
    * @return
-   *   回调函数返回: array
    *     type: 动态点位类型.
    *     label: 静态图层名称.
    *     id: 要素编号
    * */
-  backgroundGeometrySearch: function(params, callback) {
+  backgroundGeometrySearch: function backgroundGeometrySearch(
+    params,
+    callback
+  ) {
     require(["dojo/topic"], function(topic) {
       topic.publish("backgroundGeometrySearch", {
         params: params,
@@ -917,7 +991,7 @@ var TMap = {
     });
   },
   /** 清除backgroundGeometrySearch查询结果 **/
-  clearBackgroundSearchResult: function() {
+  clearBackgroundSearchResult: function clearBackgroundSearchResult() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearBackgroundSearchResult");
     });
@@ -980,13 +1054,13 @@ var TMap = {
    *     tLevel: 技术等级
    *     aLevel: 行政等级
    * */
-  searchRoad: function(params, callback) {
+  searchRoad: function searchRoad(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("searchRoad", { params: params, callback: callback });
     });
   },
 
-  clearSearchRoadResult: function() {
+  clearSearchRoadResult: function clearSearchRoadResult() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearSearchRoadResult");
     });
@@ -1005,13 +1079,13 @@ var TMap = {
    *     id: 编号
    *     name: 泊位名称
    * */
-  searchBerth: function(params, callback) {
+  searchBerth: function searchBerth(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("searchBerth", { params: params, callback: callback });
     });
   },
 
-  clearSearchBerth: function() {
+  clearSearchBerth: function clearSearchBerth() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearSearchBerth");
     });
@@ -1030,13 +1104,13 @@ var TMap = {
    *     id: 编号
    *     name: 岸线名称
    * */
-  searchShoreline: function(params, callback) {
+  searchShoreline: function searchShoreline(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("searchShoreline", { params: params, callback: callback });
     });
   },
 
-  clearSearchShoreline: function() {
+  clearSearchShoreline: function clearSearchShoreline() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearSearchShoreline");
     });
@@ -1060,7 +1134,7 @@ var TMap = {
    *     默认为false.
    * @param callback: function, optional, 返回搜索结果的回调函数.
    * */
-  findFeature: function(params, callback) {
+  findFeature: function findFeature(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("findFeature", { params: params, callback: callback });
     });
@@ -1075,7 +1149,7 @@ var TMap = {
    *   ids: [string], optional. 要素id.
    *     可以高亮多个id.
    * */
-  startHighlightFeature: function(params) {
+  startHighlightFeature: function startHighlightFeature(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("startHighlightFeature", params);
     });
@@ -1091,7 +1165,7 @@ var TMap = {
    *     可以高亮多个id.
    *     不传ids或者传空数组表示停止高亮所有要素
    * */
-  stopHighlightFeature: function(params) {
+  stopHighlightFeature: function stopHighlightFeature(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("stopHighlightFeature", params);
     });
@@ -1107,9 +1181,149 @@ var TMap = {
    *     className: string, 分类名称.
    *     count: int. 记录数.
    * */
-  multiSearch: function(params, callback) {
+  multiSearch: function multiSearch(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("multiSearch", { params: params, callback: callback });
+    });
+  },
+
+  /***
+   *
+   * @param params: object, required.
+   *   drawType: string, required. 是否由用户绘制几何图层.
+   *     default: null
+   *   geometry: object, required. 搜索中心, 可以为点、线、面
+   *     点：
+   *       {"x" : -118.15, "y" : 33.80, "spatialReference" : {"wkid" : 4326}}
+   *     线：
+   *       {
+   *         "paths" : [[[-97.06138,32.837],[-97.06133,32.836],[-97.06124,32.834],[-97.06127,32.832]],
+   *                    [[-97.06326,32.759],[-97.06298,32.755]]],
+   *         "spatialReference" : {"wkid" : 4326}
+   *       }
+   *     面：
+   *       {
+   *         "rings" : [[[-97.06138,32.837],[-97.06133,32.836],[-97.06124,32.834],[-97.06127,32.832],
+   *                    [-97.06138,32.837]],[[-97.06326,32.759],[-97.06298,32.755],[-97.06153,32.749],
+   *                    [-97.06326,32.759]]],
+   *         "spatialReference" : {"wkid" : 4326}
+   *       }
+   *   radius: number, 搜索半径
+   *     default: 0, 不进行缓冲
+   *   showGeometry: boolean, 是否显示原始geometry
+   *     default: true
+   *   showBuffer: boolean, radius可用时, 是否显示搜索缓冲区
+   *     default: true
+   *   showResult: boolean, 是否显示搜索结果
+   *     default: true
+   *   contents: [object], 搜索内容
+   *     class: string, "poi" | "overlay" | "fbd"
+   *     types: string, 不指定时搜索此类型下所有要素
+   * @param callback: function, required.
+   *   回调函数
+   *   可使用promise或回调函数获取返回结果
+   * @example
+   *
+   {
+    center: [121.441, 31.159],
+    radius: 500,
+    showResult: true,
+    contents: [
+      {
+        class: "poi",
+        types: "路口名,道路名"
+      },
+      {
+        class: "overlay",
+        types: "police"
+      },
+      {
+        class: "fbd"
+        types: "城市道路,快速路"
+      }
+    ]
+   }
+   *
+   * @callback: 回调函数返回
+   {
+      results: [
+        {
+          class: "poi",
+          result: [
+         id: "B0FFGQ9Q9Y",
+            name: "天目中路",
+            location: [121.455896, 31.247646]
+            type: "地名地址信息;交通地名;道路名"
+          ]
+        },
+       {
+         class: "fbd",
+         result: [
+           {
+            id: "21252416912",
+            name: "武康路(华山路->安福路)",
+            location: [121.44019983601686, 31.213175770283573],
+            type: "地面道路"
+          },
+          {
+            id: "61191954001",
+            name: "外圈吴中路下匝道至吴中路上匝道",
+            location: [121.42395568881847, 31.185519213177798],
+            type: "快速路"
+          }
+         ]
+       },
+       {
+         class: "overlay",
+         result: [
+           {
+            id: "",
+            name: "",
+            location: [],
+            type: "police"
+          }
+         ]
+       }
+      ]
+    }
+   */
+  mixinSearch: function mixinSearch() {
+    var _ref =
+        arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref$drawType = _ref.drawType,
+      drawType = _ref$drawType === undefined ? null : _ref$drawType,
+      geometry = _ref.geometry,
+      _ref$radius = _ref.radius,
+      radius = _ref$radius === undefined ? 0 : _ref$radius,
+      _ref$showGeometry = _ref.showGeometry,
+      showGeometry = _ref$showGeometry === undefined ? true : _ref$showGeometry,
+      _ref$showBuffer = _ref.showBuffer,
+      showBuffer = _ref$showBuffer === undefined ? true : _ref$showBuffer,
+      _ref$showResult = _ref.showResult,
+      showResult = _ref$showResult === undefined ? true : _ref$showResult,
+      contents = _ref.contents;
+
+    var callback = arguments[1];
+
+    require(["dojo/topic"], function(topic) {
+      topic.publish("mixinSearch", {
+        params: {
+          drawType: drawType,
+          geometry: geometry,
+          radius: radius,
+          showGeometry: showGeometry,
+          showBuffer: showBuffer,
+          showResult: showResult,
+          contents: contents
+        },
+        callback: callback
+      });
+    });
+  },
+
+  clearMixinSearch: function clearMixinSearch() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearMixinSearch");
     });
   },
 
@@ -1123,7 +1337,7 @@ var TMap = {
    *     id: 编号, 格式为"图层名_xxxx".
    *     name: 名称.
    * */
-  getMultiSearchResult: function(params, callback) {
+  getMultiSearchResult: function getMultiSearchResult(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("getMultiSearchResult", {
         params: params,
@@ -1140,7 +1354,7 @@ var TMap = {
    *   showIndex: boolean, optional. 是否在显示要素时使用带序号的图标. 默认为true.
    *   clearExists: boolean, optional. 是否清除已显示的要素. 默认为true.
    * */
-  showMultiSearchResult: function(params) {
+  showMultiSearchResult: function showMultiSearchResult(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showMultiSearchResult", params);
     });
@@ -1151,7 +1365,7 @@ var TMap = {
    * @param params: object, required.
    *   featureId: string, required. 需要高亮的id.
    * */
-  highlightMultiSearchResult: function(params) {
+  highlightMultiSearchResult: function highlightMultiSearchResult(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("highlightMultiSearchResult", params);
     });
@@ -1160,9 +1374,26 @@ var TMap = {
   /**
    * 清除搜索结果
    * */
-  clearMultiSearchResult: function() {
+  clearMultiSearchResult: function clearMultiSearchResult() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMultiSearchResult");
+    });
+  },
+
+  /**
+   * 将点位定位到发布段上
+   * @param params: object, required.
+   *   x: number, required.
+   *   y: number, required.
+   * @param callback: 回调函数
+   *   results: array of object
+   *     id: string
+   *     roadName: string
+   *     layerName: string
+   * */
+  locateInGeometry: function locateInGeometry(params, callback) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("locateInGeometry", { params: params, callback: callback });
     });
   },
   /************************ Search END **************************/
@@ -1176,7 +1407,7 @@ var TMap = {
    *     in: int, required. 抵达客流.
    *     out: int, required. 出发客流.
    * */
-  showRailwayStationFlow: function(params) {
+  showRailwayStationFlow: function showRailwayStationFlow(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showRailwayStationFlow", params);
     });
@@ -1209,7 +1440,7 @@ var TMap = {
    * @sample
    *   {"trackPoints":[{"x": 104.023, "y": 30.577, "isHighlight": true, "fields": {"经过时间": "2017/11/24 08:00:00","编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}, {"x": 104.002, "y": 30.565, "fields":{"经过时间": "2017/11/24 08:00:05"}}, {"x": 103.969, "y": 30.56, "fields":{"经过时间": "2017/11/24 08:00:10"}}, {"x": 103.907, "y": 30.536, "fields":{"经过时间": "2017/11/24 08:00:15"}}], "autoStart": true, "loop": true, "showTrackPoints": true}
    * */
-  startTrackPlayback: function(params) {
+  startTrackPlayback: function startTrackPlayback(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("startTrackPlayback", params);
     });
@@ -1228,20 +1459,20 @@ var TMap = {
    *   defaultInfoTemplate: object, optional. 根据trackPoints中的fields配置infoTemplate需要显示的内容.
    *    为空显示默认infoTemplate.
    * */
-  drawTrackPlayback: function(params) {
+  drawTrackPlayback: function drawTrackPlayback(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("drawTrackPlayback", params);
     });
   },
   /**停止轨迹回放, 并清除轨迹*/
-  stopTrackPlayback: function() {
+  stopTrackPlayback: function stopTrackPlayback() {
     require(["dojo/topic"], function(topic) {
       topic.publish("stopTrackPlayback");
     });
   },
 
   /**清除路线*/
-  clearRouteByCross: function() {
+  clearRouteByCross: function clearRouteByCross() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearRouteByCross");
     });
@@ -1252,7 +1483,7 @@ var TMap = {
    * @param params: object, required.
    *   crossIds: [string], 路线经过的路口列表
    * */
-  showRouteByCross: function(params) {
+  showRouteByCross: function showRouteByCross(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showRouteByCross", params);
     });
@@ -1263,7 +1494,7 @@ var TMap = {
    * @param params: string, required.
    *   按钮名, button的title属性
    * */
-  showTopToolbarButton: function(params) {
+  showTopToolbarButton: function showTopToolbarButton(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showTopToolbarButton", params);
     });
@@ -1274,21 +1505,21 @@ var TMap = {
    * @param params: string, required.
    *   按钮名, button的title属性
    * */
-  hideTopToolbarButton: function(params) {
+  hideTopToolbarButton: function hideTopToolbarButton(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideTopToolbarButton", params);
     });
   },
 
   /**显示顶部工具栏*/
-  showTopToolbar: function() {
+  showTopToolbar: function showTopToolbar() {
     require(["dojo/topic"], function(topic) {
       topic.publish("showTopToolbar");
     });
   },
 
   /**隐藏顶部工具栏*/
-  hideTopToolbar: function() {
+  hideTopToolbar: function hideTopToolbar() {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideTopToolbar");
     });
@@ -1299,7 +1530,7 @@ var TMap = {
    * @param params: string, required.
    *   按钮名, button的title属性
    * */
-  showBottomToolbarButton: function(params) {
+  showBottomToolbarButton: function showBottomToolbarButton(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showBottomToolbarButton", params);
     });
@@ -1310,21 +1541,21 @@ var TMap = {
    * @param params: string, required.
    *   按钮名, button的title属性
    * */
-  hideBottomToolbarButton: function(params) {
+  hideBottomToolbarButton: function hideBottomToolbarButton(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideBottomToolbarButton", params);
     });
   },
 
   /**显示底部工具栏*/
-  showBottomToolbar: function() {
+  showBottomToolbar: function showBottomToolbar() {
     require(["dojo/topic"], function(topic) {
       topic.publish("showBottomToolbar");
     });
   },
 
   /**隐藏底部工具栏*/
-  hideBottomToolbar: function() {
+  hideBottomToolbar: function hideBottomToolbar() {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideBottomToolbar");
     });
@@ -1337,7 +1568,7 @@ var TMap = {
    *     lineName: string, required. 线路名称
    *     flow: number, required. 客运量
    * */
-  setBusLineFlow: function(params) {
+  setBusLineFlow: function setBusLineFlow(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("setBusLineFlow", params);
     });
@@ -1350,7 +1581,7 @@ var TMap = {
    *     lineName: 线路名称
    *     flow: 客运量
    * */
-  setMetroLineFlow: function(params) {
+  setMetroLineFlow: function setMetroLineFlow(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("setMetroLineFlow", params);
     });
@@ -1370,8 +1601,9 @@ var TMap = {
    *       x: number
    *       y: number
    *     flow: number, required. O分析时为D点流量, D分析时为O点流量
+   *     opposite:boolean, optional.设置是否双向.
    * */
-  showOD: function(params) {
+  showOD: function showOD(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showOD", params);
     });
@@ -1381,9 +1613,14 @@ var TMap = {
    * @param params: string, required.
    *  sourceStationId值,站点id值
    * */
-  showMigrate: function(params) {
+  showMigrate: function showMigrate(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showMigrate", params);
+    });
+  },
+  showMigrateData: function showMigrateData(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showMigrateData", params);
     });
   },
   /**
@@ -1392,7 +1629,7 @@ var TMap = {
    *   label: string, required. 需要显示柱状图的图层
    *   id: string, required. 需要显示柱状图的点,为"*"时,显示所有点的柱状图
    * */
-  showChartInfo: function(params) {
+  showChartInfo: function showChartInfo(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showChartInfo", params);
     });
@@ -1406,7 +1643,7 @@ var TMap = {
    *   ids: [string], optional. 要素id.
    *     可以搜索1个id.
    * */
-  findAndToolTip: function(params) {
+  findAndToolTip: function findAndToolTip(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("findAndToolTip", params);
     });
@@ -1415,52 +1652,73 @@ var TMap = {
   /**
    * 设置用户信息
    * */
-  setUserInfo: function(params) {
+  setUserInfo: function setUserInfo(params) {
     window.userInfo = params;
   },
 
   /***/
-  selectFeature: function(type) {
+  selectFeature: function selectFeature(type) {
     require(["dojo/topic"], function(topic) {
       topic.publish("selectFeature", type);
     });
   },
 
-  clearSelectedFeature: function(params) {
+  clearSelectedFeature: function clearSelectedFeature(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearSelectedFeature", params);
     });
   },
 
-  showSelectedFeatures: function(params) {
+  showSelectedFeatures: function showSelectedFeatures(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showSelectedFeatures", params);
     });
   },
 
   //显示辖区
-  showJurisdiction: function() {
+  showJurisdiction: function showJurisdiction() {
     require(["dojo/topic"], function(topic) {
       topic.publish("showJurisdiction");
     });
   },
 
   //隐藏辖区
-  hideJurisdiction: function() {
+  hideJurisdiction: function hideJurisdiction() {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideJurisdiction");
     });
   },
-
+  /**
+   * 显示街道
+   * @param params: object, optional.
+   *   maxZoom: number, optional. 显示的最大层级
+   *   minZoom: number, optional. 显示的最小层级
+   * */
+  showStreet: function showStreet(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showStreet", params);
+    });
+  },
+  locateStreet: function locateStreet(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("locateStreet", params);
+    });
+  },
+  //隐藏街道
+  hideStreet: function hideStreet() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideStreet");
+    });
+  },
   //显示片区
-  showArea: function() {
+  showArea: function showArea() {
     require(["dojo/topic"], function(topic) {
       topic.publish("showArea");
     });
   },
 
   //隐藏片区
-  hideArea: function() {
+  hideArea: function hideArea() {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideArea");
     });
@@ -1471,26 +1729,26 @@ var TMap = {
    * 显示警力统计并传入警力数量
    * [{"id":"1","count":35},{"id":"2","count":78},{"id":"3","count":101},{"id":"4","count":76},{"id":"5","count":59},{"id":"6","count":50},{"id":"7","count":68},{"id":"8","count":62},{"id":"9","count":49},{"id":"10","count":54},{"id":"11","count":87}]
    * */
-  showPoliceCount: function(params) {
+  showPoliceCount: function showPoliceCount(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showPoliceCount", params);
     });
   },
 
   //隐藏警力统计
-  hidePoliceCount: function() {
+  hidePoliceCount: function hidePoliceCount() {
     require(["dojo/topic"], function(topic) {
       topic.publish("hidePoliceCount");
     });
   },
 
-  showDistrictMask: function() {
+  showDistrictMask: function showDistrictMask() {
     require(["dojo/topic"], function(topic) {
       topic.publish("showDistrictMask");
     });
   },
 
-  hideDistrictMask: function() {
+  hideDistrictMask: function hideDistrictMask() {
     require(["dojo/topic"], function(topic) {
       topic.publish("hideDistrictMask");
     });
@@ -1505,8 +1763,9 @@ var TMap = {
    *   wayPoints: string. 途径点字符串x,y,以;隔开
    *   bufferDistance: number. 缓冲半径. 默认为0, 不缓冲.
    *   clearPrevResults: boolean. 是否清除上一次路径分析结果. 默认为true
+   *   showIcon:boolean.是否显示起点终点途径点图标.默认为true.
    * */
-  routeSearch: function(params) {
+  routeSearch: function routeSearch(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("routeSearch", params);
     });
@@ -1514,7 +1773,7 @@ var TMap = {
   /**
    * 清除路径分析结果
    * */
-  clearRouteSearch: function() {
+  clearRouteSearch: function clearRouteSearch() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearRouteSearch");
     });
@@ -1538,7 +1797,7 @@ var TMap = {
    *      buffer: string, optional.每个电子围栏预警缓冲区距离,覆盖buffers.
    * @param callback: object required,返回预警信息.
    * **/
-  MonitorControl: function(params, callback) {
+  MonitorControl: function MonitorControl(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("MonitorControl", { params: params, callback: callback });
     });
@@ -1560,7 +1819,7 @@ var TMap = {
    *    highlight:boolean, optional. 是否闪烁,默认闪烁.
    * @param callback: object required,返回预警信息.
    * **/
-  MonitorWarn: function(params, callback) {
+  MonitorWarn: function MonitorWarn(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("MonitorWarn", { params: params, callback: callback });
     });
@@ -1568,7 +1827,7 @@ var TMap = {
   /**
    * 清除布控预警效果
    * **/
-  clearMonitorControl: function() {
+  clearMonitorControl: function clearMonitorControl() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMonitorControl");
     });
@@ -1580,7 +1839,7 @@ var TMap = {
    *    id: string,required,布控区域id值.用于删除id,若地图上存在该id,则覆盖.
    *    buffers:[Number], required,预警缓冲区距离,单位米,从最里面开始,由红,橙,黄,绿,如果单色预警就传一个值即可
    * **/
-  showMonitorArea: function(params) {
+  showMonitorArea: function showMonitorArea(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showMonitorArea", params);
     });
@@ -1589,7 +1848,7 @@ var TMap = {
    * 隐藏布控预警区域
    * *  @param params: [id],字符串数组 optional布控区域id值,删除该id对应的区域,为空这清除全部.
    * **/
-  clearMonitorArea: function(params) {
+  clearMonitorArea: function clearMonitorArea(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMonitorArea", params);
     });
@@ -1607,7 +1866,7 @@ var TMap = {
    *        x:number, required.坐标x.
    *        y:number, required.坐标y.
    * **/
-  addGatherArea: function(params) {
+  addGatherArea: function addGatherArea(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addGatherArea", params);
     });
@@ -1616,7 +1875,7 @@ var TMap = {
    * 删除车辆聚合区域
    * *  @param params: [id],字符串数组 optional车辆聚合区域id值,删除该id对应的区域,为空这清除全部.
    * **/
-  deleteGatherArea: function(params) {
+  deleteGatherArea: function deleteGatherArea(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteGatherArea", params);
     });
@@ -1630,7 +1889,7 @@ var TMap = {
    *     context:string required.弹窗内容,可以传html元素
    *     offset:number optional.向上偏移的像素.默认值30
    * */
-  showToolTip: function(params) {
+  showToolTip: function showToolTip(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showToolTip", params);
     });
@@ -1656,7 +1915,7 @@ var TMap = {
    *        x:number required.坐标x,
    *        y:number required.坐标y,
    * */
-  trackException: function(params) {
+  trackException: function trackException(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("trackException", params);
     });
@@ -1665,7 +1924,7 @@ var TMap = {
    * 删除车辆轨迹,异常停留区域
    * *  @param params: [id],字符串数组 optional车辆聚合区域id值,删除该id对应的区域,为空这清除全部.
    * **/
-  cleartrackException: function(params) {
+  cleartrackException: function cleartrackException(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("cleartrackException", params);
     });
@@ -1678,7 +1937,7 @@ var TMap = {
    *        id:number required.图层id,
    *        expression:string required.条件.
    * */
-  LayerDefinition: function(params) {
+  LayerDefinition: function LayerDefinition(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("LayerDefinition", params);
     });
@@ -1708,20 +1967,25 @@ var TMap = {
    * @sample
    *   {"trackPoints":[{"x": 104.023, "y": 30.577, "isHighlight": true, "fields": {"经过时间": "2017/11/24 08:00:00","编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}, {"x": 104.002, "y": 30.565, "fields":{"经过时间": "2017/11/24 08:00:05"}}, {"x": 103.969, "y": 30.56, "fields":{"经过时间": "2017/11/24 08:00:10"}}, {"x": 103.907, "y": 30.536, "fields":{"经过时间": "2017/11/24 08:00:15"}}], "autoStart": true, "loop": true, "showTrackPoints": true}
    * */
-  startTrackCompare: function(params) {
+  startTrackCompare: function startTrackCompare(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("startTrackCompare", params);
     });
   },
   /**停止轨迹回放, 并清除轨迹*/
-  stopTrackCompare: function() {
+  stopTrackCompare: function stopTrackCompare() {
     require(["dojo/topic"], function(topic) {
       topic.publish("stopTrackCompare");
     });
   },
-  showMigrateCharts: function(params) {
+  showMigrateCharts: function showMigrateCharts(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("showMigrateCharts", params);
+    });
+  },
+  hideMigrateCharts: function hideMigrateCharts(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideMigrateCharts", params);
     });
   },
   /**
@@ -1743,15 +2007,56 @@ var TMap = {
    *     isZoom:boolean,optional.是否层级变化,默认为false.
    *     symbol:object, optional. 车辆符号.
    * */
-  startMonitorTrack: function(params) {
+  startMonitorTrack: function startMonitorTrack(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("startMonitorTrack", params);
     });
   },
   /**停止轨迹回放, 并清除轨迹*/
-  clearMonitorTrack: function(params) {
+  clearMonitorTrack: function clearMonitorTrack(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearMonitorTrack", params);
+    });
+  },
+  /**
+   *车辆轨迹路径查询
+   * *   @param params: string json字符串, required
+   *     id:string required.编号id.
+   *     monitors:[object] required.电子围栏集合
+   *        kkpoints[object] required.卡口坐标集合
+   *          x:number required.坐标x,
+   *          y:number required.坐标y,
+   *        level:number required.级别1-3.1级为最内层.3级最外层.
+   *     stops:[object] optional.设置多个途径点.
+   *        stop:[object] required. 设置途径点集合.
+   *          x:number required.坐标x,
+   *          y:number required.坐标y,
+   *     trackPoints:[object] required.轨迹线坐标集合.
+   *        x:number required.坐标x,
+   *        y:number required.坐标y,
+   *        roadids:[string] required.相关的道路id.
+   *        fields:object optional.属性字段.
+   *     autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
+   *     loop: boolean, optional. 是否循环播放. 默认为true.
+   *     repeatCount:number,optional.循环播发次数.默认值为0.无线循环.
+   *     isCenter:boolean,optional.是否定位到中点,默认为false.
+   *     isZoom:boolean,optional.是否层级变化,默认为false.
+   *     symbol:object, optional. 车辆符号.
+   * */
+  RouteByRoadSearch: function RouteByRoadSearch(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("RouteByRoadSearch", params);
+    });
+  },
+  //清除路径查询
+  clearRouteByRoadSearch: function clearRouteByRoadSearch(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearRouteByRoadSearch", params);
+    });
+  },
+  startRangeSearch: function startRangeSearch(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("startRangeSearch", params);
     });
   }
 };

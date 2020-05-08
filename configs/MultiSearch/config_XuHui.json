@@ -1,0 +1,32 @@
+{
+  "poi": {
+    "url": "http://15.75.0.255:25001/as/search/poi",
+    "ak": "ec85d3648154874552835438ac6a02b2"
+  },
+  "fbd": [
+    {
+      "type": "地面道路",
+      "source": "configs/DynamicIssuesect/XuHui/DMZG2.json",
+      "idField": "BM_CODE",
+      "name": "{路名}({起点交}->{终点交})"
+    },
+    {
+      "type": "地面道路",
+      "source": "configs/DynamicIssuesect/XuHui/DMCG2.json",
+      "idField": "BM_CODE",
+      "name": "{路名}({起点交}->{终点交})"
+    },
+    {
+      "type": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/KSL3.json",
+      "idField": "BM_CODE",
+      "name": "{DES}"
+    },
+    {
+      "type": "快速路",
+      "source": "configs/DynamicIssuesect/XuHui/ZD3.json",
+      "idField": "BM_CODE",
+      "name": "{DES}"
+    }
+  ]
+}

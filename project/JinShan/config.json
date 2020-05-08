@@ -25,7 +25,8 @@
     "basemaps": [
       {
         "label": "矢量图",
-        "url": "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_base/MapServer",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_base/MapServer",
         "type": "tiled",
         "visible": true
       }
@@ -33,7 +34,8 @@
     "operationallayers": [
       {
         "label": "信号机",
-        "url": "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_device/MapServer/0",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_device/MapServer/0",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -50,7 +52,8 @@
       },
       {
         "label": "诱导屏",
-        "url": "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_device/MapServer/1",
+        "url":
+          "http://{gisServer}/arcgis/rest/services/JinShan/JinShan_device/MapServer/1",
         "type": "feature",
         "visible": false,
         "outFields": ["*"],
@@ -74,7 +77,8 @@
       "slider": false
     }
   },
-  "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
   "gisServer": "172.30.30.1:6080",
   "widgetOnScreen": {
     "widgets": [
@@ -114,8 +118,8 @@
         "position": {
           "bottom": 10,
           "width": "100%",
-          "left":0,
-          "right":0
+          "left": 0,
+          "right": 0
         },
         "id": "BottomToolbarWidget"
       },
@@ -140,6 +144,16 @@
         "uri": "widgets/FindFeature/Widget",
         "version": "2.4",
         "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/DrawOverlay/Widget",
+        "version": "2.4",
+        "id": "DrawOverlayWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
       }
     ]
   }

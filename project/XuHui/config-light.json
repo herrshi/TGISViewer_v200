@@ -34,6 +34,12 @@
         "url": "http://{gisServer}:25888/v3/tile?z=${level}&x=${col}&y=${row}",
         "type": "webTiled",
         "visible": true
+      },
+      {
+        "label": "高精地图",
+        "url": "http://15.75.10.74/mapcache/gmaps/futurecity_shxh_mars_gray@g_hd/{level}/{col}/{row}.png",
+        "type": "webTiled",
+        "visible": true
       }
     ],
     "operationallayers": [
@@ -43,7 +49,6 @@
         "type": "webTiled",
         "visible": false
       }
-
     ],
     "mapOptions": {
       "center": [121.441, 31.159],
@@ -51,7 +56,9 @@
       "showLabels": true,
       "logo": false,
       "nav": false,
-      "slider": true
+      "slider": false,
+      "minZoom": 10,
+      "maxZoom": 20
     }
   },
   "geometryService": "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
@@ -173,6 +180,12 @@
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/MultiSearch_XuHui/Widget",
+        "config": "configs/MultiSearch/config_XuHui.json",
+        "version": "2.4",
+        "id": "MultiSearchWidget"
       }
     ]
   }

@@ -1,0 +1,52 @@
+.esriPopup .contentPane div{
+  border: 1px solid #3872c4;
+  background-color: #ecf2fc;
+  min-width: 30px;
+  text-align: left;
+  padding: 8px 15px 8px 15px;
+  line-height: 18px;
+  font-size: 14px;
+  pointer-events: none;
+  font-family: "黑体";
+  border-radius: 4px;
+  color:#000000;
+}
+/****popup******/
+.esriPopup .contentPane {
+  padding: inherit !important;
+  overflow: hidden !important;
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: #ffffff;
+}
+.esriPopup .sizer {
+  /*width: auto;*/
+  /*min-width: 270px;*/
+}
+.esriPopup .titlePane {
+  padding-left: 0 !important;
+  background-color: inherit !important;
+  color: #ecf2fc !important;
+  display: none;
+}
+.esriPopup .outerPointer,.esriPopup .pointer {
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  background-color: #ecf2fc !important;
+  z-index: 99 !important;
+  border: 1px solid #3872c4;
+}
+.esriPopup .outerPointer.top, .esriPopup .pointer.top{
+  border-width: 1px 0 0 1px;
+}
+.esriPopup .outerPointer.bottom, .esriPopup .pointer.bottom{
+  border-width: 0 1px 1px 0;
+}
+.esriPopup .outerPointer.left, .esriPopup .pointer.left{
+  border-width: 0 0 1px 1px;
+}
+.esriPopup .outerPointer.right, .esriPopup .pointer.right{
+  border-width: 1px 1px 0 0;
+}
+.esriPopup .actionsPane {
+  display: none !important;
+}

@@ -51,8 +51,8 @@ define([
       //     Optional. Whether or not the map is from an ArcGIS.com webmap. Default is false.
       //   spatialReference:  SpatialReference?
       //     Optional. Spatial reference for all graphics in the layer. This has to match the spatial reference of the map. Default is 102100. Omit this if the map uses basemaps in web mercator.
-
       this._clusterTolerance = options.distance || 50;
+      this._clusterToleranceTemp = options.distanceTemp || 50;
       this._clusterData = options.data || [];
       this._clusters = [];
       this._clusterLabelColor = options.labelColor || "#000";
@@ -392,7 +392,8 @@ define([
         type: p.type,
         x: p.x,
         y: p.y,
-        attributes: clusterattr
+        attributes: clusterattr,
+        infoTemplate: p.infoTemplate
       };
       this._clusters.push(cluster);
     },
@@ -406,7 +407,8 @@ define([
 
     _showCluster: function(c) {
       var point = new Point(c.x, c.y, this._sr);
-      var g = new Graphic(point, null, c.attributes);
+      var infoTemplate = c.infoTemplate ? c.infoTemplate : this._singleTemplate;
+      var g = new Graphic(point, null, c.attributes, infoTemplate);
       g.type = this._type;
       // code below is used to not label clusters with a single point
 
@@ -436,7 +438,7 @@ define([
             new Point(p.x, p.y, this._sr),
             this._singleSym,
             p.attributes,
-            this._singleTemplate
+            p.infoTemplate ? p.infoTemplate : this._singleTemplate
           );
           this._singles.push(g);
           if (this._showSingles) {

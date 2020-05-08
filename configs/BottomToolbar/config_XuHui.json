@@ -1,0 +1,49 @@
+{
+  "buttons": [
+    {
+      "label": "危化品",
+      "image": "images/buttons/xuhui/whp_btn.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "有限空间",
+      "image": "images/buttons/xuhui/yxkj_btn.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "特种设备",
+      "image": "images/buttons/xuhui/tzsb_btn.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "建筑工地",
+      "image": "images/buttons/xuhui/jzsg_btn.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "生态环境",
+      "image": "images/buttons/xuhui/sthj_btn.png",
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

@@ -81,7 +81,7 @@ define([
     _height: null,
     _offsetX: null,
     _offsetY: null,
-    _offset: 30,
+    _offset: 12,
     _place: "right",
     _iconOffsetX: 0,
     _iconOffsetY: 0,
@@ -102,7 +102,13 @@ define([
     _first: true,
     _isClick: true,
     _clickhand: null,
+    _searchField: null,
     _tooltipNodes: [],
+    _subLayers: [],
+    _sublayerids: [],
+    _infoWidth: 270,
+    _infoHeight: 30,
+    _zoom: null,
     postCreate: function() {
       this.inherited(arguments);
 
@@ -122,13 +128,14 @@ define([
         lang.hitch(this, this._onTopicHandler_clearToolTip)
       );
     },
+    startup: function() {},
     _onTopicHandler_findAndToolTip: function(params) {
-      if (this._clickhand) {
-        this._clickhand = this.map.on(
-          "click",
-          lang.hitch(this, this._onLayerClick)
-        );
-      }
+      // if (!this._clickhand) {
+      //   this._clickhand = this.map.on(
+      //     "click",
+      //     lang.hitch(this, this._onLayerClick)
+      //   );
+      // }
       this._mapPoint = null;
       this._FindIds = [];
       this._LayerScale = [];
@@ -149,6 +156,12 @@ define([
           this._isexpand = tooltip.isexpand;
           this._selectcolor = tooltip.selectcolor;
           this._joinField = tooltip.joinfield;
+          this._searchField = tooltip.searchField;
+          this._subLayers = tooltip.sublayers || [];
+          this._infoWidth = tooltip.width;
+          this._infoHeight = tooltip.height;
+          this._zoom = tooltip.zoom;
+          this._sublayerids = tooltip.sublayerids || [];
           scales = tooltip.scales;
           break;
         }
@@ -213,7 +226,9 @@ define([
       var loading = new LoadingIndicator();
       loading.placeAt(window.jimuConfig.layoutId);
       this._url = url;
-      var layerids = this._FindIds;
+      var layerids =
+        this._sublayerids.length > 0 ? this._sublayerids : this._FindIds;
+      var searchFields = this._searchField;
       array.forEach(texts, function(text) {
         var findTask = new FindTask(url);
         var findParam = new FindParameters();
@@ -221,6 +236,9 @@ define([
         findParam.layerIds = layerids;
         findParam.returnGeometry = true;
         findParam.contains = false;
+        if (searchFields) {
+          findParam.searchFields = [searchFields];
+        }
         deferredArray.push(findTask.execute(findParam));
       });
       all(deferredArray).then(
@@ -228,20 +246,23 @@ define([
           array.forEach(
             results,
             function(result) {
-              array.forEach(
-                result,
-                function(findResult) {
-                  var graphic = findResult.feature;
-                  this._queryFeature(
-                    graphic,
-                    findResult.layerId,
-                    true,
-                    0,
-                    null
-                  );
-                },
-                this
-              );
+              if (result.length > 0) {
+                var findResult = result[0];
+                for (var i = 0; i < result.length; i++) {
+                  if (
+                    (this._sublayerids.length > 0 &&
+                      this._sublayerids.indexOf(result[i].layerId) > -1) ||
+                    (this._subLayers.length == 0 ||
+                      this._subLayers.indexOf(findResult.layerName) > -1)
+                  ) {
+                    findResult = result[i];
+                    break;
+                  }
+                }
+                var graphic = findResult.feature;
+                this._queryId = findResult.layerId;
+                this.setView(graphic);
+              }
             },
             this
           );
@@ -279,21 +300,7 @@ define([
         }
       }, this);
     },
-    init: function() {
-      if (this._mapPoint) {
-        this.drawText();
-        this._tooltipNodes.push({
-          node: this._node,
-          mapPoint: this._mapPoint,
-          offsetX: this._offsetX,
-          offsetY: this._offsetY
-        });
-        if (this._first) {
-          this._first = false;
-          this._onEvent();
-        }
-      }
-    },
+    /*该方法暂时不用*/
     _onLayerClick: function(event) {
       $(".MapText").remove();
       this._node = null;
@@ -302,12 +309,7 @@ define([
       if (event.graphic) {
         this._label = event.graphic.getLayer().label;
         this._url = event.graphic.getLayer().url;
-        if (
-          event.graphic.geometry.type == "point" ||
-          event.graphic.geometry.type == "multipoint"
-        ) {
-          this._queryFeature(event.graphic, -1, false, 0, event.graphic);
-        } else if (event.graphic.geometry.type == "polyline") {
+        if (event.graphic.geometry.type == "polyline") {
           this._queryFeature(
             new Graphic(event.mapPoint),
             -2,
@@ -315,15 +317,8 @@ define([
             12,
             event.graphic
           );
-        } else {
-          this._queryFeature(
-            new Graphic(event.mapPoint),
-            -3,
-            false,
-            0,
-            event.graphic
-          );
         }
+        this.setContext(event.graphic);
       } else {
         array.forEach(
           this.map.layerIds,
@@ -353,14 +348,8 @@ define([
                 lang.hitch(this, function(identifyResults) {
                   if (identifyResults.length > 0) {
                     var feature = identifyResults[0].feature;
-
-                    this._queryFeature(
-                      feature,
-                      identifyResults[0].layerId,
-                      false,
-                      0,
-                      null
-                    );
+                    this._queryId = identifyResults[0].layerId;
+                    this.setContext(feature);
                   }
                 }),
                 function(error) {
@@ -373,8 +362,10 @@ define([
         );
       }
     },
+    /*由于findTask方法查询出来的结果没有关联字段,需要用queryTask,在查询一次*/
+    /*当layerid=-2,根据点画圆查询,layerid<0为url为featureLayer,>0url为ArcGISDynamicMapServiceLayer*/
+    /*该方法暂时不用*/
     _queryFeature: function(feature, layerid, isFind, rad, gra) {
-      this._queryId = layerid;
       var url = layerid < 0 ? this._url : this._url + "/" + layerid;
       var queryTask = new QueryTask(url);
       var query = new Query();
@@ -462,26 +453,43 @@ define([
           if (this._mapPoint == null) {
             this._mapPoint = this.getCenter(graphic);
           }
-          if (sc == 0 || this._isexpand) {
-            this.map.setExtent(graphic.geometry.getExtent().expand(2)).then(
+
+          if (graphic.geometry.type == "point") {
+            this.map.centerAt(this._mapPoint).then(
               lang.hitch(this, function() {
-                this.map.centerAt(this._mapPoint).then(
-                  lang.hitch(this, function() {
-                    this.setContext(this._toolGra);
-                  })
-                );
+                this.setContext(this._toolGra);
               })
             );
           } else {
-            this.map.setScale(sc).then(
-              lang.hitch(this, function() {
-                this.map.centerAt(this._mapPoint).then(
+            if (sc == 0 || this._isexpand) {
+              if (this._zoom != null && this._zoom != undefined) {
+                this.map.centerAndZoom(this._mapPoint, this._zoom).then(
                   lang.hitch(this, function() {
                     this.setContext(this._toolGra);
                   })
                 );
-              })
-            );
+              } else {
+                this.map.setExtent(graphic.geometry.getExtent().expand(2)).then(
+                  lang.hitch(this, function() {
+                    this.map.centerAt(this._mapPoint).then(
+                      lang.hitch(this, function() {
+                        this.setContext(this._toolGra);
+                      })
+                    );
+                  })
+                );
+              }
+            } else {
+              this.map.setScale(sc).then(
+                lang.hitch(this, function() {
+                  this.map.centerAt(this._mapPoint).then(
+                    lang.hitch(this, function() {
+                      this.setContext(this._toolGra);
+                    })
+                  );
+                })
+              );
+            }
           }
         }
       }
@@ -536,19 +544,32 @@ define([
         text = context.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g, "");
       }
 
-      var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
-      if (text.toString().indexOf("</") > -1) {
-        this._node = text;
-      } else {
-        text = text.replace(/\n/g, "<br/>");
-        this._node = domConstruct.toDom(
-          "<div class='MapText TextDiv'><span>" +
-            text +
-            "</span><div class='" +
-            divClass +
-            "'></div></div>"
-        );
-      }
+      this.map.infoWindow.setContent("<div>" + text + "</div>");
+
+      this.map.infoWindow.resize(this._infoWidth, this._infoHeight);
+      this.map.infoWindow.show(this._mapPoint);
+
+      var hideEevent = this.map.infoWindow.on(
+        "hide",
+        lang.hitch(this, function(event) {
+          this._hightlightLayer.clear();
+          this._clearTimeout(2);
+          hideEevent.remove();
+        })
+      );
+      // var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
+      // if (text.toString().indexOf("</") > -1) {
+      //   this._node = text;
+      // } else {
+      //   text = text.replace(/\n/g, "<br/>");
+      //   this._node = domConstruct.toDom(
+      //     "<div class='MapText TextDiv'><span>" +
+      //       text +
+      //       "</span><div class='" +
+      //       divClass +
+      //       "'></div></div>"
+      //   );
+      // }
       var scolor = new Color([0, 255, 255]);
       if (this._selectcolor === null || this._selectcolor === undefined) {
       } else if (this._selectcolor == "red") {
@@ -589,20 +610,23 @@ define([
         var hlGra = new Graphic(graphic.geometry, selectionSymbol);
         this._hightlightLayer.add(hlGra);
         var node = hlGra.getNode();
-        node.setAttribute("data-highlight", "highlight");
+        if (node) {
+          node.setAttribute("data-highlight", "highlight");
+        }
 
         this._timeOut = setTimeout(function() {
           layer.remove(hlGra);
         }, 4000);
         this._timeOut2 = setTimeout(
           lang.hitch(this, function() {
-            this.clear();
+            //this.clear();
+            this.map.infoWindow.hide();
           }),
           10000
         );
       }
 
-      this.init();
+      //this.init();
     },
     getCenter: function(gra) {
       var type = gra.geometry.type;
@@ -610,8 +634,16 @@ define([
       if (type == "point") {
         point = gra.geometry;
       } else if (type == "polyline") {
-        var pointIndex = Math.floor(gra.geometry.paths[0].length / 2);
-        point = gra.geometry.getPoint(0, pointIndex);
+        if (gra.geometry.paths[0].length == 2) {
+          var paths = gra.geometry.paths[0];
+          point = new Point([
+            paths[0][0] / 2 + paths[1][0] / 2,
+            paths[0][1] / 2 + paths[1][1] / 2
+          ]);
+        } else {
+          var pointIndex = Math.floor(gra.geometry.paths[0].length / 2);
+          point = gra.geometry.getPoint(0, pointIndex);
+        }
       } else if (type == "polygon") {
         point = gra.geometry.getCentroid();
       } else if (type == "extent") {
@@ -620,6 +652,129 @@ define([
         point = gra.geometry.getPoint(0);
       }
       return point;
+    },
+    getScales: function(id, scales) {
+      var scale = 0;
+      if (scales) {
+        for (var i = 0; i < scales.length; i++) {
+          var item = scales[i];
+          if (item.layerid === id) {
+            scale = item.scale;
+            break;
+          }
+        }
+      } else {
+        scale = 0;
+      }
+      return scale;
+    },
+    _clearTimeout: function(a) {
+      console.log("clearTimeout");
+      if (a == 1) {
+        clearTimeout(this._timeOut);
+        this._timeOut = null;
+      } else if (a == 2) {
+        clearTimeout(this._timeOut2);
+        this._timeOut2 = null;
+      }
+    },
+
+    /******showToolTip   BEGIN******/
+    _onTopicHandler_clearToolTip: function(params) {
+      this.clear(params);
+    },
+    /**显示toolTip,自己设置文本内容*/
+    _onTopicHandler_showToolTip: function(param) {
+      var graphic = param.graphic;
+      var geometry = param.geometry;
+      var context = param.context;
+      var label = param.label;
+      var id = param.id;
+      var tipClass = param.tipClass || "TextDiv";
+
+      this._place = "top";
+      if (graphic) {
+        this._mapPoint = this.getCenter(graphic);
+      }
+      if (geometry) {
+        this._mapPoint = new Point([geometry.x, geometry.y]);
+      }
+      this._offset = param.offset || 30;
+      //this._first = true;
+      if (this.config && this.config.tooltips) {
+        for (var i = 0; i < this.config.tooltips.length; i++) {
+          var tooltip = this.config.tooltips[i];
+          if (tooltip.label === label) {
+            if (tooltip.context) {
+              context = tooltip.context;
+            }
+            if (tooltip.offset) {
+              this._offset = tooltip.offset;
+            }
+            if (tooltip.offsetx) {
+              this._iconOffsetX = tooltip.offsetx;
+            }
+            if (tooltip.offsety) {
+              this._iconOffsetY = tooltip.offsety;
+            }
+            break;
+          }
+        }
+      }
+      var contextObj = {};
+      if (graphic) {
+        for (var field in graphic.attributes) {
+          contextObj[field] =
+            graphic.attributes[field] == null ? "" : graphic.attributes[field];
+        }
+      }
+      var text = context;
+      try {
+        text = string.substitute(context, contextObj);
+      } catch (e) {
+        text = context.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g, "");
+      }
+
+      var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
+      var idStr = "";
+      if (id) {
+        idStr = "id='" + id + "'";
+      }
+      if (text.toString().indexOf("div") > -1) {
+        this._node = domConstruct.toDom(text);
+        if (id) {
+          this._node.id = id;
+        }
+      } else {
+        text = text.replace(/\n/g, "<br/>");
+        this._node = domConstruct.toDom(
+          "<div " +
+            idStr +
+            " class='MapText " +
+            tipClass +
+            "'>" +
+            text +
+            "<div class='" +
+            divClass +
+            "'></div></div>"
+        );
+      }
+      this.init();
+    },
+    init: function() {
+      if (this._mapPoint) {
+        this.drawText();
+        this._tooltipNodes.push({
+          node: this._node,
+          mapPoint: this._mapPoint,
+          offsetX: this._offsetX,
+          offsetY: this._offsetY
+        });
+        if (this._first) {
+          this._first = false;
+          this._onEvent();
+        }
+      }
     },
     _onEvent: function() {
       this.map.on("pan", lang.hitch(this, this._panEvent));
@@ -763,106 +918,7 @@ define([
         this._node = null;
         this._tooltipNodes = [];
       }
-    },
-    getScales: function(id, scales) {
-      var scale = 0;
-      if (scales) {
-        for (var i = 0; i < scales.length; i++) {
-          var item = scales[i];
-          if (item.layerid === id) {
-            scale = item.scale;
-            break;
-          }
-        }
-      } else {
-        scale = 0;
-      }
-      return scale;
-    },
-    _clearTimeout: function(a) {
-      console.log("clearTimeout");
-      if (a == 1) {
-        clearTimeout(this._timeOut);
-        this._timeOut = null;
-      } else if (a == 2) {
-        clearTimeout(this._timeOut2);
-        this._timeOut2 = null;
-      }
-    },
-    startup: function() {},
-
-    _onTopicHandler_showToolTip: function(param) {
-      var graphic = param.graphic;
-      var geometry = param.geometry;
-      var context = param.context;
-      var label = param.label;
-      var id = param.id;
-      var tipClass = param.tipClass || "TextDiv";
-
-      this._place = "top";
-      if (graphic) {
-        this._mapPoint = this.getCenter(graphic);
-      }
-      if (geometry) {
-        this._mapPoint = new Point([geometry.x, geometry.y]);
-      }
-      this._offset = param.offset || 30;
-      //this._first = true;
-      for (var i = 0; i < this.config.tooltips.length; i++) {
-        var tooltip = this.config.tooltips[i];
-        if (tooltip.label === label) {
-          context = tooltip.context;
-          if (tooltip.offsetx) {
-            this._iconOffsetX = tooltip.offsetx;
-          }
-          if (tooltip.offsety) {
-            this._iconOffsetY = tooltip.offsety;
-          }
-          break;
-        }
-      }
-      var contextObj = {};
-      if (graphic) {
-        for (var field in graphic.attributes) {
-          contextObj[field] =
-            graphic.attributes[field] == null ? "" : graphic.attributes[field];
-        }
-      }
-      var text = context;
-      try {
-        text = string.substitute(context, contextObj);
-      } catch (e) {
-        text = context.replace(/\$\{([^\s\:\}]+)(?:\:([^\s\:\}]+))?\}/g, "");
-      }
-
-      var divClass = this._place == "top" ? "TextTriTop" : "TextTriRight";
-      var idStr = "";
-      if (id) {
-        idStr = "id='" + id + "'";
-      }
-      if (text.toString().indexOf("div") > -1) {
-        this._node = domConstruct.toDom(text);
-        if (id) {
-          this._node.id = id;
-        }
-      } else {
-        text = text.replace(/\n/g, "<br/>");
-        this._node = domConstruct.toDom(
-          "<div " +
-            idStr +
-            " class='MapText " +
-            tipClass +
-            "'><span>" +
-            text +
-            "</span><div class='" +
-            divClass +
-            "'></div></div>"
-        );
-      }
-      this.init();
-    },
-    _onTopicHandler_clearToolTip: function(params) {
-      this.clear(params);
     }
+    /******showToolTip END******/
   });
 });

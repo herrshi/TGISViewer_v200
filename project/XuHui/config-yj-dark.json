@@ -1,0 +1,72 @@
+{
+  "theme": {
+    "name": "DemoTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "深色底图",
+        "url":
+          "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [],
+    "mapOptions": {
+      "center": [121.441, 31.159],
+      "zoom": 13,
+      "showLabels": true,
+      "logo": false,
+      "nav": false,
+      "slider": false,
+      "maxZoom":16
+    }
+  },
+  "geometryService":
+    "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "15.75.0.255",
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/JurisdictionPolice/Widget",
+        "version": "2.4",
+        "id": "JurisdictionPoliceWidget"
+      },
+      {
+        "uri": "widgets/Overlay/Widget",
+        "version": "2.4",
+        "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/Cluster/Widget",
+        "version": "2.4",
+        "id": "ClusterWidget"
+      },
+      {
+        "uri": "widgets/HeatMap/Widget",
+        "version": "2.4",
+        "id": "HeatMapWidget"
+      }
+    ]
+  }
+}

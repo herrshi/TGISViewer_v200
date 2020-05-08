@@ -6,5 +6,9 @@
   {
     "label": "轮渡面",
     "showzoom": 6
+  },
+  {
+    "label": "轮渡线_黄浦江",
+    "showzoom": 6
   }
 ]

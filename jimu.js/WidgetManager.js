@@ -17,7 +17,7 @@ define([
   "dojo/promise/all",
   "jimu/utils",
   "jimu/dijit/Message"
-], function (
+], function(
   declare,
   lang,
   array,
@@ -34,7 +34,8 @@ define([
   jimuUtils,
   Message
 ) {
-  var instance = null, clazz;
+  var instance = null,
+    clazz;
 
   clazz = declare(Evented, {
     constructor: function() {
@@ -48,7 +49,10 @@ define([
       this.activeWidget = null;
 
       topic.subscribe("mapLoaded", lang.hitch(this, this._onMapLoaded));
-      topic.subscribe("appConfigLoaded", lang.hitch(this, this._onAppConfigLoaded));
+      topic.subscribe(
+        "appConfigLoaded",
+        lang.hitch(this, this._onAppConfigLoaded)
+      );
     },
 
     loadWidget: function(setting) {
@@ -59,45 +63,58 @@ define([
       //    setting should contain 2 properties:
       //    id: id should be unique, same id will return same widget object.
       //    uri: the widget"s main class
-      var def = new Deferred(), findWidget;
+      var def = new Deferred(),
+        findWidget;
       findWidget = this.getWidgetById(setting.id);
 
       if (findWidget) {
         //widget have loaded(identified by id)
         def.resolve(findWidget);
-      }
-      else {
+      } else {
         all([
-          this.loadWidgetClass(setting), 
+          this.loadWidgetClass(setting),
           this.loadWidgetManifest(setting)
-        ]).then(lang.hitch(this, function (results) {
-          var clazz = results[0];
-          var setting = results[1];
-          this.loadWidgetResources(setting).then(lang.hitch(this, function (resources) {
-            try {
-              var widget = this.createWidget(setting, clazz, resources);
-              html.setAttr(widget.domNode, "data-widget-name", setting.name);
-              console.log("widget [" + setting.uri + "] created.");
-            }
-            catch (err) {
-              console.log("create [" + setting.uri + "] error:" + err.stack);
+        ]).then(
+          lang.hitch(this, function(results) {
+            var clazz = results[0];
+            var setting = results[1];
+            this.loadWidgetResources(setting).then(
+              lang.hitch(this, function(resources) {
+                try {
+                  var widget = this.createWidget(setting, clazz, resources);
+                  html.setAttr(
+                    widget.domNode,
+                    "data-widget-name",
+                    setting.name
+                  );
+                  console.log("widget [" + setting.uri + "] created.");
+                } catch (err) {
+                  console.log(
+                    "create [" + setting.uri + "] error:" + err.stack
+                  );
 
-              def.reject(err);
-            }
+                  def.reject(err);
+                }
 
-            //use timeout to let the widget can get the correct dimension in startup function
-            setTimeout(lang.hitch(this, function() {
-              def.resolve(widget);
-              this.emit("widget-created", widget);
-              topic.publish("widgetCreated", widget);
-            }), 50);
-
-          }), function (err) {
+                //use timeout to let the widget can get the correct dimension in startup function
+                setTimeout(
+                  lang.hitch(this, function() {
+                    def.resolve(widget);
+                    this.emit("widget-created", widget);
+                    topic.publish("widgetCreated", widget);
+                  }),
+                  50
+                );
+              }),
+              function(err) {
+                def.reject(err);
+              }
+            );
+          }),
+          function(err) {
             def.reject(err);
-          });
-        }), function (err) {
-          def.reject(err);
-        });
+          }
+        );
       }
 
       return def;
@@ -107,7 +124,6 @@ define([
       // summary:
       //    load the widget"s main class, and return deferred
       var def = new Deferred();
-
 
       var uri = window.path + setting.uri + ".js";
       // if(setting.isRemote){
@@ -127,7 +143,11 @@ define([
       // summary:
       //    load the widget"s resources(local, style, etc.), and return deferred
       var def = new Deferred(),
-        defConfig, defI18n, defStyle, defTemplate, defs = [];
+        defConfig,
+        defI18n,
+        defStyle,
+        defTemplate,
+        defs = [];
 
       var setting2 = lang.clone(setting);
 
@@ -141,38 +161,42 @@ define([
       defs.push(defTemplate);
       defs.push(defStyle);
 
-      all(defs).then(lang.hitch(this, function(results) {
-        var res = {};
-        res.config = results[0];
-        res.i18n = results[1];
-        res.template = results[2];
-        // res.style = results[3];
-        def.resolve(res);
-      }), function(err) {
-        console.log(err);
-        def.reject(err);
-      });
+      all(defs).then(
+        lang.hitch(this, function(results) {
+          var res = {};
+          res.config = results[0];
+          res.i18n = results[1];
+          res.template = results[2];
+          // res.style = results[3];
+          def.resolve(res);
+        }),
+        function(err) {
+          console.log(err);
+          def.reject(err);
+        }
+      );
 
       return def;
     },
 
     tryLoadWidgetConfig: function(setting) {
-      return this._tryLoadWidgetConfig(setting).then(lang.hitch(this, function(config) {
-        setting.config = config;
-        return config;
-      }));
+      return this._tryLoadWidgetConfig(setting).then(
+        lang.hitch(this, function(config) {
+          setting.config = config;
+          return config;
+        })
+      );
     },
 
-    _tryLoadWidgetConfig: function (setting) {
+    _tryLoadWidgetConfig: function(setting) {
       var def = new Deferred();
       //need load config first, because the template may be use the config data
       if (setting.config && lang.isObject(setting.config)) {
         //if widget is configurated in the app config.json, the i18n has beed processed
         def.resolve(setting.config);
         return def;
-      }
-      else if (setting.config) {
-        if(require.cache["url:" + setting.config]){
+      } else if (setting.config) {
+        if (require.cache["url:" + setting.config]) {
           def.resolve(json.parse(require.cache["url:" + setting.config]));
           return def;
         }
@@ -181,8 +205,9 @@ define([
         // The widgetConfig filename is dependent on widget label,
         // IE8 & IE9 do not encode automatically while attempt to request file.
         var configFileArray = configFile.split("/");
-        configFileArray[configFileArray.length - 1] =
-          encodeURIComponent(configFileArray[configFileArray.length - 1]);
+        configFileArray[configFileArray.length - 1] = encodeURIComponent(
+          configFileArray[configFileArray.length - 1]
+        );
         configFile = configFileArray.join("/");
         return xhr(configFile, {
           handleAs: "json",
@@ -190,9 +215,8 @@ define([
             "X-Requested-With": null
           }
         });
-      }
-      else {
-        return this._tryLoadResource(setting, "config").then(function(config){
+      } else {
+        return this._tryLoadResource(setting, "config").then(function(config) {
           //this property is used in map config plugin
           setting.isDefaultConfig = true;
           return config;
@@ -201,42 +225,42 @@ define([
     },
 
     _tryLoadResource: function(setting, flag) {
-      var file, hasp,
+      var file,
+        hasp,
         def = new Deferred(),
         doLoad = function() {
           var loadDef;
           if (flag === "config") {
             loadDef = this.loadWidgetConfig(setting);
-          }
-          else if (flag === "style") {
+          } else if (flag === "style") {
             loadDef = this.loadWidgetStyle(setting);
-          }
-          else if (flag === "i18n") {
+          } else if (flag === "i18n") {
             loadDef = this.loadWidgetI18n(setting);
-          }
-          else if (flag === "template") {
+          } else if (flag === "template") {
             loadDef = this.loadWidgetTemplate(setting);
-          }
-          else if (flag === "settingTemplate") {
+          } else if (flag === "settingTemplate") {
             loadDef = this.loadWidgetSettingTemplate(setting);
-          }
-          else if (flag === "settingStyle") {
+          } else if (flag === "settingStyle") {
             loadDef = this.loadWidgetSettingStyle(setting);
-          }
-          else if (flag === "settingI18n") {
+          } else if (flag === "settingI18n") {
             loadDef = this.loadWidgetSettingI18n(setting);
-          }
-          else {
+          } else {
             return def;
           }
-          loadDef.then(function(data) {
-            def.resolve(data);
-          }, function(err) {
-            new Message({
-              message: window.jimuNls.widgetManager.loadWidgetResourceError + ": " + setting.uri
-            });
-            def.reject(err);
-          });
+          loadDef.then(
+            function(data) {
+              def.resolve(data);
+            },
+            function(err) {
+              new Message({
+                message:
+                  window.jimuNls.widgetManager.loadWidgetResourceError +
+                  ": " +
+                  setting.uri
+              });
+              def.reject(err);
+            }
+          );
         };
 
       if (flag === "config") {
@@ -244,14 +268,16 @@ define([
         setting.configFile = file;
         hasp = "hasConfig";
       } else if (flag === "style") {
-        file = setting.amdFolder + "css/style.css";
+        //file = setting.amdFolder + "css/style.css";
+        file =
+          setting.amdFolder + (setting.style ? setting.style : "css/style.css");
         setting.styleFile = file;
         hasp = "hasStyle";
       } else if (flag === "i18n") {
         file = setting.amdFolder + "nls/strings.js";
-        if(setting.isRemote){
+        if (setting.isRemote) {
           setting.i18nFile = file;
-        }else{
+        } else {
           setting.i18nFile = setting.amdFolder + "nls/strings";
         }
         hasp = "hasLocale";
@@ -265,9 +291,9 @@ define([
         hasp = "hasSettingUIFile";
       } else if (flag === "settingI18n") {
         file = setting.amdFolder + "setting/nls/strings.js";
-        if(setting.isRemote){
+        if (setting.isRemote) {
           setting.settingI18nFile = file;
-        }else{
+        } else {
           setting.settingI18nFile = setting.amdFolder + "setting/nls/strings";
         }
         hasp = "hasSettingLocale";
@@ -279,9 +305,9 @@ define([
         return def;
       }
 
-      if (setting[hasp]){
+      if (setting[hasp]) {
         doLoad.apply(this);
-      }else {
+      } else {
         def.resolve(null);
       }
       return def;
@@ -300,9 +326,14 @@ define([
         def.resolve("load");
         return def;
       }
-      var themeCommonStyleId = "theme_" + this.appConfig.theme.name + "_style_common";
+      var themeCommonStyleId =
+        "theme_" + this.appConfig.theme.name + "_style_common";
       //insert widget style before theme style, to let theme style over widget style
-      return jimuUtils.loadStyleLink(id, window.path + widgetSetting.styleFile, themeCommonStyleId);
+      return jimuUtils.loadStyleLink(
+        id,
+        window.path + widgetSetting.styleFile,
+        themeCommonStyleId
+      );
     },
 
     loadWidgetSettingStyle: function(widgetSetting) {
@@ -313,12 +344,15 @@ define([
         def.resolve("load");
         return def;
       }
-      return jimuUtils.loadStyleLink(id, window.path + widgetSetting.settingStyleFile);
+      return jimuUtils.loadStyleLink(
+        id,
+        window.path + widgetSetting.settingStyleFile
+      );
     },
 
     loadWidgetConfig: function(widgetSetting) {
       var configFilePath = window.path + widgetSetting.configFile;
-      if(require.cache["url:" + configFilePath]){
+      if (require.cache["url:" + configFilePath]) {
         var def = new Deferred();
         def.resolve(json.parse(require.cache["url:" + configFilePath]));
         return def;
@@ -333,28 +367,31 @@ define([
 
     loadWidgetI18n: function(widgetSetting) {
       var def = new Deferred();
-      require(jimuUtils.getRequireConfig(), ["dojo/i18n!" + window.path + widgetSetting.i18nFile + ".js"],
-        function(bundle) {
-          def.resolve(bundle);
-        });
+      require(jimuUtils.getRequireConfig(), [
+        "dojo/i18n!" + window.path + widgetSetting.i18nFile + ".js"
+      ], function(bundle) {
+        def.resolve(bundle);
+      });
       return def;
     },
 
     loadWidgetSettingI18n: function(widgetSetting) {
       var def = new Deferred();
-      require(jimuUtils.getRequireConfig(), ["dojo/i18n!" + window.path + widgetSetting.settingI18nFile + ".js"],
-        function(bundle) {
-          def.resolve(bundle);
-        });
+      require(jimuUtils.getRequireConfig(), [
+        "dojo/i18n!" + window.path + widgetSetting.settingI18nFile + ".js"
+      ], function(bundle) {
+        def.resolve(bundle);
+      });
       return def;
     },
 
     loadWidgetTemplate: function(widgetSetting) {
       var def = new Deferred();
-      require(["dojo/text!" + window.path + widgetSetting.templateFile],
-        function(template) {
-          def.resolve(template);
-        });
+      require([
+        "dojo/text!" + window.path + widgetSetting.templateFile
+      ], function(template) {
+        def.resolve(template);
+      });
 
       jimuUtils.checkError(widgetSetting.templateFile, def);
       return def;
@@ -362,10 +399,11 @@ define([
 
     loadWidgetSettingTemplate: function(widgetSetting) {
       var def = new Deferred();
-      require(jimuUtils.getRequireConfig(), ["dojo/text!" + window.path + widgetSetting.settingTemplateFile],
-        function(template) {
-          def.resolve(template);
-        });
+      require(jimuUtils.getRequireConfig(), [
+        "dojo/text!" + window.path + widgetSetting.settingTemplateFile
+      ], function(template) {
+        def.resolve(template);
+      });
 
       jimuUtils.checkError(widgetSetting.settingTemplateFile, def);
       return def;
@@ -375,17 +413,17 @@ define([
       return id.replace(/\//g, "_").replace(/\./g, "_");
     },
 
-    loadWidgetManifest: function(widgetJson){
+    loadWidgetManifest: function(widgetJson) {
       var def = new Deferred();
       var info = jimuUtils.getUriInfo(widgetJson.uri);
       var url;
-      if(info.isRemote){
+      if (info.isRemote) {
         url = info.folderUrl + "manifest.json?f=json";
-      }else{
+      } else {
         url = info.folderUrl + "manifest.json";
       }
 
-      if(widgetJson.manifest){
+      if (widgetJson.manifest) {
         def.resolve(widgetJson);
         return def;
       }
@@ -395,26 +433,29 @@ define([
         headers: {
           "X-Requested-With": null
         }
-      }).then(lang.hitch(this, function (manifest) {
-        if(manifest.error && manifest.error.code){
-          //request manifest from AGOL item, and there is an error
-          //error code may be: 400, 403
-          return def.reject(manifest.error);
-        }
+      }).then(
+        lang.hitch(this, function(manifest) {
+          if (manifest.error && manifest.error.code) {
+            //request manifest from AGOL item, and there is an error
+            //error code may be: 400, 403
+            return def.reject(manifest.error);
+          }
 
-        manifest.category = "widget";
-        lang.mixin(manifest, jimuUtils.getUriInfo(widgetJson.uri));
-        this._processManifest(manifest);
-        jimuUtils.widgetJson.addManifest2WidgetJson(widgetJson, manifest);
-        def.resolve(widgetJson);
-
-        jimuUtils.manifest.addI18NLabel(manifest).then(lang.hitch(this, function(){
+          manifest.category = "widget";
+          lang.mixin(manifest, jimuUtils.getUriInfo(widgetJson.uri));
           this._processManifest(manifest);
           jimuUtils.widgetJson.addManifest2WidgetJson(widgetJson, manifest);
           def.resolve(widgetJson);
-        }));
 
-      }));
+          jimuUtils.manifest.addI18NLabel(manifest).then(
+            lang.hitch(this, function() {
+              this._processManifest(manifest);
+              jimuUtils.widgetJson.addManifest2WidgetJson(widgetJson, manifest);
+              def.resolve(widgetJson);
+            })
+          );
+        })
+      );
 
       return def;
     },
@@ -432,7 +473,10 @@ define([
 
       //the config can contain i18n placeholders
       if (resources.config && resources.i18n) {
-        resources.config = jimuUtils.replacePlaceHolder(resources.config, resources.i18n);
+        resources.config = jimuUtils.replacePlaceHolder(
+          resources.config,
+          resources.i18n
+        );
       }
 
       setting.rawConfig = setting.config;
@@ -464,28 +508,47 @@ define([
 
       widget = new clazz(setting2);
       widget.clazz = clazz;
-      aspect.after(widget, "startup", lang.hitch(this, this._postWidgetStartup, widget));
-      aspect.before(widget, "destroy", lang.hitch(this, this._onDestroyWidget, widget));
+      aspect.after(
+        widget,
+        "startup",
+        lang.hitch(this, this._postWidgetStartup, widget)
+      );
+      aspect.before(
+        widget,
+        "destroy",
+        lang.hitch(this, this._onDestroyWidget, widget)
+      );
 
-      on(widget.domNode, "click", lang.hitch(this, this._onClickWidget, widget));
+      on(
+        widget.domNode,
+        "click",
+        lang.hitch(this, this._onClickWidget, widget)
+      );
 
       this.loaded.push(widget);
       return widget;
     },
 
-    _processManifest: function(manifest){
+    _processManifest: function(manifest) {
       jimuUtils.manifest.addManifestProperties(manifest);
-      jimuUtils.manifest.processManifestLabel(manifest, window.dojoConfig.locale);
+      jimuUtils.manifest.processManifestLabel(
+        manifest,
+        window.dojoConfig.locale
+      );
     },
 
     getWidgetById: function(id) {
       var ret;
-      array.some(this.loaded, function(w) {
-        if (w.id === id) {
-          ret = w;
-          return true;
-        }
-      }, this);
+      array.some(
+        this.loaded,
+        function(w) {
+          if (w.id === id) {
+            ret = w;
+            return true;
+          }
+        },
+        this
+      );
       return ret;
     },
 
@@ -499,13 +562,15 @@ define([
     },
 
     _postWidgetStartup: function(widgetObject) {
-      widgetObject.started = true;//for backward compatibility
+      widgetObject.started = true; //for backward compatibility
       jimuUtils.setVerticalCenter(widgetObject.domNode);
-      aspect.after(widgetObject, "resize", lang.hitch(this,
-        jimuUtils.setVerticalCenter, widgetObject.domNode));
-      this.openWidget(widgetObject);     
+      aspect.after(
+        widgetObject,
+        "resize",
+        lang.hitch(this, jimuUtils.setVerticalCenter, widgetObject.domNode)
+      );
+      this.openWidget(widgetObject);
 
-     
       this._triggerMissedAction(widgetObject);
     },
 
@@ -534,12 +599,14 @@ define([
           return;
         }
       }
-      if(!widget.started){
+      if (!widget.started) {
         try {
           widget.started = true;
           widget.startup();
         } catch (err) {
-          console.error("fail to startup widget " + widget.name + ". " + err.stack);
+          console.error(
+            "fail to startup widget " + widget.name + ". " + err.stack
+          );
         }
       }
       if (widget.state === "closed") {
@@ -548,7 +615,9 @@ define([
         try {
           widget.onOpen();
         } catch (err) {
-          console.error("fail to open widget " + widget.name + ". " + err.stack);
+          console.error(
+            "fail to open widget " + widget.name + ". " + err.stack
+          );
         }
       }
     },
@@ -561,7 +630,7 @@ define([
         }
       }
       if (widget.state !== "closed") {
-        if(this.activeWidget && this.activeWidget.id === widget.id){
+        if (this.activeWidget && this.activeWidget.id === widget.id) {
           this.activeWidget.onDeActive();
           this.activeWidget = null;
         }
@@ -570,46 +639,62 @@ define([
         try {
           widget.onClose();
         } catch (err) {
-          console.log(console.error("fail to close widget " + widget.name + ". " + err.stack));
+          console.log(
+            console.error(
+              "fail to close widget " + widget.name + ". " + err.stack
+            )
+          );
         }
       }
     },
 
-    _activeWidget: function(widget){
-      if(this.activeWidget){
-        if(this.activeWidget.id === widget.id){
+    _activeWidget: function(widget) {
+      if (this.activeWidget) {
+        if (this.activeWidget.id === widget.id) {
           //zIndex may be reset by widget self, we do not set in-panel widget zindex
-          if(this.activeWidget.inPanel === false && this.activeWidget.moveTopOnActive){
+          if (
+            this.activeWidget.inPanel === false &&
+            this.activeWidget.moveTopOnActive
+          ) {
             html.setStyle(this.activeWidget.domNode, "zIndex", 101);
           }
           return;
         }
-        if(this.activeWidget.state === "active"){
+        if (this.activeWidget.state === "active") {
           this.activeWidget.setState("opened");
-          if(this.activeWidget.inPanel === false){
-            html.setStyle(widget.domNode, "zIndex",
-              "zIndex" in widget.position? widget.position.zIndex: "auto");
+          if (this.activeWidget.inPanel === false) {
+            html.setStyle(
+              widget.domNode,
+              "zIndex",
+              "zIndex" in widget.position ? widget.position.zIndex : "auto"
+            );
           }
           this.activeWidget.onDeActive();
         }
       }
       this.activeWidget = widget;
-      if(this.activeWidget.state !== "opened"){
+      if (this.activeWidget.state !== "opened") {
         return;
       }
       this.activeWidget.setState("active");
-      if(this.activeWidget.inPanel === false && this.activeWidget.moveTopOnActive){
+      if (
+        this.activeWidget.inPanel === false &&
+        this.activeWidget.moveTopOnActive
+      ) {
         html.setStyle(this.activeWidget.domNode, "zIndex", 101);
       }
       this.activeWidget.onActive();
       topic.publish("widgetActived", widget);
     },
 
-    _onClickWidget: function(widget, evt){
+    _onClickWidget: function(widget, evt) {
       var childWidgets = query(".jimu-widget", widget.domNode);
-      if(childWidgets.length > 0){
-        for(var i = 0; i < childWidgets.length; i++){
-          if(evt.target === childWidgets[i] || html.isDescendant(evt.target, childWidgets[i])){
+      if (childWidgets.length > 0) {
+        for (var i = 0; i < childWidgets.length; i++) {
+          if (
+            evt.target === childWidgets[i] ||
+            html.isDescendant(evt.target, childWidgets[i])
+          ) {
             //click on the child widget or child widget"s children dom
             return;
           }
@@ -623,8 +708,6 @@ define([
         return widget.isOnScreen && !widget.inPanel;
       });
     }
-
-    
   });
 
   clazz.getInstance = function(urlParams) {
@@ -635,5 +718,4 @@ define([
     return instance;
   };
   return clazz;
-
 });

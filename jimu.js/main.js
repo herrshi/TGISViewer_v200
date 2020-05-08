@@ -8,7 +8,9 @@ define([
   "dojo/i18n",
   "dojo/i18n!jimu/nls/main",
   "jimu/LayoutManager",
-  "jimu/ConfigManager"
+  "jimu/ConfigManager",
+  "jimu/DataManager",
+  "jimu/WidgetManager"
 ], function (
   html,
   lang,
@@ -16,7 +18,9 @@ define([
   i18n,
   mainBundle,
   LayoutManager,
-  ConfigManager
+  ConfigManager,
+  DataManager,
+  WidgetManager
 ) {
   /* global jimuConfig:true */
 
@@ -62,6 +66,8 @@ define([
 
     html.setStyle(jimuConfig.loadingId, "display", "none");
     html.setStyle(jimuConfig.mainPageId, "display", "block");
+
+    DataManager.getInstance(WidgetManager.getInstance());
 
     layoutManager = LayoutManager.getInstance({
       mapId: jimuConfig.mapId,

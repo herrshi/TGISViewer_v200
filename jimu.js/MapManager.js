@@ -16,6 +16,7 @@ define([
   "jimu/CustomLayers/ChengDiDynamicMapServiceLayer",
   "esri/renderers/jsonUtils",
   "esri/renderers/SimpleRenderer",
+  "esri/renderers/HeatmapRenderer",
   "esri/renderers/UniqueValueRenderer",
   "esri/map",
   "esri/graphic",
@@ -48,6 +49,7 @@ define([
   ChengDiDynamicMapServiceLayer,
   jsonUtils,
   SimpleRenderer,
+  HeatmapRenderer,
   UniqueValueRenderer,
   Map,
   Graphic,
@@ -217,9 +219,6 @@ define([
 
       this._publishMapEvent(map);
       this._addDataLoadingOnMapUpdate(map);
-
-      //背景透明
-      $("#map").css("background-color", "rgba(0,0,0,0)");
     },
 
     _setMapClickEvent: function() {
@@ -233,24 +232,27 @@ define([
           //featureLayer或graphicsLayer
           //闪烁
           if (graphic) {
-            if (graphic.infoTemplate) {
+            var infoTemplate =
+              graphic.infoTemplate || graphic.getLayer().infoTemplate;
+            if (infoTemplate) {
               var poptitle = false;
               var popcontent = false;
               if (
-                graphic.infoTemplate.title &&
-                graphic.infoTemplate.title.indexOf("div") > -1
+                infoTemplate.title &&
+                infoTemplate.title.indexOf("div") > -1
               ) {
                 poptitle = true;
               }
               if (
-                graphic.infoTemplate.content &&
-                graphic.infoTemplate.content.indexOf("div") > -1
+                infoTemplate.content &&
+                infoTemplate.content.indexOf("div") > -1
               ) {
                 popcontent = true;
               }
-              this.addPopUpClass(poptitle, popcontent);
+              this.addPopUpClass(poptitle, popcontent, event.mapPoint);
             } else {
               this.clearPopUpClass();
+              this.map.infoWindow.hide();
             }
 
             // if (
@@ -337,51 +339,31 @@ define([
               ) {
                 showGisDeviceInfo(type, id);
               }
-              //传完整信息
-              if (
-                typeof showGisDeviceDetailInfo !== "undefined" &&
-                showGisDeviceDetailInfo instanceof Function
-              ) {
-                showGisDeviceDetailInfo({
-                  type: type,
-                  id: id,
-                  label: graphic.getLayer().label,
-                  graphic: graphic.geometry.spatialReference.isWebMercator()
-                    ? new Graphic(
-                        webMercatorUtils.webMercatorToGeographic(
-                          graphic.geometry
-                        ),
-                        graphic.symbol,
-                        graphic.attributes
-                      )
-                    : graphic
-                });
-              }
-            } else {
-              //传完整信息
-              if (
-                typeof showGisDeviceDetailInfo !== "undefined" &&
-                showGisDeviceDetailInfo instanceof Function
-              ) {
-                showGisDeviceDetailInfo({
-                  type: type,
-                  id: id,
-                  label: graphic.getLayer().label,
-                  graphic: graphic.geometry.spatialReference.isWebMercator()
-                    ? new Graphic(
-                        webMercatorUtils.webMercatorToGeographic(
-                          graphic.geometry
-                        ),
-                        graphic.symbol,
-                        graphic.attributes
-                      )
-                    : graphic
-                });
-              }
+            }
+            //传完整信息
+            if (
+              typeof showGisDeviceDetailInfo !== "undefined" &&
+              showGisDeviceDetailInfo instanceof Function
+            ) {
+              showGisDeviceDetailInfo({
+                type: type,
+                id: id,
+                label: graphic.getLayer().label,
+                graphic: graphic.geometry.spatialReference.isWebMercator()
+                  ? new Graphic(
+                      webMercatorUtils.webMercatorToGeographic(
+                        graphic.geometry
+                      ),
+                      graphic.symbol,
+                      graphic.attributes
+                    )
+                  : graphic
+              });
             }
           }
           //dynamicLayer
           else {
+            this.map.infoWindow.hide();
             array.forEach(
               this.map.layerIds,
               function(layerId) {
@@ -390,6 +372,15 @@ define([
                   layer instanceof ArcGISDynamicMapServiceLayer &&
                   layer.visible
                 ) {
+                  if (layer.infoTemplates) {
+                    var infotemplate = layer.infoTemplates[0].infoTemplate;
+                    if (infotemplate) {
+                      this.map.infoWindow.resize(
+                        infotemplate.width,
+                        infotemplate.height
+                      );
+                    }
+                  }
                   var layerUrl = layer.url;
                   var identifyTask = new IdentifyTask(layerUrl);
                   var identifyParam = new IdentifyParameters();
@@ -403,17 +394,20 @@ define([
                   identifyParam.geometry = event.mapPoint;
                   // identifyParam.geometry = (this.map.spatialReference.isWebMercator() ? webMercatorUtils.webMercatorToGeographic(event.mapPoint) : event.mapPoint);
                   identifyTask.execute(identifyParam).then(
-                    function(identifyResults) {
+                    lang.hitch(this, function(identifyResults) {
                       if (identifyResults.length > 0) {
+                        this.map.infoWindow.show(event.mapPoint);
+
                         var feature = identifyResults[0].feature;
 
                         var id;
-                        var type;
+                        var type = identifyResults[0].layerName;
                         for (var fieldName in feature.attributes) {
                           if (feature.attributes.hasOwnProperty(fieldName)) {
                             if (
                               fieldName.indexOf("DEVICEID") > -1 ||
                               fieldName.indexOf("BM_CODE") > -1 ||
+                              fieldName.indexOf("SECTIONID") > -1 ||
                               fieldName.indexOf("FEATUREID") > -1
                             ) {
                               id = feature.attributes[fieldName];
@@ -432,8 +426,31 @@ define([
                         ) {
                           showGisDeviceInfo(type, id);
                         }
+
+                        //传完整信息
+                        if (
+                          typeof showGisDeviceDetailInfo !== "undefined" &&
+                          showGisDeviceDetailInfo instanceof Function
+                        ) {
+                          showGisDeviceDetailInfo({
+                            type: type,
+                            id: id,
+                            label: identifyResults[0].layerName,
+                            graphic: feature.geometry.spatialReference.isWebMercator()
+                              ? new Graphic(
+                                  webMercatorUtils.webMercatorToGeographic(
+                                    feature.geometry
+                                  ),
+                                  feature.symbol,
+                                  feature.attributes
+                                )
+                              : feature
+                          });
+                        }
+                      } else {
+                        this.map.infoWindow.hide();
                       }
-                    },
+                    }),
                     function(error) {
                       console.log(error);
                     }
@@ -446,7 +463,6 @@ define([
         })
       );
     },
-
     _publishMapEvent: function(map) {
       console.timeEnd("Load Map");
       if (this.map) {
@@ -458,7 +474,19 @@ define([
         topic.publish("mapLoaded", this.map);
       }
       this._setMapClickEvent();
-
+      this.map.infoWindow.on(
+        "show",
+        lang.hitch(this, function() {
+          if (
+            this.map.infoWindow.domNode.innerText.indexOf("无任何") > -1 ||
+            this.map.infoWindow.domNode.innerText.indexOf("搜索") > -1
+          ) {
+            if (this.map.infoWindow.isShowing) {
+              this.map.infoWindow.hide();
+            }
+          }
+        })
+      );
       //限制地图范围。
       if (this.appConfig.map.mapOptions.restrictExtent) {
         this._restrictMapExtent();
@@ -1038,7 +1066,6 @@ define([
               }
             });
           }
-
           layer.setRenderer(renderer);
         }
         if (layerConfig.labelingInfo) {
@@ -1052,7 +1079,7 @@ define([
         map.addLayer(layer);
       }));
     },
-    addPopUpClass: function(title, content) {
+    addPopUpClass: function(title, content, point) {
       if (title) {
         query(".esriPopup .titlePane").addClass("esriPopuptitlePane");
       }
@@ -1061,6 +1088,7 @@ define([
         query(".esriPopup .outerPointer").addClass("esriPopuppointer");
         query(".esriPopup .pointer").addClass("esriPopuppointer");
         query(".esriPopup .actionsPane").addClass("esriPopupactionsPane");
+        this.map.infoWindow.show(point);
       }
     },
     clearPopUpClass: function() {

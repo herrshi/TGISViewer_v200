@@ -1,0 +1,450 @@
+{
+  "theme": {
+    "name": "BillboardTheme",
+    "styles": [
+      "default",
+      "blue",
+      "purple",
+      "turquoise",
+      "green",
+      "orange",
+      "red",
+      "pink"
+    ],
+    "version": "2.4"
+  },
+  "map": {
+    "3D": false,
+    "2D": true,
+    "position": {
+      "left": 0,
+      "top": 0,
+      "right": 0,
+      "bottom": 0
+    },
+    "basemaps": [
+      {
+        "label": "矢量图",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_base_PurplishBlue/MapServer",
+        "type": "tiled",
+        "visible": true
+      }
+    ],
+    "operationallayers": [
+      {
+        "label": "停车场-面",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/0",
+        "type": "feature",
+        "visible": true,
+        "showLabels":true,
+        "outFields": ["*"],
+        "labelingInfo": [{
+          "labelExpressionInfo": {"value": "{停车场.NAME}"},
+          "useCodedValues":  true,
+          "labelPlacement": "always-horizontal",
+          "symbol": {
+            "type":"esriTS",
+            "rightToLeft":false,
+            "color":[178,178,178,255],
+            "verticalAlignment":"baseline",
+            "horizontalAlignment":"left",
+            "font":{
+              "family":"Microsoft YaHei",
+              "size":10,
+              "weight":"bold"
+            }
+          }
+        }]
+      },
+      {
+        "label": "地铁线",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/2",
+        "type": "feature",
+        "showLabels":false,
+        "mode": 0,
+        "visible": true,
+        "outFields": ["*"]
+      },
+      {
+        "label": "停车场-点",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/1",
+        "type": "feature",
+        "showLabels":false,
+        "mode": 0,
+        "visible": true,
+        "refreshInterval": 5,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.PARK_STATUS_VW.STATUS",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/icon_P_green.png",
+            "width": 24,
+            "height": 33,
+            "yoffset": 17
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            },
+            {
+              "value": "saturation",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/icon_P_green.png",
+                "width": 24,
+                "height": 33,
+                "yoffset": 17
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "国展中心",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "showLabels":false,
+        "outFields": ["*"],
+        "maxScale":18056,
+        "minScale":1155581,
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/flower.png",
+            "width": 100,
+            "height": 100,
+            "angle": 25
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "国展中心.OBJECTID",
+              "minDataValue": 9028,
+              "maxDataValue": 288896,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 9028,
+                    "size": 200
+                  },
+                  {
+                    "value": 18056,
+                    "size": 100
+                  },
+                  {
+                    "value": 36112,
+                    "size": 50
+                  },
+                  {
+                    "value": 72224,
+                    "size": 25
+                  },
+                  {
+                    "value": 144448,
+                    "size": 12
+                  },
+                  {
+                    "value": 288896,
+                    "size": 8
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 9028,
+                    "size": 400
+                  },
+                  {
+                    "value": 18056,
+                    "size": 200
+                  },
+                  {
+                    "value": 36112,
+                    "size": 100
+                  },
+                  {
+                    "value": 72224,
+                    "size": 50
+                  },
+                  {
+                    "value": 144448,
+                    "size": 25
+                  },
+                  {
+                    "value": 288896,
+                    "size": 12
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "国展中心图层",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Parking/MapServer/2",
+        "type": "feature",
+        "visible": true,
+        "mode":0,
+        "maxScale": 0,
+        "minScale": 18055,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "simple",
+          "symbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/JiaoWeiZhiHui/gzzx.svg",
+            "width": 560,
+            "height": 595,
+            "yoffset":17,
+            "xoffset":10,
+            "angle": 0
+          },
+          "visualVariables": [
+            {
+              "type": "sizeInfo",
+              "field": "国展中心.OBJECTID",
+              "minDataValue": 2257,
+              "maxDataValue": 1155581,
+              "minSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 1840
+                  },
+                  {
+                    "value": 4514,
+                    "size": 920
+                  },
+                  {
+                    "value": 9028,
+                    "size": 460
+                  },
+                  {
+                    "value": 18056,
+                    "size": 230
+                  },
+                  {
+                    "value": 36112,
+                    "size": 115
+                  },
+                  {
+                    "value": 72224,
+                    "size": 58
+                  },
+                  {
+                    "value": 144448,
+                    "size": 29
+                  },
+                  {
+                    "value": 288895,
+                    "size": 14
+                  },
+                  {
+                    "value": 577791,
+                    "size": 7
+                  },
+                  {
+                    "value": 1155581,
+                    "size": 7
+                  }
+                ]
+              },
+              "maxSize": {
+                "type": "sizeInfo",
+                "expression": "view.scale",
+                "stops": [
+                  {
+                    "value": 2257,
+                    "size": 1840
+                  },
+                  {
+                    "value": 4514,
+                    "size": 920
+                  },
+                  {
+                    "value": 9028,
+                    "size": 460
+                  },
+                  {
+                    "value": 18056,
+                    "size": 230
+                  },
+                  {
+                    "value": 36112,
+                    "size": 115
+                  },
+                  {
+                    "value": 72224,
+                    "size": 58
+                  },
+                  {
+                    "value": 144448,
+                    "size": 29
+                  },
+                  {
+                    "value": 288895,
+                    "size": 14
+                  },
+                  {
+                    "value": 577791,
+                    "size": 7
+                  },
+                  {
+                    "value": 1155581,
+                    "size": 7
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "label": "地铁标注点",
+        "url":
+        "http://{gisServer}/arcgis/rest/services/ShangHai/ShangHai_Subway/MapServer/1",
+        "type": "feature",
+        "showLabels":false,
+        "mode": 0,
+        "refreshInterval": 5,
+        "visible": true,
+        "outFields": ["*"],
+        "renderer": {
+          "type": "uniqueValue",
+          "field1": "JWPT.RAILWAY_VOL_SATURATION.STATUS",
+          "defaultSymbol": {
+            "type": "esriPMS",
+            "url": "images/mapIcons/point_green.png",
+            "width": 36,
+            "height": 36,
+            "yoffset": 0
+          },
+          "uniqueValueInfos": [
+            {
+              "value": "free",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_green.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            },
+            {
+              "value": "crowd",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_yellow.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            },
+            {
+              "value": "jam",
+              "symbol": {
+                "type": "esriPMS",
+                "url": "images/mapIcons/point_red.png",
+                "width": 36,
+                "height": 36,
+                "yoffset": 0
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "mapOptions": {
+      "center": {
+        "x": 121.312,
+        "y": 31.199,
+        "spatialReference": { "wkid": 4326 }
+      },
+      "backgroundColor": "#02182F",
+      "showLabels":true,
+      "scale": 18056,
+      "logo": false,
+      "nav": false,
+      "slider": false
+    }
+  },
+  "geometryService":
+  "http://{gisServer}/arcgis/rest/services/Utilities/Geometry/GeometryServer",
+  "gisServer": "10.31.214.201:6080",
+  "httpProxy": {
+    "useProxy": false,
+    "url": "http://10.31.214.203:15011:18021/web-gis/proxy.jsp"
+  },
+  "widgetOnScreen": {
+    "widgets": [
+      {
+        "uri": "widgets/FindFeature/Widget",
+        "version": "2.4",
+        "id": "FindFeatureWidget"
+      },
+      {
+        "uri": "widgets/Migrate/Widget",
+        "version": "2.4",
+        "config": "configs/Migrate/config.json",
+        "id": "MigrateWidget"
+      },
+      {
+        "uri": "widgets/ToolTip/Widget",
+        "version": "2.4",
+        "config": "configs/ToolTip/config.json",
+        "id": "ToolTipWidget"
+      },
+      {
+        "uri": "widgets/ChartInfoWindow/Widget",
+        "version": "2.4",
+        "config": "configs/ChartInfoWindow/config.json",
+        "id": "ChartInfoWindowWidget"
+      }
+    ]
+  }
+}

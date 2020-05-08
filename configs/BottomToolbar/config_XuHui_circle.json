@@ -1,0 +1,204 @@
+{
+  "buttons": [
+    {
+      "label": "危化品",
+      "fontClass": "icon_whp",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "有限空间",
+      "fontClass": "icon_yxkj",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "粉尘涉爆",
+      "fontClass": "icon_fc",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "消防",
+      "fontClass": "icon_xf",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "建筑工地",
+      "fontClass": "icon_jzsg",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "燃气",
+      "fontClass": "icon_rq",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "特种设备",
+      "fontClass": "icon_tssb",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "地下空间",
+      "fontClass": "icon_dxkj",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "生态环境",
+      "fontClass": "icon_sthj",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "一键开启",
+      "fontClass": "icon_all",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-消防",
+      "fontClass": "icon_xf_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-燃气",
+      "fontClass": "icon_rq_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-建设工程",
+      "fontClass": "icon_jsgc_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-特种设备",
+      "fontClass": "icon_tzsb_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-危险化学品",
+      "fontClass": "icon_whp_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-老旧住房",
+      "fontClass": "icon_ljzf_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-拆违基地",
+      "fontClass": "icon_cwjd_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-地下空间",
+      "fontClass": "icon_dxkj_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "其他",
+      "fontClass": "icon_qt_s",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    },
+    {
+      "label": "动态隐患-一键开启",
+      "fontClass": "icon_all",
+      "initEnable":true,
+      "operations": [
+        {
+          "opName": "changeLayer"
+        }
+      ]
+    }
+  ]
+}

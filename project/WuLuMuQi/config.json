@@ -298,6 +298,12 @@
         "uri": "widgets/MonitorTrack/Widget",
         "version": "2.4",
         "id": "MonitorTrackWidget"
+      },
+      {
+        "uri": "widgets/RouteByRoad/Widget",
+        "config": "configs/RouteByRoad/config.json",
+        "version": "2.4",
+        "id": "RouteByRoadWidget"
       }
     ]
   }

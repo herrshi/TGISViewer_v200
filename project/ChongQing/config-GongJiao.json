@@ -190,6 +190,16 @@
         "uri": "widgets/Overlay/Widget",
         "version": "2.4",
         "id": "OverlayWidget"
+      },
+      {
+        "uri": "widgets/Cluster/Widget",
+        "version": "2.4",
+        "id": "ClusterWidget"
+      },
+      {
+        "uri": "widgets/HeatMap/Widget",
+        "version": "2.4",
+        "id": "HeatMapWidget"
       }
     ]
   }

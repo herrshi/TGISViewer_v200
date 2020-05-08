@@ -36,9 +36,7 @@
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/1",
         "type": "feature",
         "visible": true,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "infoTemplate": {
           "title": "${地面道路指数区域.名称}",
           "content": "<b>编号: </b>${地面道路指数区域.BM_CODE}<br><b>实时指数: </b>${ZONGDUI.DM_REGION_RTIND.FFLT_INDEX}"
@@ -55,20 +53,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  2,
-                  141,
-                  11,
-                  135
-                ],
+                "color": [2, 141, 11, 135],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -80,20 +69,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  0,
-                  255,
-                  0,
-                  175
-                ],
+                "color": [0, 255, 0, 175],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -105,20 +85,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  255,
-                  0,
-                  215
-                ],
+                "color": [255, 255, 0, 215],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -130,20 +101,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  0,
-                  0,
-                  255
-                ],
+                "color": [255, 0, 0, 255],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -156,28 +118,18 @@
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/4",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
           "field1": "ZONGDUI.DM_ISSUESECT_RTPF_15M.FINT_STATUS",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 1
             }
           },
@@ -188,20 +140,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  2,
-                  141,
-                  11,
-                  135
-                ],
+                "color": [2, 141, 11, 135],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -212,20 +155,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  0,
-                  255,
-                  0,
-                  175
-                ],
+                "color": [0, 255, 0, 175],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -236,20 +170,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  255,
-                  0,
-                  215
-                ],
+                "color": [255, 255, 0, 215],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -260,20 +185,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  0,
-                  0,
-                  255
-                ],
+                "color": [255, 0, 0, 255],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -286,28 +202,18 @@
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/5",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
           "field1": "ZONGDUI.DM_ISSUESECT_RTPF_30M.FINT_STATUS",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 1
             }
           },
@@ -318,20 +224,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  2,
-                  141,
-                  11,
-                  135
-                ],
+                "color": [2, 141, 11, 135],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -342,20 +239,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  0,
-                  255,
-                  0,
-                  175
-                ],
+                "color": [0, 255, 0, 175],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -366,20 +254,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  255,
-                  0,
-                  215
-                ],
+                "color": [255, 255, 0, 215],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -390,20 +269,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  0,
-                  0,
-                  255
-                ],
+                "color": [255, 0, 0, 255],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -416,28 +286,18 @@
         "url": "http://{gisServer}/arcgis/rest/services/JiaoJing/JiaoJing_indexRegion/MapServer/6",
         "type": "feature",
         "visible": false,
-        "outFields": [
-          "*"
-        ],
+        "outFields": ["*"],
         "renderer": {
           "type": "uniqueValue",
           "field1": "ZONGDUI.DM_ISSUESECT_RTPF_1H.FINT_STATUS",
           "defaultSymbol": {
             "type": "esriSFS",
             "style": "esriSFSSolid",
-            "color": [
-              110,
-              110,
-              110
-            ],
+            "color": [110, 110, 110],
             "outline": {
               "type": "esriSLS",
               "style": "esriSLSSolid",
-              "color": [
-                255,
-                255,
-                255
-              ],
+              "color": [255, 255, 255],
               "width": 1
             }
           },
@@ -448,20 +308,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  2,
-                  141,
-                  11,
-                  135
-                ],
+                "color": [2, 141, 11, 135],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -472,20 +323,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  0,
-                  255,
-                  0,
-                  175
-                ],
+                "color": [0, 255, 0, 175],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -496,20 +338,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  255,
-                  0,
-                  215
-                ],
+                "color": [255, 255, 0, 215],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }
@@ -520,20 +353,11 @@
               "symbol": {
                 "type": "esriSFS",
                 "style": "esriSFSSolid",
-                "color": [
-                  255,
-                  0,
-                  0,
-                  255
-                ],
+                "color": [255, 0, 0, 255],
                 "outline": {
                   "type": "esriSLS",
                   "style": "esriSLSSolid",
-                  "color": [
-                    255,
-                    255,
-                    255
-                  ],
+                  "color": [255, 255, 255],
                   "width": 1
                 }
               }

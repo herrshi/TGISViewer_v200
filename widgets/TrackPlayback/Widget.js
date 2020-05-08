@@ -422,7 +422,11 @@ define([
             // this.endIndex = endIndex;
 
             if (Math.abs(p) === Number.POSITIVE_INFINITY) {
-              this.movingPointGraphic.geometry.y += this.stepLength;
+              if (y2 < y1) {
+                this.movingPointGraphic.geometry.y -= this.stepLength;
+              } else {
+                this.movingPointGraphic.geometry.y += this.stepLength;
+              }
             } else {
               if (x2 < x1) {
                 this.movingPointGraphic.geometry.x -=
@@ -455,7 +459,8 @@ define([
               Math.sqrt(
                 Math.pow(x2 - this.movingPointGraphic.geometry.x, 2) +
                   Math.pow(y2 - this.movingPointGraphic.geometry.y, 2)
-              ) < this.stepLength
+              ) <
+              this.stepLength * 2
             ) {
               clearInterval(this.movingFunction);
               startIndex++;

@@ -1,0 +1,18 @@
+{
+  "chartinfos": [
+    {
+      "label": "地铁站点",
+      "url":
+      "http://10.31.152.48:6080/arcgis/rest/services/ShangHaiHarbour/ShangHai_transportation/MapServer/2",
+      "idField":"SDE.地铁标注点.FEATUREID",
+      "fields": [
+        {
+          "dataField": ["JTPT.GJ_VOL_STATION.FINT_IN", "JTPT.GJ_VOL_STATION.FINT_OUT"],
+          "alph": 1
+        }
+      ],
+      "stacking":"nomal"
+    }
+  ],
+  "interval": 900000
+}

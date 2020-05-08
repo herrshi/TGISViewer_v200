@@ -16,9 +16,9 @@ define([
   "esri/graphic",
   "esri/tasks/query",
   "esri/tasks/QueryTask",
-  "jimu/CustomLayers/ChartInfoWindow",
   "dojo/dom-construct",
   "dojo/_base/window",
+  "jimu/CustomLayers/ChartInfoWindow",
   "dojo/domReady!"
 ], function(
   declare,
@@ -38,9 +38,9 @@ define([
   Graphic,
   Query,
   QueryTask,
-  ChartInfoWindow,
   domConstruct,
-  win
+  win,
+  ChartInfoWindow
 ) {
   return declare([BaseWidget], {
     //读取一个feature图层
@@ -53,6 +53,7 @@ define([
     _selectID: null,
     _idField: null,
     _label: null,
+    _zoom: null,
     postCreate: function() {
       this.inherited(arguments);
 
@@ -86,10 +87,11 @@ define([
         this._clearInterval();
         return;
       }
-
       var label = params.label || "";
+      var zoom = params.zoom || 0;
       this._label = label;
       this._selectID = params.id || "";
+      this._zoom = zoom;
 
       if (this._timeInterval) {
         this._clearInterval();
@@ -110,24 +112,28 @@ define([
           break;
         }
       }
-      this._selectData(this._queryUrl);
+      var where = "1=1";
+      if (this._selectID != "" && this._selectID != "*") {
+        where = this._idField + "='" + this._selectID + "'";
+      }
+      this._selectData(this._queryUrl, where);
     },
-    _selectData: function(url) {
+    _selectData: function(url, where) {
       var query = new Query();
       var queryTask = new QueryTask(url);
-      query.where = "1=1";
+      query.where = where;
       query.outSpatialReference = map.spatialReference;
       query.returnGeometry = true;
       query.outFields = ["*"];
       queryTask.execute(query, lang.hitch(this, this.processResults), error);
       function error(e) {
-        alert(e.message);
+        //alert(e.message);
       }
     },
     processResults: function(results) {
       this.clearChart();
       var width = 100;
-      var height = 130;
+      var height = 200;
       for (var i = 0; i < results.features.length; i++) {
         if (
           this._selectID === "*" ||
@@ -232,6 +238,11 @@ define([
             width: width,
             height: height
           });
+          if (this._zoom > 0) {
+            this.map.centerAndZoom(chartPoint, 10);
+          } else {
+            this.map.centerAt(chartPoint);
+          }
           this.chartData.push(chartInfo);
         }
       }
